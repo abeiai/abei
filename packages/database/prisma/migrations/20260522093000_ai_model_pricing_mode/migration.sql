@@ -1,0 +1,3 @@
+ALTER TABLE "ai_model_instances"
+  ADD COLUMN "pricingMode" TEXT NOT NULL DEFAULT 'TOKENS',
+  ADD COLUMN "pricingUnit" TEXT NOT NULL DEFAULT 'K_TOKENS';

@@ -1,0 +1,38 @@
+{
+  "name": "@xueleai/api-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "if [ -f ../../.env ]; then set -a; . ../../.env; set +a; fi; tsx watch src/main.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "if [ -f ../../.env ]; then set -a; . ../../.env; set +a; fi; DATABASE_URL=\"${DATABASE_URL:-postgresql://xueleai:xueleai_dev_password@localhost:3324/xueleai?schema=public}\" REDIS_URL=\"${REDIS_URL:-redis://localhost:3325}\" RATE_LIMIT_AUTH_LOGIN_MAX=\"${RATE_LIMIT_AUTH_LOGIN_MAX:-50}\" RATE_LIMIT_AUTH_REGISTER_MAX=\"${RATE_LIMIT_AUTH_REGISTER_MAX:-50}\" RATE_LIMIT_ADMIN_AUTH_LOGIN_MAX=\"${RATE_LIMIT_ADMIN_AUTH_LOGIN_MAX:-50}\" RATE_LIMIT_PAYMENT_ORDERS_MAX=\"${RATE_LIMIT_PAYMENT_ORDERS_MAX:-50}\" RATE_LIMIT_AI_TASKS_MAX=\"${RATE_LIMIT_AI_TASKS_MAX:-50}\" node --import tsx --test --test-concurrency=1 tests/*.test.ts",
+    "ai:sync-scenarios": "if [ -f ../../.env ]; then set -a; . ../../.env; set +a; fi; tsx src/ai/sync-built-in-scenarios.ts",
+    "learner-learning:backfill": "if [ -f ../../.env ]; then set -a; . ../../.env; set +a; fi; tsx src/learner-learning/backfill-learner-learning.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.1.19",
+    "@nestjs/config": "4.0.4",
+    "@nestjs/core": "11.1.19",
+    "@nestjs/platform-express": "11.1.19",
+    "@xueleai/database": "workspace:*",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.15.1",
+    "mammoth": "^1.12.0",
+    "pdfjs-dist": "^6.1.200",
+    "pdfkit": "^0.19.1",
+    "redis": "^6.2.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "svg-to-pdfkit": "^0.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.2",
+    "@xueleai/config": "workspace:*",
+    "eslint": "10.3.0",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3"
+  }
+}

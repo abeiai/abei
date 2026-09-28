@@ -1,0 +1,7 @@
+IPA pronunciation recordings
+Male: Prof. John Esling (J. Esling); female: Ms. Jill House (J. House).
+Source: https://www.internationalphoneticassociation.org/IPAcharts/IPA_charts_TI/IPA_charts_TI.html#eng
+Audio copyright and permissions: https://www.internationalphoneticassociation.org/IPAcharts/common_files/IPA_charts_about.html
+Accessed: 2026-09-13. Original MP3 files, unmodified.
+No blanket audio redistribution licence verified. Chart CC BY-SA licence is not asserted for these recordings. Review audio permissions before public/commercial distribution.
+See manifest.json for original URLs and SHA-256 hashes.

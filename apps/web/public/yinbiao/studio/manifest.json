@@ -1,0 +1,797 @@
+{
+  "sourcePage": "https://pronunciationstudio.com/English-IPA-chart/",
+  "copyright": "Pronunciation Studio Ltd. All Rights Reserved.",
+  "accessed": "2026-09-13",
+  "modifications": "None; original files.",
+  "recordings": [
+    {
+      "symbol": "iː",
+      "path": "/yinbiao/studio/ipa-1.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%201.mp3",
+      "sha256": "937491142f81ed89aa4358375b777f9b1e5f29664ba231dfe05351c8a3dd50bb"
+    },
+    {
+      "symbol": "ɪ",
+      "path": "/yinbiao/studio/ipa-2.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%202.mp3",
+      "sha256": "0049a93999167689e50dca2c860ff89a167cb1093fde93cec5fa09e605151cf7"
+    },
+    {
+      "symbol": "e",
+      "path": "/yinbiao/studio/ipa-3.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%203.mp3",
+      "sha256": "520fe86c1102453269335d54740d39237f99643e45eb8e17a8aae18c51351d13"
+    },
+    {
+      "symbol": "eə",
+      "path": "/yinbiao/studio/ipa-4.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%204.mp3",
+      "sha256": "1b443fbc768d0e4b4cbbcde57a1e75589bdee4d99c4930295e734715d85196dc"
+    },
+    {
+      "symbol": "æ",
+      "path": "/yinbiao/studio/ipa-5.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%205.mp3",
+      "sha256": "62d1c2aa67248f9c58fe554055304d3118c362f29967b171672816c97b28f635"
+    },
+    {
+      "symbol": "uː",
+      "path": "/yinbiao/studio/ipa-6.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%206.mp3",
+      "sha256": "4be5438dcdf779540f4700350e92ae0abbbe084d2e5f44ecc5ceb511463d1a37"
+    },
+    {
+      "symbol": "ə",
+      "path": "/yinbiao/studio/ipa-7.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%207.mp3",
+      "sha256": "ab66581c3f54699118e61bb72eacac978fdbeaeef8e1eea78ef91ff75bb15935"
+    },
+    {
+      "symbol": "ɜː",
+      "path": "/yinbiao/studio/ipa-8.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%208.mp3",
+      "sha256": "093b364bef0c419e45caa8c25aaa741e3a090656aedbdcc3d34263122ea19e7e"
+    },
+    {
+      "symbol": "ʌ",
+      "path": "/yinbiao/studio/ipa-9.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%209.mp3",
+      "sha256": "56cd34fd042ffe55dcd56ee55250a46d5161db5489f3ebc2768d5e3d4f07c848"
+    },
+    {
+      "symbol": "ɑː",
+      "path": "/yinbiao/studio/ipa-10.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2010.mp3",
+      "sha256": "f2d20fccb656a8aa542793904593f1b2d518cc665266d4f9fa8b663adb654057"
+    },
+    {
+      "symbol": "ʊ",
+      "path": "/yinbiao/studio/ipa-11.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2011.mp3",
+      "sha256": "4963929cbcb278f15606601cdb43e6376c9134930408937939cf2179cbb4977d"
+    },
+    {
+      "symbol": "ɔː",
+      "path": "/yinbiao/studio/ipa-12.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2012.mp3",
+      "sha256": "616f58be8e3e1746001ab6234f071e57bcd363adb51640f6daa99ef745491f00"
+    },
+    {
+      "symbol": "ɒ",
+      "path": "/yinbiao/studio/ipa-13a.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2013a.mp3",
+      "sha256": "59f6feb319b1c2ae5d0ad51b64c782ec3930f721ff6454e74ff0395cd950d9ff"
+    },
+    {
+      "symbol": "ɪə",
+      "path": "/yinbiao/studio/ipa-14.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2014.mp3",
+      "sha256": "576fee1c767c4a823f73fe2188255b93f4a498bec330a69edc560212bf5de645"
+    },
+    {
+      "symbol": "ɪə",
+      "path": "/yinbiao/studio/diphthong-13-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-13-gif.gif",
+      "sha256": "a2271d75fa2887e233c07248ae7285fd86d4166b24d6ca90ff74df6f90560575"
+    },
+    {
+      "symbol": "eɪ",
+      "path": "/yinbiao/studio/ipa-15.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2015.mp3",
+      "sha256": "d4cac6f5cbc69525d3956c29cd34cd55e6dde39c10e98f9d663707384fd74993"
+    },
+    {
+      "symbol": "eɪ",
+      "path": "/yinbiao/studio/diphthong-14-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-14-gif.gif",
+      "sha256": "3cb71fa712f398b1c18d84021ba3bda6773583c3f7c7ac867fa2a50ebaeea9c0"
+    },
+    {
+      "symbol": "aʊ",
+      "path": "/yinbiao/studio/ipa-16.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2016.mp3",
+      "sha256": "88b5d0305338e51e4420a6988b6fd93ce67abba4a01f0f9426dbe95dfc527292"
+    },
+    {
+      "symbol": "aʊ",
+      "path": "/yinbiao/studio/diphthong-16-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-16-gif.gif",
+      "sha256": "336f3e3b18b79d5a5aefea7b9dae63ea920d22ef25c08c23b608cb2cd96128f5"
+    },
+    {
+      "symbol": "əʊ",
+      "path": "/yinbiao/studio/ipa-17.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2017.mp3",
+      "sha256": "b04342759c5abbaa09327beed3b7eff8a73fd59b4eef06c66c7b066387fc0de8"
+    },
+    {
+      "symbol": "əʊ",
+      "path": "/yinbiao/studio/diphthong-17-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-17-gif.gif",
+      "sha256": "e10226473ef0d391aee15f572f79372be543ac226196367f7a202ad61ef06a0e"
+    },
+    {
+      "symbol": "aɪ",
+      "path": "/yinbiao/studio/ipa-18.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2018.mp3",
+      "sha256": "3da614875f3032419b8db5f93c87c4d3f63e94976bf23a37ebca2fb21bc2a337"
+    },
+    {
+      "symbol": "aɪ",
+      "path": "/yinbiao/studio/diphthong-18-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-18-gif.gif",
+      "sha256": "6af50176375094a6675eb336307e2134e04c9a03aed2f8a4fa87204b2d577121"
+    },
+    {
+      "symbol": "ʊə",
+      "path": "/yinbiao/studio/ipa-20.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2020.mp3",
+      "sha256": "303810a47649c5fe9835d8ab8c428f335fcf020c490c4900b6a9f93ad76dd9bb"
+    },
+    {
+      "symbol": "ʊə",
+      "path": "/yinbiao/studio/diphthong-20-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-20-gif.gif",
+      "sha256": "7b98ad8ab042d8c443a01c8627f17c771447d9a14e9e191b978cd83edecea0cf"
+    },
+    {
+      "symbol": "ɔɪ",
+      "path": "/yinbiao/studio/ipa-19.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2019.mp3",
+      "sha256": "187af248dac2868fd85c3003e57bacb3ae015896f7d6ff71a69959e5792176c4"
+    },
+    {
+      "symbol": "ɔɪ",
+      "path": "/yinbiao/studio/diphthong-19-gif.gif",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/diphthong-19-gif.gif",
+      "sha256": "c5cac2dfbaa836f91c0e059b985a4b71368ed8c0738bb71f3691dcdda640c48e"
+    },
+    {
+      "symbol": "f",
+      "path": "/yinbiao/studio/ipa-21.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2021.mp3",
+      "sha256": "3e99f8fe3e21b4e7d84081653da49de97ef229eade0bb5a5d27e699e73cbcb46"
+    },
+    {
+      "symbol": "v",
+      "path": "/yinbiao/studio/ipa-22.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2022.mp3",
+      "sha256": "655a174aacdf7917a50180e19445dc6eba615670d347b8ec65f5394b0223a8b4"
+    },
+    {
+      "symbol": "θ",
+      "path": "/yinbiao/studio/ipa-23.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2023.mp3",
+      "sha256": "d829aa539f2333537ca1b3d4a775bcdedd2a91f8d0fd77ff361f23d49de38f44"
+    },
+    {
+      "symbol": "ð",
+      "path": "/yinbiao/studio/ipa-24.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2024.mp3",
+      "sha256": "2bf45bf33ef2408d8d65b33cb234161bbd622c31c30c7c38ae59bfea6b7a8369"
+    },
+    {
+      "symbol": "s",
+      "path": "/yinbiao/studio/ipa-25.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2025.mp3",
+      "sha256": "60c76c7baf24038e423d84450706483af4de294d917b8e1e75b943e29137b012"
+    },
+    {
+      "symbol": "z",
+      "path": "/yinbiao/studio/ipa-26.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2026.mp3",
+      "sha256": "baa2400eba584e2f4246e3c1d1632bb9251a11a7d2ac2044504a00c80544cc47"
+    },
+    {
+      "symbol": "ʃ",
+      "path": "/yinbiao/studio/ipa-27.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2027.mp3",
+      "sha256": "a12e5e9930d16f309bcf900a64abf5f8536574db70c39bcd19b6161d80f7ecd5"
+    },
+    {
+      "symbol": "ʒ",
+      "path": "/yinbiao/studio/ipa-28.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2028.mp3",
+      "sha256": "7d6e49361753b1a37f8e7d8e9d69d914007451f1823c4badc1fff263b063e5e3"
+    },
+    {
+      "symbol": "h",
+      "path": "/yinbiao/studio/ipa-29.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2029.mp3",
+      "sha256": "d4640ca9bab3df4bfb5f8bd4ec64e0ae98d1703d82da974d300bcddef91b23ca"
+    },
+    {
+      "symbol": "p",
+      "path": "/yinbiao/studio/ipa-30.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2030.mp3",
+      "sha256": "2cf47cfbe96b220c3856ddd6299fbd2fdc315fb5901ddf2b567cd46832c182fd"
+    },
+    {
+      "symbol": "b",
+      "path": "/yinbiao/studio/ipa-31.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2031.mp3",
+      "sha256": "279b973111f3ed7452cd65d0255e3e4a70cc84b62cd0b05981263bb8ad37456e"
+    },
+    {
+      "symbol": "t",
+      "path": "/yinbiao/studio/ipa-32.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2032.mp3",
+      "sha256": "3a315a5cef7752fea877052a86f2c3e7c9ad1dc9bc15fbf8f754ae041f43f9a7"
+    },
+    {
+      "symbol": "d",
+      "path": "/yinbiao/studio/ipa-33.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2033.mp3",
+      "sha256": "6f3e42ddfec7ec0ca5dac12a3759c841a30fde18716fa499b79281c20640eac9"
+    },
+    {
+      "symbol": "k",
+      "path": "/yinbiao/studio/ipa-34.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2034.mp3",
+      "sha256": "8b338cfec9f81858ee266a9ae351aef22e2548470cb646dc41a4f6442d327b7b"
+    },
+    {
+      "symbol": "ɡ",
+      "path": "/yinbiao/studio/ipa-35.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2035.mp3",
+      "sha256": "330ede5dbab97e55fc3cb23792a36ad17a3a6dca264986e242890ea5bae360af"
+    },
+    {
+      "symbol": "w",
+      "path": "/yinbiao/studio/ipa-38.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2038.mp3",
+      "sha256": "b2ccd67c728c175ca303b1b84c59febae1e9a950e987ee84bfb0e018a9e415b8"
+    },
+    {
+      "symbol": "r",
+      "path": "/yinbiao/studio/ipa-39.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2039.mp3",
+      "sha256": "e554d6154dcda253f723056fc4ce081c57b6f13601b22834943c08de4782ef5e"
+    },
+    {
+      "symbol": "j",
+      "path": "/yinbiao/studio/ipa-40.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2040.mp3",
+      "sha256": "d610a4b3c792f262568fddb7b372294774a57117bf19692ed12b9db9c218f9d2"
+    },
+    {
+      "symbol": "l",
+      "path": "/yinbiao/studio/ipa-41.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2041.mp3",
+      "sha256": "4cff363e20b28341333ce901d9fd38a274f2d260322dd952cef0c081002e875d"
+    },
+    {
+      "symbol": "tʃ",
+      "path": "/yinbiao/studio/ipa-36.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2036.mp3",
+      "sha256": "69e2e670b13736916e2d0e1496d3aa621ee19e9cd870fb7f00c6fd11112214a7"
+    },
+    {
+      "symbol": "dʒ",
+      "path": "/yinbiao/studio/ipa-37.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2037.mp3",
+      "sha256": "fb087fc969f7011905f4869058f01541d0d5abb6ed6f446254b45d5f53706f01"
+    },
+    {
+      "symbol": "m",
+      "path": "/yinbiao/studio/ipa-42.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2042.mp3",
+      "sha256": "1c4791c57f1bacb426be169d78868a5c54624b1034f483fa51cd8dc2360ca123"
+    },
+    {
+      "symbol": "n",
+      "path": "/yinbiao/studio/ipa-43.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2043.mp3",
+      "sha256": "9b02ba5c5626982392c689646e5d8a6acff2c5c23d8ce0689b19c0ba9ba3c5a4"
+    },
+    {
+      "symbol": "ŋ",
+      "path": "/yinbiao/studio/ipa-44.mp3",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/media/SOUND%2044.mp3",
+      "sha256": "8863d94108c024889654df739ea36682e77b069e29d32256d9a059b5f94924ae"
+    }
+  ],
+  "images": [
+    {
+      "path": "/yinbiao/studio/item_2847.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2847.png",
+      "sha256": "159db130efd2075350fb255ca051b2067e2db55076097365205389a9a969fbfd"
+    },
+    {
+      "path": "/yinbiao/studio/item_3012.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3012.png",
+      "sha256": "e8dc2b2e9710476dc4860523b345ad535ca4c777404249599f71c96b9f04d38b"
+    },
+    {
+      "path": "/yinbiao/studio/item_2864.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2864.png",
+      "sha256": "fdcce1c69ba688d4d3f6fd761494743c8dead1c2e46f535dd5bbfe295eca5350"
+    },
+    {
+      "path": "/yinbiao/studio/item_3019.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3019.png",
+      "sha256": "8898a338f56b0f59dd5cd25005c7d61175d8aa924c421bda24094390cbff109d"
+    },
+    {
+      "path": "/yinbiao/studio/item_2876.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2876.png",
+      "sha256": "c82caa8024e3de4d1a17c352c3cfb3dd3c1cb751ebd5cfc7d6c5d161d9cd44d8"
+    },
+    {
+      "path": "/yinbiao/studio/item_3034.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3034.png",
+      "sha256": "075099f023d7c361d298c26ab94e8bc077412877e03e3f855504b0eec92bcd89"
+    },
+    {
+      "path": "/yinbiao/studio/item_2888.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2888.png",
+      "sha256": "16ec53ad97096aefd38c6b5c78b5f00a0cdc91aa971bb15e4d0020c45218f5d4"
+    },
+    {
+      "path": "/yinbiao/studio/item_3045.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3045.png",
+      "sha256": "6acd5d5b80821bbb39ed77df7da925efbc71cda3f484917521f9e59b24067e6f"
+    },
+    {
+      "path": "/yinbiao/studio/item_2899.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2899.png",
+      "sha256": "6f3b7a8c56f83e87a57db812a241dca61713391684fc4a447bc273b782047284"
+    },
+    {
+      "path": "/yinbiao/studio/item_3058.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3058.png",
+      "sha256": "03a20b8ab7d0be49bfbf1292afe15b8b620c5660b16629a5f8cf93590a279195"
+    },
+    {
+      "path": "/yinbiao/studio/item_2905.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2905.png",
+      "sha256": "42c3276cee75372b727c24e81dab9999e56c5b35534a70efdb08ab268979cd16"
+    },
+    {
+      "path": "/yinbiao/studio/item_3070.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3070.png",
+      "sha256": "84cc94d0d9901aefc1bdc8697a992006a28e6cc9073a1a0ce5a337f4ad3ba8e8"
+    },
+    {
+      "path": "/yinbiao/studio/item_2920.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2920.png",
+      "sha256": "f921b25c0efcc67ff04ca0b42cfe2b10fd55d88c7b66e68b8cc2269244dbe552"
+    },
+    {
+      "path": "/yinbiao/studio/item_3086.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3086.png",
+      "sha256": "c64d1841f98e304d50831a72e619c5c46391fb706ff1e85b575484f7d225cd07"
+    },
+    {
+      "path": "/yinbiao/studio/item_3110.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3110.png",
+      "sha256": "9d6db92dff6edfe15aba5545a2d717607f19789d4919d9c1d8d0dfd7b843b3ca"
+    },
+    {
+      "path": "/yinbiao/studio/item_3573.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3573.png",
+      "sha256": "28c0b9bee8bd82124ec5aff10c992f391a548102f303a0587743113bc984a433"
+    },
+    {
+      "path": "/yinbiao/studio/item_2941.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2941.png",
+      "sha256": "e760db1c20aae960794eeb1a56966c03cf14d3559043978af0270e4bdb94968d"
+    },
+    {
+      "path": "/yinbiao/studio/item_3126.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3126.png",
+      "sha256": "bb46784b8fa82fb0493672ed9baa8e745b05751ac799f3c64b98c0a8ce0d6e0b"
+    },
+    {
+      "path": "/yinbiao/studio/item_2961.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2961.png",
+      "sha256": "43efee4539d5b988d975c875abd5d978ee6e159992547db4cbced26830253f4b"
+    },
+    {
+      "path": "/yinbiao/studio/item_3138.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3138.png",
+      "sha256": "7430fab83efd6be0d2e7917c0a23374045ad420bdbc4388bd3a49c4a1fb82783"
+    },
+    {
+      "path": "/yinbiao/studio/item_2974.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2974.png",
+      "sha256": "666fcae738e5226e3b324934f4a400adefb4501c62f0defcaa4343aa2c576910"
+    },
+    {
+      "path": "/yinbiao/studio/item_3149.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3149.png",
+      "sha256": "3f7c3736b44c6a666eaf2c601ff78965c600962982cba4957a8e60e626c9a281"
+    },
+    {
+      "path": "/yinbiao/studio/item_3363.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3363.png",
+      "sha256": "cdf2d69f8c43428a63f18f9a613a6596f8438a3089a236a7ef30be64f975ef8c"
+    },
+    {
+      "path": "/yinbiao/studio/item_3376.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3376.png",
+      "sha256": "a023995ea20835b0c054d4e238530d615e9398f9a1a8b3c722d2a1d0cda877cc"
+    },
+    {
+      "path": "/yinbiao/studio/item_3390.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3390.png",
+      "sha256": "3d9f8e7a63bb7813aafc08386ba153432289e4889e23c7cd5ccae8a5c3d0f78b"
+    },
+    {
+      "path": "/yinbiao/studio/item_3403.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3403.png",
+      "sha256": "55022210f84207aa52e0e83a1c56738dace3afd136a2fd55d0412b0d520c193b"
+    },
+    {
+      "path": "/yinbiao/studio/item_3423.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3423.png",
+      "sha256": "acb0cc2ddc8a11dd378e80f1f27757c7a87186edf7f91a565f3137da5cf7519b"
+    },
+    {
+      "path": "/yinbiao/studio/item_2989.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_2989.png",
+      "sha256": "c8495bdda2c34c0ab015db2a05ccb4fa92d482f4992d2e21791c567c54eefdf8"
+    },
+    {
+      "path": "/yinbiao/studio/item_3436.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3436.png",
+      "sha256": "f8e6eec16a8d2f1a08eb4d958facc6fa3864baeb24201c3000b84832779c21b3"
+    },
+    {
+      "path": "/yinbiao/studio/item_3458.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3458.png",
+      "sha256": "125d42896abcc713cecd85e6cf0b13acfde9e04c863d620b608fd3e5cb5b46a3"
+    },
+    {
+      "path": "/yinbiao/studio/item_3470.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3470.png",
+      "sha256": "6399dfbf272d837c22be72a9afa7ab78e66aaa866cee422116af8b10357cc11a"
+    },
+    {
+      "path": "/yinbiao/studio/item_3495.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3495.png",
+      "sha256": "5cb5883e37f51563011ab5e037cf025a95c8e766cebca4b92170d6f53f701539"
+    },
+    {
+      "path": "/yinbiao/studio/item_3512.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3512.png",
+      "sha256": "c2d8917ae45ca822eec39d3ef64a80c175f1579953e3ab874a7f5651d8f9be44"
+    },
+    {
+      "path": "/yinbiao/studio/item_3447.png",
+      "source": "https://pronunciationstudio.com/wp-content/uploads/in5-archives/interactive-ipa-chart-22-1/Interactive%20IPA%20Chart%2022/assets/images/item_3447.png",
+      "sha256": "ee9572904758d8c8c5a93407b8d90739e1949d70ee0aa21a368a57f5ebda685f"
+    }
+  ],
+  "mappingAudit": [
+    {
+      "symbol": "iː",
+      "keyword": "bean",
+      "button": 1,
+      "audioElement": "2274",
+      "sourceFile": "SOUND 1.mp3"
+    },
+    {
+      "symbol": "ɪ",
+      "keyword": "tip",
+      "button": 2,
+      "audioElement": "2343",
+      "sourceFile": "SOUND 2.mp3"
+    },
+    {
+      "symbol": "e",
+      "keyword": "met",
+      "button": 3,
+      "audioElement": "2419",
+      "sourceFile": "SOUND 3.mp3"
+    },
+    {
+      "symbol": "eə",
+      "keyword": "hair",
+      "button": 4,
+      "audioElement": "2493",
+      "sourceFile": "SOUND 4.mp3"
+    },
+    {
+      "symbol": "æ",
+      "keyword": "pan",
+      "button": 5,
+      "audioElement": "2544",
+      "sourceFile": "SOUND 5.mp3"
+    },
+    {
+      "symbol": "uː",
+      "keyword": "moon",
+      "button": 6,
+      "audioElement": "2551",
+      "sourceFile": "SOUND 6.mp3"
+    },
+    {
+      "symbol": "ə",
+      "keyword": "the",
+      "button": 7,
+      "audioElement": "2559",
+      "sourceFile": "SOUND 7.mp3"
+    },
+    {
+      "symbol": "ɜː",
+      "keyword": "sir",
+      "button": 8,
+      "audioElement": "2568",
+      "sourceFile": "SOUND 8.mp3"
+    },
+    {
+      "symbol": "ʌ",
+      "keyword": "fun",
+      "button": 9,
+      "audioElement": "2575",
+      "sourceFile": "SOUND 9.mp3"
+    },
+    {
+      "symbol": "ɑː",
+      "keyword": "card",
+      "button": 10,
+      "audioElement": "2280",
+      "sourceFile": "SOUND 10.mp3"
+    },
+    {
+      "symbol": "ʊ",
+      "keyword": "shook",
+      "button": 11,
+      "audioElement": "2286",
+      "sourceFile": "SOUND 11.mp3"
+    },
+    {
+      "symbol": "ɔː",
+      "keyword": "shore",
+      "button": 12,
+      "audioElement": "2293",
+      "sourceFile": "SOUND 12.mp3"
+    },
+    {
+      "symbol": "ɒ",
+      "keyword": "lock",
+      "button": 13,
+      "audioElement": "2802",
+      "sourceFile": "SOUND 13a.mp3"
+    },
+    {
+      "symbol": "ɪə",
+      "keyword": "dear",
+      "button": 14,
+      "audioElement": "2304",
+      "sourceFile": "SOUND 14.mp3"
+    },
+    {
+      "symbol": "eɪ",
+      "keyword": "same",
+      "button": 15,
+      "audioElement": "2311",
+      "sourceFile": "SOUND 15.mp3"
+    },
+    {
+      "symbol": "aʊ",
+      "keyword": "loud",
+      "button": 16,
+      "audioElement": "2319",
+      "sourceFile": "SOUND 16.mp3"
+    },
+    {
+      "symbol": "əʊ",
+      "keyword": "go",
+      "button": 17,
+      "audioElement": "2325",
+      "sourceFile": "SOUND 17.mp3"
+    },
+    {
+      "symbol": "aɪ",
+      "keyword": "hide",
+      "button": 18,
+      "audioElement": "2332",
+      "sourceFile": "SOUND 18.mp3"
+    },
+    {
+      "symbol": "ʊə",
+      "keyword": "curious",
+      "button": 19,
+      "audioElement": "2351",
+      "sourceFile": "SOUND 20.mp3"
+    },
+    {
+      "symbol": "ɔɪ",
+      "keyword": "choice",
+      "button": 20,
+      "audioElement": "2338",
+      "sourceFile": "SOUND 19.mp3"
+    },
+    {
+      "symbol": "f",
+      "keyword": "first",
+      "button": 21,
+      "audioElement": "2357",
+      "sourceFile": "SOUND 21.mp3"
+    },
+    {
+      "symbol": "v",
+      "keyword": "van",
+      "button": 22,
+      "audioElement": "2362",
+      "sourceFile": "SOUND 22.mp3"
+    },
+    {
+      "symbol": "θ",
+      "keyword": "thick",
+      "button": 23,
+      "audioElement": "2372",
+      "sourceFile": "SOUND 23.mp3"
+    },
+    {
+      "symbol": "ð",
+      "keyword": "these",
+      "button": 24,
+      "audioElement": "2379",
+      "sourceFile": "SOUND 24.mp3"
+    },
+    {
+      "symbol": "s",
+      "keyword": "saw",
+      "button": 25,
+      "audioElement": "2384",
+      "sourceFile": "SOUND 25.mp3"
+    },
+    {
+      "symbol": "z",
+      "keyword": "zen",
+      "button": 26,
+      "audioElement": "2390",
+      "sourceFile": "SOUND 26.mp3"
+    },
+    {
+      "symbol": "ʃ",
+      "keyword": "she",
+      "button": 27,
+      "audioElement": "2396",
+      "sourceFile": "SOUND 27.mp3"
+    },
+    {
+      "symbol": "ʒ",
+      "keyword": "casual",
+      "button": 28,
+      "audioElement": "2403",
+      "sourceFile": "SOUND 28.mp3"
+    },
+    {
+      "symbol": "h",
+      "keyword": "hard",
+      "button": 29,
+      "audioElement": "2411",
+      "sourceFile": "SOUND 29.mp3"
+    },
+    {
+      "symbol": "p",
+      "keyword": "pick",
+      "button": 30,
+      "audioElement": "2426",
+      "sourceFile": "SOUND 30.mp3"
+    },
+    {
+      "symbol": "b",
+      "keyword": "bed",
+      "button": 31,
+      "audioElement": "2432",
+      "sourceFile": "SOUND 31.mp3"
+    },
+    {
+      "symbol": "t",
+      "keyword": "team",
+      "button": 32,
+      "audioElement": "2437",
+      "sourceFile": "SOUND 32.mp3"
+    },
+    {
+      "symbol": "d",
+      "keyword": "dine",
+      "button": 33,
+      "audioElement": "2446",
+      "sourceFile": "SOUND 33.mp3"
+    },
+    {
+      "symbol": "k",
+      "keyword": "code",
+      "button": 34,
+      "audioElement": "2453",
+      "sourceFile": "SOUND 34.mp3"
+    },
+    {
+      "symbol": "ɡ",
+      "keyword": "get",
+      "button": 35,
+      "audioElement": "2458",
+      "sourceFile": "SOUND 35.mp3"
+    },
+    {
+      "symbol": "w",
+      "keyword": "watch",
+      "button": 37,
+      "audioElement": "2477",
+      "sourceFile": "SOUND 38.mp3"
+    },
+    {
+      "symbol": "r",
+      "keyword": "rug",
+      "button": 38,
+      "audioElement": "2485",
+      "sourceFile": "SOUND 39.mp3"
+    },
+    {
+      "symbol": "j",
+      "keyword": "yet",
+      "button": 39,
+      "audioElement": "2500",
+      "sourceFile": "SOUND 40.mp3"
+    },
+    {
+      "symbol": "l",
+      "keyword": "look",
+      "button": 40,
+      "audioElement": "2506",
+      "sourceFile": "SOUND 41.mp3"
+    },
+    {
+      "symbol": "tʃ",
+      "keyword": "choose",
+      "button": 42,
+      "audioElement": "2464",
+      "sourceFile": "SOUND 36.mp3"
+    },
+    {
+      "symbol": "dʒ",
+      "keyword": "jet",
+      "button": 43,
+      "audioElement": "2470",
+      "sourceFile": "SOUND 37.mp3"
+    },
+    {
+      "symbol": "m",
+      "keyword": "mode",
+      "button": 44,
+      "audioElement": "2511",
+      "sourceFile": "SOUND 42.mp3"
+    },
+    {
+      "symbol": "n",
+      "keyword": "neck",
+      "button": 45,
+      "audioElement": "2520",
+      "sourceFile": "SOUND 43.mp3"
+    },
+    {
+      "symbol": "ŋ",
+      "keyword": "song",
+      "button": 46,
+      "audioElement": "2527",
+      "sourceFile": "SOUND 44.mp3"
+    }
+  ],
+  "mappingMethod": "Visual chart glyph/keyword + CSS hitbox position -> click target -> original audio; button names are not chart labels."
+}

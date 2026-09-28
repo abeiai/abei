@@ -1,0 +1,271 @@
+{
+  "sourcePage": "https://learnipa.github.io/english-phonemes.html",
+  "accessed": "2026-09-13",
+  "modifications": "None; original MP3 bytes",
+  "recordings": [
+    {
+      "word": "pea",
+      "audio": "/yinbiao/examples/pea.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/pea.mp3",
+      "sha256": "594cedfc8d891250feba3c69be9434a4341230643f0a90928e6aa10c494d840f"
+    },
+    {
+      "word": "bee",
+      "audio": "/yinbiao/examples/bee.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/bee.mp3",
+      "sha256": "7264ab2a0c8b520a814265e8af86edd2640c63465675ec2c8c28a0f6c079ca71"
+    },
+    {
+      "word": "tea",
+      "audio": "/yinbiao/examples/tea.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/tea.mp3",
+      "sha256": "8b056ca45ceee6240c97ea21b9034478a78d43fc545034f8d5765eeb4c893cc2"
+    },
+    {
+      "word": "do",
+      "audio": "/yinbiao/examples/do.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/do.mp3",
+      "sha256": "d6690a281fe9d70931b0b853665109e740a4e128b60bee16c156bd4f4101c1fc"
+    },
+    {
+      "word": "cat",
+      "audio": "/yinbiao/examples/cat.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/cat.mp3",
+      "sha256": "ccb7bef6b24070ad084e4873c95311241389ba2aded14ad598e711d60f0b968d"
+    },
+    {
+      "word": "get",
+      "audio": "/yinbiao/examples/get.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/get.mp3",
+      "sha256": "5bc057d10068eeb5e044a86e31d13780b25d1168de80658b1a26080509389373"
+    },
+    {
+      "word": "fat",
+      "audio": "/yinbiao/examples/fat.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/fat.mp3",
+      "sha256": "ad8c986f9322b8d263e753996541cd7cd7cac1ce719d80afc13c52d5ef738aed"
+    },
+    {
+      "word": "vet",
+      "audio": "/yinbiao/examples/vet.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/vet.mp3",
+      "sha256": "ee0f3f4fdcdf242c6a1e2094141993a749bd4335f3ebcfc828153726dd039e73"
+    },
+    {
+      "word": "thin",
+      "audio": "/yinbiao/examples/thin.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/thin.mp3",
+      "sha256": "27157fff5ed57f1963696655734eea19679670daa10dac0371753f7ad1e826f5"
+    },
+    {
+      "word": "then",
+      "audio": "/yinbiao/examples/then.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/then.mp3",
+      "sha256": "9613e5c765451e781c70593bfc9dc6a22fc60a6e74069cf2b35830181e1cd98c"
+    },
+    {
+      "word": "so",
+      "audio": "/yinbiao/examples/so.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/so.mp3",
+      "sha256": "29969202833ab09a94b28c7771e9791d4daad94f03f31a8a9f5e3194919c6cc1"
+    },
+    {
+      "word": "zoo",
+      "audio": "/yinbiao/examples/zoo.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/zoo.mp3",
+      "sha256": "96cea3c52f9f0408820dbdc21cde9b389a6dad561a229bc71f7bfabd0c3d6f72"
+    },
+    {
+      "word": "shoe",
+      "audio": "/yinbiao/examples/shoe.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/shoe.mp3",
+      "sha256": "8a7be68c1e608120eb381de27a3cb07e1e62a76abb14cdea42919a5c43091052"
+    },
+    {
+      "word": "leisure",
+      "audio": "/yinbiao/examples/leisure.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/leisure.mp3",
+      "sha256": "c76f2b6f08f520e009e0e2baa350df62c1d43b5ec3ed040d145e493ed9256bdc"
+    },
+    {
+      "word": "hat",
+      "audio": "/yinbiao/examples/hat.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/hat.mp3",
+      "sha256": "4af8a67f7cbbf4a667e83d2c42e2192044f3b55c0ff7ad834a79ff32be358fa3"
+    },
+    {
+      "word": "chin",
+      "audio": "/yinbiao/examples/chin.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/chin.mp3",
+      "sha256": "d992897d89fe5ae3fe9443c01a9dc88a63af3a8d490f07fcd835133be4d36024"
+    },
+    {
+      "word": "joke",
+      "audio": "/yinbiao/examples/joke.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/joke.mp3",
+      "sha256": "9016e6f0d70699a08d74d337e476d9ee122e2ab4b12e1eeb626980bef8cdf7f1"
+    },
+    {
+      "word": "me",
+      "audio": "/yinbiao/examples/me.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/me.mp3",
+      "sha256": "169ae96777d7b215cad5d64c2be2619c7b876481e7d6fe792795b62f0ea0a888"
+    },
+    {
+      "word": "no",
+      "audio": "/yinbiao/examples/no.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/no.mp3",
+      "sha256": "0d169524e04d5af55cf07bbb0800b99acdc48748a79183d2ce886ab9c02f54c2"
+    },
+    {
+      "word": "sing",
+      "audio": "/yinbiao/examples/sing.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/sing.mp3",
+      "sha256": "3756c749d3c50888e1d78a017aa993fd42d44372aaa9ecb8b492f07cf93dfa96"
+    },
+    {
+      "word": "wet",
+      "audio": "/yinbiao/examples/wet.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/wet.mp3",
+      "sha256": "c198ac7afe7829fe0b7ddf30a0fa8357d1d745112699216160ab7bbf5e359885"
+    },
+    {
+      "word": "red",
+      "audio": "/yinbiao/examples/red.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/red.mp3",
+      "sha256": "c8ba4f6b7eda9426594dcf92e92c633f06c529af8fe390f59f114531b7b0775e"
+    },
+    {
+      "word": "lip",
+      "audio": "/yinbiao/examples/lip.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/lip.mp3",
+      "sha256": "fef14fa82c45aee0ca57d88ac2ad4b8343feadbd0d1efdfaca4876db6dc422cd"
+    },
+    {
+      "word": "yet",
+      "audio": "/yinbiao/examples/yet.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/yet.mp3",
+      "sha256": "cb28653e8c4bb07e70994fda26d45555d57ca43b700a3728ec1727e37065db35"
+    },
+    {
+      "word": "pit",
+      "audio": "/yinbiao/examples/pit.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/pit.mp3",
+      "sha256": "842bf78f91eaedf946686746e81443c4d182b6b04e365d26ab131c1e80baa60d"
+    },
+    {
+      "word": "pet",
+      "audio": "/yinbiao/examples/pet.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/pet.mp3",
+      "sha256": "650beeb2ca52ab5af52496ff33c2b31df1a98ff2ac8c4d809d74a0eb8f3aeb9d"
+    },
+    {
+      "word": "pat",
+      "audio": "/yinbiao/examples/pat.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/pat.mp3",
+      "sha256": "a14b7adfb4ba6b9cac4d37073a62fa9755c457bcd1350841562f3c3b41e6e93f"
+    },
+    {
+      "word": "pot",
+      "audio": "/yinbiao/examples/pot.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/pot.mp3",
+      "sha256": "4a1639e4108b2c6957da30b5a3b79618499944ed97236cd6aa8922e304bf8e4d"
+    },
+    {
+      "word": "put",
+      "audio": "/yinbiao/examples/put.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/put.mp3",
+      "sha256": "7b862176b368016fb428a7353ca7a30ac7be242d76565128a691fb2e76f510f4"
+    },
+    {
+      "word": "cup",
+      "audio": "/yinbiao/examples/cup.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/cup.mp3",
+      "sha256": "ffae2549e14fbcb3d54b7229954625b1e3d7545945c4d14a305131c21a25e508"
+    },
+    {
+      "word": "peep",
+      "audio": "/yinbiao/examples/peep.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/peep.mp3",
+      "sha256": "30bf7e81f87958ce8e626a581267b82c51b5a8ecbd93c800e02350c754938d28"
+    },
+    {
+      "word": "part",
+      "audio": "/yinbiao/examples/part.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/part.mp3",
+      "sha256": "cedb073d68b2b31546eb61f4dce716a97ac4d4b637601cea2572d02b3243ca1a"
+    },
+    {
+      "word": "port",
+      "audio": "/yinbiao/examples/port.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/port.mp3",
+      "sha256": "317bcc6acb9e2587c2792dcdc12344a4513fa8c936c845c09d996d90d0abb474"
+    },
+    {
+      "word": "food",
+      "audio": "/yinbiao/examples/food.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/food.mp3",
+      "sha256": "6bf3caa6b972532c432363b0cce968a3e770cee4b9dc33c50ed30193e5bac04b"
+    },
+    {
+      "word": "bird",
+      "audio": "/yinbiao/examples/bird.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/bird.mp3",
+      "sha256": "6b877b24750801e969a80cd85666b57453237fa3c8dbc77f54b434aef0939ac3"
+    },
+    {
+      "word": "bay",
+      "audio": "/yinbiao/examples/bay.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/bay.mp3",
+      "sha256": "c922f7d8e7c887892af06731c7eed63821cd80c7235d4d461c25278a92301872"
+    },
+    {
+      "word": "buy",
+      "audio": "/yinbiao/examples/buy.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/buy.mp3",
+      "sha256": "e6fb2f8bfa670f5cb753c6907a471886151355309711ec4f45a46b2d817ef9ee"
+    },
+    {
+      "word": "boy",
+      "audio": "/yinbiao/examples/boy.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/boy.mp3",
+      "sha256": "42cd3d43325922143dd9005d20d6a5383685f2cf99555c27c192431eedb78c67"
+    },
+    {
+      "word": "so-v",
+      "audio": "/yinbiao/examples/so-v.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/so-v.mp3",
+      "sha256": "54c102b774345fb9cd23f6a482d07344b1e6e90e9dbbca65ed6a7015832ba400"
+    },
+    {
+      "word": "cow",
+      "audio": "/yinbiao/examples/cow.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/cow.mp3",
+      "sha256": "b6473bd8d4185ff7becc50ea6e3a7b6ddd0b8cb5e6001c83c1987c31dc78d4ba"
+    },
+    {
+      "word": "hear",
+      "audio": "/yinbiao/examples/hear.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/hear.mp3",
+      "sha256": "62c4509148dc1f32b5acc76ec581afdd0cd81d3ac0de66e523488f33df3b9cc3"
+    },
+    {
+      "word": "hair",
+      "audio": "/yinbiao/examples/hair.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/hair.mp3",
+      "sha256": "c1a4c09868a4c150c94b95d485dad7cf570b21f6802f5d59337559a1379aed08"
+    },
+    {
+      "word": "pure",
+      "audio": "/yinbiao/examples/pure.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/pure.mp3",
+      "sha256": "7d82136c08a57d57f86fb7141078a29fa0d2453110805efa97c7d0b1dc5e6c45"
+    },
+    {
+      "word": "about",
+      "audio": "/yinbiao/examples/about.mp3",
+      "source": "https://learnipa.github.io/EnglishPhonemes/mp3/about.mp3",
+      "sha256": "c7c2d22ac759c960866ef7caadf5cbf04032e0af54d97e211931874dd683328e"
+    }
+  ]
+}

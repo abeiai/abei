@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>四叶纸风车 · 旋转对称构造</title>
+  <!-- 构造：每叶由底层三角纸面与上层弧形翻折片组成；整组再按 90° 严格旋转复制。 -->
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#eeeae1;color:#24231f;font-family:"PingFang SC","Noto Sans CJK SC",sans-serif}
+    main{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:center;padding:clamp(20px,4vw,64px)}
+    .stage{min-height:min(72vw,760px);display:grid;place-items:center;background:#faf8f3;border:1px solid #d8d3c8;box-shadow:0 24px 70px #5149361c;overflow:hidden}
+    svg{display:block;width:min(72vw,760px);height:auto;filter:drop-shadow(0 22px 20px #3e39241c)}
+    #rotor{transform-box:view-box;transform-origin:600px 600px;transition:transform 900ms cubic-bezier(.22,.8,.26,1)}
+    #guides{opacity:0;transition:opacity 180ms}.show-guides #guides{opacity:1}
+    .mono [data-paper],.mono [data-fold]{fill:#24231f!important}.mono #hub{fill:#faf8f3;stroke:#24231f;stroke-width:10}
+    .same-fold [data-fold="0"]{fill:url(#g0)}.same-fold [data-fold="1"]{fill:url(#g1)}.same-fold [data-fold="2"]{fill:url(#g2)}.same-fold [data-fold="3"]{fill:url(#g3)}
+    aside{align-self:center}.eyebrow{margin:0 0 14px;font:700 12px/1.2 ui-monospace,SFMono-Regular,monospace;letter-spacing:.14em;color:#797264}
+    h1{margin:0 0 18px;font:650 clamp(30px,4vw,48px)/1.12 "Songti SC","Noto Serif CJK SC",serif;letter-spacing:-.04em;text-wrap:balance}
+    .summary{margin:0 0 28px;color:#625d52;font-size:15px;line-height:1.8;text-wrap:pretty}
+    dl{margin:0 0 30px;padding:18px 0;border-block:1px solid #cfc9bc;font:13px/1.7 ui-monospace,SFMono-Regular,monospace}
+    dl div{display:grid;grid-template-columns:82px 1fr;gap:12px}dt{color:#827a6d}dd{margin:0}
+    .actions{display:flex;flex-wrap:wrap;gap:10px}button{min-height:44px;border:1px solid #292824;background:#292824;color:#fff;padding:0 16px;font:inherit;font-size:14px;font-weight:600;line-height:1;cursor:pointer}
+    button.secondary{background:transparent;color:#292824}button.secondary[aria-pressed="true"]{background:#292824;color:#fff}button:hover{transform:translateY(-1px)}button:focus-visible{outline:3px solid #2997f0;outline-offset:3px}
+    .proof{margin:18px 0 0;color:#797264;font-size:12px;line-height:1.65}
+    @media(max-width:860px){main{grid-template-columns:1fr;align-items:start}.stage{min-height:auto;aspect-ratio:1}svg{width:92%}aside{max-width:620px}.summary{margin-bottom:20px}}
+    @media(prefers-reduced-motion:reduce){#rotor{transition:none}button:hover{transform:none}}
+  </style>
+</head>
+<body>
+  <main>
+    <section class="stage" aria-label="四叶纸风车图标">
+      <svg id="drawing" viewBox="0 0 1200 1200" role="img" aria-labelledby="svg-title svg-desc">
+        <title id="svg-title">具有四阶旋转对称的纸风车</title>
+        <desc id="svg-desc">同一组底层三角纸面和弧形翻折片绕中心每隔九十度复制一次，形成四叶纸风车。</desc>
+        <defs>
+          <path id="fold" d="M0 0L-267.5-267.5 0-535Z"/>
+          <path id="blade" d="M0 0C-70-110-106-230-100-300C-90-410-35-500 0-535C20-555 50-580 75-580H530C548-580 560-568 560-550 560-538 555-528 545-518L0 0Z"/>
+          <linearGradient id="g0" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#7acb19"/><stop offset="1" stop-color="#b9e783"/></linearGradient>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff8a1d"/><stop offset="1" stop-color="#ff481d"/></linearGradient>
+          <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#ffd51d"/><stop offset="1" stop-color="#ffad00"/></linearGradient>
+          <linearGradient id="g3" x1="1" y1="1" x2="0" y2="0"><stop stop-color="#39a9f3"/><stop offset="1" stop-color="#087be8"/></linearGradient>
+          <linearGradient id="f0"><stop stop-color="#54b51c"/><stop offset="1" stop-color="#238a21"/></linearGradient>
+          <linearGradient id="f1"><stop stop-color="#ee5a15"/><stop offset="1" stop-color="#b9360e"/></linearGradient>
+          <linearGradient id="f2"><stop stop-color="#f2b600"/><stop offset="1" stop-color="#d99000"/></linearGradient>
+          <linearGradient id="f3"><stop stop-color="#087dcd"/><stop offset="1" stop-color="#075cae"/></linearGradient>
+        </defs>
+        <g id="rotor">
+          <g transform="translate(600 600)">
+            <use href="#fold" data-fold="0" fill="url(#f0)"/><use href="#fold" data-fold="1" fill="url(#f1)" transform="rotate(90)"/>
+            <use href="#fold" data-fold="2" fill="url(#f2)" transform="rotate(180)"/><use href="#fold" data-fold="3" fill="url(#f3)" transform="rotate(270)"/>
+            <use href="#blade" data-paper fill="url(#g0)"/><use href="#blade" data-paper fill="url(#g1)" transform="rotate(90)"/>
+            <use href="#blade" data-paper fill="url(#g2)" transform="rotate(180)"/><use href="#blade" data-paper fill="url(#g3)" transform="rotate(270)"/>
+            <circle id="hub" r="138" fill="#ffffff"/>
+          </g>
+        </g>
+        <g id="guides" fill="none" stroke="#312f2a" stroke-width="3" stroke-dasharray="10 12" opacity=".62">
+          <circle cx="600" cy="600" r="590"/><path d="M10 600H1190M600 10V1190M183 183L1017 1017M1017 183L183 1017"/>
+          <circle cx="600" cy="600" r="8" fill="#312f2a" stroke="none"/>
+        </g>
+      </svg>
+    </section>
+    <aside>
+      <p class="eyebrow">C4 / ROTATIONAL SYMMETRY</p>
+      <h1>四叶纸风车</h1>
+      <p class="summary">每片扇叶由底层三角纸面和上层弧形翻折片叠合而成，深色区域是被翻折片覆盖后露出的底纸。整组结构只定义一次，其余三组精确旋转 90° 得到。</p>
+      <dl>
+        <div><dt>旋转中心</dt><dd>C = (600, 600)</dd></div>
+        <div><dt>叶片角度</dt><dd>θₖ = k × 90°, k ∈ {0,1,2,3}</dd></div>
+        <div><dt>中心半径</dt><dd>r = 138</dd></div>
+        <div><dt>折叠层级</dt><dd>三角底纸 + 弧形翻折片</dd></div>
+        <div><dt>画布边界</dt><dd>1200 × 1200</dd></div>
+      </dl>
+      <div class="actions">
+        <button id="rotate" type="button">旋转 90°</button>
+        <button id="fold-color" class="secondary" type="button" aria-pressed="false">翻折同色</button>
+        <button id="shape" class="secondary" type="button" aria-pressed="false">只看形状</button>
+        <button id="guide" class="secondary" type="button" aria-pressed="false">显示辅助线</button>
+      </div>
+      <p class="proof">证明：令母叶为 S，整体 P = ⋃ Rₖ(S)。则 R₉₀(P) 只是把 k 循环映射为 k + 1，因此 R₉₀(P) = P。</p>
+    </aside>
+  </main>
+  <script>
+    const drawing=document.querySelector('#drawing'),rotor=document.querySelector('#rotor');let angle=0;
+    document.querySelector('#rotate').addEventListener('click',()=>{angle+=90;rotor.style.transform=`rotate(${angle}deg)`});
+    document.querySelector('#fold-color').addEventListener('click',event=>{drawing.classList.toggle('same-fold');event.currentTarget.setAttribute('aria-pressed',drawing.classList.contains('same-fold'))});
+    document.querySelector('#shape').addEventListener('click',event=>{drawing.classList.toggle('mono');event.currentTarget.setAttribute('aria-pressed',drawing.classList.contains('mono'))});
+    document.querySelector('#guide').addEventListener('click',event=>{drawing.classList.toggle('show-guides');event.currentTarget.setAttribute('aria-pressed',drawing.classList.contains('show-guides'))});
+  </script>
+</body>
+</html>

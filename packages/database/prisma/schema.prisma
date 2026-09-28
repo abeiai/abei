@@ -1,0 +1,3357 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum SmsCodePurpose {
+  LOGIN
+  BIND_PHONE
+  RESET_PASSWORD
+}
+
+enum EmailCodePurpose {
+  REGISTER
+  RESET_PASSWORD
+  CHANGE_EMAIL
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+}
+
+enum RefreshTokenType {
+  USER
+  ADMIN
+}
+
+enum UserProfileMode {
+  UNSELECTED
+  ACCOUNT
+  LEARNER
+}
+
+enum LearnerStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum LearnerGrade {
+  PRESCHOOL
+  GRADE_1
+  GRADE_2
+  GRADE_3
+  GRADE_4
+  GRADE_5
+  GRADE_6
+  GRADE_7
+  GRADE_8
+  GRADE_9
+  HIGH_1
+  HIGH_2
+  HIGH_3
+  UNIVERSITY_OR_WORK
+}
+
+enum LearnerActivityEventType {
+  CREATE_STARTED
+  CREATE_COMPLETED
+  LEARNING_STARTED
+  LEARNING_COMPLETED
+  REVIEW_COMPLETED
+  MATERIAL_STARTED
+  MEDIA_PROGRESS
+  NODE_LEARNED
+  PRACTICE_SUBMITTED
+  READ_ALONG_COMPLETED
+  FLASHCARD_REVIEWED
+  PART_COMPLETED
+  MATERIAL_COMPLETED
+}
+
+enum LearnerLearningStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum LearnerLearningSignal {
+  INTERACTION
+  MEDIA_PLAYING
+  PRACTICE
+  READ_ALONG
+  FLASHCARD
+}
+
+enum LearnerLearningSessionEndReason {
+  LEFT
+  PROFILE_SWITCHED
+  SIGNED_OUT
+  TIMED_OUT
+  AUTHORIZATION_REVOKED
+}
+
+enum LearnerLearningSummaryScope {
+  TOTAL
+  SCENARIO
+  COURSE
+  RESOURCE
+  MATERIAL
+  PART
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentModuleType {
+  SLIDESHOW
+  IMAGE_CARD_LIST
+  SPLIT_IMAGE_TEXT
+}
+
+enum TextbookEducationType {
+  PRIMARY
+  JUNIOR
+  PRIMARY_FIVE_FOUR
+  JUNIOR_FIVE_FOUR
+  SENIOR
+  SPECIAL_EDUCATION
+}
+
+enum TextbookVolume {
+  FIRST_VOLUME
+  SECOND_VOLUME
+  FULL_VOLUME
+}
+
+enum TextbookMarkdownConversionStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum EnglishContentLibraryType {
+  WORDLIST
+  ARTICLE
+}
+
+enum EnglishContentEducationStage {
+  PRIMARY
+  JUNIOR_HIGH
+  SENIOR_HIGH
+  UNIVERSITY
+  OTHER
+}
+
+enum EnglishContentItemType {
+  WORD
+  PHRASE
+  SENTENCE
+  PARAGRAPH
+}
+
+enum EnglishContentItemReviewStatus {
+  PENDING
+  VERIFIED
+  NEEDS_REVIEW
+}
+
+enum EnglishContentMediaKind {
+  ILLUSTRATION
+  BRITISH_PRONUNCIATION
+}
+
+enum EnglishContentMediaStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum TypingPracticeMode {
+  DICTATION
+}
+
+enum TypingPracticeScope {
+  UNIT
+  NEW
+  DUE_REVIEW
+  MIXED
+}
+
+enum TypingPracticeSessionStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ABANDONED
+  EXPIRED
+}
+
+enum TypingPracticeSessionItemSource {
+  NEW
+  DUE_REVIEW
+  RELEARNING
+}
+
+enum TypingPracticeSessionItemStatus {
+  PENDING
+  ACTIVE
+  CORRECT
+  SKIPPED
+}
+
+enum TypingReviewStateStatus {
+  NEW
+  LEARNING
+  REVIEW
+  RELEARNING
+  MASTERED
+  SUSPENDED
+}
+
+enum TypingErrorType {
+  SPELLING_ERROR
+  CASE_ERROR
+  PUNCTUATION_ERROR
+  WHITESPACE_ERROR
+  INCOMPLETE
+}
+
+enum TypingAccent {
+  UK
+  US
+}
+
+enum TypingInputStyle {
+  UNDERLINE
+  BOX
+}
+
+enum PageCompositionTargetType {
+  HOME
+  PAGE
+}
+
+enum PaymentProvider {
+  ALIPAY
+  WECHAT_PAY
+}
+
+enum PaymentScene {
+  DESKTOP_WEB
+  MOBILE_WEB
+  WECHAT_BROWSER
+}
+
+enum PaymentProduct {
+  ALIPAY_PRECREATE
+  ALIPAY_PAGE
+  ALIPAY_WAP
+  WECHAT_NATIVE
+  WECHAT_H5
+  WECHAT_JSAPI
+}
+
+enum ProductBillingMode {
+  RECHARGE
+  SUBSCRIPTION
+  MIXED
+}
+
+enum PaymentAction {
+  REDIRECT
+  QR_CODE
+  WECHAT_JSAPI
+}
+
+enum PaymentOrderStatus {
+  CREATED
+  PAYING
+  PAID
+  CLOSED
+  FAILED
+}
+
+enum AiTaskStatus {
+  CREATED
+  RESERVED
+  RUNNING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  COMPENSATED
+}
+
+enum AiProviderType {
+  OPENAI_COMPATIBLE
+}
+
+enum AiProviderAdapterType {
+  OPENAI_COMPATIBLE
+  ANTHROPIC
+  GEMINI
+  CUSTOM_OPENAI_COMPATIBLE
+  DASHSCOPE_AUDIO
+  MINIMAX_AUDIO
+  ELEVENLABS_AUDIO
+  MINIMAX_VIDEO
+}
+
+enum AiProviderModality {
+  TEXT
+  AUDIO
+  MULTIMODAL
+}
+
+enum AiProviderInstanceStatus {
+  DISABLED
+  ENABLED
+  TEST_FAILED
+}
+
+enum CreditReservationStatus {
+  RESERVED
+  SETTLED
+  RELEASED
+  EXPIRED
+  FAILED
+}
+
+enum LedgerEntryType {
+  TOP_UP
+  RESERVE
+  CONSUME
+  RELEASE
+  REFUND
+  ADMIN_ADJUST
+}
+
+enum BillingContextType {
+  PERSONAL
+  ORGANIZATION
+}
+
+enum OrganizationStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+enum OrganizationMemberRole {
+  OWNER
+  ADMIN
+  FINANCE_ADMIN
+  MEMBER
+}
+
+enum OrganizationMemberStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  REMOVED
+}
+
+enum OrganizationWalletStatus {
+  ACTIVE
+  FROZEN
+  CLOSED
+}
+
+enum OrganizationPointLotStatus {
+  ACTIVE
+  USED_UP
+  EXPIRED
+  REFUNDED
+}
+
+enum OrganizationWalletLedgerDirection {
+  CREDIT
+  DEBIT
+  RESERVE
+  RELEASE
+}
+
+enum OrganizationWalletTransactionType {
+  PURCHASE
+  CONSUME
+  REFUND
+  EXPIRE
+  ADJUST
+  GIFT
+  RESERVE
+  RELEASE
+}
+
+enum OrganizationReservationStatus {
+  RESERVED
+  SETTLED
+  RELEASED
+  EXPIRED
+}
+
+enum OrganizationQuotaType {
+  ONE_TIME
+  MONTHLY
+}
+
+enum OrganizationQuotaStatus {
+  ACTIVE
+  PAUSED
+  EXPIRED
+  REVOKED
+}
+
+enum OrganizationQuotaLedgerDirection {
+  GRANT
+  CONSUME
+  RESERVE
+  RELEASE
+  REVOKE
+  ADJUST
+  RESET
+}
+
+enum OrganizationUsageEventStatus {
+  SUCCESS
+  FAILED
+  REVERSED
+}
+
+enum MediaStorageProvider {
+  LOCAL
+  S3
+}
+
+enum MediaAssetType {
+  IMAGE
+  AUDIO
+  VIDEO
+}
+
+enum MediaAssetSource {
+  SYSTEM
+  USER_UPLOAD
+  AI_GENERATED
+  WEB_FETCHED
+}
+
+enum KnowledgeDocumentStatus {
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum AudioAssetType {
+  SOURCE_SAMPLE
+  PREVIEW
+  TTS_OUTPUT
+}
+
+enum AudioTaskType {
+  TTS
+  VOICE_CLONE
+  VOICE_DESIGN
+}
+
+enum AudioTaskStatus {
+  CREATED
+  RESERVED
+  UPLOADING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  COMPENSATED
+}
+
+enum VideoGuideMediaType {
+  VIDEO
+  AUDIO
+}
+
+enum VideoGuideSubtitleFormat {
+  SRT
+  ASS
+}
+
+enum VideoGuideLessonStatus {
+  DRAFT
+  QUEUED
+  GENERATING
+  SUCCEEDED
+  FAILED
+}
+
+enum VideoGuideAssetType {
+  MEDIA
+  SUBTITLE
+}
+
+enum VideoGuideAssetRefSource {
+  UPLOAD
+  GENERATED
+}
+
+enum EnglishGuidedStudySourceType {
+  TEXT
+  IMAGE
+}
+
+enum LearningFlashcardSourceType {
+  TEXTBOOK
+  UPLOAD
+  IMPORT
+}
+
+enum LearningFlashcardStrategy {
+  SUBJECT_KNOWLEDGE
+  SCIENCE_POPULARIZATION
+  DAILY_MEMORY
+}
+
+enum LearningFlashcardDeckStatus {
+  DRAFT
+  GENERATING
+  READY
+  FAILED
+}
+
+enum LearningFlashcardReviewGrade {
+  HARD
+  BLURRY
+  MASTERED
+}
+
+enum CourseReviewState {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  REJECTED
+}
+
+enum CourseRevisionStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CourseMaterialType {
+  VIDEO_GUIDE
+  ENGLISH_GUIDED_STUDY
+  LEARNING_FLASHCARD
+}
+
+enum CourseMaterialPublicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CourseReviewScope {
+  COURSE_REVISION
+  MATERIAL_CHANGE
+}
+
+enum CourseReviewRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CourseAiPrecheckStatus {
+  NOT_STARTED
+  RUNNING
+  PASSED
+  REJECTED
+  FAILED
+}
+
+enum CourseAiPrecheckTrigger {
+  MANUAL
+  AUTOMATIC
+}
+
+enum AudioBillingMode {
+  PER_CHARACTER
+  PER_TASK
+  PER_SECOND
+}
+
+enum VoiceAssetType {
+  SYSTEM
+  CLONED
+  DESIGNED
+}
+
+enum VoiceAssetStatus {
+  DRAFT
+  CREATING
+  PENDING_REVIEW
+  READY
+  FAILED
+  REJECTED
+  DISABLED
+  DELETED
+}
+
+enum VoiceAssetVisibility {
+  PRIVATE
+  PUBLIC
+  ADMIN_ONLY
+}
+
+enum VoiceConsentType {
+  SELF_VOICE
+  AUTHORIZED_VOICE
+}
+
+model User {
+  referralHandles ReferralHandle[]
+  referralVisits ReferralVisit[]
+  referralsSent ReferralReward[] @relation("ReferrerRewards")
+  referralReceived ReferralReward? @relation("ReferredReward")
+  membershipPeriods MembershipPeriod[]
+  membershipCreditAllocations MembershipCreditAllocation[]
+  id            String         @id @default(cuid())
+  accountNumber Int            @unique @default(autoincrement())
+  nextLearnerNumber Int        @default(100)
+  email         String         @unique
+  phone         String?        @unique
+  phoneVerifiedAt DateTime?
+  wechatOpenId     String?     @unique
+  wechatMpOpenId   String?     @unique
+  wechatWebOpenId  String?     @unique
+  wechatUnionId    String?     @unique
+  passwordHash  String
+  passwordLoginEnabled Boolean @default(true)
+  learnerSwitchPasswordHash String?
+  nickname      String
+  avatarUrl     String?
+  status        UserStatus     @default(ACTIVE)
+  lastLoginAt   DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  refreshTokens RefreshToken[]
+  learners      Learner[]
+  learnerActivityEvents LearnerActivityEvent[]
+  learnerLearningSessions LearnerLearningSession[]
+  learnerLearningTimeSlices LearnerLearningTimeSlice[]
+  learnerMaterialProgress LearnerMaterialProgress[]
+  learnerDailyLearningSummaries LearnerDailyLearningSummary[]
+  wallet        Wallet?
+  paymentOrders PaymentOrder[]
+  ledgerEntries LedgerEntry[]
+  aiTasks       AiTask[]
+  reservations  CreditReservation[]
+  knowledgeBases KnowledgeBase[]
+  aiToolCalls    AiToolCall[]
+  aiUsageStats   AiUsageDailyStat[]
+  audioAssets     AudioAsset[]
+  voiceAssets     VoiceAsset[]
+  audioTasks      AudioTask[]
+  audioDialogueProjects AudioDialogueProject[]
+  voiceConsents   VoiceConsent[]
+  audioPreference UserAudioPreference?
+  audioUsageLogs  AudioUsageLog[]
+  videoGuideLessons           VideoGuideLesson[]
+  videoGuideAssetRefs         VideoGuideAssetRef[]
+  englishGuidedStudyMaterials EnglishGuidedStudyMaterial[]
+  learningFlashcardDecks      LearningFlashcardDeck[]
+  learningFlashcardReviews    LearningFlashcardReview[]
+  courses                     Course[]
+  enrolledCourses             CourseEnrollment[]
+  mediaAssets                 MediaAsset[]
+  copybookFonts               CopybookFont[]
+  copybookRecords             CopybookRecord[]
+  submittedCourseReviews      CourseReviewRequest[] @relation("SubmittedCourseReviews")
+  ownedOrganizations Organization[] @relation("OrganizationOwner")
+  organizationMembers OrganizationMember[]
+  organizationUsageEvents OrganizationUsageEvent[]
+  typingLibraryProgress TypingLibraryProgress[]
+  typingSessions TypingPracticeSession[]
+  typingReviewStates TypingReviewState[]
+  typingPreferences TypingPreference[]
+
+  @@map("users")
+}
+
+model ReferralHandle {
+  handle String @id
+  userId String
+  kind String
+  status String @default("ACTIVE")
+  reviewedBy String?
+  reviewedAt DateTime?
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kind])
+  @@index([status, createdAt])
+  @@map("referral_handles")
+}
+
+model ReferralVisit {
+  tokenHash String @id
+  referrerId String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  referrer User @relation(fields: [referrerId], references: [id], onDelete: Cascade)
+  reward ReferralReward?
+
+  @@index([expiresAt])
+  @@map("referral_visits")
+}
+
+model ReferralReward {
+  inviteeId String @id
+  referrerId String
+  visitHash String @unique
+  credits Int @default(500)
+  createdAt DateTime @default(now())
+  invitee User @relation("ReferredReward", fields: [inviteeId], references: [id], onDelete: Cascade)
+  referrer User @relation("ReferrerRewards", fields: [referrerId], references: [id], onDelete: Cascade)
+  visit ReferralVisit @relation(fields: [visitHash], references: [tokenHash], onDelete: Restrict)
+
+  @@index([referrerId, createdAt])
+  @@map("referral_rewards")
+}
+
+model SmsVerificationCode {
+  id            String         @id @default(cuid())
+  phone         String
+  purpose       SmsCodePurpose
+  codeHash      String
+  expiresAt     DateTime
+  consumedAt    DateTime?
+  sendProvider  String?
+  sendRequestId String?
+  sendStatus    String?
+  createdAt     DateTime       @default(now())
+
+  @@index([phone, purpose, createdAt])
+  @@index([expiresAt])
+  @@map("sms_verification_codes")
+}
+
+model EmailVerificationCode {
+  id            String           @id @default(cuid())
+  email         String
+  purpose       EmailCodePurpose
+  codeHash      String
+  expiresAt     DateTime
+  consumedAt    DateTime?
+  sendProvider  String?
+  sendRequestId String?
+  sendStatus    String?
+  createdAt     DateTime         @default(now())
+
+  @@index([email, purpose, createdAt])
+  @@index([expiresAt])
+  @@map("email_verification_codes")
+}
+
+model AdminUser {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String
+  name          String
+  role          AdminRole      @default(SUPER_ADMIN)
+  status        UserStatus     @default(ACTIVE)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  refreshTokens RefreshToken[]
+  operationLogs AdminOperationLog[]
+  mediaAssets   MediaAsset[]
+  copybookFonts CopybookFont[]
+  resolvedAlerts SystemAlert[] @relation("ResolvedSystemAlerts")
+  reviewedVoiceAssets VoiceAsset[] @relation("ReviewedVoiceAssets")
+  reviewedCourseReviews CourseReviewRequest[] @relation("ReviewedCourseReviews")
+
+  @@map("admin_users")
+}
+
+model RefreshToken {
+  id          String           @id @default(cuid())
+  userId      String?
+  adminUserId String?
+  tokenHash   String
+  type        RefreshTokenType
+  profileMode UserProfileMode @default(UNSELECTED)
+  profileLearnerId String?
+  expiresAt   DateTime
+  createdAt   DateTime         @default(now())
+  revokedAt   DateTime?
+  user        User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adminUser   AdminUser?       @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  profileLearner Learner?      @relation(fields: [profileLearnerId], references: [id], onDelete: Restrict)
+  learnerLearningSessions LearnerLearningSession[]
+
+  @@index([userId])
+  @@index([adminUserId])
+  @@index([tokenHash])
+  @@index([profileLearnerId])
+  @@map("refresh_tokens")
+}
+
+model Learner {
+  id                     String   @id @default(cuid())
+  userId                 String
+  accountNumber          Int
+  nickname               String
+  grade                  LearnerGrade
+  avatarUrl              String?
+  status                 LearnerStatus @default(ACTIVE)
+  deactivatedAt          DateTime?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  user                   User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  scenarioAuthorizations LearnerScenarioAuthorization[]
+  courseAuthorizations   LearnerCourseAuthorization[]
+  activityEvents         LearnerActivityEvent[]
+  learningSessions       LearnerLearningSession[]
+  learningTimeSlices     LearnerLearningTimeSlice[]
+  materialProgress       LearnerMaterialProgress[]
+  dailyLearningSummaries LearnerDailyLearningSummary[]
+  profileSessions        RefreshToken[]
+  aiTasks                AiTask[]
+  audioTasks             AudioTask[]
+  videoGuideLessons      VideoGuideLesson[]
+  guidedStudyMaterials   EnglishGuidedStudyMaterial[]
+  flashcardDecks         LearningFlashcardDeck[]
+  flashcardReviews       LearningFlashcardReview[]
+  copybookRecords        CopybookRecord[]
+  typingLibraryProgress  TypingLibraryProgress[]
+  typingSessions         TypingPracticeSession[]
+  typingReviewStates     TypingReviewState[]
+  typingPreference       TypingPreference?
+
+  @@index([userId, status, createdAt])
+  @@unique([userId, accountNumber])
+  @@map("learners")
+}
+
+model LearnerScenarioAuthorization {
+  learnerId    String
+  scenarioId   String
+  authorizedAt DateTime @default(now())
+  learner      Learner @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  scenario     AiScenario @relation(fields: [scenarioId], references: [id], onDelete: Restrict)
+
+  @@id([learnerId, scenarioId])
+  @@index([scenarioId])
+  @@map("learner_scenario_authorizations")
+}
+
+model LearnerCourseAuthorization {
+  learnerId    String
+  courseId     String
+  authorizedAt DateTime @default(now())
+  learner      Learner @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  course       Course @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  @@id([learnerId, courseId])
+  @@index([courseId])
+  @@map("learner_course_authorizations")
+}
+
+model LearnerActivityEvent {
+  id             String @id @default(cuid())
+  userId         String
+  learnerId      String
+  eventType      LearnerActivityEventType
+  scenarioId     String?
+  courseId       String?
+  courseRevisionId String?
+  courseRevisionItemId String?
+  resourceType   String?
+  resourceId     String?
+  materialType   CourseMaterialType?
+  materialId     String?
+  contentVersion String?
+  partKey        String?
+  itemKey        String?
+  idempotencyKey String? @unique
+  occurredAt     DateTime @default(now())
+  metrics        Json?
+  createdAt      DateTime @default(now())
+  user           User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  learner        Learner @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  scenario       AiScenario? @relation(fields: [scenarioId], references: [id], onDelete: SetNull)
+  course         Course? @relation(fields: [courseId], references: [id], onDelete: SetNull)
+
+  @@index([learnerId, occurredAt])
+  @@index([userId, occurredAt])
+  @@index([scenarioId, occurredAt])
+  @@index([courseId, occurredAt])
+  @@index([learnerId, materialType, materialId, occurredAt], map: "learner_activity_events_learnerId_materialType_materialId_occur")
+  @@index([resourceType, resourceId])
+  @@map("learner_activity_events")
+}
+
+model LearnerLearningSession {
+  id               String    @id @default(cuid())
+  userId           String
+  learnerId        String
+  profileSessionId String
+  clientSessionKey String
+  startedAt        DateTime  @default(now())
+  lastHeartbeatAt  DateTime
+  endedAt          DateTime?
+  endReason        LearnerLearningSessionEndReason?
+  lastSequence     Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  user             User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+  learner          Learner   @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  profileSession   RefreshToken @relation(fields: [profileSessionId], references: [id], onDelete: Restrict)
+  timeSlices       LearnerLearningTimeSlice[]
+
+  @@unique([profileSessionId, clientSessionKey])
+  @@index([learnerId, startedAt])
+  @@index([lastHeartbeatAt, endedAt])
+  @@map("learner_learning_sessions")
+}
+
+model LearnerLearningTimeSlice {
+  id                   String   @id @default(cuid())
+  userId               String
+  learnerId            String
+  sessionId            String
+  bucketStartedAt      DateTime
+  durationSeconds      Int
+  isLearning           Boolean
+  activitySignal       LearnerLearningSignal
+  scenarioId           String?
+  courseId             String?
+  courseRevisionId     String?
+  courseRevisionItemId String?
+  resourceType         String?
+  resourceId           String?
+  materialType         CourseMaterialType?
+  materialId           String?
+  contentVersion       String?
+  partKey              String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  learner              Learner  @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  session              LearnerLearningSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerId, bucketStartedAt])
+  @@index([learnerId, bucketStartedAt])
+  @@index([scenarioId, bucketStartedAt])
+  @@index([courseId, bucketStartedAt])
+  @@index([materialType, materialId, bucketStartedAt], map: "learner_learning_time_slices_materialType_materialId_bucketStar")
+  @@map("learner_learning_time_slices")
+}
+
+model LearnerMaterialProgress {
+  id                 String                @id @default(cuid())
+  userId             String
+  learnerId          String
+  materialType       CourseMaterialType
+  materialId         String
+  contentVersion     String
+  status             LearnerLearningStatus @default(NOT_STARTED)
+  progressPercent    Int                   @default(0)
+  activeStudySeconds Int                   @default(0)
+  firstStartedAt     DateTime?
+  lastStudiedAt      DateTime?
+  completedAt        DateTime?
+  studyCount         Int                   @default(0)
+  completionCount    Int                   @default(0)
+  lastPosition       Json?
+  progressData       Json?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  user               User                  @relation(fields: [userId], references: [id], onDelete: Restrict)
+  learner            Learner               @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  parts              LearnerMaterialPartProgress[]
+
+  @@unique([learnerId, materialType, materialId, contentVersion], map: "learner_material_progress_learnerId_materialType_materialId_con")
+  @@index([userId, learnerId, lastStudiedAt])
+  @@index([materialType, materialId])
+  @@map("learner_material_progress")
+}
+
+model LearnerMaterialPartProgress {
+  id                 String                @id @default(cuid())
+  materialProgressId String
+  partKey            String
+  status             LearnerLearningStatus @default(NOT_STARTED)
+  progressPercent    Int                   @default(0)
+  activeStudySeconds Int                   @default(0)
+  firstStartedAt     DateTime?
+  lastStudiedAt      DateTime?
+  completedAt        DateTime?
+  progressData       Json?
+  metrics            Json?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  materialProgress   LearnerMaterialProgress @relation(fields: [materialProgressId], references: [id], onDelete: Cascade)
+
+  @@unique([materialProgressId, partKey])
+  @@index([partKey, lastStudiedAt])
+  @@map("learner_material_part_progress")
+}
+
+model LearnerDailyLearningSummary {
+  id                      String                      @id @default(cuid())
+  userId                  String
+  learnerId               String
+  summaryDate             DateTime                    @db.Date
+  scopeType               LearnerLearningSummaryScope
+  scopeKey                String
+  scenarioId              String?
+  courseId                String?
+  resourceType            String?
+  resourceId              String?
+  materialType            CourseMaterialType?
+  materialId              String?
+  partKey                 String?
+  onlineSeconds           Int                         @default(0)
+  studySeconds            Int                         @default(0)
+  meaningfulActionCount   Int                         @default(0)
+  startedMaterialCount    Int                         @default(0)
+  completedPartCount      Int                         @default(0)
+  completedMaterialCount  Int                         @default(0)
+  practiceSubmittedCount  Int                         @default(0)
+  practiceCorrectCount    Int                         @default(0)
+  readAlongCompletedCount Int                         @default(0)
+  flashcardReviewedCount  Int                         @default(0)
+  createdAt               DateTime                    @default(now())
+  updatedAt               DateTime                    @updatedAt
+  user                    User                        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  learner                 Learner                     @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+
+  @@unique([learnerId, summaryDate, scopeType, scopeKey], map: "learner_daily_learning_summaries_learnerId_summaryDate_scopeTyp")
+  @@index([userId, learnerId, summaryDate], map: "learner_daily_learning_summaries_userId_learnerId_summaryDate_i")
+  @@index([scenarioId, summaryDate])
+  @@index([courseId, summaryDate])
+  @@index([materialType, materialId, summaryDate], map: "learner_daily_learning_summaries_materialType_materialId_summar")
+  @@map("learner_daily_learning_summaries")
+}
+
+model ArticleCategory {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  sortOrder   Int       @default(0)
+  isVisible   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  articles    Article[]
+  articleLinks ArticleCategoryLink[]
+
+  @@map("article_categories")
+}
+
+model Article {
+  id             String          @id @default(cuid())
+  categoryId     String
+  coverMediaId   String?
+  title          String
+  slug           String          @unique
+  summary        String?
+  coverImage     String?
+  content        String
+  status         ContentStatus   @default(DRAFT)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  canonicalUrl   String?
+  noIndex        Boolean         @default(false)
+  ogTitle        String?
+  ogDescription  String?
+  ogImage        String?
+  scheduledAt    DateTime?
+  publishedAt    DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  category       ArticleCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  coverMedia     MediaAsset?     @relation(fields: [coverMediaId], references: [id], onDelete: SetNull)
+  articleTags    ArticleTag[]
+  articleCategories ArticleCategoryLink[]
+
+  @@index([categoryId])
+  @@index([coverMediaId])
+  @@index([status])
+  @@index([scheduledAt])
+  @@map("articles")
+}
+
+model ArticleCategoryLink {
+  articleId  String
+  categoryId String
+  createdAt  DateTime        @default(now())
+  article    Article         @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category   ArticleCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, categoryId])
+  @@index([categoryId])
+  @@map("article_category_links")
+}
+
+model Page {
+  id             String        @id @default(cuid())
+  title          String
+  slug           String        @unique
+  content        String
+  status         ContentStatus @default(DRAFT)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  canonicalUrl   String?
+  noIndex        Boolean       @default(false)
+  ogTitle        String?
+  ogDescription  String?
+  ogImage        String?
+  scheduledAt    DateTime?
+  publishedAt    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  compositions    PageComposition[]
+
+  @@index([status])
+  @@index([scheduledAt])
+  @@map("pages")
+}
+
+model Tag {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  articleTags ArticleTag[]
+
+  @@map("tags")
+}
+
+model DictionaryEntry {
+  id             String   @id @default(cuid())
+  word           String   @unique
+  normalizedWord String   @map("normalized_word")
+  phonetic       String?
+  definition     String?  @db.Text
+  translation    String?  @db.Text
+  partOfSpeech   String?  @map("part_of_speech") @db.Text
+  collins        Int?
+  oxford         Boolean  @default(false)
+  tag            String?
+  bnc            Int?
+  frequency      Int?     @map("frq")
+  exchange       String?  @db.Text
+  detail         String?  @db.Text
+  audio          String?
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  englishContentItems EnglishContentItem[]
+  textbookVersionTags DictionaryTextbookVersionTag[]
+  dictionaryAudioAssets DictionaryAudioAsset[]
+
+  @@index([normalizedWord])
+  @@index([collins])
+  @@index([bnc])
+  @@index([frequency])
+  @@map("dictionary_entries")
+}
+
+model DictionaryTextbookVersionTag {
+  id                 String          @id @default(cuid())
+  dictionaryEntryId  String          @map("dictionary_entry_id")
+  version            String
+  sourceLibraryCount Int             @default(0) @map("source_library_count")
+  sourceItemCount    Int             @default(0) @map("source_item_count")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  dictionaryEntry    DictionaryEntry @relation(fields: [dictionaryEntryId], references: [id], onDelete: Cascade)
+
+  @@unique([dictionaryEntryId, version])
+  @@index([version])
+  @@map("dictionary_textbook_version_tags")
+}
+
+model DictionaryAudioAsset {
+  id                String               @id @default(cuid())
+  dictionaryEntryId String               @map("dictionary_entry_id")
+  variant           String
+  label             String
+  accent            String
+  gender            String
+  provider          String
+  model             String
+  voice             String
+  assetVersion      String               @default("v1") @map("asset_version")
+  storageProvider   MediaStorageProvider @default(S3) @map("storage_provider")
+  objectKey         String               @unique @map("object_key")
+  url               String
+  mimeType          String               @default("audio/mpeg") @map("mime_type")
+  sizeBytes         Int                  @map("size_bytes")
+  durationMs        Int?                 @map("duration_ms")
+  sampleRate        Int?                 @map("sample_rate")
+  channels          Int?
+  sha256            String
+  generatedAt       DateTime             @default(now()) @map("generated_at")
+  createdAt         DateTime             @default(now()) @map("created_at")
+  updatedAt         DateTime             @updatedAt @map("updated_at")
+  dictionaryEntry   DictionaryEntry      @relation(fields: [dictionaryEntryId], references: [id], onDelete: Cascade)
+
+  @@unique([dictionaryEntryId, variant])
+  @@index([variant])
+  @@index([provider, model])
+  @@index([assetVersion])
+  @@map("dictionary_audio_assets")
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+  @@index([tagId])
+  @@map("article_tags")
+}
+
+model MediaAsset {
+  id               String               @id @default(cuid())
+  filename         String
+  originalName     String
+  mimeType         String
+  size             Int
+  url              String
+  mediaType        MediaAssetType       @default(IMAGE)
+  sourceType       MediaAssetSource     @default(USER_UPLOAD)
+  storageProvider  MediaStorageProvider @default(LOCAL)
+  createdByAdminId String?
+  createdByUserId  String?
+  createdAt        DateTime             @default(now())
+  createdByAdmin   AdminUser?           @relation(fields: [createdByAdminId], references: [id], onDelete: SetNull)
+  createdByUser    User?                @relation(fields: [createdByUserId], references: [id], onDelete: SetNull)
+  coverArticles    Article[]
+  courseRevisionCovers CourseRevision[]
+  englishContentMedia EnglishContentMedia[]
+
+  @@index([createdByAdminId])
+  @@index([createdByUserId])
+  @@index([createdAt])
+  @@index([mediaType])
+  @@index([sourceType])
+  @@map("media_assets")
+}
+
+model CopybookFont {
+  id                String               @id @default(cuid())
+  name              String
+  filename          String               @unique
+  originalName      String
+  mimeType          String
+  size              Int
+  url               String
+  storageProvider   MediaStorageProvider @default(LOCAL)
+  suitableTemplates String[]             @default([])
+  sortOrder         Int                  @default(100)
+  createdByAdminId  String?
+  createdByUserId   String?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  createdByAdmin    AdminUser?           @relation(fields: [createdByAdminId], references: [id], onDelete: SetNull)
+  createdByUser     User?                @relation(fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@index([createdByAdminId])
+  @@index([createdByUserId])
+  @@index([createdAt])
+  @@index([name])
+  @@index([sortOrder])
+  @@map("copybook_fonts")
+}
+
+model CopybookRecord {
+  id             String   @id @default(cuid())
+  userId         String
+  learnerId      String?
+  requestId      String?
+  templateId     String
+  templateName   String
+  contentPreview String
+  pdfFilename    String
+  pdfObjectKey   String   @unique
+  pdfUrl         String
+  pdfSize        Int
+  credits        Int
+  pageCount      Int      @default(1)
+  sourceConfig        Json?
+  sourceConfigVersion Int?
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner        Learner? @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, requestId])
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([createdAt])
+  @@map("copybook_records")
+}
+
+model ContentModule {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  type        ContentModuleType
+  description String?
+  settings    Json
+  isEnabled   Boolean           @default(true)
+  sortOrder   Int               @default(0)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  items       ContentModuleItem[]
+  compositionItems PageCompositionItem[]
+
+  @@index([type])
+  @@index([isEnabled])
+  @@index([sortOrder])
+  @@map("content_modules")
+}
+
+model ContentModuleItem {
+  id          String        @id @default(cuid())
+  moduleId    String
+  title       String?
+  imageUrl    String?
+  imageAlt    String?
+  linkType    String?
+  linkTarget  String?
+  config      Json
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  module      ContentModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@index([moduleId])
+  @@index([sortOrder])
+  @@map("content_module_items")
+}
+
+model PageComposition {
+  id          String                    @id @default(cuid())
+  targetKey   String                    @unique
+  targetType  PageCompositionTargetType
+  pageId      String?
+  title       String
+  isEnabled   Boolean                   @default(false)
+  showHeader  Boolean                   @default(true)
+  showFooter  Boolean                   @default(true)
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+  page        Page?                     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  items       PageCompositionItem[]
+
+  @@index([targetType])
+  @@index([pageId])
+  @@index([isEnabled])
+  @@map("page_compositions")
+}
+
+model PageCompositionItem {
+  id            String          @id @default(cuid())
+  compositionId String
+  moduleId      String
+  sortOrder     Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  composition   PageComposition @relation(fields: [compositionId], references: [id], onDelete: Cascade)
+  module        ContentModule   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([compositionId, moduleId])
+  @@index([moduleId])
+  @@index([sortOrder])
+  @@map("page_composition_items")
+}
+
+model SystemConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  label       String
+  value       String
+  description String?
+  group       String   @default("site")
+  isPublic    Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([group])
+  @@map("system_configs")
+}
+
+model LoginFailure {
+  id            String    @id @default(cuid())
+  subject       String    @unique
+  failedCount   Int       @default(0)
+  firstFailedAt DateTime  @default(now())
+  lockedUntil   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([lockedUntil])
+  @@map("login_failures")
+}
+
+model AdminOperationLog {
+  id           String     @id @default(cuid())
+  adminUserId  String?
+  action       String
+  resourceType String
+  resourceId   String?
+  description  String
+  ip           String?
+  userAgent    String?
+  createdAt    DateTime   @default(now())
+  adminUser    AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: SetNull)
+
+  @@index([adminUserId])
+  @@index([action])
+  @@index([resourceType, resourceId])
+  @@index([createdAt])
+  @@map("admin_operation_logs")
+}
+
+model AiScenario {
+  minimumMembershipRank Int @default(0)
+  membershipEarlyAccessUntil DateTime?
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?
+  toolCategoryId  String?
+  promptTemplate  String
+  promptVariables Json?
+  inputSchema     Json?
+  requiredCapabilities Json?
+  costCredits     Int
+  isEnabled       Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  isBuiltIn       Boolean  @default(false)
+  templateVersion String?
+  defaultModelId  String?
+  fallbackModelId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  toolCategory    AiToolCategory? @relation(fields: [toolCategoryId], references: [id], onDelete: SetNull)
+  defaultModel    AiModel? @relation("ScenarioDefaultModel", fields: [defaultModelId], references: [id], onDelete: SetNull)
+  fallbackModel   AiModel? @relation("ScenarioFallbackModel", fields: [fallbackModelId], references: [id], onDelete: SetNull)
+  modelBinding    AiScenarioModelBinding?
+  tasks           AiTask[]
+  audioTasks      AudioTask[]
+  learnerScenarioAuthorizations LearnerScenarioAuthorization[]
+  learnerActivityEvents LearnerActivityEvent[]
+  usageStats      AiUsageDailyStat[]
+
+  @@index([isEnabled])
+  @@index([toolCategoryId])
+  @@index([sortOrder])
+  @@index([defaultModelId])
+  @@index([fallbackModelId])
+  @@map("ai_scenarios")
+}
+
+model AiToolCategory {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  description String?
+  sortOrder   Int          @default(0)
+  isVisible   Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  scenarios   AiScenario[]
+
+  @@index([isVisible])
+  @@index([sortOrder])
+  @@map("ai_tool_categories")
+}
+
+model AiProviderPreset {
+  id                 String                @id @default(cuid())
+  providerKey        String                @unique
+  displayName        String
+  adapterType        AiProviderAdapterType
+  modality           AiProviderModality    @default(TEXT)
+  defaultBaseUrl     String
+  defaultWebSocketUrl String?
+  apiKeyEnvName      String
+  docsUrl            String?
+  region             String?
+  isBuiltIn          Boolean               @default(true)
+  isEnabledByDefault Boolean               @default(false)
+  presetVersion      String
+  lastUpdatedAt      DateTime
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  modelPresets       AiModelPreset[]
+  instances          AiProviderInstance[]
+
+  @@index([adapterType])
+  @@index([isBuiltIn])
+  @@map("ai_provider_presets")
+}
+
+model AiModelPreset {
+  id                       String             @id @default(cuid())
+  providerPresetId         String
+  modelKey                 String
+  displayName              String
+  providerModelName        String
+  capabilityTags           Json
+  contextWindow            Int?
+  supportsStreaming        Boolean            @default(false)
+  supportsVision           Boolean            @default(false)
+  supportsTools            Boolean            @default(false)
+  supportsEmbedding        Boolean            @default(false)
+  supportsImageGeneration  Boolean            @default(false)
+  supportsAudio            Boolean            @default(false)
+  isDeprecated             Boolean            @default(false)
+  deprecatedMessage        String?
+  replacementModelKey      String?
+  recommendedAlias         String?
+  pricingConfig            Json?
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @updatedAt
+  providerPreset           AiProviderPreset   @relation(fields: [providerPresetId], references: [id], onDelete: Cascade)
+  modelInstances           AiModelInstance[]
+
+  @@unique([providerPresetId, modelKey])
+  @@index([providerPresetId])
+  @@index([isDeprecated])
+  @@map("ai_model_presets")
+}
+
+model AiProviderInstance {
+  id               String                   @id @default(cuid())
+  providerPresetId String
+  name             String
+  baseUrl          String
+  webSocketUrl     String?
+  region           String?
+  status           AiProviderInstanceStatus @default(DISABLED)
+  lastTestedAt     DateTime?
+  lastTestResult   Json?
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+  providerPreset   AiProviderPreset         @relation(fields: [providerPresetId], references: [id], onDelete: Restrict)
+  credential       AiProviderCredential?
+  modelInstances   AiModelInstance[]
+  tasks            AiTask[]
+  callLogs         AiCallLog[]
+  usageStats       AiUsageDailyStat[]
+  audioTasks       AudioTask[]
+  voiceAssets      VoiceAsset[]
+  audioUsageLogs   AudioUsageLog[]
+
+  @@index([providerPresetId])
+  @@index([status])
+  @@map("ai_provider_instances")
+}
+
+model AiProviderCredential {
+  id                 String             @id @default(cuid())
+  providerInstanceId String             @unique
+  apiKeyEncrypted    String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  providerInstance   AiProviderInstance @relation(fields: [providerInstanceId], references: [id], onDelete: Cascade)
+
+  @@map("ai_provider_credentials")
+}
+
+model AiModelInstance {
+  id                 String             @id @default(cuid())
+  providerInstanceId String
+  modelPresetId      String?
+  displayName        String
+  providerModelName  String
+  baseUrl            String?
+  webSocketUrl       String?
+  region             String?
+  apiKeyEncrypted    String?
+  apiKeyPreview      String?
+  capabilityTags     Json
+  inputPrice         Decimal            @default(0) @db.Decimal(10, 4)
+  outputPrice        Decimal            @default(0) @db.Decimal(10, 4)
+  pricingMode        String             @default("TOKENS")
+  pricingUnit        String             @default("K_TOKENS")
+  pricingConfig      Json?
+  isEnabled          Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  providerInstance   AiProviderInstance @relation(fields: [providerInstanceId], references: [id], onDelete: Cascade)
+  modelPreset        AiModelPreset?     @relation(fields: [modelPresetId], references: [id], onDelete: SetNull)
+  aliases            AiModelAlias[]
+  tasks              AiTask[]
+  callLogs           AiCallLog[]
+  usageStats         AiUsageDailyStat[]
+  audioTasks         AudioTask[]
+  audioUsageLogs     AudioUsageLog[]
+
+  @@unique([providerInstanceId, providerModelName])
+  @@index([providerInstanceId])
+  @@index([modelPresetId])
+  @@index([isEnabled])
+  @@map("ai_model_instances")
+}
+
+model AiModelAlias {
+  id              String           @id @default(cuid())
+  aliasKey        String           @unique
+  displayName     String
+  description     String?
+  modelInstanceId String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  modelInstance   AiModelInstance? @relation(fields: [modelInstanceId], references: [id], onDelete: SetNull)
+
+  @@index([modelInstanceId])
+  @@map("ai_model_aliases")
+}
+
+model AiScenarioModelBinding {
+  id                 String     @id @default(cuid())
+  scenarioId         String     @unique
+  defaultModelAlias  String
+  fallbackModelAlias String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  scenario           AiScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@index([defaultModelAlias])
+  @@index([fallbackModelAlias])
+  @@map("ai_scenario_model_bindings")
+}
+
+model AiProvider {
+  id              String         @id @default(cuid())
+  name            String
+  type            AiProviderType @default(OPENAI_COMPATIBLE)
+  baseUrl         String
+  apiKeyEncrypted String
+  apiKeyPreview   String?
+  isEnabled       Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  models          AiModel[]
+  tasks           AiTask[]
+  callLogs        AiCallLog[]
+  usageStats      AiUsageDailyStat[]
+
+  @@index([isEnabled])
+  @@map("ai_providers")
+}
+
+model AiModel {
+  id                String      @id @default(cuid())
+  providerId        String
+  fallbackModelId   String?
+  displayName       String
+  modelName         String
+  supportsStreaming Boolean     @default(false)
+  supportsVision    Boolean     @default(false)
+  inputPrice        Decimal     @default(0) @db.Decimal(10, 4)
+  outputPrice       Decimal     @default(0) @db.Decimal(10, 4)
+  isEnabled         Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  provider          AiProvider  @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  fallbackModel     AiModel?    @relation("AiModelFallback", fields: [fallbackModelId], references: [id], onDelete: SetNull)
+  primaryForModels  AiModel[]   @relation("AiModelFallback")
+  defaultScenarios  AiScenario[] @relation("ScenarioDefaultModel")
+  fallbackScenarios AiScenario[] @relation("ScenarioFallbackModel")
+  tasks             AiTask[]
+  callLogs          AiCallLog[]
+  usageStats        AiUsageDailyStat[]
+
+  @@index([providerId])
+  @@index([fallbackModelId])
+  @@index([isEnabled])
+  @@unique([providerId, modelName])
+  @@map("ai_models")
+}
+
+model PaymentOrder {
+  membershipPeriod MembershipPeriod?
+  membershipSnapshot Json?
+  id              String             @id @default(cuid())
+  userId          String
+  rechargeProductId String?
+  provider        PaymentProvider
+  scene           PaymentScene      @default(DESKTOP_WEB)
+  product         PaymentProduct    @default(ALIPAY_PAGE)
+  action          PaymentAction     @default(REDIRECT)
+  orderNo         String             @unique
+  amountCny       Decimal            @db.Decimal(10, 2)
+  credits         Int
+  status          PaymentOrderStatus @default(CREATED)
+  providerTradeNo String?
+  paymentUrl      String?
+  qrCodeUrl       String?
+  launchParams    Json?
+  clientIp        String?
+  userAgent       String?
+  providerPayload Json?
+  notifyRaw       Json?
+  paidAt          DateTime?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rechargeProduct BillingProduct?    @relation(fields: [rechargeProductId], references: [id], onDelete: SetNull)
+  ledgerEntries   LedgerEntry[]
+
+  @@index([userId])
+  @@index([rechargeProductId])
+  @@index([status])
+  @@index([scene, product])
+  @@index([provider, providerTradeNo])
+  @@map("payment_orders")
+}
+
+model BillingProduct {
+  id          String             @id @default(cuid())
+  code        String             @unique
+  name        String
+  billingMode ProductBillingMode @default(RECHARGE)
+  amountCny   Decimal            @db.Decimal(10, 2)
+  credits     Int
+  description String?
+  benefitsMarkdown String?
+  sortOrder   Int                @default(0)
+  isEnabled   Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  paymentOrders PaymentOrder[]
+
+  @@index([billingMode, isEnabled, sortOrder])
+  @@map("billing_products")
+}
+
+model PaymentNotifyLog {
+  id            String          @id @default(cuid())
+  provider      PaymentProvider
+  orderNo       String?
+  headers       Json?
+  body          Json
+  verifyResult  String
+  processResult String
+  errorMessage  String?
+  createdAt     DateTime        @default(now())
+
+  @@index([provider, orderNo])
+  @@index([createdAt])
+  @@map("payment_notify_logs")
+}
+
+model Wallet {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  availableCredits     Int      @default(0)
+  frozenCredits        Int      @default(0)
+  totalTopUpCredits    Int      @default(0)
+  totalConsumedCredits Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
+}
+
+model Organization {
+  id              String             @id @default(cuid())
+  name            String
+  legalName       String?
+  type            String             @default("企业")
+  status          OrganizationStatus @default(ACTIVE)
+  billingMode     String             @default("PREPAID")
+  ownerUserId     String
+  defaultTimezone String             @default("Asia/Shanghai")
+  defaultLocale   String             @default("zh-CN")
+  industry        String?
+  employeeSize    String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  owner           User               @relation("OrganizationOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  settings        OrganizationSettings?
+  wallet          OrganizationWallet?
+  members         OrganizationMember[]
+  pointLots       OrganizationPointLot[]
+  walletLedgers   OrganizationWalletLedger[]
+  walletReservations OrganizationWalletReservation[]
+  memberQuotas    OrganizationMemberQuota[]
+  quotaLedgers    OrganizationQuotaLedger[]
+  usageEvents     OrganizationUsageEvent[]
+  orders          EnterpriseOrder[]
+  aiTasks         AiTask[]
+  audioTasks      AudioTask[]
+
+  @@index([ownerUserId])
+  @@index([status])
+  @@map("organizations")
+}
+
+model OrganizationSettings {
+  orgId                String       @id
+  defaultMemberRole    OrganizationMemberRole @default(MEMBER)
+  defaultQuota         Int          @default(0)
+  quotaResetDay        Int          @default(1)
+  lowBalanceThreshold  Int          @default(1000)
+  usageAlertEnabled    Boolean      @default(true)
+  invoiceRequired      Boolean      @default(false)
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  organization         Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@map("organization_settings")
+}
+
+model OrganizationMember {
+  id            String                   @id @default(cuid())
+  orgId         String
+  userId        String
+  role          OrganizationMemberRole   @default(MEMBER)
+  status        OrganizationMemberStatus @default(ACTIVE)
+  title         String?
+  joinedAt      DateTime                 @default(now())
+  invitedById   String?
+  removedAt     DateTime?
+  removedById   String?
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+  organization  Organization             @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user          User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quotas        OrganizationMemberQuota[]
+  quotaLedgers  OrganizationQuotaLedger[]
+  usageEvents   OrganizationUsageEvent[]
+  reservations  OrganizationWalletReservation[]
+  aiTasks       AiTask[]
+  audioTasks    AudioTask[]
+
+  @@unique([orgId, userId])
+  @@index([userId])
+  @@index([role])
+  @@index([status])
+  @@map("organization_members")
+}
+
+model OrganizationWallet {
+  id               String                   @id @default(cuid())
+  orgId            String                   @unique
+  status           OrganizationWalletStatus @default(ACTIVE)
+  balanceTotal     Int                      @default(0)
+  balanceAvailable Int                      @default(0)
+  balanceReserved  Int                      @default(0)
+  totalPurchased   Int                      @default(0)
+  totalGranted     Int                      @default(0)
+  totalConsumed    Int                      @default(0)
+  totalExpired     Int                      @default(0)
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+  organization     Organization             @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  pointLots        OrganizationPointLot[]
+  ledgers          OrganizationWalletLedger[]
+  reservations     OrganizationWalletReservation[]
+
+  @@index([status])
+  @@map("organization_wallets")
+}
+
+model OrganizationPointLot {
+  id              String                     @id @default(cuid())
+  walletId        String
+  orgId           String
+  sourceType      String
+  sourceId        String?
+  initialPoints   Int
+  remainingPoints Int
+  effectiveAt     DateTime                   @default(now())
+  expiresAt       DateTime?
+  status          OrganizationPointLotStatus  @default(ACTIVE)
+  createdAt       DateTime                   @default(now())
+  updatedAt       DateTime                   @updatedAt
+  wallet          OrganizationWallet         @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  organization    Organization               @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  ledgers         OrganizationWalletLedger[]
+
+  @@index([walletId])
+  @@index([orgId])
+  @@index([status, expiresAt])
+  @@map("organization_point_lots")
+}
+
+model OrganizationWalletLedger {
+  id              String                            @id @default(cuid())
+  orgId           String
+  walletId        String
+  lotId           String?
+  direction       OrganizationWalletLedgerDirection
+  transactionType OrganizationWalletTransactionType
+  pointsDelta     Int
+  balanceAfter    Int
+  sourceType      String?
+  sourceId        String?
+  idempotencyKey  String                            @unique
+  operatorType    String                            @default("system")
+  operatorId      String?
+  remark          String?
+  createdAt       DateTime                          @default(now())
+  organization    Organization                      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  wallet          OrganizationWallet                @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  lot             OrganizationPointLot?             @relation(fields: [lotId], references: [id], onDelete: SetNull)
+  usageEvents     OrganizationUsageEvent[]
+
+  @@index([orgId, createdAt])
+  @@index([walletId])
+  @@index([lotId])
+  @@index([transactionType])
+  @@map("organization_wallet_ledgers")
+}
+
+model OrganizationWalletReservation {
+  id              String                    @id @default(cuid())
+  orgId           String
+  walletId        String
+  memberId        String
+  usageRequestId  String                    @unique
+  reservedPoints  Int
+  settledPoints   Int                       @default(0)
+  status          OrganizationReservationStatus @default(RESERVED)
+  expiresAt       DateTime
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+  settledAt       DateTime?
+  organization    Organization              @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  wallet          OrganizationWallet        @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  member          OrganizationMember        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  usageEvents     OrganizationUsageEvent[]
+
+  @@index([orgId])
+  @@index([memberId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("organization_wallet_reservations")
+}
+
+model EnterpriseOrder {
+  id              String        @id @default(cuid())
+  orderNo         String        @unique
+  orgId           String
+  buyerMemberId   String?
+  packageId       String?
+  pointsAmount    Int
+  bonusPoints     Int           @default(0)
+  cashAmount      Decimal       @db.Decimal(10, 2)
+  originalAmount  Decimal       @default(0) @db.Decimal(10, 2)
+  discountAmount  Decimal       @default(0) @db.Decimal(10, 2)
+  currency        String        @default("CNY")
+  status          String        @default("pending_payment")
+  paymentMethod   String?
+  paymentTransactionId String?
+  invoiceStatus   String        @default("not_required")
+  paidAt          DateTime?
+  creditedAt      DateTime?
+  expiresAt       DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  organization    Organization  @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([status])
+  @@map("enterprise_orders")
+}
+
+model OrganizationMemberQuota {
+  id              String                  @id @default(cuid())
+  orgId           String
+  memberId        String
+  quotaType       OrganizationQuotaType   @default(ONE_TIME)
+  periodStart     DateTime?
+  periodEnd       DateTime?
+  totalQuota      Int
+  usedQuota       Int                     @default(0)
+  reservedQuota   Int                     @default(0)
+  status          OrganizationQuotaStatus @default(ACTIVE)
+  createdById     String?
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  organization    Organization            @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  member          OrganizationMember      @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  quotaLedgers    OrganizationQuotaLedger[]
+  usageEvents     OrganizationUsageEvent[]
+
+  @@index([orgId])
+  @@index([memberId])
+  @@index([status])
+  @@map("organization_member_quotas")
+}
+
+model OrganizationQuotaLedger {
+  id              String                           @id @default(cuid())
+  orgId           String
+  memberId        String
+  quotaAccountId  String
+  direction       OrganizationQuotaLedgerDirection
+  pointsDelta     Int
+  quotaAfter      Int
+  sourceType      String?
+  sourceId        String?
+  operatorId      String?
+  idempotencyKey  String                           @unique
+  remark          String?
+  createdAt       DateTime                         @default(now())
+  organization    Organization                     @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  member          OrganizationMember               @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  quotaAccount    OrganizationMemberQuota          @relation(fields: [quotaAccountId], references: [id], onDelete: Cascade)
+  usageEvents     OrganizationUsageEvent[]
+
+  @@index([orgId, createdAt])
+  @@index([memberId])
+  @@index([quotaAccountId])
+  @@map("organization_quota_ledgers")
+}
+
+model OrganizationUsageEvent {
+  id              String                       @id @default(cuid())
+  orgId           String
+  userId          String
+  memberId        String
+  quotaAccountId  String?
+  featureCode     String
+  resourceType    String?
+  resourceId      String?
+  usageQuantity   Decimal                      @default(0) @db.Decimal(14, 4)
+  usageUnit        String?
+  unitPrice        Decimal                      @default(0) @db.Decimal(14, 6)
+  pointsCharged    Int
+  pricingVersion   String?
+  walletLedgerId   String?
+  quotaLedgerId    String?
+  reservationId    String?
+  status           OrganizationUsageEventStatus @default(SUCCESS)
+  idempotencyKey   String                       @unique
+  occurredAt       DateTime                     @default(now())
+  createdAt        DateTime                     @default(now())
+  organization     Organization                 @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user             User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  member           OrganizationMember           @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  quotaAccount     OrganizationMemberQuota?     @relation(fields: [quotaAccountId], references: [id], onDelete: SetNull)
+  walletLedger     OrganizationWalletLedger?    @relation(fields: [walletLedgerId], references: [id], onDelete: SetNull)
+  quotaLedger      OrganizationQuotaLedger?     @relation(fields: [quotaLedgerId], references: [id], onDelete: SetNull)
+  reservation      OrganizationWalletReservation? @relation(fields: [reservationId], references: [id], onDelete: SetNull)
+
+  @@index([orgId, occurredAt])
+  @@index([userId, occurredAt])
+  @@index([memberId, occurredAt])
+  @@index([featureCode])
+  @@index([resourceType, resourceId])
+  @@map("organization_usage_events")
+}
+
+model AiTask {
+  id               String       @id @default(cuid())
+  userId           String
+  learnerId        String?
+  billingContext   BillingContextType @default(PERSONAL)
+  organizationId   String?
+  organizationMemberId String?
+  scenarioId       String
+  knowledgeBaseId  String?
+  aiProviderId     String?
+  aiModelId        String?
+  aiProviderInstanceId String?
+  aiModelInstanceId    String?
+  status           AiTaskStatus @default(CREATED)
+  input            Json
+  renderedPrompt   String?
+  output           String?
+  inputPreview     String?
+  outputPreview    String?
+  inputHash        String?
+  outputHash       String?
+  saveFullContent  Boolean      @default(false)
+  errorMessage     String?
+  estimatedCredits Int
+  actualCredits    Int?
+  providerName     String?
+  modelName        String?
+  inputTokens      Int?
+  outputTokens     Int?
+  totalTokens      Int?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  finishedAt       DateTime?
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner          Learner?     @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  organization     Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  organizationMember OrganizationMember? @relation(fields: [organizationMemberId], references: [id], onDelete: SetNull)
+  scenario         AiScenario   @relation(fields: [scenarioId], references: [id], onDelete: Restrict)
+  knowledgeBase    KnowledgeBase? @relation(fields: [knowledgeBaseId], references: [id], onDelete: SetNull)
+  aiProvider       AiProvider?  @relation(fields: [aiProviderId], references: [id], onDelete: SetNull)
+  aiModel          AiModel?     @relation(fields: [aiModelId], references: [id], onDelete: SetNull)
+  aiProviderInstance AiProviderInstance? @relation(fields: [aiProviderInstanceId], references: [id], onDelete: SetNull)
+  aiModelInstance    AiModelInstance?    @relation(fields: [aiModelInstanceId], references: [id], onDelete: SetNull)
+  reservation      CreditReservation?
+  ledgerEntries    LedgerEntry[]
+  callLogs         AiCallLog[]
+  learningFlashcardDecks LearningFlashcardDeck[]
+
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([billingContext])
+  @@index([organizationId])
+  @@index([organizationMemberId])
+  @@index([scenarioId])
+  @@index([knowledgeBaseId])
+  @@index([aiProviderId])
+  @@index([aiModelId])
+  @@index([aiProviderInstanceId])
+  @@index([aiModelInstanceId])
+  @@index([status])
+  @@map("ai_tasks")
+}
+
+model AiUsageDailyStat {
+  id                 String    @id @default(cuid())
+  date               DateTime  @db.Date
+  dimensionKey       String    @unique
+  providerId         String?
+  modelId            String?
+  providerInstanceId String?
+  modelInstanceId    String?
+  scenarioId         String?
+  toolId             String?
+  userId             String?
+  providerName       String?
+  modelName          String?
+  scenarioName       String?
+  toolName           String?
+  userEmail          String?
+  requestCount       Int       @default(0)
+  successCount       Int       @default(0)
+  failureCount       Int       @default(0)
+  inputTokens        Int       @default(0)
+  outputTokens       Int       @default(0)
+  totalTokens        Int       @default(0)
+  consumedCredits    Int       @default(0)
+  estimatedCost      Decimal   @default(0) @db.Decimal(12, 4)
+  avgLatencyMs       Int?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  scenario           AiScenario? @relation(fields: [scenarioId], references: [id], onDelete: SetNull)
+  aiProvider         AiProvider? @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  aiModel            AiModel?    @relation(fields: [modelId], references: [id], onDelete: SetNull)
+  providerInstance   AiProviderInstance? @relation(fields: [providerInstanceId], references: [id], onDelete: SetNull)
+  modelInstance      AiModelInstance?    @relation(fields: [modelInstanceId], references: [id], onDelete: SetNull)
+
+  @@index([date])
+  @@index([providerId])
+  @@index([modelId])
+  @@index([providerInstanceId])
+  @@index([modelInstanceId])
+  @@index([scenarioId])
+  @@index([toolId])
+  @@index([userId])
+  @@map("ai_usage_daily_stats")
+}
+
+model AiCallLog {
+  id           String     @id @default(cuid())
+  taskId       String
+  providerId   String?
+  modelId      String?
+  providerInstanceId String?
+  modelInstanceId    String?
+  provider     String
+  model        String
+  requestId    String?
+  inputTokens  Int?
+  outputTokens Int?
+  totalTokens  Int?
+  latencyMs    Int?
+  success      Boolean    @default(false)
+  errorCode    String?
+  errorMessage String?
+  createdAt    DateTime   @default(now())
+  task         AiTask     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  aiProvider   AiProvider? @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  aiModel      AiModel?    @relation(fields: [modelId], references: [id], onDelete: SetNull)
+  providerInstance AiProviderInstance? @relation(fields: [providerInstanceId], references: [id], onDelete: SetNull)
+  modelInstance    AiModelInstance?    @relation(fields: [modelInstanceId], references: [id], onDelete: SetNull)
+
+  @@index([taskId])
+  @@index([providerId])
+  @@index([modelId])
+  @@index([providerInstanceId])
+  @@index([modelInstanceId])
+  @@index([success])
+  @@index([createdAt])
+  @@map("ai_call_logs")
+}
+
+model SystemAlert {
+  id                  String     @id @default(cuid())
+  type                String
+  level               String
+  title               String
+  message             String
+  status              String     @default("OPEN")
+  fingerprint         String     @unique
+  relatedResourceType String?
+  relatedResourceId   String?
+  createdAt           DateTime   @default(now())
+  resolvedAt          DateTime?
+  resolvedByAdminId   String?
+  resolver            AdminUser? @relation("ResolvedSystemAlerts", fields: [resolvedByAdminId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([type])
+  @@index([level])
+  @@map("system_alerts")
+}
+
+model AudioAsset {
+  id              String               @id @default(cuid())
+  userId          String
+  type            AudioAssetType
+  storageProvider MediaStorageProvider @default(LOCAL)
+  url             String
+  objectKey       String
+  mimeType        String
+  durationMs      Int?
+  sizeBytes       Int
+  sampleRate      Int?
+  channels        Int?
+  createdAt       DateTime             @default(now())
+  user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sourceVoiceAssets VoiceAsset[]       @relation("VoiceSourceAudioAsset")
+  previewVoiceAssets VoiceAsset[]      @relation("VoicePreviewAudioAsset")
+  sourceAudioTasks AudioTask[]         @relation("AudioTaskSourceAsset")
+  outputAudioTasks AudioTask[]         @relation("AudioTaskOutputAsset")
+  voiceConsents    VoiceConsent[]
+
+  dialogueOutputs AudioDialogueProject[]
+
+  @@index([userId, createdAt])
+  @@index([type])
+  @@map("audio_assets")
+}
+
+model VoiceAsset {
+  id                   String                @id @default(cuid())
+  userId               String
+  providerInstanceId   String?
+  provider             String
+  providerVoiceId      String?
+  name                 String
+  type                 VoiceAssetType
+  targetModel          String
+  status               VoiceAssetStatus      @default(DRAFT)
+  visibility           VoiceAssetVisibility  @default(PRIVATE)
+  language             String?
+  accent               String?
+  gender               String?
+  ageCategory          String?
+  avatarUrl             String?
+  description          String?
+  previewAudioUrl      String?
+  sourceAudioAssetId   String?
+  previewAudioAssetId  String?
+  consentId            String?
+  isPlatform           Boolean               @default(false)
+  reviewedByAdminId    String?
+  reviewedAt           DateTime?
+  reviewNote           String?
+  disabledReason       String?
+  deletedAt            DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerInstance     AiProviderInstance?   @relation(fields: [providerInstanceId], references: [id], onDelete: SetNull)
+  sourceAudioAsset     AudioAsset?           @relation("VoiceSourceAudioAsset", fields: [sourceAudioAssetId], references: [id], onDelete: SetNull)
+  previewAudioAsset    AudioAsset?           @relation("VoicePreviewAudioAsset", fields: [previewAudioAssetId], references: [id], onDelete: SetNull)
+  audioTasks           AudioTask[]
+  consent              VoiceConsent?        @relation("VoiceAssetConsent", fields: [consentId], references: [id], onDelete: SetNull)
+  targetConsent        VoiceConsent?        @relation("VoiceConsentTarget")
+  reviewer             AdminUser?           @relation("ReviewedVoiceAssets", fields: [reviewedByAdminId], references: [id], onDelete: SetNull)
+  defaultForPreferences UserAudioPreference[] @relation("DefaultVoiceAsset")
+  audioUsageLogs       AudioUsageLog[]
+
+  @@index([userId, createdAt])
+  @@index([providerInstanceId])
+  @@index([providerVoiceId])
+  @@index([isPlatform, type, status])
+  @@index([targetModel])
+  @@index([status])
+  @@index([consentId])
+  @@index([reviewedByAdminId])
+  @@map("voice_assets")
+}
+
+model VoiceConsent {
+  id                 String       @id @default(cuid())
+  userId             String
+  voiceAssetId       String?      @unique
+  sourceAudioAssetId String?
+  consentText        String       @default("")
+  consentType        VoiceConsentType @default(SELF_VOICE)
+  ownerName          String?
+  ownerContact       String?
+  agreedAt           DateTime     @default(now())
+  statement          String
+  ip                 String?
+  userAgent          String?
+  createdAt          DateTime     @default(now())
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voiceAsset         VoiceAsset?  @relation("VoiceConsentTarget", fields: [voiceAssetId], references: [id], onDelete: SetNull)
+  sourceAudioAsset   AudioAsset?  @relation(fields: [sourceAudioAssetId], references: [id], onDelete: SetNull)
+  voiceAssets        VoiceAsset[] @relation("VoiceAssetConsent")
+
+  @@index([userId, createdAt])
+  @@index([voiceAssetId])
+  @@index([sourceAudioAssetId])
+  @@map("voice_consents")
+}
+
+model UserAudioPreference {
+  id                    String      @id @default(cuid())
+  userId                String      @unique
+  defaultVoiceAssetId   String?
+  defaultSystemVoiceId  String?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  user                  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  defaultVoiceAsset     VoiceAsset? @relation("DefaultVoiceAsset", fields: [defaultVoiceAssetId], references: [id], onDelete: SetNull)
+
+  @@index([defaultVoiceAssetId])
+  @@map("user_audio_preferences")
+}
+
+model AudioPricingRule {
+  id              String           @id @default(cuid())
+  operationType   AudioTaskType
+  model           String           @default("*")
+  billingMode     AudioBillingMode
+  creditsPerUnit  Decimal          @db.Decimal(10, 4)
+  minimumCredits  Int              @default(0)
+  modelMultiplier Decimal          @default(1) @db.Decimal(8, 4)
+  isEnabled       Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@unique([operationType, model])
+  @@index([operationType, isEnabled])
+  @@index([model])
+  @@map("audio_pricing_rules")
+}
+
+model AudioTask {
+  id                   String              @id @default(cuid())
+  userId               String
+  learnerId            String?
+  scenarioId           String?
+  billingContext       BillingContextType  @default(PERSONAL)
+  organizationId       String?
+  organizationMemberId String?
+  type                 AudioTaskType
+  status               AudioTaskStatus     @default(CREATED)
+  provider             String
+  model                String
+  providerInstanceId   String?
+  modelInstanceId      String?
+  voiceAssetId         String?
+  inputText            String?
+  inputTextLength      Int                 @default(0)
+  sourceAudioAssetId   String?
+  outputAudioAssetId   String?
+  estimatedCredits     Int
+  actualCredits        Int?
+  errorCode            String?
+  errorMessage         String?
+  requestId            String?
+  providerPayload      Json?
+  audioDialogueGenerationId String?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  finishedAt           DateTime?
+  englishGuidedStudyMaterials EnglishGuidedStudyMaterial[]
+  user                 User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner              Learner?            @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  scenario             AiScenario?         @relation(fields: [scenarioId], references: [id], onDelete: SetNull)
+  organization         Organization?       @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  organizationMember   OrganizationMember? @relation(fields: [organizationMemberId], references: [id], onDelete: SetNull)
+  providerInstance     AiProviderInstance? @relation(fields: [providerInstanceId], references: [id], onDelete: SetNull)
+  modelInstance        AiModelInstance?    @relation(fields: [modelInstanceId], references: [id], onDelete: SetNull)
+  voiceAsset           VoiceAsset?         @relation(fields: [voiceAssetId], references: [id], onDelete: SetNull)
+  sourceAudioAsset     AudioAsset?         @relation("AudioTaskSourceAsset", fields: [sourceAudioAssetId], references: [id], onDelete: SetNull)
+  outputAudioAsset     AudioAsset?         @relation("AudioTaskOutputAsset", fields: [outputAudioAssetId], references: [id], onDelete: SetNull)
+  reservation          CreditReservation?
+  ledgerEntries        LedgerEntry[]
+  usageLogs            AudioUsageLog[]
+  audioDialogueGeneration AudioDialogueGeneration? @relation("DialogueSegmentTasks", fields: [audioDialogueGenerationId], references: [id], onDelete: SetNull)
+  dialogueBillingGeneration AudioDialogueGeneration? @relation("DialogueBillingTask")
+
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([scenarioId])
+  @@index([billingContext])
+  @@index([organizationId])
+  @@index([organizationMemberId])
+  @@index([type])
+  @@index([status])
+  @@index([providerInstanceId])
+  @@index([modelInstanceId])
+  @@index([voiceAssetId])
+  @@index([sourceAudioAssetId])
+  @@index([outputAudioAssetId])
+  @@index([audioDialogueGenerationId])
+  @@map("audio_tasks")
+}
+
+model AudioDialogueProject {
+  id String @id @default(cuid())
+  userId String
+  learnerId String?
+  scenarioId String?
+  title String
+  revision Int @default(1)
+  status String @default("DRAFT")
+  input Json
+  clips Json @default("{}")
+  actualCredits Int @default(0)
+  outputAudioAssetId String?
+  outputRevision Int?
+  errorMessage String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  outputAudioAsset AudioAsset? @relation(fields: [outputAudioAssetId], references: [id], onDelete: SetNull)
+  generations AudioDialogueGeneration[]
+
+  @@index([userId, learnerId, createdAt])
+  @@map("audio_dialogue_projects")
+}
+
+model AudioDialogueGeneration {
+  id String @id @default(cuid())
+  projectId String
+  revision Int
+  status String @default("QUOTED")
+  input Json
+  plans Json
+  fingerprint String
+  estimatedCredits Int
+  actualCredits Int?
+  billingAudioTaskId String? @unique
+  leaseOwner String?
+  leaseUntil DateTime?
+  expiresAt DateTime
+  errorMessage String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project AudioDialogueProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  billingAudioTask AudioTask? @relation("DialogueBillingTask", fields: [billingAudioTaskId], references: [id], onDelete: SetNull)
+  audioTasks AudioTask[] @relation("DialogueSegmentTasks")
+
+  @@index([projectId, createdAt])
+  @@index([status, leaseUntil])
+  @@map("audio_dialogue_generations")
+}
+
+model AudioUsageLog {
+  id                 String              @id @default(cuid())
+  taskId             String              @unique
+  userId             String
+  provider           String
+  model              String
+  providerInstanceId String?
+  modelInstanceId    String?
+  voiceAssetId       String?
+  operationType      AudioTaskType
+  characterCount     Int                 @default(0)
+  audioDurationMs    Int?
+  usageCount         Int                 @default(1)
+  latencyMs          Int?
+  success            Boolean             @default(false)
+  estimatedCost      Decimal             @default(0) @db.Decimal(12, 4)
+  consumedCredits    Int                 @default(0)
+  providerRequestId  String?
+  createdAt          DateTime            @default(now())
+  task               AudioTask           @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerInstance   AiProviderInstance? @relation(fields: [providerInstanceId], references: [id], onDelete: SetNull)
+  modelInstance      AiModelInstance?    @relation(fields: [modelInstanceId], references: [id], onDelete: SetNull)
+  voiceAsset         VoiceAsset?         @relation(fields: [voiceAssetId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([operationType])
+  @@index([providerInstanceId])
+  @@index([modelInstanceId])
+  @@index([voiceAssetId])
+  @@index([success])
+  @@index([createdAt])
+  @@map("audio_usage_logs")
+}
+
+model VideoGuideLesson {
+  id                 String                   @id @default(cuid())
+  userId             String
+  learnerId          String?
+  title              String
+  mediaName          String
+  mediaType          VideoGuideMediaType
+  mediaMimeType      String?
+  mediaSizeBytes     Int
+  mediaUrl           String?
+  mediaStorageKey    String?
+  subtitleName       String?
+  subtitleFormat     VideoGuideSubtitleFormat?
+  subtitleSizeBytes  Int?
+  subtitleUrl        String?
+  subtitleStorageKey String?
+  status             VideoGuideLessonStatus   @default(QUEUED)
+  shareToken         String                   @unique
+  content            Json
+  errorMessage       String?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+  finishedAt         DateTime?
+  user               User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner            Learner?                 @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  courseRevisionItems CourseRevisionItem[]
+  materialPublication CourseMaterialPublication?
+
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([status])
+  @@index([shareToken])
+  @@map("video_guide_lessons")
+}
+
+model VideoGuideAsset {
+  id               String                    @id @default(cuid())
+  assetType        VideoGuideAssetType
+  hash             String
+  sizeBytes        Int
+  mimeType         String
+  mediaType        VideoGuideMediaType?
+  subtitleFormat   VideoGuideSubtitleFormat?
+  storageProvider  MediaStorageProvider      @default(LOCAL)
+  objectKey        String                    @unique
+  url              String
+  asrObjectKey     String?                   @unique
+  asrMimeType      String?
+  asrSizeBytes     Int?
+  asrPreparedAt    DateTime?
+  refCount         Int                       @default(0)
+  createdAt        DateTime                  @default(now())
+  lastReferencedAt DateTime                  @default(now())
+  refs             VideoGuideAssetRef[]
+
+  @@unique([assetType, hash, sizeBytes])
+  @@index([assetType, createdAt])
+  @@index([hash])
+  @@map("video_guide_assets")
+}
+
+model VideoGuideAssetRef {
+  id           String                   @id @default(cuid())
+  assetId      String
+  userId       String
+  originalName String
+  source       VideoGuideAssetRefSource @default(UPLOAD)
+  createdAt    DateTime                 @default(now())
+  deletedAt    DateTime?
+  asset        VideoGuideAsset          @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  user         User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([assetId, deletedAt])
+  @@index([deletedAt])
+  @@index([userId, createdAt])
+  @@map("video_guide_asset_refs")
+}
+
+model EnglishGuidedStudyMaterial {
+  id                   String                       @id @default(cuid())
+  userId               String
+  learnerId            String?
+  title                String
+  sourceType           EnglishGuidedStudySourceType
+  sourceName           String?
+  sourceText           String
+  levelStandardName    String
+  levelOptionLabel     String
+  aiLevel              String
+  summary              String
+  narration            String
+  audioUrl             String?
+  audioTaskId          String?
+  audioDurationSeconds Int
+  content              Json
+  pinnedAt             DateTime?
+  createdAt            DateTime                     @default(now())
+  updatedAt            DateTime                     @updatedAt
+  user                 User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner              Learner?                     @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  audioTask            AudioTask?                   @relation(fields: [audioTaskId], references: [id], onDelete: SetNull)
+  courseRevisionItems  CourseRevisionItem[]
+  materialPublication CourseMaterialPublication?
+
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([userId, pinnedAt, createdAt])
+  @@index([aiLevel])
+  @@index([audioTaskId])
+  @@map("english_guided_study_materials")
+}
+
+model LearningFlashcardDeck {
+  id              String                       @id @default(cuid())
+  userId          String
+  learnerId       String?
+  title           String
+  sourceType      LearningFlashcardSourceType
+  sourceName      String?
+  sourceText      String?
+  textbookId      String?
+  textbookRange   String?
+  detailRequest   String?
+  strategy        LearningFlashcardStrategy    @default(SUBJECT_KNOWLEDGE)
+  cardTypes       Json
+  targetCardCount Int                          @default(80)
+  summary         String                       @default("")
+  knowledgeMap    Json
+  status          LearningFlashcardDeckStatus  @default(READY)
+  aiTaskId        String?
+  providerName    String?
+  modelName       String?
+  errorMessage    String?
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  user            User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner         Learner?                     @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  textbook        LearningMaterialTextbook?    @relation(fields: [textbookId], references: [id], onDelete: SetNull)
+  aiTask          AiTask?                      @relation(fields: [aiTaskId], references: [id], onDelete: SetNull)
+  cards           LearningFlashcard[]
+  reviews         LearningFlashcardReview[]
+  courseRevisionItems CourseRevisionItem[]
+  materialPublication CourseMaterialPublication?
+
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([sourceType])
+  @@index([textbookId])
+  @@index([aiTaskId])
+  @@index([status])
+  @@map("learning_flashcard_decks")
+}
+
+model Course {
+  id                 String            @id
+  userId             String
+  approvedRevisionId String?           @unique
+  workingRevisionId  String?           @unique
+  reviewState        CourseReviewState @default(DRAFT)
+  publishedAt        DateTime?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  approvedRevision   CourseRevision?   @relation("ApprovedCourseRevision", fields: [approvedRevisionId], references: [id], onDelete: SetNull)
+  workingRevision    CourseRevision?   @relation("WorkingCourseRevision", fields: [workingRevisionId], references: [id], onDelete: SetNull)
+  revisions          CourseRevision[]  @relation("CourseRevisions")
+  reviewRequests     CourseReviewRequest[]
+  enrollments        CourseEnrollment[]
+  learnerAuthorizations LearnerCourseAuthorization[]
+  learnerActivityEvents LearnerActivityEvent[]
+
+  @@index([userId, updatedAt])
+  @@index([reviewState, publishedAt])
+  @@map("courses")
+}
+
+model CourseEnrollment {
+  id       String   @id @default(cuid())
+  userId   String
+  courseId String
+  addedAt  DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@index([userId, addedAt])
+  @@index([courseId])
+  @@map("course_enrollments")
+}
+
+model CourseRevision {
+  id              String               @id @default(cuid())
+  courseId        String
+  coverMediaId    String
+  name            String
+  summary         String
+  tags            String[]             @default([])
+  status          CourseRevisionStatus @default(DRAFT)
+  submittedAt     DateTime?
+  reviewedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  course          Course               @relation("CourseRevisions", fields: [courseId], references: [id], onDelete: Cascade)
+  coverMedia      MediaAsset            @relation(fields: [coverMediaId], references: [id], onDelete: Restrict)
+  approvedFor     Course?               @relation("ApprovedCourseRevision")
+  workingFor      Course?               @relation("WorkingCourseRevision")
+  items           CourseRevisionItem[]
+  reviewRequests  CourseReviewRequest[]
+
+  @@index([courseId, createdAt])
+  @@index([status, submittedAt])
+  @@map("course_revisions")
+}
+
+model CourseRevisionItem {
+  id                           String             @id @default(cuid())
+  revisionId                   String
+  publicationId                String
+  materialType                 CourseMaterialType
+  videoGuideLessonId           String?
+  englishGuidedStudyMaterialId String?
+  learningFlashcardDeckId      String?
+  displayName                  String
+  sortOrder                    Int                @default(0)
+  createdAt                    DateTime           @default(now())
+  updatedAt                    DateTime           @updatedAt
+  revision                     CourseRevision     @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+  publication                  CourseMaterialPublication @relation(fields: [publicationId], references: [id], onDelete: Restrict)
+  videoGuideLesson             VideoGuideLesson?          @relation(fields: [videoGuideLessonId], references: [id], onDelete: Restrict)
+  englishGuidedStudyMaterial   EnglishGuidedStudyMaterial? @relation(fields: [englishGuidedStudyMaterialId], references: [id], onDelete: Restrict)
+  learningFlashcardDeck        LearningFlashcardDeck?      @relation(fields: [learningFlashcardDeckId], references: [id], onDelete: Restrict)
+
+  @@unique([revisionId, publicationId])
+  @@index([revisionId, sortOrder])
+  @@index([publicationId])
+  @@map("course_revision_items")
+}
+
+model CourseMaterialPublication {
+  id                           String                              @id @default(cuid())
+  materialType                 CourseMaterialType
+  videoGuideLessonId           String?                             @unique
+  englishGuidedStudyMaterialId String?                             @unique
+  learningFlashcardDeckId      String?                             @unique
+  status                       CourseMaterialPublicationStatus     @default(PENDING)
+  approvedHash                 String?
+  currentHash                  String
+  approvedSnapshot             Json?
+  currentSnapshot              Json
+  createdAt                    DateTime                            @default(now())
+  updatedAt                    DateTime                            @updatedAt
+  videoGuideLesson             VideoGuideLesson?                  @relation(fields: [videoGuideLessonId], references: [id], onDelete: Restrict)
+  englishGuidedStudyMaterial   EnglishGuidedStudyMaterial?         @relation(fields: [englishGuidedStudyMaterialId], references: [id], onDelete: Restrict)
+  learningFlashcardDeck        LearningFlashcardDeck?              @relation(fields: [learningFlashcardDeckId], references: [id], onDelete: Restrict)
+  revisionItems                CourseRevisionItem[]
+  reviewRequests               CourseReviewRequest[]
+
+  @@index([status, updatedAt])
+  @@map("course_material_publications")
+}
+
+model CourseReviewRequest {
+  id                    String                    @id @default(cuid())
+  scope                 CourseReviewScope
+  status                CourseReviewRequestStatus @default(PENDING)
+  courseId              String?
+  courseRevisionId      String?
+  materialPublicationId String?
+  submittedByUserId     String
+  reviewedByAdminId     String?
+  beforeSnapshot        Json?
+  afterSnapshot         Json
+  diff                  Json
+  reviewNote            String?
+  aiPrecheckStatus      CourseAiPrecheckStatus  @default(NOT_STARTED)
+  aiPrecheckProgress    Int                      @default(0)
+  aiPrecheckMessage     String?
+  aiPrecheckResult      Json?
+  aiPrecheckTaskId      String?
+  aiPrecheckTrigger     CourseAiPrecheckTrigger?
+  aiPrecheckStartedAt   DateTime?
+  aiPrecheckCompletedAt DateTime?
+  submittedAt           DateTime                  @default(now())
+  reviewedAt            DateTime?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  course                Course?                   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseRevision        CourseRevision?           @relation(fields: [courseRevisionId], references: [id], onDelete: Cascade)
+  materialPublication   CourseMaterialPublication? @relation(fields: [materialPublicationId], references: [id], onDelete: Cascade)
+  submittedByUser       User                      @relation("SubmittedCourseReviews", fields: [submittedByUserId], references: [id], onDelete: Cascade)
+  reviewedByAdmin       AdminUser?                @relation("ReviewedCourseReviews", fields: [reviewedByAdminId], references: [id], onDelete: SetNull)
+
+  @@index([status, submittedAt])
+  @@index([aiPrecheckStatus, submittedAt])
+  @@index([courseId, submittedAt])
+  @@index([materialPublicationId, submittedAt])
+  @@map("course_review_requests")
+}
+
+model LearningFlashcard {
+  id        String                    @id @default(cuid())
+  deckId    String
+  type      String
+  front     String
+  back      String
+  source    String?
+  tags      Json
+  sortOrder Int                       @default(0)
+  createdAt DateTime                  @default(now())
+  updatedAt DateTime                  @updatedAt
+  deck      LearningFlashcardDeck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  reviews   LearningFlashcardReview[]
+
+  @@index([deckId, sortOrder])
+  @@map("learning_flashcards")
+}
+
+model LearningFlashcardReview {
+  id        String                       @id @default(cuid())
+  userId    String
+  learnerId String?
+  deckId    String
+  cardId    String
+  grade     LearningFlashcardReviewGrade
+  createdAt DateTime                     @default(now())
+  user      User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner   Learner?                     @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  deck      LearningFlashcardDeck        @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  card      LearningFlashcard            @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, learnerId, createdAt])
+  @@index([learnerId])
+  @@index([deckId, createdAt])
+  @@index([cardId, createdAt])
+  @@map("learning_flashcard_reviews")
+}
+
+model CreditReservation {
+  id             String                  @id @default(cuid())
+  userId         String
+  taskId         String?                 @unique
+  audioTaskId    String?                 @unique
+  amount         Int
+  status         CreditReservationStatus @default(RESERVED)
+  idempotencyKey String                  @unique
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+  expiresAt      DateTime
+  user           User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task           AiTask?                 @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  audioTask      AudioTask?              @relation(fields: [audioTaskId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@index([audioTaskId])
+  @@index([expiresAt])
+  @@map("credit_reservations")
+}
+
+model LedgerEntry {
+  id              String          @id @default(cuid())
+  userId          String
+  type            LedgerEntryType
+  amount          Int
+  balanceAfter    Int
+  relatedOrderId  String?
+  relatedTaskId   String?
+  relatedAudioTaskId String?
+  relatedTaskType String?
+  operationType   AudioTaskType?
+  idempotencyKey  String          @unique
+  note            String?
+  createdAt       DateTime        @default(now())
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  relatedOrder    PaymentOrder?   @relation(fields: [relatedOrderId], references: [id], onDelete: SetNull)
+  relatedTask     AiTask?         @relation(fields: [relatedTaskId], references: [id], onDelete: SetNull)
+  relatedAudioTask AudioTask?     @relation(fields: [relatedAudioTaskId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([relatedOrderId])
+  @@index([relatedTaskId])
+  @@index([relatedAudioTaskId])
+  @@index([relatedTaskType])
+  @@index([operationType])
+  @@map("ledger_entries")
+}
+
+model KnowledgeBase {
+  id          String              @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents   KnowledgeDocument[]
+  tasks       AiTask[]
+
+  @@index([userId, createdAt])
+  @@map("knowledge_bases")
+}
+
+model KnowledgeDocument {
+  id              String                  @id @default(cuid())
+  knowledgeBaseId String
+  filename        String
+  mimeType        String
+  size            Int
+  status          KnowledgeDocumentStatus @default(PROCESSING)
+  contentText     String?
+  errorMessage    String?
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  knowledgeBase   KnowledgeBase           @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  chunks          KnowledgeChunk[]
+
+  @@index([knowledgeBaseId, createdAt])
+  @@index([status])
+  @@map("knowledge_documents")
+}
+
+model KnowledgeChunk {
+  id          String            @id @default(cuid())
+  documentId  String
+  content     String
+  embeddingId String?
+  sortOrder   Int               @default(0)
+  createdAt   DateTime          @default(now())
+  document    KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId, sortOrder])
+  @@index([embeddingId])
+  @@map("knowledge_chunks")
+}
+
+model AiToolCall {
+  id        String   @id @default(cuid())
+  userId    String
+  toolName  String
+  input     Json
+  output    Json?
+  success   Boolean  @default(false)
+  errorMessage String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([toolName])
+  @@map("ai_tool_calls")
+}
+
+model LearningMaterialTextbook {
+  id            String                @id @default(cuid())
+  slug          String                @unique
+  title         String
+  educationType TextbookEducationType
+  subject       String
+  version       String
+  grade         String
+  volume        TextbookVolume
+  curriculumStandardYear String?
+  editionYear   String?
+  publisher     String?
+  coverUrl      String?
+  sourceUrl     String?               @unique
+  pdfUrl        String?
+  pdfObjectKey  String?
+  backupPdfUrl  String?
+  backupPdfPath String?
+  markdownContent          String?
+  markdownAssetsPath       String?
+  markdownAssetBaseUrl     String?
+  markdownConvertedAt      DateTime?
+  markdownPageCount        Int?
+  markdownConversionStatus TextbookMarkdownConversionStatus @default(PENDING)
+  markdownConversionError  String?
+  mdUrl         String?
+  mdObjectKey   String?
+  sortOrder     Int                   @default(0)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  learningFlashcardDecks LearningFlashcardDeck[]
+  englishContentLibraries EnglishContentLibrary[]
+
+  @@index([educationType, subject, version, grade])
+  @@index([subject])
+  @@index([version])
+  @@index([grade])
+  @@map("learning_material_textbooks")
+}
+
+model EnglishContentLibrary {
+  id               String                    @id @default(cuid())
+  slug             String                    @unique
+  title            String
+  libraryType      EnglishContentLibraryType @default(WORDLIST)
+  educationStage   EnglishContentEducationStage?
+  language         String                    @default("en-GB")
+  description      String?
+  sourceTextbookId String?
+  sourceHash       String?
+  status           ContentStatus             @default(DRAFT)
+  sortOrder        Int                       @default(0)
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+  sourceTextbook   LearningMaterialTextbook? @relation(fields: [sourceTextbookId], references: [id], onDelete: SetNull)
+  units            EnglishContentUnit[]
+  typingProgress   TypingLibraryProgress[]
+  typingSessions   TypingPracticeSession[]
+
+  @@index([libraryType, status, sortOrder])
+  @@index([educationStage, status, sortOrder])
+  @@index([sourceTextbookId])
+  @@map("english_content_libraries")
+}
+
+model EnglishContentUnit {
+  id              String                    @id @default(cuid())
+  libraryId       String
+  code            String
+  title           String
+  sourcePageStart Int?
+  sourcePageEnd   Int?
+  status          ContentStatus             @default(DRAFT)
+  mediaStatus     EnglishContentMediaStatus @default(PENDING)
+  sortOrder       Int                       @default(0)
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+  library         EnglishContentLibrary     @relation(fields: [libraryId], references: [id], onDelete: Cascade)
+  items           EnglishContentItem[]
+  typingSessions  TypingPracticeSession[]
+
+  @@unique([libraryId, code])
+  @@index([libraryId, sortOrder])
+  @@index([status, mediaStatus])
+  @@map("english_content_units")
+}
+
+model EnglishContentItem {
+  id                  String                         @id @default(cuid())
+  unitId              String
+  dictionaryEntryId   String?
+  text                String
+  normalizedText      String
+  itemType            EnglishContentItemType
+  translation         String?                        @db.Text
+  britishPhonetic     String?
+  partOfSpeech        String?
+  isSpellingRequired  Boolean                        @default(true)
+  sourceOrder         Int
+  sourcePage          Int?
+  sourceRaw           String?                        @db.Text
+  reviewStatus        EnglishContentItemReviewStatus @default(PENDING)
+  createdAt           DateTime                       @default(now())
+  updatedAt           DateTime                       @updatedAt
+  unit                EnglishContentUnit             @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  dictionaryEntry     DictionaryEntry?               @relation(fields: [dictionaryEntryId], references: [id], onDelete: SetNull)
+  acceptedAnswers     EnglishContentAcceptedAnswer[]
+  media               EnglishContentMedia[]
+  typingSessionItems  TypingPracticeSessionItem[]
+  typingAttempts      TypingAttempt[]
+  reviewStates        TypingReviewState[]
+
+  @@unique([unitId, sourceOrder])
+  @@index([unitId, normalizedText])
+  @@index([dictionaryEntryId])
+  @@index([reviewStatus])
+  @@map("english_content_items")
+}
+
+model EnglishContentAcceptedAnswer {
+  id               String             @id @default(cuid())
+  itemId           String
+  answer           String
+  normalizedAnswer String
+  isPrimary        Boolean            @default(true)
+  sortOrder        Int                @default(0)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  item             EnglishContentItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, normalizedAnswer])
+  @@index([itemId, sortOrder])
+  @@map("english_content_accepted_answers")
+}
+
+model EnglishContentMedia {
+  id                String                    @id @default(cuid())
+  itemId            String
+  kind              EnglishContentMediaKind
+  status            EnglishContentMediaStatus @default(PENDING)
+  mediaAssetId      String?
+  generatorProvider String?
+  generatorModel    String?
+  voice             String?
+  prompt            String?                   @db.Text
+  inputHash         String?
+  errorMessage      String?                   @db.Text
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  item              EnglishContentItem        @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  mediaAsset        MediaAsset?                @relation(fields: [mediaAssetId], references: [id], onDelete: SetNull)
+
+  @@unique([itemId, kind])
+  @@index([status, kind])
+  @@index([mediaAssetId])
+  @@map("english_content_media")
+}
+
+model TypingLibraryProgress {
+  id                String                @id @default(cuid())
+  subjectKey        String
+  userId            String
+  learnerId         String?
+  libraryId         String
+  lastUnitId        String?
+  lastItemId        String?
+  lastSessionId     String?
+  newItemCount      Int                   @default(0)
+  learnedItemCount  Int                   @default(0)
+  masteredItemCount Int                   @default(0)
+  lastPracticedAt   DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  user              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner           Learner?              @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  library           EnglishContentLibrary @relation(fields: [libraryId], references: [id], onDelete: Cascade)
+
+  @@unique([subjectKey, libraryId])
+  @@index([userId, learnerId])
+  @@index([libraryId, lastPracticedAt])
+  @@map("typing_library_progress")
+}
+
+model TypingPracticeSession {
+  id              String                      @id @default(cuid())
+  subjectKey      String
+  userId          String
+  learnerId       String?
+  libraryId       String
+  unitId          String?
+  mode            TypingPracticeMode          @default(DICTATION)
+  scope           TypingPracticeScope
+  status          TypingPracticeSessionStatus @default(ACTIVE)
+  targetItemCount Int
+  currentIndex    Int                         @default(0)
+  correctCount    Int                         @default(0)
+  wrongCount      Int                         @default(0)
+  hintedCount     Int                         @default(0)
+  activeSeconds   Int                         @default(0)
+  clientSessionKey String                     @unique
+  startedAt       DateTime                    @default(now())
+  lastActiveAt    DateTime                    @default(now())
+  completedAt     DateTime?
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+  user            User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner         Learner?                    @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  library         EnglishContentLibrary       @relation(fields: [libraryId], references: [id], onDelete: Restrict)
+  unit            EnglishContentUnit?         @relation(fields: [unitId], references: [id], onDelete: Restrict)
+  items           TypingPracticeSessionItem[]
+  attempts        TypingAttempt[]
+
+  @@index([subjectKey, status, lastActiveAt])
+  @@index([libraryId, startedAt])
+  @@index([unitId])
+  @@index([userId, learnerId, startedAt])
+  @@map("typing_practice_sessions")
+}
+
+model TypingPracticeSessionItem {
+  id                    String                          @id @default(cuid())
+  sessionId             String
+  itemId                String
+  itemVersion           String
+  source                TypingPracticeSessionItemSource
+  queueOrder            Int
+  repeatOfSessionItemId String?
+  answerSnapshot        String                          @db.Text
+  status                TypingPracticeSessionItemStatus @default(PENDING)
+  hintLevel             Int                             @default(0)
+  lastErrorTokenIndex   Int?
+  audioReplayCount      Int                             @default(0)
+  hasLapse              Boolean                         @default(false)
+  firstShownAt          DateTime?
+  completedAt           DateTime?
+  createdAt             DateTime                        @default(now())
+  updatedAt             DateTime                        @updatedAt
+  session               TypingPracticeSession           @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  item                  EnglishContentItem              @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  repeatOf              TypingPracticeSessionItem?      @relation("TypingSessionItemRepeats", fields: [repeatOfSessionItemId], references: [id], onDelete: SetNull)
+  repeats               TypingPracticeSessionItem[]     @relation("TypingSessionItemRepeats")
+  attempts              TypingAttempt[]
+
+  @@unique([sessionId, queueOrder])
+  @@index([itemId])
+  @@index([repeatOfSessionItemId])
+  @@index([sessionId, status])
+  @@map("typing_practice_session_items")
+}
+
+model TypingAttempt {
+  id               String                    @id @default(cuid())
+  sessionId        String
+  sessionItemId    String
+  itemId           String
+  itemVersion      String
+  clientAttemptId  String                    @unique
+  attemptNumber    Int
+  isCorrect        Boolean
+  errorTypes       TypingErrorType[]
+  errorPositions   Json
+  durationMs       Int
+  hintLevel        Int                       @default(0)
+  audioReplayCount Int                       @default(0)
+  isReview         Boolean                   @default(false)
+  createdAt        DateTime                  @default(now())
+  session          TypingPracticeSession     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionItem      TypingPracticeSessionItem @relation(fields: [sessionItemId], references: [id], onDelete: Cascade)
+  item             EnglishContentItem        @relation(fields: [itemId], references: [id], onDelete: Restrict)
+
+  @@unique([sessionItemId, attemptNumber])
+  @@index([sessionId, createdAt])
+  @@index([itemId, createdAt])
+  @@map("typing_attempts")
+}
+
+model TypingReviewState {
+  id             String                  @id @default(cuid())
+  subjectKey     String
+  userId         String
+  learnerId      String?
+  itemId         String
+  itemVersion    String
+  state          TypingReviewStateStatus @default(NEW)
+  stage          Int                     @default(0)
+  dueAt          DateTime?
+  lastReviewedAt DateTime?
+  masteredAt     DateTime?
+  totalAttempts  Int                     @default(0)
+  totalCorrect   Int                     @default(0)
+  lapseCount     Int                     @default(0)
+  hintCount      Int                     @default(0)
+  correctStreak  Int                     @default(0)
+  algorithmVersion String                @default("typing-stages-v1")
+  difficulty     Float?
+  stability      Float?
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+  user           User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner        Learner?                @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+  item           EnglishContentItem      @relation(fields: [itemId], references: [id], onDelete: Restrict)
+
+  @@unique([subjectKey, itemId])
+  @@index([subjectKey, dueAt, stage])
+  @@index([itemId])
+  @@index([userId, learnerId])
+  @@map("typing_review_states")
+}
+
+model TypingPreference {
+  id                   String           @id @default(cuid())
+  subjectKey           String           @unique
+  userId               String
+  learnerId            String?          @unique
+  accent               TypingAccent     @default(UK)
+  autoPlayAudio        Boolean          @default(true)
+  replayAfterCorrect   Boolean          @default(true)
+  showImage            Boolean          @default(true)
+  feedbackSoundEnabled Boolean          @default(true)
+  soundVolume          Float            @default(0.8)
+  inputStyle           TypingInputStyle @default(UNDERLINE)
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  user                 User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learner              Learner?         @relation(fields: [learnerId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
+  @@map("typing_preferences")
+}
+
+model MembershipPlan {
+  periods MembershipPeriod[]
+  id String @id @default(cuid())
+  name String
+  rank Int
+  isEnabled Boolean @default(true)
+  storageGb Int @default(0)
+  learnerLimit Int @default(1)
+  benefits Json
+  prices Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([isEnabled, rank])
+  @@map("membership_plans")
+}
+model MembershipPeriod {
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan MembershipPlan @relation(fields: [planId], references: [id], onDelete: Restrict)
+  order PaymentOrder @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  allocations MembershipCreditAllocation[]
+  id String @id @default(cuid())
+  userId String
+  planId String
+  orderId String @unique
+  name String
+  rank Int
+  storageGb Int
+  learnerLimit Int
+  benefits Json
+  credits Int
+  remainingCredits Int
+  startsAt DateTime
+  endsAt DateTime
+  grantedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([userId, startsAt, endsAt])
+  @@map("membership_periods")
+}
+model MembershipCreditAllocation {
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  period MembershipPeriod? @relation(fields: [periodId], references: [id], onDelete: SetNull)
+  id String @id @default(cuid())
+  operationKey String @unique
+  userId String
+  periodId String?
+  membershipCredits Int
+  purchasedCredits Int
+  settled Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@index([userId])
+  @@map("membership_credit_allocations")
+}

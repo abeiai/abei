@@ -1,0 +1,10 @@
+{
+  "symbol": "dz",
+  "source": "User-supplied ElevenLabs recording",
+  "originalFilename": "ElevenLabs_2026-09-13T15_18_02_英国单词朗读女声_gen_sp90_s50_sb75_v3.mp3",
+  "sourceSha256": "eaad233ad490c69c937fdc0015b5dbed705fc65c7c920db3a317554571dfec29",
+  "startSeconds": 0.345,
+  "endSeconds": 0.64,
+  "durationSeconds": 0.29498866213151925,
+  "method": "Spectrogram-based cut retaining closure, release and final frication; no pitch or speed change."
+}

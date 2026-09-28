@@ -1,0 +1,1961 @@
+{
+  "operation": "Separate original phoneme and keyword at intervening pause; source retained; no pitch/time alteration.",
+  "segments": [
+    {
+      "symbol": "iː",
+      "voice": "female",
+      "word": "bean",
+      "path": "/yinbiao/studio/ipa-1.mp3",
+      "duration": 6.312,
+      "gaps": [
+        [
+          1.39425,
+          3.455146
+        ]
+      ],
+      "gap": [
+        1.39425,
+        3.455146
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.47425,
+      "wordStart": 3.375146,
+      "phonemePath": "/yinbiao/clips/female-69-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-69-2d0-word.wav",
+      "sourceSha256": "937491142f81ed89aa4358375b777f9b1e5f29664ba231dfe05351c8a3dd50bb"
+    },
+    {
+      "symbol": "ɪ",
+      "voice": "female",
+      "word": "tip",
+      "path": "/yinbiao/studio/ipa-2.mp3",
+      "duration": 4.704,
+      "gaps": [
+        [
+          0.797021,
+          2.778375
+        ]
+      ],
+      "gap": [
+        0.797021,
+        2.778375
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.8770209999999999,
+      "wordStart": 2.698375,
+      "phonemePath": "/yinbiao/clips/female-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-26a-word.wav",
+      "sourceSha256": "0049a93999167689e50dca2c860ff89a167cb1093fde93cec5fa09e605151cf7"
+    },
+    {
+      "symbol": "e",
+      "voice": "female",
+      "word": "met",
+      "path": "/yinbiao/studio/ipa-3.mp3",
+      "duration": 5.064,
+      "gaps": [
+        [
+          0.794812,
+          2.655792
+        ]
+      ],
+      "gap": [
+        0.794812,
+        2.655792
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.8748119999999999,
+      "wordStart": 2.575792,
+      "phonemePath": "/yinbiao/clips/female-65-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-65-word.wav",
+      "sourceSha256": "520fe86c1102453269335d54740d39237f99643e45eb8e17a8aae18c51351d13"
+    },
+    {
+      "symbol": "eə",
+      "voice": "female",
+      "word": "hair",
+      "path": "/yinbiao/studio/ipa-4.mp3",
+      "duration": 5.184,
+      "gaps": [
+        [
+          1.048646,
+          2.957042
+        ]
+      ],
+      "gap": [
+        1.048646,
+        2.957042
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.128646,
+      "wordStart": 2.877042,
+      "phonemePath": "/yinbiao/clips/female-65-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-65-259-word.wav",
+      "sourceSha256": "1b443fbc768d0e4b4cbbcde57a1e75589bdee4d99c4930295e734715d85196dc"
+    },
+    {
+      "symbol": "æ",
+      "voice": "female",
+      "word": "pan",
+      "path": "/yinbiao/studio/ipa-5.mp3",
+      "duration": 5.28,
+      "gaps": [
+        [
+          0.573354,
+          2.726604
+        ]
+      ],
+      "gap": [
+        0.573354,
+        2.726604
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.653354,
+      "wordStart": 2.646604,
+      "phonemePath": "/yinbiao/clips/female-e6-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-e6-word.wav",
+      "sourceSha256": "62d1c2aa67248f9c58fe554055304d3118c362f29967b171672816c97b28f635"
+    },
+    {
+      "symbol": "uː",
+      "voice": "female",
+      "word": "moon",
+      "path": "/yinbiao/studio/ipa-6.mp3",
+      "duration": 6.192,
+      "gaps": [
+        [
+          1.230187,
+          3.660229
+        ]
+      ],
+      "gap": [
+        1.230187,
+        3.660229
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.310187,
+      "wordStart": 3.580229,
+      "phonemePath": "/yinbiao/clips/female-75-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-75-2d0-word.wav",
+      "sourceSha256": "4be5438dcdf779540f4700350e92ae0abbbe084d2e5f44ecc5ceb511463d1a37"
+    },
+    {
+      "symbol": "ə",
+      "voice": "female",
+      "word": "the",
+      "path": "/yinbiao/studio/ipa-7.mp3",
+      "duration": 5.184,
+      "gaps": [
+        [
+          0.867875,
+          2.885271
+        ]
+      ],
+      "gap": [
+        0.867875,
+        2.885271
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.9478749999999999,
+      "wordStart": 2.805271,
+      "phonemePath": "/yinbiao/clips/female-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-259-word.wav",
+      "sourceSha256": "ab66581c3f54699118e61bb72eacac978fdbeaeef8e1eea78ef91ff75bb15935"
+    },
+    {
+      "symbol": "ɜː",
+      "voice": "female",
+      "word": "sir",
+      "path": "/yinbiao/studio/ipa-8.mp3",
+      "duration": 5.568,
+      "gaps": [
+        [
+          0.961313,
+          3.067854
+        ]
+      ],
+      "gap": [
+        0.961313,
+        3.067854
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.041313,
+      "wordStart": 2.987854,
+      "phonemePath": "/yinbiao/clips/female-25c-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-25c-2d0-word.wav",
+      "sourceSha256": "093b364bef0c419e45caa8c25aaa741e3a090656aedbdcc3d34263122ea19e7e"
+    },
+    {
+      "symbol": "ʌ",
+      "voice": "female",
+      "word": "fun",
+      "path": "/yinbiao/studio/ipa-9.mp3",
+      "duration": 5.184,
+      "gaps": [
+        [
+          0.593625,
+          2.608021
+        ]
+      ],
+      "gap": [
+        0.593625,
+        2.608021
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.6736249999999999,
+      "wordStart": 2.528021,
+      "phonemePath": "/yinbiao/clips/female-28c-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-28c-word.wav",
+      "sourceSha256": "56cd34fd042ffe55dcd56ee55250a46d5161db5489f3ebc2768d5e3d4f07c848"
+    },
+    {
+      "symbol": "ɑː",
+      "voice": "female",
+      "word": "card",
+      "path": "/yinbiao/studio/ipa-10.mp3",
+      "duration": 5.256,
+      "gaps": [
+        [
+          0.809229,
+          2.614458
+        ]
+      ],
+      "gap": [
+        0.809229,
+        2.614458
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.8892289999999999,
+      "wordStart": 2.534458,
+      "phonemePath": "/yinbiao/clips/female-251-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-251-2d0-word.wav",
+      "sourceSha256": "f2d20fccb656a8aa542793904593f1b2d518cc665266d4f9fa8b663adb654057"
+    },
+    {
+      "symbol": "ʊ",
+      "voice": "female",
+      "word": "shook",
+      "path": "/yinbiao/studio/ipa-11.mp3",
+      "duration": 5.064,
+      "gaps": [
+        [
+          0.746167,
+          2.674542
+        ]
+      ],
+      "gap": [
+        0.746167,
+        2.674542
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.826167,
+      "wordStart": 2.594542,
+      "phonemePath": "/yinbiao/clips/female-28a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-28a-word.wav",
+      "sourceSha256": "4963929cbcb278f15606601cdb43e6376c9134930408937939cf2179cbb4977d"
+    },
+    {
+      "symbol": "ɔː",
+      "voice": "female",
+      "word": "shore",
+      "path": "/yinbiao/studio/ipa-12.mp3",
+      "duration": 5.688,
+      "gaps": [
+        [
+          0.984062,
+          3.240792
+        ]
+      ],
+      "gap": [
+        0.984062,
+        3.240792
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.064062,
+      "wordStart": 3.160792,
+      "phonemePath": "/yinbiao/clips/female-254-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-254-2d0-word.wav",
+      "sourceSha256": "616f58be8e3e1746001ab6234f071e57bcd363adb51640f6daa99ef745491f00"
+    },
+    {
+      "symbol": "ɒ",
+      "voice": "female",
+      "word": "lock",
+      "path": "/yinbiao/studio/ipa-13a.mp3",
+      "duration": 4.44,
+      "gaps": [
+        [
+          0.462625,
+          2.689271
+        ]
+      ],
+      "gap": [
+        0.462625,
+        2.689271
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.542625,
+      "wordStart": 2.609271,
+      "phonemePath": "/yinbiao/clips/female-252-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-252-word.wav",
+      "sourceSha256": "59f6feb319b1c2ae5d0ad51b64c782ec3930f721ff6454e74ff0395cd950d9ff"
+    },
+    {
+      "symbol": "ɪə",
+      "voice": "female",
+      "word": "dear",
+      "path": "/yinbiao/studio/ipa-14.mp3",
+      "duration": 5.28,
+      "gaps": [
+        [
+          0.687771,
+          2.932667
+        ]
+      ],
+      "gap": [
+        0.687771,
+        2.932667
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.767771,
+      "wordStart": 2.852667,
+      "phonemePath": "/yinbiao/clips/female-26a-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-26a-259-word.wav",
+      "sourceSha256": "576fee1c767c4a823f73fe2188255b93f4a498bec330a69edc560212bf5de645"
+    },
+    {
+      "symbol": "eɪ",
+      "voice": "female",
+      "word": "same",
+      "path": "/yinbiao/studio/ipa-15.mp3",
+      "duration": 4.512,
+      "gaps": [
+        [
+          0.717437,
+          2.954146
+        ]
+      ],
+      "gap": [
+        0.717437,
+        2.954146
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.797437,
+      "wordStart": 2.874146,
+      "phonemePath": "/yinbiao/clips/female-65-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-65-26a-word.wav",
+      "sourceSha256": "d4cac6f5cbc69525d3956c29cd34cd55e6dde39c10e98f9d663707384fd74993"
+    },
+    {
+      "symbol": "aʊ",
+      "voice": "female",
+      "word": "loud",
+      "path": "/yinbiao/studio/ipa-16.mp3",
+      "duration": 5.184,
+      "gaps": [
+        [
+          0.842729,
+          2.761708
+        ]
+      ],
+      "gap": [
+        0.842729,
+        2.761708
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.9227289999999999,
+      "wordStart": 2.681708,
+      "phonemePath": "/yinbiao/clips/female-61-28a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-61-28a-word.wav",
+      "sourceSha256": "88b5d0305338e51e4420a6988b6fd93ce67abba4a01f0f9426dbe95dfc527292"
+    },
+    {
+      "symbol": "əʊ",
+      "voice": "female",
+      "word": "go",
+      "path": "/yinbiao/studio/ipa-17.mp3",
+      "duration": 4.68,
+      "gaps": [
+        [
+          0.812604,
+          2.598688
+        ]
+      ],
+      "gap": [
+        0.812604,
+        2.598688
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.892604,
+      "wordStart": 2.518688,
+      "phonemePath": "/yinbiao/clips/female-259-28a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-259-28a-word.wav",
+      "sourceSha256": "b04342759c5abbaa09327beed3b7eff8a73fd59b4eef06c66c7b066387fc0de8"
+    },
+    {
+      "symbol": "aɪ",
+      "voice": "female",
+      "word": "hide",
+      "path": "/yinbiao/studio/ipa-18.mp3",
+      "duration": 5.184,
+      "gaps": [
+        [
+          0.855896,
+          3.032542
+        ]
+      ],
+      "gap": [
+        0.855896,
+        3.032542
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.935896,
+      "wordStart": 2.9525419999999998,
+      "phonemePath": "/yinbiao/clips/female-61-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-61-26a-word.wav",
+      "sourceSha256": "3da614875f3032419b8db5f93c87c4d3f63e94976bf23a37ebca2fb21bc2a337"
+    },
+    {
+      "symbol": "ʊə",
+      "voice": "female",
+      "word": "curious",
+      "path": "/yinbiao/studio/ipa-20.mp3",
+      "duration": 5.616,
+      "gaps": [
+        [
+          0.702042,
+          2.789958
+        ]
+      ],
+      "gap": [
+        0.702042,
+        2.789958
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.782042,
+      "wordStart": 2.709958,
+      "phonemePath": "/yinbiao/clips/female-28a-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-28a-259-word.wav",
+      "sourceSha256": "303810a47649c5fe9835d8ab8c428f335fcf020c490c4900b6a9f93ad76dd9bb"
+    },
+    {
+      "symbol": "ɔɪ",
+      "voice": "female",
+      "word": "choice",
+      "path": "/yinbiao/studio/ipa-19.mp3",
+      "duration": 4.536,
+      "gaps": [
+        [
+          0.6335,
+          2.602
+        ]
+      ],
+      "gap": [
+        0.6335,
+        2.602
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.7134999999999999,
+      "wordStart": 2.522,
+      "phonemePath": "/yinbiao/clips/female-254-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-254-26a-word.wav",
+      "sourceSha256": "187af248dac2868fd85c3003e57bacb3ae015896f7d6ff71a69959e5792176c4"
+    },
+    {
+      "symbol": "f",
+      "voice": "female",
+      "word": "first",
+      "path": "/yinbiao/studio/ipa-21.mp3",
+      "duration": 4.2,
+      "gaps": [
+        [
+          0.853875,
+          2.378854
+        ]
+      ],
+      "gap": [
+        0.853875,
+        2.378854
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.933875,
+      "wordStart": 2.298854,
+      "phonemePath": "/yinbiao/clips/female-66-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-66-word.wav",
+      "sourceSha256": "3e99f8fe3e21b4e7d84081653da49de97ef229eade0bb5a5d27e699e73cbcb46"
+    },
+    {
+      "symbol": "v",
+      "voice": "female",
+      "word": "van",
+      "path": "/yinbiao/studio/ipa-22.mp3",
+      "duration": 5.064,
+      "gaps": [
+        [
+          0.846208,
+          2.52025
+        ]
+      ],
+      "gap": [
+        0.846208,
+        2.52025
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.9262079999999999,
+      "wordStart": 2.44025,
+      "phonemePath": "/yinbiao/clips/female-76-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-76-word.wav",
+      "sourceSha256": "655a174aacdf7917a50180e19445dc6eba615670d347b8ec65f5394b0223a8b4"
+    },
+    {
+      "symbol": "θ",
+      "voice": "female",
+      "word": "thick",
+      "path": "/yinbiao/studio/ipa-23.mp3",
+      "duration": 4.464,
+      "gaps": [
+        [
+          0.855167,
+          2.613271
+        ]
+      ],
+      "gap": [
+        0.855167,
+        2.613271
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.935167,
+      "wordStart": 2.533271,
+      "phonemePath": "/yinbiao/clips/female-3b8-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-3b8-word.wav",
+      "sourceSha256": "d829aa539f2333537ca1b3d4a775bcdedd2a91f8d0fd77ff361f23d49de38f44"
+    },
+    {
+      "symbol": "ð",
+      "voice": "female",
+      "word": "these",
+      "path": "/yinbiao/studio/ipa-24.mp3",
+      "duration": 5.568,
+      "gaps": [
+        [
+          0.964333,
+          3.025229
+        ]
+      ],
+      "gap": [
+        0.964333,
+        3.025229
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.044333,
+      "wordStart": 2.945229,
+      "phonemePath": "/yinbiao/clips/female-f0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-f0-word.wav",
+      "sourceSha256": "2bf45bf33ef2408d8d65b33cb234161bbd622c31c30c7c38ae59bfea6b7a8369"
+    },
+    {
+      "symbol": "s",
+      "voice": "female",
+      "word": "saw",
+      "path": "/yinbiao/studio/ipa-25.mp3",
+      "duration": 4.848,
+      "gaps": [
+        [
+          0.913854,
+          2.716771
+        ]
+      ],
+      "gap": [
+        0.913854,
+        2.716771
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.993854,
+      "wordStart": 2.636771,
+      "phonemePath": "/yinbiao/clips/female-73-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-73-word.wav",
+      "sourceSha256": "60c76c7baf24038e423d84450706483af4de294d917b8e1e75b943e29137b012"
+    },
+    {
+      "symbol": "z",
+      "voice": "female",
+      "word": "zen",
+      "path": "/yinbiao/studio/ipa-26.mp3",
+      "duration": 6.264,
+      "gaps": [
+        [
+          1.258583,
+          3.719187
+        ]
+      ],
+      "gap": [
+        1.258583,
+        3.719187
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.338583,
+      "wordStart": 3.6391869999999997,
+      "phonemePath": "/yinbiao/clips/female-7a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-7a-word.wav",
+      "sourceSha256": "baa2400eba584e2f4246e3c1d1632bb9251a11a7d2ac2044504a00c80544cc47"
+    },
+    {
+      "symbol": "ʃ",
+      "voice": "female",
+      "word": "she",
+      "path": "/yinbiao/studio/ipa-27.mp3",
+      "duration": 5.568,
+      "gaps": [
+        [
+          1.364562,
+          3.471687
+        ]
+      ],
+      "gap": [
+        1.364562,
+        3.471687
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.4445620000000001,
+      "wordStart": 3.391687,
+      "phonemePath": "/yinbiao/clips/female-283-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-283-word.wav",
+      "sourceSha256": "a12e5e9930d16f309bcf900a64abf5f8536574db70c39bcd19b6161d80f7ecd5"
+    },
+    {
+      "symbol": "ʒ",
+      "voice": "female",
+      "word": "casual",
+      "path": "/yinbiao/studio/ipa-28.mp3",
+      "duration": 5.664,
+      "gaps": [
+        [
+          1.106708,
+          3.20775
+        ]
+      ],
+      "gap": [
+        1.106708,
+        3.20775
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.186708,
+      "wordStart": 3.12775,
+      "phonemePath": "/yinbiao/clips/female-292-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-292-word.wav",
+      "sourceSha256": "7d6e49361753b1a37f8e7d8e9d69d914007451f1823c4badc1fff263b063e5e3"
+    },
+    {
+      "symbol": "h",
+      "voice": "female",
+      "word": "hard",
+      "path": "/yinbiao/studio/ipa-29.mp3",
+      "duration": 3.72,
+      "gaps": [
+        [
+          0.601938,
+          1.904958
+        ]
+      ],
+      "gap": [
+        0.601938,
+        1.904958
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.6819379999999999,
+      "wordStart": 1.8249579999999999,
+      "phonemePath": "/yinbiao/clips/female-68-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-68-word.wav",
+      "sourceSha256": "d4640ca9bab3df4bfb5f8bd4ec64e0ae98d1703d82da974d300bcddef91b23ca"
+    },
+    {
+      "symbol": "p",
+      "voice": "female",
+      "word": "pick",
+      "path": "/yinbiao/studio/ipa-30.mp3",
+      "duration": 3.696,
+      "gaps": [
+        [
+          0.565479,
+          2.284354
+        ]
+      ],
+      "gap": [
+        0.565479,
+        2.284354
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.6454789999999999,
+      "wordStart": 2.204354,
+      "phonemePath": "/yinbiao/clips/female-70-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-70-word.wav",
+      "sourceSha256": "2cf47cfbe96b220c3856ddd6299fbd2fdc315fb5901ddf2b567cd46832c182fd"
+    },
+    {
+      "symbol": "b",
+      "voice": "female",
+      "word": "bed",
+      "path": "/yinbiao/studio/ipa-31.mp3",
+      "duration": 4.92,
+      "gaps": [
+        [
+          0.689375,
+          2.580104
+        ]
+      ],
+      "gap": [
+        0.689375,
+        2.580104
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.7693749999999999,
+      "wordStart": 2.500104,
+      "phonemePath": "/yinbiao/clips/female-62-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-62-word.wav",
+      "sourceSha256": "279b973111f3ed7452cd65d0255e3e4a70cc84b62cd0b05981263bb8ad37456e"
+    },
+    {
+      "symbol": "t",
+      "voice": "female",
+      "word": "team",
+      "path": "/yinbiao/studio/ipa-32.mp3",
+      "duration": 5.64,
+      "gaps": [
+        [
+          0.659062,
+          3.157208
+        ]
+      ],
+      "gap": [
+        0.659062,
+        3.157208
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.739062,
+      "wordStart": 3.0772079999999997,
+      "phonemePath": "/yinbiao/clips/female-74-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-74-word.wav",
+      "sourceSha256": "3a315a5cef7752fea877052a86f2c3e7c9ad1dc9bc15fbf8f754ae041f43f9a7"
+    },
+    {
+      "symbol": "d",
+      "voice": "female",
+      "word": "dine",
+      "path": "/yinbiao/studio/ipa-33.mp3",
+      "duration": 4.728,
+      "gaps": [
+        [
+          0.614271,
+          2.518562
+        ]
+      ],
+      "gap": [
+        0.614271,
+        2.518562
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.694271,
+      "wordStart": 2.438562,
+      "phonemePath": "/yinbiao/clips/female-64-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-64-word.wav",
+      "sourceSha256": "6f3e42ddfec7ec0ca5dac12a3759c841a30fde18716fa499b79281c20640eac9"
+    },
+    {
+      "symbol": "k",
+      "voice": "female",
+      "word": "code",
+      "path": "/yinbiao/studio/ipa-34.mp3",
+      "duration": 6.288,
+      "gaps": [
+        [
+          0.737333,
+          3.39475
+        ]
+      ],
+      "gap": [
+        0.737333,
+        3.39475
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.817333,
+      "wordStart": 3.31475,
+      "phonemePath": "/yinbiao/clips/female-6b-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-6b-word.wav",
+      "sourceSha256": "8b338cfec9f81858ee266a9ae351aef22e2548470cb646dc41a4f6442d327b7b"
+    },
+    {
+      "symbol": "ɡ",
+      "voice": "female",
+      "word": "get",
+      "path": "/yinbiao/studio/ipa-35.mp3",
+      "duration": 5.832,
+      "gaps": [
+        [
+          0.752771,
+          3.270875
+        ]
+      ],
+      "gap": [
+        0.752771,
+        3.270875
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.8327709999999999,
+      "wordStart": 3.190875,
+      "phonemePath": "/yinbiao/clips/female-261-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-261-word.wav",
+      "sourceSha256": "330ede5dbab97e55fc3cb23792a36ad17a3a6dca264986e242890ea5bae360af"
+    },
+    {
+      "symbol": "w",
+      "voice": "female",
+      "word": "watch",
+      "path": "/yinbiao/studio/ipa-38.mp3",
+      "duration": 5.112,
+      "gaps": [
+        [
+          0.796937,
+          2.765271
+        ]
+      ],
+      "gap": [
+        0.796937,
+        2.765271
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.876937,
+      "wordStart": 2.6852709999999997,
+      "phonemePath": "/yinbiao/clips/female-77-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-77-word.wav",
+      "sourceSha256": "b2ccd67c728c175ca303b1b84c59febae1e9a950e987ee84bfb0e018a9e415b8"
+    },
+    {
+      "symbol": "r",
+      "voice": "female",
+      "word": "rug",
+      "path": "/yinbiao/studio/ipa-39.mp3",
+      "duration": 5.664,
+      "gaps": [
+        [
+          0.801896,
+          3.182354
+        ]
+      ],
+      "gap": [
+        0.801896,
+        3.182354
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.881896,
+      "wordStart": 3.102354,
+      "phonemePath": "/yinbiao/clips/female-72-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-72-word.wav",
+      "sourceSha256": "e554d6154dcda253f723056fc4ce081c57b6f13601b22834943c08de4782ef5e"
+    },
+    {
+      "symbol": "j",
+      "voice": "female",
+      "word": "yet",
+      "path": "/yinbiao/studio/ipa-40.mp3",
+      "duration": 4.536,
+      "gaps": [
+        [
+          0.601854,
+          2.397104
+        ]
+      ],
+      "gap": [
+        0.601854,
+        2.397104
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.681854,
+      "wordStart": 2.317104,
+      "phonemePath": "/yinbiao/clips/female-6a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-6a-word.wav",
+      "sourceSha256": "d610a4b3c792f262568fddb7b372294774a57117bf19692ed12b9db9c218f9d2"
+    },
+    {
+      "symbol": "l",
+      "voice": "female",
+      "word": "look",
+      "path": "/yinbiao/studio/ipa-41.mp3",
+      "duration": 4.8,
+      "gaps": [
+        [
+          0.815375,
+          2.558229
+        ]
+      ],
+      "gap": [
+        0.815375,
+        2.558229
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.8953749999999999,
+      "wordStart": 2.478229,
+      "phonemePath": "/yinbiao/clips/female-6c-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-6c-word.wav",
+      "sourceSha256": "4cff363e20b28341333ce901d9fd38a274f2d260322dd952cef0c081002e875d"
+    },
+    {
+      "symbol": "tʃ",
+      "voice": "female",
+      "word": "choose",
+      "path": "/yinbiao/studio/ipa-36.mp3",
+      "duration": 5.784,
+      "gaps": [
+        [
+          0.676854,
+          2.946521
+        ]
+      ],
+      "gap": [
+        0.676854,
+        2.946521
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.7568539999999999,
+      "wordStart": 2.866521,
+      "phonemePath": "/yinbiao/clips/female-74-283-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-74-283-word.wav",
+      "sourceSha256": "69e2e670b13736916e2d0e1496d3aa621ee19e9cd870fb7f00c6fd11112214a7"
+    },
+    {
+      "symbol": "dʒ",
+      "voice": "female",
+      "word": "jet",
+      "path": "/yinbiao/studio/ipa-37.mp3",
+      "duration": 6.072,
+      "gaps": [
+        [
+          0.966062,
+          3.333667
+        ]
+      ],
+      "gap": [
+        0.966062,
+        3.333667
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.046062,
+      "wordStart": 3.253667,
+      "phonemePath": "/yinbiao/clips/female-64-292-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-64-292-word.wav",
+      "sourceSha256": "fb087fc969f7011905f4869058f01541d0d5abb6ed6f446254b45d5f53706f01"
+    },
+    {
+      "symbol": "m",
+      "voice": "female",
+      "word": "mode",
+      "path": "/yinbiao/studio/ipa-42.mp3",
+      "duration": 5.208,
+      "gaps": [
+        [
+          0.975896,
+          2.588
+        ]
+      ],
+      "gap": [
+        0.975896,
+        2.588
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.055896,
+      "wordStart": 2.508,
+      "phonemePath": "/yinbiao/clips/female-6d-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-6d-word.wav",
+      "sourceSha256": "1c4791c57f1bacb426be169d78868a5c54624b1034f483fa51cd8dc2360ca123"
+    },
+    {
+      "symbol": "n",
+      "voice": "female",
+      "word": "neck",
+      "path": "/yinbiao/studio/ipa-43.mp3",
+      "duration": 4.44,
+      "gaps": [
+        [
+          1.018521,
+          2.693958
+        ]
+      ],
+      "gap": [
+        1.018521,
+        2.693958
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 1.098521,
+      "wordStart": 2.613958,
+      "phonemePath": "/yinbiao/clips/female-6e-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-6e-word.wav",
+      "sourceSha256": "9b02ba5c5626982392c689646e5d8a6acff2c5c23d8ce0689b19c0ba9ba3c5a4"
+    },
+    {
+      "symbol": "ŋ",
+      "voice": "female",
+      "word": "song",
+      "path": "/yinbiao/studio/ipa-44.mp3",
+      "duration": 5.016,
+      "gaps": [
+        [
+          0.895604,
+          2.506458
+        ]
+      ],
+      "gap": [
+        0.895604,
+        2.506458
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.9756039999999999,
+      "wordStart": 2.426458,
+      "phonemePath": "/yinbiao/clips/female-14b-phoneme.wav",
+      "wordPath": "/yinbiao/clips/female-14b-word.wav",
+      "sourceSha256": "8863d94108c024889654df739ea36682e77b069e29d32256d9a059b5f94924ae"
+    },
+    {
+      "symbol": "p",
+      "voice": "male",
+      "word": "pea",
+      "path": "/yinbiao/examples/pea.mp3",
+      "duration": 2.195375,
+      "gaps": [
+        [
+          0.351519,
+          0.892971
+        ]
+      ],
+      "gap": [
+        0.351519,
+        0.892971
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.43151900000000004,
+      "wordStart": 0.812971,
+      "phonemePath": "/yinbiao/clips/male-70-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-70-word.wav",
+      "sourceSha256": "594cedfc8d891250feba3c69be9434a4341230643f0a90928e6aa10c494d840f"
+    },
+    {
+      "symbol": "b",
+      "voice": "male",
+      "word": "bee",
+      "path": "/yinbiao/examples/bee.mp3",
+      "duration": 2.4043125,
+      "gaps": [
+        [
+          0.42263,
+          1.098685
+        ]
+      ],
+      "gap": [
+        0.42263,
+        1.098685
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.50263,
+      "wordStart": 1.0186849999999998,
+      "phonemePath": "/yinbiao/clips/male-62-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-62-word.wav",
+      "sourceSha256": "7264ab2a0c8b520a814265e8af86edd2640c63465675ec2c8c28a0f6c079ca71"
+    },
+    {
+      "symbol": "t",
+      "voice": "male",
+      "word": "tea",
+      "path": "/yinbiao/examples/tea.mp3",
+      "duration": 2.326,
+      "gaps": [
+        [
+          0.368254,
+          1.007823
+        ]
+      ],
+      "gap": [
+        0.368254,
+        1.007823
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.44825400000000004,
+      "wordStart": 0.927823,
+      "phonemePath": "/yinbiao/clips/male-74-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-74-word.wav",
+      "sourceSha256": "8b056ca45ceee6240c97ea21b9034478a78d43fc545034f8d5765eeb4c893cc2"
+    },
+    {
+      "symbol": "d",
+      "voice": "male",
+      "word": "do",
+      "path": "/yinbiao/examples/do.mp3",
+      "duration": 2.195375,
+      "gaps": [
+        [
+          0.560952,
+          1.050408
+        ]
+      ],
+      "gap": [
+        0.560952,
+        1.050408
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.640952,
+      "wordStart": 0.970408,
+      "phonemePath": "/yinbiao/clips/male-64-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-64-word.wav",
+      "sourceSha256": "d6690a281fe9d70931b0b853665109e740a4e128b60bee16c156bd4f4101c1fc"
+    },
+    {
+      "symbol": "k",
+      "voice": "male",
+      "word": "cat",
+      "path": "/yinbiao/examples/cat.mp3",
+      "duration": 1.986375,
+      "gaps": [
+        [
+          0.226463,
+          0.769252
+        ]
+      ],
+      "gap": [
+        0.226463,
+        0.769252
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.306463,
+      "wordStart": 0.6892520000000001,
+      "phonemePath": "/yinbiao/clips/male-6b-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-6b-word.wav",
+      "sourceSha256": "ccb7bef6b24070ad084e4873c95311241389ba2aded14ad598e711d60f0b968d"
+    },
+    {
+      "symbol": "ɡ",
+      "voice": "male",
+      "word": "get",
+      "path": "/yinbiao/examples/get.mp3",
+      "duration": 2.195375,
+      "gaps": [
+        [
+          0.390431,
+          0.929456
+        ]
+      ],
+      "gap": [
+        0.390431,
+        0.929456
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.470431,
+      "wordStart": 0.849456,
+      "phonemePath": "/yinbiao/clips/male-261-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-261-word.wav",
+      "sourceSha256": "5bc057d10068eeb5e044a86e31d13780b25d1168de80658b1a26080509389373"
+    },
+    {
+      "symbol": "f",
+      "voice": "male",
+      "word": "fat",
+      "path": "/yinbiao/examples/fat.mp3",
+      "duration": 2.5871875,
+      "gaps": [
+        [
+          0.661451,
+          1.147664
+        ]
+      ],
+      "gap": [
+        0.661451,
+        1.147664
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.741451,
+      "wordStart": 1.067664,
+      "phonemePath": "/yinbiao/clips/male-66-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-66-word.wav",
+      "sourceSha256": "ad8c986f9322b8d263e753996541cd7cd7cac1ce719d80afc13c52d5ef738aed"
+    },
+    {
+      "symbol": "v",
+      "voice": "male",
+      "word": "vet",
+      "path": "/yinbiao/examples/vet.mp3",
+      "duration": 2.352125,
+      "gaps": [
+        [
+          0.585941,
+          0.928617
+        ]
+      ],
+      "gap": [
+        0.585941,
+        0.928617
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.665941,
+      "wordStart": 0.8486170000000001,
+      "phonemePath": "/yinbiao/clips/male-76-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-76-word.wav",
+      "sourceSha256": "ee0f3f4fdcdf242c6a1e2094141993a749bd4335f3ebcfc828153726dd039e73"
+    },
+    {
+      "symbol": "θ",
+      "voice": "male",
+      "word": "thin",
+      "path": "/yinbiao/examples/thin.mp3",
+      "duration": 2.326,
+      "gaps": [
+        [
+          0.659637,
+          0.978866
+        ]
+      ],
+      "gap": [
+        0.659637,
+        0.978866
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.739637,
+      "wordStart": 0.898866,
+      "phonemePath": "/yinbiao/clips/male-3b8-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-3b8-word.wav",
+      "sourceSha256": "27157fff5ed57f1963696655734eea19679670daa10dac0371753f7ad1e826f5"
+    },
+    {
+      "symbol": "ð",
+      "voice": "male",
+      "word": "then",
+      "path": "/yinbiao/examples/then.mp3",
+      "duration": 2.37825,
+      "gaps": [
+        [
+          0.827778,
+          1.077732
+        ]
+      ],
+      "gap": [
+        0.827778,
+        1.077732
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.907778,
+      "wordStart": 0.997732,
+      "phonemePath": "/yinbiao/clips/male-f0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-f0-word.wav",
+      "sourceSha256": "9613e5c765451e781c70593bfc9dc6a22fc60a6e74069cf2b35830181e1cd98c"
+    },
+    {
+      "symbol": "s",
+      "voice": "male",
+      "word": "so",
+      "path": "/yinbiao/examples/so.mp3",
+      "duration": 2.195375,
+      "gaps": [
+        [
+          0.63907,
+          0.917279
+        ]
+      ],
+      "gap": [
+        0.63907,
+        0.917279
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.71907,
+      "wordStart": 0.837279,
+      "phonemePath": "/yinbiao/clips/male-73-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-73-word.wav",
+      "sourceSha256": "29969202833ab09a94b28c7771e9791d4daad94f03f31a8a9f5e3194919c6cc1"
+    },
+    {
+      "symbol": "z",
+      "voice": "male",
+      "word": "zoo",
+      "path": "/yinbiao/examples/zoo.mp3",
+      "duration": 2.247625,
+      "gaps": [
+        [
+          0.697188,
+          0.921905
+        ]
+      ],
+      "gap": [
+        0.697188,
+        0.921905
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.777188,
+      "wordStart": 0.841905,
+      "phonemePath": "/yinbiao/clips/male-7a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-7a-word.wav",
+      "sourceSha256": "96cea3c52f9f0408820dbdc21cde9b389a6dad561a229bc71f7bfabd0c3d6f72"
+    },
+    {
+      "symbol": "ʃ",
+      "voice": "male",
+      "word": "shoe",
+      "path": "/yinbiao/examples/shoe.mp3",
+      "duration": 2.16925,
+      "gaps": [
+        [
+          0.71102,
+          0.911293
+        ]
+      ],
+      "gap": [
+        0.71102,
+        0.911293
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.79102,
+      "wordStart": 0.8312930000000001,
+      "phonemePath": "/yinbiao/clips/male-283-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-283-word.wav",
+      "sourceSha256": "8a7be68c1e608120eb381de27a3cb07e1e62a76abb14cdea42919a5c43091052"
+    },
+    {
+      "symbol": "ʒ",
+      "voice": "male",
+      "word": "leisure",
+      "path": "/yinbiao/examples/leisure.mp3",
+      "duration": 2.299875,
+      "gaps": [
+        [
+          0.700454,
+          0.949683
+        ]
+      ],
+      "gap": [
+        0.700454,
+        0.949683
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.780454,
+      "wordStart": 0.8696830000000001,
+      "phonemePath": "/yinbiao/clips/male-292-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-292-word.wav",
+      "sourceSha256": "c76f2b6f08f520e009e0e2baa350df62c1d43b5ec3ed040d145e493ed9256bdc"
+    },
+    {
+      "symbol": "h",
+      "voice": "male",
+      "word": "hat",
+      "path": "/yinbiao/examples/hat.mp3",
+      "duration": 2.090875,
+      "gaps": [
+        [
+          0.426961,
+          0.767143
+        ]
+      ],
+      "gap": [
+        0.426961,
+        0.767143
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.506961,
+      "wordStart": 0.6871430000000001,
+      "phonemePath": "/yinbiao/clips/male-68-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-68-word.wav",
+      "sourceSha256": "4af8a67f7cbbf4a667e83d2c42e2192044f3b55c0ff7ad834a79ff32be358fa3"
+    },
+    {
+      "symbol": "tʃ",
+      "voice": "male",
+      "word": "chin",
+      "path": "/yinbiao/examples/chin.mp3",
+      "duration": 2.27375,
+      "gaps": [
+        [
+          0.462698,
+          0.945011
+        ]
+      ],
+      "gap": [
+        0.462698,
+        0.945011
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.542698,
+      "wordStart": 0.8650110000000001,
+      "phonemePath": "/yinbiao/clips/male-74-283-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-74-283-word.wav",
+      "sourceSha256": "d992897d89fe5ae3fe9443c01a9dc88a63af3a8d490f07fcd835133be4d36024"
+    },
+    {
+      "symbol": "dʒ",
+      "voice": "male",
+      "word": "joke",
+      "path": "/yinbiao/examples/joke.mp3",
+      "duration": 2.4565625,
+      "gaps": [
+        [
+          0.548549,
+          1.046735
+        ]
+      ],
+      "gap": [
+        0.548549,
+        1.046735
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.6285489999999999,
+      "wordStart": 0.966735,
+      "phonemePath": "/yinbiao/clips/male-64-292-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-64-292-word.wav",
+      "sourceSha256": "9016e6f0d70699a08d74d337e476d9ee122e2ab4b12e1eeb626980bef8cdf7f1"
+    },
+    {
+      "symbol": "m",
+      "voice": "male",
+      "word": "me",
+      "path": "/yinbiao/examples/me.mp3",
+      "duration": 2.143125,
+      "gaps": [
+        [
+          0.635488,
+          0.834989
+        ]
+      ],
+      "gap": [
+        0.635488,
+        0.834989
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.715488,
+      "wordStart": 0.754989,
+      "phonemePath": "/yinbiao/clips/male-6d-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-6d-word.wav",
+      "sourceSha256": "169ae96777d7b215cad5d64c2be2619c7b876481e7d6fe792795b62f0ea0a888"
+    },
+    {
+      "symbol": "n",
+      "voice": "male",
+      "word": "no",
+      "path": "/yinbiao/examples/no.mp3",
+      "duration": 2.090875,
+      "gaps": [],
+      "gap": [
+        0.780952,
+        0.86873
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.8248409999999999,
+      "wordStart": 0.8248409999999999,
+      "phonemePath": "/yinbiao/clips/male-6e-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-6e-word.wav",
+      "sourceSha256": "0d169524e04d5af55cf07bbb0800b99acdc48748a79183d2ce886ab9c02f54c2"
+    },
+    {
+      "symbol": "ŋ",
+      "voice": "male",
+      "word": "sing",
+      "path": "/yinbiao/examples/sing.mp3",
+      "duration": 2.2215,
+      "gaps": [],
+      "gap": [
+        0.619887,
+        0.749138
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.6845125,
+      "wordStart": 0.6845125,
+      "phonemePath": "/yinbiao/clips/male-14b-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-14b-word.wav",
+      "sourceSha256": "3756c749d3c50888e1d78a017aa993fd42d44372aaa9ecb8b492f07cf93dfa96"
+    },
+    {
+      "symbol": "w",
+      "voice": "male",
+      "word": "wet",
+      "path": "/yinbiao/examples/wet.mp3",
+      "duration": 2.16925,
+      "gaps": [
+        [
+          0.445306,
+          0.858141
+        ]
+      ],
+      "gap": [
+        0.445306,
+        0.858141
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.5253059999999999,
+      "wordStart": 0.7781410000000001,
+      "phonemePath": "/yinbiao/clips/male-77-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-77-word.wav",
+      "sourceSha256": "c198ac7afe7829fe0b7ddf30a0fa8357d1d745112699216160ab7bbf5e359885"
+    },
+    {
+      "symbol": "r",
+      "voice": "male",
+      "word": "red",
+      "path": "/yinbiao/examples/red.mp3",
+      "duration": 2.16925,
+      "gaps": [],
+      "gap": [
+        0.762381,
+        0.830476
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.7964285,
+      "wordStart": 0.7964285,
+      "phonemePath": "/yinbiao/clips/male-72-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-72-word.wav",
+      "sourceSha256": "c8ba4f6b7eda9426594dcf92e92c633f06c529af8fe390f59f114531b7b0775e"
+    },
+    {
+      "symbol": "l",
+      "voice": "male",
+      "word": "lip",
+      "path": "/yinbiao/examples/lip.mp3",
+      "duration": 1.908,
+      "gaps": [],
+      "gap": [
+        0.610045,
+        0.720862
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.6654534999999999,
+      "wordStart": 0.6654534999999999,
+      "phonemePath": "/yinbiao/clips/male-6c-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-6c-word.wav",
+      "sourceSha256": "fef14fa82c45aee0ca57d88ac2ad4b8343feadbd0d1efdfaca4876db6dc422cd"
+    },
+    {
+      "symbol": "j",
+      "voice": "male",
+      "word": "yet",
+      "path": "/yinbiao/examples/yet.mp3",
+      "duration": 2.16925,
+      "gaps": [
+        [
+          0.39712,
+          0.732857
+        ],
+        [
+          1.698254,
+          1.850658
+        ]
+      ],
+      "gap": [
+        0.39712,
+        0.732857
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.47712,
+      "wordStart": 0.652857,
+      "phonemePath": "/yinbiao/clips/male-6a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-6a-word.wav",
+      "sourceSha256": "cb28653e8c4bb07e70994fda26d45555d57ca43b700a3728ec1727e37065db35"
+    },
+    {
+      "symbol": "ɪ",
+      "voice": "male",
+      "word": "pit",
+      "path": "/yinbiao/examples/pit.mp3",
+      "duration": 2.117,
+      "gaps": [
+        [
+          0.529615,
+          0.798549
+        ]
+      ],
+      "gap": [
+        0.529615,
+        0.798549
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.6096149999999999,
+      "wordStart": 0.718549,
+      "phonemePath": "/yinbiao/clips/male-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-26a-word.wav",
+      "sourceSha256": "842bf78f91eaedf946686746e81443c4d182b6b04e365d26ab131c1e80baa60d"
+    },
+    {
+      "symbol": "e",
+      "voice": "male",
+      "word": "pet",
+      "path": "/yinbiao/examples/pet.mp3",
+      "duration": 2.0125,
+      "gaps": [
+        [
+          0.410023,
+          0.670952
+        ]
+      ],
+      "gap": [
+        0.410023,
+        0.670952
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.49002300000000004,
+      "wordStart": 0.590952,
+      "phonemePath": "/yinbiao/clips/male-65-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-65-word.wav",
+      "sourceSha256": "650beeb2ca52ab5af52496ff33c2b31df1a98ff2ac8c4d809d74a0eb8f3aeb9d"
+    },
+    {
+      "symbol": "æ",
+      "voice": "male",
+      "word": "pat",
+      "path": "/yinbiao/examples/pat.mp3",
+      "duration": 2.0125,
+      "gaps": [
+        [
+          0.494717,
+          0.728367
+        ],
+        [
+          1.195238,
+          1.325714
+        ]
+      ],
+      "gap": [
+        0.494717,
+        0.728367
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.574717,
+      "wordStart": 0.648367,
+      "phonemePath": "/yinbiao/clips/male-e6-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-e6-word.wav",
+      "sourceSha256": "a14b7adfb4ba6b9cac4d37073a62fa9755c457bcd1350841562f3c3b41e6e93f"
+    },
+    {
+      "symbol": "ɒ",
+      "voice": "male",
+      "word": "pot",
+      "path": "/yinbiao/examples/pot.mp3",
+      "duration": 2.038625,
+      "gaps": [
+        [
+          0.467007,
+          0.773651
+        ]
+      ],
+      "gap": [
+        0.467007,
+        0.773651
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.547007,
+      "wordStart": 0.693651,
+      "phonemePath": "/yinbiao/clips/male-252-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-252-word.wav",
+      "sourceSha256": "4a1639e4108b2c6957da30b5a3b79618499944ed97236cd6aa8922e304bf8e4d"
+    },
+    {
+      "symbol": "ʊ",
+      "voice": "male",
+      "word": "put",
+      "path": "/yinbiao/examples/put.mp3",
+      "duration": 1.96025,
+      "gaps": [
+        [
+          0.478481,
+          0.769116
+        ]
+      ],
+      "gap": [
+        0.478481,
+        0.769116
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.558481,
+      "wordStart": 0.6891160000000001,
+      "phonemePath": "/yinbiao/clips/male-28a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-28a-word.wav",
+      "sourceSha256": "7b862176b368016fb428a7353ca7a30ac7be242d76565128a691fb2e76f510f4"
+    },
+    {
+      "symbol": "ʌ",
+      "voice": "male",
+      "word": "cup",
+      "path": "/yinbiao/examples/cup.mp3",
+      "duration": 1.986375,
+      "gaps": [
+        [
+          0.586553,
+          0.877007
+        ]
+      ],
+      "gap": [
+        0.586553,
+        0.877007
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.666553,
+      "wordStart": 0.797007,
+      "phonemePath": "/yinbiao/clips/male-28c-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-28c-word.wav",
+      "sourceSha256": "ffae2549e14fbcb3d54b7229954625b1e3d7545945c4d14a305131c21a25e508"
+    },
+    {
+      "symbol": "iː",
+      "voice": "male",
+      "word": "peep",
+      "path": "/yinbiao/examples/peep.mp3",
+      "duration": 1.96025,
+      "gaps": [
+        [
+          0.596553,
+          0.800726
+        ],
+        [
+          1.307415,
+          1.429864
+        ]
+      ],
+      "gap": [
+        0.596553,
+        0.800726
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.676553,
+      "wordStart": 0.7207260000000001,
+      "phonemePath": "/yinbiao/clips/male-69-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-69-2d0-word.wav",
+      "sourceSha256": "30bf7e81f87958ce8e626a581267b82c51b5a8ecbd93c800e02350c754938d28"
+    },
+    {
+      "symbol": "ɑː",
+      "voice": "male",
+      "word": "part",
+      "path": "/yinbiao/examples/part.mp3",
+      "duration": 2.117,
+      "gaps": [],
+      "gap": [
+        0.598254,
+        0.668617
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.6334355,
+      "wordStart": 0.6334355,
+      "phonemePath": "/yinbiao/clips/male-251-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-251-2d0-word.wav",
+      "sourceSha256": "cedb073d68b2b31546eb61f4dce716a97ac4d4b637601cea2572d02b3243ca1a"
+    },
+    {
+      "symbol": "ɔː",
+      "voice": "male",
+      "word": "port",
+      "path": "/yinbiao/examples/port.mp3",
+      "duration": 2.16925,
+      "gaps": [],
+      "gap": [
+        0.640816,
+        0.718934
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.679875,
+      "wordStart": 0.679875,
+      "phonemePath": "/yinbiao/clips/male-254-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-254-2d0-word.wav",
+      "sourceSha256": "317bcc6acb9e2587c2792dcdc12344a4513fa8c936c845c09d996d90d0abb474"
+    },
+    {
+      "symbol": "uː",
+      "voice": "male",
+      "word": "food",
+      "path": "/yinbiao/examples/food.mp3",
+      "duration": 2.117,
+      "gaps": [],
+      "gap": [
+        0.633719,
+        0.697392
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.6655555,
+      "wordStart": 0.6655555,
+      "phonemePath": "/yinbiao/clips/male-75-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-75-2d0-word.wav",
+      "sourceSha256": "6bf3caa6b972532c432363b0cce968a3e770cee4b9dc33c50ed30193e5bac04b"
+    },
+    {
+      "symbol": "ɜː",
+      "voice": "male",
+      "word": "bird",
+      "path": "/yinbiao/examples/bird.mp3",
+      "duration": 2.090875,
+      "gaps": [],
+      "gap": [
+        0.640635,
+        0.700136
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.6703855,
+      "wordStart": 0.6703855,
+      "phonemePath": "/yinbiao/clips/male-25c-2d0-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-25c-2d0-word.wav",
+      "sourceSha256": "6b877b24750801e969a80cd85666b57453237fa3c8dbc77f54b434aef0939ac3"
+    },
+    {
+      "symbol": "eɪ",
+      "voice": "male",
+      "word": "bay",
+      "path": "/yinbiao/examples/bay.mp3",
+      "duration": 1.829625,
+      "gaps": [],
+      "gap": [
+        1.179116,
+        1.266145
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 1.2226305000000002,
+      "wordStart": 1.2226305000000002,
+      "phonemePath": "/yinbiao/clips/male-65-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-65-26a-word.wav",
+      "sourceSha256": "c922f7d8e7c887892af06731c7eed63821cd80c7235d4d461c25278a92301872"
+    },
+    {
+      "symbol": "aɪ",
+      "voice": "male",
+      "word": "buy",
+      "path": "/yinbiao/examples/buy.mp3",
+      "duration": 1.908,
+      "gaps": [],
+      "gap": [
+        1.174467,
+        1.281474
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 1.2279705,
+      "wordStart": 1.2279705,
+      "phonemePath": "/yinbiao/clips/male-61-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-61-26a-word.wav",
+      "sourceSha256": "e6fb2f8bfa670f5cb753c6907a471886151355309711ec4f45a46b2d817ef9ee"
+    },
+    {
+      "symbol": "ɔɪ",
+      "voice": "male",
+      "word": "boy",
+      "path": "/yinbiao/examples/boy.mp3",
+      "duration": 1.908,
+      "gaps": [],
+      "gap": [
+        1.144649,
+        1.251927
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 1.198288,
+      "wordStart": 1.198288,
+      "phonemePath": "/yinbiao/clips/male-254-26a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-254-26a-word.wav",
+      "sourceSha256": "42cd3d43325922143dd9005d20d6a5383685f2cf99555c27c192431eedb78c67"
+    },
+    {
+      "symbol": "əʊ",
+      "voice": "male",
+      "word": "so",
+      "path": "/yinbiao/examples/so-v.mp3",
+      "duration": 2.0125,
+      "gaps": [
+        [
+          0.545896,
+          0.714921
+        ]
+      ],
+      "gap": [
+        0.545896,
+        0.714921
+      ],
+      "method": "silence -40dB 120ms",
+      "phonemeEnd": 0.625896,
+      "wordStart": 0.6349210000000001,
+      "phonemePath": "/yinbiao/clips/male-259-28a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-259-28a-word.wav",
+      "sourceSha256": "54c102b774345fb9cd23f6a482d07344b1e6e90e9dbbca65ed6a7015832ba400"
+    },
+    {
+      "symbol": "aʊ",
+      "voice": "male",
+      "word": "cow",
+      "path": "/yinbiao/examples/cow.mp3",
+      "duration": 1.96025,
+      "gaps": [],
+      "gap": [
+        1.177347,
+        1.244558
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 1.2109524999999999,
+      "wordStart": 1.2109524999999999,
+      "phonemePath": "/yinbiao/clips/male-61-28a-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-61-28a-word.wav",
+      "sourceSha256": "b6473bd8d4185ff7becc50ea6e3a7b6ddd0b8cb5e6001c83c1987c31dc78d4ba"
+    },
+    {
+      "symbol": "ɪə",
+      "voice": "male",
+      "word": "hear",
+      "path": "/yinbiao/examples/hear.mp3",
+      "duration": 1.829625,
+      "gaps": [],
+      "gap": [
+        0.616417,
+        0.682562
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.6494895,
+      "wordStart": 0.6494895,
+      "phonemePath": "/yinbiao/clips/male-26a-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-26a-259-word.wav",
+      "sourceSha256": "62c4509148dc1f32b5acc76ec581afdd0cd81d3ac0de66e523488f33df3b9cc3"
+    },
+    {
+      "symbol": "eə",
+      "voice": "male",
+      "word": "hair",
+      "path": "/yinbiao/examples/hair.mp3",
+      "duration": 1.986375,
+      "gaps": [],
+      "gap": [
+        0.61254,
+        0.693084
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.652812,
+      "wordStart": 0.652812,
+      "phonemePath": "/yinbiao/clips/male-65-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-65-259-word.wav",
+      "sourceSha256": "c1a4c09868a4c150c94b95d485dad7cf570b21f6802f5d59337559a1379aed08"
+    },
+    {
+      "symbol": "ʊə",
+      "voice": "male",
+      "word": "pure",
+      "path": "/yinbiao/examples/pure.mp3",
+      "duration": 1.908,
+      "gaps": [],
+      "gap": [
+        1.076803,
+        1.203673
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 1.140238,
+      "wordStart": 1.140238,
+      "phonemePath": "/yinbiao/clips/male-28a-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-28a-259-word.wav",
+      "sourceSha256": "7d82136c08a57d57f86fb7141078a29fa0d2453110805efa97c7d0b1dc5e6c45"
+    },
+    {
+      "symbol": "ə",
+      "voice": "male",
+      "word": "about",
+      "path": "/yinbiao/examples/about.mp3",
+      "duration": 2.4838125,
+      "gaps": [],
+      "gap": [
+        0.42873,
+        0.930363
+      ],
+      "method": "short-gap review",
+      "phonemeEnd": 0.50873,
+      "wordStart": 0.8503630000000001,
+      "phonemePath": "/yinbiao/clips/male-259-phoneme.wav",
+      "wordPath": "/yinbiao/clips/male-259-word.wav",
+      "sourceSha256": "c7c2d22ac759c960866ef7caadf5cbf04032e0af54d97e211931874dd683328e"
+    }
+  ]
+}

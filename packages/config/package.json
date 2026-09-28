@@ -1,0 +1,27 @@
+{
+  "name": "@xueleai/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./eslint/base": "./eslint/base.mjs",
+    "./prettier": "./prettier.config.mjs",
+    "./tsconfig/base": "./tsconfig/base.json",
+    "./tsconfig/nest": "./tsconfig/nest.json",
+    "./tsconfig/next": "./tsconfig/next.json"
+  },
+  "scripts": {
+    "dev": "node -e \"console.log('共享配置包无需启动')\"",
+    "build": "node -e \"console.log('共享配置包无需构建')\"",
+    "lint": "eslint .",
+    "typecheck": "node -e \"console.log('共享配置包无需类型检查')\"",
+    "test": "node -e \"console.log('共享配置包暂无测试')\""
+  },
+  "dependencies": {
+    "@eslint/js": "10.0.1",
+    "typescript-eslint": "8.59.2"
+  },
+  "devDependencies": {
+    "eslint": "10.3.0"
+  }
+}

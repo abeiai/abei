@@ -1,0 +1,317 @@
+{
+  "method": "Whisper word alignment refined with intervening silence/low-energy boundary; original clips retained.",
+  "segments": [
+    {
+      "symbol": "p",
+      "word": "pea",
+      "source": "/yinbiao/clips/male-70-word.wav",
+      "path": "/yinbiao/clips/male-70-keyword.wav",
+      "startSeconds": 0.5788095,
+      "recognizerWordStart": 0.76
+    },
+    {
+      "symbol": "b",
+      "word": "bee",
+      "source": "/yinbiao/clips/male-62-word.wav",
+      "path": "/yinbiao/clips/male-62-keyword.wav",
+      "startSeconds": 0.629229,
+      "recognizerWordStart": 0.76
+    },
+    {
+      "symbol": "t",
+      "word": "tea",
+      "source": "/yinbiao/clips/male-74-word.wav",
+      "path": "/yinbiao/clips/male-74-keyword.wav",
+      "startSeconds": 0.6463495,
+      "recognizerWordStart": 0.84
+    },
+    {
+      "symbol": "d",
+      "word": "do",
+      "source": "/yinbiao/clips/male-64-word.wav",
+      "path": "/yinbiao/clips/male-64-keyword.wav",
+      "startSeconds": 0.595,
+      "recognizerWordStart": 0.7
+    },
+    {
+      "symbol": "k",
+      "word": "cat",
+      "source": "/yinbiao/clips/male-6b-word.wav",
+      "path": "/yinbiao/clips/male-6b-keyword.wav",
+      "startSeconds": 0.611712,
+      "recognizerWordStart": 0.76
+    },
+    {
+      "symbol": "ɡ",
+      "word": "get",
+      "source": "/yinbiao/clips/male-261-word.wav",
+      "path": "/yinbiao/clips/male-261-keyword.wav",
+      "startSeconds": 0.615,
+      "recognizerWordStart": 0.72
+    },
+    {
+      "symbol": "f",
+      "word": "fat",
+      "source": "/yinbiao/clips/male-66-word.wav",
+      "path": "/yinbiao/clips/male-66-keyword.wav",
+      "startSeconds": 0.56,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "v",
+      "word": "vet",
+      "source": "/yinbiao/clips/male-76-word.wav",
+      "path": "/yinbiao/clips/male-76-keyword.wav",
+      "startSeconds": 0.635,
+      "recognizerWordStart": 0.78
+    },
+    {
+      "symbol": "θ",
+      "word": "thin",
+      "source": "/yinbiao/clips/male-3b8-word.wav",
+      "path": "/yinbiao/clips/male-3b8-keyword.wav",
+      "startSeconds": 0.71,
+      "recognizerWordStart": 0.86
+    },
+    {
+      "symbol": "ð",
+      "word": "then",
+      "source": "/yinbiao/clips/male-f0-word.wav",
+      "path": "/yinbiao/clips/male-f0-keyword.wav",
+      "startSeconds": 0.65,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "s",
+      "word": "so",
+      "source": "/yinbiao/clips/male-73-word.wav",
+      "path": "/yinbiao/clips/male-73-keyword.wav",
+      "startSeconds": 0.545,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "z",
+      "word": "zoo",
+      "source": "/yinbiao/clips/male-7a-word.wav",
+      "path": "/yinbiao/clips/male-7a-keyword.wav",
+      "startSeconds": 0.6399375,
+      "recognizerWordStart": 0.84
+    },
+    {
+      "symbol": "ʃ",
+      "word": "shoe",
+      "source": "/yinbiao/clips/male-283-word.wav",
+      "path": "/yinbiao/clips/male-283-keyword.wav",
+      "startSeconds": 0.65,
+      "recognizerWordStart": 0.9
+    },
+    {
+      "symbol": "ʒ",
+      "word": "leisure",
+      "source": "/yinbiao/clips/male-292-word.wav",
+      "path": "/yinbiao/clips/male-292-keyword.wav",
+      "startSeconds": 0.62,
+      "recognizerWordStart": 0.74
+    },
+    {
+      "symbol": "h",
+      "word": "hat",
+      "source": "/yinbiao/clips/male-68-word.wav",
+      "path": "/yinbiao/clips/male-68-keyword.wav",
+      "startSeconds": 0.63,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "tʃ",
+      "word": "chin",
+      "source": "/yinbiao/clips/male-74-283-word.wav",
+      "path": "/yinbiao/clips/male-74-283-keyword.wav",
+      "startSeconds": 0.5924035000000001,
+      "recognizerWordStart": 0.84
+    },
+    {
+      "symbol": "dʒ",
+      "word": "joke",
+      "source": "/yinbiao/clips/male-64-292-word.wav",
+      "path": "/yinbiao/clips/male-64-292-keyword.wav",
+      "startSeconds": 0.63,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "m",
+      "word": "me",
+      "source": "/yinbiao/clips/male-6d-word.wav",
+      "path": "/yinbiao/clips/male-6d-keyword.wav",
+      "startSeconds": 0.57,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "n",
+      "word": "no",
+      "source": "/yinbiao/clips/male-6e-word.wav",
+      "path": "/yinbiao/clips/male-6e-keyword.wav",
+      "startSeconds": 0.6,
+      "recognizerWordStart": 0.76
+    },
+    {
+      "symbol": "ŋ",
+      "word": "sing",
+      "source": "/yinbiao/clips/male-14b-word.wav",
+      "path": "/yinbiao/clips/male-14b-keyword.wav",
+      "startSeconds": 0.625,
+      "recognizerWordStart": 0.9
+    },
+    {
+      "symbol": "w",
+      "word": "wet",
+      "source": "/yinbiao/clips/male-77-word.wav",
+      "path": "/yinbiao/clips/male-77-keyword.wav",
+      "startSeconds": 0.7199375,
+      "recognizerWordStart": 0.84
+    },
+    {
+      "symbol": "r",
+      "word": "red",
+      "source": "/yinbiao/clips/male-72-word.wav",
+      "path": "/yinbiao/clips/male-72-keyword.wav",
+      "startSeconds": 0.570567,
+      "recognizerWordStart": 0.82
+    },
+    {
+      "symbol": "l",
+      "word": "lip",
+      "source": "/yinbiao/clips/male-6c-word.wav",
+      "path": "/yinbiao/clips/male-6c-keyword.wav",
+      "startSeconds": 0.6499375,
+      "recognizerWordStart": 0.84
+    },
+    {
+      "symbol": "j",
+      "word": "yet",
+      "source": "/yinbiao/clips/male-6a-word.wav",
+      "path": "/yinbiao/clips/male-6a-keyword.wav",
+      "startSeconds": 0.6699375,
+      "recognizerWordStart": 0.82
+    },
+    {
+      "symbol": "ɪ",
+      "word": "pit",
+      "source": "/yinbiao/clips/male-26a-word.wav",
+      "path": "/yinbiao/clips/male-26a-keyword.wav",
+      "startSeconds": 0.631508,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "e",
+      "word": "pet",
+      "source": "/yinbiao/clips/male-65-word.wav",
+      "path": "/yinbiao/clips/male-65-keyword.wav",
+      "startSeconds": 0.636814,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "æ",
+      "word": "pat",
+      "source": "/yinbiao/clips/male-e6-word.wav",
+      "path": "/yinbiao/clips/male-e6-keyword.wav",
+      "startSeconds": 0.605,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "ɒ",
+      "word": "pot",
+      "source": "/yinbiao/clips/male-252-word.wav",
+      "path": "/yinbiao/clips/male-252-keyword.wav",
+      "startSeconds": 0.5782425,
+      "recognizerWordStart": 0.74
+    },
+    {
+      "symbol": "ʊ",
+      "word": "put",
+      "source": "/yinbiao/clips/male-28a-word.wav",
+      "path": "/yinbiao/clips/male-28a-keyword.wav",
+      "startSeconds": 0.6022335000000001,
+      "recognizerWordStart": 0.78
+    },
+    {
+      "symbol": "ʌ",
+      "word": "cup",
+      "source": "/yinbiao/clips/male-28c-word.wav",
+      "path": "/yinbiao/clips/male-28c-keyword.wav",
+      "startSeconds": 0.5744445,
+      "recognizerWordStart": 0.76
+    },
+    {
+      "symbol": "iː",
+      "word": "peep",
+      "source": "/yinbiao/clips/male-69-2d0-word.wav",
+      "path": "/yinbiao/clips/male-69-2d0-keyword.wav",
+      "startSeconds": 0.627687,
+      "recognizerWordStart": 0.8
+    },
+    {
+      "symbol": "ɑː",
+      "word": "part",
+      "source": "/yinbiao/clips/male-251-2d0-word.wav",
+      "path": "/yinbiao/clips/male-251-2d0-keyword.wav",
+      "startSeconds": 0.555658,
+      "recognizerWordStart": 0.74
+    },
+    {
+      "symbol": "ɔː",
+      "word": "port",
+      "source": "/yinbiao/clips/male-254-2d0-word.wav",
+      "path": "/yinbiao/clips/male-254-2d0-keyword.wav",
+      "startSeconds": 0.559796,
+      "recognizerWordStart": 0.74
+    },
+    {
+      "symbol": "uː",
+      "word": "food",
+      "source": "/yinbiao/clips/male-75-2d0-word.wav",
+      "path": "/yinbiao/clips/male-75-2d0-keyword.wav",
+      "startSeconds": 0.545,
+      "recognizerWordStart": 0.68
+    },
+    {
+      "symbol": "ɜː",
+      "word": "bird",
+      "source": "/yinbiao/clips/male-25c-2d0-word.wav",
+      "path": "/yinbiao/clips/male-25c-2d0-keyword.wav",
+      "startSeconds": 0.6158845,
+      "recognizerWordStart": 0.72
+    },
+    {
+      "symbol": "əʊ",
+      "word": "so",
+      "source": "/yinbiao/clips/male-259-28a-word.wav",
+      "path": "/yinbiao/clips/male-259-28a-keyword.wav",
+      "startSeconds": 0.5649375,
+      "recognizerWordStart": 0.82
+    },
+    {
+      "symbol": "ɪə",
+      "word": "hear",
+      "source": "/yinbiao/clips/male-26a-259-word.wav",
+      "path": "/yinbiao/clips/male-26a-259-keyword.wav",
+      "startSeconds": 0.52,
+      "recognizerWordStart": 0.7
+    },
+    {
+      "symbol": "eə",
+      "word": "hair",
+      "source": "/yinbiao/clips/male-65-259-word.wav",
+      "path": "/yinbiao/clips/male-65-259-keyword.wav",
+      "startSeconds": 0.61,
+      "recognizerWordStart": 0.76
+    },
+    {
+      "symbol": "ə",
+      "word": "about",
+      "source": "/yinbiao/clips/male-259-word.wav",
+      "path": "/yinbiao/clips/male-259-keyword.wav",
+      "startSeconds": 0.675397,
+      "recognizerWordStart": 0.8
+    }
+  ]
+}

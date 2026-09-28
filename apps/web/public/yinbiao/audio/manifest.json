@@ -1,0 +1,554 @@
+{
+  "sourcePage": "https://www.internationalphoneticassociation.org/IPAcharts/IPA_charts_TI/IPA_charts_TI.html#eng",
+  "accessed": "2026-09-13",
+  "copyright": "John Esling / Jill House; see source audio copyright and permissions",
+  "modifications": "None; original MP3 bytes.",
+  "recordings": [
+    {
+      "symbol": "ɑ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0251.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0251.mp3",
+      "sha256": "3aae713f2c24c1269d33cec8ba98d9a9fc8a941dbd88df200a8a59c3a038a218",
+      "bytes": 19435
+    },
+    {
+      "symbol": "ɑ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0251.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0251.mp3",
+      "sha256": "42dbbb111e4eafb304143452b319876c185f8147d6d17165e8ea847a4f3254a7",
+      "bytes": 16927
+    },
+    {
+      "symbol": "ɔ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0254.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0254.mp3",
+      "sha256": "d4f03c8e17d2c27e547d11a713b8c940b5f4ae4af9545322bd13a4ae458fe5c5",
+      "bytes": 19435
+    },
+    {
+      "symbol": "ɔ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0254.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0254.mp3",
+      "sha256": "36acc77ecb9d52752b8afc2c122fe78960cf4d0a09dbac5d1014803af5b97bb6",
+      "bytes": 21942
+    },
+    {
+      "symbol": "ɜ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/025C.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/025C.mp3",
+      "sha256": "3d8d7b7a4f133309b3490c94dd3e910c92414eab65e42028f42450e4633a7f38",
+      "bytes": 20689
+    },
+    {
+      "symbol": "ɜ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/025C.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/025C.mp3",
+      "sha256": "7bec4d08044bba7b311e198ed8bbe3840d1c50d49b222aae63902772aa43e284",
+      "bytes": 17554
+    },
+    {
+      "symbol": "i",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0069.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0069.mp3",
+      "sha256": "9c558e96f4f162664ba528b09338bacd8d3c599ee791842b3711d3bd37de9e01",
+      "bytes": 23823
+    },
+    {
+      "symbol": "i",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0069.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0069.mp3",
+      "sha256": "921919d669cf346c8d59249d90818b0f45c8f687b687c646d36df858849acbf0",
+      "bytes": 22569
+    },
+    {
+      "symbol": "u",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0075.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0075.mp3",
+      "sha256": "50cf6281c54c0919e77ad6bd9fc7f90e86f2b67a016ac99612db10da8e66310d",
+      "bytes": 19435
+    },
+    {
+      "symbol": "u",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0075.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0075.mp3",
+      "sha256": "7daa0c5e3e8cdbc2e78bcfcd584b2e9ae2b9cae5495fe7571c5a89f099de9f30",
+      "bytes": 21942
+    },
+    {
+      "symbol": "ʌ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/028C.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/028C.mp3",
+      "sha256": "fb2166b8a0fa16aa687ff99d344f01c3e40a320fbff2c44a20c83da1df782019",
+      "bytes": 18808
+    },
+    {
+      "symbol": "ʌ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/028C.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/028C.mp3",
+      "sha256": "b845bde842b4d1ff44845ad1905daab92ce2bfc0fb7f2156888cb3a7fa2861a7",
+      "bytes": 17554
+    },
+    {
+      "symbol": "ɒ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0252.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0252.mp3",
+      "sha256": "a9386a7a68edd69ce78f0ab3505d863af051f77d7f9211dcff9b6c76d4fdae15",
+      "bytes": 20062
+    },
+    {
+      "symbol": "ɒ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0252.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0252.mp3",
+      "sha256": "4a1851f436794ae82d5319690cda412a3a45868f5ce26e11c6909d3e2e847a68",
+      "bytes": 20689
+    },
+    {
+      "symbol": "ə",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0259.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0259.mp3",
+      "sha256": "529b837d983575cb9fbd54ec739ce1e8f60bbba03f2303efee1d5e888b3af5c6",
+      "bytes": 18808
+    },
+    {
+      "symbol": "ə",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0259.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0259.mp3",
+      "sha256": "98f7ad5b1a37ca2898a53065ddb7750be6be76aeba637dc9d0a5763b79b48492",
+      "bytes": 18808
+    },
+    {
+      "symbol": "ɪ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/026A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/026A.mp3",
+      "sha256": "e06460c87e734fd9e1d23a8525c057b83737340b18c791d2f0523a72cd26ffbf",
+      "bytes": 16300
+    },
+    {
+      "symbol": "ɪ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/026A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/026A.mp3",
+      "sha256": "ab5e95ad4fc7d81599d5c5f58643bcbe157695a6161ea7e25bb8ef3073e6f243",
+      "bytes": 15673
+    },
+    {
+      "symbol": "ʊ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/028A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/028A.mp3",
+      "sha256": "4734c0714d90ad7377f7596cb4e509d8659c309ca991d58d856e3267126fe98c",
+      "bytes": 16927
+    },
+    {
+      "symbol": "ʊ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/028A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/028A.mp3",
+      "sha256": "0a96e75141a268df444eb81e6dc276bf7a4d95a6bc272af32a17181e051bf453",
+      "bytes": 15046
+    },
+    {
+      "symbol": "e",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0065.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0065.mp3",
+      "sha256": "245f4dc5035dcab502a37fc9f502edf1ff5981e31b79d84206c0e4b3d6cdbac8",
+      "bytes": 23196
+    },
+    {
+      "symbol": "e",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0065.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0065.mp3",
+      "sha256": "e15d301c1f56231094a71a6aaac593165a6057fd27d0b2feda93d17d623ddef7",
+      "bytes": 18808
+    },
+    {
+      "symbol": "æ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/00E6.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/00E6.mp3",
+      "sha256": "223ccd141c50403e0724afbbd1fecba9f1f986ba9def30597af34f6c607d1f3b",
+      "bytes": 18808
+    },
+    {
+      "symbol": "æ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/00E6.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/00E6.mp3",
+      "sha256": "42b929199723184a4b8e4cc389c0818a59e693415ad403b353dd87d99689fd64",
+      "bytes": 15673
+    },
+    {
+      "symbol": "b",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0062.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0062.mp3",
+      "sha256": "09ea42e0258d86c3b01c5018eaab29d40d416da5b40af8dd3417768ba4e040c8",
+      "bytes": 45766
+    },
+    {
+      "symbol": "b",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0062.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0062.mp3",
+      "sha256": "8e40649ec22891f22ba55a5e46ea6af0631e5a153101d9d5b340b7ce568285a3",
+      "bytes": 32600
+    },
+    {
+      "symbol": "d",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0064.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0064.mp3",
+      "sha256": "d3fd1fe3dc1218bcae49ad6545f6e7e837fe17314051c99f89658320bd59d460",
+      "bytes": 47020
+    },
+    {
+      "symbol": "d",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0064.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0064.mp3",
+      "sha256": "a47c8ad3198f0a95cfa5d69151503d49a43a741c2da5d3b36e0d40f0e3a1fe21",
+      "bytes": 34481
+    },
+    {
+      "symbol": "ɡ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0261.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0261.mp3",
+      "sha256": "992693c4694f9e865d487acd4a2febddeae54a153ca6cdfe3bd15a134e13fc6c",
+      "bytes": 45766
+    },
+    {
+      "symbol": "ɡ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0261.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0261.mp3",
+      "sha256": "248ae3bcf18b8d875ef1e1d47cb664b630e1742989e4cc330dfd4d7c6d4277f0",
+      "bytes": 30720
+    },
+    {
+      "symbol": "v",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0076.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0076.mp3",
+      "sha256": "33d4553e47825a62e44b676a2322af50e536833f304d185329ba02803525708f",
+      "bytes": 50155
+    },
+    {
+      "symbol": "v",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0076.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0076.mp3",
+      "sha256": "5aa01ab7bec583743d8c61607d9ba8daf64d8a4f8a6a10982bc68a0d8d9124d5",
+      "bytes": 28839
+    },
+    {
+      "symbol": "ð",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/00F0.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/00F0.mp3",
+      "sha256": "42b04707c1cf3e0d6146bd17fb0d07d30faa8422af5e9d866c1f6bd917a91741",
+      "bytes": 57678
+    },
+    {
+      "symbol": "ð",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/00F0.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/00F0.mp3",
+      "sha256": "45754f60fb578ab7f739112d0eea091ee6f40c1620d8e397cc09dff2e0a3157c",
+      "bytes": 35108
+    },
+    {
+      "symbol": "z",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/007A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/007A.mp3",
+      "sha256": "0f5564bcc8bbdfc85ddf9625fbe80da1c104ad2a41bb4fa16ae5b22bb8b34fbf",
+      "bytes": 51409
+    },
+    {
+      "symbol": "z",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/007A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/007A.mp3",
+      "sha256": "189bee24eb4fa8e06f5d3722dbd9dd10703f1d8b7d6576116af9f4785260f35a",
+      "bytes": 33854
+    },
+    {
+      "symbol": "ʒ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0292.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0292.mp3",
+      "sha256": "c2be8656e87eb0e79ba4036851e08c885b4da1a1ce2a1105234ac00471e2db6a",
+      "bytes": 54543
+    },
+    {
+      "symbol": "ʒ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0292.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0292.mp3",
+      "sha256": "f2027cf3b209b8f295708d5baf37bbcdde6436a1537a75da2c11ce9bf2183e53",
+      "bytes": 36362
+    },
+    {
+      "symbol": "ɹ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0279.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0279.mp3",
+      "sha256": "cb9bdef71f03047e807e4b1035e7f2a98852dee738065cda60f9b18ef2c2d068",
+      "bytes": 48274
+    },
+    {
+      "symbol": "ɹ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0279.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0279.mp3",
+      "sha256": "caf7af425ddc7c07a4f03f9a070b2331cf8dc965e3484aa4a0ecd37a9104d904",
+      "bytes": 34481
+    },
+    {
+      "symbol": "p",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0070.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0070.mp3",
+      "sha256": "7a3894562ef9de1dee41768669365abb6a90d16d87d4d1adbc4425ccb2808bea",
+      "bytes": 41378
+    },
+    {
+      "symbol": "p",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0070.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0070.mp3",
+      "sha256": "44c794710851915a3b3acb6cc4c2ef3ac4b48ce1c12b33c63426c09abe435ed9",
+      "bytes": 32600
+    },
+    {
+      "symbol": "t",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0074.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0074.mp3",
+      "sha256": "66c2a551fadab55cd71827e5033ecc8ea3734ca420d4edadc9b194ac1325f51b",
+      "bytes": 41378
+    },
+    {
+      "symbol": "t",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0074.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0074.mp3",
+      "sha256": "d5f10bc0efc001c6df54e8376656c15bbf6b09fa27a404a47e5f655afcae38c7",
+      "bytes": 36362
+    },
+    {
+      "symbol": "k",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/006B.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/006B.mp3",
+      "sha256": "d08f65a74afdd6969f5c76b034859121fce0d79979cfe826dd8235279d7340af",
+      "bytes": 44512
+    },
+    {
+      "symbol": "k",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/006B.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/006B.mp3",
+      "sha256": "269579567ef727d147e08a492dd8d6278eb32c616cbbf31390b58c6550b4224c",
+      "bytes": 26331
+    },
+    {
+      "symbol": "f",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0066.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0066.mp3",
+      "sha256": "cd399883b92d85ab5cf4615c4a11c52faf37ee0a0d9c318800ccae6e94fbe19a",
+      "bytes": 53916
+    },
+    {
+      "symbol": "f",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0066.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0066.mp3",
+      "sha256": "5bde361abf61f2a306fd59b7aec3d5477fbf084cbbba2226e6162bcfb687e230",
+      "bytes": 27585
+    },
+    {
+      "symbol": "θ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/03B8.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/03B8.mp3",
+      "sha256": "6213bae0bfa86d6a2debc4382dd9d7da89660ed7ebd54b95ac7b3f8c35d2d1e6",
+      "bytes": 53916
+    },
+    {
+      "symbol": "θ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/03B8.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/03B8.mp3",
+      "sha256": "eb731ec6a33763e1b7178781d2afdf9cacf2f723139df5150230e45d6d6ba730",
+      "bytes": 35108
+    },
+    {
+      "symbol": "s",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0073.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0073.mp3",
+      "sha256": "0cc5ec548cb71537b0e0d54d7965673e182e683c87b7790079df4e3e00831b89",
+      "bytes": 57051
+    },
+    {
+      "symbol": "s",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0073.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0073.mp3",
+      "sha256": "e91fa27ba02070fe38b50ca316ec44a9c022a92327025d6226ef4b037dcfb996",
+      "bytes": 33227
+    },
+    {
+      "symbol": "ʃ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0283.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0283.mp3",
+      "sha256": "57952fa228183aeb57e271df395ac5145ea444542f4eec3ded222444ab895ae4",
+      "bytes": 55797
+    },
+    {
+      "symbol": "ʃ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0283.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0283.mp3",
+      "sha256": "671540e8ea1136cacaaae1ce05aeb192e78ad12a43499551182c67e5079870f9",
+      "bytes": 38243
+    },
+    {
+      "symbol": "h",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0068.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0068.mp3",
+      "sha256": "676db1a55acb2d59e24c7e3b818fbce4c35a89a772ad9a7b7c0eadff56e16dbe",
+      "bytes": 53916
+    },
+    {
+      "symbol": "h",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0068.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0068.mp3",
+      "sha256": "7e10f29145ead34d701e45788058bc8c237dd9ed790872f7cd722775d9629b6e",
+      "bytes": 31973
+    },
+    {
+      "symbol": "j",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/006A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/006A.mp3",
+      "sha256": "ecd57c0d4f770937d63f7685980446df60a9a74ba945da5ff1e9cf75b38c6890",
+      "bytes": 48274
+    },
+    {
+      "symbol": "j",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/006A.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/006A.mp3",
+      "sha256": "0cf4a7b12eb8d6573ffb1a9fd96141c20325358ff22902cb53bf00e52ff44827",
+      "bytes": 30093
+    },
+    {
+      "symbol": "w",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/0077.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/0077.mp3",
+      "sha256": "7f503e4f2b441699415581aec534672ff23f8962b4cfe5dda10194ce297004db",
+      "bytes": 46393
+    },
+    {
+      "symbol": "w",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/0077.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/0077.mp3",
+      "sha256": "8942a854d4094859f433822b8ee8be16dbf752cbf1f59ed5c278ca5c019a3918",
+      "bytes": 24450
+    },
+    {
+      "symbol": "m",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/006D.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/006D.mp3",
+      "sha256": "26faf0dfb307e0a905176c3db1ac19487a9dd211970c1afa1140053d17b801a6",
+      "bytes": 43885
+    },
+    {
+      "symbol": "m",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/006D.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/006D.mp3",
+      "sha256": "c65a197e90c3a17979ac8410adb5f4df99b36790fc9d1d30f30b4c49540c19f0",
+      "bytes": 32600
+    },
+    {
+      "symbol": "n",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/006E.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/006E.mp3",
+      "sha256": "f0628e2f1b25e2be7d5e2cdd5cf15ab43e59a70ea89867f4c7702b0d67690bc8",
+      "bytes": 46393
+    },
+    {
+      "symbol": "n",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/006E.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/006E.mp3",
+      "sha256": "2721a6f94cd48267405933c838f01e8e46c07ba1b0e0a7f8c4bafa4c52ad14ae",
+      "bytes": 26958
+    },
+    {
+      "symbol": "ŋ",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/014B.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/014B.mp3",
+      "sha256": "79e447e45359fcbbe3f2c4e520b91d4abaa3033061033090fdca04ec2d54f113",
+      "bytes": 46393
+    },
+    {
+      "symbol": "ŋ",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/014B.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/014B.mp3",
+      "sha256": "8df09c83d7e30f32e163d8c9d763c0f3a7038089a0c4e9f6c202eeb467c4912c",
+      "bytes": 28839
+    },
+    {
+      "symbol": "l",
+      "speaker": "J. Esling",
+      "path": "/yinbiao/audio/JE/006C.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JE/006C.mp3",
+      "sha256": "b29decfe03f5a4c4b05d1733be6b5c77c6eb564c3ff3d7d44ef310203e70c2dc",
+      "bytes": 54543
+    },
+    {
+      "symbol": "l",
+      "speaker": "J. House",
+      "path": "/yinbiao/audio/JH/006C.mp3",
+      "source": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/sounds/JH/006C.mp3",
+      "sha256": "c64e1a2e527a1674751b173ac64ebc2f06046c6a3a5300a4592bb187fb150c41",
+      "bytes": 26331
+    }
+  ],
+  "rightsPage": "https://www.internationalphoneticassociation.org/IPAcharts/common_files/IPA_charts_about.html",
+  "licenseNote": "No blanket audio redistribution licence verified. Chart CC BY-SA licence is not asserted for these recordings. Review audio permissions before public/commercial distribution."
+}

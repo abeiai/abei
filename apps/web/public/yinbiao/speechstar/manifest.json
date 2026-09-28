@@ -1,0 +1,223 @@
+{
+  "sourcePage": "https://www.speechstar.ac.uk/speech-sound-animations/",
+  "accessed": "2026-09-13",
+  "modifications": "None; original MP4 files.",
+  "recordings": [
+    {
+      "symbol": "p",
+      "word": "pat",
+      "source": "https://www.speechstar.ac.uk/video/vl_bilabial_plosive.mp4",
+      "path": "/yinbiao/speechstar/vl_bilabial_plosive.mp4",
+      "sourceId": 16,
+      "sha256": "ea46a08bba05b167c6b0d36a0588cf93e5e0e8da39e2dd6633b403ee06085d85",
+      "bytes": 216173
+    },
+    {
+      "symbol": "b",
+      "word": "bat",
+      "source": "https://www.speechstar.ac.uk/video/vd_bilabial_plosive.mp4",
+      "path": "/yinbiao/speechstar/vd_bilabial_plosive.mp4",
+      "sourceId": 7,
+      "sha256": "3826000bbb1f1e156d73830db363fa0e0a7c14287afb7ee8ea84d88076545b86",
+      "bytes": 252906
+    },
+    {
+      "symbol": "t",
+      "word": "tot",
+      "source": "https://www.speechstar.ac.uk/video/vl_alveolar_plosive.mp4",
+      "path": "/yinbiao/speechstar/vl_alveolar_plosive.mp4",
+      "sourceId": 15,
+      "sha256": "e50f470f9f3ad7c6b8c49dd379e9498f01752351505755ca2efd19cb8df204cb",
+      "bytes": 276133
+    },
+    {
+      "symbol": "d",
+      "word": "dot",
+      "source": "https://www.speechstar.ac.uk/video/vd_alveolar_plosive-new.mp4",
+      "path": "/yinbiao/speechstar/vd_alveolar_plosive-new.mp4",
+      "sourceId": 5,
+      "sha256": "7efc825833b77810c0ddc76ebac0ef7462d452dcc331745a2b80db6a614549ee",
+      "bytes": 337352
+    },
+    {
+      "symbol": "k",
+      "word": "cot",
+      "source": "https://www.speechstar.ac.uk/video/vl_velar_plosive.mp4",
+      "path": "/yinbiao/speechstar/vl_velar_plosive.mp4",
+      "sourceId": 22,
+      "sha256": "84161d5d1d33893a53e219be746e319b464acebc12b14963646669b3c82aa0c5",
+      "bytes": 200000
+    },
+    {
+      "symbol": "ɡ",
+      "word": "got",
+      "source": "https://www.speechstar.ac.uk/video/vd_velar_plosive.mp4",
+      "path": "/yinbiao/speechstar/vd_velar_plosive.mp4",
+      "sourceId": 13,
+      "sha256": "5698227be7d1b597793af5fe1c86e4e2d739acf09f64d4e1e8f3516bc777c344",
+      "bytes": 197357
+    },
+    {
+      "symbol": "m",
+      "word": "mop",
+      "source": "https://www.speechstar.ac.uk/video/vd_bilabial_nasal.mp4",
+      "path": "/yinbiao/speechstar/vd_bilabial_nasal.mp4",
+      "sourceId": 6,
+      "sha256": "e560656f2f6a59640a2b6a91ca2ac03332c311d10905c11aef03a296191a423c",
+      "bytes": 425712
+    },
+    {
+      "symbol": "n",
+      "word": "nap",
+      "source": "https://www.speechstar.ac.uk/video/vd_alveolar_nasal.mp4",
+      "path": "/yinbiao/speechstar/vd_alveolar_nasal.mp4",
+      "sourceId": 4,
+      "sha256": "21a8eddf9840974302f3f9135f3f43bfd11155f8d77530f020aa7401a1a74584",
+      "bytes": 362657
+    },
+    {
+      "symbol": "ŋ",
+      "word": "sing",
+      "source": "https://www.speechstar.ac.uk/video/vd_velar_nasal.mp4",
+      "path": "/yinbiao/speechstar/vd_velar_nasal.mp4",
+      "sourceId": 12,
+      "sha256": "44e48112224f1f2f68ebe5bd1b53e15000f031639fb4442010d0de1f2b0c9134",
+      "bytes": 291781
+    },
+    {
+      "symbol": "f",
+      "word": "fit",
+      "source": "https://www.speechstar.ac.uk/video/vl_labiodental_fricative.mp4",
+      "path": "/yinbiao/speechstar/vl_labiodental_fricative.mp4",
+      "sourceId": 19,
+      "sha256": "667df85c782d32a6b2f134dd597283224c80a379da2b82352d1d86740eec20f0",
+      "bytes": 346542
+    },
+    {
+      "symbol": "v",
+      "word": "vat",
+      "source": "https://www.speechstar.ac.uk/video/vd_labiodental_fricative.mp4",
+      "path": "/yinbiao/speechstar/vd_labiodental_fricative.mp4",
+      "sourceId": 9,
+      "sha256": "a862337cc484a1c4cc9fdd3f816957b728872b44914aa9be7bb1bdecc767f978",
+      "bytes": 366206
+    },
+    {
+      "symbol": "θ",
+      "word": "think",
+      "source": "https://www.speechstar.ac.uk/video/vl_dental_fricative.mp4",
+      "path": "/yinbiao/speechstar/vl_dental_fricative.mp4",
+      "sourceId": 17,
+      "sha256": "920cd1190c2946abfd00e580ba0e2ea5c5ee846c1349dbae1017fb15a497ccd6",
+      "bytes": 347362
+    },
+    {
+      "symbol": "ð",
+      "word": "though",
+      "source": "https://www.speechstar.ac.uk/video/vd_dental_fricative.mp4",
+      "path": "/yinbiao/speechstar/vd_dental_fricative.mp4",
+      "sourceId": 8,
+      "sha256": "a984a5bfe2e4a9b8dbbd9ec0c2ac78febe05f93e22f81aaab4907c88ee905e72",
+      "bytes": 302834
+    },
+    {
+      "symbol": "s",
+      "word": "sip",
+      "source": "https://www.speechstar.ac.uk/video/vl_alveolar_fricative.mp4",
+      "path": "/yinbiao/speechstar/vl_alveolar_fricative.mp4",
+      "sourceId": 14,
+      "sha256": "8aa2b8f5e30d8cd24ac64b78722e17521a541d5013303eec57ed06783e8f53e9",
+      "bytes": 312163
+    },
+    {
+      "symbol": "z",
+      "word": "zip",
+      "source": "https://www.speechstar.ac.uk/video/vd_alveolar_fricative.mp4",
+      "path": "/yinbiao/speechstar/vd_alveolar_fricative.mp4",
+      "sourceId": 2,
+      "sha256": "7cf8514375223130aa57ea066960fc76ef76e60ec196b1d5279bfb59100ab376",
+      "bytes": 264762
+    },
+    {
+      "symbol": "ʃ",
+      "word": "ship",
+      "source": "https://www.speechstar.ac.uk/video/vl_postalveolar_fricative.mp4",
+      "path": "/yinbiao/speechstar/vl_postalveolar_fricative.mp4",
+      "sourceId": 20,
+      "sha256": "cc6c3e7ee60d316528cbc6577ee31313548d6f246daee84d8cce08087186edcd",
+      "bytes": 283892
+    },
+    {
+      "symbol": "ʒ",
+      "word": "vision",
+      "source": "https://www.speechstar.ac.uk/video/vd_postalveolar_fricative.mp4",
+      "path": "/yinbiao/speechstar/vd_postalveolar_fricative.mp4",
+      "sourceId": 11,
+      "sha256": "b4690cd698a148b118118795305473e7c7e668a5f89be0b4e802464c25bf6df6",
+      "bytes": 298964
+    },
+    {
+      "symbol": "h",
+      "word": "hen",
+      "source": "https://www.speechstar.ac.uk/video/vl_glottal_fricative.mp4",
+      "path": "/yinbiao/speechstar/vl_glottal_fricative.mp4",
+      "sourceId": 18,
+      "sha256": "fc89408ec9cf858354bbb9f068086c7e2ceab0528a9eadb8fa694c5cabed64f4",
+      "bytes": 302927
+    },
+    {
+      "symbol": "tʃ",
+      "word": "cheap",
+      "source": "https://www.speechstar.ac.uk/video/vl_postalveolar_affricate.mp4",
+      "path": "/yinbiao/speechstar/vl_postalveolar_affricate.mp4",
+      "sourceId": 25,
+      "sha256": "acd179bd99a8ced8f6e66807670d6520e1503db33258297c2d066963fa34c278",
+      "bytes": 408867
+    },
+    {
+      "symbol": "dʒ",
+      "word": "jeep",
+      "source": "https://www.speechstar.ac.uk/video/vd_postalveolar_affricate.mp4",
+      "path": "/yinbiao/speechstar/vd_postalveolar_affricate.mp4",
+      "sourceId": 26,
+      "sha256": "ce0d1979bdd6baa391c8c3d18be853d421f90962864e2b418664e8f7a14ff299",
+      "bytes": 356236
+    },
+    {
+      "symbol": "r",
+      "word": "rap",
+      "source": "https://www.speechstar.ac.uk/video/vd_alveolar_approximant.mp4",
+      "path": "/yinbiao/speechstar/vd_alveolar_approximant.mp4",
+      "sourceId": 1,
+      "sha256": "5990fd9961e56acedd590e50a3f212e476fd1677d83caa102cc1a059a774647b",
+      "bytes": 278517
+    },
+    {
+      "symbol": "j",
+      "word": "yes",
+      "source": "https://www.speechstar.ac.uk/video/vd_palatal_approximant.mp4",
+      "path": "/yinbiao/speechstar/vd_palatal_approximant.mp4",
+      "sourceId": 10,
+      "sha256": "43b38f4279b4b9d4ff5a5ceed5d70e030a8d70e3d5b81591110a75ae12a463a3",
+      "bytes": 272263
+    },
+    {
+      "symbol": "w",
+      "word": "was",
+      "source": "https://www.speechstar.ac.uk/video/vd_labial_velar_approximant.mp4",
+      "path": "/yinbiao/speechstar/vd_labial_velar_approximant.mp4",
+      "sourceId": 23,
+      "sha256": "3bb854c977cebe852325ba06e50cc445e92108a1fa7c5d790ce6d10f6a7bebe6",
+      "bytes": 442457
+    },
+    {
+      "symbol": "l",
+      "word": "lip",
+      "source": "https://www.speechstar.ac.uk/video/vd_alveolar_lateral_approximant.mp4",
+      "path": "/yinbiao/speechstar/vd_alveolar_lateral_approximant.mp4",
+      "sourceId": 3,
+      "sha256": "6af7eecac25f05f37462a1aca556b3c78bb427d65e52ce75675bd4990cf0002a",
+      "bytes": 267805
+    }
+  ]
+}

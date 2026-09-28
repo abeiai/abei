@@ -1,0 +1,9 @@
+{
+  "symbol": "ts",
+  "source": "User-supplied ElevenLabs recording",
+  "originalFilename": "ElevenLabs_2026-09-13T15_13_10_英国单词朗读女声_gen_sp90_s50_sb75_v3.mp3",
+  "sourceSha256": "3338c02ecdf788043ca16c6d52f01c986bac9096a789a7538c12e1ad59cf14d6",
+  "startSeconds": 0.46,
+  "durationSeconds": 0.2975510204081633,
+  "method": "Cut at closure preceding final release/frication, based on spectrogram; no pitch or speed change."
+}
