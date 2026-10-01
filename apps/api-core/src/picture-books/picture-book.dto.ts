@@ -1,0 +1,96 @@
+import { Type } from "class-transformer";
+import { IsArray, IsIn, IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
+
+export class CreatePictureBookDto {
+  @IsString() @MinLength(2) @MaxLength(30000)
+  brief!: string;
+
+  @IsOptional() @IsString() @MaxLength(100)
+  title?: string;
+
+  @IsOptional() @IsString() @MaxLength(100)
+  audience?: string;
+
+  @IsString() @MinLength(1) @MaxLength(80)
+  style!: string;
+
+  @Type(() => Number) @IsInt() @Min(4) @Max(24)
+  pageCount!: number;
+
+  @IsOptional() @IsIn(["1:1", "3:2", "2:3"])
+  aspectRatio?: "1:1" | "3:2" | "2:3";
+}
+
+export class PictureBookCharacterSelectionDto {
+  @IsOptional() @IsString() @MaxLength(80)
+  id?: string;
+
+  @IsString() @MinLength(1) @MaxLength(80)
+  name!: string;
+
+  @IsString() @MinLength(2) @MaxLength(1000)
+  description!: string;
+
+  @IsOptional() @IsString() @MaxLength(2048)
+  imageUrl?: string;
+}
+
+export class UpdatePictureBookDto {
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(100)
+  title?: string;
+
+  @IsOptional() @IsString() @MaxLength(100)
+  audience?: string;
+
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(80)
+  style?: string;
+
+  @IsOptional() @IsIn(["1:1", "3:2", "2:3"])
+  aspectRatio?: "1:1" | "3:2" | "2:3";
+
+  @IsOptional() @Type(() => Number) @IsInt() @Min(4) @Max(24)
+  pageCount?: number;
+
+  @IsOptional() @IsArray() @ValidateNested({ each: true }) @Type(() => PictureBookCharacterSelectionDto)
+  characters?: PictureBookCharacterSelectionDto[];
+}
+
+export class DiscussPictureBookDto {
+  @IsString() @MinLength(1) @MaxLength(10000)
+  message!: string;
+}
+
+export class UpdatePictureBookPageDto {
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(500)
+  caption?: string;
+
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(2000)
+  imagePrompt?: string;
+
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(1000)
+  narration?: string;
+}
+
+export class GeneratePictureBookImageDto {
+  @IsString() @MinLength(1) @MaxLength(80)
+  modelInstanceId!: string;
+}
+
+export class GeneratePictureBookAudioDto {
+  @IsOptional() @IsString() @MaxLength(80)
+  voiceAssetId?: string;
+
+  @IsOptional() @IsString() @MaxLength(160)
+  voice?: string;
+}
+
+export class CreatePictureBookCharacterDto {
+  @IsString() @MinLength(1) @MaxLength(80)
+  name!: string;
+
+  @IsString() @MinLength(2) @MaxLength(1000)
+  description!: string;
+
+  @IsOptional() @IsString() @MaxLength(2048)
+  imageUrl?: string;
+}

@@ -24,6 +24,7 @@ import { OrganizationsModule } from "./organizations/organizations.module.js";
 import { OnboardingModule } from "./onboarding/onboarding.module.js";
 import { PageCompositionsModule } from "./page-compositions/page-compositions.module.js";
 import { PaymentModule } from "./payment/payment.module.js";
+import { PictureBookModule } from "./picture-books/picture-book.module.js";
 import { ProfilesModule } from "./profiles/profiles.module.js";
 import { PublicContentModule } from "./public-content/public-content.module.js";
 import { RenderEngineModule } from "./render-engine/render-engine.module.js";
@@ -59,6 +60,7 @@ import { WalletModule } from "./wallet/wallet.module.js";
     MediaModule,
     WalletModule,
     PaymentModule,
+    PictureBookModule,
     MembershipModule,
     ProfilesModule,
     OrganizationsModule,

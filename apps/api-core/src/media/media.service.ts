@@ -161,6 +161,10 @@ export class MediaService {
     });
   }
 
+  async uploadUserPictureBookImage(userId: string, file: UploadedFileLike) {
+    return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "USER_UPLOAD" });
+  }
+
   async uploadUserAvatar(userId: string, file: UploadedFileLike | undefined) {
     if (!file) {
       throw new AppException(40001, "请选择头像图片", HttpStatus.BAD_REQUEST);

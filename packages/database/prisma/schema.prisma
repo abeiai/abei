@@ -685,8 +685,48 @@ model User {
   typingSessions TypingPracticeSession[]
   typingReviewStates TypingReviewState[]
   typingPreferences TypingPreference[]
+  pictureBooks PictureBook[]
+  pictureBookCharacters PictureBookCharacter[]
 
   @@map("users")
+}
+
+model PictureBook {
+  id           String   @id @default(cuid())
+  userId       String
+  title        String
+  brief        String   @db.Text
+  theme        String   @default("")
+  audience     String   @default("")
+  plot         String   @default("") @db.Text
+  style        String
+  aspectRatio  String   @default("1:1")
+  pageCount    Int
+  status       String   @default("PLANNING")
+  messages     Json
+  characters   Json
+  pages        Json
+  version      Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@map("picture_books")
+}
+
+model PictureBookCharacter {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String   @db.Text
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@map("picture_book_characters")
 }
 
 model ReferralHandle {
