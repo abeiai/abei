@@ -29,6 +29,11 @@ export interface PictureBookOutline {
   pages: PictureBookPage[];
 }
 
+export function storyTaskText(chunks: string[], storedOutput: string | null, requireComplete: boolean): string {
+  const streamed = chunks.join("").trim();
+  return streamed || (requireComplete ? "" : storedOutput?.trim() ?? "");
+}
+
 export function normalizeOutline(output: string, pageCount: number): PictureBookOutline {
   const raw = output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
   const start = raw.indexOf("{");

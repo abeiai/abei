@@ -7,7 +7,7 @@ import { AppException } from "../common/app-exception.js";
 import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
-import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
+import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 const presets = [
@@ -260,11 +260,15 @@ export class PictureBookService {
       },
       update: {}
     });
-    const result = await this.aiService.createTask(subject, { scenarioId: scenario.id, input });
-    if (result.status !== "SUCCEEDED" || !result.output?.trim()) {
+    const chunks: string[] = [];
+    const result = await this.aiService.createTaskStream(subject, { scenarioId: scenario.id, input }, (event) => {
+      if (event.type === "delta" && typeof event.text === "string") chunks.push(event.text);
+    });
+    const output = storyTaskText(chunks, result.output, kind === "picture-book-outline");
+    if (result.status !== "SUCCEEDED" || !output) {
       throw new AppException(50201, result.errorMessage || "AI 暂时无法完成绘本策划", HttpStatus.BAD_GATEWAY);
     }
-    return result.output.trim();
+    return output;
   }
 
   private async mutate(userId: string, id: string, change: (book: Awaited<ReturnType<PictureBookService["get"]>>) => Prisma.PictureBookUpdateManyMutationInput) {

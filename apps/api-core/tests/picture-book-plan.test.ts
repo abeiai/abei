@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, updatePictureBookPage } from "../src/picture-books/picture-book-plan.js";
+import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage } from "../src/picture-books/picture-book-plan.js";
+
+test("story task keeps the complete streamed outline when stored output is a preview", () => {
+  const complete = JSON.stringify({ title: "绘本", pages: Array.from({ length: 4 }, (_, index) => ({ caption: `第 ${index + 1} 页`, imagePrompt: "温暖的森林画面" })) });
+  const pieces = [complete.slice(0, 60), complete.slice(60)];
+  assert.equal(storyTaskText(pieces, complete.slice(0, 60), true), complete);
+  assert.equal(storyTaskText([], complete.slice(0, 60), true), "");
+});
 
 test("normalizeOutline accepts a fenced plan and defaults narration to page text", () => {
   const plan = normalizeOutline("```json\n" + JSON.stringify({
