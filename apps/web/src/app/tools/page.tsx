@@ -34,7 +34,7 @@ export default async function ToolsPage() {
     {
       title: "绘本创作",
       description: "聊聊故事构想，安排角色和分镜，逐页制作插画与讲解语音。",
-      href: "/picture-books",
+      href: "/storybook",
       cta: "开始创作绘本",
       icon: BookOpenText,
       highlights: [

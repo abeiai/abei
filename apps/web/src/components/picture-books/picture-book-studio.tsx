@@ -99,7 +99,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     setBook(loaded);
     setPosition(loaded.pages[0]?.position ?? 1);
     setPreview(false);
-    window.history.replaceState(null, "", `/picture-books?book=${loaded.id}`);
+    window.history.replaceState(null, "", `/storybook?book=${loaded.id}`);
   }, []);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     await run("create", async () => {
       const created = await api<Book>("", "POST", { brief: brief.trim(), audience, style, pageCount: count, aspectRatio: ratio });
       setBook(created); setPosition(1); setNotice("作品已创建，可以继续讨论故事或生成分镜。");
-      window.history.replaceState(null, "", `/picture-books?book=${created.id}`);
+      window.history.replaceState(null, "", `/storybook?book=${created.id}`);
       await refreshList();
     });
   }
@@ -234,7 +234,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     await run("leave", async () => {
       await savePage();
       if (destination === "tools") { leavingRef.current = true; window.location.assign("/tools"); }
-      else { setBook(null); window.history.replaceState(null, "", "/picture-books"); await refreshList(); }
+      else { setBook(null); window.history.replaceState(null, "", "/storybook"); await refreshList(); }
     });
   }
 
@@ -279,7 +279,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     });
   }
 
-  if (!signedIn) return <div className="flex min-h-screen items-center justify-center bg-[#f7f6f4] p-6"><div className="max-w-md rounded-3xl border bg-white p-10 text-center shadow-sm"><BookOpen className="mx-auto mb-5 size-12 text-[#ff7b3b]" /><h1 className="text-2xl font-semibold">绘本创作</h1><p className="mt-3 text-sm leading-6 text-gray-500">登录后保存故事构想、角色与每一页的创作内容。</p><Link href="/login?next=%2Fpicture-books" className="mt-6 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始</Link></div></div>;
+  if (!signedIn) return <div className="flex min-h-screen items-center justify-center bg-[#f7f6f4] p-6"><div className="max-w-md rounded-3xl border bg-white p-10 text-center shadow-sm"><BookOpen className="mx-auto mb-5 size-12 text-[#ff7b3b]" /><h1 className="text-2xl font-semibold">绘本创作</h1><p className="mt-3 text-sm leading-6 text-gray-500">登录后保存故事构想、角色与每一页的创作内容。</p><Link href={`/login?next=${encodeURIComponent(initialBookId ? `/storybook?book=${encodeURIComponent(initialBookId)}` : "/storybook")}`} className="mt-6 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始</Link></div></div>;
 
   return <div className="min-h-screen bg-[#f7f6f4] text-[#26282d]">
     <header className="sticky top-0 z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
