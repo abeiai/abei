@@ -32,6 +32,18 @@ export default async function ToolsPage() {
     title: string;
   }> = [
     {
+      title: "绘本创作",
+      description: "聊聊故事构想，安排角色和分镜，逐页制作插画与讲解语音。",
+      href: "/picture-books",
+      cta: "开始创作绘本",
+      icon: BookOpenText,
+      highlights: [
+        { icon: Sparkles, label: "故事分镜" },
+        { icon: BookOpenText, label: "逐页编辑" },
+        { icon: Volume2, label: "语音讲解" }
+      ]
+    },
+    {
       title: "英语音标",
       description: "学习 48 个英语音标，听发音、看口型，按字母数练习常见词汇。",
       href: "/yinbiao",
