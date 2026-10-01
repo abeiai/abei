@@ -139,6 +139,7 @@ export class PictureBookService {
   async generateImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, position: number, dto: GeneratePictureBookImageDto) {
     const book = await this.get(subject.userId, id);
     const page = pageOf(book.pages, position);
+    this.mediaService.assertPictureBookR2Ready();
     const characterDescription = charactersOf(book.characters).map((item) => `${item.name}：${item.description}`).join("；");
     const prompt = [
       `儿童绘本插画，${book.style}风格。保持整本绘本角色外观一致。`,
@@ -152,7 +153,7 @@ export class PictureBookService {
     const referenceImages = await this.localCharacterReferences(subject.userId, charactersOf(book.characters));
     const result = await this.aiService.generateImage(subject, {
       prompt, modelInstanceId: dto.modelInstanceId, count: 1, referenceImages, ...size
-    });
+    }, { pictureBookR2: true });
     const image = result.images[0];
     if (!image) throw new AppException(50201, "图片生成失败，请稍后重试", HttpStatus.BAD_GATEWAY);
     return this.mutate(subject.userId, id, (current) => {
@@ -179,13 +180,14 @@ export class PictureBookService {
   async generateAudio(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, position: number, dto: GeneratePictureBookAudioDto) {
     const book = await this.get(subject.userId, id);
     const page = pageOf(book.pages, position);
+    this.mediaService.assertPictureBookR2Ready();
     const availableVoices = await this.audioService.listVoiceAssets(subject.userId);
     const selection = selectPictureBookVoice(dto, availableVoices);
     if (!selection) throw new AppException(40001, "暂无可用讲解音色，请先配置语音模型", HttpStatus.BAD_REQUEST);
     const task = await this.audioService.createTtsTask({ userId: subject.userId, learnerId: null }, {
       text: page.narration, ...selection,
       source: "TOOL", execute: true
-    });
+    }, { forceS3Storage: true });
     const audioUrl = task.outputAudioAsset?.url;
     if (task.status !== "SUCCEEDED" || !audioUrl) {
       throw new AppException(50201, task.errorMessage || "讲解语音生成失败", HttpStatus.BAD_GATEWAY);
@@ -213,10 +215,11 @@ export class PictureBookService {
   async generateCharacterImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, modelInstanceId: string) {
     const character = await this.prisma.pictureBookCharacter.findFirst({ where: { id, userId: subject.userId } });
     if (!character) throw new AppException(40401, "角色不存在", HttpStatus.NOT_FOUND);
+    this.mediaService.assertPictureBookR2Ready();
     const result = await this.aiService.generateImage(subject, {
       prompt: `儿童绘本角色设定图，单个角色，干净浅色背景，正面半身，细节清楚，无文字。${character.name}：${character.description}`.slice(0, 2000),
       modelInstanceId, width: 1024, height: 1024, count: 1
-    });
+    }, { pictureBookR2: true });
     const url = result.images[0]?.url;
     if (!url) throw new AppException(50201, "角色形象生成失败", HttpStatus.BAD_GATEWAY);
     return this.prisma.pictureBookCharacter.update({ where: { id }, data: { imageUrl: url } });
@@ -238,13 +241,17 @@ export class PictureBookService {
       const character = owned.find((item) => item.id === id);
       if (!character?.imageUrl) continue;
       const asset = await this.prisma.mediaAsset.findFirst({ where: {
-        url: character.imageUrl, createdByUserId: userId, mediaType: "IMAGE", storageProvider: "LOCAL"
+        url: character.imageUrl, createdByUserId: userId, mediaType: "IMAGE"
       } });
       if (!asset) continue;
-      const local = await this.mediaService.getLocalFile(asset.filename);
-      const bytes = await readFile(local.filepath);
-      references.push({ name: `${character.name}.png`, type: "image", mimeType: local.mimeType, size: bytes.length,
-        dataUrl: `data:${local.mimeType};base64,${bytes.toString("base64")}` });
+      const file = asset.storageProvider === "S3"
+        ? await this.mediaService.readPictureBookStoredImage(asset.url)
+        : await (async () => {
+            const local = await this.mediaService.getLocalFile(asset.filename);
+            return { buffer: await readFile(local.filepath), mimetype: local.mimeType };
+          })();
+      references.push({ name: `${character.name}.png`, type: "image", mimeType: file.mimetype, size: file.buffer.length,
+        dataUrl: `data:${file.mimetype};base64,${file.buffer.toString("base64")}` });
     }
     return references;
   }

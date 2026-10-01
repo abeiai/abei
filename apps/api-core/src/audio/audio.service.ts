@@ -295,6 +295,9 @@ export interface UploadedAudioFileLike {
   buffer: Buffer;
 }
 
+type PersistedTtsAudio = Pick<PersistedDialogueAudio, "url" | "objectKey" | "mimeType" | "sizeBytes"> &
+  Partial<Pick<PersistedDialogueAudio, "durationMs" | "sampleRate" | "channels">>;
+
 export interface ExternalBillingTtsTaskInput {
   format?: string;
   modelAlias?: string;
@@ -2483,7 +2486,8 @@ export class AudioService {
 
   async createTtsTask(
     context: AudioTaskAttributionContext,
-    dto: CreateTtsAudioTaskDto
+    dto: CreateTtsAudioTaskDto,
+    options?: { forceS3Storage?: boolean }
   ) {
     const attribution = snapshotAudioAttribution(context);
     const { userId } = attribution;
@@ -2545,7 +2549,7 @@ export class AudioService {
     }
 
     return this.executeTtsTask(task.id, model, voice.providerVoiceId, text, parameters, timeoutMs,
-      dto.source === "EXPERIENCE" ? { voiceMasterUserId: userId } : undefined);
+      dto.source === "EXPERIENCE" ? { voiceMasterUserId: userId } : options?.forceS3Storage ? { forceS3Storage: true } : undefined);
   }
 
   async prepareDialogueTts(context: AudioTaskAttributionContext, input: { text: string; voiceValue: string; speed: number }): Promise<PreparedDialogueTts> {
@@ -3340,12 +3344,14 @@ export class AudioService {
     timeoutMs: number,
     output?: {
       voiceMasterUserId?: string;
+      forceS3Storage?: boolean;
       videoGuidePersistence?: Omit<VideoGuideNarrationPersistenceRequest, "audioTaskId">;
       onPersistenceStatus?: ExternalBillingTtsTaskInput["onPersistenceStatus"];
     }
   ) {
     let persistedVideoGuideAudio: PersistedVideoGuideNarrationAudio | null = null;
     let voiceMaster: PersistedDialogueAudio | null = null;
+    let pictureBookAudio: PersistedTtsAudio | null = null;
 
     try {
       await this.prisma.audioTask.update({
@@ -3393,6 +3399,11 @@ export class AudioService {
         return await this.settleSuccessfulAudioTask(taskId, persistedPayload, voiceMaster);
       }
 
+      if (output?.forceS3Storage) {
+        pictureBookAudio = await this.persistTtsAudioToS3(providerPayload);
+        return await this.settleSuccessfulAudioTask(taskId, providerPayload, pictureBookAudio);
+      }
+
       if (!output?.videoGuidePersistence) {
         return this.settleSuccessfulAudioTask(taskId, providerPayload);
       }
@@ -3430,6 +3441,12 @@ export class AudioService {
       }
       if (persistedVideoGuideAudio) {
         await this.deleteUncommittedVideoGuideAudio(taskId, persistedVideoGuideAudio);
+      }
+      if (pictureBookAudio) {
+        const task = await this.prisma.audioTask.findUnique({ where: { id: taskId }, select: { status: true } }).catch(() => null);
+        if (task?.status !== "SUCCEEDED") {
+          await this.deleteUploadedAudioObject({ objectKey: pictureBookAudio.objectKey, storageProvider: "S3" }).catch(() => undefined);
+        }
       }
 
       const code =
@@ -3803,7 +3820,7 @@ export class AudioService {
     });
   }
 
-  private async settleSuccessfulAudioTask(taskId: string, providerPayload: Record<string, unknown>, voiceMaster?: PersistedDialogueAudio) {
+  private async settleSuccessfulAudioTask(taskId: string, providerPayload: Record<string, unknown>, voiceMaster?: PersistedTtsAudio) {
     const initialTask = await this.prisma.audioTask.findUnique({
       where: {
         id: taskId
@@ -4228,14 +4245,45 @@ export class AudioService {
     return this.getTaskForExecution(result, result.taskId);
   }
 
+  private async persistTtsAudioToS3(providerPayload: Record<string, unknown>): Promise<PersistedTtsAudio> {
+    const audioBase64 = stringValue(providerPayload.audioBase64);
+    const providerAudioUrl = extractAudioUrl(providerPayload);
+    if (!audioBase64 && !providerAudioUrl) {
+      throw new AudioProviderException("TTS_OUTPUT_MISSING", "语音模型未返回可保存的音频数据");
+    }
+    let buffer: Buffer;
+    if (audioBase64) {
+      const encoded = audioBase64.replace(/^data:audio\/[\w.+-]+;base64,/i, "").replace(/\s+/g, "");
+      if (!encoded || encoded.length % 4 === 1 || !/^[a-z0-9+/]*={0,2}$/i.test(encoded)) {
+        throw new AudioProviderException("TTS_OUTPUT_INVALID", "语音模型返回的音频数据格式不正确");
+      }
+      buffer = Buffer.from(encoded, "base64");
+    } else {
+      buffer = await downloadTtsProviderAudio(providerAudioUrl!, maxAudioUploadBytes());
+    }
+    if (buffer.byteLength <= 0 || buffer.byteLength > maxAudioUploadBytes()) {
+      throw new AudioProviderException("TTS_OUTPUT_INVALID", "语音模型返回的音频文件大小不正确");
+    }
+    const mimeType = stringValue(providerPayload.audioMimeType) || (providerAudioUrl ? mimeTypeFromAudioUrl(providerAudioUrl) : "audio/mpeg");
+    const filename = this.createAudioFilename(`tts-output${audioExtensionFor("tts-output", mimeType)}`, mimeType);
+    const uploaded = await this.uploadAudioToS3(filename, {
+      originalname: filename, mimetype: mimeType, size: buffer.byteLength, buffer
+    }, true);
+    return { ...uploaded, mimeType, sizeBytes: buffer.byteLength };
+  }
+
   private async createOutputAudioAsset(
     transaction: Prisma.TransactionClient,
     userId: string,
     providerPayload: Record<string, unknown>,
-    master?: PersistedDialogueAudio
+    master?: PersistedTtsAudio
   ) {
-    if (master?.mimeType === "audio/wav" && master.sizeBytes > 0) {
-      const asset = await transaction.audioAsset.create({ data: { userId, type: "TTS_OUTPUT", storageProvider: "S3", ...master } });
+    if (master && master.sizeBytes > 0) {
+      const asset = await transaction.audioAsset.create({ data: {
+        userId, type: "TTS_OUTPUT", storageProvider: "S3", url: master.url, objectKey: master.objectKey,
+        mimeType: master.mimeType, sizeBytes: master.sizeBytes,
+        durationMs: master.durationMs ?? null, sampleRate: master.sampleRate ?? null, channels: master.channels ?? null
+      } });
       return asset.id;
     }
     const persistedAsset = audioAssetDataFromTtsPayload(userId, providerPayload);

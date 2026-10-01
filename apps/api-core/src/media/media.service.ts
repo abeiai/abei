@@ -7,6 +7,7 @@ import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AppException } from "../common/app-exception.js";
 import { inspectCourseCover } from "../courses/course-cover.js";
 import { inspectUserAvatar } from "../auth/user-avatar.js";
+import { assertPictureBookGeneratedImageUrl, inspectPictureBookImage } from "../picture-books/picture-book-image.js";
 import { mediaStoragePublicBaseUrl } from "./media-object-url.js";
 
 const mediaAssetTypes = ["IMAGE", "AUDIO", "VIDEO"] as const;
@@ -163,6 +164,65 @@ export class MediaService {
 
   async uploadUserPictureBookImage(userId: string, file: UploadedFileLike) {
     return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "USER_UPLOAD" });
+  }
+
+  assertPictureBookR2Ready() {
+    if (process.env.S3_BUCKET?.trim() !== "abeiai" ||
+        !["S3_ENDPOINT", "S3_ACCESS_KEY_ID", "S3_SECRET_ACCESS_KEY", "S3_PUBLIC_BASE_URL"]
+          .every((name) => Boolean(process.env[name]?.trim()))) {
+      throw new AppException(40001, "请先配置 abeiai R2 存储桶及公开访问地址", HttpStatus.BAD_REQUEST);
+    }
+    try {
+      if (new URL(process.env.S3_ENDPOINT!).protocol !== "https:" ||
+          new URL(process.env.S3_PUBLIC_BASE_URL!).protocol !== "https:") throw new Error();
+    } catch {
+      throw new AppException(40001, "abeiai R2 存储地址须为 HTTPS", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async archivePictureBookGeneratedImage(userId: string, sourceUrl: string) {
+    this.assertPictureBookR2Ready();
+    const publicBase = process.env.S3_PUBLIC_BASE_URL!.replace(/\/+$/, "");
+    if (sourceUrl.startsWith(`${publicBase}/`)) {
+      const asset = await this.prisma.mediaAsset.findFirst({ where: {
+        url: sourceUrl, createdByUserId: userId, sourceType: "AI_GENERATED", storageProvider: "S3"
+      } });
+      if (!asset) throw new AppException(50201, "生成图片地址无效", HttpStatus.BAD_GATEWAY);
+      return asset;
+    }
+    const safeUrl = assertPictureBookGeneratedImageUrl(sourceUrl);
+    const file = await this.downloadPictureBookImage(safeUrl);
+    return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "AI_GENERATED", storageProvider: "S3" });
+  }
+
+  async readPictureBookStoredImage(sourceUrl: string) {
+    const publicBase = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+    if (!publicBase || !sourceUrl.startsWith(`${publicBase}/`)) {
+      throw new AppException(40001, "角色形象地址无效", HttpStatus.BAD_REQUEST);
+    }
+    return this.downloadPictureBookImage(sourceUrl);
+  }
+
+  private async downloadPictureBookImage(sourceUrl: string) {
+    const response = await fetch(sourceUrl, { redirect: "manual", signal: AbortSignal.timeout(30_000) });
+    const mimeType = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() ?? "";
+    if (!response.ok || !response.body || !["image/png", "image/jpeg", "image/webp"].includes(mimeType)) {
+      throw new AppException(50201, "生成图片下载失败", HttpStatus.BAD_GATEWAY);
+    }
+    const chunks: Buffer[] = [];
+    let size = 0;
+    for await (const chunk of response.body) {
+      size += chunk.byteLength;
+      if (size > 10 * 1024 * 1024) throw new AppException(50201, "生成图片超过大小限制", HttpStatus.BAD_GATEWAY);
+      chunks.push(Buffer.from(chunk));
+    }
+    const file = {
+      originalname: mimeType === "image/png" ? "picture-book.png" : mimeType === "image/webp" ? "picture-book.webp" : "picture-book.jpg",
+      mimetype: mimeType,
+      size,
+      buffer: Buffer.concat(chunks, size)
+    };
+    return inspectPictureBookImage(file);
   }
 
   async uploadUserAvatar(userId: string, file: UploadedFileLike | undefined) {

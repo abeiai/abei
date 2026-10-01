@@ -19,4 +19,8 @@ docker compose down
 
 Docker 项目名为 `abei`，入口容器名为 `abei`。端口均在指定范围内：3600 HTTP、3601 Web、3602 API、3603 AI Gateway、3604 PostgreSQL、3605 Redis。仅入口、PostgreSQL 和 Redis 映射到本机回环地址；其余服务通过 Compose 内部网络连接。数据保存在 `abei` 专属 Docker 卷中，与 xueleai 完全隔离。
 
+## 绘本 R2 存储
+
+绘本新生成的插画、角色图和讲解语音写入 Cloudflare R2 的 `abeiai` 存储桶。请在私有 `.env` 中设置 `S3_ENDPOINT`、`S3_BUCKET=abeiai`、`S3_ACCESS_KEY_ID`、`S3_SECRET_ACCESS_KEY`、`S3_PUBLIC_BASE_URL`，并建议设置 `S3_KEY_PREFIX=picture-books/`。公开域名需能读取该存储桶中的对象。配置完成后重建 `api-core` 容器。已有绘本素材不会自动搬迁。
+
 上游的 `docker-compose.prod.yml` 和发布脚本仍保留供参考，其 xueleai 配置不用于 abei 的本地运行。

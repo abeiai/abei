@@ -982,7 +982,7 @@ export class AiService {
     throw new AppException(40001, "暂无可用证照模型，请稍后再试", HttpStatus.BAD_REQUEST);
   }
 
-  async generateImage(subject: ProfileSubject, dto: CreateImageGenerationDto, options?: { fixedCredits: number; requiredImages: number; studentPhotoSize?: { widthMm: number; heightMm: number }; clientRequestId?: string }): Promise<ImageGenerationResult> {
+  async generateImage(subject: ProfileSubject, dto: CreateImageGenerationDto, options?: { fixedCredits?: number; requiredImages?: number; studentPhotoSize?: { widthMm: number; heightMm: number }; clientRequestId?: string; pictureBookR2?: boolean }): Promise<ImageGenerationResult> {
     const attribution = snapshotAttribution(subject);
     const prompt = dto.prompt.trim();
     const billingContext = this.billingContextFromDto(dto);
@@ -1088,7 +1088,14 @@ export class AiService {
         url,
         alt: `${prompt.slice(0, 80)} - ${index + 1}`
       }));
-      if (model.providerModelName === "Qwen-Image-2.1" && !options?.studentPhotoSize) {
+      if (options?.pictureBookR2) {
+        const mediaService = this.mediaService;
+        if (!mediaService) throw new AppException(50001, "媒体存储服务未初始化", HttpStatus.INTERNAL_SERVER_ERROR);
+        images = await Promise.all(images.map(async (image) => ({
+          ...image,
+          url: (await mediaService.archivePictureBookGeneratedImage(attribution.userId, image.url)).url
+        })));
+      } else if (model.providerModelName === "Qwen-Image-2.1" && !options?.studentPhotoSize) {
         const mediaService = this.mediaService;
         if (!mediaService) throw new AppException(50001, "媒体存储服务未初始化", HttpStatus.INTERNAL_SERVER_ERROR);
         images = await Promise.all(images.map(async (image) => ({
