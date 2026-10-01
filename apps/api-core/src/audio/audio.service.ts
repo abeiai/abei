@@ -31,6 +31,7 @@ import { DialogueAudioError, deleteDialogueClip, persistDialogueClip, type Persi
 import {
   VideoGuideNarrationStorageError,
   audioAssetDataFromTtsPayload,
+  downloadTtsProviderAudio,
   deletePersistedVideoGuideNarrationAudio,
   persistVideoGuideNarrationAudio,
   persistedVideoGuideAudioFromPayload,
@@ -4248,33 +4249,40 @@ export class AudioService {
     }
 
     const audioBase64 = stringValue(providerPayload.audioBase64);
+    const providerAudioUrl = extractAudioUrl(providerPayload);
 
-    if (audioBase64) {
-      const encodedAudio = audioBase64.replace(/^data:audio\/[\w.+-]+;base64,/i, "").replace(/\s+/g, "");
+    if (audioBase64 || (providerAudioUrl && uploadDriver() === "local")) {
+      const encodedAudio = (audioBase64 ?? "").replace(/^data:audio\/[\w.+-]+;base64,/i, "").replace(/\s+/g, "");
 
-      if (!encodedAudio || encodedAudio.length % 4 === 1 || !/^[a-z0-9+/]*={0,2}$/i.test(encodedAudio)) {
+      if (audioBase64 && (!encodedAudio || encodedAudio.length % 4 === 1 || !/^[a-z0-9+/]*={0,2}$/i.test(encodedAudio))) {
         throw new AudioProviderException("TTS_OUTPUT_INVALID", "语音模型返回的音频数据格式不正确");
       }
 
-      const buffer = Buffer.from(encodedAudio, "base64");
+      const buffer = audioBase64
+        ? Buffer.from(encodedAudio, "base64")
+        : await downloadTtsProviderAudio(providerAudioUrl!, maxAudioUploadBytes());
 
       if (buffer.byteLength <= 0 || buffer.byteLength > maxAudioUploadBytes()) {
         throw new AudioProviderException("TTS_OUTPUT_INVALID", "语音模型返回的音频文件大小不正确");
       }
 
-      const mimeType = stringValue(providerPayload.audioMimeType) ?? "audio/mpeg";
+      const mimeType = stringValue(providerPayload.audioMimeType) || (providerAudioUrl ? mimeTypeFromAudioUrl(providerAudioUrl) : "audio/mpeg");
       const filename = this.createAudioFilename(`tts-output${audioExtensionFor("tts-output", mimeType)}`, mimeType);
-      const uploaded = await this.uploadAudioToS3(filename, {
+      const outputFile = {
         originalname: filename,
         mimetype: mimeType,
         size: buffer.byteLength,
         buffer
-      }, true);
+      };
+      const storageProvider = uploadDriver() === "s3" ? "S3" : "LOCAL";
+      const uploaded = storageProvider === "S3"
+        ? await this.uploadAudioToS3(filename, outputFile, true)
+        : { url: await this.uploadAudioToLocal(filename, outputFile), objectKey: filename };
       const asset = await transaction.audioAsset.create({
         data: {
           userId,
           type: "TTS_OUTPUT",
-          storageProvider: "S3",
+          storageProvider,
           url: uploaded.url,
           objectKey: uploaded.objectKey,
           mimeType,

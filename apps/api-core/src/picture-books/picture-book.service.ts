@@ -184,7 +184,7 @@ export class PictureBookService {
     if (!selection) throw new AppException(40001, "暂无可用讲解音色，请先配置语音模型", HttpStatus.BAD_REQUEST);
     const task = await this.audioService.createTtsTask({ userId: subject.userId, learnerId: null }, {
       text: page.narration, ...selection,
-      source: "EXPERIENCE", execute: true
+      source: "TOOL", execute: true
     });
     const audioUrl = task.outputAudioAsset?.url;
     if (task.status !== "SUCCEEDED" || !audioUrl) {

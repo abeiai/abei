@@ -295,9 +295,19 @@ function decodeAudioBase64(value: string, maxBytes: number) {
   return bytes;
 }
 
+export async function downloadTtsProviderAudio(audioUrl: string, maxBytes: number, fetchImpl: typeof fetch = fetch) {
+  return downloadProviderAudio(audioUrl, {
+    providerDownloadAllowedHosts: normalizedProviderDownloadAllowedHosts(
+      process.env.VIDEO_GUIDE_TTS_DOWNLOAD_ALLOWED_HOSTS?.split(",") ?? defaultProviderDownloadAllowedHosts
+    ),
+    timeoutMs: defaultTimeoutMs,
+    maxBytes
+  }, fetchImpl);
+}
+
 async function downloadProviderAudio(
   audioUrl: string,
-  config: VideoGuideNarrationR2Config,
+  config: Pick<VideoGuideNarrationR2Config, "providerDownloadAllowedHosts" | "timeoutMs" | "maxBytes">,
   fetchImpl: typeof fetch
 ) {
   let currentUrl = allowedProviderAudioUrl(audioUrl, config.providerDownloadAllowedHosts);
