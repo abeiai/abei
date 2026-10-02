@@ -7,7 +7,7 @@ export type CourseDiffEntry = {
   after: unknown;
 };
 
-export type CourseMaterialType = "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD";
+export type CourseMaterialType = "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | "PICTURE_BOOK";
 
 export type CourseMaterialSnapshot = {
   type: CourseMaterialType;
@@ -22,6 +22,7 @@ type CourseRevisionItemSnapshot = {
   videoGuideLessonId?: string | null;
   englishGuidedStudyMaterialId?: string | null;
   learningFlashcardDeckId?: string | null;
+  pictureBookId?: string | null;
   displayName: string;
   sortOrder: number;
 };
@@ -301,6 +302,21 @@ export function snapshotCourseMaterial(
     projected = projectCourseFields(source, content, videoGuideSchema);
   } else if (type === "ENGLISH_GUIDED_STUDY") {
     projected = projectEnglishGuidedStudyFields(source, content);
+  } else if (type === "PICTURE_BOOK") {
+    projected = {
+      title: source.title,
+      style: source.style,
+      aspectRatio: source.aspectRatio,
+      pages: arrayOfRecords(source.pages)
+        .map((page) => ({
+          position: page.position,
+          caption: page.caption,
+          narration: page.narration,
+          imageUrl: page.imageUrl,
+          audioUrl: page.audioUrl
+        }))
+        .sort((left, right) => Number(left.position) - Number(right.position))
+    };
   } else {
     projected = projectCourseFields(source, content, flashcardSchema);
     projected.cards = arrayOfRecords(projected.cards).sort(compareFlashcards);
@@ -310,7 +326,7 @@ export function snapshotCourseMaterial(
 }
 
 export function projectPublicCourseMaterial(
-  type: Exclude<CourseMaterialType, "LEARNING_FLASHCARD">,
+  type: Exclude<CourseMaterialType, "LEARNING_FLASHCARD" | "PICTURE_BOOK">,
   record: unknown
 ): Record<string, unknown> {
   const source = asRecord(record);
@@ -632,6 +648,7 @@ function revisionItemKey(item: CourseRevisionItemSnapshot, index: number) {
   if (item.videoGuideLessonId) return `VIDEO_GUIDE:${item.videoGuideLessonId}`;
   if (item.englishGuidedStudyMaterialId) return `ENGLISH_GUIDED_STUDY:${item.englishGuidedStudyMaterialId}`;
   if (item.learningFlashcardDeckId) return `LEARNING_FLASHCARD:${item.learningFlashcardDeckId}`;
+  if (item.pictureBookId) return `PICTURE_BOOK:${item.pictureBookId}`;
   if (item.id) return item.id;
   return `${item.materialType ?? "MATERIAL"}:${index}`;
 }
@@ -657,7 +674,10 @@ function materialFieldLabel(field: string) {
     questions: "练习题",
     audioUrl: "音频",
     knowledgeMap: "知识图谱",
-    knowledgeGraph: "知识图谱"
+    knowledgeGraph: "知识图谱",
+    style: "画风",
+    aspectRatio: "画面比例",
+    pages: "绘本页面"
   };
 
   return labels[field] ?? field;

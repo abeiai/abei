@@ -38,6 +38,7 @@ const revisionInclude = {
       publication: true,
       videoGuideLesson: true,
       englishGuidedStudyMaterial: true,
+      pictureBook: true,
       learningFlashcardDeck: {
         include: {
           cards: {
@@ -102,6 +103,9 @@ type MaterialRecord = {
   audioUrl?: string | null;
   cards?: unknown[];
   content?: unknown;
+  pages?: unknown;
+  style?: string;
+  aspectRatio?: string;
   id: string;
   knowledgeMap?: unknown;
   status?: string;
@@ -1065,6 +1069,7 @@ export class CourseReviewService {
           videoGuideLessonId: item.videoGuideLessonId,
           englishGuidedStudyMaterialId: item.englishGuidedStudyMaterialId,
           learningFlashcardDeckId: item.learningFlashcardDeckId,
+          pictureBookId: item.pictureBookId,
           displayName: item.displayName,
           sortOrder: item.sortOrder,
           ...(submitted ?? {})
@@ -1098,6 +1103,10 @@ export class CourseReviewService {
       throw new AppException(40001, "只能提交已完成的闪卡课件", HttpStatus.BAD_REQUEST);
     }
 
+    if (materialType === "PICTURE_BOOK" && material.status !== "COMPLETED") {
+      throw new AppException(40001, "只能提交已完成的绘本", HttpStatus.BAD_REQUEST);
+    }
+
     return material;
   }
 
@@ -1118,7 +1127,7 @@ export class CourseReviewService {
       return Boolean(material.audioUrl);
     }
 
-    return material.status === "READY";
+    return material.status === (materialType === "PICTURE_BOOK" ? "COMPLETED" : "READY");
   }
 
   private async readMaterial(
@@ -1132,6 +1141,10 @@ export class CourseReviewService {
 
     if (materialType === "ENGLISH_GUIDED_STUDY") {
       return transaction.englishGuidedStudyMaterial.findUnique({ where: { id: materialId } });
+    }
+
+    if (materialType === "PICTURE_BOOK") {
+      return transaction.pictureBook.findUnique({ where: { id: materialId } });
     }
 
     return transaction.learningFlashcardDeck.findUnique({
@@ -1274,7 +1287,8 @@ export class CourseReviewService {
     return items.map((item) => {
       const materialId = item.videoGuideLessonId
         ?? item.englishGuidedStudyMaterialId
-        ?? item.learningFlashcardDeckId;
+        ?? item.learningFlashcardDeckId
+        ?? item.pictureBookId;
 
       if (!materialId) {
         throw new AppException(50001, "课程课件数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -1293,7 +1307,8 @@ export class CourseReviewService {
     const publication = request.materialPublication;
     const materialId = publication?.videoGuideLessonId
       ?? publication?.englishGuidedStudyMaterialId
-      ?? publication?.learningFlashcardDeckId;
+      ?? publication?.learningFlashcardDeckId
+      ?? publication?.pictureBookId;
 
     if (!publication || !materialId || !request.materialPublicationId) {
       throw new AppException(50001, "课件审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -1386,7 +1401,7 @@ export class CourseReviewService {
           'course-material:',
           "materialType"::text,
           ':',
-          COALESCE("videoGuideLessonId", "englishGuidedStudyMaterialId", "learningFlashcardDeckId")
+          COALESCE("videoGuideLessonId", "englishGuidedStudyMaterialId", "learningFlashcardDeckId", "pictureBookId")
         ) AS "lockKey"
         FROM "course_revision_items"
         WHERE "revisionId" = ${revisionId}
@@ -1433,6 +1448,8 @@ function publicationWhere(materialType: CourseMaterialType, materialId: string) 
   if (materialType === "ENGLISH_GUIDED_STUDY") {
     return { englishGuidedStudyMaterialId: materialId };
   }
+
+  if (materialType === "PICTURE_BOOK") return { pictureBookId: materialId };
 
   return { learningFlashcardDeckId: materialId };
 }
@@ -1527,5 +1544,6 @@ function replaceFirstPublicationMaterialSnapshot(
 function isCourseMaterialType(value: Prisma.JsonValue | undefined): value is CourseMaterialType {
   return value === "VIDEO_GUIDE"
     || value === "ENGLISH_GUIDED_STUDY"
-    || value === "LEARNING_FLASHCARD";
+    || value === "LEARNING_FLASHCARD"
+    || value === "PICTURE_BOOK";
 }

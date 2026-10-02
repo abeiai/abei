@@ -12,7 +12,8 @@ import type {
 const scenarioSlugByMaterialType: Record<LearningMaterialType, string> = {
   VIDEO_GUIDE: "video-guide-narration",
   ENGLISH_GUIDED_STUDY: "english-guided-study-material",
-  LEARNING_FLASHCARD: "learning-flashcards-deck"
+  LEARNING_FLASHCARD: "learning-flashcards-deck",
+  PICTURE_BOOK: "picture-book-reading"
 };
 
 @Injectable()
@@ -94,6 +95,7 @@ export class LearnerLearningContextService {
         videoGuideLessonId: true,
         englishGuidedStudyMaterialId: true,
         learningFlashcardDeckId: true,
+        pictureBookId: true,
         publication: {
           select: {
             approvedHash: true,
@@ -203,6 +205,10 @@ export class LearnerLearningContextService {
       return this.safeVersion(row.materialPublication, row.updatedAt);
     }
 
+    if (materialType === "PICTURE_BOOK") {
+      this.materialUnavailable();
+    }
+
     const row = await this.prisma.learningFlashcardDeck.findFirst({
       where: {
         id: materialId,
@@ -235,12 +241,13 @@ export class LearnerLearningContextService {
       videoGuideLessonId: string | null;
       englishGuidedStudyMaterialId: string | null;
       learningFlashcardDeckId: string | null;
+      pictureBookId: string | null;
     }
   ) {
     if (materialType === "VIDEO_GUIDE") return item.videoGuideLessonId;
     if (materialType === "ENGLISH_GUIDED_STUDY") {
       return item.englishGuidedStudyMaterialId;
     }
-    return item.learningFlashcardDeckId;
+    return materialType === "PICTURE_BOOK" ? item.pictureBookId : item.learningFlashcardDeckId;
   }
 }

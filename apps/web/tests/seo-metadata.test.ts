@@ -32,11 +32,11 @@ test("生产 SEO 元数据始终使用 HTTPS 域名并覆盖全部公开教材",
     "https://xueleai.com"
   );
   assert.equal(
-    seoModule.resolvePublicSiteUrl("http://localhost:3321/", {
+    seoModule.resolvePublicSiteUrl("http://localhost:3600/", {
       environmentUrl: undefined,
       production: false
     }),
-    "http://localhost:3321"
+    "http://localhost:3600"
   );
 
   const robots = seoModule.buildRobotsMetadata(siteUrl);

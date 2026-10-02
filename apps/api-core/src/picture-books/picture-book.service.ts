@@ -1,12 +1,15 @@
-import { HttpStatus, Injectable } from "@nestjs/common";
+import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { readFile } from "node:fs/promises";
 import { getPrismaClient, type Prisma, type PrismaClient } from "@xueleai/database";
 import { AiService } from "../ai/ai.service.js";
 import { AudioService } from "../audio/audio.service.js";
 import { AppException } from "../common/app-exception.js";
+import { CourseReviewService } from "../courses/course-review.service.js";
+import { snapshotCourseMaterial } from "../courses/course-domain.js";
 import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
+import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
@@ -21,7 +24,7 @@ const presets = [
 export class PictureBookService {
   private readonly prisma: PrismaClient = getPrismaClient();
 
-  constructor(private readonly aiService: AiService, private readonly audioService: AudioService, private readonly mediaService: MediaService) {}
+  constructor(private readonly aiService: AiService, private readonly audioService: AudioService, private readonly mediaService: MediaService, @Inject(CourseReviewService) private readonly courseReviewService: CourseReviewService) {}
 
   async list(userId: string) {
     const rows = await this.prisma.pictureBook.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 50 });
@@ -49,6 +52,35 @@ export class PictureBookService {
     const row = await this.prisma.pictureBook.findFirst({ where: { id, userId } });
     if (!row) throw new AppException(40401, "绘本作品不存在", HttpStatus.NOT_FOUND);
     return row;
+  }
+
+  async playback(subject: ProfileSubject, id: string) {
+    const own = subject.mode === "ACCOUNT"
+      ? await this.prisma.pictureBook.findFirst({ where: { id, userId: subject.userId } })
+      : null;
+    if (own) return playbackFromSnapshot(id, snapshotCourseMaterial("PICTURE_BOOK", own));
+
+    const item = await this.prisma.courseRevisionItem.findFirst({
+      where: {
+        pictureBookId: id,
+        revision: { approvedFor: { is: {
+          publishedAt: { not: null },
+          ...(subject.mode === "LEARNER" ? {
+            learnerAuthorizations: { some: { learnerId: subject.learnerId } },
+            OR: [
+              { userId: subject.userId },
+              { enrollments: { some: { userId: subject.userId } } }
+            ]
+          } : {})
+        } } },
+        publication: { approvedHash: { not: null }, status: "APPROVED" }
+      },
+      select: { publication: { select: { approvedHash: true, approvedSnapshot: true } } }
+    });
+    if (!item?.publication.approvedHash || !item.publication.approvedSnapshot) {
+      throw new AppException(40401, "绘本作品不存在或尚未发布", HttpStatus.NOT_FOUND);
+    }
+    return playbackFromSnapshot(id, item.publication.approvedSnapshot);
   }
 
   async update(userId: string, id: string, dto: UpdatePictureBookDto) {
@@ -285,7 +317,10 @@ export class PictureBookService {
       const result = await this.prisma.pictureBook.updateMany({
         where: { id, userId, version: current.version }, data: { ...data, version: { increment: 1 } }
       });
-      if (result.count === 1) return this.get(userId, id);
+      if (result.count === 1) {
+        await this.courseReviewService.recordMaterialChange("PICTURE_BOOK", id);
+        return this.get(userId, id);
+      }
     }
     throw new AppException(40901, "作品已被其他编辑更新，请刷新后重试", HttpStatus.CONFLICT);
   }

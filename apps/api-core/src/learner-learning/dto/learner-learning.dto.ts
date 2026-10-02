@@ -54,7 +54,7 @@ export class LearnerLearningContextDto {
   resourceId?: string;
 
   @IsOptional()
-  @IsIn(["VIDEO_GUIDE", "ENGLISH_GUIDED_STUDY", "LEARNING_FLASHCARD"], {
+  @IsIn(["VIDEO_GUIDE", "ENGLISH_GUIDED_STUDY", "LEARNING_FLASHCARD", "PICTURE_BOOK"], {
     message: "课件类型不正确"
   })
   materialType?: LearningMaterialType;
@@ -136,7 +136,7 @@ export class AccountLearnerLearningQueryDto extends LearnerLearningOverviewQuery
   resourceId?: string;
 
   @IsOptional()
-  @IsIn(["VIDEO_GUIDE", "ENGLISH_GUIDED_STUDY", "LEARNING_FLASHCARD"], {
+  @IsIn(["VIDEO_GUIDE", "ENGLISH_GUIDED_STUDY", "LEARNING_FLASHCARD", "PICTURE_BOOK"], {
     message: "课件类型不正确"
   })
   materialType?: LearningMaterialType;

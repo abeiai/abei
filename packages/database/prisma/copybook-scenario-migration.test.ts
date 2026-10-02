@@ -9,7 +9,7 @@ loadEnv({ path: fileURLToPath(new URL("../../../.env", import.meta.url)), quiet:
 
 test("补齐字帖应用且重复执行保留管理员停用和会员配置", async () => {
   const url = new URL(process.env.DATABASE_URL!);
-  assert.ok(["localhost", "127.0.0.1"].includes(url.hostname) && url.port === "3324", "仅允许本地测试数据库");
+  assert.ok(["localhost", "127.0.0.1"].includes(url.hostname) && url.port === "3604", "仅允许本地测试数据库");
   const client = new Client({ connectionString: url.toString() });
   await client.connect();
   try {

@@ -21,7 +21,7 @@ export interface RecordLearnerActivityInput {
   courseRevisionItemId?: string | null;
   resourceType?: string | null;
   resourceId?: string | null;
-  materialType?: "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | null;
+  materialType?: "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | "PICTURE_BOOK" | null;
   materialId?: string | null;
   contentVersion?: string | null;
   partKey?: string | null;

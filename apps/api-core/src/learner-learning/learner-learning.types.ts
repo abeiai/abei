@@ -15,7 +15,8 @@ export interface TimeSliceCandidate {
 export type LearningMaterialType =
   | "VIDEO_GUIDE"
   | "ENGLISH_GUIDED_STUDY"
-  | "LEARNING_FLASHCARD";
+  | "LEARNING_FLASHCARD"
+  | "PICTURE_BOOK";
 
 export interface ResolvedLearningContext {
   isLearning: boolean;

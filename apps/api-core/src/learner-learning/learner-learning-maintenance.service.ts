@@ -35,7 +35,7 @@ type SummaryRow = {
   courseId: string | null;
   resourceType: string | null;
   resourceId: string | null;
-  materialType: "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | null;
+  materialType: "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | "PICTURE_BOOK" | null;
   materialId: string | null;
   partKey: string | null;
   onlineSeconds: number;
@@ -233,7 +233,7 @@ export class LearnerLearningMaintenanceService
     slices: Array<{
       userId: string;
       learnerId: string;
-      materialType: "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | null;
+      materialType: "VIDEO_GUIDE" | "ENGLISH_GUIDED_STUDY" | "LEARNING_FLASHCARD" | "PICTURE_BOOK" | null;
       materialId: string | null;
       contentVersion: string | null;
     }>

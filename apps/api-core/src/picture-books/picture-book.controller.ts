@@ -58,6 +58,13 @@ export class PictureBookController {
     return successResponse(await this.books.get(subject.userId, id));
   }
 
+  @Get(":id/play")
+  async playback(@Req() request: unknown, @Param("id") id: string) {
+    const user = await this.auth.me(request as never);
+    const subject = await this.profiles.requireSelected(request as never, user.id);
+    return successResponse(await this.books.playback(subject, id));
+  }
+
   @Patch(":id")
   async update(@Req() request: unknown, @Param("id") id: string, @Body() dto: UpdatePictureBookDto) {
     const subject = await this.account(request);

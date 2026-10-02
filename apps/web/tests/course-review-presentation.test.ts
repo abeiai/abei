@@ -485,7 +485,8 @@ test("三类课件全部公开快照顶层字段都有稳定中文名称", () =>
       "audioTimeline",
       "narrationTimelineV2"
     ],
-    LEARNING_FLASHCARD: ["title", "summary", "knowledgeMap", "knowledgeGraph", "cards"]
+    LEARNING_FLASHCARD: ["title", "summary", "knowledgeMap", "knowledgeGraph", "cards"],
+    PICTURE_BOOK: ["title", "style", "aspectRatio", "pages"]
   };
 
   for (const [type, keys] of Object.entries(fields) as Array<[CourseMaterialType, string[]]>) {

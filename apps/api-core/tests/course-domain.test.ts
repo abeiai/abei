@@ -35,6 +35,24 @@ test("课件快照忽略学习记录并生成稳定指纹", () => {
   assert.equal(hashCourseSnapshot(first), hashCourseSnapshot(second));
 });
 
+test("绘本快照只收录播放所需内容并保留页序", () => {
+  const snapshot = snapshotCourseMaterial("PICTURE_BOOK", {
+    title: "森林冒险", status: "COMPLETED", style: "水彩", aspectRatio: "3:2",
+    brief: "不公开", messages: [{ role: "user", content: "私密讨论" }],
+    pages: [
+      { position: 2, caption: "第二页", narration: "第二页讲解", imageUrl: "https://r.example/2.png", audioUrl: null, imagePrompt: "私密提示词" },
+      { position: 1, caption: "封面", narration: "封面讲解", imageUrl: "https://r.example/1.png", audioUrl: "https://r.example/1.mp3" }
+    ]
+  });
+  assert.deepEqual(snapshot, {
+    type: "PICTURE_BOOK", title: "森林冒险", style: "水彩", aspectRatio: "3:2",
+    pages: [
+      { position: 1, caption: "封面", narration: "封面讲解", imageUrl: "https://r.example/1.png", audioUrl: "https://r.example/1.mp3" },
+      { position: 2, caption: "第二页", narration: "第二页讲解", imageUrl: "https://r.example/2.png", audioUrl: null }
+    ]
+  });
+});
+
 test("闪卡快照只保留公开字段并按排序号和 ID 排序", () => {
   const snapshot = snapshotCourseMaterial("LEARNING_FLASHCARD", {
     title: "动物单词",

@@ -65,6 +65,7 @@ function coursePrismaFixture(options: { videoOwnerId?: string } = {}) {
         updatedAt: now
       }]
     },
+    pictureBook: { findMany: async () => [] },
     learningFlashcardDeck: {
       findMany: async () => [{
         id: "flashcard-1",
@@ -923,6 +924,7 @@ test("保存课程在同一事务替换草稿条目并刷新课件快照指纹",
         videoGuideLesson: base.videoGuideLesson,
         englishGuidedStudyMaterial: base.englishGuidedStudyMaterial,
         learningFlashcardDeck: base.learningFlashcardDeck,
+        pictureBook: base.pictureBook,
         mediaAsset: base.mediaAsset,
         course: {
           findFirst: async () => course,
@@ -988,6 +990,7 @@ test("工作版本指向已审核版本时创建新草稿且绝不修改已审�
       videoGuideLesson: base.videoGuideLesson,
       englishGuidedStudyMaterial: base.englishGuidedStudyMaterial,
       learningFlashcardDeck: base.learningFlashcardDeck,
+        pictureBook: base.pictureBook,
       mediaAsset: base.mediaAsset,
       course: {
         findFirst: async () => course,
@@ -1057,6 +1060,7 @@ test("事务内课件归属或状态变化时以事务内查询为准并拒绝�
         },
         englishGuidedStudyMaterial: base.englishGuidedStudyMaterial,
         learningFlashcardDeck: base.learningFlashcardDeck,
+        pictureBook: base.pictureBook,
         course: {
           create: async () => {
             courseCreateCalls += 1;
@@ -1101,6 +1105,7 @@ test("课件发布快照和指纹使用事务内最新内容", async () => {
       },
       englishGuidedStudyMaterial: base.englishGuidedStudyMaterial,
       learningFlashcardDeck: base.learningFlashcardDeck,
+        pictureBook: base.pictureBook,
       course: {
         create: async () => ({}),
         update: async () => ({}),
@@ -1190,6 +1195,7 @@ test("本人可选课件按三类统一返回并按更新时间排序", async ()
         return [{ id: "english-1", title: "英文带学", updatedAt: new Date("2026-07-17T12:00:00Z") }];
       }
     },
+    pictureBook: { findMany: async (query: unknown) => { queries.push(query); return []; } },
     learningFlashcardDeck: {
       findMany: async (query: unknown) => {
         queries.push(query);
@@ -1205,7 +1211,7 @@ test("本人可选课件按三类统一返回并按更新时间排序", async ()
     "LEARNING_FLASHCARD",
     "VIDEO_GUIDE"
   ]);
-  assert.equal(queries.length, 3);
+  assert.equal(queries.length, 4);
   assert.deepEqual(
     (queries[0] as { where: unknown }).where,
     { userId: "user-1", status: "SUCCEEDED" }
@@ -1234,7 +1240,8 @@ test("课程编排根据带学场景区分学古诗文和英文带学", async ()
         }
       ]
     },
-    learningFlashcardDeck: { findMany: async () => [] }
+    learningFlashcardDeck: { findMany: async () => [] },
+    pictureBook: { findMany: async () => [] }
   });
 
   const options = await service.listMaterialOptions("user-1");

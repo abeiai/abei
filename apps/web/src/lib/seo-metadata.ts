@@ -39,7 +39,7 @@ export function resolvePublicSiteUrl(configuredUrl?: string, options: PublicSite
     }
   }
 
-  return "http://localhost:3321";
+  return "http://localhost:3600";
 }
 
 export function buildRobotsMetadata(siteUrl: string): MetadataRoute.Robots {

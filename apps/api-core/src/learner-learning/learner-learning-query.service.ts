@@ -141,7 +141,8 @@ const materialParts: Record<LearningMaterialType, Array<{ key: string; label: st
     { key: "PRACTICE", label: "练习巩固" },
     { key: "READ_ALONG", label: "跟读训练" }
   ],
-  LEARNING_FLASHCARD: [{ key: "FLASHCARD_ROUND", label: "闪卡复习" }]
+  LEARNING_FLASHCARD: [{ key: "FLASHCARD_ROUND", label: "闪卡复习" }],
+  PICTURE_BOOK: [{ key: "READING", label: "绘本阅读" }]
 };
 
 @Injectable()
@@ -830,6 +831,10 @@ export class LearnerLearningQueryService {
         href: `/${scene === "GUSHIWEN" ? "gushiwen" : "text2lesson"}/${encodeURIComponent(id)}`
       };
     }
+    if (type === "PICTURE_BOOK") {
+      const row = await this.prisma.pictureBook.findUnique({ where: { id }, select: { title: true } });
+      return { title: row?.title ?? "绘本", href: `/picture-books/${encodeURIComponent(id)}/play` };
+    }
     const row = await this.prisma.learningFlashcardDeck.findUnique({
       where: { id },
       select: { title: true }
@@ -934,14 +939,15 @@ function plainDateKey(value: Date) {
 function materialTypeLabel(type: LearningMaterialType) {
   if (type === "VIDEO_GUIDE") return "视频导学";
   if (type === "ENGLISH_GUIDED_STUDY") return "英文带学";
-  return "学习闪卡";
+  return type === "PICTURE_BOOK" ? "绘本" : "学习闪卡";
 }
 
 function parseMaterialType(value: string): LearningMaterialType {
   if (
     value === "VIDEO_GUIDE" ||
     value === "ENGLISH_GUIDED_STUDY" ||
-    value === "LEARNING_FLASHCARD"
+    value === "LEARNING_FLASHCARD" ||
+    value === "PICTURE_BOOK"
   ) {
     return value;
   }

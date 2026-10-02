@@ -16,7 +16,7 @@ import {
 import type { CourseMaterialType } from "../course-domain.js";
 
 export class CourseItemInputDto {
-  @IsIn(["VIDEO_GUIDE", "ENGLISH_GUIDED_STUDY", "LEARNING_FLASHCARD"])
+  @IsIn(["VIDEO_GUIDE", "ENGLISH_GUIDED_STUDY", "LEARNING_FLASHCARD", "PICTURE_BOOK"])
   materialType!: CourseMaterialType;
 
   @IsString()

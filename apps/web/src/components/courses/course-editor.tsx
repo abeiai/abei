@@ -78,7 +78,7 @@ function materialIdForItem(item: CourseRevisionItem) {
     return item.englishGuidedStudyMaterialId;
   }
 
-  return item.learningFlashcardDeckId;
+  return item.materialType === "PICTURE_BOOK" ? item.pictureBookId : item.learningFlashcardDeckId;
 }
 
 function revisionItems(revision: CourseRevision | null): EditorCourseItem[] {

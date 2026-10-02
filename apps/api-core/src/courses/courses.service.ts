@@ -17,6 +17,9 @@ type CourseMaterialRecord = {
   audioUrl?: string | null;
   cards?: unknown[];
   content?: unknown;
+  pages?: unknown;
+  style?: string;
+  aspectRatio?: string;
   id: string;
   knowledgeMap?: unknown;
   shareToken?: string;
@@ -139,6 +142,7 @@ const courseRevisionInclude = {
       },
       videoGuideLesson: true,
       englishGuidedStudyMaterial: true,
+      pictureBook: true,
       learningFlashcardDeck: {
         include: {
           cards: {
@@ -676,7 +680,7 @@ export class CoursesService {
 
   async listMaterialOptions(userId: string) {
     this.assertUserId(userId);
-    const [videos, englishMaterials, flashcardDecks] = await Promise.all([
+    const [videos, englishMaterials, flashcardDecks, pictureBooks] = await Promise.all([
       this.prisma.videoGuideLesson.findMany({
         where: { userId, status: "SUCCEEDED" },
         orderBy: { updatedAt: "desc" }
@@ -687,6 +691,10 @@ export class CoursesService {
       }),
       this.prisma.learningFlashcardDeck.findMany({
         where: { userId, status: "READY" },
+        orderBy: { updatedAt: "desc" }
+      }),
+      this.prisma.pictureBook.findMany({
+        where: { userId, status: "COMPLETED" },
         orderBy: { updatedAt: "desc" }
       })
     ]);
@@ -715,6 +723,13 @@ export class CoursesService {
         materialId: item.id,
         title: item.title,
         subtitle: "学习闪卡",
+        updatedAt: item.updatedAt
+      })),
+      ...pictureBooks.map((item) => ({
+        materialType: "PICTURE_BOOK" as const,
+        materialId: item.id,
+        title: item.title,
+        subtitle: "绘本",
         updatedAt: item.updatedAt
       }))
     ].sort((left, right) => right.updatedAt.getTime() - left.updatedAt.getTime());
@@ -865,7 +880,7 @@ export class CoursesService {
     }
 
     const idsByType = groupMaterialIds(dto.items);
-    const [cover, videoLessons, englishMaterials, flashcardDecks] = await Promise.all([
+    const [cover, videoLessons, englishMaterials, flashcardDecks, pictureBooks] = await Promise.all([
       transaction.mediaAsset.findUnique({ where: { id: dto.coverMediaId } }),
       transaction.videoGuideLesson.findMany({
         where: { id: { in: idsByType.VIDEO_GUIDE } }
@@ -880,7 +895,8 @@ export class CoursesService {
             orderBy: [{ sortOrder: "asc" }, { id: "asc" }]
           }
         }
-      })
+      }),
+      transaction.pictureBook.findMany({ where: { id: { in: idsByType.PICTURE_BOOK } } })
     ]);
 
     if (!cover) {
@@ -899,6 +915,7 @@ export class CoursesService {
     addMaterialRecords(recordByKey, "VIDEO_GUIDE", videoLessons);
     addMaterialRecords(recordByKey, "ENGLISH_GUIDED_STUDY", englishMaterials);
     addMaterialRecords(recordByKey, "LEARNING_FLASHCARD", flashcardDecks);
+    addMaterialRecords(recordByKey, "PICTURE_BOOK", pictureBooks);
     const items = dto.items.map((item) => this.validateMaterialItem(userId, item, recordByKey));
 
     return { cover, items };
@@ -929,6 +946,10 @@ export class CoursesService {
 
     if (item.materialType === "LEARNING_FLASHCARD" && record.status !== "READY") {
       throw new AppException(40001, "只能选择已完成的闪卡课件", HttpStatus.BAD_REQUEST);
+    }
+
+    if (item.materialType === "PICTURE_BOOK" && record.status !== "COMPLETED") {
+      throw new AppException(40001, "只能选择已完成的绘本", HttpStatus.BAD_REQUEST);
     }
 
     return {
@@ -1064,7 +1085,8 @@ function groupMaterialIds(items: CourseItemInputDto[]) {
   const grouped: Record<CourseMaterialType, string[]> = {
     VIDEO_GUIDE: [],
     ENGLISH_GUIDED_STUDY: [],
-    LEARNING_FLASHCARD: []
+    LEARNING_FLASHCARD: [],
+    PICTURE_BOOK: []
   };
 
   for (const item of items) {
@@ -1093,6 +1115,8 @@ function materialSourceFields(materialType: CourseMaterialType, materialId: stri
     return { englishGuidedStudyMaterialId: materialId };
   }
 
+  if (materialType === "PICTURE_BOOK") return { pictureBookId: materialId };
+
   return { learningFlashcardDeckId: materialId };
 }
 
@@ -1118,6 +1142,8 @@ function revisionItemMaterial(
     return item.englishGuidedStudyMaterial;
   }
 
+  if (item.materialType === "PICTURE_BOOK") return item.pictureBook;
+
   return item.learningFlashcardDeck;
 }
 
@@ -1131,6 +1157,8 @@ function materialLaunchHref(materialType: CourseMaterialType, record: CourseMate
       ? `/gushiwen/${record.id}`
       : `/text2lesson/${record.id}`;
   }
+
+  if (materialType === "PICTURE_BOOK") return `/picture-books/${record.id}/play`;
 
   return `/learn/flashcards/${record.id}`;
 }
@@ -1147,5 +1175,5 @@ function isCourseMaterialLearnable(
     return Boolean(record.audioUrl);
   }
 
-  return record.status === "READY";
+  return record.status === (materialType === "PICTURE_BOOK" ? "COMPLETED" : "READY");
 }

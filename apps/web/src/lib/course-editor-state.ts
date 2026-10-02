@@ -19,7 +19,7 @@ export function courseMaterialDirectoryLabel(
     return guidedStudyScene === "GUSHIWEN" ? "学古诗文" : "英文带读";
   }
 
-  return "学习闪卡";
+  return materialType === "PICTURE_BOOK" ? "绘本" : "学习闪卡";
 }
 
 export function courseGuidedStudyScene(content: unknown): CourseGuidedStudyScene {

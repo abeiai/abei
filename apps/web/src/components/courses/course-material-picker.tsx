@@ -26,7 +26,8 @@ const materialGroups: ReadonlyArray<{
 }> = [
   { type: "VIDEO_GUIDE", label: "视频导学" },
   { type: "ENGLISH_GUIDED_STUDY", label: "英文带读" },
-  { type: "LEARNING_FLASHCARD", label: "学习闪卡" }
+  { type: "LEARNING_FLASHCARD", label: "学习闪卡" },
+  { type: "PICTURE_BOOK", label: "绘本" }
 ];
 
 export const courseMaterialLimit = 200;

@@ -553,6 +553,7 @@ enum CourseMaterialType {
   VIDEO_GUIDE
   ENGLISH_GUIDED_STUDY
   LEARNING_FLASHCARD
+  PICTURE_BOOK
 }
 
 enum CourseMaterialPublicationStatus {
@@ -710,6 +711,8 @@ model PictureBook {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revisionItems CourseRevisionItem[]
+  materialPublication CourseMaterialPublication?
 
   @@index([userId, updatedAt])
   @@map("picture_books")
@@ -2784,6 +2787,7 @@ model CourseRevisionItem {
   videoGuideLessonId           String?
   englishGuidedStudyMaterialId String?
   learningFlashcardDeckId      String?
+  pictureBookId                String?
   displayName                  String
   sortOrder                    Int                @default(0)
   createdAt                    DateTime           @default(now())
@@ -2793,6 +2797,7 @@ model CourseRevisionItem {
   videoGuideLesson             VideoGuideLesson?          @relation(fields: [videoGuideLessonId], references: [id], onDelete: Restrict)
   englishGuidedStudyMaterial   EnglishGuidedStudyMaterial? @relation(fields: [englishGuidedStudyMaterialId], references: [id], onDelete: Restrict)
   learningFlashcardDeck        LearningFlashcardDeck?      @relation(fields: [learningFlashcardDeckId], references: [id], onDelete: Restrict)
+  pictureBook                  PictureBook?                @relation(fields: [pictureBookId], references: [id], onDelete: Restrict)
 
   @@unique([revisionId, publicationId])
   @@index([revisionId, sortOrder])
@@ -2806,6 +2811,7 @@ model CourseMaterialPublication {
   videoGuideLessonId           String?                             @unique
   englishGuidedStudyMaterialId String?                             @unique
   learningFlashcardDeckId      String?                             @unique
+  pictureBookId                String?                             @unique
   status                       CourseMaterialPublicationStatus     @default(PENDING)
   approvedHash                 String?
   currentHash                  String
@@ -2816,6 +2822,7 @@ model CourseMaterialPublication {
   videoGuideLesson             VideoGuideLesson?                  @relation(fields: [videoGuideLessonId], references: [id], onDelete: Restrict)
   englishGuidedStudyMaterial   EnglishGuidedStudyMaterial?         @relation(fields: [englishGuidedStudyMaterialId], references: [id], onDelete: Restrict)
   learningFlashcardDeck        LearningFlashcardDeck?              @relation(fields: [learningFlashcardDeckId], references: [id], onDelete: Restrict)
+  pictureBook                  PictureBook?                         @relation(fields: [pictureBookId], references: [id], onDelete: Restrict)
   revisionItems                CourseRevisionItem[]
   reviewRequests               CourseReviewRequest[]
 

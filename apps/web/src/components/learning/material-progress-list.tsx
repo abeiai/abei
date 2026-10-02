@@ -17,7 +17,8 @@ const statusLabels = {
 const typeLabels = {
   VIDEO_GUIDE: "视频导学",
   ENGLISH_GUIDED_STUDY: "带学课件",
-  LEARNING_FLASHCARD: "学习闪卡"
+  LEARNING_FLASHCARD: "学习闪卡",
+  PICTURE_BOOK: "绘本"
 } as const;
 
 export function MaterialProgressList({

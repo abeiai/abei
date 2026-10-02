@@ -138,7 +138,8 @@ export function courseMaterialTypeLabel(type: CourseMaterialType) {
   const labels: Record<CourseMaterialType, string> = {
     VIDEO_GUIDE: "视频导学",
     ENGLISH_GUIDED_STUDY: "英文带读",
-    LEARNING_FLASHCARD: "学习闪卡"
+    LEARNING_FLASHCARD: "学习闪卡",
+    PICTURE_BOOK: "绘本"
   };
 
   return labels[type];
@@ -193,7 +194,8 @@ const materialFieldLabels: Record<CourseMaterialType, Record<string, string>> = 
     knowledgeMap: "知识图谱",
     knowledgeGraph: "知识图谱",
     cards: "闪卡内容"
-  }
+  },
+  PICTURE_BOOK: { title: "绘本标题", style: "画风", aspectRatio: "画面比例", pages: "绘本页面" }
 };
 
 const legacyMaterialFieldKeys: Record<string, string> = {
@@ -211,6 +213,7 @@ const nestedFieldLabels: Record<string, string> = {
   ...materialFieldLabels.VIDEO_GUIDE,
   ...materialFieldLabels.ENGLISH_GUIDED_STUDY,
   ...materialFieldLabels.LEARNING_FLASHCARD,
+  ...materialFieldLabels.PICTURE_BOOK,
   answer: "答案",
   appearsAt: "出现时间",
   appearsAtSeconds: "出现时间（秒）",
@@ -259,6 +262,7 @@ const hiddenSnapshotKeys = new Set([
   "videoGuideLessonId",
   "englishGuidedStudyMaterialId",
   "learningFlashcardDeckId",
+  "pictureBookId",
   "materialKey"
 ]);
 
@@ -545,7 +549,8 @@ function snapshotTitle(value: JsonValue | null) {
 function isCourseMaterialType(value: JsonValue): value is CourseMaterialType {
   return value === "VIDEO_GUIDE"
     || value === "ENGLISH_GUIDED_STUDY"
-    || value === "LEARNING_FLASHCARD";
+    || value === "LEARNING_FLASHCARD"
+    || value === "PICTURE_BOOK";
 }
 
 function isSafeChineseLabel(value: string) {

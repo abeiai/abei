@@ -1,0 +1,43 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { playbackFromSnapshot } from "../src/picture-books/picture-book-playback.js";
+import { PictureBookService } from "../src/picture-books/picture-book.service.js";
+
+test("绘本播放数据只包含已审核的页面字段", () => {
+  const playback = playbackFromSnapshot("book-1", {
+    type: "PICTURE_BOOK", title: "森林冒险", style: "水彩", aspectRatio: "3:2",
+    messages: [{ role: "user", content: "私密讨论" }],
+    pages: [
+      { position: 1, caption: "第一幕", narration: "旁白", imageUrl: "https://r.example/1.png", audioUrl: "https://r.example/1.mp3", imagePrompt: "不公开" },
+      { position: 0, caption: "封面", narration: "封面", imageUrl: null, audioUrl: "/api/audio/files/cover.mp3" }
+    ]
+  });
+  assert.deepEqual(playback, {
+    id: "book-1", title: "森林冒险", style: "水彩", aspectRatio: "3:2",
+    pages: [
+      { position: 0, caption: "封面", narration: "封面", imageUrl: null, audioUrl: "/api/audio/files/cover.mp3" },
+      { position: 1, caption: "第一幕", narration: "旁白", imageUrl: "https://r.example/1.png", audioUrl: "https://r.example/1.mp3" }
+    ]
+  });
+});
+
+test("非作者只能读取已发布课程审核通过的绘本快照", async () => {
+  const service = Object.create(PictureBookService.prototype) as PictureBookService;
+  let approved = false;
+  (service as unknown as { prisma: object }).prisma = {
+    pictureBook: { findFirst: async () => null },
+    courseRevisionItem: {
+      findFirst: async (query: { where: { pictureBookId: string; revision: { approvedFor: { is: { learnerAuthorizations: { some: { learnerId: string } } } } }; publication: unknown } }) => {
+        assert.equal(query.where.pictureBookId, "book-1");
+        assert.equal(query.where.revision.approvedFor.is.learnerAuthorizations.some.learnerId, "learner-1");
+        assert.ok(query.where.publication);
+        return approved ? { publication: { approvedHash: "hash", approvedSnapshot: { title: "审核版", pages: [{ position: 1, caption: "已审核", imageUrl: null, audioUrl: null }] } } } : null;
+      }
+    }
+  };
+  await assert.rejects(service.playback({ userId: "reader-1", mode: "LEARNER", learnerId: "learner-1" }, "book-1"), /尚未发布/);
+  approved = true;
+  const result = await service.playback({ userId: "reader-1", mode: "LEARNER", learnerId: "learner-1" }, "book-1");
+  assert.equal(result.title, "审核版");
+  assert.equal(result.pages[0]?.caption, "已审核");
+});

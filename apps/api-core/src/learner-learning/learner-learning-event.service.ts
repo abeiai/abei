@@ -49,7 +49,7 @@ type MaterialLearningContext = ResolvedLearningContext & {
 
 const partsByEventType: Partial<Record<LearnerLearningEventDto["type"], readonly string[]>> = {
   MEDIA_PROGRESS: ["AUTONOMOUS", "DEMONSTRATION"],
-  NODE_LEARNED: ["GUIDED", "HIGHLIGHTS"],
+  NODE_LEARNED: ["GUIDED", "HIGHLIGHTS", "READING"],
   PRACTICE_SUBMITTED: ["PRACTICE"],
   READ_ALONG_COMPLETED: ["READ_ALONG"],
   FLASHCARD_REVIEWED: ["FLASHCARD_ROUND"]
@@ -589,7 +589,8 @@ function materialFacts(type: LearningMaterialType, snapshot: Record<string, unkn
       ...narration,
       ...recordArray(narrationV2.nodes),
       ...recordArray(snapshot.teacherSegments),
-      ...recordArray(snapshot.sentences)
+      ...recordArray(snapshot.sentences),
+      ...(type === "PICTURE_BOOK" ? recordArray(snapshot.pages).map((page) => ({ id: String(page.position) })) : [])
     ]
       .map((row) => row.id)
       .filter((id): id is string => typeof id === "string")
@@ -629,7 +630,7 @@ function materialFacts(type: LearningMaterialType, snapshot: Record<string, unkn
           ...(questions.size > 0 ? ["PRACTICE"] : []),
           ...(readAlongIds.size > 0 ? ["READ_ALONG"] : [])
         ]
-      : ["FLASHCARD_ROUND"];
+      : type === "PICTURE_BOOK" ? ["READING"] : ["FLASHCARD_ROUND"];
   const timelineDuration = maximumEndSeconds([
     ...recordArray(snapshot.subtitleCues),
     ...recordArray(snapshot.cues),

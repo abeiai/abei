@@ -3,7 +3,8 @@ export type CourseRevisionStatus = "DRAFT" | "PENDING" | "APPROVED" | "REJECTED"
 export type CourseMaterialType =
   | "VIDEO_GUIDE"
   | "ENGLISH_GUIDED_STUDY"
-  | "LEARNING_FLASHCARD";
+  | "LEARNING_FLASHCARD"
+  | "PICTURE_BOOK";
 export type CourseGuidedStudyScene = "ENGLISH" | "GUSHIWEN";
 export type CourseMaterialPublicationStatus = "PENDING" | "APPROVED" | "REJECTED";
 export type CourseReviewScope = "COURSE_REVISION" | "MATERIAL_CHANGE";
@@ -25,6 +26,7 @@ export interface CourseMaterialPublication {
   videoGuideLessonId: string | null;
   englishGuidedStudyMaterialId: string | null;
   learningFlashcardDeckId: string | null;
+  pictureBookId?: string | null;
   status: CourseMaterialPublicationStatus;
   approvedHash: string | null;
   currentHash: string;
@@ -128,6 +130,7 @@ export interface CourseRevisionItem {
   videoGuideLessonId: string | null;
   englishGuidedStudyMaterialId: string | null;
   learningFlashcardDeckId: string | null;
+  pictureBookId?: string | null;
   displayName: string;
   sortOrder: number;
   createdAt: string;
@@ -136,6 +139,7 @@ export interface CourseRevisionItem {
   videoGuideLesson: CourseVideoGuideLesson | null;
   englishGuidedStudyMaterial: CourseEnglishGuidedStudyMaterial | null;
   learningFlashcardDeck: CourseLearningFlashcardDeck | null;
+  pictureBook: { id: string; title: string; status: string; pages: unknown[] } | null;
 }
 
 export interface CourseRevision {
