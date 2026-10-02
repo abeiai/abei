@@ -34,6 +34,7 @@ import {
   downloadTtsProviderAudio,
   deletePersistedVideoGuideNarrationAudio,
   persistVideoGuideNarrationAudio,
+  retryTransientPersistenceOperation,
   persistedVideoGuideAudioFromPayload,
   sanitizePersistedTtsPayload,
   videoGuideNarrationObjectKey,
@@ -5259,18 +5260,29 @@ export class AudioService {
       payloadHash,
       amzDate
     });
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        ...headers,
-        authorization
-      },
-      body: file.buffer
-    });
+    await retryTransientPersistenceOperation(async () => {
+      let response: Response;
+      try {
+        response = await fetch(url, {
+          method: "PUT",
+          headers: { ...headers, authorization },
+          body: file.buffer,
+          signal: AbortSignal.timeout(30_000)
+        });
+      } catch {
+        throw new VideoGuideNarrationStorageError("R2_UPLOAD_FAILED", "语音上传到对象存储失败，请稍后重试", true);
+      }
 
-    if (!response.ok) {
-      throw new AppException(50002, "对象存储上传失败", HttpStatus.BAD_GATEWAY);
-    }
+      await response.body?.cancel().catch(() => undefined);
+      if (!response.ok) {
+        const retryable = [408, 425, 429].includes(response.status) || response.status >= 500;
+        throw new VideoGuideNarrationStorageError(
+          retryable ? "R2_UPLOAD_FAILED" : "R2_CONFIG_MISSING",
+          retryable ? "语音上传到对象存储失败，请稍后重试" : "对象存储拒绝上传，请检查语音对象存储配置",
+          retryable
+        );
+      }
+    });
 
     return {
       objectKey: key,

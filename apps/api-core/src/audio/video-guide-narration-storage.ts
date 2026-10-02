@@ -296,13 +296,13 @@ function decodeAudioBase64(value: string, maxBytes: number) {
 }
 
 export async function downloadTtsProviderAudio(audioUrl: string, maxBytes: number, fetchImpl: typeof fetch = fetch) {
-  return downloadProviderAudio(audioUrl, {
+  return retryTransientPersistenceOperation(() => downloadProviderAudio(audioUrl, {
     providerDownloadAllowedHosts: normalizedProviderDownloadAllowedHosts(
       process.env.VIDEO_GUIDE_TTS_DOWNLOAD_ALLOWED_HOSTS?.split(",") ?? defaultProviderDownloadAllowedHosts
     ),
     timeoutMs: defaultTimeoutMs,
     maxBytes
-  }, fetchImpl);
+  }, fetchImpl));
 }
 
 async function downloadProviderAudio(
@@ -625,7 +625,7 @@ async function verifyR2Object(input: {
   }
 }
 
-async function retryTransientPersistenceOperation<T>(operation: () => Promise<T>) {
+export async function retryTransientPersistenceOperation<T>(operation: () => Promise<T>) {
   let lastError: unknown;
 
   for (let attempt = 1; attempt <= persistenceMaxAttempts; attempt += 1) {
