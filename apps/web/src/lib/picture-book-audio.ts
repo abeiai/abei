@@ -18,7 +18,8 @@ export function waitForPictureBookAudio(src: string): Promise<void> {
       if (failed) reject(new Error("语音已生成并保存，但加载失败。请重试加载。"));
       else resolve();
     };
-    const timer = setTimeout(() => finish(true), 30_000);
+    // Allow the API's three bounded R2 transfer attempts to finish.
+    const timer = setTimeout(() => finish(true), 365_000);
     audio.oncanplay = () => finish(false);
     audio.onerror = () => finish(true);
     audio.preload = "auto";

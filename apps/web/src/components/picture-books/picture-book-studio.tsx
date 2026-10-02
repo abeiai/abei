@@ -296,10 +296,11 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
       const url = updated.pages.find(item => item.position === position)?.[field];
       if (!url) throw new Error("生成失败，请稍后重试。");
       setBook(current => patchPictureBookPage(current, book.id, position, { [field]: url }));
+      setNotice(`${label}已生成并保存，正在加载。`);
       if (kind === "image") await waitForPictureBookImage(pictureBookPageImageSource(book.id, position, url));
       else await waitForPictureBookAudio(pictureBookPageAudioSource(book.id, position, url));
       setNotice(`${label}已生成。`);
-    } catch (cause) { setError(`${label}：${cause instanceof Error ? cause.message : "生成失败，请稍后重试"}`); }
+    } catch (cause) { setNotice(""); setError(`${label}：${cause instanceof Error ? cause.message : "生成失败，请稍后重试"}`); }
     finally { generationRef.current.delete(key); setGenerationKeys([...generationRef.current]); }
   }
 

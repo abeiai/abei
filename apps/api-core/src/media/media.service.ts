@@ -10,6 +10,7 @@ import { inspectUserAvatar } from "../auth/user-avatar.js";
 import { assertPictureBookGeneratedImageUrl, inspectPictureBookImage } from "../picture-books/picture-book-image.js";
 import { mediaStoragePublicBaseUrl } from "./media-object-url.js";
 import { downloadTtsProviderAudio } from "../audio/video-guide-narration-storage.js";
+import { assertMediaTransferResponse, mediaTransferTimeoutMs, retryMediaTransfer } from "./media-transfer.js";
 
 const mediaAssetTypes = ["IMAGE", "AUDIO", "VIDEO"] as const;
 const mediaAssetSources = ["SYSTEM", "USER_UPLOAD", "AI_GENERATED", "WEB_FETCHED"] as const;
@@ -220,20 +221,8 @@ export class MediaService {
       throw new AppException(40001, "绘本语音地址无效", HttpStatus.BAD_REQUEST);
     }
     const request = this.pictureBookStoredRequest(key);
-    const response = await fetch(request.url, { headers: request.headers, redirect: "manual", signal: AbortSignal.timeout(30_000) });
-    const mimetype = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() ?? "";
-    if (!response.ok || !response.body || !["audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/ogg", "audio/aac", "audio/mp4", "audio/webm"].includes(mimetype)) {
-      throw new AppException(50201, "绘本语音加载失败", HttpStatus.BAD_GATEWAY);
-    }
-    const chunks: Buffer[] = [];
-    let size = 0;
-    for await (const chunk of response.body) {
-      size += chunk.byteLength;
-      if (size > 20 * 1024 * 1024) throw new AppException(50201, "绘本语音超过大小限制", HttpStatus.BAD_GATEWAY);
-      chunks.push(Buffer.from(chunk));
-    }
-    if (!size) throw new AppException(50201, "绘本语音加载失败", HttpStatus.BAD_GATEWAY);
-    return { buffer: Buffer.concat(chunks, size), mimetype };
+    return this.downloadPictureBookMedia(request.url, request.headers, "语音", 20 * 1024 * 1024,
+      ["audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/ogg", "audio/aac", "audio/mp4", "audio/webm"]);
   }
 
   private pictureBookStoredRequest(key: string) {
@@ -251,25 +240,32 @@ export class MediaService {
   }
 
   private async downloadPictureBookImage(sourceUrl: string, headers?: Record<string, string>) {
-    const response = await fetch(sourceUrl, { headers, redirect: "manual", signal: AbortSignal.timeout(30_000) });
-    const mimeType = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() ?? "";
-    if (!response.ok || !response.body || !["image/png", "image/jpeg", "image/webp"].includes(mimeType)) {
-      throw new AppException(50201, "生成图片下载失败", HttpStatus.BAD_GATEWAY);
-    }
-    const chunks: Buffer[] = [];
-    let size = 0;
-    for await (const chunk of response.body) {
-      size += chunk.byteLength;
-      if (size > 10 * 1024 * 1024) throw new AppException(50201, "生成图片超过大小限制", HttpStatus.BAD_GATEWAY);
-      chunks.push(Buffer.from(chunk));
-    }
-    const file = {
-      originalname: mimeType === "image/png" ? "picture-book.png" : mimeType === "image/webp" ? "picture-book.webp" : "picture-book.jpg",
-      mimetype: mimeType,
-      size,
-      buffer: Buffer.concat(chunks, size)
-    };
-    return inspectPictureBookImage(file);
+    const file = await this.downloadPictureBookMedia(sourceUrl, headers, "图片", 10 * 1024 * 1024, ["image/png", "image/jpeg", "image/webp"]);
+    return inspectPictureBookImage({ ...file,
+      originalname: file.mimetype === "image/png" ? "picture-book.png" : file.mimetype === "image/webp" ? "picture-book.webp" : "picture-book.jpg"
+    });
+  }
+
+  private async downloadPictureBookMedia(sourceUrl: string, headers: Record<string, string> | undefined, label: "图片" | "语音", maxBytes: number, allowedTypes: string[]) {
+    const message = `绘本${label}文件传输失败，请稍后重试`;
+    return retryMediaTransfer(async () => {
+      const response = await fetch(sourceUrl, { headers, redirect: "manual", signal: AbortSignal.timeout(mediaTransferTimeoutMs) });
+      await assertMediaTransferResponse(response, message);
+      const mimetype = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() ?? "";
+      if (!response.body || !allowedTypes.includes(mimetype)) {
+        await response.body?.cancel().catch(() => undefined);
+        throw new AppException(50201, message, HttpStatus.BAD_GATEWAY);
+      }
+      const chunks: Buffer[] = [];
+      let size = 0;
+      for await (const chunk of response.body) {
+        size += chunk.byteLength;
+        if (size > maxBytes) throw new AppException(50201, `绘本${label}超过大小限制`, HttpStatus.BAD_GATEWAY);
+        chunks.push(Buffer.from(chunk));
+      }
+      if (!size) throw new AppException(50201, message, HttpStatus.BAD_GATEWAY);
+      return { buffer: Buffer.concat(chunks, size), mimetype, size };
+    }, message);
   }
 
   async uploadUserAvatar(userId: string, file: UploadedFileLike | undefined) {
@@ -607,18 +603,15 @@ export class MediaService {
       payloadHash,
       amzDate
     });
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        ...headers,
-        authorization
-      },
-      body: file.buffer
-    });
-
-    if (!response.ok) {
-      throw new AppException(50002, "对象存储上传失败", HttpStatus.BAD_GATEWAY);
-    }
+    const message = "R2 文件上传失败，请稍后重试";
+    await retryMediaTransfer(async () => {
+      const response = await fetch(url, {
+        method: "PUT", headers: { ...headers, authorization }, body: file.buffer,
+        signal: AbortSignal.timeout(mediaTransferTimeoutMs)
+      });
+      await assertMediaTransferResponse(response, message);
+      await response.body?.cancel().catch(() => undefined);
+    }, message);
 
     return config.publicBaseUrl
       ? `${config.publicBaseUrl.replace(/\/+$/, "")}/${key}`

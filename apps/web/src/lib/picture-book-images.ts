@@ -14,7 +14,8 @@ export function waitForPictureBookImage(src: string): Promise<void> {
       if (failed) reject(new Error("图片已生成并保存，但加载失败。请重试加载。"));
       else resolve();
     };
-    const timer = setTimeout(() => finish(true), 30_000);
+    // Allow the API's three bounded R2 transfer attempts to finish.
+    const timer = setTimeout(() => finish(true), 365_000);
     image.onload = () => finish(false);
     image.onerror = () => finish(true);
     image.src = src;
