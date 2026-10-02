@@ -9,6 +9,7 @@ import { snapshotCourseMaterial } from "../courses/course-domain.js";
 import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
+import { pictureBookImageSize } from "./picture-book-ratio.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
@@ -193,9 +194,7 @@ export class PictureBookService {
       page.imagePrompt,
       "画面中不要出现文字、字幕、水印或边框。"
     ].filter(Boolean).join("\n").slice(0, 2000);
-    const size = book.aspectRatio === "3:2" ? { width: 1536, height: 1024 }
-      : book.aspectRatio === "2:3" ? { width: 1024, height: 1536 }
-        : { width: 1024, height: 1024 };
+    const size = pictureBookImageSize(book.aspectRatio);
     const referenceImages = await this.localCharacterReferences(subject.userId, charactersOf(book.characters));
     const result = await this.aiService.generatePictureBookImage(subject, {
       prompt, modelInstanceId: dto.modelInstanceId, count: 1, referenceImages, ...size
