@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import type { PictureBookStyle } from "./picture-book-styles";
 
 interface ApiResponse<TData> {
   code: number;
@@ -88,6 +89,14 @@ function text(formData: FormData, name: string) {
 
 export async function getAdminSystemConfigs() {
   return apiFetch<SystemConfig[]>("/system-config");
+}
+
+export async function savePictureBookStylesAction(styles: PictureBookStyle[]) {
+  try {
+    const configs = await apiFetch<SystemConfig[]>("/system-config", { method: "PATCH", body: JSON.stringify({ pictureBookStyles: JSON.stringify(styles) }) });
+    revalidatePath("/admin/picture-book-styles"); revalidatePath("/storybook");
+    return { status: "success", message: "绘画风格已保存", styles: JSON.parse(configs.find(config => config.key === "pictureBookStyles")!.value) as PictureBookStyle[] };
+  } catch (cause) { return { status: "error", message: cause instanceof Error ? cause.message : "保存失败，请稍后重试" }; }
 }
 
 export async function getPublicSystemConfigs() {

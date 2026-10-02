@@ -58,6 +58,7 @@ export async function POST(request: Request) {
   apiFormData.set("file", file);
 
   const sourceType = formData?.get("sourceType");
+  if (formData?.get("purpose") === "PICTURE_BOOK_STYLE") apiFormData.set("purpose", "PICTURE_BOOK_STYLE");
 
   if (typeof sourceType === "string") {
     apiFormData.set("sourceType", sourceType);

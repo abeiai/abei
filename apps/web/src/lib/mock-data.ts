@@ -176,6 +176,11 @@ export const adminNavGroups: AdminNavGroup[] = [
         href: "/admin/media",
         label: "素材资源",
         icon: Image
+      },
+      {
+        href: "/admin/picture-book-styles",
+        label: "绘本绘画风格",
+        icon: Palette
       }
     ]
   },

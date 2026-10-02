@@ -10,6 +10,7 @@ import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
 import { pictureBookImageSize } from "./picture-book-ratio.js";
+import { parsePictureBookStyles, pictureBookStylePrompt } from "./picture-book-styles.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
@@ -141,7 +142,7 @@ export class PictureBookService {
   async outline(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string) {
     const book = await this.get(subject.userId, id);
     const prompt = buildOutlinePrompt({
-      brief: book.brief, audience: book.audience, style: book.style, pageCount: book.pageCount,
+      brief: book.brief, audience: book.audience, style: await this.stylePrompt(book.style), pageCount: book.pageCount,
       characters: charactersOf(book.characters), messages: messagesOf(book.messages)
     });
     const output = await this.runTextTask(subject, "picture-book-outline", prompt);
@@ -189,7 +190,7 @@ export class PictureBookService {
     this.mediaService.assertPictureBookR2Ready();
     const characterDescription = charactersOf(book.characters).map((item) => `${item.name}：${item.description}`).join("；");
     const prompt = [
-      `儿童绘本插画，${book.style}风格。保持整本绘本角色外观一致。`,
+      `儿童绘本插画，绘画风格：${await this.stylePrompt(book.style)}。保持整本绘本角色外观一致。`,
       characterDescription ? `角色：${characterDescription}` : "",
       page.imagePrompt,
       "画面中不要出现文字、字幕、水印或边框。"
@@ -208,6 +209,11 @@ export class PictureBookService {
       pages[index] = { ...pages[index]!, imageUrl: image.url, imageTaskId: result.id };
       return { pages: pages as unknown as Prisma.InputJsonValue };
     });
+  }
+
+  private async stylePrompt(name: string) {
+    const config = await this.prisma.systemConfig.findUnique({ where: { key: "pictureBookStyles" } });
+    return pictureBookStylePrompt(name, parsePictureBookStyles(config?.value));
   }
 
   async uploadPageImage(userId: string, id: string, position: number, file?: UploadedFileLike) {

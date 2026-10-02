@@ -1,6 +1,9 @@
 import { IsOptional, IsString, MaxLength } from "class-validator";
 
 export class UpdateSystemConfigDto {
+  @IsOptional() @IsString() @MaxLength(120000)
+  pictureBookStyles?: string;
+
   @IsOptional()
   @IsString()
   @MaxLength(80)

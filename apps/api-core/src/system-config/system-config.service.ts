@@ -3,8 +3,10 @@ import { decryptSecret, encryptSecret, getPrismaClient, maskSecret } from "@xuel
 import { AppException } from "../common/app-exception.js";
 import { UpdateSystemConfigDto } from "./dto/update-system-config.dto.js";
 import { defaultSiteOrigin, normalizeSiteOrigin } from "./site-url.js";
+import { defaultPictureBookStyles, parsePictureBookStyles, type PictureBookStyle } from "../picture-books/picture-book-styles.js";
 
 const configDefinitions = [
+  { key: "pictureBookStyles", label: "绘本绘画风格", value: JSON.stringify(defaultPictureBookStyles), description: "绘本风格名称、生成描述与示意图片。", isPublic: true, sortOrder: 320 },
   {
     key: "siteName",
     label: "站点名称",
@@ -547,6 +549,21 @@ export class SystemConfigService {
     }));
   }
 
+  async pictureBookStyles() {
+    const config = await this.prisma.systemConfig.findUnique({ where: { key: "pictureBookStyles" } });
+    return parsePictureBookStyles(config?.value);
+  }
+
+  async assertPictureBookStyleImage(style: PictureBookStyle) {
+    if (defaultPictureBookStyles.some(item => item.imageUrl === style.imageUrl)) return;
+    const base = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+    if (!base || !style.imageUrl.startsWith(`${base}/`)) throw new AppException(40001, "请上传 abeiai R2 中的风格参考图", HttpStatus.BAD_REQUEST);
+    const asset = await this.prisma.mediaAsset.findFirst({ where: {
+      url: style.imageUrl, mediaType: "IMAGE", storageProvider: "S3", createdByAdminId: { not: null }
+    } });
+    if (!asset) throw new AppException(40001, "风格参考图必须由管理员上传", HttpStatus.BAD_REQUEST);
+  }
+
   async updateConfigs(dto: UpdateSystemConfigDto) {
     await this.ensureDefaults();
 
@@ -575,6 +592,9 @@ export class SystemConfigService {
     } as Record<ConfigKey, string>;
 
     this.validateSendConfigs(nextValues);
+    if (dto.pictureBookStyles !== undefined) {
+      for (const style of parsePictureBookStyles(nextValues.pictureBookStyles)) await this.assertPictureBookStyleImage(style);
+    }
 
     for (const update of updates) {
       if (!update.value && !this.isEmptyAllowed(update.key)) {
@@ -643,6 +663,7 @@ export class SystemConfigService {
   }
 
   private normalizeConfigValue(key: ConfigKey, value: string, currentValues: Record<ConfigKey, string>) {
+    if (key === "pictureBookStyles") return JSON.stringify(parsePictureBookStyles(value));
     if (this.isEncryptedConfigKey(key)) {
       return value ? encryptSecret(value) : currentValues[key];
     }

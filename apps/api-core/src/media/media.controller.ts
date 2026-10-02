@@ -55,10 +55,11 @@ export class MediaController {
   async upload(
     @Req() request: unknown,
     @UploadedFile() file?: UploadedFileLike,
-    @Body("sourceType") sourceType?: string
+    @Body("sourceType") sourceType?: string,
+    @Body("purpose") purpose?: string
   ) {
     const admin = await this.adminAuthService.me(request as never);
-    const asset = await this.mediaService.uploadFile(admin.id, file, sourceType);
+    const asset = await this.mediaService.uploadFile(admin.id, file, sourceType, purpose);
 
     await writeAdminOperationLog({
       adminUserId: admin.id,

@@ -132,19 +132,24 @@ export class MediaService {
     }));
   }
 
-  async uploadFile(adminUserId: string, file: UploadedFileLike | undefined, sourceTypeInput?: string) {
+  async uploadFile(adminUserId: string, file: UploadedFileLike | undefined, sourceTypeInput?: string, purpose?: string) {
     if (!file) {
       throw new AppException(40001, "请选择要上传的文件", HttpStatus.BAD_REQUEST);
     }
 
     const mediaType = await this.assertAllowedFile(file);
     const sourceType = parseMediaAssetSource(sourceTypeInput) ?? "USER_UPLOAD";
+    if (purpose === "PICTURE_BOOK_STYLE") {
+      inspectPictureBookImage(file);
+      this.assertPictureBookR2Ready();
+    }
 
     return this.persistFile({
       createdByAdminId: adminUserId,
       file,
       mediaType,
-      sourceType
+      sourceType,
+      ...(purpose === "PICTURE_BOOK_STYLE" ? { storageProvider: "S3" as const } : {})
     });
   }
 
