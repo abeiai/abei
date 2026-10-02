@@ -72,8 +72,8 @@ export class UpdatePictureBookPageDto {
 }
 
 export class GeneratePictureBookImageDto {
-  @IsString() @MinLength(1) @MaxLength(80)
-  modelInstanceId!: string;
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(80)
+  modelInstanceId?: string;
 }
 
 export class GeneratePictureBookAudioDto {

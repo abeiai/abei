@@ -197,9 +197,9 @@ export class PictureBookService {
       : book.aspectRatio === "2:3" ? { width: 1024, height: 1536 }
         : { width: 1024, height: 1024 };
     const referenceImages = await this.localCharacterReferences(subject.userId, charactersOf(book.characters));
-    const result = await this.aiService.generateImage(subject, {
+    const result = await this.aiService.generatePictureBookImage(subject, {
       prompt, modelInstanceId: dto.modelInstanceId, count: 1, referenceImages, ...size
-    }, { pictureBookR2: true });
+    });
     const image = result.images[0];
     if (!image) throw new AppException(50201, "图片生成失败，请稍后重试", HttpStatus.BAD_GATEWAY);
     return this.mutate(subject.userId, id, (current) => {
@@ -258,14 +258,14 @@ export class PictureBookService {
     } });
   }
 
-  async generateCharacterImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, modelInstanceId: string) {
+  async generateCharacterImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, modelInstanceId?: string) {
     const character = await this.prisma.pictureBookCharacter.findFirst({ where: { id, userId: subject.userId } });
     if (!character) throw new AppException(40401, "角色不存在", HttpStatus.NOT_FOUND);
     this.mediaService.assertPictureBookR2Ready();
-    const result = await this.aiService.generateImage(subject, {
+    const result = await this.aiService.generatePictureBookImage(subject, {
       prompt: `儿童绘本角色设定图，单个角色，干净浅色背景，正面半身，细节清楚，无文字。${character.name}：${character.description}`.slice(0, 2000),
       modelInstanceId, width: 1024, height: 1024, count: 1
-    }, { pictureBookR2: true });
+    });
     const url = result.images[0]?.url;
     if (!url) throw new AppException(50201, "角色形象生成失败", HttpStatus.BAD_GATEWAY);
     return this.prisma.pictureBookCharacter.update({ where: { id }, data: { imageUrl: url } });

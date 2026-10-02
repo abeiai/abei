@@ -34,6 +34,7 @@ import { CreateAiChatDto } from "./dto/create-ai-chat.dto.js";
 import { CreateAiTaskDto } from "./dto/create-ai-task.dto.js";
 import { CreateImageGenerationDto } from "./dto/create-image-generation.dto.js";
 import { CreateStudentPhotoDto } from "./dto/create-student-photo.dto.js";
+import { AbeiaiImageConnectionError, isImageProviderConnectionFailure, pictureBookPrimaryImageTimeoutMs } from "./image-provider-connection-error.js";
 import { parseStudentPhotoOutput } from "./student-photo-history.js";
 import { CreateVideoGenerationDto } from "./dto/create-video-generation.dto.js";
 import {
@@ -982,6 +983,20 @@ export class AiService {
     throw new AppException(40001, "暂无可用证照模型，请稍后再试", HttpStatus.BAD_REQUEST);
   }
 
+  async generatePictureBookImage(subject: ProfileSubject, dto: Omit<CreateImageGenerationDto, "modelInstanceId"> & { modelInstanceId?: string }): Promise<ImageGenerationResult> {
+    const models = await this.listImageModels();
+    const referenceCount = dto.referenceImages?.length ?? 0;
+    const primary = models.find(model => model.providerKey === "abeiai" && model.modelName === "Qwen-Image-2.1" && model.maxReferenceImages >= referenceCount);
+    const fallback = models.find(model => model.providerKey === "dashscope" && model.modelName === "qwen-image-3.0" && model.maxReferenceImages >= referenceCount);
+    if (!primary) throw new AppException(40001, "绘本默认图片模型 Abei 2.1 尚未配置或启用，请联系管理员。", HttpStatus.BAD_REQUEST);
+    try {
+      return await this.generateImage(subject, { ...dto, modelInstanceId: primary.id }, { pictureBookR2: true });
+    } catch (error) {
+      if (!(error instanceof AbeiaiImageConnectionError) || !fallback) throw error;
+      return this.generateImage(subject, { ...dto, modelInstanceId: fallback.id }, { pictureBookR2: true });
+    }
+  }
+
   async generateImage(subject: ProfileSubject, dto: CreateImageGenerationDto, options?: { fixedCredits?: number; requiredImages?: number; studentPhotoSize?: { widthMm: number; heightMm: number }; clientRequestId?: string; pictureBookR2?: boolean }): Promise<ImageGenerationResult> {
     const attribution = snapshotAttribution(subject);
     const prompt = dto.prompt.trim();
@@ -1063,7 +1078,7 @@ export class AiService {
       for (let requestIndex = 0; requestIndex < requestCount; requestIndex += 1) {
         const remainingCount = requiredImageCount - imageUrls.length;
         const response = providerKey === "abeiai" && model.providerModelName === "Qwen-Image-2.1"
-          ? await this.callAbeiaiImageGeneration({ ...providerInput, count: Math.min(count, remainingCount) })
+          ? await this.callAbeiaiImageGeneration({ ...providerInput, count: Math.min(count, remainingCount), timeoutMs: options?.pictureBookR2 ? pictureBookPrimaryImageTimeoutMs : undefined })
           : isVolcengineSeedreamModel(model.providerModelName)
           ? await this.callVolcengineImageGeneration({
               ...providerInput,
@@ -1203,6 +1218,7 @@ export class AiService {
     height: number;
     count: number;
     referenceImages: ProviderTextAttachment[];
+    timeoutMs?: number;
   }) {
     const images = input.referenceImages.map((reference) => reference.dataUrl);
     if (images.length > 10 || images.some((image) => !image)) {
@@ -1211,7 +1227,7 @@ export class AiService {
     const endpoint = `${new URL(input.baseUrl).origin}/v1/images/${images.length ? "edits" : "generations"}`;
     const size = (value: number) => Math.round(Math.max(512, Math.min(value, 2048)) / 16) * 16;
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), Math.max(aiImageTimeoutMs(), 420_000));
+    const timeout = setTimeout(() => controller.abort(), input.timeoutMs ?? Math.max(aiImageTimeoutMs(), 420_000));
     try {
       const response = await fetch(endpoint, {
         method: "POST",
@@ -1222,13 +1238,23 @@ export class AiService {
         }),
         signal: controller.signal
       });
-      const payload = (await response.json().catch(() => null)) as ProviderImageResponse | null;
+      if ([408, 502, 503, 504].includes(response.status)) {
+        await response.body?.cancel().catch(() => undefined);
+        throw new AbeiaiImageConnectionError([408, 504].includes(response.status));
+      }
+      const payload = (await response.json().catch(error => {
+        if (isImageProviderConnectionFailure(error, controller.signal.aborted)) throw error;
+        return null;
+      })) as ProviderImageResponse | null;
       if (!response.ok || !payload || payload.error || (typeof payload.code === "string" && payload.code)) {
         throw new AppException(50201, providerImageErrorMessage(payload, response.status), HttpStatus.BAD_GATEWAY);
       }
       return payload;
     } catch (error) {
       if (error instanceof AppException) throw error;
+      if (isImageProviderConnectionFailure(error, controller.signal.aborted)) {
+        throw new AbeiaiImageConnectionError(controller.signal.aborted || (error instanceof Error && ["AbortError", "TimeoutError"].includes(error.name)));
+      }
       throw new AppException(50201, error instanceof Error && error.name === "AbortError"
         ? "阿贝智能图片生成请求超时，请稍后重试。" : "阿贝智能图片生成调用失败，请稍后重试。", HttpStatus.BAD_GATEWAY);
     } finally {
