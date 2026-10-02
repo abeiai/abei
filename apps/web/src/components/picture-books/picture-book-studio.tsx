@@ -7,7 +7,7 @@ import { pictureBookPageImageSource, waitForPictureBookImage } from "@/lib/pictu
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
 import { PictureBookAudio } from "./picture-book-audio";
-import { patchPictureBookPage, pictureBookGenerationKey } from "@/lib/picture-book-background";
+import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, type PictureBookPageDraft } from "@/lib/picture-book-background";
 
 type Page = { position: number; caption: string; imagePrompt: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Character = { id?: string; name: string; description: string; imageUrl: string | null };
@@ -89,7 +89,8 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   const [characterName, setCharacterName] = useState("");
   const [characterDescription, setCharacterDescription] = useState("");
   const [position, setPosition] = useState(1);
-  const [draft, setDraft] = useState({ caption: "", imagePrompt: "", narration: "" });
+  const [pageDrafts, setPageDrafts] = useState<Record<string, PictureBookPageDraft>>({});
+  const saveQueueRef = useRef(new Map<string, Promise<Book | null>>());
   const [busy, setBusy] = useState("");
   const [generationKeys, setGenerationKeys] = useState<string[]>([]);
   const generationRef = useRef(new Set<string>());
@@ -134,18 +135,26 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
 
   const page = book?.pages.find((item) => item.position === position);
   const caption = page?.caption ?? "", imagePrompt = page?.imagePrompt ?? "", narration = page?.narration ?? "";
-  useEffect(() => { setDraft({ caption, imagePrompt, narration }); }, [book?.id, position, caption, imagePrompt, narration]);
+  const draftKey = `${book?.id}:${position}`;
+  const draft = pageDrafts[draftKey] ?? { caption, imagePrompt, narration };
+  function setDraft(next: PictureBookPageDraft) {
+    setPageDrafts(current => {
+      const changed = { ...current, [draftKey]: next };
+      return saveQueueRef.current.has(draftKey) ? changed : acknowledgePictureBookDraft(changed, draftKey, { caption, imagePrompt, narration });
+    });
+  }
   const imagePending = Boolean(book && generationKeys.includes(pictureBookGenerationKey(book.id, position, "image")));
   const audioPending = Boolean(book && generationKeys.includes(pictureBookGenerationKey(book.id, position, "audio")));
   const dirty = Boolean(page && (draft.caption !== page.caption || draft.imagePrompt !== page.imagePrompt || draft.narration !== page.narration));
+  const hasUnsavedDrafts = Object.keys(pageDrafts).length > 0;
   const selectedIds = useMemo(() => new Set(book?.characters.map((item) => item.id ?? item.name) ?? []), [book?.characters]);
 
   useEffect(() => {
-    if (!dirty) return;
+    if (!hasUnsavedDrafts) return;
     const warn = (event: BeforeUnloadEvent) => { if (!leavingRef.current) { event.preventDefault(); event.returnValue = ""; } };
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
-  }, [dirty]);
+  }, [hasUnsavedDrafts]);
 
   async function run(label: string, operation: () => Promise<void>) {
     if (busy) return;
@@ -254,16 +263,24 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
 
   async function savePage(): Promise<Book | null> {
     if (!book || !page) return null;
-    if (!dirty) return book;
-    const updated = await api<Book>(`/${book.id}/pages/${position}`, "PATCH", draft);
-    const saved = updated.pages.find(item => item.position === position);
-    setBook(current => patchPictureBookPage(current, book.id, position, {
-      ...draft,
-      ...(draft.imagePrompt !== page.imagePrompt ? { imageUrl: saved?.imageUrl ?? null } : {}),
-      ...(draft.narration !== page.narration ? { audioUrl: saved?.audioUrl ?? null } : {})
-    }));
-    setNotice("本页修改已保存。");
-    return updated;
+    const pending = saveQueueRef.current.get(draftKey);
+    if (!dirty) return pending ?? book;
+    const save = (pending ?? Promise.resolve(null)).catch(() => null).then(async () => {
+      const updated = await api<Book>(`/${book.id}/pages/${position}`, "PATCH", draft);
+      const saved = updated.pages.find(item => item.position === position);
+      setBook(current => patchPictureBookPage(current, book.id, position, {
+        ...draft,
+        ...(draft.imagePrompt !== page.imagePrompt ? { imageUrl: saved?.imageUrl ?? null } : {}),
+        ...(draft.narration !== page.narration ? { audioUrl: saved?.audioUrl ?? null } : {})
+      }));
+      setPageDrafts(current => acknowledgePictureBookDraft(current, draftKey, draft));
+      setNotice(`${position === 0 ? "封面" : `第 ${position} 页`}修改已保存。`);
+      return updated;
+    });
+    saveQueueRef.current.set(draftKey, save);
+    const clear = () => { if (saveQueueRef.current.get(draftKey) === save) saveQueueRef.current.delete(draftKey); };
+    void save.then(clear, clear);
+    return save;
   }
 
   async function runPageGeneration(kind: "image" | "audio", payload: Record<string, unknown>) {
@@ -287,8 +304,9 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   }
 
   async function goToPage(next: number) {
-    if (!book?.pages.some((item) => item.position === next)) return;
-    await run("page", async () => { await savePage(); setPosition(next); });
+    if (next === position || !book?.pages.some((item) => item.position === next)) return;
+    setPosition(next);
+    if (dirty) void savePage().catch(cause => setError(`${position === 0 ? "封面" : `第 ${position} 页`}修改未保存：${cause instanceof Error ? cause.message : "请稍后重试"}`));
   }
 
   async function generateImage() {
@@ -340,7 +358,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
       <aside className="max-h-64 overflow-y-auto rounded-2xl border border-[#e9e7e4] bg-white p-3 lg:max-h-[calc(100vh-105px)]"><div className="mb-3 flex items-center justify-between px-1"><h2 className="text-sm font-semibold">页面</h2><span className="text-xs text-gray-400">{book.pages[0]?.position === 0 ? `封面 + ${book.pageCount} 页` : `${book.pages.length} 页`}</span></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:block lg:space-y-2">{book.pages.map((item) => <button key={item.position} onClick={() => void goToPage(item.position)} className={`w-full overflow-hidden rounded-xl border-2 text-left transition ${position === item.position ? "border-[#ff7b3b]" : "border-[#eeeae6] hover:border-[#ffbf9f]"}`}><div className="relative flex aspect-[1.5] items-center justify-center bg-[#f5f3f0]">{item.imageUrl ? <PictureBookImage src={pictureBookPageImageSource(book.id, item.position, item.imageUrl)} alt="" compact className="size-full object-cover" /> : <BookOpen className="size-6 text-[#d0c9c3]" />}<span className="absolute left-2 top-2 rounded-md bg-[#26282d]/75 px-2 py-0.5 text-xs text-white">{item.position === 0 ? "封面" : String(item.position).padStart(2, "0")}</span></div><p className="line-clamp-2 min-h-12 px-3 py-2 text-xs leading-5 text-gray-600">{item.caption}</p>{(["image", "audio"] as const).filter(kind => generationKeys.includes(pictureBookGenerationKey(book.id, item.position, kind))).map(kind => <span key={kind} className="flex items-center gap-1 px-3 pb-2 text-xs text-[#d6642d]"><LoaderCircle className="size-3 animate-spin" />{kind === "image" ? "图片生成中" : "语音生成中"}</span>)}</button>)}</div></aside>
       <section className="flex min-w-0 flex-col gap-4"><div className="flex flex-wrap items-center gap-2 rounded-2xl border border-[#e9e7e4] bg-white px-5 py-3"><span className="text-sm font-semibold">{position === 0 ? "封面" : `第 ${position} 页`}</span><span className="text-sm text-gray-400">/ {book.pageCount} 页</span><span className="ml-auto text-xs text-gray-400">{dirty ? "有未保存的修改" : "已保存"}</span><Button disabled={!dirty || Boolean(busy)} onClick={() => void run("save", async () => { await savePage(); })}><Save className="size-4" />保存本页</Button></div>
         <div className="flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-[#e9e7e4] bg-white shadow-sm"><div className="flex flex-1 items-center justify-center bg-[#f4f3f1] p-6">{page?.imageUrl ? <PictureBookImage src={pictureBookPageImageSource(book.id, position, page.imageUrl)} alt={`第 ${position} 页插画`} className="max-h-[60vh] max-w-full rounded-lg object-contain shadow-md" /> : <div className="text-center"><ImagePlus className="mx-auto size-12 text-[#c9c6c2]" /><p className="mt-4 text-sm text-gray-400">这一页还没有插画</p><Button className="mt-5" disabled={!modelId || Boolean(busy) || imagePending} onClick={() => void generateImage()}><WandSparkles className="size-4" />生成本页图片</Button><label className="mx-auto mt-3 flex w-fit cursor-pointer items-center gap-2 rounded-xl border border-[#ddd9d4] bg-white px-4 py-2 text-sm">上传图片<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(busy) || imagePending} className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void uploadPageImage(file); }} /></label></div>}</div><div className="bg-[#33363b] px-5 py-4 text-center text-base leading-8 text-white">{draft.caption || "填写本页展示文字"}</div></div>
-        <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-[#e9e7e4] bg-white px-4 py-3"><Button disabled={position === book.pages[0]?.position || Boolean(busy)} onClick={() => void goToPage(position - 1)}><ChevronLeft className="size-4" />上一页</Button><Button disabled={position === book.pages.at(-1)?.position || Boolean(busy)} onClick={() => void goToPage(position + 1)}>下一页<ChevronRight className="size-4" /></Button><span className="ml-auto flex items-center gap-2 text-sm text-gray-500"><Volume2 className="size-4" />讲解语音</span>{page?.audioUrl ? <PictureBookAudio src={pictureBookPageAudioSource(book.id, position, page.audioUrl)} className="h-9 max-w-full md:w-56" /> : <span className="text-xs text-gray-400">尚未生成</span>}</div>
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-[#e9e7e4] bg-white px-4 py-3"><Button disabled={position === book.pages[0]?.position} onClick={() => void goToPage(position - 1)}><ChevronLeft className="size-4" />上一页</Button><Button disabled={position === book.pages.at(-1)?.position} onClick={() => void goToPage(position + 1)}>下一页<ChevronRight className="size-4" /></Button><span className="ml-auto flex items-center gap-2 text-sm text-gray-500"><Volume2 className="size-4" />讲解语音</span>{page?.audioUrl ? <PictureBookAudio src={pictureBookPageAudioSource(book.id, position, page.audioUrl)} className="h-9 max-w-full md:w-56" /> : <span className="text-xs text-gray-400">尚未生成</span>}</div>
       </section>
       <aside className="max-h-[calc(100vh-105px)] space-y-5 overflow-y-auto rounded-2xl border border-[#e9e7e4] bg-white p-5"><div className="flex items-center justify-between"><h2 className="font-semibold">本页设置</h2><span className="text-xs text-gray-400">{book.aspectRatio} · {book.style}</span></div><details className="rounded-xl border border-[#eee9e4] bg-[#faf8f6] p-3 text-sm"><summary className="cursor-pointer font-semibold">故事概要</summary><div className="mt-3 space-y-2 leading-6 text-gray-600"><p><strong className="text-[#26282d]">主题：</strong>{book.theme || book.brief}</p><p><strong className="text-[#26282d]">适合：</strong>{book.audience || "未指定"}</p><p><strong className="text-[#26282d]">情节：</strong>{book.plot || book.brief}</p></div></details><Field label="画面展示文字" value={draft.caption} onChange={(caption) => setDraft({ ...draft, caption, narration: draft.narration === draft.caption ? caption : draft.narration })} rows={3} maxLength={500} /><div className="border-t pt-5"><Field label="画面生成提示词" value={draft.imagePrompt} onChange={(imagePrompt) => setDraft({ ...draft, imagePrompt })} rows={6} maxLength={2000} /><p className="mt-1 text-xs text-gray-400">修改提示词后，已生成的插画需要重新生成。</p><label className="mt-4 block space-y-2 text-sm font-semibold">图片模型<select value={modelId} onChange={(event) => setModelId(event.target.value)} className="w-full rounded-xl border border-[#e8e6e3] bg-white px-3 py-2 text-sm font-normal"><option value="">{imageModels.length ? "选择图片模型" : "暂无可用图片模型"}</option>{imageModels.map((item) => <option key={item.id} value={item.id}>{item.displayName}</option>)}</select></label><Button kind="primary" className="mt-4 w-full" disabled={!modelId || Boolean(busy) || imagePending} onClick={() => void generateImage()}>{imagePending ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}{imagePending ? "图片生成中" : page?.imageUrl ? "重新生成图片" : "生成图片"}</Button><label className="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#e8e6e3] px-4 py-2 text-sm font-medium"><ImagePlus className="size-4" />上传或替换图片<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(busy) || imagePending} className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void uploadPageImage(file); }} /></label></div><div className="border-t pt-5"><Field label="讲解语音文稿" value={draft.narration} onChange={(narration) => setDraft({ ...draft, narration })} rows={4} maxLength={1000} /><p className="mt-1 text-xs text-gray-400">默认与展示文字相同，可单独修改。</p><label className="mt-4 block space-y-2 text-sm font-semibold">讲解声音<select value={voiceKey} onChange={(event) => setVoiceKey(event.target.value)} className="w-full rounded-xl border border-[#e8e6e3] bg-white px-3 py-2 text-sm font-normal"><option value="">使用默认声音</option>{voices.systemVoices.map((item) => <option key={item.providerVoiceId ?? item.id} value={`system:${item.providerVoiceId ?? item.id}`}>{item.name}</option>)}{[...voices.platformVoices, ...voices.customVoices].filter((item) => item.status === "READY").map((item) => <option key={item.id} value={`asset:${item.id}`}>{item.name}</option>)}</select></label><Button className="mt-4 w-full" disabled={Boolean(busy) || audioPending} onClick={() => void generateAudio()}>{audioPending ? <LoaderCircle className="size-4 animate-spin" /> : <Mic2 className="size-4" />}{audioPending ? "语音生成中" : page?.audioUrl ? "重新生成语音" : "生成讲解语音"}</Button></div><div className="border-t pt-5"><h3 className="mb-2 text-sm font-semibold">固定角色</h3><div className="flex flex-wrap gap-2">{book.characters.map((item) => <span key={item.id ?? item.name} className="rounded-full bg-[#fff4ed] px-3 py-1 text-xs text-[#bd5a28]">{item.name}</span>)}</div><Button kind="quiet" className="mt-3" onClick={() => setShowLibrary(true)}><LibraryBig className="size-4" />管理角色</Button></div></aside>
     </main>}
