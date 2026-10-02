@@ -25,7 +25,7 @@ test("normalizeOutline accepts a fenced plan and defaults narration to page text
   assert.equal(plan.pages[0]?.position, 0);
   assert.equal(plan.pages[0]?.caption, "月亮邮局");
   assert.equal(plan.pages[1]?.narration, "小兔发现一封信。");
-  assert.equal(plan.pages[2]?.narration, "终于送到了。");
+  assert.equal(plan.pages[2]?.narration, "月亮收到了信。");
   assert.equal(plan.pages[1]?.position, 1);
 });
 
@@ -56,6 +56,24 @@ test("changing page content invalidates only the related generated asset", () =>
   assert.equal(changed.caption, "旧字幕");
 });
 
+test("caption edits sync default narration while preserving a manually edited script", () => {
+  const original = {
+    ...createBlankPages(1)[1]!,
+    imageUrl: "https://example.com/image.png",
+    audioUrl: "https://example.com/audio.wav",
+    audioTaskId: "audio-task"
+  };
+  const synced = updatePictureBookPage(original, { caption: "小兔把信送到月亮邮局。" });
+  assert.equal(synced.narration, synced.caption);
+  assert.equal(synced.audioUrl, null);
+  assert.equal(synced.audioTaskId, null);
+  assert.equal(synced.imageUrl, original.imageUrl);
+
+  const customized = updatePictureBookPage(original, { narration: "小兔终于送到了，月亮笑了。" });
+  const edited = updatePictureBookPage(customized, { caption: "月亮收到了信。" });
+  assert.equal(edited.narration, customized.narration);
+});
+
 test("outline prompt includes audience, style, characters and dialogue", () => {
   const prompt = buildOutlinePrompt({
     brief: "孩子学会分享",
@@ -70,6 +88,8 @@ test("outline prompt includes audience, style, characters and dialogue", () => {
   assert.match(prompt, /阿兔/);
   assert.match(prompt, /森林/);
   assert.match(prompt, /8 页/);
+  assert.match(prompt, /imagePrompt 必须使用简体中文/);
+  assert.match(prompt, /narration 必须与 caption 完全相同/);
 });
 
 test("blank storyboard creates editable pages with matching narration", () => {

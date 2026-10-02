@@ -60,12 +60,11 @@ export function normalizeOutline(output: string, pageCount: number): PictureBook
     const page = item as Record<string, unknown>;
     const caption = requiredString(page.caption, `第 ${index + 1} 页展示文字`, 500);
     const imagePrompt = requiredString(page.imagePrompt, `第 ${index + 1} 页画面提示词`, 2000);
-    const narration = optionalString(page.narration, 1000) || caption;
     return {
       position: index + 1,
       caption,
       imagePrompt,
-      narration,
+      narration: caption,
       imageUrl: null,
       imageTaskId: null,
       audioUrl: null,
@@ -115,7 +114,8 @@ export function buildOutlinePrompt(input: {
   return [
     "你是儿童绘本策划师。根据需求与讨论生成可直接用于逐页绘制的完整分镜。",
     "严格输出一个 JSON 对象，不要 Markdown、代码块或说明文字。字段为 title、theme、audience、plot、pages。",
-    "pages 每项只有 caption、imagePrompt、narration。caption 是孩子能读懂的简短画面文字；narration 可比 caption 更生动；imagePrompt 具体写出场景、角色外观、动作、构图、光线和画风，禁止把文字画进图内。",
+    "pages 每项只有 caption、imagePrompt、narration。caption 是孩子能读懂的简短画面文字；narration 必须与 caption 完全相同，不扩写或改写。",
+    "imagePrompt 必须使用简体中文，具体写出场景、角色外观、动作、构图、光线和画风，禁止把文字画进图内。",
     `必须恰好 ${input.pageCount} 页。每页推进情节，起承转合完整，避免重复场面。`,
     `最初需求：${input.brief}`,
     `适合人群：${input.audience || "由需求判断"}`,
@@ -171,9 +171,4 @@ function requiredString(value: unknown, label: string, maxLength: number): strin
   if (!text) throw new Error(`${label}不能为空`);
   if (text.length > maxLength) throw new Error(`${label}过长`);
   return text;
-}
-
-function optionalString(value: unknown, maxLength: number): string {
-  const text = typeof value === "string" ? value.trim() : "";
-  return text.slice(0, maxLength);
 }
