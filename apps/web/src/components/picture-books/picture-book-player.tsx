@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { PictureBookImage } from "./picture-book-image";
+import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Book = { id: string; title: string; style: string; aspectRatio: string; pages: Page[] };
@@ -17,6 +18,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [playing, setPlaying] = useState(false);
   const [autoTurn, setAutoTurn] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [audioError, setAudioError] = useState("");
+  const [audioRetry, setAudioRetry] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   const pages = book?.pages ?? [];
   const page = pages[index];
+  const audioSource = page?.audioUrl ? pictureBookPageAudioSource(bookId, page.position, page.audioUrl) : undefined;
 
   useEffect(() => {
     if (!book || !learnerMode || !courseId || !courseRevisionItemId) return;
@@ -54,6 +58,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     if (next < 0 || next >= pages.length) return;
     audioRef.current?.pause();
     setPlaying(false);
+    setAudioError("");
+    setAudioRetry(0);
     setIndex(next);
   }, [pages.length]);
 
@@ -78,7 +84,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     const audio = audioRef.current;
     if (!audio || !page?.audioUrl) return;
     if (audio.paused) {
-      try { await audio.play(); setPlaying(true); } catch { setPlaying(false); }
+      try { await audio.play(); setPlaying(true); } catch { setPlaying(false); setAudioError("语音播放失败，请重试加载。"); }
     } else {
       audio.pause();
       setPlaying(false);
@@ -106,7 +112,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           </div>
 
           <p className="max-w-3xl text-center text-base leading-8 sm:text-xl">{page.caption || "　"}</p>
-          <audio key={page.position} muted={muted} onEnded={() => { setPlaying(false); if (autoTurn && index < pages.length - 1) goTo(index + 1); }} onPause={() => setPlaying(false)} onPlay={() => setPlaying(true)} ref={audioRef} src={page.audioUrl ?? undefined} />
+          <audio key={`${page.position}-${audioRetry}`} muted={muted} preload="metadata" onError={() => { setPlaying(false); setAudioError("语音加载失败"); }} onEnded={() => { setPlaying(false); if (autoTurn && index < pages.length - 1) goTo(index + 1); }} onPause={() => setPlaying(false)} onPlay={() => { setPlaying(true); setAudioError(""); }} ref={audioRef} src={audioSource && audioRetry ? `${audioSource}${audioSource.includes("?") ? "&" : "?"}retry=${audioRetry}` : audioSource} />
+          {audioError ? <div role="alert" className="flex items-center gap-2 text-sm text-red-600">{audioError}<button className="rounded-lg border bg-background px-3 py-2 text-foreground" onClick={() => { setAudioError(""); setAudioRetry(audioRetry + 1); }} type="button">重试加载</button></div> : null}
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button aria-label={playing ? "暂停讲解" : "播放讲解"} className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground disabled:opacity-50" disabled={!page.audioUrl} onClick={toggleAudio} type="button">{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "暂停" : page.audioUrl ? "播放讲解" : "暂无讲解语音"}</button>
             <button aria-label={muted ? "开启声音" : "静音"} className="flex size-10 items-center justify-center rounded-full border bg-background" onClick={() => setMuted(!muted)} type="button">{muted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}</button>

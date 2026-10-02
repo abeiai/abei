@@ -1,0 +1,27 @@
+export function pictureBookPageAudioSource(bookId: string, position: number, audioUrl: string) {
+  if (audioUrl.startsWith("/")) return audioUrl;
+  try {
+    const legacy = new URL(audioUrl);
+    if (/^\/api\/audio\/files\/[a-zA-Z0-9._-]+$/.test(legacy.pathname)) return legacy.pathname;
+  } catch { /* 无效地址由站内接口返回错误。 */ }
+  const version = audioUrl.split("?")[0]!.split("/").at(-1) ?? "";
+  return `/api/picture-books/${encodeURIComponent(bookId)}/pages/${position}/audio?v=${encodeURIComponent(version)}`;
+}
+
+export function waitForPictureBookAudio(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const audio = new Audio();
+    const finish = (failed: boolean) => {
+      clearTimeout(timer);
+      audio.oncanplay = null;
+      audio.onerror = null;
+      if (failed) reject(new Error("语音已生成并保存，但加载失败。请重试加载。"));
+      else resolve();
+    };
+    const timer = setTimeout(() => finish(true), 30_000);
+    audio.oncanplay = () => finish(false);
+    audio.onerror = () => finish(true);
+    audio.preload = "auto";
+    audio.src = src;
+  });
+}

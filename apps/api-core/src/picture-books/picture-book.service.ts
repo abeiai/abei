@@ -90,6 +90,13 @@ export class PictureBookService {
     return this.mediaService.readPictureBookStoredImage(imageUrl);
   }
 
+  async pageAudio(subject: ProfileSubject, id: string, position: number) {
+    const book = await this.playback(subject, id);
+    const audioUrl = book.pages.find((page) => page.position === position)?.audioUrl;
+    if (!audioUrl) throw new AppException(40401, "本页语音不存在", HttpStatus.NOT_FOUND);
+    return this.mediaService.readPictureBookStoredAudio(audioUrl);
+  }
+
   async update(userId: string, id: string, dto: UpdatePictureBookDto) {
     return this.mutate(userId, id, (book) => {
       const characters = dto.characters?.slice(0, 8).map((item) => ({

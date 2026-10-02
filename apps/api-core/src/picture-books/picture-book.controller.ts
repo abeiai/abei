@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Patch, Post, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Inject, Param, Patch, Post, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AuthService } from "../auth/auth.service.js";
 import { successResponse } from "../common/api-response.js";
@@ -83,6 +83,33 @@ export class PictureBookController {
     return successResponse(await this.books.update(subject.userId, id, dto));
   }
 
+  @Get(":id/pages/:position/audio")
+  async pageAudio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: { setHeader(name: string, value: string | number): void; status(code: number): void; send(body: Buffer): void }) {
+    const user = await this.auth.me(request as never);
+    const subject = await this.profiles.requireSelected(request as never, user.id);
+    const audio = await this.books.pageAudio(subject, id, Number(position));
+    const size = audio.buffer.length;
+    response.setHeader("Content-Type", audio.mimetype);
+    response.setHeader("Cache-Control", "private, no-store");
+    response.setHeader("X-Content-Type-Options", "nosniff");
+    response.setHeader("Accept-Ranges", "bytes");
+    let body = audio.buffer;
+    if (range) {
+      const bytes = audioByteRange(range, size);
+      if (!bytes) {
+        response.status(416);
+        response.setHeader("Content-Range", `bytes */${size}`);
+        body = Buffer.alloc(0);
+      } else {
+        response.status(206);
+        response.setHeader("Content-Range", `bytes ${bytes.start}-${bytes.end}/${size}`);
+        body = body.subarray(bytes.start, bytes.end + 1);
+      }
+    }
+    response.setHeader("Content-Length", body.length);
+    response.send(body);
+  }
+
   @Post(":id/discuss")
   async discuss(@Req() request: unknown, @Param("id") id: string, @Body() dto: DiscussPictureBookDto) {
     const subject = await this.account(request);
@@ -136,4 +163,14 @@ export class PictureBookController {
     const user = await this.auth.me(request as never);
     return this.profiles.requireAccount(request as never, user.id);
   }
+}
+
+function audioByteRange(range: string, size: number) {
+  const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+  if (!match || (!match[1] && !match[2])) return null;
+  const start = match[1] ? Number(match[1]) : Math.max(0, size - Number(match[2]));
+  const requestedEnd = match[1] && match[2] ? Number(match[2]) : size - 1;
+  const end = Math.min(requestedEnd, size - 1);
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(requestedEnd) || (!match[1] && Number(match[2]) <= 0) || start >= size || end < start) return null;
+  return { start, end };
 }

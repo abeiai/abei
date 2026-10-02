@@ -9,6 +9,7 @@ import { inspectCourseCover } from "../courses/course-cover.js";
 import { inspectUserAvatar } from "../auth/user-avatar.js";
 import { assertPictureBookGeneratedImageUrl, inspectPictureBookImage } from "../picture-books/picture-book-image.js";
 import { mediaStoragePublicBaseUrl } from "./media-object-url.js";
+import { downloadTtsProviderAudio } from "../audio/video-guide-narration-storage.js";
 
 const mediaAssetTypes = ["IMAGE", "AUDIO", "VIDEO"] as const;
 const mediaAssetSources = ["SYSTEM", "USER_UPLOAD", "AI_GENERATED", "WEB_FETCHED"] as const;
@@ -204,6 +205,38 @@ export class MediaService {
     if (key.length > 2048 || !/^[a-zA-Z0-9/_-]+\.(png|jpe?g|webp)$/.test(key)) {
       throw new AppException(40001, "绘本图片地址无效", HttpStatus.BAD_REQUEST);
     }
+    const request = this.pictureBookStoredRequest(key);
+    return this.downloadPictureBookImage(request.url, request.headers);
+  }
+
+  async readPictureBookStoredAudio(sourceUrl: string) {
+    const publicBase = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+    if (!publicBase || !sourceUrl.startsWith(`${publicBase}/`)) {
+      try { return { buffer: await downloadTtsProviderAudio(sourceUrl, 20 * 1024 * 1024), mimetype: "audio/mpeg" }; }
+      catch { throw new AppException(50201, "绘本语音加载失败，请稍后重试", HttpStatus.BAD_GATEWAY); }
+    }
+    const key = sourceUrl.slice(publicBase.length + 1);
+    if (key.length > 2048 || !/^[a-zA-Z0-9/_-]+\.(mp3|wav|ogg|aac|m4a|webm)$/.test(key)) {
+      throw new AppException(40001, "绘本语音地址无效", HttpStatus.BAD_REQUEST);
+    }
+    const request = this.pictureBookStoredRequest(key);
+    const response = await fetch(request.url, { headers: request.headers, redirect: "manual", signal: AbortSignal.timeout(30_000) });
+    const mimetype = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() ?? "";
+    if (!response.ok || !response.body || !["audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/ogg", "audio/aac", "audio/mp4", "audio/webm"].includes(mimetype)) {
+      throw new AppException(50201, "绘本语音加载失败", HttpStatus.BAD_GATEWAY);
+    }
+    const chunks: Buffer[] = [];
+    let size = 0;
+    for await (const chunk of response.body) {
+      size += chunk.byteLength;
+      if (size > 20 * 1024 * 1024) throw new AppException(50201, "绘本语音超过大小限制", HttpStatus.BAD_GATEWAY);
+      chunks.push(Buffer.from(chunk));
+    }
+    if (!size) throw new AppException(50201, "绘本语音加载失败", HttpStatus.BAD_GATEWAY);
+    return { buffer: Buffer.concat(chunks, size), mimetype };
+  }
+
+  private pictureBookStoredRequest(key: string) {
     const config = s3Config();
     const endpoint = config.endpoint.replace(/\/+$/, "");
     const url = new URL(config.pathStyle ? `${endpoint}/${config.bucket}/${key}` : `${endpoint.replace("://", `://${config.bucket}.`)}/${key}`);
@@ -214,7 +247,7 @@ export class MediaService {
       accessKeyId: config.accessKeyId, secretAccessKey: config.secretAccessKey, region: config.region,
       method: "GET", pathname: url.pathname, search: "", headers, payloadHash, amzDate
     });
-    return this.downloadPictureBookImage(url.toString(), { ...headers, authorization });
+    return { url: url.toString(), headers: { ...headers, authorization } };
   }
 
   private async downloadPictureBookImage(sourceUrl: string, headers?: Record<string, string>) {
