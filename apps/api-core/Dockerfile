@@ -57,6 +57,7 @@ COPY --from=prod-deps --chown=node:node /app/apps/api-core/node_modules ./apps/a
 COPY --from=prod-deps --chown=node:node /app/packages/database/node_modules ./packages/database/node_modules
 COPY --from=builder --chown=node:node /app/apps/api-core/dist ./apps/api-core/dist
 COPY --from=builder --chown=node:node /app/apps/api-core/package.json ./apps/api-core/package.json
+COPY --from=builder --chown=node:node /app/apps/web/public/picture-book-styles ./apps/web/public/picture-book-styles
 COPY --from=builder --chown=node:node /app/packages/database/dist ./packages/database/dist
 COPY --from=builder --chown=node:node /app/packages/database/generated ./packages/database/generated
 COPY --from=builder --chown=node:node /app/packages/database/prisma ./packages/database/prisma

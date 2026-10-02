@@ -18,3 +18,12 @@ test("默认示意图使用本地文件，R2 示意图通过目录 ID 读取并�
   assert.ok(first.startsWith("/api/system-config/picture-book-styles/watercolor/image?v="));
   assert.notEqual(first, second);
 });
+
+
+test("自定义风格使用已上传素材标识和当前账号的私有图片读取接口", () => {
+  const style = selectedPictureBookStyle("custom:cmur123456789abcdefghijklmn", []);
+  assert.ok(style);
+  assert.equal(style.name, "自定义风格");
+  assert.equal(pictureBookStyleImageSource(style), "/api/picture-books/style-references/cmur123456789abcdefghijklmn/image");
+  assert.equal(selectedPictureBookStyle("custom:../other-user", []), undefined);
+});

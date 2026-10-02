@@ -985,15 +985,16 @@ export class AiService {
 
   async generatePictureBookImage(subject: ProfileSubject, dto: Omit<CreateImageGenerationDto, "modelInstanceId"> & { modelInstanceId?: string }): Promise<ImageGenerationResult> {
     const models = await this.listImageModels();
-    const referenceCount = dto.referenceImages?.length ?? 0;
+    const referenceCount = dto.referenceImages?.length ? 1 : 0;
     const primary = models.find(model => model.providerKey === "abeiai" && model.modelName === "Qwen-Image-2.1" && model.maxReferenceImages >= referenceCount);
     const fallback = models.find(model => model.providerKey === "dashscope" && model.modelName === "qwen-image-3.0" && model.maxReferenceImages >= referenceCount);
     if (!primary) throw new AppException(40001, "绘本默认图片模型 Abei 2.1 尚未配置或启用，请联系管理员。", HttpStatus.BAD_REQUEST);
+    const inputFor = (model: typeof primary) => ({ ...dto, modelInstanceId: model.id, referenceImages: dto.referenceImages?.slice(0, model.maxReferenceImages) });
     try {
-      return await this.generateImage(subject, { ...dto, modelInstanceId: primary.id }, { pictureBookR2: true });
+      return await this.generateImage(subject, inputFor(primary), { pictureBookR2: true });
     } catch (error) {
       if (!(error instanceof AbeiaiImageConnectionError) || !fallback) throw error;
-      return this.generateImage(subject, { ...dto, modelInstanceId: fallback.id }, { pictureBookR2: true });
+      return this.generateImage(subject, inputFor(fallback), { pictureBookR2: true });
     }
   }
 
@@ -9673,7 +9674,7 @@ function normalizeImageReferences(value: unknown, maxReferenceImages: number) {
     return [];
   }
 
-  return normalizeProviderAttachments(value)
+  return normalizeProviderAttachments(value, maxReferenceImages)
     .filter((attachment) => {
       return attachment.type === "image" && attachment.mimeType.startsWith("image/") && Boolean(attachment.dataUrl?.startsWith("data:image/"));
     })
@@ -10612,7 +10613,7 @@ function normalizedUsage(usage?: TokenUsage | null) {
   };
 }
 
-function normalizeProviderAttachments(value: unknown): ProviderTextAttachment[] {
+function normalizeProviderAttachments(value: unknown, limit = 6): ProviderTextAttachment[] {
   if (!Array.isArray(value)) {
     return [];
   }
@@ -10643,7 +10644,7 @@ function normalizeProviderAttachments(value: unknown): ProviderTextAttachment[] 
       };
     })
     .filter((item): item is ProviderTextAttachment => Boolean(item))
-    .slice(0, 6);
+    .slice(0, limit);
 }
 
 function attachmentsForModel(model: ActiveAiModel | null, attachments: ProviderTextAttachment[]) {

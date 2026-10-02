@@ -169,8 +169,9 @@ export class MediaService {
     });
   }
 
-  async uploadUserPictureBookImage(userId: string, file: UploadedFileLike) {
-    return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "USER_UPLOAD" });
+  async uploadUserPictureBookImage(userId: string, file: UploadedFileLike, forceS3Storage = false) {
+    if (forceS3Storage) this.assertPictureBookR2Ready();
+    return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "USER_UPLOAD", ...(forceS3Storage ? { storageProvider: "S3" as const } : {}) });
   }
 
   assertPictureBookR2Ready() {

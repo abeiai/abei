@@ -8,18 +8,18 @@ import { MediaService } from "../src/media/media.service.js";
 const stylesModule = await import("../src/picture-books/picture-book-styles.js").catch(() => null);
 const names = ["平面插画", "三维动画", "水彩", "水粉", "彩铅", "蜡笔", "拼贴", "剪纸", "钢笔淡彩", "纯线素描", "木刻版画", "黏土定格"];
 
-test("绘画风格包含十二种默认风格、示意图及用于生成的描述", () => {
+test("绘画风格包含十二种默认参考图，旧名称与改名后的稳定标识仍选中同一风格", () => {
   assert.ok(stylesModule, "缺少可管理的绘画风格目录");
   const styles = stylesModule.parsePictureBookStyles(null);
   assert.deepEqual(stylesModule.parsePictureBookStyles(JSON.stringify(styles)), styles);
   assert.deepEqual(styles.map(item => item.name), names);
   assert.ok(styles.every(item => item.description && item.imageUrl && item.enabled));
-  assert.match(stylesModule.pictureBookStylePrompt("温暖水彩", styles), /水彩.*晕染/);
+  assert.equal(stylesModule.selectedPictureBookStyle("温暖水彩", styles)?.id, "watercolor");
   const renamed = styles.map(item => item.id === "watercolor" ? { ...item, name: "新水彩名称" } : item);
-  for (const value of ["watercolor", "温暖水彩", "水彩"]) assert.match(stylesModule.pictureBookStylePrompt(value, renamed), /新水彩名称.*晕染/);
+  for (const value of ["watercolor", "温暖水彩", "水彩"]) assert.equal(stylesModule.selectedPictureBookStyle(value, renamed)?.name, "新水彩名称");
   const conflicting = renamed.map(item => item.id === "flat" ? { ...item, name: "watercolor" } : item);
-  assert.match(stylesModule.pictureBookStylePrompt("watercolor", conflicting), /新水彩名称.*晕染/);
-  assert.equal(stylesModule.pictureBookStylePrompt("已有自定义画风", styles), "已有自定义画风");
+  assert.equal(stylesModule.selectedPictureBookStyle("watercolor", conflicting)?.id, "watercolor");
+  assert.equal(stylesModule.selectedPictureBookStyle("已有自定义画风", styles), undefined);
 });
 
 test("风格目录拒绝重名、空描述、不安全图片地址及全部停用", () => {
@@ -33,6 +33,13 @@ test("风格目录拒绝重名、空描述、不安全图片地址及全部停�
   assert.throws(() => parse([{ ...style, imageUrl: "/picture-book-styles/../secret.png" }]), /图片/);
   assert.throws(() => parse([{ ...style, enabled: false }]), /至少启用/);
   assert.throws(() => stylesModule.parsePictureBookStyles("{}"), /目录/);
+});
+
+test("自定义风格为用户上传入口，后台不能创建同名或同标识的官方风格", () => {
+  assert.ok(stylesModule);
+  const style = { id: "test", name: "测试风格", description: "风格说明", imageUrl: "/picture-book-styles/watercolor.webp", enabled: true };
+  assert.throws(() => stylesModule.parsePictureBookStyles(JSON.stringify([{ ...style, id: "custom" }])), /自定义风格/);
+  assert.throws(() => stylesModule.parsePictureBookStyles(JSON.stringify([{ ...style, name: "自定义风格" }])), /自定义风格/);
 });
 
 test("后台风格修改必须先通过管理员校验", async () => {

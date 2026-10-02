@@ -32,6 +32,7 @@ export function parsePictureBookStyles(raw: string | null | undefined): PictureB
     if (!item || typeof item !== "object" || Array.isArray(item)) throw invalid("绘画风格内容不正确");
     const id = text(item.id, "标识", 80), name = text(item.name, "名称", 80);
     const description = text(item.description, "描述", 1000), imageUrl = text(item.imageUrl, "图片", 2048);
+    if (id === "custom" || name === "自定义风格") throw invalid("自定义风格为用户上传入口，请使用其他名称与标识");
     if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) throw invalid("绘画风格标识不正确");
     if (ids.has(id) || names.has(name)) throw invalid("绘画风格标识或名称重复");
     ids.add(id); names.add(name);
@@ -47,9 +48,15 @@ export function parsePictureBookStyles(raw: string | null | undefined): PictureB
 }
 
 const legacyIds: Record<string, string> = { ...Object.fromEntries(presets.map(([id, name]) => [name, id])), "温暖水彩": "watercolor", "卡通插画": "flat", "彩色铅笔": "colored-pencil", "柔和黏土": "clay-stop-motion", "童话剪纸": "paper-cut" };
-export function pictureBookStylePrompt(name: string, styles: PictureBookStyle[]) {
-  const style = styles.find(item => item.id === name) ?? styles.find(item => item.id === legacyIds[name]) ?? styles.find(item => item.name === name);
-  return style ? `${style.name}：${style.description}` : name;
+export function selectedPictureBookStyle(name: string, styles: PictureBookStyle[]) {
+  return styles.find(item => item.id === name) ?? styles.find(item => item.id === legacyIds[name]) ?? styles.find(item => item.name === name);
+}
+
+export function customPictureBookStyleAssetId(value: string) {
+  if (value !== "custom" && !value.startsWith("custom:")) return null;
+  const match = /^custom:([a-z0-9]{20,64})$/.exec(value);
+  if (!match) throw invalid("请先上传自定义风格参考图");
+  return match[1]!;
 }
 
 function text(value: unknown, label: string, max: number) {

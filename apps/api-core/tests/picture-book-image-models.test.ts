@@ -167,3 +167,52 @@ test("主模型失败释放预留点数后才调用备用，成功图片只结�
   assert.equal(output.images[0].url, result.images[0].url);
   assert.deepEqual(events, ["reserve:primary:2", "release:task-1", "reserve:backup:18", "archive:R2", "settle:task-2:18"]);
 });
+
+
+test("风格图固定占首位，角色参考图按主模型与备用模型各自容量截取", async () => {
+  const { service, attempts, failPrimary, callPrimary } = createService();
+  const references = Array.from({ length: 10 }, (_, index) => ({ name: index === 0 ? "风格参考图.png" : `角色${index}.png`, type: "image", mimeType: "image/png", size: 3, dataUrl: `data:image/png;base64,REF${index}` }));
+  globalThis.fetch = async () => { throw new TypeError("fetch failed"); };
+  failPrimary(callPrimary);
+  await service.generatePictureBookImage(subject, { ...generation, referenceImages: references });
+  assert.deepEqual(attempts.map(item => item.dto.modelInstanceId), ["primary", "backup"]);
+  assert.deepEqual((attempts[0].dto.referenceImages as Array<{name:string}>).map(item => item.name), ["风格参考图.png", "角色1.png", "角色2.png", "角色3.png", "角色4.png", "角色5.png", "角色6.png", "角色7.png", "角色8.png", "角色9.png"]);
+  assert.deepEqual((attempts[1].dto.referenceImages as Array<{name:string}>).map(item => item.name), ["风格参考图.png", "角色1.png", "角色2.png"]);
+});
+
+test("真实生成链路向 Abei 传递风格图和九个角色，备用链路只传风格图和两个角色", async () => {
+  const { service } = createService();
+  const references = Array.from({ length: 10 }, (_, index) => ({ name: index === 0 ? "风格参考图.png" : `角色${index}.png`, type: "image", mimeType: "image/png", size: 3, dataUrl: "data:image/png;base64,AAAA" }));
+  const received: string[][] = [];
+  const providerResponse = { data: [{ url: "https://provider.example/image.png" }] };
+  let failPrimary = false;
+  Object.assign(service, {
+    generateImage: AiService.prototype.generateImage,
+    prisma: { aiTask: { update: async () => ({}) } },
+    getImageGenerationModel: async (id: string) => ({ id, displayName: id,
+      providerModelName: id === "primary" ? "Qwen-Image-2.1" : "qwen-image-3.0",
+      capabilityTags: ["IMAGE_GENERATION", "IMAGE_INPUT", "REFERENCE_IMAGE"],
+      inputPrice: 0, outputPrice: 0.02, pricingMode: "IMAGES", pricingUnit: "IMAGE",
+      pricingConfig: { mode: "IMAGES", unit: "IMAGE", currency: "CNY", input: 0, output: 0.02 },
+      providerInstance: { providerPreset: { providerKey: id === "primary" ? "abeiai" : "dashscope" } } }),
+    ensureExperienceImageScenario: async () => ({}), activeModelFromInstance: (model: unknown) => model,
+    resolveModelRuntimeConfig: () => ({ baseUrl: "https://abeiai.example", apiKeyEncrypted: encryptSecret("test-key") }),
+    reserveCredits: async () => ({ id: "task", createdAt: new Date() }),
+    settleSuccessfulTask: async () => {}, releaseFailedTask: async () => {}, writeAiCallLog: async () => {},
+    callAbeiaiImageGeneration: async (input: { referenceImages: Array<{ name: string }> }) => {
+      received.push(input.referenceImages.map(image => image.name));
+      if (failPrimary) {
+        globalThis.fetch = async () => { throw new TypeError("fetch failed"); };
+        await AiService.prototype["callAbeiaiImageGeneration"].call(service, { ...generation, baseUrl: "https://abeiai.example", apiKeyEncrypted: encryptSecret("test-key"), modelName: "Qwen-Image-2.1" });
+      }
+      return providerResponse;
+    },
+    callDashScopeImageGeneration: async (input: { referenceImages: Array<{ name: string }> }) => { received.push(input.referenceImages.map(image => image.name)); return providerResponse; },
+    mediaService: { assertAbeiaiImageStorageReady: () => {}, archivePictureBookGeneratedImage: async () => result.images[0] }
+  });
+  await service.generatePictureBookImage(subject, { ...generation, referenceImages: references });
+  assert.deepEqual(received, [references.map(image => image.name)]);
+  received.length = 0; failPrimary = true;
+  await service.generatePictureBookImage(subject, { ...generation, referenceImages: references });
+  assert.deepEqual(received, [references.map(image => image.name), references.slice(0, 3).map(image => image.name)]);
+});

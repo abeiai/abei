@@ -10,7 +10,8 @@ import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
 import { pictureBookImageSize } from "./picture-book-ratio.js";
-import { parsePictureBookStyles, pictureBookStylePrompt } from "./picture-book-styles.js";
+import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./picture-book-styles.js";
+import { SystemConfigService } from "../system-config/system-config.service.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
@@ -26,7 +27,7 @@ const presets = [
 export class PictureBookService {
   private readonly prisma: PrismaClient = getPrismaClient();
 
-  constructor(private readonly aiService: AiService, private readonly audioService: AudioService, private readonly mediaService: MediaService, @Inject(CourseReviewService) private readonly courseReviewService: CourseReviewService) {}
+  constructor(private readonly aiService: AiService, private readonly audioService: AudioService, private readonly mediaService: MediaService, @Inject(CourseReviewService) private readonly courseReviewService: CourseReviewService, @Inject(SystemConfigService) private readonly systemConfigService: SystemConfigService) {}
 
   async list(userId: string) {
     const rows = await this.prisma.pictureBook.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 50 });
@@ -38,6 +39,7 @@ export class PictureBookService {
   }
 
   async create(userId: string, dto: CreatePictureBookDto) {
+    await this.validateCustomStyle(userId, dto.style.trim());
     return this.prisma.pictureBook.create({ data: {
       userId,
       title: dto.title?.trim() || "未命名绘本",
@@ -100,8 +102,9 @@ export class PictureBookService {
   }
 
   async update(userId: string, id: string, dto: UpdatePictureBookDto) {
+    if (dto.style !== undefined) await this.validateCustomStyle(userId, dto.style.trim());
     return this.mutate(userId, id, (book) => {
-      const characters = dto.characters?.slice(0, 8).map((item) => ({
+      const characters = dto.characters?.slice(0, 9).map((item) => ({
         ...(item.id ? { id: item.id.trim() } : {}), name: item.name.trim(), description: item.description.trim(), imageUrl: safeImageUrl(item.imageUrl)
       }));
       const resetsPages = dto.pageCount !== undefined && dto.pageCount !== book.pageCount;
@@ -142,7 +145,7 @@ export class PictureBookService {
   async outline(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string) {
     const book = await this.get(subject.userId, id);
     const prompt = buildOutlinePrompt({
-      brief: book.brief, audience: book.audience, style: await this.stylePrompt(book.style), pageCount: book.pageCount,
+      brief: book.brief, audience: book.audience, style: "画风由参考图决定，画面提示词只描述场景与构图，不写画风名称或媒介描述", pageCount: book.pageCount,
       characters: charactersOf(book.characters), messages: messagesOf(book.messages)
     });
     const output = await this.runTextTask(subject, "picture-book-outline", prompt);
@@ -188,15 +191,17 @@ export class PictureBookService {
     const book = await this.get(subject.userId, id);
     const page = pageOf(book.pages, position);
     this.mediaService.assertPictureBookR2Ready();
+    const styleImage = await this.styleReference(subject.userId, book.style);
     const characterDescription = charactersOf(book.characters).map((item) => `${item.name}：${item.description}`).join("；");
     const prompt = [
-      `儿童绘本插画，绘画风格：${await this.stylePrompt(book.style)}。保持整本绘本角色外观一致。`,
+      "创作儿童绘本插画。第1张图片仅作为绘画风格参考，沿用其笔触、材质、配色和表现方式，不复制参考图中的人物、动物或场景。第2张及后续图片作为角色外观参考。保持整本绘本角色外观一致。",
+      `目标画面比例：${book.aspectRatio}。`,
       characterDescription ? `角色：${characterDescription}` : "",
       page.imagePrompt,
       "画面中不要出现文字、字幕、水印或边框。"
     ].filter(Boolean).join("\n").slice(0, 2000);
     const size = pictureBookImageSize(book.aspectRatio);
-    const referenceImages = await this.localCharacterReferences(subject.userId, charactersOf(book.characters));
+    const referenceImages = [{ name: `风格参考图.${styleImage.mimetype === "image/webp" ? "webp" : styleImage.mimetype === "image/png" ? "png" : "jpg"}`, type: "image" as const, mimeType: styleImage.mimetype, size: styleImage.buffer.length, dataUrl: `data:${styleImage.mimetype};base64,${styleImage.buffer.toString("base64")}` }, ...await this.localCharacterReferences(subject.userId, charactersOf(book.characters))];
     const result = await this.aiService.generatePictureBookImage(subject, {
       prompt, modelInstanceId: dto.modelInstanceId, count: 1, referenceImages, ...size
     });
@@ -205,15 +210,48 @@ export class PictureBookService {
     return this.mutate(subject.userId, id, (current) => {
       const pages = pagesOf(current.pages);
       const index = pageIndex(pages, position);
+      if (current.style !== book.style) throw new AppException(40901, "画风已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (pages[index]!.imagePrompt !== page.imagePrompt) throw new AppException(40901, "画面提示词已修改，请重新生成", HttpStatus.CONFLICT);
       pages[index] = { ...pages[index]!, imageUrl: image.url, imageTaskId: result.id };
       return { pages: pages as unknown as Prisma.InputJsonValue };
     });
   }
 
-  private async stylePrompt(name: string) {
-    const config = await this.prisma.systemConfig.findUnique({ where: { key: "pictureBookStyles" } });
-    return pictureBookStylePrompt(name, parsePictureBookStyles(config?.value));
+  async uploadStyleReference(userId: string, file?: UploadedFileLike) {
+    const asset = await this.mediaService.uploadUserPictureBookImage(userId, inspectPictureBookImage(file), true);
+    return { style: `custom:${asset.id}` };
+  }
+
+  private async ownedCustomStyleAsset(userId: string, assetId: string) {
+    customPictureBookStyleAssetId(`custom:${assetId}`);
+    const asset = await this.prisma.mediaAsset.findFirst({ where: {
+      id: assetId, createdByUserId: userId, createdByAdminId: null, mediaType: "IMAGE", sourceType: "USER_UPLOAD", storageProvider: "S3"
+    } });
+    if (!asset) throw new AppException(40401, "自定义风格参考图不存在，请重新上传", HttpStatus.NOT_FOUND);
+    return asset;
+  }
+
+  private async validateCustomStyle(userId: string, style: string) {
+    const assetId = customPictureBookStyleAssetId(style);
+    if (assetId) await this.ownedCustomStyleAsset(userId, assetId);
+  }
+
+  async customStyleImage(userId: string, assetId: string) {
+    const asset = await this.ownedCustomStyleAsset(userId, assetId);
+    return this.mediaService.readPictureBookStoredImage(asset.url);
+  }
+
+  private async styleReference(userId: string, value: string) {
+    const assetId = customPictureBookStyleAssetId(value);
+    if (assetId) return this.customStyleImage(userId, assetId);
+    const style = selectedPictureBookStyle(value, await this.systemConfigService.pictureBookStyles());
+    if (!style) throw new AppException(40001, "请重新选择绘画风格或上传风格参考图", HttpStatus.BAD_REQUEST);
+    await this.systemConfigService.assertPictureBookStyleImage(style);
+    if (style.imageUrl.startsWith("/picture-book-styles/")) {
+      try { return { buffer: await readFile(new URL(`../../../web/public${style.imageUrl}`, import.meta.url)), mimetype: "image/webp" }; }
+      catch { throw new AppException(50201, "风格参考图无法读取，请在后台重新上传参考图", HttpStatus.BAD_GATEWAY); }
+    }
+    return this.mediaService.readPictureBookStoredImage(style.imageUrl);
   }
 
   async uploadPageImage(userId: string, id: string, position: number, file?: UploadedFileLike) {
@@ -284,7 +322,7 @@ export class PictureBookService {
   }
 
   private async localCharacterReferences(userId: string, selected: PictureBookCharacter[]) {
-    const ids = selected.map((item) => item.id).filter((id): id is string => typeof id === "string" && !id.startsWith("preset:")).slice(0, 3);
+    const ids = selected.map((item) => item.id).filter((id): id is string => typeof id === "string" && !id.startsWith("preset:")).slice(0, 9);
     if (!ids.length) return [];
     const owned = await this.prisma.pictureBookCharacter.findMany({ where: { id: { in: ids }, userId } });
     const references = [];

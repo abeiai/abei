@@ -185,6 +185,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
 
   async function toggleCharacter(character: Character) {
     if (!book) return;
+    if (!selectedIds.has(character.id ?? character.name) && book.characters.length >= 9) { setError("最多选择 9 个角色，风格参考图占用 1 个名额。"); return; }
     await run("character", async () => {
       const key = character.id ?? character.name;
       const next = selectedIds.has(key) ? book.characters.filter((item) => (item.id ?? item.name) !== key) : [...book.characters, { ...(character.id ? { id: character.id } : {}), name: character.name, description: character.description, imageUrl: character.imageUrl }];
@@ -197,8 +198,8 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     await run("new-character", async () => {
       const created = await api<Character>("/characters", "POST", { name: characterName.trim(), description: characterDescription.trim() });
       setCharacters((current) => [...current, created]); setCharacterName(""); setCharacterDescription("");
-      if (book) await saveBook({ characters: [...book.characters, { id: created.id, name: created.name, description: created.description, imageUrl: created.imageUrl }] });
-      setNotice("角色已加入角色库，并添加到当前绘本。");
+      if (book && book.characters.length < 9) await saveBook({ characters: [...book.characters, { id: created.id, name: created.name, description: created.description, imageUrl: created.imageUrl }] });
+      setNotice(book && book.characters.length >= 9 ? "角色已加入角色库。当前绘本最多选择 9 个角色。" : "角色已加入角色库，并添加到当前绘本。");
     });
   }
 

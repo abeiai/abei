@@ -115,7 +115,7 @@ export function buildOutlinePrompt(input: {
     "你是儿童绘本策划师。根据需求与讨论生成可直接用于逐页绘制的完整分镜。",
     "严格输出一个 JSON 对象，不要 Markdown、代码块或说明文字。字段为 title、theme、audience、plot、pages。",
     "pages 每项只有 caption、imagePrompt、narration。caption 是孩子能读懂的简短画面文字；narration 必须与 caption 完全相同，不扩写或改写。",
-    "imagePrompt 必须使用简体中文，具体写出场景、角色外观、动作、构图、光线和画风，禁止把文字画进图内。",
+    "imagePrompt 必须使用简体中文，具体写出场景、角色外观、动作、构图和光线；画风统一来自参考图，不写画风名称或媒介描述，禁止把文字画进图内。",
     `必须恰好 ${input.pageCount} 页。每页推进情节，起承转合完整，避免重复场面。`,
     `最初需求：${input.brief}`,
     `适合人群：${input.audience || "由需求判断"}`,

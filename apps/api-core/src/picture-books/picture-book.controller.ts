@@ -27,6 +27,24 @@ export class PictureBookController {
     return successResponse(await this.books.create(subject.userId, dto));
   }
 
+  @Post("style-reference")
+  @UseInterceptors(FileInterceptor("file", { limits: { fileSize: 10 * 1024 * 1024 } }))
+  async uploadStyleReference(@Req() request: unknown, @UploadedFile() file?: UploadedFileLike) {
+    const subject = await this.account(request);
+    return successResponse(await this.books.uploadStyleReference(subject.userId, file));
+  }
+
+  @Get("style-references/:assetId/image")
+  async customStyleImage(@Req() request: unknown, @Param("assetId") assetId: string, @Res() response: { setHeader(name: string, value: string | number): void; send(body: Buffer): void }) {
+    const subject = await this.account(request);
+    const image = await this.books.customStyleImage(subject.userId, assetId);
+    response.setHeader("Content-Type", image.mimetype);
+    response.setHeader("Content-Length", image.buffer.length);
+    response.setHeader("Cache-Control", "private, no-store");
+    response.setHeader("X-Content-Type-Options", "nosniff");
+    response.send(image.buffer);
+  }
+
   @Get("characters")
   async characters(@Req() request: unknown) {
     const subject = await this.account(request);

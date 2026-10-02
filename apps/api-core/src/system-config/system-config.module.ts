@@ -7,6 +7,7 @@ import { SystemConfigService } from "./system-config.service.js";
 @Module({
   imports: [AdminAuthModule, MediaModule],
   controllers: [SystemConfigController],
-  providers: [SystemConfigService]
+  providers: [SystemConfigService],
+  exports: [SystemConfigService]
 })
 export class SystemConfigModule {}

@@ -6,7 +6,7 @@ import { defaultSiteOrigin, normalizeSiteOrigin } from "./site-url.js";
 import { defaultPictureBookStyles, parsePictureBookStyles, type PictureBookStyle } from "../picture-books/picture-book-styles.js";
 
 const configDefinitions = [
-  { key: "pictureBookStyles", label: "绘本绘画风格", value: JSON.stringify(defaultPictureBookStyles), description: "绘本风格名称、生成描述与示意图片。", isPublic: true, sortOrder: 320 },
+  { key: "pictureBookStyles", label: "绘本绘画风格", value: JSON.stringify(defaultPictureBookStyles), description: "绘本风格名称、描述与风格参考图片。", isPublic: true, sortOrder: 320 },
   {
     key: "siteName",
     label: "站点名称",
