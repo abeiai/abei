@@ -40,3 +40,37 @@ test("generated picture book image is downloaded and saved to R2", async () => {
     }
   }
 });
+
+test("绘本图片从 R2 签名读取，不依赖公开域名的解析", async () => {
+  const keys = ["DATABASE_URL", "S3_BUCKET", "S3_ENDPOINT", "S3_ACCESS_KEY_ID", "S3_SECRET_ACCESS_KEY", "S3_PUBLIC_BASE_URL"];
+  const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
+  const previousFetch = globalThis.fetch;
+  Object.assign(process.env, {
+    DATABASE_URL: "postgresql://test:test@localhost:3604/test", S3_BUCKET: "abeiai",
+    S3_ENDPOINT: "https://test.r2.cloudflarestorage.com", S3_ACCESS_KEY_ID: "test",
+    S3_SECRET_ACCESS_KEY: "test", S3_PUBLIC_BASE_URL: "https://cdn.abei.example"
+  });
+  const image = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lWQAAAAASUVORK5CYII=", "base64");
+  globalThis.fetch = async (input, init) => {
+    if (String(input) !== "https://test.r2.cloudflarestorage.com/abeiai/picture-books/page.png" ||
+        !new Headers(init?.headers).get("authorization")?.startsWith("AWS4-HMAC-SHA256 ")) {
+      return new Response("旧站点 404", { status: 404, headers: { "content-type": "text/html" } });
+    }
+    return new Response(image, { headers: { "content-type": "image/png" } });
+  };
+  try {
+    const service = new MediaService();
+    const file = await service.readPictureBookStoredImage("https://cdn.abei.example/picture-books/page.png");
+    assert.deepEqual(file.buffer, image);
+    assert.equal(file.mimetype, "image/png");
+    await assert.rejects(service.readPictureBookStoredImage("https://cdn.abei.example/picture-books/page.png?key=other"));
+    await assert.rejects(service.readPictureBookStoredImage("https://attacker.example/page.png"));
+    await assert.rejects(service.readPictureBookStoredImage("https://cdn.abei.example/picture-books/%2e%2e/secret.png"));
+  } finally {
+    globalThis.fetch = previousFetch;
+    for (const key of keys) {
+      if (previous[key] === undefined) delete process.env[key];
+      else process.env[key] = previous[key];
+    }
+  }
+});

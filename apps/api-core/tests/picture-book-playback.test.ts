@@ -41,3 +41,29 @@ test("非作者只能读取已发布课程审核通过的绘本快照", async ()
   assert.equal(result.title, "审核版");
   assert.equal(result.pages[0]?.caption, "已审核");
 });
+
+test("绘本图片读取遵守作品权限且只读取审核快照中的本页图片", async () => {
+  const service = Object.create(PictureBookService.prototype) as PictureBookService;
+  const image = { buffer: Buffer.from("image"), mimetype: "image/png" };
+  let approved = false;
+  let reads = 0;
+  Object.assign(service, {
+    prisma: {
+      pictureBook: { findFirst: async () => null },
+      courseRevisionItem: { findFirst: async () => approved ? { publication: {
+        approvedHash: "hash", approvedSnapshot: { title: "审核版", pages: [{ position: 2, imageUrl: "https://r.example/approved.png" }] }
+      } } : null }
+    },
+    mediaService: { readPictureBookStoredImage: async (url: string) => {
+      assert.equal(url, "https://r.example/approved.png");
+      reads++;
+      return image;
+    } }
+  });
+  const subject = { userId: "reader", mode: "LEARNER" as const, learnerId: "learner" };
+  await assert.rejects(service.pageImage(subject, "book", 2), /尚未发布/);
+  assert.equal(reads, 0);
+  approved = true;
+  await assert.rejects(service.pageImage(subject, "book", 1), /图片不存在/);
+  assert.deepEqual(await service.pageImage(subject, "book", 2), image);
+});

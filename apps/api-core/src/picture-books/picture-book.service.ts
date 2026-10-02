@@ -83,6 +83,13 @@ export class PictureBookService {
     return playbackFromSnapshot(id, item.publication.approvedSnapshot);
   }
 
+  async pageImage(subject: ProfileSubject, id: string, position: number) {
+    const book = await this.playback(subject, id);
+    const imageUrl = book.pages.find((page) => page.position === position)?.imageUrl;
+    if (!imageUrl) throw new AppException(40401, "本页图片不存在", HttpStatus.NOT_FOUND);
+    return this.mediaService.readPictureBookStoredImage(imageUrl);
+  }
+
   async update(userId: string, id: string, dto: UpdatePictureBookDto) {
     return this.mutate(userId, id, (book) => {
       const characters = dto.characters?.slice(0, 8).map((item) => ({

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowLeft, ChevronLeft, ChevronRight, LoaderCircle, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
+import { pictureBookPageImageSource } from "@/lib/picture-book-images";
+import { PictureBookImage } from "./picture-book-image";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Book = { id: string; title: string; style: string; aspectRatio: string; pages: Page[] };
@@ -98,7 +100,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       {page ? (
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-4 py-6 sm:px-8 sm:py-8">
           <div className="relative flex w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-background shadow-sm" style={{ minHeight: "min(64vh, 680px)" }}>
-            {page.imageUrl ? <img alt={`${book?.title}第 ${index + 1} 页`} className="max-h-[68vh] w-full object-contain" src={page.imageUrl} /> : <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div>}
+            {page.imageUrl ? <PictureBookImage alt={`${book?.title}第 ${index + 1} 页`} className="max-h-[68vh] w-full object-contain" src={pictureBookPageImageSource(bookId, page.position, page.imageUrl)} /> : <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div>}
             <button aria-label="上一页" className="absolute left-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 shadow disabled:opacity-30 sm:left-4" disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><ChevronLeft className="size-6" /></button>
             <button aria-label="下一页" className="absolute right-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 shadow disabled:opacity-30 sm:right-4" disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><ChevronRight className="size-6" /></button>
           </div>

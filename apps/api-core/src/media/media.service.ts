@@ -198,13 +198,27 @@ export class MediaService {
   async readPictureBookStoredImage(sourceUrl: string) {
     const publicBase = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
     if (!publicBase || !sourceUrl.startsWith(`${publicBase}/`)) {
-      throw new AppException(40001, "角色形象地址无效", HttpStatus.BAD_REQUEST);
+      return this.downloadPictureBookImage(assertPictureBookGeneratedImageUrl(sourceUrl));
     }
-    return this.downloadPictureBookImage(sourceUrl);
+    const key = sourceUrl.slice(publicBase.length + 1);
+    if (key.length > 2048 || !/^[a-zA-Z0-9/_-]+\.(png|jpe?g|webp)$/.test(key)) {
+      throw new AppException(40001, "绘本图片地址无效", HttpStatus.BAD_REQUEST);
+    }
+    const config = s3Config();
+    const endpoint = config.endpoint.replace(/\/+$/, "");
+    const url = new URL(config.pathStyle ? `${endpoint}/${config.bucket}/${key}` : `${endpoint.replace("://", `://${config.bucket}.`)}/${key}`);
+    const amzDate = amzTimestamp(new Date());
+    const payloadHash = createHash("sha256").update("").digest("hex");
+    const headers = { host: url.host, "x-amz-content-sha256": payloadHash, "x-amz-date": amzDate };
+    const authorization = signS3Request({
+      accessKeyId: config.accessKeyId, secretAccessKey: config.secretAccessKey, region: config.region,
+      method: "GET", pathname: url.pathname, search: "", headers, payloadHash, amzDate
+    });
+    return this.downloadPictureBookImage(url.toString(), { ...headers, authorization });
   }
 
-  private async downloadPictureBookImage(sourceUrl: string) {
-    const response = await fetch(sourceUrl, { redirect: "manual", signal: AbortSignal.timeout(30_000) });
+  private async downloadPictureBookImage(sourceUrl: string, headers?: Record<string, string>) {
+    const response = await fetch(sourceUrl, { headers, redirect: "manual", signal: AbortSignal.timeout(30_000) });
     const mimeType = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() ?? "";
     if (!response.ok || !response.body || !["image/png", "image/jpeg", "image/webp"].includes(mimeType)) {
       throw new AppException(50201, "生成图片下载失败", HttpStatus.BAD_GATEWAY);

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Patch, Post, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, Patch, Post, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AuthService } from "../auth/auth.service.js";
 import { successResponse } from "../common/api-response.js";
@@ -63,6 +63,18 @@ export class PictureBookController {
     const user = await this.auth.me(request as never);
     const subject = await this.profiles.requireSelected(request as never, user.id);
     return successResponse(await this.books.playback(subject, id));
+  }
+
+  @Get(":id/pages/:position/image")
+  async pageImage(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: { setHeader(name: string, value: string | number): void; send(body: Buffer): void }) {
+    const user = await this.auth.me(request as never);
+    const subject = await this.profiles.requireSelected(request as never, user.id);
+    const image = await this.books.pageImage(subject, id, Number(position));
+    response.setHeader("Content-Type", image.mimetype);
+    response.setHeader("Content-Length", image.buffer.length);
+    response.setHeader("Cache-Control", "private, no-store");
+    response.setHeader("X-Content-Type-Options", "nosniff");
+    response.send(image.buffer);
   }
 
   @Patch(":id")
