@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { PictureBookStudio } from "@/components/picture-books/picture-book-studio";
+import { PublicShell } from "@/components/shell/public-shell";
 import { getOptionalCurrentUser } from "@/lib/auth-actions";
 import { getWebProfile } from "@/lib/profile-api";
 import { profileSelectionHref } from "@/lib/profile-routing";
@@ -15,5 +16,5 @@ export default async function StorybookPage({ searchParams }: { searchParams: Pr
     const profile = await getWebProfile(returnPath);
     if (profile.mode !== "ACCOUNT") redirect(profileSelectionHref(returnPath));
   }
-  return <PictureBookStudio signedIn={Boolean(user)} initialBookId={params.book ?? ""} />;
+  return <PublicShell currentUser={user} showFooter={false}><PictureBookStudio signedIn={Boolean(user)} initialBookId={params.book ?? ""} /></PublicShell>;
 }

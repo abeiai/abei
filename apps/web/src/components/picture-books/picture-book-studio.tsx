@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronLeft, ChevronRight, ImagePlus, LibraryBig, LoaderCircle, MessageCircle, Mic2, Plus, Play, Save, Send, Sparkles, Volume2, WandSparkles, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronLeft, ChevronRight, History, ImagePlus, LibraryBig, LoaderCircle, MessageCircle, Mic2, Plus, Play, Save, Send, Sparkles, Volume2, WandSparkles, X } from "lucide-react";
 import { pictureBookPageImageSource, waitForPictureBookImage } from "@/lib/picture-book-images";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
@@ -71,12 +71,12 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   const [voices, setVoices] = useState<VoiceList>({ systemVoices: [], platformVoices: [], customVoices: [] });
   const [storyModelReady, setStoryModelReady] = useState(false);
   const [voiceKey, setVoiceKey] = useState("");
-  const [brief, setBrief] = useState("");
   const [audience, setAudience] = useState("3—6 岁");
   const [style, setStyle] = useState(styles[0]!);
   const [count, setCount] = useState(8);
   const [ratio, setRatio] = useState<"1:1" | "3:2" | "2:3">("1:1");
   const [chatInput, setChatInput] = useState("");
+  const conversationRef = useRef<HTMLDivElement>(null);
   const [characterName, setCharacterName] = useState("");
   const [characterDescription, setCharacterDescription] = useState("");
   const [position, setPosition] = useState(1);
@@ -96,6 +96,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   const openBook = useCallback(async (id: string) => {
     const loaded = await api<Book>(`/${id}`);
     setBook(loaded);
+    setChatInput("");
     setPosition(loaded.pages[0]?.position ?? 1);
     setPreview(false);
     window.history.replaceState(null, "", `/storybook?book=${loaded.id}`);
@@ -122,6 +123,11 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     });
     return () => { active = false; };
   }, [signedIn, initialBookId, openBook]);
+
+  useEffect(() => {
+    const conversation = conversationRef.current;
+    if (conversation) conversation.scrollTop = conversation.scrollHeight;
+  }, [book?.id, book?.messages.length, busy]);
 
   const page = book?.pages.find((item) => item.position === position);
   const previewIndex = book?.pages.findIndex(item => item.position === previewPosition) ?? -1;
@@ -156,14 +162,10 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   }
 
   async function refreshList() { setBooks(await api<BookSummary[]>("")); }
-  async function createBook() {
-    if (brief.trim().length < 2) { setError("请先写下至少两个字的故事想法"); return; }
-    await run("create", async () => {
-      const created = await api<Book>("", "POST", { brief: brief.trim(), audience, style, pageCount: count, aspectRatio: ratio });
-      setBook(created); setPosition(1); setNotice("作品已创建，可以继续讨论故事或生成分镜。");
-      window.history.replaceState(null, "", `/storybook?book=${created.id}`);
-      await refreshList();
-    });
+  function startNewBook() {
+    setBook(null); setChatInput(""); setError(""); setNotice("");
+    setAudience("3—6 岁"); setStyle(styles[0]!); setCount(8); setRatio("1:1");
+    window.history.replaceState(null, "", "/storybook");
   }
 
   async function saveBook(patch: Record<string, unknown>) {
@@ -218,9 +220,20 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   }
 
   async function discuss() {
-    if (!book || !chatInput.trim() || !storyModelReady) return;
-    const message = chatInput.trim(); setChatInput("");
-    await run("discuss", async () => { setBook(await api<Book>(`/${book.id}/discuss`, "POST", { message })); });
+    if (busy || !chatInput.trim() || (book && !storyModelReady)) return;
+    const message = chatInput.trim();
+    if (!book && message.length < 2) { setError("请先写下至少两个字的故事想法"); return; }
+    await run("discuss", async () => {
+      let currentBook = book;
+      if (!currentBook) {
+        currentBook = await api<Book>("", "POST", { brief: message, audience, style, pageCount: count, aspectRatio: ratio });
+        setBook(currentBook); setPosition(1);
+        window.history.replaceState(null, "", `/storybook?book=${currentBook.id}`);
+        await refreshList();
+      }
+      if (storyModelReady) setBook(await api<Book>(`/${currentBook.id}/discuss`, "POST", { message: message.length > 10000 ? "请根据我的原始创作要求，和我一起完善主题、适合人群、情节和角色。" : message }));
+      setChatInput("");
+    });
   }
 
   async function makeOutline() {
@@ -324,28 +337,59 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
 
   if (!signedIn) return <div className="flex min-h-screen items-center justify-center bg-[#f7f6f4] p-6"><div className="max-w-md rounded-3xl border bg-white p-10 text-center shadow-sm"><BookOpen className="mx-auto mb-5 size-12 text-[#ff7b3b]" /><h1 className="text-2xl font-semibold">绘本创作</h1><p className="mt-3 text-sm leading-6 text-gray-500">登录后保存故事构想、角色与每一页的创作内容。</p><Link href={`/login?next=${encodeURIComponent(initialBookId ? `/storybook?book=${encodeURIComponent(initialBookId)}` : "/storybook")}`} className="mt-6 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始</Link></div></div>;
 
-  return <div className="min-h-screen bg-[#f7f6f4] text-[#26282d]">
-    <header className="sticky top-0 z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
+  return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] text-foreground">
+    {book?.pages.length ? <header className="sticky top-[4.5rem] z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
       {book ? <button onClick={() => void leaveBook("tools")} className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</button> : <Link href="/tools" className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</Link>}
       <span className="flex size-9 items-center justify-center rounded-xl bg-[#ff7b3b] text-white"><BookOpen className="size-5" /></span>
       <span className="text-lg font-semibold">绘本创作</span>
       {book ? <><span className="hidden text-gray-300 md:inline">/</span><input aria-label="作品名称" value={book.title} onChange={(event) => setBook({ ...book, title: event.target.value })} onBlur={() => void run("title", () => saveBook({ title: book.title }))} className="min-w-0 max-w-48 rounded-md px-2 py-1 text-sm outline-none hover:bg-gray-50 focus:bg-gray-50" /><span className="ml-auto hidden text-xs text-gray-400 md:block">{book.pages.length ? `${book.pages[0]?.position === 0 ? "封面 + " : ""}${book.pageCount} 页 · 逐页保存` : "构思故事"}</span><Button kind="quiet" disabled={Boolean(busy)} onClick={() => void leaveBook("library")}><LibraryBig className="size-4" />作品库</Button>{book.pages.length ? <><Button disabled={Boolean(busy)} onClick={() => void openPreview()}><BookOpen className="size-4" />预览</Button><Link href={`/picture-books/${encodeURIComponent(book.id)}/play`} className="inline-flex items-center gap-1 rounded-lg border border-[#e9e7e4] px-3 py-2 text-sm hover:bg-gray-50"><Play className="size-4" />观看播放</Link><Button kind="primary" disabled={Boolean(busy)} onClick={() => void completeBook()}><Save className="size-4" />保存为作品</Button></> : null}</> : null}
-    </header>
+    </header> : null}
 
-    {error || notice ? <div role={error ? "alert" : "status"} className={`mx-auto mt-4 flex max-w-[1600px] items-center justify-between rounded-xl px-4 py-3 text-sm ${error ? "border border-red-200 bg-red-50 text-red-700" : "border border-[#ffddc8] bg-[#fff8f3] text-[#a34e1d]"}`}><span>{error || notice}</span><button aria-label="关闭提示" onClick={() => { setError(""); setNotice(""); }}><X className="size-4" /></button></div> : null}
+    {book?.pages.length && (error || notice) ? <div role={error ? "alert" : "status"} className={`mx-auto mt-4 flex max-w-[1600px] items-center justify-between rounded-xl px-4 py-3 text-sm ${error ? "border border-red-200 bg-red-50 text-red-700" : "border border-[#ffddc8] bg-[#fff8f3] text-[#a34e1d]"}`}><span>{error || notice}</span><button aria-label="关闭提示" onClick={() => { setError(""); setNotice(""); }}><X className="size-4" /></button></div> : null}
 
-    {loading ? <div className="flex h-[60vh] items-center justify-center"><LoaderCircle className="size-7 animate-spin text-[#ff7b3b]" /></div> : !book ? <main className="mx-auto grid max-w-6xl gap-8 px-5 py-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:py-14">
-      <div><div className="mb-9"><span className="text-sm font-semibold tracking-widest text-[#ed7137]">从一个故事想法开始</span><h1 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">一起创作一本绘本</h1><p className="mt-4 text-base text-gray-500">一句话、一段故事，或一份详细设定，都可以作为起点。</p></div>
-        <div className="rounded-3xl border border-[#ebe7e3] bg-white p-5 shadow-sm md:p-8"><Field label="你想讲一个什么故事？" value={brief} onChange={setBrief} rows={8} maxLength={30000} placeholder="例如：一只害怕下雨的小狐狸，在雨天帮助迷路的小鸟找到家。想让 4 岁的孩子感受到勇气和友谊。" />
-          <div className="mt-6 grid gap-4 sm:grid-cols-2"><label className="space-y-2 text-sm font-semibold">适合人群<input value={audience} maxLength={100} onChange={(event) => setAudience(event.target.value)} className="block w-full rounded-xl border border-[#e8e6e3] px-3 py-3 text-sm font-normal outline-none focus:border-[#ff8c55]" placeholder="例如：3—6 岁" /></label><label className="space-y-2 text-sm font-semibold">绘画风格<select value={style} onChange={(event) => setStyle(event.target.value)} className="block w-full rounded-xl border border-[#e8e6e3] bg-white px-3 py-3 text-sm font-normal outline-none focus:border-[#ff8c55]">{styles.map((item) => <option key={item}>{item}</option>)}</select></label><label className="space-y-2 text-sm font-semibold">页数<select value={count} onChange={(event) => setCount(Number(event.target.value))} className="block w-full rounded-xl border border-[#e8e6e3] bg-white px-3 py-3 text-sm font-normal outline-none focus:border-[#ff8c55]">{pageCounts.map((item) => <option key={item} value={item}>{item} 页</option>)}</select></label><label className="space-y-2 text-sm font-semibold">画面比例<select value={ratio} onChange={(event) => setRatio(event.target.value as typeof ratio)} className="block w-full rounded-xl border border-[#e8e6e3] bg-white px-3 py-3 text-sm font-normal outline-none focus:border-[#ff8c55]"><option value="1:1">方形 1:1</option><option value="3:2">横版 3:2</option><option value="2:3">竖版 2:3</option></select></label></div>
-          <div className="mt-8 flex flex-wrap items-center gap-3"><Button kind="primary" disabled={Boolean(busy)} onClick={() => void createBook()}><Sparkles className="size-4" />创建绘本</Button><span className="text-xs text-gray-400">创建后可以与 AI 讨论，也可以直接编辑分镜。</span></div>
-        </div></div>
-      <aside className="rounded-3xl border border-[#ebe7e3] bg-white p-5 shadow-sm"><div className="mb-5 flex items-center justify-between"><h2 className="text-base font-semibold">我的作品</h2><span className="text-xs text-gray-400">{books.length} 本</span></div>{books.length ? <div className="space-y-3">{books.map((item) => <button key={item.id} onClick={() => void run("open", () => openBook(item.id))} className="flex w-full gap-3 rounded-2xl border border-[#eee9e4] p-3 text-left transition hover:border-[#ffb18b]"><span className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#fff3e8] text-[#ff7b3b]">{item.coverUrl ? <img src={item.coverUrl} alt="" className="size-full object-cover" /> : <BookOpen className="size-6" />}</span><span className="min-w-0 flex-1"><strong className="block truncate text-sm">{item.title}</strong><small className="mt-1 block text-xs text-gray-400">{item.pageCount} 页 · {item.status === "COMPLETED" ? "已保存" : item.status === "EDITING" ? "制作中" : "构思中"}</small></span><ChevronRight className="mt-4 size-4 text-gray-300" /></button>)}</div> : <p className="rounded-xl bg-[#faf8f6] px-4 py-8 text-center text-sm text-gray-400">还没有绘本，写下第一个故事吧。</p>}</aside>
-    </main> : !book.pages.length ? <main className="mx-auto grid max-w-[1440px] gap-5 px-5 py-6 xl:grid-cols-[300px_minmax(0,1fr)_340px]">
-      <aside className="space-y-5 rounded-2xl border border-[#ebe7e3] bg-white p-5"><div><h2 className="text-base font-semibold">故事设定</h2><p className="mt-1 text-xs text-gray-400">准备好后生成逐页分镜</p></div><Field label="最初想法" value={book.brief} onChange={() => {}} rows={6} readOnly /><label className="block space-y-2 text-sm font-semibold">适合人群<input value={book.audience} onChange={(event) => setBook({ ...book, audience: event.target.value })} onBlur={() => void run("settings", () => saveBook({ audience: book.audience }))} className="w-full rounded-xl border px-3 py-2 text-sm font-normal" /></label><label className="block space-y-2 text-sm font-semibold">画风<select value={book.style} onChange={(event) => void run("settings", () => saveBook({ style: event.target.value }))} className="w-full rounded-xl border bg-white px-3 py-2 text-sm font-normal">{styles.map((item) => <option key={item}>{item}</option>)}</select></label><label className="block space-y-2 text-sm font-semibold">页数<select value={book.pageCount} onChange={(event) => void run("settings", () => saveBook({ pageCount: Number(event.target.value) }))} className="w-full rounded-xl border bg-white px-3 py-2 text-sm font-normal">{pageCounts.map((item) => <option key={item}>{item} 页</option>)}</select></label><label className="block space-y-2 text-sm font-semibold">画面比例<select value={book.aspectRatio} onChange={(event) => void run("settings", () => saveBook({ aspectRatio: event.target.value }))} className="w-full rounded-xl border bg-white px-3 py-2 text-sm font-normal"><option value="1:1">方形 1:1</option><option value="3:2">横版 3:2</option><option value="2:3">竖版 2:3</option></select></label></aside>
-      <section className="flex min-h-[650px] flex-col rounded-2xl border border-[#ebe7e3] bg-white"><div className="flex items-center gap-2 border-b px-6 py-5"><MessageCircle className="size-5 text-[#ff7b3b]" /><h2 className="font-semibold">一起构思故事</h2></div><div className="flex-1 space-y-5 overflow-y-auto p-6"><div className="max-w-[85%] rounded-2xl rounded-tl-md bg-[#fff3eb] px-5 py-4 text-sm leading-7">我已经记下你的故事想法。你可以直接生成分镜，也可以先聊聊主题、角色和情节。</div>{book.messages.map((item, index) => <div key={index} className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-5 py-4 text-sm leading-7 ${item.role === "user" ? "ml-auto rounded-tr-md bg-[#ff7b3b] text-white" : "rounded-tl-md bg-[#fff3eb]"}`}>{item.content}</div>)}</div><div className="border-t p-5"><div className="flex gap-3"><textarea aria-label="讨论故事" value={chatInput} onChange={(event) => setChatInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey && storyModelReady) { event.preventDefault(); void discuss(); } }} rows={2} placeholder="例如：我希望主角是一只怕黑的小熊，结尾温暖一些……" className="min-h-16 flex-1 resize-none rounded-xl border px-4 py-3 text-sm outline-none focus:border-[#ff8c55]" /><Button kind="primary" disabled={!storyModelReady || !chatInput.trim() || Boolean(busy)} onClick={() => void discuss()} title="发送"><Send className="size-4" /></Button></div><p className="mt-2 text-xs text-gray-400">{storyModelReady ? "Enter 发送，Shift + Enter 换行" : "AI 故事模型尚未配置，可先建立空白分镜。"}</p></div></section>
-      <aside className="space-y-5"><div className="rounded-2xl border border-[#ebe7e3] bg-white p-5"><div className="flex items-center justify-between"><h2 className="font-semibold">出场角色</h2><Button kind="quiet" className="!px-2" onClick={() => setShowLibrary(true)}><LibraryBig className="size-4" />角色库</Button></div><div className="mt-4 flex flex-wrap gap-2">{book.characters.length ? book.characters.map((item) => <span key={item.id ?? item.name} className="rounded-full border border-[#ffceb5] bg-[#fff6ef] px-3 py-1.5 text-sm">{item.name}</span>) : <span className="text-sm text-gray-400">还没有指定角色</span>}</div></div><div className="rounded-2xl border border-[#ebe7e3] bg-white p-5"><h2 className="mb-4 font-semibold">进入分镜</h2><p className="mb-5 text-sm leading-6 text-gray-500">{storyModelReady ? "AI 会根据当前故事设定和讨论，安排每页的画面与展示文字。" : "AI 故事模型尚未配置，你仍可从空白分镜开始创作。"}</p><Button kind="primary" className="w-full" disabled={!storyModelReady || Boolean(busy)} onClick={() => void makeOutline()}>{busy === "outline" ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}生成分镜</Button><Button className="mt-3 w-full" disabled={Boolean(busy)} onClick={() => void makeBlank()}><Plus className="size-4" />先建空白分镜</Button></div></aside>
-    </main> : <main className="grid min-h-[calc(100vh-73px)] gap-4 p-4 lg:grid-cols-[180px_minmax(0,1fr)_340px] xl:grid-cols-[210px_minmax(0,1fr)_380px]">
+    {loading ? <div className="flex h-[60vh] items-center justify-center"><LoaderCircle className="size-7 animate-spin" /></div> : !book?.pages.length ? <section className="grid min-h-[calc(100vh-72px)] grid-cols-1 bg-[#f6f6f5] lg:h-[calc(100vh-72px)] lg:min-h-0 lg:grid-cols-[292px_minmax(0,1fr)] lg:overflow-hidden">
+      <aside aria-label="绘本创作历史" className="flex max-h-[50vh] min-h-0 flex-col border-b border-border bg-background lg:max-h-none lg:border-b-0 lg:border-r">
+        <div className="flex h-16 shrink-0 items-center gap-2 px-5"><BookOpen className="size-7" /><h1 className="text-2xl font-semibold tracking-normal">绘本创作</h1></div>
+        <div className="px-4 pb-5"><Button className="h-11 w-full !rounded-full border-border shadow-sm" disabled={Boolean(busy)} onClick={startNewBook}><Sparkles className="size-4" />新建绘本</Button></div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+          <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" /><span>绘本创作历史</span><span className="ml-auto">{books.length} 本</span></div>
+          {books.length ? <div className="space-y-2">{books.map(item => <button key={item.id} disabled={Boolean(busy)} onClick={() => void run("open", () => openBook(item.id))} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition hover:bg-secondary disabled:opacity-50 ${book?.id === item.id ? "border-foreground/20 bg-secondary" : "border-transparent"}`}>
+            <span className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary">{item.coverUrl ? <PictureBookImage src={pictureBookPageImageSource(item.id, 0, item.coverUrl)} alt="" compact className="size-full object-cover" /> : <BookOpen className="size-6 text-muted-foreground" />}</span>
+            <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{item.title}</span><span className="mt-1 block text-xs text-muted-foreground">{item.pageCount} 页 · {item.status === "COMPLETED" ? "已保存" : item.status === "EDITING" ? "制作中" : "构思中"}</span></span>
+          </button>)}</div> : <p className="rounded-xl border border-dashed border-border px-3 py-5 text-sm leading-6 text-muted-foreground">还没有绘本，写下第一个故事吧。</p>}
+        </div>
+      </aside>
+      <main className="min-h-0 p-5 lg:overflow-hidden">
+        <div className="grid h-full min-h-0 gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <section aria-label="故事对话" className="flex min-h-[600px] min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm lg:min-h-0">
+            <div className="flex shrink-0 items-center gap-2 border-b border-border px-5 py-4"><MessageCircle className="size-5" /><h2 className="text-base font-semibold">一起构思故事</h2></div>
+            {error || notice ? <div role={error ? "alert" : "status"} className={`m-4 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm ${error ? "bg-red-50 text-red-700" : "bg-secondary text-muted-foreground"}`}><span>{error || notice}</span><button aria-label="关闭提示" onClick={() => { setError(""); setNotice(""); }}><X className="size-4" /></button></div> : null}
+            <div ref={conversationRef} role="log" aria-label="故事讨论记录" aria-live="polite" className="min-h-0 flex-1 space-y-5 overflow-y-auto p-5">
+              <div className="max-w-[90%] rounded-2xl rounded-tl-md bg-secondary px-4 py-3 text-base leading-8">你想创作一本怎样的绘本？告诉我主题、主角或故事想法，我们一起完善。</div>
+              {book && book.messages[0]?.content !== book.brief ? <div className="ml-auto max-w-[90%] whitespace-pre-wrap break-words rounded-2xl rounded-tr-md bg-primary px-4 py-3 text-base leading-8 text-primary-foreground">{book.brief}</div> : null}
+              {book?.messages.map((item, index) => <div key={index} className={`max-w-[90%] whitespace-pre-wrap break-words rounded-2xl px-4 py-3 text-base leading-8 ${item.role === "user" ? "ml-auto rounded-tr-md bg-primary text-primary-foreground" : "rounded-tl-md bg-secondary"}`}>{item.content}</div>)}
+              {busy === "discuss" ? <>{(!book || book.messages.length > 0 || book.brief !== chatInput.trim()) && chatInput.trim() ? <div className="ml-auto max-w-[90%] whitespace-pre-wrap break-words rounded-2xl rounded-tr-md bg-primary px-4 py-3 text-base leading-8 text-primary-foreground">{chatInput.trim()}</div> : null}<div role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><LoaderCircle className="size-4 animate-spin" />正在构思故事…</div></> : null}
+            </div>
+            <div className="shrink-0 border-t border-border p-5">
+              <div className="flex items-end gap-3"><textarea aria-label="创作要求" value={chatInput} disabled={Boolean(busy)} onChange={event => setChatInput(event.target.value)} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void discuss(); } }} rows={3} maxLength={book ? 10000 : 30000} placeholder="写下你的创作要求，可以是一句话，也可以是完整的故事设定…" className="min-h-24 min-w-0 flex-1 resize-y rounded-xl border border-border bg-background px-4 py-3 text-base leading-8 outline-none focus:border-foreground/40 disabled:opacity-60" /><Button kind="primary" className="!border-primary !bg-primary !text-primary-foreground hover:!bg-primary/90" disabled={!chatInput.trim() || Boolean(busy) || Boolean(book && !storyModelReady)} onClick={() => void discuss()} title="发送创作要求"><Send className="size-4" /></Button></div>
+              <p className="mt-2 text-xs text-muted-foreground">{storyModelReady ? "Enter 发送，Shift + Enter 换行" : "AI 故事模型尚未配置，可保存创作要求并建立空白分镜。"}</p>
+            </div>
+          </section>
+          <aside aria-label="绘本设置" className="min-h-0 space-y-5 lg:overflow-y-auto">
+            <section className="space-y-4 rounded-2xl border border-border bg-background p-5 shadow-sm">
+              <h2 className="text-base font-semibold">绘本设置</h2>
+              {book ? <label className="block space-y-2 text-sm font-semibold">绘本名称<input value={book.title} disabled={Boolean(busy)} maxLength={100} onChange={event => setBook({ ...book, title: event.target.value })} onBlur={() => void run("title", () => saveBook({ title: book.title }))} className="w-full rounded-xl border border-border px-3 py-2 text-sm font-normal" /></label> : null}
+              <label className="block space-y-2 text-sm font-semibold">适合人群<input value={book?.audience ?? audience} disabled={Boolean(busy)} maxLength={100} onChange={event => book ? setBook({ ...book, audience: event.target.value }) : setAudience(event.target.value)} onBlur={() => { if (book) void run("settings", () => saveBook({ audience: book.audience })); }} placeholder="例如：3—6 岁" className="w-full rounded-xl border border-border px-3 py-2 text-sm font-normal" /></label>
+              <label className="block space-y-2 text-sm font-semibold">绘画风格<select value={book?.style ?? style} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ style: event.target.value })) : setStyle(event.target.value)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{styles.map(item => <option key={item}>{item}</option>)}</select></label>
+              <label className="block space-y-2 text-sm font-semibold">页数<select value={book?.pageCount ?? count} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ pageCount: Number(event.target.value) })) : setCount(Number(event.target.value))} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{pageCounts.map(item => <option key={item} value={item}>{item} 页</option>)}</select></label>
+              <label className="block space-y-2 text-sm font-semibold">画面比例<select value={book?.aspectRatio ?? ratio} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ aspectRatio: event.target.value })) : setRatio(event.target.value as typeof ratio)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal"><option value="1:1">方形 1:1</option><option value="3:2">横版 3:2</option><option value="2:3">竖版 2:3</option></select></label>
+            </section>
+            <section className="rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="mb-4 text-base font-semibold">故事信息</h2><dl className="space-y-3 text-sm leading-6"><div><dt className="font-semibold">主题</dt><dd className="mt-1 whitespace-pre-wrap break-words text-muted-foreground">{book?.theme || "待确定"}</dd></div><div><dt className="font-semibold">主要情节</dt><dd className="mt-1 whitespace-pre-wrap break-words text-muted-foreground">{book?.plot || book?.brief || "待讨论"}</dd></div></dl><div className="mt-4 border-t border-border pt-4"><div className="flex items-center justify-between"><h3 className="text-sm font-semibold">出场角色</h3><Button kind="quiet" className="!px-2" disabled={!book || Boolean(busy)} onClick={() => setShowLibrary(true)}><LibraryBig className="size-4" />角色库</Button></div><div className="mt-2 flex flex-wrap gap-2">{book?.characters.length ? book.characters.map(item => <span key={item.id ?? item.name} className="rounded-full bg-secondary px-3 py-1 text-xs">{item.name}</span>) : <span className="text-sm text-muted-foreground">未选择角色</span>}</div></div></section>
+            <section className="space-y-3 rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="text-base font-semibold">分镜制作</h2><Button kind="primary" className="w-full !border-primary !bg-primary !text-primary-foreground hover:!bg-primary/90" disabled={!book || !storyModelReady || Boolean(busy)} onClick={() => void makeOutline()}>{busy === "outline" ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}生成分镜</Button><Button className="w-full" disabled={!book || Boolean(busy)} onClick={() => void makeBlank()}><Plus className="size-4" />先建空白分镜</Button></section>
+          </aside>
+        </div>
+      </main>
+    </section> : <main className="grid min-h-[calc(100vh-73px)] gap-4 p-4 lg:grid-cols-[180px_minmax(0,1fr)_340px] xl:grid-cols-[210px_minmax(0,1fr)_380px]">
       <aside className="max-h-64 overflow-y-auto rounded-2xl border border-[#e9e7e4] bg-white p-3 lg:max-h-[calc(100vh-105px)]"><div className="mb-3 flex items-center justify-between px-1"><h2 className="text-sm font-semibold">页面</h2><span className="text-xs text-gray-400">{book.pages[0]?.position === 0 ? `封面 + ${book.pageCount} 页` : `${book.pages.length} 页`}</span></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:block lg:space-y-2">{book.pages.map((item) => <button key={item.position} onClick={() => void goToPage(item.position)} className={`w-full overflow-hidden rounded-xl border-2 text-left transition ${position === item.position ? "border-[#ff7b3b]" : "border-[#eeeae6] hover:border-[#ffbf9f]"}`}><div className="relative flex aspect-[1.5] items-center justify-center bg-[#f5f3f0]">{item.imageUrl ? <PictureBookImage src={pictureBookPageImageSource(book.id, item.position, item.imageUrl)} alt="" compact className="size-full object-cover" /> : <BookOpen className="size-6 text-[#d0c9c3]" />}<span className="absolute left-2 top-2 rounded-md bg-[#26282d]/75 px-2 py-0.5 text-xs text-white">{item.position === 0 ? "封面" : String(item.position).padStart(2, "0")}</span></div><p className="line-clamp-2 min-h-12 px-3 py-2 text-xs leading-5 text-gray-600">{item.caption}</p>{(["image", "audio"] as const).filter(kind => generationKeys.includes(pictureBookGenerationKey(book.id, item.position, kind))).map(kind => <span key={kind} className="flex items-center gap-1 px-3 pb-2 text-xs text-[#d6642d]"><LoaderCircle className="size-3 animate-spin" />{kind === "image" ? "图片生成中" : "语音生成中"}</span>)}</button>)}</div></aside>
       <section className="flex min-w-0 flex-col gap-4"><div className="flex flex-wrap items-center gap-2 rounded-2xl border border-[#e9e7e4] bg-white px-5 py-3"><span className="text-sm font-semibold">{position === 0 ? "封面" : `第 ${position} 页`}</span><span className="text-sm text-gray-400">/ {book.pageCount} 页</span><span className="ml-auto text-xs text-gray-400">{dirty ? "有未保存的修改" : "已保存"}</span><Button disabled={!dirty || Boolean(busy)} onClick={() => void run("save", async () => { await savePage(); })}><Save className="size-4" />保存本页</Button></div>
         <div className="flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-[#e9e7e4] bg-white shadow-sm"><div className="flex flex-1 items-center justify-center bg-[#f4f3f1] p-6">{page?.imageUrl ? <PictureBookImage src={pictureBookPageImageSource(book.id, position, page.imageUrl)} alt={`第 ${position} 页插画`} className="max-h-[60vh] max-w-full rounded-lg object-contain shadow-md" /> : <div className="text-center"><ImagePlus className="mx-auto size-12 text-[#c9c6c2]" /><p className="mt-4 text-sm text-gray-400">这一页还没有插画</p><Button className="mt-5" disabled={Boolean(busy) || imagePending} onClick={() => void generateImage()}><WandSparkles className="size-4" />生成本页图片</Button><label className="mx-auto mt-3 flex w-fit cursor-pointer items-center gap-2 rounded-xl border border-[#ddd9d4] bg-white px-4 py-2 text-sm">上传图片<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(busy) || imagePending} className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void uploadPageImage(file); }} /></label></div>}</div><div className="bg-[#33363b] px-5 py-4 text-center text-base leading-8 text-white">{draft.caption || "填写本页展示文字"}</div></div>
