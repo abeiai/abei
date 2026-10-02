@@ -41,6 +41,10 @@ export async function proxy(request: NextRequest) {
     if (!adminAccessToken && !adminRefreshToken && isPageNavigation) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
+
+    if (isPageNavigation && await isAdminSessionInvalid(request)) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
   }
 
   if (pathname.startsWith("/dashboard")) {
@@ -75,6 +79,23 @@ function loginUrl(request: NextRequest) {
       ? selectorLoginContinuation(requestedPath)
       : profileContinuationPath(requestedPath);
   return new URL(profileLoginHref(next), request.url);
+}
+
+async function isAdminSessionInvalid(request: NextRequest) {
+  try {
+    const apiBaseUrl = process.env.API_BASE_URL ?? "http://localhost:3602/api";
+    const response = await fetch(`${apiBaseUrl}/admin-auth/me`, {
+      headers: { Cookie: request.headers.get("cookie") ?? "" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(4000)
+    });
+    if (response.status === 401 || response.status === 403) return true;
+    const payload = await response.json() as { code?: number };
+    return payload.code === 40101 || payload.code === 40301;
+  } catch {
+    // A temporary API outage is not evidence that the session has expired.
+    return false;
+  }
 }
 
 async function readSetupStatus(request: NextRequest) {
