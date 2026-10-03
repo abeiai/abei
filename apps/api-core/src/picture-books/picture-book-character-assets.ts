@@ -1,0 +1,27 @@
+// 官方角色图片归档到 abeiai R2；本地文件同时用于模型参考。
+export const officialCharacterImageUrls: Record<string, string> = {
+  "boy/3d-animation": "https://r.abeiai.com/picture-books/20261003-f9380864b006b2fc.webp",
+  "boy/clay-stop-motion": "https://r.abeiai.com/picture-books/20261003-caaa6c673bf3c9ab.webp",
+  "boy/collage": "https://r.abeiai.com/picture-books/20261003-111fb4d010a65b33.webp",
+  "boy/colored-pencil": "https://r.abeiai.com/picture-books/20261003-181674f59bde8cf6.webp",
+  "boy/crayon": "https://r.abeiai.com/picture-books/20261003-b667b0e6c57d6da0.webp",
+  "boy/flat": "https://r.abeiai.com/picture-books/20261003-c7fdf60a2cbf0ecf.webp",
+  "boy/gouache": "https://r.abeiai.com/picture-books/20261003-dce029e5eaaad606.webp",
+  "boy/line-sketch": "https://r.abeiai.com/picture-books/20261003-b2f0387f861fa7fd.webp",
+  "boy/paper-cut": "https://r.abeiai.com/picture-books/20261003-18561f01edb72ed1.webp",
+  "boy/pen-watercolor": "https://r.abeiai.com/picture-books/20261003-d32ca607274db2c3.webp",
+  "boy/watercolor": "https://r.abeiai.com/picture-books/20261003-3099578f9bccf709.webp",
+  "boy/woodcut": "https://r.abeiai.com/picture-books/20261003-320b67cca2baad87.webp",
+  "girl/3d-animation": "https://r.abeiai.com/picture-books/20261003-1212961b571e454b.webp",
+  "girl/clay-stop-motion": "https://r.abeiai.com/picture-books/20261003-11b29c4075cc65cd.webp",
+  "girl/collage": "https://r.abeiai.com/picture-books/20261003-b6d391414838ec4a.webp",
+  "girl/colored-pencil": "https://r.abeiai.com/picture-books/20261003-4d93b86567143b02.webp",
+  "girl/crayon": "https://r.abeiai.com/picture-books/20261003-4d2fe6b83a7295e1.webp",
+  "girl/flat": "https://r.abeiai.com/picture-books/20261003-4cbf8cca7b4997ba.webp",
+  "girl/gouache": "https://r.abeiai.com/picture-books/20261003-edb1bca44c75279e.webp",
+  "girl/line-sketch": "https://r.abeiai.com/picture-books/20261003-3282522c79502764.webp",
+  "girl/paper-cut": "https://r.abeiai.com/picture-books/20261003-6e48bbd8aaaac65d.webp",
+  "girl/pen-watercolor": "https://r.abeiai.com/picture-books/20261003-4a0eacd9412ed195.webp",
+  "girl/watercolor": "https://r.abeiai.com/picture-books/20261003-c76af29cbcb1ac35.webp",
+  "girl/woodcut": "https://r.abeiai.com/picture-books/20261003-d158a7e7247f468e.webp"
+};

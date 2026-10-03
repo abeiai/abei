@@ -13,6 +13,7 @@ import { pictureBookImageSize } from "./picture-book-ratio.js";
 import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./picture-book-styles.js";
 import { SystemConfigService } from "../system-config/system-config.service.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
+import { characterImageForStyle, characterStyleKey, mergeDiscussedCharacters, officialCharacter, officialCharacters, parseCharacterDiscussion } from "./picture-book-characters.js";
 import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
@@ -40,6 +41,7 @@ export class PictureBookService {
 
   async create(userId: string, dto: CreatePictureBookDto) {
     await this.validateCustomStyle(userId, dto.style.trim());
+    const characters = await this.resolveCharacters(userId, dto.characters ?? [], dto.style);
     return this.prisma.pictureBook.create({ data: {
       userId,
       title: dto.title?.trim() || "未命名绘本",
@@ -48,14 +50,15 @@ export class PictureBookService {
       style: dto.style.trim(),
       pageCount: dto.pageCount,
       aspectRatio: dto.aspectRatio ?? "1:1",
-      messages: [], characters: [], pages: []
+      messages: [], characters: characters as unknown as Prisma.InputJsonValue, pages: []
     } });
   }
 
   async get(userId: string, id: string) {
     const row = await this.prisma.pictureBook.findFirst({ where: { id, userId } });
     if (!row) throw new AppException(40401, "绘本作品不存在", HttpStatus.NOT_FOUND);
-    return row;
+    const characters = await this.resolveCharacters(userId, charactersOf(row.characters), row.style);
+    return { ...row, characters: characters as unknown as Prisma.JsonValue };
   }
 
   async playback(subject: ProfileSubject, id: string) {
@@ -103,10 +106,14 @@ export class PictureBookService {
 
   async update(userId: string, id: string, dto: UpdatePictureBookDto) {
     if (dto.style !== undefined) await this.validateCustomStyle(userId, dto.style.trim());
+    if (dto.characters) await this.resolveCharacters(userId, dto.characters, dto.style ?? "watercolor");
     return this.mutate(userId, id, (book) => {
-      const characters = dto.characters?.slice(0, 9).map((item) => ({
-        ...(item.id ? { id: item.id.trim() } : {}), name: item.name.trim(), description: item.description.trim(), imageUrl: safeImageUrl(item.imageUrl)
-      }));
+      const characters = dto.characters?.slice(0, 9).map((item) => {
+        const original = charactersOf(book.characters).find(role => role.id === item.id && role.name === item.name.trim());
+        const legacy = original?.legacyImageUrl && original.legacyStyle && item.imageUrl === original.imageUrl
+          ? { legacyImageUrl: original.legacyImageUrl, legacyStyle: original.legacyStyle } : {};
+        return { ...(item.id ? { id: item.id.trim() } : {}), name: item.name.trim(), description: item.description.trim(), imageUrl: null, ...legacy };
+      });
       const resetsPages = dto.pageCount !== undefined && dto.pageCount !== book.pageCount;
       if (resetsPages && pagesOf(book.pages).length) {
         throw new AppException(40901, "已有分镜时不能修改页数，请先创建新作品", HttpStatus.CONFLICT);
@@ -132,14 +139,28 @@ export class PictureBookService {
     const prompt = [
       "你是儿童绘本创作搭档。围绕用户需求讨论主题、适合人群、主要情节与角色。",
       "如果关键信息不够，优先提出一个具体问题；如果已足够，给出简短创作方向并建议进入分镜。不要直接输出完整绘本。使用简体中文。",
+      "同时从用户的原始需求与最新沟通中提取已确认的全部出场角色，包含名字和外貌/性格描述；不要把助手尚未获得用户确认的建议当成出场角色。角色最多9个。",
+      "已选的“小男孩”“小女孩”是形象占位名称。当用户给它们起名时，characters 仅输出新名字，并加 previousName 为原占位名，不重复输出原名称；已有其他角色改名也用 previousName 对应。用户说沿用已选形象时，保留其外貌描述且 definedAppearance=false，系统提供的既有外貌不视作用户新增外貌要求。",
+      "严格只输出 JSON：{\"reply\":\"给用户的简短回复\",\"characters\":[{\"name\":\"角色名字\",\"description\":\"外貌与性格描述\",\"kind\":\"boy或girl或other\",\"definedAppearance\":false,\"replaceAppearance\":false}]}。definedAppearance 仅当用户明确指定了发型/毛色/服饰等外貌细节时为true，否则为false。replaceAppearance 仅当用户在最新沟通中明确要求修改已有角色外貌时为true；这时完整描述修改后的外貌。未要求修改的角色保持false。已有角色沿用其名字，不擅自改名。",
       `原始需求：${book.brief}`,
       `适合人群：${book.audience || "待讨论"}`,
+      `已有出场角色：${charactersOf(book.characters).map(item => `${item.name}：${item.description}`).join("；") || "无"}`,
       `讨论记录：\n${messages.map((item) => `${item.role === "user" ? "用户" : "助手"}：${item.content}`).join("\n")}`
     ].join("\n\n");
     const answer = await this.runTextTask(subject, "picture-book-discuss", prompt);
-    return this.mutate(subject.userId, id, (current) => ({
-      messages: [...messagesOf(current.messages), { role: "assistant", content: answer }].slice(-30) as unknown as Prisma.InputJsonValue
-    }));
+    let discussion;
+    try { discussion = parseCharacterDiscussion(answer); }
+    catch (error) { throw new AppException(50201, error instanceof Error ? error.message : "故事讨论解析失败", HttpStatus.BAD_GATEWAY); }
+    return this.mutate(subject.userId, id, (current) => {
+      if (JSON.stringify(current.characters) !== JSON.stringify(book.characters)) throw new AppException(40901, "角色已在其他页面修改，已保留新选择，请重新发送讨论", HttpStatus.CONFLICT);
+      let characters;
+      try { characters = mergeDiscussedCharacters(charactersOf(current.characters), discussion.characters); }
+      catch (error) { throw new AppException(40001, error instanceof Error ? error.message : "角色信息无法更新，请重试", HttpStatus.BAD_REQUEST); }
+      return {
+        messages: [...messagesOf(current.messages), { role: "assistant", content: discussion.reply }].slice(-30) as unknown as Prisma.InputJsonValue,
+        characters: characters as unknown as Prisma.InputJsonValue
+      };
+    });
   }
 
   async outline(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string) {
@@ -202,7 +223,7 @@ export class PictureBookService {
       "画面中不要出现文字、字幕、水印或边框。"
     ].filter(Boolean).join("\n").slice(0, 2000);
     const size = pictureBookImageSize(book.aspectRatio);
-    const referenceImages = [{ name: `风格参考图.${styleImage.mimetype === "image/webp" ? "webp" : styleImage.mimetype === "image/png" ? "png" : "jpg"}`, type: "image" as const, mimeType: styleImage.mimetype, size: styleImage.buffer.length, dataUrl: `data:${styleImage.mimetype};base64,${styleImage.buffer.toString("base64")}` }, ...await this.localCharacterReferences(subject.userId, charactersOf(book.characters))];
+    const referenceImages = [{ name: `风格参考图.${styleImage.mimetype === "image/webp" ? "webp" : styleImage.mimetype === "image/png" ? "png" : "jpg"}`, type: "image" as const, mimeType: styleImage.mimetype, size: styleImage.buffer.length, dataUrl: `data:${styleImage.mimetype};base64,${styleImage.buffer.toString("base64")}` }, ...await this.localCharacterReferences(subject.userId, charactersOf(book.characters), book.style)];
     const result = await this.aiService.generatePictureBookImage(subject, {
       prompt, modelInstanceId: dto.modelInstanceId, count: 1, referenceImages, ...size
     });
@@ -212,6 +233,7 @@ export class PictureBookService {
       const pages = pagesOf(current.pages);
       const index = pageIndex(pages, position);
       if (current.style !== book.style) throw new AppException(40901, "画风已修改，请重新生成图片", HttpStatus.CONFLICT);
+      if (JSON.stringify(current.characters) !== JSON.stringify(book.characters)) throw new AppException(40901, "角色形象已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (pages[index]!.imagePrompt !== page.imagePrompt) throw new AppException(40901, "画面提示词已修改，请重新生成", HttpStatus.CONFLICT);
       pages[index] = { ...pages[index]!, imageUrl: image.url, imageTaskId: result.id };
       return { pages: pages as unknown as Prisma.InputJsonValue };
@@ -291,57 +313,109 @@ export class PictureBookService {
     });
   }
 
-  async listCharacters(userId: string) {
+  private async resolveCharacters(userId: string, selected: PictureBookCharacter[], style: string) {
+    const ids = selected.flatMap(item => item.id && !item.id.startsWith("preset:") ? [item.id] : []);
+    const own = ids.length ? await this.prisma.pictureBookCharacter.findMany({ where: { id: { in: ids }, userId } }) : [];
+    return selected.slice(0, 9).map(item => {
+      const preset = item.id ? officialCharacter(item.id, style) ?? presets.find(role => role.id === item.id) : null;
+      const owned = own.find(role => role.id === item.id);
+      if (item.id && !preset && !owned) throw new AppException(40001, "角色不存在或无权使用，请重新选择形象", HttpStatus.BAD_REQUEST);
+      const legacy = item.legacyImageUrl && item.legacyStyle ? { legacyImageUrl: item.legacyImageUrl, legacyStyle: item.legacyStyle } : {};
+      const legacyImage = owned && item.legacyStyle && characterStyleKey(item.legacyStyle) === characterStyleKey(style) ? item.legacyImageUrl : null;
+      return { ...(item.id ? { id: item.id } : {}), name: item.name, description: preset?.description ?? owned?.description ?? item.description,
+        ...legacy, imageUrl: legacyImage ?? preset?.imageUrl ?? (owned ? characterImageForStyle(owned, style) : null) };
+    });
+  }
+
+  async listCharacters(userId: string, style = "watercolor") {
+    await this.validateCustomStyle(userId, style);
     const own = await this.prisma.pictureBookCharacter.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 100 });
-    return [...presets, ...own];
+    return [...officialCharacters.map(item => officialCharacter(item.id, style)!), ...own.map(item => ({ ...item, imageUrl: characterImageForStyle(item, style) }))];
   }
 
   async createCharacter(userId: string, dto: CreatePictureBookCharacterDto) {
     return this.prisma.pictureBookCharacter.create({ data: {
-      userId, name: dto.name.trim(), description: dto.description.trim(), imageUrl: safeImageUrl(dto.imageUrl)
+      userId, name: dto.name.trim(), description: dto.description.trim(), imageUrl: null
     } });
   }
 
-  async generateCharacterImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, modelInstanceId?: string) {
-    const character = await this.prisma.pictureBookCharacter.findFirst({ where: { id, userId: subject.userId } });
+  async generateCharacterImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, modelInstanceId?: string, style = "watercolor") {
+    const preset = officialCharacter(id, "flat");
+    const character = preset ?? await this.prisma.pictureBookCharacter.findFirst({ where: { id, userId: subject.userId } });
     if (!character) throw new AppException(40401, "角色不存在", HttpStatus.NOT_FOUND);
     this.mediaService.assertPictureBookR2Ready();
+    const styleImage = await this.styleReference(subject.userId, style);
+    const source = preset
+      ? { buffer: await readFile(new URL(`../../../web/public/picture-book-characters/${id.slice(7)}/flat.webp`, import.meta.url)), mimetype: "image/webp" }
+      : character.imageUrl ? await this.ownedCharacterImage(subject.userId, character.imageUrl) : null;
+    const referenceImages = [imageReference(styleImage, "风格参考图"), ...(source ? [imageReference(source, "角色身份参考图")] : [])];
     const result = await this.aiService.generatePictureBookImage(subject, {
-      prompt: `儿童绘本角色设定图，单个角色，干净浅色背景，正面半身，细节清楚，无文字。${character.name}：${character.description}`.slice(0, 2000),
-      modelInstanceId, width: 1024, height: 1024, count: 1
+      prompt: `儿童绘本角色参考图。第1张仅参考绘画风格，不复制场景或人物；第2张如有则保持角色身份、发型、服装和标志颜色，只调整绘画表现。单个角色，干净米白背景，正面全身，头脚完整，细节清楚，无文字。${character.name}：${character.description}`.slice(0, 2000),
+      modelInstanceId, width: 1024, height: 1024, count: 1, referenceImages
     });
     const url = result.images[0]?.url;
     if (!url) throw new AppException(50201, "角色形象生成失败", HttpStatus.BAD_GATEWAY);
-    return this.prisma.pictureBookCharacter.update({ where: { id }, data: { imageUrl: url } });
+    if (preset) {
+      const created = await this.prisma.pictureBookCharacter.create({ data: { userId: subject.userId, name: preset.name, description: preset.description,
+        imageUrl: url, styleImages: { [characterStyleKey(style)]: url } } });
+      return { ...created, imageUrl: url };
+    }
+    return this.saveCharacterStyle(subject.userId, id, character.imageUrl, style, url, characterImageForStyle("styleImages" in character ? character : {}, style));
   }
 
-  async uploadCharacterImage(userId: string, id: string, file?: UploadedFileLike) {
+  async uploadCharacterImage(userId: string, id: string, file?: UploadedFileLike, style = "watercolor") {
     const character = await this.prisma.pictureBookCharacter.findFirst({ where: { id, userId } });
     if (!character) throw new AppException(40401, "角色不存在", HttpStatus.NOT_FOUND);
-    const asset = await this.mediaService.uploadUserPictureBookImage(userId, inspectPictureBookImage(file));
-    return this.prisma.pictureBookCharacter.update({ where: { id }, data: { imageUrl: asset.url } });
+    await this.validateCustomStyle(userId, style);
+    const asset = await this.mediaService.uploadUserPictureBookImage(userId, inspectPictureBookImage(file), true);
+    return this.saveCharacterStyle(userId, id, character.imageUrl, style, asset.url, characterImageForStyle(character, style), true);
   }
 
-  private async localCharacterReferences(userId: string, selected: PictureBookCharacter[]) {
-    const ids = selected.map((item) => item.id).filter((id): id is string => typeof id === "string" && !id.startsWith("preset:")).slice(0, 9);
-    if (!ids.length) return [];
-    const owned = await this.prisma.pictureBookCharacter.findMany({ where: { id: { in: ids }, userId } });
+  private async saveCharacterStyle(userId: string, id: string, sourceUrl: string | null | undefined, style: string, url: string, expectedImage: string | null, uploaded = false) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const current = await this.prisma.pictureBookCharacter.findFirst({ where: { id, userId } });
+      if (!current) throw new AppException(40401, "角色不存在", HttpStatus.NOT_FOUND);
+      if (current.imageUrl !== sourceUrl) throw new AppException(40901, "角色形象已修改，请重新生成", HttpStatus.CONFLICT);
+      if (characterImageForStyle(current, style) !== expectedImage) throw new AppException(40901, "当前风格的角色形象已修改，请重试", HttpStatus.CONFLICT);
+      const images = current.styleImages && typeof current.styleImages === "object" && !Array.isArray(current.styleImages) ? current.styleImages : {};
+      const updated = await this.prisma.$transaction(async transaction => {
+        const result = await transaction.pictureBookCharacter.updateMany({ where: { id, userId, updatedAt: current.updatedAt },
+          data: { imageUrl: uploaded ? url : current.imageUrl ?? url, styleImages: { ...images, [characterStyleKey(style)]: url } } });
+        if (result.count === 1) await transaction.pictureBook.updateMany({ where: { userId, characters: { array_contains: [{ id }] } }, data: { version: { increment: 1 } } });
+        return result;
+      });
+      if (updated.count === 1) return { ...current, imageUrl: url };
+    }
+    throw new AppException(40901, "角色已更新，请刷新后重试", HttpStatus.CONFLICT);
+  }
+
+  private async ownedCharacterImage(userId: string, url: string) {
+    const asset = await this.prisma.mediaAsset.findFirst({ where: { url, createdByUserId: userId, mediaType: "IMAGE" } });
+    if (!asset) return null;
+    if (asset.storageProvider === "S3") return this.mediaService.readPictureBookStoredImage(asset.url);
+    const local = await this.mediaService.getLocalFile(asset.filename);
+    return { buffer: await readFile(local.filepath), mimetype: local.mimeType };
+  }
+
+  private async localCharacterReferences(userId: string, selected: PictureBookCharacter[], style = "watercolor") {
+    const ids = selected.flatMap(item => item.id && !item.id.startsWith("preset:") ? [item.id] : []).slice(0, 9);
+    const owned = ids.length ? await this.prisma.pictureBookCharacter.findMany({ where: { id: { in: ids }, userId } }) : [];
     const references = [];
-    for (const id of ids) {
-      const character = owned.find((item) => item.id === id);
-      if (!character?.imageUrl) continue;
-      const asset = await this.prisma.mediaAsset.findFirst({ where: {
-        url: character.imageUrl, createdByUserId: userId, mediaType: "IMAGE"
-      } });
-      if (!asset) continue;
-      const file = asset.storageProvider === "S3"
-        ? await this.mediaService.readPictureBookStoredImage(asset.url)
-        : await (async () => {
-            const local = await this.mediaService.getLocalFile(asset.filename);
-            return { buffer: await readFile(local.filepath), mimetype: local.mimeType };
-          })();
-      references.push({ name: `${character.name}.png`, type: "image", mimeType: file.mimetype, size: file.buffer.length,
-        dataUrl: `data:${file.mimetype};base64,${file.buffer.toString("base64")}` });
+    for (const item of selected.slice(0, 9)) {
+      const preset = item.id ? officialCharacter(item.id, style) : null;
+      if (preset) {
+        if (!preset.imageUrl) throw new AppException(40001, `${item.name}暂无当前风格形象，请上传或生成`, HttpStatus.BAD_REQUEST);
+        const file = { buffer: await readFile(new URL(`../../../web/public/picture-book-characters/${preset.id.slice(7)}/${characterStyleKey(style)}.webp`, import.meta.url)), mimetype: "image/webp" };
+        references.push(imageReference(file, item.name));
+        continue;
+      }
+      const character = owned.find(role => role.id === item.id);
+      if (!character) continue;
+      const url = item.legacyStyle && characterStyleKey(item.legacyStyle) === characterStyleKey(style) ? item.legacyImageUrl ?? characterImageForStyle(character, style) : characterImageForStyle(character, style);
+      if (!url) throw new AppException(40001, `${item.name}暂无当前风格形象，请上传或生成`, HttpStatus.BAD_REQUEST);
+      const file = await this.ownedCharacterImage(userId, url);
+      if (!file) throw new AppException(40001, `${item.name}参考图片不可用，请重新上传`, HttpStatus.BAD_REQUEST);
+      references.push(imageReference(file, item.name));
     }
     return references;
   }
@@ -407,12 +481,7 @@ function pageOf(value: unknown, position: number) {
   return pages[pageIndex(pages, position)]!;
 }
 
-function safeImageUrl(value?: string | null) {
-  if (!value) return null;
-  try {
-    const url = new URL(value);
-    if (url.protocol === "https:") return value;
-  } catch { /* relative URL below */ }
-  if ((value.startsWith("/uploads/") || value.startsWith("/api/media/files/")) && !value.includes("..")) return value;
-  throw new AppException(40001, "角色图片地址不正确", HttpStatus.BAD_REQUEST);
+function imageReference(file: { buffer: Buffer; mimetype: string }, name: string) {
+  return { name: `${name}.webp`, type: "image" as const, mimeType: file.mimetype, size: file.buffer.length,
+    dataUrl: `data:${file.mimetype};base64,${file.buffer.toString("base64")}` };
 }

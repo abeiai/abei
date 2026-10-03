@@ -1,0 +1,72 @@
+import type { PictureBookCharacter } from "./picture-book-plan.js";
+import { defaultPictureBookStyles, selectedPictureBookStyle } from "./picture-book-styles.js";
+import { officialCharacterImageUrls } from "./picture-book-character-assets.js";
+
+export const officialCharacters = [
+  { id: "preset:boy", name: "小男孩", description: "约6岁的中国小男孩，黑色短发、圆脸、棕色眼睛，浅蓝色短袖T恤、深蓝色短裤、白色袜子和白色运动鞋" },
+  { id: "preset:girl", name: "小女孩", description: "约6岁的中国小女孩，黑色齐耳波波头、圆脸、棕色眼睛，珊瑚红连衣裙配白色彼得潘领，黄色小帽配红色帽带，白色短袜和棕色小靴子" }
+];
+
+export function characterStyleKey(value: string) {
+  return selectedPictureBookStyle(value, defaultPictureBookStyles)?.id ?? value;
+}
+
+export function characterImageForStyle(character: { styleImages?: unknown }, style: string): string | null {
+  const images = character.styleImages;
+  if (!images || typeof images !== "object" || Array.isArray(images)) return null;
+  const key = characterStyleKey(style);
+  const image = (images as Record<string, unknown>)[key] ?? Object.entries(images).find(([name]) => characterStyleKey(name) === key)?.[1];
+  return typeof image === "string" && image ? image : null;
+}
+
+export function officialCharacter(id: string, style: string) {
+  const character = officialCharacters.find(item => item.id === id);
+  if (!character) return null;
+  const key = characterStyleKey(style);
+  const knownStyle = defaultPictureBookStyles.some(item => item.id === key);
+  return { ...character, imageUrl: knownStyle ? officialCharacterImageUrls[`${id.slice(7)}/${key}`] ?? `/picture-book-characters/${id.slice(7)}/${key}.webp` : null };
+}
+
+interface ExtractedCharacter { name: string; description: string; kind: "boy" | "girl" | "other"; definedAppearance: boolean; replaceAppearance: boolean; previousName?: string }
+
+export function parseCharacterDiscussion(output: string): { reply: string; characters: ExtractedCharacter[] } {
+  const raw = output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+  let value: Record<string, unknown>;
+  try { value = JSON.parse(raw) as Record<string, unknown>; } catch { throw new Error("故事讨论格式不正确，请重试"); }
+  if (!value || typeof value.reply !== "string" || !value.reply.trim() || !Array.isArray(value.characters)) throw new Error("故事讨论或角色信息不完整，请重试");
+  const names = new Set<string>();
+  const characters = value.characters.slice(0, 9).map((item: unknown) => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) throw new Error("角色信息不正确");
+    const role = item as Record<string, unknown>;
+    if (typeof role.name !== "string" || !role.name.trim() || role.name.length > 80 || typeof role.description !== "string" || role.description.trim().length < 2 || role.description.length > 1000 || !["boy", "girl", "other"].includes(String(role.kind)) || typeof role.definedAppearance !== "boolean") throw new Error("角色信息不正确");
+    const name = role.name.trim();
+    if (names.has(name)) throw new Error("角色名称重复");
+    names.add(name);
+    return { name, description: role.description.trim(), kind: role.kind as ExtractedCharacter["kind"], definedAppearance: role.definedAppearance, replaceAppearance: role.replaceAppearance === true && role.definedAppearance,
+      ...(typeof role.previousName === "string" && role.previousName.trim().length <= 80 && role.previousName.trim() ? { previousName: role.previousName.trim() } : {}) };
+  });
+  return { reply: value.reply.trim().slice(0, 10000), characters };
+}
+
+export function mergeDiscussedCharacters(current: PictureBookCharacter[], extracted: ExtractedCharacter[]): PictureBookCharacter[] {
+  const next = current.map(item => ({ ...item }));
+  const effective = extracted.filter(role => !extracted.some(other => other.name !== role.name && other.previousName === role.name)
+    && !officialCharacters.some(preset => role.name === preset.name && extracted.some(other => other.name !== preset.name && other.kind === preset.id.slice(7) && (!other.definedAppearance || other.description === preset.description))));
+  for (const role of effective) {
+    const previous = role.previousName ? next.findIndex(item => item.name === role.previousName) : -1;
+    const existing = previous >= 0 ? previous : next.findIndex(item => item.name === role.name);
+    if (existing >= 0) {
+      if (next.some((item, index) => index !== existing && item.name === role.name)) throw new Error("角色名称已被占用，请为角色使用不同名字");
+      if (role.replaceAppearance) next[existing] = { name: role.name, description: role.description, imageUrl: null };
+      else next[existing] = { ...next[existing]!, name: role.name };
+      continue;
+    }
+    const candidate = officialCharacters.find(item => item.id === `preset:${role.kind}`);
+    const preset = candidate && (!role.definedAppearance || role.description === candidate.description) ? candidate : undefined;
+    const generic = preset ? next.findIndex(item => item.id === preset.id && item.name === preset.name) : -1;
+    if (generic >= 0) { next[generic] = { ...next[generic]!, name: role.name }; continue; }
+    if (next.length >= 9) continue;
+    next.push({ ...(preset ? { id: preset.id } : {}), name: role.name, description: preset?.description ?? role.description, imageUrl: null });
+  }
+  return next;
+}

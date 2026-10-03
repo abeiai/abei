@@ -25,7 +25,7 @@ COPY packages/database/package.json packages/database/package.json
 RUN pnpm install --frozen-lockfile --filter @xueleai/api-core... --filter @xueleai/database...
 
 FROM deps AS builder
-ENV DATABASE_URL=postgresql://placeholder:placeholder@localhost:3324/placeholder?schema=public
+ENV DATABASE_URL=postgresql://placeholder:placeholder@localhost:3604/placeholder?schema=public
 COPY . .
 RUN pnpm --filter @xueleai/database db:generate
 RUN pnpm --filter @xueleai/database build
@@ -58,6 +58,7 @@ COPY --from=prod-deps --chown=node:node /app/packages/database/node_modules ./pa
 COPY --from=builder --chown=node:node /app/apps/api-core/dist ./apps/api-core/dist
 COPY --from=builder --chown=node:node /app/apps/api-core/package.json ./apps/api-core/package.json
 COPY --from=builder --chown=node:node /app/apps/web/public/picture-book-styles ./apps/web/public/picture-book-styles
+COPY --from=builder --chown=node:node /app/apps/web/public/picture-book-characters ./apps/web/public/picture-book-characters
 COPY --from=builder --chown=node:node /app/packages/database/dist ./packages/database/dist
 COPY --from=builder --chown=node:node /app/packages/database/generated ./packages/database/generated
 COPY --from=builder --chown=node:node /app/packages/database/prisma ./packages/database/prisma

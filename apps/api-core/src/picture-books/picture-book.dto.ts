@@ -20,6 +20,9 @@ export class CreatePictureBookDto {
 
   @IsOptional() @IsIn(pictureBookAspectRatios)
   aspectRatio?: PictureBookAspectRatio;
+
+  @IsOptional() @IsArray() @ValidateNested({ each: true }) @Type(() => PictureBookCharacterSelectionDto)
+  characters?: PictureBookCharacterSelectionDto[];
 }
 
 export class PictureBookCharacterSelectionDto {
@@ -94,4 +97,14 @@ export class CreatePictureBookCharacterDto {
 
   @IsOptional() @IsString() @MaxLength(2048)
   imageUrl?: string;
+}
+
+export class PictureBookCharacterStyleDto {
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(80)
+  style?: string;
+}
+
+export class GeneratePictureBookCharacterImageDto extends PictureBookCharacterStyleDto {
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(80)
+  modelInstanceId?: string;
 }

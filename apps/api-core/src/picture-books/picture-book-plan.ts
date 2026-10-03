@@ -14,6 +14,8 @@ export interface PictureBookCharacter {
   name: string;
   description: string;
   imageUrl?: string | null;
+  legacyImageUrl?: string;
+  legacyStyle?: string;
 }
 
 export interface PictureBookMessage {

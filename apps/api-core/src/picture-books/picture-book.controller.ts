@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Headers, Inject, Param, Patch, Post, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Inject, Param, Patch, Post, Query, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AuthService } from "../auth/auth.service.js";
 import { successResponse } from "../common/api-response.js";
 import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
 import { PictureBookService } from "./picture-book.service.js";
-import { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
+import { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, GeneratePictureBookCharacterImageDto, PictureBookCharacterStyleDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 @Controller("picture-books")
 export class PictureBookController {
@@ -46,9 +46,9 @@ export class PictureBookController {
   }
 
   @Get("characters")
-  async characters(@Req() request: unknown) {
+  async characters(@Req() request: unknown, @Query() query: PictureBookCharacterStyleDto) {
     const subject = await this.account(request);
-    return successResponse(await this.books.listCharacters(subject.userId));
+    return successResponse(await this.books.listCharacters(subject.userId, query.style));
   }
 
   @Post("characters")
@@ -58,16 +58,16 @@ export class PictureBookController {
   }
 
   @Post("characters/:id/image")
-  async characterImage(@Req() request: unknown, @Param("id") id: string, @Body() dto: GeneratePictureBookImageDto) {
+  async characterImage(@Req() request: unknown, @Param("id") id: string, @Body() dto: GeneratePictureBookCharacterImageDto) {
     const subject = await this.account(request);
-    return successResponse(await this.books.generateCharacterImage(subject, id, dto.modelInstanceId));
+    return successResponse(await this.books.generateCharacterImage(subject, id, dto.modelInstanceId, dto.style));
   }
 
   @Post("characters/:id/upload")
   @UseInterceptors(FileInterceptor("file", { limits: { fileSize: 10 * 1024 * 1024 } }))
-  async uploadCharacterImage(@Req() request: unknown, @Param("id") id: string, @UploadedFile() file?: UploadedFileLike) {
+  async uploadCharacterImage(@Req() request: unknown, @Param("id") id: string, @Query() query: PictureBookCharacterStyleDto, @UploadedFile() file?: UploadedFileLike) {
     const subject = await this.account(request);
-    return successResponse(await this.books.uploadCharacterImage(subject.userId, id, file));
+    return successResponse(await this.books.uploadCharacterImage(subject.userId, id, file, query.style));
   }
 
   @Get(":id")
