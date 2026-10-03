@@ -79,7 +79,7 @@ class TextGenerateRequest(BaseModel):
     modelName: str | None = None
     messages: list[ChatMessage] | None = None
     prompt: str = Field(min_length=1, max_length=TEXT_PROMPT_MAX_LENGTH)
-    input: str = Field(min_length=1, max_length=2000)
+    input: str = Field(min_length=1, max_length=TEXT_PROMPT_MAX_LENGTH)
     temperature: float = 0.7
     maxTokens: int = Field(default=TEXT_DEFAULT_OUTPUT_TOKENS, ge=1, le=TEXT_MAX_OUTPUT_TOKENS)
     timeoutMs: int = Field(default=45000, ge=1000, le=180000)

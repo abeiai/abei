@@ -35,6 +35,16 @@ class TextGenerateRequestTest(unittest.TestCase):
 
         self.assertEqual(len(request.prompt), 270000)
 
+    def test_accepts_complete_picture_book_storyboard_input(self):
+        storyboard = "角色、场景、道具和逐页分镜要求。" * 500
+        request = TextGenerateRequest(scenarioSlug="picture-book-outline", prompt=storyboard, input=storyboard)
+
+        self.assertEqual(request.input, storyboard)
+
+    def test_rejects_input_beyond_internal_safety_limit(self):
+        with self.assertRaises(ValidationError):
+            TextGenerateRequest(prompt="分镜", input="字" * 320001)
+
     def test_rejects_prompt_beyond_internal_safety_limit(self):
         with self.assertRaises(ValidationError):
             TextGenerateRequest(prompt="p" * 320001, input="英文带学")

@@ -74,22 +74,42 @@ test("caption edits sync default narration while preserving a manually edited sc
   assert.equal(edited.narration, customized.narration);
 });
 
-test("outline prompt includes audience, style, characters and dialogue", () => {
+test("outline prompt uses current settings and keeps the existing Chinese JSON contract", () => {
   const prompt = buildOutlinePrompt({
     brief: "孩子学会分享",
     audience: "4-6岁",
-    style: "水彩",
+    aspectRatio: "3:4",
+    theme: "分享与友情",
+    plot: "阿兔把唯一的雨伞借给朋友",
     pageCount: 8,
     characters: [{ name: "阿兔", description: "白色小兔，蓝色背带裤" }],
     messages: [{ role: "user", content: "希望发生在森林" }]
   });
   assert.match(prompt, /4-6岁/);
-  assert.match(prompt, /水彩/);
+  assert.match(prompt, /画面比例：3:4/);
+  assert.match(prompt, /分享与友情/);
+  assert.match(prompt, /阿兔把唯一的雨伞借给朋友/);
   assert.match(prompt, /阿兔/);
   assert.match(prompt, /森林/);
   assert.match(prompt, /8 页/);
   assert.match(prompt, /imagePrompt 必须使用简体中文/);
   assert.match(prompt, /narration 必须与 caption 完全相同/);
+  assert.match(prompt, /封面由系统另行创建/);
+  assert.match(prompt, /参考图/);
+  assert.match(prompt, /禁止.*英文.*--ar/);
+  assert.match(prompt, /caption.*500.*imagePrompt.*2000/);
+});
+
+test("storyboard prompt plans visual continuity, emotional pacing and varied shots inside imagePrompt", () => {
+  const prompt = buildOutlinePrompt({ brief: "小狗找星星", audience: "", aspectRatio: "1:1", pageCount: 4, characters: [], messages: [] });
+  assert.match(prompt, /角色.*外貌/);
+  assert.match(prompt, /每个出场角色.*每一页.*完整复用.*禁止省略/);
+  assert.match(prompt, /固定场景.*关键道具/);
+  assert.match(prompt, /起承转合/);
+  assert.match(prompt, /全景.*中景.*特写/);
+  assert.match(prompt, /动作.*情绪.*场景.*道具.*构图.*光/);
+  assert.match(prompt, /对话中用户最新确认/);
+  assert.match(prompt, /由需求判断/);
 });
 
 test("blank storyboard creates editable pages with matching narration", () => {

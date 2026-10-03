@@ -145,7 +145,8 @@ export class PictureBookService {
   async outline(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string) {
     const book = await this.get(subject.userId, id);
     const prompt = buildOutlinePrompt({
-      brief: book.brief, audience: book.audience, style: "画风由参考图决定，画面提示词只描述场景与构图，不写画风名称或媒介描述", pageCount: book.pageCount,
+      brief: book.brief, audience: book.audience, aspectRatio: book.aspectRatio,
+      theme: book.theme, plot: book.plot, pageCount: book.pageCount,
       characters: charactersOf(book.characters), messages: messagesOf(book.messages)
     });
     const output = await this.runTextTask(subject, "picture-book-outline", prompt);
