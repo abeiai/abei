@@ -10,8 +10,26 @@ test("讨论提取角色，保留用户已经选择的形象和名称", () => {
   assert.deepEqual(cast.mergeDiscussedCharacters([selected], result.characters), [selected]);
   const added = cast.mergeDiscussedCharacters([], result.characters);
   assert.equal(added[0]?.name, "乐乐");
-  assert.equal(added[0]?.id, "preset:girl");
-  assert.match(added[0]?.description ?? "", /珊瑚红/);
+  assert.equal(added[0]?.id, undefined);
+  assert.equal(added[0]?.description, "勇敢的小女孩");
+});
+
+test("沟通先提取多个角色名字，未选择形象时不自动绑定默认图片", () => {
+  const output = { reply: "已记录三位朋友", characters: ["小明", "张华", "Tom"].map(name => ({ name, description: "外貌待确定", kind: "boy", definedAppearance: false })) };
+  const roles = cast.mergeDiscussedCharacters([], cast.parseCharacterDiscussion(JSON.stringify(output)).characters);
+  assert.deepEqual(roles.map(item => item.name), ["小明", "张华", "Tom"]);
+  assert.ok(roles.every(item => !item.id && !item.imageUrl));
+});
+
+test("同一参考形象可供多个角色使用，风格切换始终保留故事名称并返回形象名称", async () => {
+  const service = Object.create(PictureBookService.prototype) as any;
+  Object.assign(service, { prisma: { pictureBookCharacter: { findMany: async () => [] } } });
+  const selected = ["小明", "张华", "Tom"].map(name => ({ id: "preset:boy", name, description: "外貌待确定" }));
+  for (const style of ["watercolor", "clay-stop-motion"]) {
+    const resolved = await service.resolveCharacters("owner", selected, style);
+    assert.deepEqual(resolved.map((item: any) => item.name), ["小明", "张华", "Tom"]);
+    assert.ok(resolved.every((item: any) => item.referenceName === "小男孩" && item.imageUrl === cast.officialCharacter("preset:boy", style)?.imageUrl));
+  }
 });
 
 test("用户指定的外貌不会被默认男孩女孩覆盖，模型非法数据不进入角色库", () => {
@@ -24,7 +42,7 @@ test("用户指定的外貌不会被默认男孩女孩覆盖，模型非法数�
 
 test("先选择通用男孩女孩，再讨论角色名字时匹配已有形象而不重复添加", () => {
   const selected = [{ ...cast.officialCharacters[0]!, imageUrl: "boy" }, { ...cast.officialCharacters[1]!, imageUrl: "girl" }];
-  const roles = cast.parseCharacterDiscussion('{"reply":"好的","characters":[{"name":"阿明","description":"好奇的小男孩","kind":"boy","definedAppearance":false},{"name":"小红","description":"勇敢的小女孩","kind":"girl","definedAppearance":false}]}').characters;
+  const roles = cast.parseCharacterDiscussion('{"reply":"好的","characters":[{"name":"阿明","previousName":"小男孩","description":"好奇的小男孩","kind":"boy","definedAppearance":false},{"name":"小红","previousName":"小女孩","description":"勇敢的小女孩","kind":"girl","definedAppearance":false}]}').characters;
   const merged = cast.mergeDiscussedCharacters(selected, roles);
   assert.equal(merged.length, 2);
   assert.deepEqual(merged.map(item => [item.name, item.id]), [["阿明", "preset:boy"], ["小红", "preset:girl"]]);
@@ -42,13 +60,20 @@ test("用户在下一轮明确修改角色外貌时，自动匹配的默认形�
 test("模型重复输出通用名和新名字时，仍只保留对应的两个角色形象", () => {
   const selected = cast.officialCharacters.map(item => ({ ...item, imageUrl: "selected" }));
   const output = { reply: "已命名", characters: [
-    { name: "阿明", description: selected[0]!.description, kind: "boy", definedAppearance: true },
-    { name: "小红", description: selected[1]!.description, kind: "girl", definedAppearance: true },
+    { name: "阿明", previousName: "小男孩", description: selected[0]!.description, kind: "boy", definedAppearance: true },
+    { name: "小红", previousName: "小女孩", description: selected[1]!.description, kind: "girl", definedAppearance: true },
     { name: "小男孩", description: selected[0]!.description, kind: "boy", definedAppearance: true },
     { name: "小女孩", description: selected[1]!.description, kind: "girl", definedAppearance: true }
   ] };
   const merged = cast.mergeDiscussedCharacters(selected, cast.parseCharacterDiscussion(JSON.stringify(output)).characters);
   assert.deepEqual(merged.map(item => [item.name, item.id]), [["阿明", "preset:boy"], ["小红", "preset:girl"]]);
+});
+
+test("新增同类角色不根据性别或参考形象名字改名已有角色", () => {
+  const original = { ...cast.officialCharacters[0]!, imageUrl: "selected" };
+  const output = { reply: "新增Tom", characters: [{ name: "Tom", description: "外貌待确定", kind: "boy", definedAppearance: false }] };
+  const merged = cast.mergeDiscussedCharacters([original], cast.parseCharacterDiscussion(JSON.stringify(output)).characters);
+  assert.deepEqual(merged.map(item => [item.name, item.id]), [["小男孩", "preset:boy"], ["Tom", undefined]]);
 });
 
 test("沟通为已选角色改名时保留形象，明确同时改外貌则解除旧形象", () => {

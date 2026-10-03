@@ -140,7 +140,7 @@ export class PictureBookService {
       "你是儿童绘本创作搭档。围绕用户需求讨论主题、适合人群、主要情节与角色。",
       "如果关键信息不够，优先提出一个具体问题；如果已足够，给出简短创作方向并建议进入分镜。不要直接输出完整绘本。使用简体中文。",
       "同时从用户的原始需求与最新沟通中提取已确认的全部出场角色，包含名字和外貌/性格描述；不要把助手尚未获得用户确认的建议当成出场角色。角色最多9个。",
-      "已选的“小男孩”“小女孩”是形象占位名称。当用户给它们起名时，characters 仅输出新名字，并加 previousName 为原占位名，不重复输出原名称；已有其他角色改名也用 previousName 对应。用户说沿用已选形象时，保留其外貌描述且 definedAppearance=false，系统提供的既有外貌不视作用户新增外貌要求。",
+      "角色名称来自用户沟通，小明、张华、Tom 等名称按原样保留，分别列出，不因性别相同或共用形象合并。参考图片的名称不是故事角色名，不把图片名称新增成角色或用来替换角色名。只有用户明确要求改名时才用 previousName 对应原名。外貌未确定时 description 写外貌待确定，不自动指定参考形象；沿用已选形象时 definedAppearance=false，系统提供的既有外貌不视作用户新增外貌要求。",
       "严格只输出 JSON：{\"reply\":\"给用户的简短回复\",\"characters\":[{\"name\":\"角色名字\",\"description\":\"外貌与性格描述\",\"kind\":\"boy或girl或other\",\"definedAppearance\":false,\"replaceAppearance\":false}]}。definedAppearance 仅当用户明确指定了发型/毛色/服饰等外貌细节时为true，否则为false。replaceAppearance 仅当用户在最新沟通中明确要求修改已有角色外貌时为true；这时完整描述修改后的外貌。未要求修改的角色保持false。已有角色沿用其名字，不擅自改名。",
       `原始需求：${book.brief}`,
       `适合人群：${book.audience || "待讨论"}`,
@@ -323,6 +323,7 @@ export class PictureBookService {
       const legacy = item.legacyImageUrl && item.legacyStyle ? { legacyImageUrl: item.legacyImageUrl, legacyStyle: item.legacyStyle } : {};
       const legacyImage = owned && item.legacyStyle && characterStyleKey(item.legacyStyle) === characterStyleKey(style) ? item.legacyImageUrl : null;
       return { ...(item.id ? { id: item.id } : {}), name: item.name, description: preset?.description ?? owned?.description ?? item.description,
+        ...(preset || owned ? { referenceName: preset?.name ?? owned!.name } : {}),
         ...legacy, imageUrl: legacyImage ?? preset?.imageUrl ?? (owned ? characterImageForStyle(owned, style) : null) };
     });
   }

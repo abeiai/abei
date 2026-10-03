@@ -14,6 +14,7 @@ export interface PictureBookCharacter {
   name: string;
   description: string;
   imageUrl?: string | null;
+  referenceName?: string;
   legacyImageUrl?: string;
   legacyStyle?: string;
 }

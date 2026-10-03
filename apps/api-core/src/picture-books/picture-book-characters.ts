@@ -50,8 +50,7 @@ export function parseCharacterDiscussion(output: string): { reply: string; chara
 
 export function mergeDiscussedCharacters(current: PictureBookCharacter[], extracted: ExtractedCharacter[]): PictureBookCharacter[] {
   const next = current.map(item => ({ ...item }));
-  const effective = extracted.filter(role => !extracted.some(other => other.name !== role.name && other.previousName === role.name)
-    && !officialCharacters.some(preset => role.name === preset.name && extracted.some(other => other.name !== preset.name && other.kind === preset.id.slice(7) && (!other.definedAppearance || other.description === preset.description))));
+  const effective = extracted.filter(role => !extracted.some(other => other.name !== role.name && other.previousName === role.name));
   for (const role of effective) {
     const previous = role.previousName ? next.findIndex(item => item.name === role.previousName) : -1;
     const existing = previous >= 0 ? previous : next.findIndex(item => item.name === role.name);
@@ -61,12 +60,8 @@ export function mergeDiscussedCharacters(current: PictureBookCharacter[], extrac
       else next[existing] = { ...next[existing]!, name: role.name };
       continue;
     }
-    const candidate = officialCharacters.find(item => item.id === `preset:${role.kind}`);
-    const preset = candidate && (!role.definedAppearance || role.description === candidate.description) ? candidate : undefined;
-    const generic = preset ? next.findIndex(item => item.id === preset.id && item.name === preset.name) : -1;
-    if (generic >= 0) { next[generic] = { ...next[generic]!, name: role.name }; continue; }
     if (next.length >= 9) continue;
-    next.push({ ...(preset ? { id: preset.id } : {}), name: role.name, description: preset?.description ?? role.description, imageUrl: null });
+    next.push({ name: role.name, description: role.description, imageUrl: null });
   }
   return next;
 }

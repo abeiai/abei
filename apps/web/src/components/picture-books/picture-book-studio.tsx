@@ -154,7 +154,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     if (!signedIn || book) return;
     let active = true;
     api<Character[]>(`/characters?style=${encodeURIComponent(style)}`).then(library => {
-      if (active) setDraftCharacters(current => current.map(item => ({ ...item, imageUrl: library.find(role => role.id === item.id)?.imageUrl ?? null })));
+      if (active) setDraftCharacters(current => current.map(item => ({ ...item, referenceName: library.find(role => role.id === item.id)?.name ?? item.referenceName, imageUrl: library.find(role => role.id === item.id)?.imageUrl ?? null })));
     }).catch(cause => { if (active) setError(cause instanceof Error ? cause.message : "角色加载失败"); });
     return () => { active = false; };
   }, [style, book, signedIn]);
