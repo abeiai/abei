@@ -71,9 +71,30 @@ test("模型重复输出通用名和新名字时，仍只保留对应的两个�
 
 test("新增同类角色不根据性别或参考形象名字改名已有角色", () => {
   const original = { ...cast.officialCharacters[0]!, imageUrl: "selected" };
-  const output = { reply: "新增Tom", characters: [{ name: "Tom", description: "外貌待确定", kind: "boy", definedAppearance: false }] };
+  const output = { reply: "新增Tom", characters: [{ name: original.name, description: original.description, kind: "boy", definedAppearance: false }, { name: "Tom", description: "外貌待确定", kind: "boy", definedAppearance: false }] };
   const merged = cast.mergeDiscussedCharacters([original], cast.parseCharacterDiscussion(JSON.stringify(output)).characters);
   assert.deepEqual(merged.map(item => [item.name, item.id]), [["小男孩", "preset:boy"], ["Tom", undefined]]);
+});
+
+test("最新讨论返回完整角色列表，更正后不再保留被排除的旧名字", () => {
+  const current = ["阿奇", "小明", "大明"].map(name => ({ name, description: "外貌待确定", imageUrl: null }));
+  const output = { reply: "是大明", characters: ["阿奇", "大明"].map(name => ({ name, description: "外貌待确定", kind: "other", definedAppearance: false })) };
+  assert.deepEqual(cast.mergeDiscussedCharacters(current, cast.parseCharacterDiscussion(JSON.stringify(output)).characters).map(item => item.name), ["阿奇", "大明"]);
+});
+
+test("删除或换掉角色时同步移除旧角色，替换角色不继承旧形象", () => {
+  const current = [{ name: "阿奇", description: "小狗", imageUrl: null }, { id: "preset:boy", name: "大明", description: "蓝衣", imageUrl: "blue" }];
+  const output = { reply: "改为小红陪伴", characters: [{ name: "阿奇", description: "小狗", kind: "other", definedAppearance: false }, { name: "小红", description: "外貌待确定", kind: "girl", definedAppearance: false }] };
+  const next = cast.mergeDiscussedCharacters(current, cast.parseCharacterDiscussion(JSON.stringify(output)).characters);
+  assert.deepEqual(next.map(item => [item.name, item.id]), [["阿奇", undefined], ["小红", undefined]]);
+  assert.deepEqual(cast.mergeDiscussedCharacters(current, []), []);
+});
+
+test("改名后已有无形象的重复记录合并，保留原角色参考图和快照", () => {
+  const selected = { id: "own", name: "小明", description: "蓝衣", imageUrl: "blue", referenceName: "男孩形象", legacyImageUrl: "blue", legacyStyle: "watercolor" };
+  const current = [selected, { name: "大明", description: "外貌待确定", imageUrl: null }];
+  const output = { reply: "更正为大明", characters: [{ name: "大明", previousName: "小明", description: "外貌待确定", kind: "boy", definedAppearance: false }] };
+  assert.deepEqual(cast.mergeDiscussedCharacters(current, cast.parseCharacterDiscussion(JSON.stringify(output)).characters), [{ ...selected, name: "大明" }]);
 });
 
 test("沟通为已选角色改名时保留形象，明确同时改外貌则解除旧形象", () => {

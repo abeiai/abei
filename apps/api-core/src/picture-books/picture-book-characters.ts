@@ -49,19 +49,15 @@ export function parseCharacterDiscussion(output: string): { reply: string; chara
 }
 
 export function mergeDiscussedCharacters(current: PictureBookCharacter[], extracted: ExtractedCharacter[]): PictureBookCharacter[] {
-  const next = current.map(item => ({ ...item }));
   const effective = extracted.filter(role => !extracted.some(other => other.name !== role.name && other.previousName === role.name));
-  for (const role of effective) {
-    const previous = role.previousName ? next.findIndex(item => item.name === role.previousName) : -1;
-    const existing = previous >= 0 ? previous : next.findIndex(item => item.name === role.name);
-    if (existing >= 0) {
-      if (next.some((item, index) => index !== existing && item.name === role.name)) throw new Error("角色名称已被占用，请为角色使用不同名字");
-      if (role.replaceAppearance) next[existing] = { name: role.name, description: role.description, imageUrl: null };
-      else next[existing] = { ...next[existing]!, name: role.name };
-      continue;
-    }
-    if (next.length >= 9) continue;
-    next.push({ name: role.name, description: role.description, imageUrl: null });
-  }
-  return next;
+  // characters 是最新完整名单；只沿用仍出场角色的参考形象，不累计历史名字。
+  return effective.map(role => {
+    const previous = role.previousName ? current.find(item => item.name === role.previousName) : undefined;
+    const named = current.find(item => item.name === role.name);
+    if (previous && named && previous !== named && (previous.id || previous.imageUrl) && (named.id || named.imageUrl)
+      && (previous.id !== named.id || previous.imageUrl !== named.imageUrl)) throw new Error("角色名称已被占用，请为角色使用不同名字");
+    const existing = previous && (previous.id || previous.imageUrl || !named) ? previous : named;
+    if (existing && !role.replaceAppearance) return { ...existing, name: role.name };
+    return { name: role.name, description: role.description, imageUrl: null };
+  });
 }
