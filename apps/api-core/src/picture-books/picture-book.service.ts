@@ -14,7 +14,7 @@ import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./pictu
 import { SystemConfigService } from "../system-config/system-config.service.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { characterImageForStyle, characterStyleKey, mergeDiscussedCharacters, officialCharacter, officialCharacters, parseCharacterDiscussion } from "./picture-book-characters.js";
-import { buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
+import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 const presets = [
@@ -217,12 +217,13 @@ export class PictureBookService {
     this.mediaService.assertPictureBookR2Ready();
     const styleImage = await this.styleReference(subject.userId, book.style);
     const characterDescription = charactersOf(book.characters).map((item) => `${item.name}：${item.description}`).join("；");
+    const isCover = position === 0;
     const prompt = [
       "创作儿童绘本插画。第1张图片仅作为绘画风格参考，沿用其笔触、材质、配色和表现方式，不复制参考图中的人物、动物或场景。第2张及后续图片作为角色外观参考。保持整本绘本角色外观一致。",
       `目标画面比例：${book.aspectRatio}。`,
+      isCover ? buildCoverImagePrompt(book.title, book.theme || book.brief) : "画面中不要出现文字、字幕、水印或边框。",
       characterDescription ? `角色：${characterDescription}` : "",
-      page.imagePrompt,
-      "画面中不要出现文字、字幕、水印或边框。"
+      isCover ? page.imagePrompt.replace("留出标题空间，画面中不要生成文字。", "标题与插画协调融合。") : page.imagePrompt
     ].filter(Boolean).join("\n").slice(0, 2000);
     const size = pictureBookImageSize(book.aspectRatio);
     const referenceImages = [{ name: `风格参考图.${styleImage.mimetype === "image/webp" ? "webp" : styleImage.mimetype === "image/png" ? "png" : "jpg"}`, type: "image" as const, mimeType: styleImage.mimetype, size: styleImage.buffer.length, dataUrl: `data:${styleImage.mimetype};base64,${styleImage.buffer.toString("base64")}` }, ...await this.localCharacterReferences(subject.userId, charactersOf(book.characters), book.style)];
@@ -234,6 +235,7 @@ export class PictureBookService {
     return this.mutate(subject.userId, id, (current) => {
       const pages = pagesOf(current.pages);
       const index = pageIndex(pages, position);
+      if (isCover && current.title !== book.title) throw new AppException(40901, "绘本标题已修改，请重新生成封面", HttpStatus.CONFLICT);
       if (current.style !== book.style) throw new AppException(40901, "画风已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (JSON.stringify(current.characters) !== JSON.stringify(book.characters)) throw new AppException(40901, "角色形象已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (pages[index]!.imagePrompt !== page.imagePrompt) throw new AppException(40901, "画面提示词已修改，请重新生成", HttpStatus.CONFLICT);

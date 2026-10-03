@@ -24,6 +24,9 @@ test("normalizeOutline accepts a fenced plan and defaults narration to page text
   assert.equal(plan.pages.length, 3);
   assert.equal(plan.pages[0]?.position, 0);
   assert.equal(plan.pages[0]?.caption, "月亮邮局");
+  assert.match(plan.pages[0]!.imagePrompt, /标题「月亮邮局」/);
+  assert.match(plan.pages[0]!.imagePrompt, /标题排版/);
+  assert.match(plan.pages[0]!.imagePrompt, /封面构图/);
   assert.equal(plan.pages[1]?.narration, "小兔发现一封信。");
   assert.equal(plan.pages[2]?.narration, "月亮收到了信。");
   assert.equal(plan.pages[1]?.position, 1);
@@ -120,6 +123,9 @@ test("blank storyboard creates editable pages with matching narration", () => {
   assert.equal(pages[1]?.position, 1);
   assert.equal(pages[4]?.position, 4);
   assert.equal(pages[0]?.narration, pages[0]?.caption);
+  assert.match(pages[0]!.imagePrompt, /标题「小熊的雨伞」/);
+  assert.match(pages[0]!.imagePrompt, /整体设计.*\n/);
+  assert.doesNotMatch(pages[0]!.imagePrompt, /不要生成文字/);
 });
 
 test("picture book narration selects the user's default or an available voice", () => {

@@ -158,11 +158,22 @@ export function createBlankPages(pageCount: number, title = "未命名绘本"): 
   return [createCoverPage(title, title), ...pages];
 }
 
+export function buildCoverImagePrompt(title: string, theme: string): string {
+  return [
+    `设计一本具有出版品质和鲜明设计感的儿童绘本正面封面，主题：${theme}。`,
+    `【标题文字】封面必须清晰呈现当前绘本标题「${title}」，逐字准确，不遗漏、不增字、不出现错字或乱码；补充描述中的旧标题以此处标题为准。`,
+    "【标题排版】使用清楚易读且富有童趣的设计字形，结合故事气质安排大小层次、字距和合理分行；标题置于上部或构图留白区，与主角形成明确的视觉主次，文字与背景有足够对比，不遮挡角色面部。",
+    "【封面构图】以故事主角和最具辨识度的场景或道具为视觉中心，用有吸引力的动作、表情和前中后景营造故事感；巧妙安排呼应主题的装饰元素，引导视线从标题到主角，构图完整、疏密有致。",
+    "【整体设计】标题与插画协调融合，配色统一、有明暗与色彩层次，保持适度留白；根据目标画面比例布局，标题和主体距离画面边缘至少5%，缩略图中也能辨识标题和主角。",
+    "只生成完整的平面封面设计稿，不展示书脊、背面或立体书本样机；除绘本标题外不添加配文、作者署名、无关文字、标志或水印。画风沿用第1张风格参考图，角色外貌沿用对应参考图。"
+  ].join("\n");
+}
+
 function createCoverPage(title: string, theme: string): PictureBookPage {
   return {
     position: 0,
     caption: title,
-    imagePrompt: `绘本封面插画，主题：${theme}。突出故事主角与主要场景，留出标题空间，画面中不要生成文字。`,
+    imagePrompt: buildCoverImagePrompt(title, theme),
     narration: title,
     imageUrl: null,
     imageTaskId: null,

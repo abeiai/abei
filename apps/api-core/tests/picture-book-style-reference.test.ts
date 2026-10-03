@@ -43,6 +43,32 @@ test("官方画风必须传入第一张参考图，画风描述不再写进生�
   assert.doesNotMatch(String(requests[0].prompt), /不得作为图片生成提示词的风格描述|水彩/);
 });
 
+test("生成旧封面时也使用当前标题和封面设计要求，正文仍不生成文字", async () => {
+  const { service, book, requests } = setup();
+  Object.assign(book, { title: "阿奇和面条", theme: "耐心与协作", brief: "小狗学做面条" });
+  book.pages = [{ position: 0, imagePrompt: "绘本封面插画，主题：耐心。突出故事主角与主要场景，留出标题空间，画面中不要生成文字。", imageUrl: null }];
+  await service.generateImage(subject, "book", 0, {});
+  const cover = String(requests[0].prompt);
+  assert.match(cover, /标题「阿奇和面条」/);
+  assert.match(cover, /标题排版.*\n.*封面构图.*\n.*整体设计/);
+  assert.doesNotMatch(cover, /不要生成文字|不要出现文字/);
+  book.pages = [{ position: 1, imagePrompt: "小狗揉面", imageUrl: null }];
+  await service.generateImage(subject, "book", 1, {});
+  assert.match(String(requests[1].prompt), /不要出现文字/);
+  assert.doesNotMatch(String(requests[1].prompt), /标题排版/);
+});
+
+test("长角色描述不能截掉封面标题，标题生成期间更改时不覆盖封面", async () => {
+  const { service, book, requests } = setup();
+  Object.assign(book, { title: "月亮邮局", theme: "分享", characters: [{ name: "阿兔", description: "白兔".repeat(1000) }] });
+  book.pages = [{ position: 0, imagePrompt: "月亮下的森林", imageUrl: null }];
+  Object.assign(service, { mutate: async (_user: string, _id: string, change: (current: unknown) => unknown) => change({ ...book, title: "星星邮局" }) });
+  await assert.rejects(service.generateImage(subject, "book", 0, {}), /标题.*修改/);
+  assert.match(String(requests[0].prompt), /标题「月亮邮局」/);
+  assert.equal(String(requests[0].prompt).length, 2000);
+  assert.equal(book.pages[0]!.imageUrl, null);
+});
+
 test("自定义参考图不存在或属于其他用户时先拒绝，不能调用生成模型", async () => {
   const { service, requests, assetQueries } = setup(`custom:${assetId}`);
   await assert.rejects(service.generateImage(subject, "book", 1, {}), /参考图/);
