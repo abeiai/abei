@@ -94,5 +94,85 @@
   "girl/woodcut": {
     "assetId": "cmurstyu108pc01o1hcgsinsn",
     "url": "https://r.abeiai.com/picture-books/20261003-d158a7e7247f468e.webp"
+  },
+  "boy/classic-oil": {
+    "assetId": "cmutaqnu06vgj01p9hzih37iv",
+    "url": "https://r.abeiai.com/picture-books/20261004-12a0cacfe817b9ea.webp"
+  },
+  "girl/classic-oil": {
+    "assetId": "cmutaqo7i6vgl01p9pqonft7y",
+    "url": "https://r.abeiai.com/picture-books/20261004-af1918d92dda49fe.webp"
+  },
+  "boy/pixel-art": {
+    "assetId": "cmutaqoln6vgn01p9zoyjihtz",
+    "url": "https://r.abeiai.com/picture-books/20261004-1bc88501902d1f77.webp"
+  },
+  "girl/pixel-art": {
+    "assetId": "cmutaqotk6vgp01p9lex6jamk",
+    "url": "https://r.abeiai.com/picture-books/20261004-a7c895e9e6f07254.webp"
+  },
+  "boy/monochrome-ink": {
+    "assetId": "cmutaqp0j6vgr01p9e5sxmcbs",
+    "url": "https://r.abeiai.com/picture-books/20261004-cc7500ef15a70731.webp"
+  },
+  "girl/monochrome-ink": {
+    "assetId": "cmutaqp6y6vgt01p9a167ki3f",
+    "url": "https://r.abeiai.com/picture-books/20261004-1e5184dcf86bd46f.webp"
+  },
+  "boy/color-ink": {
+    "assetId": "cmutaqpcr6vgv01p9a0bncvpk",
+    "url": "https://r.abeiai.com/picture-books/20261004-94d4dc746f96ea92.webp"
+  },
+  "girl/color-ink": {
+    "assetId": "cmutaqpl46vgx01p93uo62265",
+    "url": "https://r.abeiai.com/picture-books/20261004-96b980fcd3103335.webp"
+  },
+  "boy/puppet-stop-motion": {
+    "assetId": "cmutaqpr36vgz01p95d8hdaex",
+    "url": "https://r.abeiai.com/picture-books/20261004-2ce6b353d8ddff45.webp"
+  },
+  "girl/puppet-stop-motion": {
+    "assetId": "cmutaqq0m6vh101p9nj6cyjec",
+    "url": "https://r.abeiai.com/picture-books/20261004-f8a19f9c04196d96.webp"
+  },
+  "boy/shadow-puppet": {
+    "assetId": "cmutaqq696vh301p9i8ozaq30",
+    "url": "https://r.abeiai.com/picture-books/20261004-6799701fac15b850.webp"
+  },
+  "girl/shadow-puppet": {
+    "assetId": "cmutaqqel6vh501p9ry5qc9r0",
+    "url": "https://r.abeiai.com/picture-books/20261004-3f1e44ed744c2de2.webp"
+  },
+  "boy/blue-printed-cloth": {
+    "assetId": "cmutaqqlj6vh701p9q4m1grtz",
+    "url": "https://r.abeiai.com/picture-books/20261004-8680d4108c0bf3b7.webp"
+  },
+  "girl/blue-printed-cloth": {
+    "assetId": "cmutaqqrg6vh901p9rm9y4l7a",
+    "url": "https://r.abeiai.com/picture-books/20261004-a17f5e3fde48bb82.webp"
+  },
+  "boy/tile-pottery": {
+    "assetId": "cmutaqqyd6vhb01p9jcc6nhmf",
+    "url": "https://r.abeiai.com/picture-books/20261004-5d1e716505060353.webp"
+  },
+  "girl/tile-pottery": {
+    "assetId": "cmutaqr6h6vhd01p91kl2l6f3",
+    "url": "https://r.abeiai.com/picture-books/20261004-5c9bd44ad7f2cb30.webp"
+  },
+  "boy/woodblock-new-year": {
+    "assetId": "cmutaqrcm6vhf01p97jmflymj",
+    "url": "https://r.abeiai.com/picture-books/20261004-24616c32d59c7bf9.webp"
+  },
+  "girl/woodblock-new-year": {
+    "assetId": "cmutaqrj46vhh01p9khgg15n3",
+    "url": "https://r.abeiai.com/picture-books/20261004-9032edfc4829a15f.webp"
+  },
+  "boy/dunhuang-mural": {
+    "assetId": "cmutaqrqu6vhj01p9ya4stmr9",
+    "url": "https://r.abeiai.com/picture-books/20261004-b5fbb78291a27bdf.webp"
+  },
+  "girl/dunhuang-mural": {
+    "assetId": "cmutaqrx76vhl01p9b7r850ll",
+    "url": "https://r.abeiai.com/picture-books/20261004-254dc69216d8b24c.webp"
   }
 }

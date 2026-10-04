@@ -6,9 +6,10 @@ import { SystemConfigService } from "../src/system-config/system-config.service.
 import { MediaService } from "../src/media/media.service.js";
 
 const stylesModule = await import("../src/picture-books/picture-book-styles.js").catch(() => null);
-const names = ["平面插画", "三维动画", "水彩", "水粉", "彩铅", "蜡笔", "拼贴", "剪纸", "钢笔淡彩", "纯线素描", "木刻版画", "黏土定格"];
+const names = ["平面插画", "三维动画", "水彩", "水粉", "彩铅", "蜡笔", "拼贴", "剪纸", "钢笔淡彩", "纯线素描", "木刻版画", "黏土定格",
+  "经典油画", "像素艺术", "黑白水墨", "彩色水墨", "木偶定格", "皮影剪影", "蓝印花布", "瓦当陶纹", "木板年画", "敦煌壁画"];
 
-test("绘画风格包含十二种默认参考图，旧名称与改名后的稳定标识仍选中同一风格", () => {
+test("绘画风格包含二十二种默认参考图，旧名称与改名后的稳定标识仍选中同一风格", () => {
   assert.ok(stylesModule, "缺少可管理的绘画风格目录");
   const styles = stylesModule.parsePictureBookStyles(null);
   assert.deepEqual(stylesModule.parsePictureBookStyles(JSON.stringify(styles)), styles);

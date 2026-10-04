@@ -1,8 +1,22 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { access } from "node:fs/promises";
+import { defaultPictureBookStyles } from "../src/picture-books/picture-book-styles.js";
 import * as cast from "../src/picture-books/picture-book-characters.js";
 import { officialCharacterImageUrls } from "../src/picture-books/picture-book-character-assets.js";
 import { PictureBookService } from "../src/picture-books/picture-book.service.js";
+
+test("每种官方风格都有男孩女孩的 R2 图片和本地生成参考图", async () => {
+  for (const style of defaultPictureBookStyles) {
+    await access(new URL(`../../web/public/picture-book-styles/${style.id}.webp`, import.meta.url));
+    for (const kind of ["boy", "girl"]) {
+      const url = officialCharacterImageUrls[`${kind}/${style.id}`];
+      assert.ok(url?.startsWith("https://r.abeiai.com/picture-books/"), `${kind}/${style.id} 缺少 R2 图片`);
+      assert.equal(cast.officialCharacter(`preset:${kind}`, style.name)?.imageUrl, url);
+      await access(new URL(`../../web/public/picture-book-characters/${kind}/${style.id}.webp`, import.meta.url));
+    }
+  }
+});
 
 test("讨论提取角色，保留用户已经选择的形象和名称", () => {
   const result = cast.parseCharacterDiscussion('{"reply":"一起寻找星星吧。","characters":[{"name":"乐乐","description":"勇敢的小女孩","kind":"girl","definedAppearance":false}]}');
