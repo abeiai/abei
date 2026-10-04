@@ -25,7 +25,7 @@ const presets = [
   ["blue-printed-cloth","蓝印花布","靛蓝与本白的蓝印花布，防染印花般的线条和点纹，织物肌理与民间纹样装饰。"],
   ["tile-pottery","瓦当陶纹","瓦当与陶器纹样的浅浮雕造型，陶土赭色、云纹与几何线刻，朴拙温润的陶面肌理。"],
   ["woodblock-new-year","木板年画","民间木版年画的饱满套印色，清楚墨线与木版印痕，喜庆热闹、装饰性强的平面构图。"],
-  ["dunhuang-mural","敦煌壁画","敦煌壁画的矿物色与流畅线描，赭石、石青、石绿的古朴配色，斑驳墙面与装饰纹样。"]
+  ["dunhuang-mural","敦煌壁画","明亮橙金、朱砂与石青青绿矿物色，纤细金白线描、飘带祥云卷纹与细腻壁画肌理。"]
 ] as const;
 
 export const defaultPictureBookStyles: PictureBookStyle[] = presets.map(([id, name, description]) => ({

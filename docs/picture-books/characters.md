@@ -47,6 +47,14 @@
 
 验证：`pnpm --filter @xueleai/web typecheck` 通过；R2和风格图片API返回内容与本地SHA-256一致；浏览器确认新版风格卡片加载。截图 `/tmp/abei-classic-oil-painterly-picker.png`。本次仅替换风格图及资产记录，未运行 build、全量 lint 或测试，无 migration/seed。
 
+## 2026-10-04 敦煌壁画参考更新
+
+依据用户提供的白鹿壁画样图，使用内置 imagegen 重绘敦煌壁画风格图及小男孩、小女孩两张官方角色图。采用明亮橙金、朱砂、石青和青绿矿物色，纤细金白线描、飘带祥云卷纹与细腻壁画肌理。风格图保留原女孩、小狗身份和森林布局，角色图保留正面全身居中、原发型与服饰。
+
+用户参考图保存于 `references/dunhuang-mural-style.webp`；实际输入的旧风格布局及角色身份图分别保存于 `references/dunhuang-mural-layout.webp`、`references/dunhuang-boy-identity.webp`、`references/dunhuang-girl-identity.webp`。生成提示词与参考路径记录于 `style-image-prompts.json`、`character-image-prompts.json`。三张640×640 WebP归档到 abeiai R2，更新风格和角色资产清单、官方角色地址及默认风格描述。本地系统配置仅更新 `dunhuang-mural` 的图片与描述，备份于 `/tmp/abei-dunhuang-reference-config-backup.json`。
+
+验证：`pnpm --filter @xueleai/web typecheck` 通过；绘本风格、角色、风格参考测试44项通过；三张R2及API容器内参考图与本地SHA-256一致；风格图片API返回新图；`docker compose -p abei build api-core` 通过，API容器健康。浏览器确认新版风格卡片与角色弹窗，截图 `/tmp/abei-dunhuang-reference-picker.png`、`/tmp/abei-dunhuang-reference-characters.png`。未运行全量 lint、全量测试及Web构建，无 migration/seed。
+
 ## 验证
 
 角色针对性测试覆盖风格变体选择、旧绘本图片快照、沟通提取及预选形象匹配、所有权、R2上传、同风格和身份图变更的并发保护。数据库 migration 先以真实数据库事务执行后回滚验证，再执行部署迁移。浏览器使用独立测试绘本验收选择、风格切换、上传、讨论提取、角色和页图生成。

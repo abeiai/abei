@@ -42,6 +42,6 @@ export const officialCharacterImageUrls: Record<string, string> = {
   "girl/tile-pottery": "https://r.abeiai.com/picture-books/20261004-5c9bd44ad7f2cb30.webp",
   "boy/woodblock-new-year": "https://r.abeiai.com/picture-books/20261004-24616c32d59c7bf9.webp",
   "girl/woodblock-new-year": "https://r.abeiai.com/picture-books/20261004-9032edfc4829a15f.webp",
-  "boy/dunhuang-mural": "https://r.abeiai.com/picture-books/20261004-b5fbb78291a27bdf.webp",
-  "girl/dunhuang-mural": "https://r.abeiai.com/picture-books/20261004-254dc69216d8b24c.webp"
+  "boy/dunhuang-mural": "https://r.abeiai.com/picture-books/20261004-d0e03a0072d58e55.webp",
+  "girl/dunhuang-mural": "https://r.abeiai.com/picture-books/20261004-663e787a1a4e8372.webp"
 };
