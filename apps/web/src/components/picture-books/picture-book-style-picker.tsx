@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, ImagePlus, LoaderCircle, Palette, X } from "lucide-react";
+import { Check, ChevronDown, Eye, ImagePlus, LoaderCircle, Palette, X } from "lucide-react";
 import { loadPictureBookStyles, pictureBookStyleImageSource, selectedPictureBookStyle, type PictureBookStyle } from "@/lib/picture-book-styles";
 
 export function PictureBookStylePicker({ value, styles, disabled, onChange, onStylesChange }: {
   value: string; styles: PictureBookStyle[]; disabled?: boolean; onChange(value: string): void; onStylesChange(styles: PictureBookStyle[]): void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const previewDialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
+  const [preview, setPreview] = useState<PictureBookStyle | null>(null);
+  const [previewError, setPreviewError] = useState(false);
   const [options, setOptions] = useState(styles);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,7 +25,16 @@ export function PictureBookStylePicker({ value, styles, disabled, onChange, onSt
   useEffect(() => {
     if (open && !dialog.current?.open) dialog.current?.showModal();
     if (!open && dialog.current?.open) dialog.current.close();
+    if (!open) setPreview(null);
   }, [open]);
+  useEffect(() => {
+    if (preview && !previewDialog.current?.open) previewDialog.current?.showModal();
+    if (!preview && previewDialog.current?.open) previewDialog.current.close();
+  }, [preview]);
+
+  function showPreview(style: PictureBookStyle) {
+    setPreviewError(false); setPreview(style);
+  }
 
   async function show() {
     setOpen(true); setCustomizing(false); setError(""); setLoading(true);
@@ -62,12 +74,24 @@ export function PictureBookStylePicker({ value, styles, disabled, onChange, onSt
           {custom ? <button type="button" disabled={uploading} onClick={() => { onChange(customValue); setOpen(false); }} className="w-full rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50">使用此风格</button> : null}
           <button type="button" disabled={uploading} onClick={() => { setCustomizing(false); setError(""); }} className="w-full rounded-xl border border-border px-4 py-2 text-sm disabled:opacity-50">返回风格列表</button>
         </div> : <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          <button type="button" aria-label="自定义风格" aria-pressed={selected?.id.startsWith("custom:") ?? false} onClick={() => { setCustomizing(true); setError(""); }} className={`overflow-hidden rounded-xl border text-left transition hover:border-primary ${selected?.id.startsWith("custom:") ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
-            {custom ? <img src={pictureBookStyleImageSource(custom)} alt="" className="aspect-square w-full object-cover" /> : <span className="flex aspect-square w-full items-center justify-center bg-secondary"><ImagePlus className="size-10 text-muted-foreground" /></span>}<span className="flex items-center justify-between gap-2 px-3 py-3 text-sm font-medium">自定义风格{selected?.id.startsWith("custom:") ? <Check className="size-4" /> : null}</span>
-          </button>
-          {options.filter(style => style.enabled).map(style => <button key={style.id} type="button" aria-label={style.name} aria-pressed={selected?.id === style.id} title={style.description} onClick={() => { onChange(style.id); setOpen(false); }} className={`overflow-hidden rounded-xl border text-left transition hover:border-primary ${selected?.id === style.id ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
-          <img src={pictureBookStyleImageSource(style)} alt="" loading="lazy" className="aspect-square w-full object-cover" /><span className="flex items-center justify-between gap-2 px-3 py-3 text-sm font-medium">{style.name}{selected?.id === style.id ? <Check className="size-4" /> : null}</span>
-        </button>)}</div>}
+          <div className="relative">
+            <button type="button" aria-label="自定义风格" aria-pressed={selected?.id.startsWith("custom:") ?? false} onClick={() => { setCustomizing(true); setError(""); }} className={`w-full overflow-hidden rounded-xl border text-left transition hover:border-primary ${selected?.id.startsWith("custom:") ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
+              {custom ? <img src={pictureBookStyleImageSource(custom)} alt="" className="aspect-square w-full object-cover" /> : <span className="flex aspect-square w-full items-center justify-center bg-secondary"><ImagePlus className="size-10 text-muted-foreground" /></span>}<span className={`flex items-center justify-between gap-2 px-3 py-3 text-sm font-medium ${custom ? "pr-12" : ""}`}>自定义风格{selected?.id.startsWith("custom:") ? <Check className="size-4 shrink-0" /> : null}</span>
+            </button>
+            {custom ? <button type="button" aria-label="预览自定义风格图片" aria-haspopup="dialog" title="预览大图" onClick={() => showPreview(custom)} className="absolute bottom-1.5 right-1.5 rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><Eye className="size-4" /></button> : null}
+          </div>
+          {options.filter(style => style.enabled).map(style => <div key={style.id} className="relative">
+            <button type="button" aria-label={style.name} aria-pressed={selected?.id === style.id} title={style.description} onClick={() => { onChange(style.id); setOpen(false); }} className={`w-full overflow-hidden rounded-xl border text-left transition hover:border-primary ${selected?.id === style.id ? "border-primary ring-2 ring-primary/15" : "border-border"}`}>
+              <img src={pictureBookStyleImageSource(style)} alt="" loading="lazy" className="aspect-square w-full object-cover" /><span className="flex items-center justify-between gap-2 px-3 py-3 pr-12 text-sm font-medium">{style.name}{selected?.id === style.id ? <Check className="size-4 shrink-0" /> : null}</span>
+            </button>
+            <button type="button" aria-label={`预览${style.name}风格图片`} aria-haspopup="dialog" title="预览大图" onClick={() => showPreview(style)} className="absolute bottom-1.5 right-1.5 rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><Eye className="size-4" /></button>
+          </div>)}</div>}
+      </div>
+    </dialog>
+    <dialog ref={previewDialog} aria-labelledby="picture-book-style-preview-title" onCancel={() => setPreview(null)} onClose={() => setPreview(null)} onClick={event => { if (event.target === event.currentTarget) setPreview(null); }} className="m-auto max-h-[90dvh] w-[calc(100%-32px)] max-w-4xl overflow-y-auto rounded-2xl border border-border bg-background p-0 text-foreground shadow-xl backdrop:bg-black/60">
+      <div className="p-4 sm:p-5">
+        <div className="mb-3 flex items-center justify-between gap-3"><h2 id="picture-book-style-preview-title" className="text-lg font-semibold">{preview?.name} · 风格预览</h2><button type="button" aria-label="关闭风格图片预览" onClick={() => setPreview(null)} className="shrink-0 rounded-lg p-2 hover:bg-secondary"><X className="size-5" /></button></div>
+        {preview ? previewError ? <p role="alert" className="py-12 text-center text-sm text-destructive">图片加载失败，请稍后重试。</p> : <img src={pictureBookStyleImageSource(preview)} alt={`${preview.name}风格参考图`} onError={() => setPreviewError(true)} className="max-h-[calc(90dvh-100px)] w-full rounded-lg object-contain" /> : null}
       </div>
     </dialog>
   </>;
