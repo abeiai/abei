@@ -39,6 +39,14 @@
 
 验证：`pnpm --filter @xueleai/web typecheck` 通过；风格、角色、风格参考测试44项通过；三张R2图片与本地SHA-256一致；Docker Web/API构建和容器健康检查通过；浏览器确认经典油画卡片和两张角色图加载新地址。截图：`/tmp/abei-classic-oil-picker.png`、`/tmp/abei-classic-oil-characters.png`。本次无 migration/seed，未更新依赖，未运行 install、全量 lint 或全量测试。
 
+## 2026-10-04 经典油画风格图进一步调整
+
+按照用户再次提供的样图，使用内置 imagegen 重新绘制经典油画风格示意图，加强人物、动物与背景的厚油彩色面、刮刀刀痕和鲜明冷暖色块，保留既有形象与森林布局。实际提示词与输入参考路径见 `style-image-prompts.json`；上一版布局图保存于 `references/classic-oil-layout.webp`。
+
+新版640×640 WebP已归档 abeiai R2，地址见 `style-image-assets.json`。本地系统配置仅替换 `classic-oil.imageUrl`，原配置备份于 `/tmp/abei-classic-oil-painterly-config-backup.json`。风格读取接口与生图服务均读取当前R2配置，因此运行中的服务直接生效。
+
+验证：`pnpm --filter @xueleai/web typecheck` 通过；R2和风格图片API返回内容与本地SHA-256一致；浏览器确认新版风格卡片加载。截图 `/tmp/abei-classic-oil-painterly-picker.png`。本次仅替换风格图及资产记录，未运行 build、全量 lint 或测试，无 migration/seed。
+
 ## 验证
 
 角色针对性测试覆盖风格变体选择、旧绘本图片快照、沟通提取及预选形象匹配、所有权、R2上传、同风格和身份图变更的并发保护。数据库 migration 先以真实数据库事务执行后回滚验证，再执行部署迁移。浏览器使用独立测试绘本验收选择、风格切换、上传、讨论提取、角色和页图生成。
