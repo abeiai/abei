@@ -31,6 +31,14 @@
 
 本次没有更新依赖、数据库结构、支付或权限流程，未运行 install、全量 lint、全量测试及数据库 migrate/seed。
 
+## 2026-10-04 经典油画参考更新
+
+依据用户提供的油画样图，重绘经典油画风格图及小男孩、小女孩两张角色图。采用堆叠厚油彩、刮刀笔触、立体颜料肌理及鲜明冷暖色块；风格图保留原有女孩、小狗的身份、服饰、姿势和森林布局，角色图保留原有正面全身居中的布局。
+
+参考原图保存于 `references/classic-oil-impasto.webp`；内置 imagegen 的实际生成提示词与输入参考路径记录于 `style-image-prompts.json`、`character-image-prompts.json`。三张成品均为640×640 WebP，R2归档地址更新于相应资产清单和官方角色 URL 映射。仅更新本地系统配置中 `classic-oil` 的描述与参考图，原配置备份于 `/tmp/abei-classic-oil-config-backup.json`。
+
+验证：`pnpm --filter @xueleai/web typecheck` 通过；风格、角色、风格参考测试44项通过；三张R2图片与本地SHA-256一致；Docker Web/API构建和容器健康检查通过；浏览器确认经典油画卡片和两张角色图加载新地址。截图：`/tmp/abei-classic-oil-picker.png`、`/tmp/abei-classic-oil-characters.png`。本次无 migration/seed，未更新依赖，未运行 install、全量 lint 或全量测试。
+
 ## 验证
 
 角色针对性测试覆盖风格变体选择、旧绘本图片快照、沟通提取及预选形象匹配、所有权、R2上传、同风格和身份图变更的并发保护。数据库 migration 先以真实数据库事务执行后回滚验证，再执行部署迁移。浏览器使用独立测试绘本验收选择、风格切换、上传、讨论提取、角色和页图生成。
