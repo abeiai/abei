@@ -11,7 +11,14 @@
 - 30 个 LOCAL 试听资产先按文件大小及音频格式校验，再迁入 R2；数据库关联在一个 Serializable 事务中写入。已有公开 CDN/官方头像和试听 URL 按来源保留。
 - 来源被禁用的角色继续禁用；导入音色资料不代表其服务商已启用。当前目标仅百炼语音启用，MiniMax / ElevenLabs 需已有服务商配置可用后才能合成。
 - 本次发现“贾斯汀Justin”的无资产官方试听 GET 返回 404，保留角色资料并清空该失效链接；修正依据记录在导出包的 `source-media-fixes.json`。
-- 实际短句合成检查发现“周文修老师”在 abei 返回 418；同一音色的 `query_voice` 用 abei 配置返回 `BadRequest.ResourceNotExist`，用 xueleai 本地配置返回 `OK` 且绑定 `cosyvoice-v3.5-plus`。角色资料与试听已导入，但这些百炼设计音色还需要对齐原语音配置后才能在本项目合成；配置切换须由用户确认。
+- 实际短句合成检查发现“周文修老师”在 abei 返回 418；同一音色的 `query_voice` 用 abei 配置返回 `BadRequest.ResourceNotExist`，用 xueleai 本地配置返回 `OK` 且绑定 `cosyvoice-v3.5-plus`。后续用户选择移除这些百炼设计音色，处理结果见下文。
+
+## 2026-10-06 百炼设计音色移除
+
+- 按用户要求，对全部 21 个 `aliyun_dashscope_audio` / `DESIGNED` 平台音色调用现有后台删除方法，状态归档为 `DELETED`。批量处理在一个 Serializable 事务中完成，保留删除原因、处理管理员和时间。
+- 后台音色列表与前台选择列表均不再展示这些角色；剩余平台音色 47 个，系统音色目录 439 项（包含阿贝默认音色）。
+- 逐项断言其他音色、系统音色覆盖配置、试听资产、既有任务和用量记录未变化，并核对前台音色接口中百炼设计音色数量为 0。已有的 1 个失败验证任务保留历史引用。
+- 处理前数据快照保存在 `backups/voice-library-import/20261006-remove-dashscope-designed/before.json`。未切换百炼账号配置，不需要 migration、seed 或服务重建。
 
 ## 导入与验收
 
