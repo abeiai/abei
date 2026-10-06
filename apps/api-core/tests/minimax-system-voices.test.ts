@@ -40,19 +40,19 @@ test("MiniMax 系统音色补充分类、头像和 R2 试听音频", () => {
       /^https:\/\/cdn\.xueleai\.com\/uploads\/audio\/voices\/avatars\/minimax-.+-[a-f0-9]{10}-v6-[a-f0-9]{20}\.jpg$/
     );
   }
-  assert.equal(reliableExecutive?.name, "沉稳高管 - 低沉厚实,磁性,从容不迫");
+  assert.equal(reliableExecutive?.name, "梁越山");
   assert.equal(reliableExecutive?.trait, "低沉厚实,磁性,从容不迫");
   assert.match(
     reliableExecutive?.previewAudioUrl ?? "",
     /^https:\/\/cdn\.xueleai\.com\/uploads\/audio\/voices\/minimax-system\/Chinese-Mandarin-_Reliable_Executive-[a-f0-9]{10}\.mp3$/
   );
-  assert.equal(energeticInstructor?.name, "活力讲师 - 清晰坚定,流畅,知性");
+  assert.equal(energeticInstructor?.name, "秦砚之");
   assert.equal(energeticInstructor?.scene, "在线教育、播客与社媒");
   assert.match(
     energeticInstructor?.previewAudioUrl ?? "",
     /^https:\/\/cdn\.xueleai\.com\/uploads\/audio\/voices\/minimax-system\/Chinese_casual_instructor_nv1-[a-f0-9]{10}\.mp3$/
   );
-  assert.equal(gentleTeacher?.name, "温柔女教师 - 温和清晰,专业,耐心");
+  assert.equal(gentleTeacher?.name, "袁清砚");
   assert.equal(gentleTeacher?.scene, "在线教育、播客与社媒、企业宣传与旁白");
   assert.match(
     gentleTeacher?.previewAudioUrl ?? "",

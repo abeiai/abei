@@ -1,4 +1,4 @@
-export const cosyVoiceLanguages = ["普通话", "粤语", "闽南语", "英式英语", "美式英语", "日语", "韩语"] as const;
+export const cosyVoiceLanguages = ["普通话", "粤语", "闽南语", "英式英语", "美式英语", "其他英语", "日语", "韩语"] as const;
 
 export const cosyVoiceAgeCategories = ["儿童", "青年", "中年", "老年"] as const;
 
@@ -35,7 +35,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanyang",
     "providerVoiceId": "longanyang",
-    "name": "龙安洋",
+    "name": "林朗辰",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -69,7 +69,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanhuan",
     "providerVoiceId": "longanhuan",
-    "name": "龙安欢",
+    "name": "陆笑晴",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -103,7 +103,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longhuhu_v3",
     "providerVoiceId": "longhuhu_v3",
-    "name": "龙呼呼",
+    "name": "苏予晴",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -136,7 +136,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longpaopao_v3",
     "providerVoiceId": "longpaopao_v3",
-    "name": "龙泡泡",
+    "name": "秦乐禾",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -169,7 +169,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longjielidou_v3",
     "providerVoiceId": "longjielidou_v3",
-    "name": "龙杰力豆",
+    "name": "莫一帆",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -184,7 +184,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "普通话",
-      "美式英语"
+      "其他英语"
     ],
     "description": "智能玩具/儿童故事机 · 阳光顽皮男",
     "trait": "阳光顽皮男",
@@ -202,7 +202,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longxian_v3",
     "providerVoiceId": "longxian_v3",
-    "name": "龙仙",
+    "name": "庄小满",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -235,7 +235,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longling_v3",
     "providerVoiceId": "longling_v3",
-    "name": "龙铃",
+    "name": "裴知夏",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -268,7 +268,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longshanshan_v3",
     "providerVoiceId": "longshanshan_v3",
-    "name": "龙闪闪",
+    "name": "许星乐",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -283,7 +283,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "普通话",
-      "美式英语"
+      "其他英语"
     ],
     "description": "消费电子-儿童有声书 · 戏剧化童声",
     "trait": "戏剧化童声",
@@ -301,7 +301,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longniuniu_v3",
     "providerVoiceId": "longniuniu_v3",
-    "name": "龙牛牛",
+    "name": "罗安沐",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -334,7 +334,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longjiaxin_v3",
     "providerVoiceId": "longjiaxin_v3",
-    "name": "龙嘉欣",
+    "name": "谢语恬",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -349,7 +349,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "粤语",
-      "美式英语"
+      "其他英语"
     ],
     "description": "方言 · 优雅粤语女",
     "trait": "优雅粤语女",
@@ -367,7 +367,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longjiayi_v3",
     "providerVoiceId": "longjiayi_v3",
-    "name": "龙嘉怡",
+    "name": "曹若宁",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -382,7 +382,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "粤语",
-      "美式英语"
+      "其他英语"
     ],
     "description": "方言 · 知性粤语女",
     "trait": "知性粤语女",
@@ -400,7 +400,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanyue_v3",
     "providerVoiceId": "longanyue_v3",
-    "name": "龙安粤",
+    "name": "林昱阳",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -433,7 +433,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longlaotie_v3",
     "providerVoiceId": "longlaotie_v3",
-    "name": "龙老铁",
+    "name": "卓清和",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -466,7 +466,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longshange_v3",
     "providerVoiceId": "longshange_v3",
-    "name": "龙陕哥",
+    "name": "苏沐言",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -499,7 +499,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanmin_v3",
     "providerVoiceId": "longanmin_v3",
-    "name": "龙安闽",
+    "name": "邵沐柔",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -514,7 +514,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "闽南语",
-      "美式英语"
+      "其他英语"
     ],
     "description": "方言 · 清纯萝莉女",
     "trait": "清纯萝莉女",
@@ -532,7 +532,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongkyong_v3",
     "providerVoiceId": "loongkyong_v3",
-    "name": "loongkyong",
+    "name": "赵允熙",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -564,7 +564,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongriko_v3",
     "providerVoiceId": "loongriko_v3",
-    "name": "Riko",
+    "name": "星野莉央",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -596,7 +596,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongtomoka_v3",
     "providerVoiceId": "loongtomoka_v3",
-    "name": "loongtomoka",
+    "name": "小泽知花",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -628,7 +628,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongabby_v3",
     "providerVoiceId": "loongabby_v3",
-    "name": "loongabby",
+    "name": "阿比盖尔Abigail",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -660,7 +660,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongandy_v3",
     "providerVoiceId": "loongandy_v3",
-    "name": "loongandy",
+    "name": "安德鲁Andrew",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -692,7 +692,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongannie_v3",
     "providerVoiceId": "loongannie_v3",
-    "name": "loongannie",
+    "name": "安妮Annie",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -724,7 +724,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongava_v3",
     "providerVoiceId": "loongava_v3",
-    "name": "loongava",
+    "name": "艾娃Ava",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -756,7 +756,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongbeth_v3",
     "providerVoiceId": "loongbeth_v3",
-    "name": "loongbeth",
+    "name": "贝丝Beth",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -788,7 +788,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongbetty_v3",
     "providerVoiceId": "loongbetty_v3",
-    "name": "loongbetty",
+    "name": "贝蒂Betty",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -820,7 +820,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongcally_v3",
     "providerVoiceId": "loongcally_v3",
-    "name": "loongcally",
+    "name": "凯莉Callie",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -852,7 +852,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongcindy_v3",
     "providerVoiceId": "loongcindy_v3",
-    "name": "loongcindy",
+    "name": "辛迪Cindy",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -884,7 +884,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongdavid_v3",
     "providerVoiceId": "loongdavid_v3",
-    "name": "loongdavid",
+    "name": "戴维德David",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -916,7 +916,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongdonna_v3",
     "providerVoiceId": "loongdonna_v3",
-    "name": "loongdonna",
+    "name": "多娜Donna",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -948,7 +948,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongemily_v3",
     "providerVoiceId": "loongemily_v3",
-    "name": "loongemily",
+    "name": "艾米莉Emily",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -980,7 +980,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongeric_v3",
     "providerVoiceId": "loongeric_v3",
-    "name": "loongeric",
+    "name": "埃里克Eric",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -994,10 +994,10 @@ export const cosyVoiceSystemVoices = [
     "visibility": "PUBLIC",
     "language": "英语",
     "languages": [
-      "英式英语"
+      "美式英语"
     ],
-    "description": "出海营销 · 英式英文男",
-    "trait": "英式英文男",
+    "description": "出海营销 · 英文男声",
+    "trait": "英文男声",
     "scene": "出海营销",
     "age": "35~40岁",
     "ageCategory": "中年",
@@ -1006,13 +1006,13 @@ export const cosyVoiceSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "/audio/voices/cosyvoice-v3/loongeric_v3.wav",
-    "accent": "英式英语",
+    "accent": "美式英语",
     "gender": "男声"
   },
   {
     "id": "sys-loongluna_v3",
     "providerVoiceId": "loongluna_v3",
-    "name": "loongluna",
+    "name": "露娜Luna",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1044,7 +1044,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongluca_v3",
     "providerVoiceId": "loongluca_v3",
-    "name": "loongluca",
+    "name": "卢卡Luca",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1058,10 +1058,10 @@ export const cosyVoiceSystemVoices = [
     "visibility": "PUBLIC",
     "language": "英语",
     "languages": [
-      "英式英语"
+      "其他英语"
     ],
-    "description": "出海营销 · 英式英文男",
-    "trait": "英式英文男",
+    "description": "出海营销 · 英文男声",
+    "trait": "英文男声",
     "scene": "出海营销",
     "age": "25~30岁",
     "ageCategory": "青年",
@@ -1070,13 +1070,13 @@ export const cosyVoiceSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "/audio/voices/cosyvoice-v3/loongluca_v3.wav",
-    "accent": "英式英语",
+    "accent": "其他",
     "gender": "男声"
   },
   {
     "id": "sys-loongtomoya_v3",
     "providerVoiceId": "loongtomoya_v3",
-    "name": "loongtomoya",
+    "name": "森川拓海",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1108,7 +1108,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongyuuna_v3",
     "providerVoiceId": "loongyuuna_v3",
-    "name": "Yuuna",
+    "name": "岩田结奈",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1140,7 +1140,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongyuuma_v3",
     "providerVoiceId": "loongyuuma_v3",
-    "name": "Yuuma",
+    "name": "高梨悠斗",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1172,7 +1172,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongjihun_v3",
     "providerVoiceId": "loongjihun_v3",
-    "name": "Jihun",
+    "name": "姜道元",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1204,7 +1204,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongindah_v3",
     "providerVoiceId": "loongindah_v3",
-    "name": "loongindah",
+    "name": "Nadia Prameswari",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1234,7 +1234,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longfei_v3",
     "providerVoiceId": "longfei_v3",
-    "name": "龙飞",
+    "name": "莫景朗",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1267,7 +1267,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyingxiao_v3",
     "providerVoiceId": "longyingxiao_v3",
-    "name": "龙应笑",
+    "name": "孟映彤",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1300,7 +1300,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyingxun_v3",
     "providerVoiceId": "longyingxun_v3",
-    "name": "龙应询",
+    "name": "贺怀瑾",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1333,7 +1333,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyingjing_v3",
     "providerVoiceId": "longyingjing_v3",
-    "name": "龙应静",
+    "name": "宋知遥",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1366,7 +1366,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyingling_v3",
     "providerVoiceId": "longyingling_v3",
-    "name": "龙应聆",
+    "name": "袁清妍",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1399,7 +1399,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyingtao_v3",
     "providerVoiceId": "longyingtao_v3",
-    "name": "龙应桃",
+    "name": "阮知微",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1432,7 +1432,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longxiaochun_v3",
     "providerVoiceId": "longxiaochun_v3",
-    "name": "龙小淳",
+    "name": "孟念安",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1465,7 +1465,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longxiaoxia_v3",
     "providerVoiceId": "longxiaoxia_v3",
-    "name": "龙小夏",
+    "name": "傅容昭",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1498,7 +1498,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyumi_v3",
     "providerVoiceId": "longyumi_v3",
-    "name": "YUMI",
+    "name": "唐依澄",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1531,7 +1531,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanyun_v3",
     "providerVoiceId": "longanyun_v3",
-    "name": "龙安昀",
+    "name": "姜书珩",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1564,7 +1564,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanwen_v3",
     "providerVoiceId": "longanwen_v3",
-    "name": "龙安温",
+    "name": "章舒宁",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1597,7 +1597,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanli_v3",
     "providerVoiceId": "longanli_v3",
-    "name": "龙安莉",
+    "name": "钟书禾",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1630,7 +1630,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanlang_v3",
     "providerVoiceId": "longanlang_v3",
-    "name": "龙安朗",
+    "name": "薛宁远",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1663,7 +1663,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyingmu_v3",
     "providerVoiceId": "longyingmu_v3",
-    "name": "龙应沐",
+    "name": "盛宛清",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1696,7 +1696,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longantai_v3",
     "providerVoiceId": "longantai_v3",
-    "name": "龙安台",
+    "name": "盛星妍",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1729,7 +1729,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longhua_v3",
     "providerVoiceId": "longhua_v3",
-    "name": "龙华",
+    "name": "夏若晴",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1762,7 +1762,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longcheng_v3",
     "providerVoiceId": "longcheng_v3",
-    "name": "龙橙",
+    "name": "阮云澈",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1795,7 +1795,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longze_v3",
     "providerVoiceId": "longze_v3",
-    "name": "龙泽",
+    "name": "曹星扬",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1828,7 +1828,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longzhe_v3",
     "providerVoiceId": "longzhe_v3",
-    "name": "龙哲",
+    "name": "叶景安",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1861,7 +1861,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyan_v3",
     "providerVoiceId": "longyan_v3",
-    "name": "龙颜",
+    "name": "苏宁溪",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1894,7 +1894,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longxing_v3",
     "providerVoiceId": "longxing_v3",
-    "name": "龙星",
+    "name": "邵安芮",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1927,7 +1927,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longtian_v3",
     "providerVoiceId": "longtian_v3",
-    "name": "龙天",
+    "name": "黎予舟",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1960,7 +1960,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longwan_v3",
     "providerVoiceId": "longwan_v3",
-    "name": "龙婉",
+    "name": "薛怀音",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -1993,7 +1993,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longqiang_v3",
     "providerVoiceId": "longqiang_v3",
-    "name": "龙嫱",
+    "name": "卓静宜",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2008,7 +2008,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "普通话",
-      "美式英语"
+      "其他英语"
     ],
     "description": "社交陪伴 · 浪漫风情女",
     "trait": "浪漫风情女",
@@ -2026,7 +2026,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longfeifei_v3",
     "providerVoiceId": "longfeifei_v3",
-    "name": "龙菲菲",
+    "name": "贺乐宁",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2059,7 +2059,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longhao_v3",
     "providerVoiceId": "longhao_v3",
-    "name": "龙浩",
+    "name": "姜知行",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2092,7 +2092,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanrou_v3",
     "providerVoiceId": "longanrou_v3",
-    "name": "龙安柔",
+    "name": "冉云汐",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2125,7 +2125,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longhan_v3",
     "providerVoiceId": "longhan_v3",
-    "name": "龙寒",
+    "name": "纪嘉言",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2158,7 +2158,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanzhi_v3",
     "providerVoiceId": "longanzhi_v3",
-    "name": "龙安智",
+    "name": "冉砚舟",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2191,7 +2191,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanling_v3",
     "providerVoiceId": "longanling_v3",
-    "name": "龙安灵",
+    "name": "沈诗遥",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2224,7 +2224,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanya_v3",
     "providerVoiceId": "longanya_v3",
-    "name": "龙安雅",
+    "name": "夏清瑶",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2257,7 +2257,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanqin_v3",
     "providerVoiceId": "longanqin_v3",
-    "name": "龙安亲",
+    "name": "方嘉悦",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2290,7 +2290,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longmiao_v3",
     "providerVoiceId": "longmiao_v3",
-    "name": "龙妙",
+    "name": "程予宁",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2323,7 +2323,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longsanshu_v3",
     "providerVoiceId": "longsanshu_v3",
-    "name": "龙三叔",
+    "name": "黎峻衡",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2356,7 +2356,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyuan_v3",
     "providerVoiceId": "longyuan_v3",
-    "name": "龙媛",
+    "name": "宋嘉禾",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2389,7 +2389,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyue_v3",
     "providerVoiceId": "longyue_v3",
-    "name": "龙悦",
+    "name": "卢婉宁",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2422,7 +2422,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longxiu_v3",
     "providerVoiceId": "longxiu_v3",
-    "name": "龙修",
+    "name": "方和川",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2455,7 +2455,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longnan_v3",
     "providerVoiceId": "longnan_v3",
-    "name": "龙楠",
+    "name": "姜昭毅",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2488,7 +2488,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longwanjun_v3",
     "providerVoiceId": "longwanjun_v3",
-    "name": "龙婉君",
+    "name": "林汐月",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2521,7 +2521,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longyichen_v3",
     "providerVoiceId": "longyichen_v3",
-    "name": "龙逸尘",
+    "name": "傅望舒",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2554,7 +2554,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longlaobo_v3",
     "providerVoiceId": "longlaobo_v3",
-    "name": "龙老伯",
+    "name": "钟德安",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2587,7 +2587,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longlaoyi_v3",
     "providerVoiceId": "longlaoyi_v3",
-    "name": "龙老姨",
+    "name": "叶素娥",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2620,7 +2620,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longjiqi_v3",
     "providerVoiceId": "longjiqi_v3",
-    "name": "龙机器",
+    "name": "梁知远",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2635,7 +2635,7 @@ export const cosyVoiceSystemVoices = [
     "language": "中文",
     "languages": [
       "普通话",
-      "美式英语"
+      "其他英语"
     ],
     "description": "短视频配音 · 呆萌机器人",
     "trait": "呆萌机器人",
@@ -2653,7 +2653,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longhouge_v3",
     "providerVoiceId": "longhouge_v3",
-    "name": "龙猴哥",
+    "name": "冉言溪",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2686,7 +2686,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longdaiyu_v3",
     "providerVoiceId": "longdaiyu_v3",
-    "name": "龙黛玉",
+    "name": "庄知音",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2719,7 +2719,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanran_v3",
     "providerVoiceId": "longanran_v3",
-    "name": "龙安燃",
+    "name": "薛采薇",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2752,7 +2752,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longanxuan_v3",
     "providerVoiceId": "longanxuan_v3",
-    "name": "龙安宣",
+    "name": "夏语恬",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2785,7 +2785,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longshuo_v3",
     "providerVoiceId": "longshuo_v3",
-    "name": "龙硕",
+    "name": "乔承岳",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2818,7 +2818,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-longshu_v3",
     "providerVoiceId": "longshu_v3",
-    "name": "龙书",
+    "name": "方屹川",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [
@@ -2851,7 +2851,7 @@ export const cosyVoiceSystemVoices = [
   {
     "id": "sys-loongbella_v3",
     "providerVoiceId": "loongbella_v3",
-    "name": "Bella3.0",
+    "name": "秦亦岚",
     "type": "SYSTEM",
     "targetModel": "cosyvoice-v3-flash",
     "supportedModels": [

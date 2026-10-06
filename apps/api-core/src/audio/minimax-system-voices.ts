@@ -61,7 +61,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-qingse",
     "providerVoiceId": "male-qn-qingse",
-    "name": "青涩青年音色",
+    "name": "沈允书",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -94,7 +94,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-jingying",
     "providerVoiceId": "male-qn-jingying",
-    "name": "精英青年音色",
+    "name": "傅正谦",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -127,7 +127,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-badao",
     "providerVoiceId": "male-qn-badao",
-    "name": "霸道青年音色",
+    "name": "陆知峥",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -160,7 +160,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-daxuesheng",
     "providerVoiceId": "male-qn-daxuesheng",
-    "name": "青年大学生音色",
+    "name": "邱闻溪",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -193,7 +193,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-shaonv",
     "providerVoiceId": "female-shaonv",
-    "name": "少女音色",
+    "name": "庄若宁",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -226,7 +226,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-yujie",
     "providerVoiceId": "female-yujie",
-    "name": "御姐音色",
+    "name": "裴沐柔",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -259,7 +259,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-chengshu",
     "providerVoiceId": "female-chengshu",
-    "name": "成熟女性音色",
+    "name": "梁清妍",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -292,7 +292,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-tianmei",
     "providerVoiceId": "female-tianmei",
-    "name": "甜美女性音色",
+    "name": "卓沐晴",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -325,7 +325,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-qingse-jingpin",
     "providerVoiceId": "male-qn-qingse-jingpin",
-    "name": "青涩青年音色-beta",
+    "name": "罗书远",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -358,7 +358,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-jingying-jingpin",
     "providerVoiceId": "male-qn-jingying-jingpin",
-    "name": "精英青年音色-beta",
+    "name": "夏景钧",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -391,7 +391,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-badao-jingpin",
     "providerVoiceId": "male-qn-badao-jingpin",
-    "name": "霸道青年音色-beta",
+    "name": "章霁峰",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -424,7 +424,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-male-qn-daxuesheng-jingpin",
     "providerVoiceId": "male-qn-daxuesheng-jingpin",
-    "name": "青年大学生音色-beta",
+    "name": "叶以澄",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -457,7 +457,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-shaonv-jingpin",
     "providerVoiceId": "female-shaonv-jingpin",
-    "name": "少女音色-beta",
+    "name": "卢知微",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -490,7 +490,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-yujie-jingpin",
     "providerVoiceId": "female-yujie-jingpin",
-    "name": "御姐音色-beta",
+    "name": "黎念安",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -523,7 +523,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-chengshu-jingpin",
     "providerVoiceId": "female-chengshu-jingpin",
-    "name": "成熟女性音色-beta",
+    "name": "程依澄",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -556,7 +556,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-female-tianmei-jingpin",
     "providerVoiceId": "female-tianmei-jingpin",
-    "name": "甜美女性音色-beta",
+    "name": "谢语欢",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -589,7 +589,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-clever_boy",
     "providerVoiceId": "clever_boy",
-    "name": "聪明男童",
+    "name": "黎小言",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -622,7 +622,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-cute_boy",
     "providerVoiceId": "cute_boy",
-    "name": "可爱男童",
+    "name": "程以南",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -655,7 +655,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-lovely_girl",
     "providerVoiceId": "lovely_girl",
-    "name": "萌萌女童",
+    "name": "傅语禾",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -688,7 +688,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-cartoon_pig",
     "providerVoiceId": "cartoon_pig",
-    "name": "卡通猪小琪",
+    "name": "纪舒宁",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -721,7 +721,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-bingjiao_didi",
     "providerVoiceId": "bingjiao_didi",
-    "name": "病娇弟弟",
+    "name": "冉云舒",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -754,7 +754,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-junlang_nanyou",
     "providerVoiceId": "junlang_nanyou",
-    "name": "俊朗男友",
+    "name": "庄景初",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -787,7 +787,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-chunzhen_xuedi",
     "providerVoiceId": "chunzhen_xuedi",
-    "name": "纯真学弟",
+    "name": "裴清和",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -820,7 +820,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-lengdan_xiongzhang",
     "providerVoiceId": "lengdan_xiongzhang",
-    "name": "冷淡学长",
+    "name": "沈修远",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -853,7 +853,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-badao_shaoye",
     "providerVoiceId": "badao_shaoye",
-    "name": "霸道少爷",
+    "name": "宋允衡",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -886,7 +886,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-tianxin_xiaoling",
     "providerVoiceId": "tianxin_xiaoling",
-    "name": "甜心小玲",
+    "name": "卢清悦",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -919,7 +919,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-qiaopi_mengmei",
     "providerVoiceId": "qiaopi_mengmei",
-    "name": "俏皮萌妹",
+    "name": "黎明汐",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -952,7 +952,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-wumei_yujie",
     "providerVoiceId": "wumei_yujie",
-    "name": "妩媚御姐",
+    "name": "宋书禾",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -985,7 +985,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-diadia_xuemei",
     "providerVoiceId": "diadia_xuemei",
-    "name": "嗲嗲学妹",
+    "name": "卢宛清",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1018,7 +1018,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-danya_xuejie",
     "providerVoiceId": "danya_xuejie",
-    "name": "淡雅学姐",
+    "name": "黎宁溪",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1051,7 +1051,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Reliable_Executive",
     "providerVoiceId": "Chinese (Mandarin)_Reliable_Executive",
-    "name": "沉稳高管 - 低沉厚实,磁性,从容不迫",
+    "name": "梁越山",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1084,7 +1084,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_News_Anchor",
     "providerVoiceId": "Chinese (Mandarin)_News_Anchor",
-    "name": "新闻女声 - 明亮圆润,干练利落,新闻现场感",
+    "name": "许书瑾",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1117,7 +1117,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Mature_Woman",
     "providerVoiceId": "Chinese (Mandarin)_Mature_Woman",
-    "name": "傲娇御姐 - 低沉沙哑,慵懒舒缓,性感撩人",
+    "name": "罗静澜",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1150,7 +1150,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Unrestrained_Young_Man",
     "providerVoiceId": "Chinese (Mandarin)_Unrestrained_Young_Man",
-    "name": "不羁青年 - 低沉磁性,慵懒随意,霸道",
+    "name": "孟廷川",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1183,7 +1183,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Arrogant_Miss",
     "providerVoiceId": "Arrogant_Miss",
-    "name": "嚣张小姐 - 娇俏明亮,灵动跳跃,傲娇自信",
+    "name": "贺予星",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1216,7 +1216,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Robot_Armor",
     "providerVoiceId": "Robot_Armor",
-    "name": "机械战甲 - 金属质感,机械顿挫,科幻色彩",
+    "name": "唐朔宁",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1249,7 +1249,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Kind-hearted_Antie",
     "providerVoiceId": "Chinese (Mandarin)_Kind-hearted_Antie",
-    "name": "热心大婶 - 高昂明亮,碎碎念,生活气息",
+    "name": "庄安芮",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1282,7 +1282,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_HK_Flight_Attendant",
     "providerVoiceId": "Chinese (Mandarin)_HK_Flight_Attendant",
-    "name": "港普空姐 - 清脆明亮,快言快语,直爽且真实",
+    "name": "章熙瑶",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1315,7 +1315,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Humorous_Elder",
     "providerVoiceId": "Chinese (Mandarin)_Humorous_Elder",
-    "name": "搞笑大爷 - 沧桑醇厚,松弛接地气,幽默热心",
+    "name": "秦承厚",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1348,7 +1348,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Gentleman",
     "providerVoiceId": "Chinese (Mandarin)_Gentleman",
-    "name": "温润男声 - 温润清亮,娓娓道来,阳光自律",
+    "name": "柳晏晨",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1381,7 +1381,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Warm_Bestie",
     "providerVoiceId": "Chinese (Mandarin)_Warm_Bestie",
-    "name": "温暖闺蜜 - 温柔清亮,舒缓且充满关切,亲切自然",
+    "name": "章怀音",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1414,7 +1414,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Male_Announcer",
     "providerVoiceId": "Chinese (Mandarin)_Male_Announcer",
-    "name": "播报男声 - 清澈干净,自然流畅,邻家大哥哥",
+    "name": "邵沐言",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1447,7 +1447,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Sweet_Lady",
     "providerVoiceId": "Chinese (Mandarin)_Sweet_Lady",
-    "name": "甜美女声 - 甜美细腻,舒缓自然,邻家亲切感",
+    "name": "邱羽彤",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1480,7 +1480,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Southern_Young_Man",
     "providerVoiceId": "Chinese (Mandarin)_Southern_Young_Man",
-    "name": "南方小哥 - 温润细腻,娓娓道来,亲切邻家",
+    "name": "薛怀瑾",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1513,7 +1513,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Wise_Women",
     "providerVoiceId": "Chinese (Mandarin)_Wise_Women",
-    "name": "阅历姐姐 - 温润厚实,娓娓道来,极具亲和力",
+    "name": "方静宜",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1546,7 +1546,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Gentle_Youth",
     "providerVoiceId": "Chinese (Mandarin)_Gentle_Youth",
-    "name": "温润青年 - 清亮干净,娓娓道来,邻家大哥哥",
+    "name": "梁书珩",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1579,7 +1579,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Warm_Girl",
     "providerVoiceId": "Chinese (Mandarin)_Warm_Girl",
-    "name": "温暖少女 - 甜美细腻,娓娓道来,治愈感",
+    "name": "梁可晴",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1612,7 +1612,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Kind-hearted_Elder",
     "providerVoiceId": "Chinese (Mandarin)_Kind-hearted_Elder",
-    "name": "花甲奶奶 - 略带沙哑,娓娓道来,极具亲和力",
+    "name": "贺玉芬",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1645,7 +1645,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Cute_Spirit",
     "providerVoiceId": "Chinese (Mandarin)_Cute_Spirit",
-    "name": "憨憨萌兽 - 软萌稚嫩,轻快活泼,天真烂漫",
+    "name": "姜悦宁",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1678,7 +1678,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Radio_Host",
     "providerVoiceId": "Chinese (Mandarin)_Radio_Host",
-    "name": "电台男主播 - 清亮明快,干脆利落,略带傲娇",
+    "name": "谢乐川",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1711,7 +1711,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Lyrical_Voice",
     "providerVoiceId": "Chinese (Mandarin)_Lyrical_Voice",
-    "name": "抒情男声 - 温润醇厚,娓娓道来,治愈感",
+    "name": "盛宁远",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1744,7 +1744,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Straightforward_Boy",
     "providerVoiceId": "Chinese (Mandarin)_Straightforward_Boy",
-    "name": "率真弟弟 - 明朗干净,直率自然,邻家少年",
+    "name": "夏云澈",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1777,7 +1777,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Sincere_Adult",
     "providerVoiceId": "Chinese (Mandarin)_Sincere_Adult",
-    "name": "真诚青年 - 清澈干净,娓娓道来,具有治愈感",
+    "name": "钟云汐",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1810,7 +1810,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Gentle_Senior",
     "providerVoiceId": "Chinese (Mandarin)_Gentle_Senior",
-    "name": "温柔学姐 - 温婉柔和,娓娓道来,亲切且富有感染力",
+    "name": "叶清瑶",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1843,7 +1843,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Stubborn_Friend",
     "providerVoiceId": "Chinese (Mandarin)_Stubborn_Friend",
-    "name": "嘴硬竹马 - 清朗温暖,自然随性,邻家大男孩",
+    "name": "沈景安",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1876,7 +1876,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Crisp_Girl",
     "providerVoiceId": "Chinese (Mandarin)_Crisp_Girl",
-    "name": "清脆少女 - 清脆甜美,娓娓道来,治愈亲切",
+    "name": "傅昭晴",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1909,7 +1909,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Pure-hearted_Boy",
     "providerVoiceId": "Chinese (Mandarin)_Pure-hearted_Boy",
-    "name": "清澈邻家弟弟 - 清澈干净,娓娓道来,邻家男孩感",
+    "name": "方予舟",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1942,7 +1942,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese (Mandarin)_Soft_Girl",
     "providerVoiceId": "Chinese (Mandarin)_Soft_Girl",
-    "name": "软软女孩 - 甜美软糯,轻快自然,亲切活泼",
+    "name": "苏书悦",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -1975,7 +1975,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Cantonese_ProfessionalHost（F)",
     "providerVoiceId": "Cantonese_ProfessionalHost（F)",
-    "name": "专业女主持 - 清晰明亮,紧凑流畅,新闻现场感",
+    "name": "乔令仪",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2008,7 +2008,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Cantonese_GentleLady",
     "providerVoiceId": "Cantonese_GentleLady",
-    "name": "温柔女声 - 略带沙哑,语速较快,直率自然",
+    "name": "陆予宁",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2041,7 +2041,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Cantonese_ProfessionalHost（M)",
     "providerVoiceId": "Cantonese_ProfessionalHost（M)",
-    "name": "专业男主持",
+    "name": "柳峥宇",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2074,7 +2074,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Cantonese_PlayfulMan",
     "providerVoiceId": "Cantonese_PlayfulMan",
-    "name": "活泼男声",
+    "name": "柳煦庭",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2107,7 +2107,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Cantonese_CuteGirl",
     "providerVoiceId": "Cantonese_CuteGirl",
-    "name": "可爱女孩 - 稚嫩甜美,灵动自然,纯真",
+    "name": "庄乐瑶",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2140,7 +2140,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Cantonese_KindWoman",
     "providerVoiceId": "Cantonese_KindWoman",
-    "name": "善良女声 - 略带沙哑,娓娓道来,亲切犀利",
+    "name": "庄嘉禾",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2173,7 +2173,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Santa_Claus",
     "providerVoiceId": "Santa_Claus",
-    "name": "Santa Claus",
+    "name": "阿尔伯特Albert",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2200,13 +2200,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Santa_Claus-2943a73768-generated.mp3",
-    "accent": "标准英语",
+    "accent": "英式英语",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-Grinch",
     "providerVoiceId": "Grinch",
-    "name": "Grinch",
+    "name": "格雷格Greg",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2233,13 +2233,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Grinch-bf63ecb191-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-Rudolph",
     "providerVoiceId": "Rudolph",
-    "name": "Rudolph",
+    "name": "诺亚Noah",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2266,13 +2266,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Rudolph-03e7d2f497-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-Arnold",
     "providerVoiceId": "Arnold",
-    "name": "Arnold",
+    "name": "马洛Marlow",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2299,13 +2299,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Arnold-15830c454f-generated.mp3",
-    "accent": "标准英语",
+    "accent": "其他",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-Charming_Santa",
     "providerVoiceId": "Charming_Santa",
-    "name": "Charming Santa",
+    "name": "埃德蒙Edmund",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2332,13 +2332,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Charming_Santa-bf52e58a5b-generated.mp3",
-    "accent": "标准英语",
+    "accent": "其他",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-Charming_Lady",
     "providerVoiceId": "Charming_Lady",
-    "name": "Charming Lady",
+    "name": "艾薇Ivy",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2365,13 +2365,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Charming_Lady-bcdc3329f8-generated.mp3",
-    "accent": "标准英语",
+    "accent": "英式英语",
     "gender": "女声"
   },
   {
     "id": "sys-minimax-Sweet_Girl",
     "providerVoiceId": "Sweet_Girl",
-    "name": "Sweet Girl",
+    "name": "米娅Mia",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2398,13 +2398,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Sweet_Girl-5c3ea13521-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "女声"
   },
   {
     "id": "sys-minimax-Cute_Elf",
     "providerVoiceId": "Cute_Elf",
-    "name": "Cute Elf",
+    "name": "利奥Leo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2431,13 +2431,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Cute_Elf-31d8ad7bc0-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-Attractive_Girl",
     "providerVoiceId": "Attractive_Girl",
-    "name": "Attractive Girl",
+    "name": "塞拉Serena",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2464,13 +2464,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Attractive_Girl-ab460099fa-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "女声"
   },
   {
     "id": "sys-minimax-Serene_Woman",
     "providerVoiceId": "Serene_Woman",
-    "name": "Serene Woman",
+    "name": "克莱尔Claire",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2497,13 +2497,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/Serene_Woman-b9dd4434f7-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "女声"
   },
   {
     "id": "sys-minimax-English_Trustworthy_Man",
     "providerVoiceId": "English_Trustworthy_Man",
-    "name": "Trustworthy Man",
+    "name": "欧文Owen",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2530,13 +2530,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/English_Trustworthy_Man-6f01809c72-generated.mp3",
-    "accent": "标准英语",
+    "accent": "美式英语",
     "gender": "男声"
   },
   {
     "id": "sys-minimax-English_Graceful_Lady",
     "providerVoiceId": "English_Graceful_Lady",
-    "name": "Graceful Lady - 温润,舒缓,文学感",
+    "name": "艾琳Eileen",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2569,7 +2569,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-English_Aussie_Bloke",
     "providerVoiceId": "English_Aussie_Bloke",
-    "name": "澳洲小哥 - 明亮且富有质感,松弛自然,随性且略带调侃",
+    "name": "布莱克Blake",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2602,7 +2602,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-English_Whispering_girl",
     "providerVoiceId": "English_Whispering_girl",
-    "name": "Whispering girl",
+    "name": "莉亚Leah",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2629,13 +2629,13 @@ export const minimaxSystemVoices = [
     "instructSupported": false,
     "timestampSupported": false,
     "previewAudioUrl": "https://cdn.xueleai.com/uploads/audio/voices/minimax-system/English_Whispering_girl-84803b2396-generated.mp3",
-    "accent": "标准英语",
+    "accent": "其他",
     "gender": "女声"
   },
   {
     "id": "sys-minimax-English_Diligent_Man",
     "providerVoiceId": "English_Diligent_Man",
-    "name": "Diligent Man - 清脆明亮,轻快活泼,热情感染力",
+    "name": "伊莱Eli",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2668,7 +2668,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-English_Gentle-voiced_man",
     "providerVoiceId": "English_Gentle-voiced_man",
-    "name": "Gentle-voiced Man - 醇厚深沉,娓娓道来,极具故事感",
+    "name": "西蒙Simon",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2701,7 +2701,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_IntellectualSenior",
     "providerVoiceId": "Japanese_IntellectualSenior",
-    "name": "高智学长 - 清澈柔和,舒缓从容,宁静致远",
+    "name": "青柳和真",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2734,7 +2734,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_DecisivePrincess",
     "providerVoiceId": "Japanese_DecisivePrincess",
-    "name": "雷厉千金 - 清脆透亮,节奏紧凑,傲娇严厉",
+    "name": "白石凛奈",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2767,7 +2767,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_LoyalKnight",
     "providerVoiceId": "Japanese_LoyalKnight",
-    "name": "Loyal Knight - 清冷孤傲,干脆利落,守护者氛围",
+    "name": "北原隼人",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2800,7 +2800,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_DominantMan",
     "providerVoiceId": "Japanese_DominantMan",
-    "name": "Dominant Man - 质感冷冽,冷静克制,高冷",
+    "name": "藤野凉介",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2833,7 +2833,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_SeriousCommander",
     "providerVoiceId": "Japanese_SeriousCommander",
-    "name": "Serious Commander - 温润清冷,优雅从容,神秘学者感",
+    "name": "杉浦雅人",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2866,7 +2866,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_ColdQueen",
     "providerVoiceId": "Japanese_ColdQueen",
-    "name": "Cold Queen - 低沉沙哑,慵懒随意,御姐气场",
+    "name": "黑川澄香",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2899,7 +2899,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_DependableWoman",
     "providerVoiceId": "Japanese_DependableWoman",
-    "name": "Dependable Woman - 清脆明亮,干脆利落,爽朗大方",
+    "name": "宫坂明奈",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2932,7 +2932,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_GentleButler",
     "providerVoiceId": "Japanese_GentleButler",
-    "name": "Gentle Butler - 磁性且略带慵懒,轻松自如,优雅而神秘",
+    "name": "松原宗介",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2965,7 +2965,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_KindLady",
     "providerVoiceId": "Japanese_KindLady",
-    "name": "Kind Lady - 温柔妩媚,舒缓从容,知性御姐感",
+    "name": "花村惠理",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -2998,7 +2998,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_CalmLady",
     "providerVoiceId": "Japanese_CalmLady",
-    "name": "Calm Lady - 清冷优雅,从容不迫,高贵自信",
+    "name": "水野澄乃",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3031,7 +3031,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_OptimisticYouth",
     "providerVoiceId": "Japanese_OptimisticYouth",
-    "name": "Optimistic Youth - 清爽明快,充满活力,阳光少年形象",
+    "name": "小仓晴斗",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3064,7 +3064,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_GenerousIzakayaOwner",
     "providerVoiceId": "Japanese_GenerousIzakayaOwner",
-    "name": "Generous Izakaya Owner - 豪爽沙哑,激情高昂,自信热血",
+    "name": "大桥雄太",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3097,7 +3097,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_SportyStudent",
     "providerVoiceId": "Japanese_SportyStudent",
-    "name": "Sporty Student - 清亮朝气,干脆利落,自信飞扬",
+    "name": "三浦拓真",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3130,7 +3130,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_InnocentBoy",
     "providerVoiceId": "Japanese_InnocentBoy",
-    "name": "Innocent Boy - 清澈纯净,温和礼貌,少年感",
+    "name": "河合奏太",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3163,7 +3163,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Japanese_GracefulMaiden",
     "providerVoiceId": "Japanese_GracefulMaiden",
-    "name": "Graceful Maiden - 清澈柔和,舒缓有礼,治愈且知性",
+    "name": "柴田纱月",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3196,7 +3196,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_SweetGirl",
     "providerVoiceId": "Korean_SweetGirl",
-    "name": "甜美女声 - 清脆甜美,轻快活泼,热情且富有感染力",
+    "name": "韩彩琳",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3229,7 +3229,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CheerfulBoyfriend",
     "providerVoiceId": "Korean_CheerfulBoyfriend",
-    "name": "清爽男大 - 清亮干净,轻快跃动,温暖阳光",
+    "name": "朴允灿",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3262,7 +3262,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_EnchantingSister",
     "providerVoiceId": "Korean_EnchantingSister",
-    "name": "温柔姐姐 - 极富磁性,从容自信,高冷威严",
+    "name": "崔静雅",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3295,7 +3295,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ShyGirl",
     "providerVoiceId": "Korean_ShyGirl",
-    "name": "害羞女生 - 细腻气声,轻柔舒缓,邻家少女感",
+    "name": "柳素温",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3328,7 +3328,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ReliableSister",
     "providerVoiceId": "Korean_ReliableSister",
-    "name": "干练姐姐 - 干练沙哑,干脆利落,酷飒御姐感",
+    "name": "郑智岚",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3361,7 +3361,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_StrictBoss",
     "providerVoiceId": "Korean_StrictBoss",
-    "name": "霸道君王 - 清亮透彻,抑扬顿挫,王者气场",
+    "name": "申泰赫",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3394,7 +3394,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_SassyGirl",
     "providerVoiceId": "Korean_SassyGirl",
-    "name": "清甜女声 - 甜美娇俏,轻快跳跃,元气满满",
+    "name": "吴夏妍",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3427,7 +3427,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ChildhoodFriendGirl",
     "providerVoiceId": "Korean_ChildhoodFriendGirl",
-    "name": "利落女友 - 明亮沙哑,干练利落,自信俏皮",
+    "name": "尹瑞彬",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3460,7 +3460,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_PlayboyCharmer",
     "providerVoiceId": "Korean_PlayboyCharmer",
-    "name": "松弛男声 - 慵懒磁性,轻快流畅,极具撩拨感",
+    "name": "宋志勋",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3493,7 +3493,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ElegantPrincess",
     "providerVoiceId": "Korean_ElegantPrincess",
-    "name": "靠谱队友 - 清冷高贵,干练利落,威严自信",
+    "name": "权恩律",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3526,7 +3526,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_BraveFemaleWarrior",
     "providerVoiceId": "Korean_BraveFemaleWarrior",
-    "name": "坚定女声 - 清亮凛冽,干脆利落,领袖风范",
+    "name": "白秀京",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3559,7 +3559,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_BraveYouth",
     "providerVoiceId": "Korean_BraveYouth",
-    "name": "温柔青年 - 清朗明快,轻快跳跃,恋爱氛围感",
+    "name": "林灿宇",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3592,7 +3592,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CalmLady",
     "providerVoiceId": "Korean_CalmLady",
-    "name": "冷静女声 - 清冷优雅,沉稳内敛,威严冷静",
+    "name": "安书静",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3625,7 +3625,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_EnthusiasticTeen",
     "providerVoiceId": "Korean_EnthusiasticTeen",
-    "name": "活力少年 - 清亮高亢,急促有力,少年英雄感",
+    "name": "河俊灿",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3658,7 +3658,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_SoothingLady",
     "providerVoiceId": "Korean_SoothingLady",
-    "name": "慵懒女声 - 温柔慵懒,舒缓流畅,亲切迷人",
+    "name": "朴柔恩",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3691,7 +3691,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_IntellectualSenior",
     "providerVoiceId": "Korean_IntellectualSenior",
-    "name": "温润男声 - 温润清澈,舒缓从容,淡然诗意",
+    "name": "韩书源",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3724,7 +3724,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_LonelyWarrior",
     "providerVoiceId": "Korean_LonelyWarrior",
-    "name": "孤胆游侠 - 略带沙哑,干脆利落,冷峻魅力",
+    "name": "崔允赫",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3757,7 +3757,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_MatureLady",
     "providerVoiceId": "Korean_MatureLady",
-    "name": "冷傲女王 - 冷艳锐利,果断傲慢,自信轻蔑",
+    "name": "郑瑟雅",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3790,7 +3790,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_InnocentBoy",
     "providerVoiceId": "Korean_InnocentBoy",
-    "name": "清澈少年 - 清澈稚嫩,温柔诚恳,乖巧少年",
+    "name": "姜旻佑",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3823,7 +3823,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CharmingSister",
     "providerVoiceId": "Korean_CharmingSister",
-    "name": "冷艳女声 - 低沉略带沙哑,自信且充满压迫感,危险迷人",
+    "name": "尹慧律",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3856,7 +3856,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_AthleticStudent",
     "providerVoiceId": "Korean_AthleticStudent",
-    "name": "热血运动员 - 明亮高亢,干脆利落,热血激昂",
+    "name": "李泰昂",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3889,7 +3889,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_BraveAdventurer",
     "providerVoiceId": "Korean_BraveAdventurer",
-    "name": "Brave Adventurer - 清脆明亮,灵动活泼,顽皮乐观",
+    "name": "申多琳",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3922,7 +3922,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CalmGentleman",
     "providerVoiceId": "Korean_CalmGentleman",
-    "name": "Calm Gentleman - 低沉优雅,从容不迫,充满故事感",
+    "name": "宋道谦",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3955,7 +3955,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_WiseElf",
     "providerVoiceId": "Korean_WiseElf",
-    "name": "Wise Elf - 温柔细腻,舒缓轻柔,认真羞涩",
+    "name": "赵素恩",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -3988,7 +3988,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CheerfulCoolJunior",
     "providerVoiceId": "Korean_CheerfulCoolJunior",
-    "name": "Cheerful Cool Junior - 清亮爽朗,自信轻快,热血无畏",
+    "name": "吴承律",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4021,7 +4021,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_DecisiveQueen",
     "providerVoiceId": "Korean_DecisiveQueen",
-    "name": "Decisive Queen - 清脆明亮,干脆利落,强气自信",
+    "name": "金艺岚",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4054,7 +4054,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ColdYoungMan",
     "providerVoiceId": "Korean_ColdYoungMan",
-    "name": "Cold Young Man - 清冷清澈,娓娓道来,冷静且克制",
+    "name": "朴时安",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4087,7 +4087,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_MysteriousGirl",
     "providerVoiceId": "Korean_MysteriousGirl",
-    "name": "Mysterious Girl - 甜美高亢,干脆利落,元气满满",
+    "name": "柳熙娜",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4120,7 +4120,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_QuirkyGirl",
     "providerVoiceId": "Korean_QuirkyGirl",
-    "name": "Quirky Girl - 清脆明亮,轻快跳跃,元气少女感",
+    "name": "林夏温",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4153,7 +4153,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ConsiderateSenior",
     "providerVoiceId": "Korean_ConsiderateSenior",
-    "name": "Considerate Senior - 温暖厚实,舒缓从容,关怀感",
+    "name": "权知贤",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4186,7 +4186,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CheerfulLittleSister",
     "providerVoiceId": "Korean_CheerfulLittleSister",
-    "name": "Cheerful Little Sister - 清脆明亮,语速轻快活泼,热情亲切",
+    "name": "安夏琳",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4219,7 +4219,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_DominantMan",
     "providerVoiceId": "Korean_DominantMan",
-    "name": "Dominant Man - 冷峻低沉,沉稳克制,高冷贵公子",
+    "name": "河泰尹",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4252,7 +4252,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_AirheadedGirl",
     "providerVoiceId": "Korean_AirheadedGirl",
-    "name": "Airheaded Girl - 清脆明亮,干脆利落,傲娇感",
+    "name": "白艺真",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4285,7 +4285,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ReliableYouth",
     "providerVoiceId": "Korean_ReliableYouth",
-    "name": "Reliable Youth - 干净纯粹,干脆利落,正气凛然",
+    "name": "崔正宰",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4318,7 +4318,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_FriendlyBigSister",
     "providerVoiceId": "Korean_FriendlyBigSister",
-    "name": "Friendly Big Sister - 略带沙哑,自信从容,极具诱惑力",
+    "name": "姜敏书",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4351,7 +4351,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_GentleBoss",
     "providerVoiceId": "Korean_GentleBoss",
-    "name": "Gentle Boss - 阴冷沙哑,阴狠果断,黑暗压迫感",
+    "name": "宋承赫",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4384,7 +4384,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ColdGirl",
     "providerVoiceId": "Korean_ColdGirl",
-    "name": "Cold Girl - 轻柔慵懒,缓慢拖沓,淡漠疏离",
+    "name": "郑澄妍",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4417,7 +4417,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_HaughtyLady",
     "providerVoiceId": "Korean_HaughtyLady",
-    "name": "Haughty Lady - 通透澄澈,不紧不慢,孤傲神秘",
+    "name": "尹瑞澜",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4450,7 +4450,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CharmingElderSister",
     "providerVoiceId": "Korean_CharmingElderSister",
-    "name": "Charming Elder Sister - 华丽优雅,从容不迫,神秘且撩人",
+    "name": "韩彩恩",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4483,7 +4483,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_IntellectualMan",
     "providerVoiceId": "Korean_IntellectualMan",
-    "name": "Intellectual Man - 低沉醇厚,舒缓慵懒,温柔亲昵",
+    "name": "吴贤律",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4516,7 +4516,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CaringWoman",
     "providerVoiceId": "Korean_CaringWoman",
-    "name": "Caring Woman - 清脆明亮,轻快活泼,俏皮可爱",
+    "name": "李善妍",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4549,7 +4549,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_WiseTeacher",
     "providerVoiceId": "Korean_WiseTeacher",
-    "name": "Wise Teacher - 清亮明快,干脆利落,运筹帷幄的傲气",
+    "name": "申佑谦",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4582,7 +4582,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ConfidentBoss",
     "providerVoiceId": "Korean_ConfidentBoss",
-    "name": "Confident Boss - 沙哑磁性,从容不迫,幕后操纵感",
+    "name": "赵承岚",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4615,7 +4615,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_AthleticGirl",
     "providerVoiceId": "Korean_AthleticGirl",
-    "name": "Athletic Girl - 清脆明亮,欢快跳跃,元气满满",
+    "name": "金书瑶",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4648,7 +4648,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_PossessiveMan",
     "providerVoiceId": "Korean_PossessiveMan",
-    "name": "Possessive Man - 冷冽富有磁性,从容不迫,高冷统领感",
+    "name": "权泰谦",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4681,7 +4681,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_GentleWoman",
     "providerVoiceId": "Korean_GentleWoman",
-    "name": "Gentle Woman - 清澈温润,彬彬有礼,大家闺秀感",
+    "name": "柳允静",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4714,7 +4714,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_CockyGuy",
     "providerVoiceId": "Korean_CockyGuy",
-    "name": "Cocky Guy - 中气十足,极具爆发力,狂妄感",
+    "name": "安道烈",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4747,7 +4747,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_ThoughtfulWoman",
     "providerVoiceId": "Korean_ThoughtfulWoman",
-    "name": "Thoughtful Woman - 清脆明亮,轻快活泼,亲切可爱",
+    "name": "林恩菲",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4780,7 +4780,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Korean_OptimisticYouth",
     "providerVoiceId": "Korean_OptimisticYouth",
-    "name": "Optimistic Youth - 清亮,轻快活泼,元气满满",
+    "name": "白允河",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4813,7 +4813,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_SereneWoman",
     "providerVoiceId": "Spanish_SereneWoman",
-    "name": "Serene Woman - 明亮清脆,灵活多变,生动活泼",
+    "name": "Alma Valverde",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4846,7 +4846,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_MaturePartner",
     "providerVoiceId": "Spanish_MaturePartner",
-    "name": "Mature Partner - 粗犷沙哑,慵懒随意,历经沧桑",
+    "name": "Esteban Zamora",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4879,7 +4879,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_CaptivatingStoryteller",
     "providerVoiceId": "Spanish_CaptivatingStoryteller",
-    "name": "Captivating Storyteller - 深沉厚重,娓娓道来,历史厚重感",
+    "name": "Tomás Medina",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4912,7 +4912,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Narrator",
     "providerVoiceId": "Spanish_Narrator",
-    "name": "Narrator - 热情洋溢,夸张戏剧化,慈祥母亲角色",
+    "name": "Rosario Montalvo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4945,7 +4945,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_WiseScholar",
     "providerVoiceId": "Spanish_WiseScholar",
-    "name": "Wise Scholar - 清亮质朴,如话家常,邻家男孩",
+    "name": "Daniel Amaya",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -4978,7 +4978,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Kind-heartedGirl",
     "providerVoiceId": "Spanish_Kind-heartedGirl",
-    "name": "Kind-hearted Girl - 甜美清亮,轻快活泼,邻家亲切感",
+    "name": "Abril Cordero",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5011,7 +5011,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_DeterminedManager",
     "providerVoiceId": "Spanish_DeterminedManager",
-    "name": "Determined Manager - 锐利坚定,字字铿锵,充满压迫感",
+    "name": "Raquel Ferrer",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5044,7 +5044,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_BossyLeader",
     "providerVoiceId": "Spanish_BossyLeader",
-    "name": "Bossy Leader - 沙哑粗砺,威严有力,带有压迫感",
+    "name": "Gonzalo Peñalosa",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5077,7 +5077,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ReservedYoungMan",
     "providerVoiceId": "Spanish_ReservedYoungMan",
-    "name": "Reserved Young Man - 温润清澈,娓娓道来,极具叙事感",
+    "name": "Samuel Rojas",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5110,7 +5110,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ConfidentWoman",
     "providerVoiceId": "Spanish_ConfidentWoman",
-    "name": "Confident Woman - 明亮清晰,干脆利落,知性力量感",
+    "name": "Lola Serrano",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5143,7 +5143,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ThoughtfulMan",
     "providerVoiceId": "Spanish_ThoughtfulMan",
-    "name": "Thoughtful Man - 温润磁性,娓娓道来,亲切自然",
+    "name": "Javier Saavedra",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5176,7 +5176,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Strong-WilledBoy",
     "providerVoiceId": "Spanish_Strong-WilledBoy",
-    "name": "Strong-willed Boy - 清亮坚定,充满激情,热血",
+    "name": "Rafael Cabrera",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5209,7 +5209,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_SophisticatedLady",
     "providerVoiceId": "Spanish_SophisticatedLady",
-    "name": "Sophisticated Lady - 略带沙哑,豪爽干练,自信笃定",
+    "name": "Carmen Quintana",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5242,7 +5242,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_RationalMan",
     "providerVoiceId": "Spanish_RationalMan",
-    "name": "Rational Man - 低沉浑厚,从容不迫,严肃冷峻",
+    "name": "Ignacio Salcedo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5275,7 +5275,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_AnimeCharacter",
     "providerVoiceId": "Spanish_AnimeCharacter",
-    "name": "Anime Character - 粗犷沙哑,急促多变,紧张氛围感",
+    "name": "Beatriz Zamora",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5308,7 +5308,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Deep-tonedMan",
     "providerVoiceId": "Spanish_Deep-tonedMan",
-    "name": "Deep-toned Man - 浑厚,抑扬顿挫,反派魅力",
+    "name": "Héctor Figueroa",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5341,7 +5341,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Fussyhostess",
     "providerVoiceId": "Spanish_Fussyhostess",
-    "name": "Fussy hostess - 尖锐高亢,急促迫切,傲慢且挑剔",
+    "name": "Leonor Paredes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5374,7 +5374,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_SincereTeen",
     "providerVoiceId": "Spanish_SincereTeen",
-    "name": "Sincere Teen - 清脆明亮,节奏急促,充满吐槽感",
+    "name": "Nico Navarro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5407,7 +5407,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_FrankLady",
     "providerVoiceId": "Spanish_FrankLady",
-    "name": "Frank Lady - 明亮尖锐,节奏急促,极具戏剧张力",
+    "name": "Marina Cordero",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5440,7 +5440,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Comedian",
     "providerVoiceId": "Spanish_Comedian",
-    "name": "Comedian - 高亢明快,抑扬顿挫,幽默诙谐",
+    "name": "Lucas Cabrera",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5473,7 +5473,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Debator",
     "providerVoiceId": "Spanish_Debator",
-    "name": "Debator - 沙哑粗砺,抑扬顿挫,狡黠匪气",
+    "name": "Víctor Medina",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5506,7 +5506,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ToughBoss",
     "providerVoiceId": "Spanish_ToughBoss",
-    "name": "Tough Boss - 低沉沙哑,极具戏剧张力,严肃厚重",
+    "name": "Teresa Rojas",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5539,7 +5539,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Wiselady",
     "providerVoiceId": "Spanish_Wiselady",
-    "name": "Wise Lady - 清亮优雅,节奏精准,神秘引导感",
+    "name": "Clara Ortega",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5572,7 +5572,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Steadymentor",
     "providerVoiceId": "Spanish_Steadymentor",
-    "name": "Steady Mentor - 粗砺沙哑,戏剧夸张,凶狠狂妄",
+    "name": "Rodrigo Cordero",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5605,7 +5605,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Jovialman",
     "providerVoiceId": "Spanish_Jovialman",
-    "name": "Jovial Man - 略带沙哑,慵懒随性,乐天搞怪",
+    "name": "Joaquín Rojas",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5638,7 +5638,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_SantaClaus",
     "providerVoiceId": "Spanish_SantaClaus",
-    "name": "Santa Claus - 浑厚洪亮,抑扬顿挫,和蔼可亲",
+    "name": "Emilio Fuentes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5671,7 +5671,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Rudolph",
     "providerVoiceId": "Spanish_Rudolph",
-    "name": "Rudolph - 稚嫩鼻音,迟缓笨拙,纯真童趣",
+    "name": "Diego Valverde",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5704,7 +5704,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Intonategirl",
     "providerVoiceId": "Spanish_Intonategirl",
-    "name": "Intonate Girl - 清脆明亮,节奏轻快跳跃,戏剧张力",
+    "name": "Noelia Zamora",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5737,7 +5737,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Arnold",
     "providerVoiceId": "Spanish_Arnold",
-    "name": "Arnold - 低沉沙哑,娓娓道来,阅历感",
+    "name": "Isidro Peñalosa",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5770,7 +5770,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_Ghost",
     "providerVoiceId": "Spanish_Ghost",
-    "name": "Ghost - 粗犷沙哑,干练急促,战场实况感",
+    "name": "Ramiro Cabrera",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5803,7 +5803,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_HumorousElder",
     "providerVoiceId": "Spanish_HumorousElder",
-    "name": "Humorous Elder - 沙哑滑稽,夸张起伏,喜剧画面感",
+    "name": "Teodoro Serrano",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5836,7 +5836,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_EnergeticBoy",
     "providerVoiceId": "Spanish_EnergeticBoy",
-    "name": "Energetic Boy - 清脆明亮,轻快活泼,充满朝气",
+    "name": "Gael Figueroa",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5869,7 +5869,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_WhimsicalGirl",
     "providerVoiceId": "Spanish_WhimsicalGirl",
-    "name": "Whimsical Girl - 甜美细腻,轻快灵动,古灵精怪",
+    "name": "Lía Bermejo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5902,7 +5902,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_StrictBoss",
     "providerVoiceId": "Spanish_StrictBoss",
-    "name": "Strict Boss - 硬朗有力,干脆利落,严厉紧迫",
+    "name": "Vega Peñalosa",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5935,7 +5935,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ReliableMan",
     "providerVoiceId": "Spanish_ReliableMan",
-    "name": "Reliable Man - 低沉浑厚,从容不迫,沉稳与睿智",
+    "name": "Sergio Paredes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -5968,7 +5968,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_SereneElder",
     "providerVoiceId": "Spanish_SereneElder",
-    "name": "Serene Elder - 苍老沙哑,节奏缓慢,充满戏剧张力",
+    "name": "Joaquín Correa",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6001,7 +6001,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_AngryMan",
     "providerVoiceId": "Spanish_AngryMan",
-    "name": "Angry Man - 紧绷高亢,急促激烈,歇斯底里",
+    "name": "Álvaro Medina",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6034,7 +6034,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_AssertiveQueen",
     "providerVoiceId": "Spanish_AssertiveQueen",
-    "name": "Assertive Queen - 清亮锐利,干脆利落,高冷且果断",
+    "name": "Ángela Cabrera",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6067,7 +6067,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_CaringGirlfriend",
     "providerVoiceId": "Spanish_CaringGirlfriend",
-    "name": "Caring Girlfriend - 甜美柔和,舒缓流畅,邻家亲切感",
+    "name": "Julia Navarro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6100,7 +6100,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_PowerfulSoldier",
     "providerVoiceId": "Spanish_PowerfulSoldier",
-    "name": "Powerful Soldier - 刚毅有力,干脆利落,极具战斗感",
+    "name": "Darío Rojas",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6133,7 +6133,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_PassionateWarrior",
     "providerVoiceId": "Spanish_PassionateWarrior",
-    "name": "Passionate Warrior - 清朗,紧凑有力,热血",
+    "name": "Joel Ortega",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6166,7 +6166,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ChattyGirl",
     "providerVoiceId": "Spanish_ChattyGirl",
-    "name": "Chatty Girl - 甜美明亮,轻快跳跃,邻家女孩般的陪伴感",
+    "name": "Paloma Medina",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6199,7 +6199,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_RomanticHusband",
     "providerVoiceId": "Spanish_RomanticHusband",
-    "name": "Romantic Husband - 自然松弛,随意慵懒,愤世嫉俗",
+    "name": "Simón Montalvo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6232,7 +6232,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_CompellingGirl",
     "providerVoiceId": "Spanish_CompellingGirl",
-    "name": "Compelling Girl - 清亮坚定,干脆利落,自信果敢",
+    "name": "Pilar Amaya",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6265,7 +6265,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_PowerfulVeteran",
     "providerVoiceId": "Spanish_PowerfulVeteran",
-    "name": "Powerful Veteran - 低沉粗砺,强硬有力,充满压迫感",
+    "name": "Emilio Salcedo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6298,7 +6298,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_SensibleManager",
     "providerVoiceId": "Spanish_SensibleManager",
-    "name": "Sensible Manager - 略带沙哑,节奏急促,焦急恳切",
+    "name": "Teodoro Navarro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6331,7 +6331,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Spanish_ThoughtfulLady",
     "providerVoiceId": "Spanish_ThoughtfulLady",
-    "name": "Thoughtful Lady - 柔和细腻,舒缓自然,生活化",
+    "name": "Elena Fuentes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6364,7 +6364,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SentimentalLady",
     "providerVoiceId": "Portuguese_SentimentalLady",
-    "name": "Sentimental Lady - 尖锐明亮,夸张多变,傲慢且神经质",
+    "name": "Mafalda Figueira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6397,7 +6397,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_BossyLeader",
     "providerVoiceId": "Portuguese_BossyLeader",
-    "name": "Bossy Leader - 低沉沙哑,强硬有力,严肃冷峻",
+    "name": "Duarte Batista",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6430,7 +6430,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Wiselady",
     "providerVoiceId": "Portuguese_Wiselady",
-    "name": "Wise lady - 清晰明亮,从容不迫,具有引导性",
+    "name": "Beatriz Caldeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6463,7 +6463,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Strong-WilledBoy",
     "providerVoiceId": "Portuguese_Strong-WilledBoy",
-    "name": "Strong-willed Boy - 清朗坚定,抑扬顿挫,热血",
+    "name": "Vasco Carvalho",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6496,7 +6496,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Deep-VoicedGentleman",
     "providerVoiceId": "Portuguese_Deep-VoicedGentleman",
-    "name": "Deep-voiced Gentleman - 低沉沙哑,张弛有度,极具戏剧张力",
+    "name": "Lourenço Sampaio",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6529,7 +6529,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_UpsetGirl",
     "providerVoiceId": "Portuguese_UpsetGirl",
-    "name": "Upset Girl - 轻柔细腻,缓慢迟疑,忧郁歉意",
+    "name": "Inês Peixoto",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6562,7 +6562,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_PassionateWarrior",
     "providerVoiceId": "Portuguese_PassionateWarrior",
-    "name": "Passionate Warrior - 清亮激昂,节奏紧凑,热血自信",
+    "name": "André Coelho",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6595,7 +6595,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_AnimeCharacter",
     "providerVoiceId": "Portuguese_AnimeCharacter",
-    "name": "Anime Character - 高亢明亮,急促紧凑,充满戏剧张力",
+    "name": "Carolina Tavares",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6628,7 +6628,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ConfidentWoman",
     "providerVoiceId": "Portuguese_ConfidentWoman",
-    "name": "Confident Woman - 明亮穿透,坚定有力,自信且充满气场",
+    "name": "Catarina Queiroz",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6661,7 +6661,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_AngryMan",
     "providerVoiceId": "Portuguese_AngryMan",
-    "name": "Angry Man - 紧绷且略带沙哑,节奏急促,极具对抗性",
+    "name": "Rui Teixeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6694,7 +6694,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CaptivatingStoryteller",
     "providerVoiceId": "Portuguese_CaptivatingStoryteller",
-    "name": "Captivating Storyteller - 低沉浑厚,娓娓道来,充满叙事感",
+    "name": "Salvador Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6727,7 +6727,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Godfather",
     "providerVoiceId": "Portuguese_Godfather",
-    "name": "Godfather - 沙哑低沉,缓慢凝重,充满压迫感",
+    "name": "António Cunha",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6760,7 +6760,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ReservedYoungMan",
     "providerVoiceId": "Portuguese_ReservedYoungMan",
-    "name": "Reserved Young Man - 纯净透亮,彬彬有礼,内敛真诚",
+    "name": "Nuno Teixeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6793,7 +6793,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SmartYoungGirl",
     "providerVoiceId": "Portuguese_SmartYoungGirl",
-    "name": "Smart Young Girl - 高昂清脆,灵动活泼,机灵古怪",
+    "name": "Rita Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6826,7 +6826,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Kind-heartedGirl",
     "providerVoiceId": "Portuguese_Kind-heartedGirl",
-    "name": "Kind-hearted Girl - 清澈甜美,轻快流畅,积极阳光",
+    "name": "Bruna Azevedo",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6859,7 +6859,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Pompouslady",
     "providerVoiceId": "Portuguese_Pompouslady",
-    "name": "Pompous lady - 高亢尖锐,矫揉造作,傲慢",
+    "name": "Filipa Nogueira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6892,7 +6892,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Grinch",
     "providerVoiceId": "Portuguese_Grinch",
-    "name": "Grinch - 沙哑粗砺,夸张多变,滑稽狡黠",
+    "name": "Henrique Nunes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6925,7 +6925,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Debator",
     "providerVoiceId": "Portuguese_Debator",
-    "name": "Debator - 沙哑粗砺,松弛痞气,狡黠市侩",
+    "name": "António Moura",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6958,7 +6958,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SweetGirl",
     "providerVoiceId": "Portuguese_SweetGirl",
-    "name": "Sweet Girl - 甜美娇俏,夸张戏剧化,虚荣傲慢",
+    "name": "Patrícia Sampaio",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -6991,7 +6991,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_AttractiveGirl",
     "providerVoiceId": "Portuguese_AttractiveGirl",
-    "name": "Attractive Girl - 甜美细腻,自然随性,邻家女孩感",
+    "name": "Luísa Peixoto",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7024,7 +7024,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ThoughtfulMan",
     "providerVoiceId": "Portuguese_ThoughtfulMan",
-    "name": "Thoughtful Man - 清亮干净,节奏轻快,诚恳活力",
+    "name": "Afonso Carvalho",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7057,7 +7057,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_PlayfulGirl",
     "providerVoiceId": "Portuguese_PlayfulGirl",
-    "name": "Playful Girl - 甜美清亮,灵动活泼,元气少女感",
+    "name": "Alice Campos",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7090,7 +7090,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_GorgeousLady",
     "providerVoiceId": "Portuguese_GorgeousLady",
-    "name": "Gorgeous Lady - 妩媚动人,娓娓道来,慵懒高贵",
+    "name": "Diana Braga",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7123,7 +7123,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_LovelyLady",
     "providerVoiceId": "Portuguese_LovelyLady",
-    "name": "Lovely Lady - 略带沙哑,干脆利落,具有统御力",
+    "name": "Isabel Rocha",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7156,7 +7156,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SereneWoman",
     "providerVoiceId": "Portuguese_SereneWoman",
-    "name": "Serene Woman - 明亮清晰,节奏灵活,舞台表演感",
+    "name": "Joana Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7189,7 +7189,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SadTeen",
     "providerVoiceId": "Portuguese_SadTeen",
-    "name": "Sad Teen - 略带沙哑,节奏急促,充满了讽刺",
+    "name": "Dinis Carvalho",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7222,7 +7222,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_MaturePartner",
     "providerVoiceId": "Portuguese_MaturePartner",
-    "name": "Mature Partner - 粗砺沙哑,抑扬顿挫,爱发牢骚",
+    "name": "Álvaro Sampaio",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7255,7 +7255,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Comedian",
     "providerVoiceId": "Portuguese_Comedian",
-    "name": "Comedian - 高亢明亮,抑扬顿挫,幽默滑稽",
+    "name": "Diogo Faria",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7288,7 +7288,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_NaughtySchoolgirl",
     "providerVoiceId": "Portuguese_NaughtySchoolgirl",
-    "name": "Naughty Schoolgirl - 清脆甜美,轻快跳跃,俏皮可爱",
+    "name": "Matilde Coelho",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7321,7 +7321,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Narrator",
     "providerVoiceId": "Portuguese_Narrator",
-    "name": "Narrator - 温暖亲切,轻快活泼,热情感染力",
+    "name": "Palmira Teixeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7354,7 +7354,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ToughBoss",
     "providerVoiceId": "Portuguese_ToughBoss",
-    "name": "Tough Boss - 略带沙哑,沉稳严肃,充满故事感",
+    "name": "Adriana Nunes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7387,7 +7387,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Fussyhostess",
     "providerVoiceId": "Portuguese_Fussyhostess",
-    "name": "Fussy hostess - 尖锐高亢,急促且充满压迫感,暴躁女王",
+    "name": "Fátima Moura",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7420,7 +7420,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Dramatist",
     "providerVoiceId": "Portuguese_Dramatist",
-    "name": "Dramatist - 沙哑,张扬夸张,狂放不羁",
+    "name": "César Leitão",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7453,7 +7453,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Steadymentor",
     "providerVoiceId": "Portuguese_Steadymentor",
-    "name": "Steady Mentor - 沙哑粗犷,抑扬顿挫,狂妄阴森",
+    "name": "Vicente Mendonça",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7486,7 +7486,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Jovialman",
     "providerVoiceId": "Portuguese_Jovialman",
-    "name": "Jovial Man - 粗犷且略带沙哑,节奏轻松随意,滑稽且极具亲和力",
+    "name": "Otávio Matos",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7519,7 +7519,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CharmingQueen",
     "providerVoiceId": "Portuguese_CharmingQueen",
-    "name": "Charming Queen - 冷艳磁性,慵懒优雅,高冷神秘",
+    "name": "Carla Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7552,7 +7552,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SantaClaus",
     "providerVoiceId": "Portuguese_SantaClaus",
-    "name": "Santa Claus - 浑厚洪亮,戏剧化,喜庆欢快",
+    "name": "Manuel Andrade",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7585,7 +7585,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Rudolph",
     "providerVoiceId": "Portuguese_Rudolph",
-    "name": "Rudolph - 鼻音质感,略显稚嫩,卡通形象感",
+    "name": "Clara Sequeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7618,7 +7618,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Arnold",
     "providerVoiceId": "Portuguese_Arnold",
-    "name": "Arnold - 浑厚低沉,从容不迫,亲历者叙事感",
+    "name": "Artur Pinheiro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7651,7 +7651,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CharmingSanta",
     "providerVoiceId": "Portuguese_CharmingSanta",
-    "name": "Charming Santa - 低沉沙哑,抑扬顿挫,威严神秘",
+    "name": "Joaquim Braga",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7684,7 +7684,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CharmingLady",
     "providerVoiceId": "Portuguese_CharmingLady",
-    "name": "Charming Lady - 气声饱满,耳边低语,性感撩人",
+    "name": "Teresa Teixeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7717,7 +7717,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Ghost",
     "providerVoiceId": "Portuguese_Ghost",
-    "name": "Ghost - 低沉沙哑,节奏干脆,冷静克制",
+    "name": "Fernando Braga",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7750,7 +7750,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_HumorousElder",
     "providerVoiceId": "Portuguese_HumorousElder",
-    "name": "Humorous Elder - 沙哑颤抖,夸张跳跃,诙谐幽默",
+    "name": "António Mendonça",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7783,7 +7783,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CalmLeader",
     "providerVoiceId": "Portuguese_CalmLeader",
-    "name": "Calm Leader - 低沉粗犷,随意自然,街头江湖气",
+    "name": "Rodrigo Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7816,7 +7816,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_GentleTeacher",
     "providerVoiceId": "Portuguese_GentleTeacher",
-    "name": "Gentle Teacher - 声线清澈,循循善诱,耐心讲解",
+    "name": "Joaquim Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7849,7 +7849,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_EnergeticBoy",
     "providerVoiceId": "Portuguese_EnergeticBoy",
-    "name": "Energetic Boy - 阳光清爽,活力四射,邻家大男孩",
+    "name": "Tomás Mendonça",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7882,7 +7882,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ReliableMan",
     "providerVoiceId": "Portuguese_ReliableMan",
-    "name": "Reliable Man - 低沉醇厚,娓娓道来,智者风范",
+    "name": "Tomé Peixoto",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7915,7 +7915,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SereneElder",
     "providerVoiceId": "Portuguese_SereneElder",
-    "name": "Serene Elder - 低沉沙哑,娓娓道来,故事感",
+    "name": "Manuel Nunes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7948,7 +7948,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_GrimReaper",
     "providerVoiceId": "Portuguese_GrimReaper",
-    "name": "Grim Reaper - 低沉沙哑,节奏冷酷,阴郁恐怖",
+    "name": "Duarte Tavares",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -7981,7 +7981,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_AssertiveQueen",
     "providerVoiceId": "Portuguese_AssertiveQueen",
-    "name": "Assertive Queen - 华丽富有质感,自信坚定,高贵冷艳",
+    "name": "Violeta Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8014,7 +8014,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_WhimsicalGirl",
     "providerVoiceId": "Portuguese_WhimsicalGirl",
-    "name": "Whimsical Girl - 清脆明亮,灵动多变,奇幻色彩",
+    "name": "Bianca Fernandes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8047,7 +8047,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_StressedLady",
     "providerVoiceId": "Portuguese_StressedLady",
-    "name": "Stressed Lady - 颤抖且略带气声,急促不安,绝望且焦虑",
+    "name": "Helena Moura",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8080,7 +8080,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_FriendlyNeighbor",
     "providerVoiceId": "Portuguese_FriendlyNeighbor",
-    "name": "Friendly Neighbor - 清脆明亮,语速干脆,充满活力",
+    "name": "Júlia Caldeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8113,7 +8113,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CaringGirlfriend",
     "providerVoiceId": "Portuguese_CaringGirlfriend",
-    "name": "Caring Girlfriend - 甜美细腻,富有韵律感,亲切温柔",
+    "name": "Madalena Fernandes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8146,7 +8146,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_PowerfulSoldier",
     "providerVoiceId": "Portuguese_PowerfulSoldier",
-    "name": "Powerful Soldier - 沙哑爆发,紧凑有力,热血激昂",
+    "name": "Vasco Neves",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8179,7 +8179,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_FascinatingBoy",
     "providerVoiceId": "Portuguese_FascinatingBoy",
-    "name": "Fascinating Boy - 明亮,跳跃轻快,热情洋溢",
+    "name": "Gil Faria",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8212,7 +8212,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_RomanticHusband",
     "providerVoiceId": "Portuguese_RomanticHusband",
-    "name": "Romantic Husband - 略带沙哑,抑扬顿挫,愤世嫉俗",
+    "name": "Lourenço Matos",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8245,7 +8245,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_StrictBoss",
     "providerVoiceId": "Portuguese_StrictBoss",
-    "name": "Strict Boss - 清晰高亢,果断干脆,紧张专注",
+    "name": "Celina Pinheiro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8278,7 +8278,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_InspiringLady",
     "providerVoiceId": "Portuguese_InspiringLady",
-    "name": "Inspiring Lady - 清脆甜美,充满活力,热情洋溢",
+    "name": "Margarida Queiroz",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8311,7 +8311,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_PlayfulSpirit",
     "providerVoiceId": "Portuguese_PlayfulSpirit",
-    "name": "Playful Spirit - 高亢明亮,节奏急促,俏皮叛逆",
+    "name": "Vera Barros",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8344,7 +8344,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ElegantGirl",
     "providerVoiceId": "Portuguese_ElegantGirl",
-    "name": "Elegant Girl - 声线清脆尖细,节奏急促,富有戏剧张力",
+    "name": "Sofia Leitão",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8377,7 +8377,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_CompellingGirl",
     "providerVoiceId": "Portuguese_CompellingGirl",
-    "name": "Compelling Girl - 清晰坚实,节奏紧凑,指令感强",
+    "name": "Catarina Mendonça",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8410,7 +8410,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_PowerfulVeteran",
     "providerVoiceId": "Portuguese_PowerfulVeteran",
-    "name": "Powerful Veteran - 粗砺深沉,缓慢坚定,上位者气息",
+    "name": "Rui Campos",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8443,7 +8443,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_SensibleManager",
     "providerVoiceId": "Portuguese_SensibleManager",
-    "name": "Sensible Manager - 厚重且略带沙哑,充满情感起伏,忧心忡忡",
+    "name": "Salvador Fernandes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8476,7 +8476,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ThoughtfulLady",
     "providerVoiceId": "Portuguese_ThoughtfulLady",
-    "name": "Thoughtful Lady - 柔和亲切,极具生活气息,充满关切",
+    "name": "Sara Cunha",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8509,7 +8509,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_TheatricalActor",
     "providerVoiceId": "Portuguese_TheatricalActor",
-    "name": "Theatrical Actor - 浑厚粗犷,戏剧腔调浓郁,傲慢且充满威胁",
+    "name": "Henrique Caldeira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8542,7 +8542,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_FragileBoy",
     "providerVoiceId": "Portuguese_FragileBoy",
-    "name": "Fragile Boy - 带有颤抖气声,节奏迟疑,脆弱",
+    "name": "Luís Tavares",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8575,7 +8575,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_ChattyGirl",
     "providerVoiceId": "Portuguese_ChattyGirl",
-    "name": "Chatty Girl - 甜美明亮,轻快活泼,邻家亲切感",
+    "name": "Beatriz Valença",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8608,7 +8608,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_Conscientiousinstructor",
     "providerVoiceId": "Portuguese_Conscientiousinstructor",
-    "name": "Conscientious Instructor - 清脆明亮,轻快流畅,热情亲切",
+    "name": "Carolina Pinheiro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8641,7 +8641,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_RationalMan",
     "providerVoiceId": "Portuguese_RationalMan",
-    "name": "Rational Man - 低沉浑厚,缓慢从容,权威气质",
+    "name": "António Valença",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8674,7 +8674,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_WiseScholar",
     "providerVoiceId": "Portuguese_WiseScholar",
-    "name": "Wise Scholar - 清亮明快,干脆利落,邻家亲切感",
+    "name": "Bento Fernandes",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8707,7 +8707,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_FrankLady",
     "providerVoiceId": "Portuguese_FrankLady",
-    "name": "Frank Lady - 略带沙哑,节奏急促,充满生活气息",
+    "name": "Filipa Faria",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8740,7 +8740,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Portuguese_DeterminedManager",
     "providerVoiceId": "Portuguese_DeterminedManager",
-    "name": "Determined Manager - 尖锐且充满张力,节奏急促,严肃且具有对抗性",
+    "name": "Patrícia Figueira",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8773,7 +8773,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-French_Male_Speech_New",
     "providerVoiceId": "French_Male_Speech_New",
-    "name": "Level-Headed Man - 清晰明朗,娓娓道来,专家权威感",
+    "name": "Mathis Delorme",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8806,7 +8806,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-French_Female_News Anchor",
     "providerVoiceId": "French_Female_News Anchor",
-    "name": "Patient Female Presenter - 知性清晰,流畅自然,专业客观",
+    "name": "Élise Marceau",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8839,7 +8839,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-French_CasualMan",
     "providerVoiceId": "French_CasualMan",
-    "name": "Casual Man - 温润且富有质感,娓娓道来,具有思辨性",
+    "name": "Théo Valette",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8872,7 +8872,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-French_MovieLeadFemale",
     "providerVoiceId": "French_MovieLeadFemale",
-    "name": "Movie Lead Female - 清脆明亮,急促多变,情绪饱满",
+    "name": "Camille Roux",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8905,7 +8905,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-French_FemaleAnchor",
     "providerVoiceId": "French_FemaleAnchor",
-    "name": "Female Anchor - 略带沙哑,娓娓道来,极具文艺感",
+    "name": "Anaïs Beaumont",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8938,7 +8938,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-French_MaleNarrator",
     "providerVoiceId": "French_MaleNarrator",
-    "name": "Male Narrator - 清澈干净,娓娓道来,亲切自然",
+    "name": "Julien Morel",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -8971,7 +8971,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_SweetGirl",
     "providerVoiceId": "Indonesian_SweetGirl",
-    "name": "Sweet Girl - 高亢明亮,戏剧化,自恋傲娇",
+    "name": "Putri Wulandari",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9004,7 +9004,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_ReservedYoungMan",
     "providerVoiceId": "Indonesian_ReservedYoungMan",
-    "name": "Reserved Young Man - 干净清澈,娓娓道来,内敛深情",
+    "name": "Raka Santoso",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9037,7 +9037,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_CharmingGirl",
     "providerVoiceId": "Indonesian_CharmingGirl",
-    "name": "Charming Girl - 甜美细腻,自然随性,亲切邻家",
+    "name": "Alya Maharani",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9070,7 +9070,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_CalmWoman",
     "providerVoiceId": "Indonesian_CalmWoman",
-    "name": "Calm Woman - 清脆明亮,流畅自然,戏剧张力",
+    "name": "Dina Kusumawati",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9103,7 +9103,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_ConfidentWoman",
     "providerVoiceId": "Indonesian_ConfidentWoman",
-    "name": "Confident Woman - 明亮圆润,从容坚定,干练大方",
+    "name": "Rani Suryani",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9136,7 +9136,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_CaringMan",
     "providerVoiceId": "Indonesian_CaringMan",
-    "name": "Caring Man - 富有磁性,抑扬顿挫,电影独白般",
+    "name": "Arif Pratama",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9169,7 +9169,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_BossyLeader",
     "providerVoiceId": "Indonesian_BossyLeader",
-    "name": "Bossy Leader - 低沉粗犷,语气强硬,战场指挥感",
+    "name": "Bima Wicaksono",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9202,7 +9202,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_DeterminedBoy",
     "providerVoiceId": "Indonesian_DeterminedBoy",
-    "name": "Determined Boy - 清亮有力,坚定果敢,热血",
+    "name": "Dimas Saputra",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9235,7 +9235,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Indonesian_GentleGirl",
     "providerVoiceId": "Indonesian_GentleGirl",
-    "name": "Gentle Girl - 软糯轻柔,舒缓慵懒,呆萌",
+    "name": "Sari Anggraini",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9268,7 +9268,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-German_FriendlyMan",
     "providerVoiceId": "German_FriendlyMan",
-    "name": "Friendly Man - 轻松自然,如话家常,邻家感",
+    "name": "Felix Hartmann",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9301,7 +9301,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-German_SweetLady",
     "providerVoiceId": "German_SweetLady",
-    "name": "Sweet Lady - 轻柔细腻,舒缓流畅,忧郁深情",
+    "name": "Mira Falkenberg",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9334,7 +9334,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-German_PlayfulMan",
     "providerVoiceId": "German_PlayfulMan",
-    "name": "Playful Man - 自然清亮,轻快流畅,亲密交谈",
+    "name": "Jonas Albrecht",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9367,7 +9367,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_HandsomeChildhoodFriend",
     "providerVoiceId": "Russian_HandsomeChildhoodFriend",
-    "name": "Handsome Childhood Friend - 低沉沙哑,慵懒随意,耳边低语感",
+    "name": "Лада Белова",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9400,7 +9400,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_BrightHeroine",
     "providerVoiceId": "Russian_BrightHeroine",
-    "name": "Bright Queen - 略带沙哑,干脆利落,不羁野性",
+    "name": "Вера Орлова",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9433,7 +9433,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_AmbitiousWoman",
     "providerVoiceId": "Russian_AmbitiousWoman",
-    "name": "Ambitious Woman - 略带沙哑,干练直爽,酷飒御姐感",
+    "name": "Кира Зорина",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9466,7 +9466,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_ReliableMan",
     "providerVoiceId": "Russian_ReliableMan",
-    "name": "Reliable Man - 低沉沙哑,沉稳有力,历尽沧桑",
+    "name": "Матвей Громов",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9499,7 +9499,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_CrazyQueen",
     "providerVoiceId": "Russian_CrazyQueen",
-    "name": "Crazy Girl - 高亢明亮,充满爆发力,古灵精怪",
+    "name": "Алиса Рыжова",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9532,7 +9532,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_PessimisticGirl",
     "providerVoiceId": "Russian_PessimisticGirl",
-    "name": "Pessimistic Girl - 清冷脆弱,克制不安,悲观内向",
+    "name": "Нина Лаврова",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9565,7 +9565,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_AttractiveGuy",
     "providerVoiceId": "Russian_AttractiveGuy",
-    "name": "Attractive Guy - 低沉磁性,语调慵懒,霸道男友感",
+    "name": "Арсений Волков",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9598,7 +9598,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Russian_Bad-temperedBoy",
     "providerVoiceId": "Russian_Bad-temperedBoy",
-    "name": "Bad-tempered Boy - 稚嫩清亮,干脆利落,二次元画面感",
+    "name": "Лев Савельев",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9631,7 +9631,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Italian_BraveHeroine",
     "providerVoiceId": "Italian_BraveHeroine",
-    "name": "Brave Heroine - 略带沙哑,干脆利落,高冷御姐",
+    "name": "Giulia Ferraro",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9664,7 +9664,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Italian_Narrator",
     "providerVoiceId": "Italian_Narrator",
-    "name": "Narrator - 低沉浑厚,娓娓道来,沉浸式",
+    "name": "Lorenzo Bellini",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9697,7 +9697,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Italian_WanderingSorcerer",
     "providerVoiceId": "Italian_WanderingSorcerer",
-    "name": "Wandering Sorcerer - 低沉沙哑,慵懒随意,优雅神秘",
+    "name": "Viola Rinaldi",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9730,7 +9730,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Italian_DiligentLeader",
     "providerVoiceId": "Italian_DiligentLeader",
-    "name": "Diligent Leader - 略带沙哑,从容不迫,高傲且充满气场",
+    "name": "Beatrice Caruso",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9763,7 +9763,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Arabic_CalmWoman",
     "providerVoiceId": "Arabic_CalmWoman",
-    "name": "Calm Woman - 柔和温润,娓娓道来,理性通透",
+    "name": "ليلى منصور",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9796,7 +9796,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Arabic_FriendlyGuy",
     "providerVoiceId": "Arabic_FriendlyGuy",
-    "name": "Friendly Guy - 醇厚温暖,从容淡定,宠溺感",
+    "name": "عمر ناصر",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9829,7 +9829,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Turkish_CalmWoman",
     "providerVoiceId": "Turkish_CalmWoman",
-    "name": "Calm Woman - 柔和质感,舒缓流畅,沉稳亲和",
+    "name": "Elif Arslan",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9862,7 +9862,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Turkish_Trustworthyman",
     "providerVoiceId": "Turkish_Trustworthyman",
-    "name": "Trustworthy man - 低沉沙哑,娓娓道来,质朴真诚",
+    "name": "Kerem Yıldız",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9895,7 +9895,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Ukrainian_CalmWoman",
     "providerVoiceId": "Ukrainian_CalmWoman",
-    "name": "Calm Woman - 知性温婉,娓娓道来,治愈感",
+    "name": "Олена Кравченко",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9928,7 +9928,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Ukrainian_WiseScholar",
     "providerVoiceId": "Ukrainian_WiseScholar",
-    "name": "Wise Scholar - 清亮质朴,自然随性,亲切接地气",
+    "name": "Марко Левченко",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9961,7 +9961,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Dutch_kindhearted_girl",
     "providerVoiceId": "Dutch_kindhearted_girl",
-    "name": "Kind-hearted girl - 甜美细腻,清晰明快,温暖亲切",
+    "name": "Lotte van Dijk",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -9994,7 +9994,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Dutch_bossy_leader",
     "providerVoiceId": "Dutch_bossy_leader",
-    "name": "Bossy leader - 沙哑颗粒感,斩钉截铁,霸气外露",
+    "name": "Bram de Vries",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10027,7 +10027,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Vietnamese_kindhearted_girl",
     "providerVoiceId": "Vietnamese_kindhearted_girl",
-    "name": "Kind-hearted girl - 甜美细腻,轻快流畅,邻家女孩",
+    "name": "Trần Ngọc Anh",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10060,7 +10060,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Thai_male_1_sample8",
     "providerVoiceId": "Thai_male_1_sample8",
-    "name": "Serene Man - 醇厚温润,娓娓道来,治愈感",
+    "name": "Niran Sutham",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10093,7 +10093,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Thai_male_2_sample2",
     "providerVoiceId": "Thai_male_2_sample2",
-    "name": "Friendly Man - 明亮亲切,轻快流畅,极具亲和力",
+    "name": "Tawan Kietchai",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10126,7 +10126,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Thai_female_1_sample1",
     "providerVoiceId": "Thai_female_1_sample1",
-    "name": "Confident Woman - 明亮,轻快流畅,自信",
+    "name": "Mali Srisawat",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10159,7 +10159,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Thai_female_2_sample2",
     "providerVoiceId": "Thai_female_2_sample2",
-    "name": "Energetic Woman - 清亮,条理清晰,充满活力",
+    "name": "Nalin Wiriya",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10192,7 +10192,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Polish_male_1_sample4",
     "providerVoiceId": "Polish_male_1_sample4",
-    "name": "Male Narrator - 沉稳厚实,从容平缓,专业严谨",
+    "name": "Marek Wysocki",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10225,7 +10225,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Polish_male_2_sample3",
     "providerVoiceId": "Polish_male_2_sample3",
-    "name": "Male Anchor - 清亮,节奏极快,热情洋溢",
+    "name": "Kamil Czerwiński",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10258,7 +10258,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Polish_female_1_sample1",
     "providerVoiceId": "Polish_female_1_sample1",
-    "name": "Calm Woman - 清晰柔和,娓娓道来,富有知识涵养",
+    "name": "Zofia Malinowska",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10291,7 +10291,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Polish_female_2_sample3",
     "providerVoiceId": "Polish_female_2_sample3",
-    "name": "Casual Woman - 温暖且自然,如同日常交谈,富有生活气息",
+    "name": "Ewa Zielińska",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10324,7 +10324,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Romanian_male_1_sample2",
     "providerVoiceId": "Romanian_male_1_sample2",
-    "name": "Reliable Man - 沉稳厚实,铿锵有力,权威感",
+    "name": "Sorin Cernat",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10357,7 +10357,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Romanian_male_2_sample1",
     "providerVoiceId": "Romanian_male_2_sample1",
-    "name": "Energetic Youth - 清亮且略带沙哑质感,流畅自然,亲切且富有知识性",
+    "name": "Darius Pavel",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10390,7 +10390,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Romanian_female_1_sample4",
     "providerVoiceId": "Romanian_female_1_sample4",
-    "name": "Optimistic Youth - 清脆明亮,轻快活泼,热情",
+    "name": "Mara Bălan",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10423,7 +10423,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Romanian_female_2_sample1",
     "providerVoiceId": "Romanian_female_2_sample1",
-    "name": "Gentle Woman - 清亮悦耳,轻快流畅,亲切自然",
+    "name": "Ilinca Vasile",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10456,7 +10456,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-greek_male_1a_v1",
     "providerVoiceId": "greek_male_1a_v1",
-    "name": "Thoughtful Mentor - 清亮亲切,自然流畅,轻松活泼",
+    "name": "Nikos Anagnostou",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10489,7 +10489,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Greek_female_1_sample1",
     "providerVoiceId": "Greek_female_1_sample1",
-    "name": "Gentle Lady - 柔和细腻,娓娓道来,叙述感",
+    "name": "Eleni Stavrou",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10522,7 +10522,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Greek_female_2_sample3",
     "providerVoiceId": "Greek_female_2_sample3",
-    "name": "Girl Next Door - 清亮自然,语速轻快,随性幽默",
+    "name": "Daphne Melidou",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10555,7 +10555,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-czech_male_1_v1",
     "providerVoiceId": "czech_male_1_v1",
-    "name": "Assured Presenter - 浑厚有力,抑扬顿挫,新闻现场感",
+    "name": "Marek Novotný",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10588,7 +10588,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-czech_female_5_v7",
     "providerVoiceId": "czech_female_5_v7",
-    "name": "Steadfast Narrator - 清晰明亮,紧凑流畅,现场报道感",
+    "name": "Klára Benešová",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10621,7 +10621,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-czech_female_2_v2",
     "providerVoiceId": "czech_female_2_v2",
-    "name": "Elegant Lady - 清脆明亮,轻快流畅,亲切自然",
+    "name": "Tereza Horská",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10654,7 +10654,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-finnish_male_3_v1",
     "providerVoiceId": "finnish_male_3_v1",
-    "name": "Upbeat Man - 清亮自然,轻快流畅,日常交谈感",
+    "name": "Eero Lehtinen",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10687,7 +10687,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-finnish_male_1_v2",
     "providerVoiceId": "finnish_male_1_v2",
-    "name": "Friendly Boy - 明朗亲切,轻快流畅,邻家朋友感",
+    "name": "Olli Virtanen",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10720,7 +10720,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-finnish_female_4_v1",
     "providerVoiceId": "finnish_female_4_v1",
-    "name": "Assertive Woman - 清脆有力,节奏紧凑,新闻现场感",
+    "name": "Aino Kallio",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10753,7 +10753,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-hindi_male_1_v2",
     "providerVoiceId": "hindi_male_1_v2",
-    "name": "Trustworthy Advisor - 厚实,娓娓道来,亲切自然",
+    "name": "Dev Malhotra",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10786,7 +10786,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-hindi_female_2_v1",
     "providerVoiceId": "hindi_female_2_v1",
-    "name": "Tranquil Woman - 温暖沉静,娓娓道来,极具画面感",
+    "name": "Meera Sethi",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10819,7 +10819,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-hindi_female_1_v2",
     "providerVoiceId": "hindi_female_1_v2",
-    "name": "News Anchor - 清晰明亮,字正腔圆,新闻播报感",
+    "name": "Anika Bansal",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10852,7 +10852,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese_casual_instructor_nv1",
     "providerVoiceId": "Chinese_casual_instructor_nv1",
-    "name": "活力讲师 - 清晰坚定,流畅,知性",
+    "name": "秦砚之",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
@@ -10885,7 +10885,7 @@ export const minimaxSystemVoices = [
   {
     "id": "sys-minimax-Chinese_patitent_teacher",
     "providerVoiceId": "Chinese_patitent_teacher",
-    "name": "温柔女教师 - 温和清晰,专业,耐心",
+    "name": "袁清砚",
     "type": "SYSTEM",
     "targetModel": "speech-2.8-turbo",
     "supportedModels": [
