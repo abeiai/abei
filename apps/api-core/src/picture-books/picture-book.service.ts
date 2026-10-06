@@ -9,6 +9,7 @@ import { snapshotCourseMaterial } from "../courses/course-domain.js";
 import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
+import { assertPictureBookContentReview, buildPictureBookContentReviewPrompt, normalizePictureBookAudience, pictureBookAudienceGuide, pictureBookHealthyContentRules } from "./picture-book-audience.js";
 import { pictureBookImageSize } from "./picture-book-ratio.js";
 import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./picture-book-styles.js";
 import { SystemConfigService } from "../system-config/system-config.service.js";
@@ -46,7 +47,7 @@ export class PictureBookService {
       userId,
       title: dto.title?.trim() || "未命名绘本",
       brief: dto.brief.trim(),
-      audience: dto.audience?.trim() || "",
+      audience: normalizePictureBookAudience(dto.audience),
       style: dto.style.trim(),
       pageCount: dto.pageCount,
       aspectRatio: dto.aspectRatio ?? "1:1",
@@ -58,7 +59,7 @@ export class PictureBookService {
     const row = await this.prisma.pictureBook.findFirst({ where: { id, userId } });
     if (!row) throw new AppException(40401, "绘本作品不存在", HttpStatus.NOT_FOUND);
     const characters = await this.resolveCharacters(userId, charactersOf(row.characters), row.style);
-    return { ...row, characters: characters as unknown as Prisma.JsonValue };
+    return { ...row, audience: normalizePictureBookAudience(row.audience), characters: characters as unknown as Prisma.JsonValue };
   }
 
   async playback(subject: ProfileSubject, id: string) {
@@ -120,7 +121,7 @@ export class PictureBookService {
       }
       return {
         ...(dto.title !== undefined ? { title: dto.title.trim() } : {}),
-        ...(dto.audience !== undefined ? { audience: dto.audience.trim() } : {}),
+        ...(dto.audience !== undefined ? { audience: normalizePictureBookAudience(dto.audience) } : {}),
         ...(dto.style !== undefined ? { style: dto.style.trim() } : {}),
         ...(dto.aspectRatio !== undefined ? { aspectRatio: dto.aspectRatio } : {}),
         ...(dto.pageCount !== undefined ? { pageCount: dto.pageCount } : {}),
@@ -138,6 +139,7 @@ export class PictureBookService {
     }));
     const prompt = [
       "你是儿童绘本创作搭档。围绕用户需求讨论主题、适合人群、主要情节与角色。",
+      pictureBookAudienceGuide(book.audience), pictureBookHealthyContentRules,
       "如果关键信息不够，优先提出一个具体问题；如果已足够，给出简短创作方向并建议进入分镜。不要直接输出完整绘本。使用简体中文。",
       "同时从用户的原始需求与最新沟通中提取已确认的全部出场角色，包含名字和外貌/性格描述；不要把助手尚未获得用户确认的建议当成出场角色。角色最多9个。",
       "characters 必须是最新确认的完整出场名单，不是本轮新增名单。保留未被用户更改的已有角色；删除、取消出场或换成另一个角色时移除旧角色。最新用户要求优先于原始需求和历史助手回复；用户原文写大明时不得写成小明。",
@@ -174,14 +176,21 @@ export class PictureBookService {
     });
     const output = await this.runTextTask(subject, "picture-book-outline", prompt);
     let outline;
-    try { outline = normalizeOutline(output, book.pageCount); }
+    try {
+      outline = normalizeOutline(output, book.pageCount, book.audience);
+      const review = await this.runTextTask(subject, "picture-book-content-review", buildPictureBookContentReviewPrompt(book.audience, outline)).catch(() => {
+        throw new Error("分镜内容检查暂时无法完成，请稍后重新生成");
+      });
+      assertPictureBookContentReview(review);
+    }
     catch (error) {
       throw new AppException(50201, error instanceof Error ? error.message : "分镜解析失败", HttpStatus.BAD_GATEWAY);
     }
-    return this.mutate(subject.userId, id, () => ({
-      title: outline.title, theme: outline.theme, audience: outline.audience, plot: outline.plot,
-      pages: outline.pages as unknown as Prisma.InputJsonValue, status: "EDITING"
-    }));
+    return this.mutate(subject.userId, id, current => {
+      if (current.audience !== book.audience) throw new AppException(40901, "适合人群已修改，请重新生成分镜", HttpStatus.CONFLICT);
+      return { title: outline.title, theme: outline.theme, audience: outline.audience, plot: outline.plot,
+        pages: outline.pages as unknown as Prisma.InputJsonValue, status: "EDITING" };
+    });
   }
 
   async startBlank(userId: string, id: string) {
@@ -425,11 +434,11 @@ export class PictureBookService {
     return references;
   }
 
-  private async runTextTask(subject: ProfileSubject & { mode: "ACCOUNT" }, kind: "picture-book-discuss" | "picture-book-outline", input: string) {
+  private async runTextTask(subject: ProfileSubject & { mode: "ACCOUNT" }, kind: "picture-book-discuss" | "picture-book-outline" | "picture-book-content-review", input: string) {
     const scenario = await this.prisma.aiScenario.upsert({
       where: { slug: kind },
       create: {
-        slug: kind, name: kind === "picture-book-discuss" ? "绘本需求讨论" : "绘本分镜策划",
+        slug: kind, name: kind === "picture-book-discuss" ? "绘本需求讨论" : kind === "picture-book-outline" ? "绘本分镜策划" : "绘本适龄与内容健康检查",
         description: "绘本创作专用文本生成场景", promptTemplate: "{input}", requiredCapabilities: ["TEXT"],
         costCredits: 0, isBuiltIn: true, isEnabled: true,
         modelBinding: { create: { defaultModelAlias: "default-chat", fallbackModelAlias: "fast-chat" } }
@@ -440,7 +449,7 @@ export class PictureBookService {
     const result = await this.aiService.createTaskStream(subject, { scenarioId: scenario.id, input }, (event) => {
       if (event.type === "delta" && typeof event.text === "string") chunks.push(event.text);
     });
-    const output = storyTaskText(chunks, result.output, kind === "picture-book-outline");
+    const output = storyTaskText(chunks, result.output, kind !== "picture-book-discuss");
     if (result.status !== "SUCCEEDED" || !output) {
       throw new AppException(50201, result.errorMessage || "AI 暂时无法完成绘本策划", HttpStatus.BAD_GATEWAY);
     }

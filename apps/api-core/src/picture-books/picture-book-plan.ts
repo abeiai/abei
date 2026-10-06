@@ -1,3 +1,5 @@
+import { normalizePictureBookAudience, pictureBookAudienceGuide, pictureBookHealthyContentRules } from "./picture-book-audience.js";
+
 export interface PictureBookPage {
   position: number;
   caption: string;
@@ -37,7 +39,7 @@ export function storyTaskText(chunks: string[], storedOutput: string | null, req
   return streamed || (requireComplete ? "" : storedOutput?.trim() ?? "");
 }
 
-export function normalizeOutline(output: string, pageCount: number): PictureBookOutline {
+export function normalizeOutline(output: string, pageCount: number, selectedAudience?: string): PictureBookOutline {
   const raw = output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
   const start = raw.indexOf("{");
   const end = raw.lastIndexOf("}");
@@ -56,7 +58,7 @@ export function normalizeOutline(output: string, pageCount: number): PictureBook
 
   const title = requiredString(value.title, "绘本标题", 100);
   const theme = requiredString(value.theme, "绘本主题", 240);
-  const audience = requiredString(value.audience, "适合人群", 100);
+  const audience = selectedAudience === undefined ? requiredString(value.audience, "适合人群", 100) : normalizePictureBookAudience(selectedAudience);
   const plot = requiredString(value.plot, "主要情节", 4000);
   const pages = value.pages.map((item, index) => {
     if (!item || typeof item !== "object" || Array.isArray(item)) throw new Error(`第 ${index + 1} 页内容不正确`);
@@ -118,11 +120,13 @@ export function buildOutlinePrompt(input: {
     : "无指定角色；可以根据故事自然安排角色，并保持外观一致";
   return [
     "【角色与任务】你是资深儿童绘本编剧、分镜师与生图提示词架构师。把原始需求和沟通记录转化为适龄、情节完整、可逐页独立绘制的绘本分镜。",
-    "【创作依据】依据当前参数与对话中用户最新确认的要求创作；助手提出但用户未确认的建议只作备选。保留用户指定的角色、情节与结局；缺少非关键细节时合理补全。页数、画面比例采用当前设置，适合人群未指定时由需求判断。",
+    "【创作依据】依据当前参数与对话中用户最新确认的要求创作；助手提出但用户未确认的建议只作备选。在适龄与健康要求内保留用户指定的角色、情节与结局；缺少非关键细节时合理补全。页数、画面比例和适合人群采用当前设置。",
+    pictureBookAudienceGuide(input.audience),
+    pictureBookHealthyContentRules,
     "【要素解析】先在内部明确主题、情感基调、角色外貌与性格、固定场景和关键道具。已指定的角色外貌保持原样；为反复出场的新角色确定毛色或发型、体型、服装及标志颜色。固定场景的空间关系，以及关键道具的形状、颜色、数量和归属保持连贯；新增、转移、增减或位置变化须在情节中合理衔接。",
     "【角色一致性】每个出场角色在每一页的 imagePrompt 中都必须完整复用同一段核心外貌描述，包含毛色或发型、体型特征、服装及标志颜色，禁止省略成只有名字、代词或“同前页”；即使连续出场也逐页写全。提示词开头先写本页出场角色的名称与固定外貌，再写本页动作和情绪；未出场角色不加入画面。",
-    `【情节节奏】必须恰好 ${input.pageCount} 页正文，封面由系统另行创建，不计入 pages。按起承转合安排相遇或目标、发展与尝试、困难或转折、解决与情感收束；依页数合理分配，短篇也要完整。每页有一个明确叙事重点，通过动作、发现或情绪变化推进故事；相邻页有因果衔接，不重复同一场面。`,
-    "【配文】caption 使用孩子能理解的简体中文，一页一至三句，篇幅与词汇符合目标年龄，有节奏感、适度留白、适合朗读，避免大段说教。画面与配文对应，画面承载可见细节，配文补充故事或情感。narration 必须与 caption 完全相同，包括标点，不扩写或改写。",
+    `【情节节奏】必须恰好 ${input.pageCount} 页正文，封面由系统另行创建，不计入 pages。按起承转合安排相遇或目标、发展与尝试、困难或转折、解决与情感收束；依页数合理分配，短篇也要完整。婴幼儿优先遵循适龄要求，用简单感知、重复动作和安全收束组织节奏，不强行制造危机。每页有一个明确叙事重点，通过动作、发现或情绪变化推进故事；相邻页有因果衔接，不重复同一场面。`,
+    "【配文】caption 使用目标人群能理解的简体中文，句数、篇幅与词汇遵循适龄创作要求，有节奏感、适度留白、适合朗读，避免大段说教。画面与配文对应，画面承载可见细节，配文补充故事或情感。narration 必须与 caption 完全相同，包括标点，不扩写或改写。",
     "【逐页画面】imagePrompt 必须使用简体中文，按主体外貌与动作、情绪神态、场景环境与景深、关键道具、镜头构图与视觉焦点、光影与氛围组织一段完整描述。每页明确实际出场角色，只复用这些角色的核心外貌；用名称和特征指明人物，避免只有代词或“同上一页”。每页可独立生图，准确描述物品的归属、位置、动作方向与角色之间的关系。",
     "【镜头语言】根据叙事重点变化全景、中景、近景与特写，适当使用俯拍或低角度；通过远近、视线、前中后景和留白表现情绪与重点，避免整本都是中景平视。依据画面比例布置主体及环境，不把一页描述为多格漫画或多个时间点。",
     "【参考图画风】画风统一来自生图时提供的第一张风格参考图；imagePrompt 只描述本页内容与视觉表达，不写画风名称、绘画媒介或替换画风的指令。后续参考图用于角色外貌；参考图中的示意人物、动物及场景不自动加入故事。禁止输出英文生图提示词、模型参数或 --ar 等命令，也不要要求图内绘制配文、标题、水印或边框。",
@@ -132,7 +136,7 @@ export function buildOutlinePrompt(input: {
     "【输出前自检】检查页数与字段完整、情节闭合、角色外貌与场景道具连贯、镜头有变化、配文适龄且对应画面、每页提示词可独立生图、讲解文稿逐字等于配文。逐人逐页核对固定外貌是否写全，补齐遗漏的毛色、服装和颜色；道具数量与归属变化逐页核对。仅输出检查后的 JSON。",
     "【创作输入】",
     `最初需求：${input.brief}`,
-    `适合人群：${input.audience || "由需求判断"}`,
+    `适合人群：${normalizePictureBookAudience(input.audience)}`,
     `画面比例：${input.aspectRatio}`,
     `已有主题：${input.theme || "从需求和讨论中提取"}`,
     `已有情节：${input.plot || "从需求和讨论中提取"}`,

@@ -88,7 +88,7 @@ test("outline prompt uses current settings and keeps the existing Chinese JSON c
     characters: [{ name: "阿兔", description: "白色小兔，蓝色背带裤" }],
     messages: [{ role: "user", content: "希望发生在森林" }]
   });
-  assert.match(prompt, /4-6岁/);
+  assert.match(prompt, /适合人群：幼儿园/);
   assert.match(prompt, /画面比例：3:4/);
   assert.match(prompt, /分享与友情/);
   assert.match(prompt, /阿兔把唯一的雨伞借给朋友/);
@@ -112,7 +112,7 @@ test("storyboard prompt plans visual continuity, emotional pacing and varied sho
   assert.match(prompt, /全景.*中景.*特写/);
   assert.match(prompt, /动作.*情绪.*场景.*道具.*构图.*光/);
   assert.match(prompt, /对话中用户最新确认/);
-  assert.match(prompt, /由需求判断/);
+  assert.match(prompt, /适合人群：幼儿园/);
 });
 
 test("blank storyboard creates editable pages with matching narration", () => {

@@ -23,6 +23,7 @@ type Voice = { id: string; name: string; providerVoiceId?: string; status?: stri
 type VoiceList = { systemVoices: Voice[]; platformVoices: Voice[]; customVoices: Voice[]; defaultVoice?: { voiceAssetId: string | null; systemVoiceId: string | null } };
 
 const pageCounts = [4, 6, 8, 10, 12, 16, 20, 24];
+const audiences = ["婴儿期0-1岁", "幼儿期1-3岁", "幼儿园", "一二年级", "三四年级", "五六年级", "初中", "高中及以上"];
 
 async function api<T>(path: string, method = "GET", body?: unknown): Promise<T> {
   const response = await fetch(`/api/picture-books${path}`, {
@@ -75,7 +76,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   const [voices, setVoices] = useState<VoiceList>({ systemVoices: [], platformVoices: [], customVoices: [] });
   const [storyModelReady, setStoryModelReady] = useState(false);
   const [voiceKey, setVoiceKey] = useState("");
-  const [audience, setAudience] = useState("3—6 岁");
+  const [audience, setAudience] = useState("幼儿园");
   const [style, setStyle] = useState("水彩");
   const [styleChoices, setStyleChoices] = useState<PictureBookStyle[]>([]);
   const [count, setCount] = useState(8);
@@ -176,7 +177,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   async function refreshList() { setBooks(await api<BookSummary[]>("")); }
   function startNewBook() {
     setBook(null); setDraftCharacters([]); setChatInput(""); setError(""); setNotice("");
-    setAudience("3—6 岁"); setStyle(styleChoices.find(item => item.enabled && item.id === "watercolor")?.id ?? styleChoices.find(item => item.enabled)?.id ?? "watercolor"); setCount(8); setRatio("1:1");
+    setAudience("幼儿园"); setStyle(styleChoices.find(item => item.enabled && item.id === "watercolor")?.id ?? styleChoices.find(item => item.enabled)?.id ?? "watercolor"); setCount(8); setRatio("1:1");
     window.history.replaceState(null, "", "/storybook");
   }
 
@@ -352,7 +353,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
             <section className="space-y-4 rounded-2xl border border-border bg-background p-5 shadow-sm">
               <h2 className="text-base font-semibold">绘本设置</h2>
               {book ? <label className="block space-y-2 text-sm font-semibold">绘本名称<input value={book.title} disabled={Boolean(busy)} maxLength={100} onChange={event => setBook({ ...book, title: event.target.value })} onBlur={() => void run("title", () => saveBook({ title: book.title }))} className="w-full rounded-xl border border-border px-3 py-2 text-sm font-normal" /></label> : null}
-              <label className="block space-y-2 text-sm font-semibold">适合人群<input value={book?.audience ?? audience} disabled={Boolean(busy)} maxLength={100} onChange={event => book ? setBook({ ...book, audience: event.target.value }) : setAudience(event.target.value)} onBlur={() => { if (book) void run("settings", () => saveBook({ audience: book.audience })); }} placeholder="例如：3—6 岁" className="w-full rounded-xl border border-border px-3 py-2 text-sm font-normal" /></label>
+              <label className="block space-y-2 text-sm font-semibold">适合人群<select value={book?.audience ?? audience} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ audience: event.target.value })) : setAudience(event.target.value)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{audiences.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
               <PictureBookStylePicker value={book?.style ?? style} styles={styleChoices} onStylesChange={setStyleChoices} disabled={Boolean(busy)} onChange={value => book ? void run("settings", () => saveBook({ style: value })) : setStyle(value)} />
               <label className="block space-y-2 text-sm font-semibold">页数<select value={book?.pageCount ?? count} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ pageCount: Number(event.target.value) })) : setCount(Number(event.target.value))} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{pageCounts.map(item => <option key={item} value={item}>{item} 页</option>)}</select></label>
               <label className="block space-y-2 text-sm font-semibold">画面比例<select value={book?.aspectRatio ?? ratio} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ aspectRatio: event.target.value })) : setRatio(event.target.value as typeof ratio)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{aspectRatios.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
