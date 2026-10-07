@@ -1,15 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ChevronLeft, ChevronRight, LoaderCircle, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowLeft, Captions, ChevronLeft, ChevronRight, LoaderCircle, Maximize, Minimize, PanelRight, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
+import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Book = { id: string; title: string; style: string; aspectRatio: string; pages: Page[] };
+const layouts = [
+  { value: "subtitle", label: "底部字幕", icon: Captions },
+  { value: "side", label: "左图右文", icon: PanelRight },
+  { value: "below", label: "上图下文", icon: PanelsTopLeft },
+] as const;
 
 export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean }) {
   const [book, setBook] = useState<Book | null>(null);
@@ -20,7 +26,27 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [muted, setMuted] = useState(false);
   const [audioError, setAudioError] = useState("");
   const [audioRetry, setAudioRetry] = useState(0);
+  const [layout, setLayout] = useState<typeof layouts[number]["value"]>("subtitle");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [fullscreenAvailable, setFullscreenAvailable] = useState(false);
+  const [viewError, setViewError] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playerRef = useRef<HTMLElement | null>(null);
+  const settingsRef = useRef<HTMLDialogElement | null>(null);
+
+  useEffect(() => {
+    setFullscreenAvailable(Boolean(document.fullscreenEnabled));
+    const update = () => setFullscreen(document.fullscreenElement === playerRef.current);
+    document.addEventListener("fullscreenchange", update);
+    return () => document.removeEventListener("fullscreenchange", update);
+  }, []);
+
+  useEffect(() => {
+    const dialog = settingsRef.current;
+    if (settingsOpen && dialog && !dialog.open) dialog.showModal();
+    if (!settingsOpen && dialog?.open) dialog.close();
+  }, [settingsOpen]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -39,6 +65,9 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const pages = book?.pages ?? [];
   const page = pages[index];
   const hasCover = pages[0]?.position === 0;
+  const cover = hasCover && index === 0;
+  const [ratioWidth, ratioHeight] = (book?.aspectRatio || "1:1").split(":").map(Number);
+  const imageRatio = ratioWidth > 0 && ratioHeight > 0 ? ratioWidth / ratioHeight : 1;
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);
@@ -68,6 +97,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
+      if (settingsRef.current?.open) return;
       if (event.target instanceof HTMLElement && /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
       if (event.key === "ArrowLeft") goTo(index - 1);
       if (event.key === "ArrowRight") goTo(index + 1);
@@ -95,12 +125,20 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     }
   }
 
+  async function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement === playerRef.current) await document.exitFullscreen();
+      else await playerRef.current?.requestFullscreen();
+      setViewError("");
+    } catch { setViewError("无法进入全屏，请使用浏览器的全屏功能。"); }
+  }
+
   return (
-    <main className="min-h-screen bg-[#f6f6f5] text-foreground" data-public-theme="default">
-      <header className="flex min-h-16 items-center justify-between gap-4 border-b border-border bg-background px-4 sm:px-8">
-        <Link className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" href={courseId ? `/c/${encodeURIComponent(courseId)}` : "/storybook"}><ArrowLeft className="size-4" />{courseId ? "返回资源" : "返回绘本"}</Link>
-        <h1 className="truncate text-base font-semibold sm:text-lg">{book?.title || "绘本播放"}</h1>
-        <span className="min-w-16 text-right text-sm tabular-nums text-muted-foreground">{pages.length ? hasCover && index === 0 ? "封面" : `${index + 1 - Number(hasCover)} / ${pages.length - Number(hasCover)}` : ""}</span>
+    <main ref={playerRef} className={`${styles.player} text-foreground`} data-public-theme="default" style={{ "--image-ratio": imageRatio } as CSSProperties}>
+      <header className={styles.header}>
+        <Link className={styles.back} href={courseId ? `/c/${encodeURIComponent(courseId)}` : "/storybook"}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
+        <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
+        <span aria-hidden="true" />
       </header>
 
       {error ? <div className="mx-auto mt-16 max-w-md rounded-2xl border bg-background p-8 text-center text-sm">{error}</div> : null}
@@ -108,15 +146,18 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       {book && !page ? <div className="mx-auto mt-16 max-w-md rounded-2xl border bg-background p-8 text-center text-sm">这本绘本还没有页面</div> : null}
 
       {page ? (
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-4 py-6 sm:px-8 sm:py-8">
-          <div className="relative flex w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-background shadow-sm" style={{ minHeight: "min(64vh, 680px)" }}>
-            {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className="max-h-[68vh] w-full object-contain" src={pictureBookPageImageSource(bookId, item.position, item.imageUrl)} /> : null)}
-            {!page.imageUrl ? <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
-            <button aria-label="上一页" className="absolute left-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 shadow disabled:opacity-30 sm:left-4" disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><ChevronLeft className="size-6" /></button>
-            <button aria-label="下一页" className="absolute right-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 shadow disabled:opacity-30 sm:right-4" disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><ChevronRight className="size-6" /></button>
+        <>
+          <div className={styles.stage}>
+            <article className={styles.sheet} data-layout={layout} data-cover={cover} aria-label={pageLabel(index)}>
+              <div className={styles.artwork}>
+                {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(bookId, item.position, item.imageUrl)} /> : null)}
+                {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
+              </div>
+              {page.caption && !cover ? <div className={styles.caption}><p>{page.caption}</p></div> : null}
+            </article>
+            <button aria-label="上一页" className={`${styles.pageArrow} ${styles.previous}`} disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><ChevronLeft /></button>
+            <button aria-label="下一页" className={`${styles.pageArrow} ${styles.next}`} disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><ChevronRight /></button>
           </div>
-
-          {page.caption ? <p className="max-w-3xl text-center text-base leading-8 sm:text-xl">{page.caption}</p> : null}
           {preloadPages.map(item => {
             const current = item.position === page.position;
             const source = item.audioUrl ? pictureBookPageAudioSource(bookId, item.position, item.audioUrl) : undefined;
@@ -129,18 +170,29 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
               ref={current ? audioRef : undefined}
               src={source && retry ? `${source}${source.includes("?") ? "&" : "?"}retry=${retry}` : source} />;
           })}
-          {audioError ? <div role="alert" className="flex items-center gap-2 text-sm text-red-600">{audioError}<button className="rounded-lg border bg-background px-3 py-2 text-foreground" onClick={() => { setAudioError(""); setAudioRetry(audioRetry + 1); }} type="button">重试加载</button></div> : null}
-          {pages.some(item => item.audioUrl) ? <div className="flex flex-wrap items-center justify-center gap-2">
-            <button aria-label={playing ? "暂停讲解" : "播放讲解"} className="xueleai-button inline-flex h-10 items-center gap-2 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground disabled:opacity-50" disabled={!page.audioUrl} onClick={toggleAudio} type="button">{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "暂停" : page.audioUrl ? "播放讲解" : "暂无讲解语音"}</button>
-            <button aria-label={muted ? "开启声音" : "静音"} className="flex size-10 items-center justify-center rounded-full border bg-background" onClick={() => setMuted(!muted)} type="button">{muted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}</button>
-            <button aria-pressed={autoTurn} className={`inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm ${autoTurn ? "border-primary bg-primary/10" : "bg-background"}`} onClick={() => setAutoTurn(!autoTurn)} type="button"><RotateCcw className="size-4" />自动翻页</button>
-          </div> : null}
-          {page.narration && page.narration !== page.caption ? <p className="max-w-3xl text-center text-sm leading-6 text-muted-foreground">讲解：{page.narration}</p> : null}
-          <nav aria-label="绘本页面" className="flex max-w-full gap-2 overflow-x-auto pb-2">
-            {pages.map((item, pageIndex) => <button aria-current={pageIndex === index ? "page" : undefined} aria-label={pageLabel(pageIndex)} className={`h-9 min-w-9 shrink-0 rounded-lg border px-2 text-xs tabular-nums ${pageIndex === index ? "border-primary bg-primary text-primary-foreground" : "bg-background"}`} key={`${item.position}-${pageIndex}`} onClick={() => goTo(pageIndex)} type="button">{hasCover && pageIndex === 0 ? "封面" : pageIndex + 1 - Number(hasCover)}</button>)}
-          </nav>
-        </div>
+          <footer className={styles.footer}>
+            {audioError || viewError ? <div role="alert" className={styles.feedback}>{audioError || viewError}{audioError ? <button className="ml-2 underline" onClick={() => { setAudioError(""); setAudioRetry(audioRetry + 1); }} type="button">重试加载</button> : null}</div> : null}
+            <nav aria-label="绘本播放控制" className={styles.toolbar}>
+              <button title="上一页" aria-label="上一页" disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><SkipBack /></button>
+              <button title={playing ? "暂停讲解" : page.audioUrl ? "播放讲解" : "这一页暂无讲解语音"} aria-label={playing ? "暂停讲解" : "播放讲解"} className={styles.play} disabled={!page.audioUrl} onClick={toggleAudio} type="button">{playing ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}</button>
+              <button title="下一页" aria-label="下一页" disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><SkipForward /></button>
+              <button title="播放设置" aria-label="播放设置" onClick={() => setSettingsOpen(true)} type="button"><SlidersHorizontal /></button>
+              {fullscreenAvailable ? <button title={fullscreen ? "退出全屏" : "全屏观看"} aria-label={fullscreen ? "退出全屏" : "全屏观看"} onClick={toggleFullscreen} type="button">{fullscreen ? <Minimize /> : <Maximize />}</button> : null}
+              <button title={muted ? "开启声音" : "静音"} aria-label={muted ? "开启声音" : "静音"} aria-pressed={muted} onClick={() => setMuted(!muted)} type="button">{muted ? <VolumeX /> : <Volume2 />}</button>
+              <select aria-label="跳转页面" title="跳转页面" className={styles.pageSelect} value={index} onChange={event => goTo(Number(event.target.value))}>
+                {pages.map((item, pageIndex) => <option key={item.position} value={pageIndex}>{hasCover && pageIndex === 0 ? "封面" : pageIndex + 1 - Number(hasCover)} / {pages.length - Number(hasCover)}</option>)}
+              </select>
+            </nav>
+          </footer>
+        </>
       ) : null}
+      <dialog ref={settingsRef} aria-labelledby="reader-settings-title" className={styles.settings} onCancel={() => setSettingsOpen(false)} onClose={() => setSettingsOpen(false)} onClick={event => { if (event.target === event.currentTarget) setSettingsOpen(false); }}>
+        <div className="mb-5 flex items-center justify-between"><h2 id="reader-settings-title" className="text-lg font-semibold">播放设置</h2><button aria-label="关闭播放设置" className="flex size-9 items-center justify-center rounded-full hover:bg-black/5" onClick={() => setSettingsOpen(false)} type="button"><X className="size-5" /></button></div>
+        <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式</p><div className="grid grid-cols-3 gap-2">
+          {layouts.map(item => <button key={item.value} aria-pressed={layout === item.value} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm ${layout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(item.value)} type="button"><item.icon className="size-7" />{item.label}</button>)}
+        </div></fieldset>
+        <div className="mt-4 flex items-center justify-between rounded-2xl bg-background p-5"><span id="reader-auto-turn-label" className="text-sm font-semibold">自动翻页</span><button role="switch" aria-labelledby="reader-auto-turn-label" aria-checked={autoTurn} className={`h-6 w-11 rounded-full p-0.5 transition-colors ${autoTurn ? "bg-primary" : "bg-black/20"}`} onClick={() => setAutoTurn(!autoTurn)} type="button"><span className={`block size-5 rounded-full bg-white transition-transform ${autoTurn ? "translate-x-5" : "translate-x-0"}`} /></button></div>
+      </dialog>
     </main>
   );
 }
