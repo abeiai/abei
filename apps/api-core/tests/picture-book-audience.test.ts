@@ -37,6 +37,31 @@ test("分镜使用设置中的人群，提示词约束语言、认知、情绪�
   assert.match(review, /森林朋友.*小兔帮小熊/);
 });
 
+test("低龄复核将读者配文与成人制作资料分开，技术描述仍参与健康检查", () => {
+  const outline = normalizeOutline(generated, 1, "婴儿期0-1岁");
+  const prompt = buildPictureBookContentReviewPrompt("婴儿期0-1岁", outline);
+  const data = JSON.parse(prompt.split("待审内容：")[1]!);
+  assert.ok(data.readerFacing, "儿童看到的配文应与成人制作描述分开送审");
+  assert.equal(data.readerFacing.title, outline.title);
+  assert.deepEqual(data.readerFacing.pages, outline.pages.map(page => ({ position: page.position, caption: page.caption, narration: page.narration })));
+  assert.deepEqual(data.productionNotes, { theme: outline.theme, plot: outline.plot, pages: outline.pages.map(page => ({ position: page.position, imagePrompt: page.imagePrompt })) });
+  assert.ok(data.productionNotes.pages.every((page: object) => !Object.hasOwn(page, "caption")));
+});
+
+test("非阻断的共读、字数与文风建议不影响明确通过的分镜", async () => {
+  const review = '{"ageAppropriate":true,"healthy":true,"issues":[],"suggestions":["可由家长解释古诗词语","可增加一处互动"]}';
+  assert.doesNotThrow(() => assertPictureBookContentReview(review));
+  const { service } = outlineService(review);
+  const book = await service.outline({ userId: "owner", mode: "ACCOUNT" }, "test-book");
+  assert.equal(book.pages[1].caption, "小兔帮小熊。");
+});
+
+test("健康或适龄拒绝不能被建议字段覆盖", () => {
+  for (const output of ['{"ageAppropriate":true,"healthy":false,"issues":["鼓励幼儿独自玩火"],"suggestions":[]}', '{"ageAppropriate":false,"healthy":true,"issues":["持续强烈恐怖情节"],"suggestions":["配文短一些"]}']) {
+    assert.throws(() => assertPictureBookContentReview(output), /未通过/);
+  }
+});
+
 test("内容检查只有明确的双项通过且无问题才可保存", () => {
   assert.doesNotThrow(() => assertPictureBookContentReview(passed));
   for (const output of ["", "not json", "null", "{}", '{"ageAppropriate":"true","healthy":true,"issues":[]}']) {
