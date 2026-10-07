@@ -1,16 +1,14 @@
 import { AuthPanel } from "@/components/shell/auth-panel";
 import { UserLoginForm } from "@/components/auth/user-login-form";
 import { normalizeSafeNextPath } from "@/lib/profile-routing";
-import { wechatLoginErrorMessage } from "@/lib/wechat-auth";
 
 export default async function LoginPage({
   searchParams
 }: {
-  searchParams: Promise<{ next?: string; reset?: string; wechat_error?: string }>;
+  searchParams: Promise<{ next?: string; reset?: string }>;
 }) {
   const params = await searchParams;
   const next = normalizeSafeNextPath(params.next) ?? undefined;
-  const wechatError = wechatLoginErrorMessage(params.wechat_error);
   const registerHref = next ? `/register?next=${encodeURIComponent(next)}` : "/register";
 
   return (
@@ -23,7 +21,7 @@ export default async function LoginPage({
         action: "立即注册"
       }}
     >
-      <UserLoginForm next={next} wechatError={wechatError} />
+      <UserLoginForm next={next} />
     </AuthPanel>
   );
 }

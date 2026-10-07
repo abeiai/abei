@@ -1,7 +1,5 @@
 "use client";
 
-import { faWeixin } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { ArrowRight, GraduationCap, Mail, Smartphone } from "lucide-react";
@@ -16,16 +14,14 @@ import {
   userLoginAction,
   type AuthActionState
 } from "@/lib/auth-actions";
-import { wechatLoginHref } from "@/lib/wechat-auth";
+import { WechatLoginPanel } from "./wechat-login-panel";
 
 const initialState: AuthActionState = {};
 
 export function UserLoginForm({
-  next,
-  wechatError
+  next
 }: {
   next?: string;
-  wechatError?: string | null;
 }) {
   const [mode, setMode] = useState<"email" | "phone" | "learner">("email");
   const [phone, setPhone] = useState("");
@@ -226,28 +222,13 @@ export function UserLoginForm({
         </form>
       )}
 
-      {wechatError ? (
-        <p className="text-sm text-destructive" role="alert">
-          {wechatError}
-        </p>
-      ) : null}
-
       <div className="flex items-center gap-3" aria-hidden="true">
         <span className="h-px flex-1 bg-border" />
         <span className="text-xs text-muted-foreground">其他登录方式</span>
         <span className="h-px flex-1 bg-border" />
       </div>
 
-      <Button asChild variant="outline">
-        <a href={wechatLoginHref(next)}>
-          <FontAwesomeIcon
-            aria-hidden="true"
-            className="size-5 text-[#07c160]"
-            icon={faWeixin}
-          />
-          微信登录
-        </a>
-      </Button>
+      <WechatLoginPanel next={next} disabled={isPending || isPhonePending || isLearnerPending} />
 
       <Button asChild variant="outline">
         <Link href="/">返回首页</Link>

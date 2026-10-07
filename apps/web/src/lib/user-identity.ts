@@ -1,5 +1,5 @@
 export function publicEmailLabel(email: string) {
-  return email.endsWith("@users.xueleai.local") ? "未绑定邮箱" : email;
+  return /@users\.(?:xueleai|abei)\.local$/.test(email) ? "未绑定邮箱" : email;
 }
 
 export function publicAccountLabel(user: {
@@ -7,7 +7,7 @@ export function publicAccountLabel(user: {
   phone: string | null;
   nickname: string;
 }) {
-  if (!user.email.endsWith("@users.xueleai.local")) {
+  if (!/@users\.(?:xueleai|abei)\.local$/.test(user.email)) {
     return user.email;
   }
   if (user.phone) {

@@ -385,7 +385,7 @@ test("课程详情页读取登录状态并把登录用户交给课件入口", as
 
   assert.deepEqual(calls, [
     `http://localhost:3322/api/public/courses/${course.id}`,
-    "http://localhost:3322/api/auth/me"
+    "http://localhost:3602/api/auth/me"
   ]);
   assert.equal(shellProps.currentUser?.id, "user-1");
   assert.equal(shellProps.children.props.canOpenMaterials, true);

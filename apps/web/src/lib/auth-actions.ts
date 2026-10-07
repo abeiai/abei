@@ -64,7 +64,7 @@ const profileContextCookie = "xueleai_profile_context";
 const resetPasswordEmailCodeMessage = "如果邮箱已注册，验证码将发送至该邮箱";
 
 function getApiBaseUrl() {
-  return process.env.API_BASE_URL ?? "http://localhost:3322/api";
+  return process.env.API_BASE_URL ?? "http://localhost:3602/api";
 }
 
 function shouldUseSecureCookies() {
@@ -113,7 +113,7 @@ async function getAuthJsonHeaders() {
 
 async function postJson<TData>(path: string, body: Record<string, string>) {
   const authHeaders = await getAuthJsonHeaders();
-  if (path === "/auth/register" || path === "/auth/phone-login") authHeaders.set("Cookie", await getCookieHeader());
+  if (["/auth/register", "/auth/phone-login", "/auth/login"].includes(path)) authHeaders.set("Cookie", await getCookieHeader());
   const response = await fetch(`${getApiBaseUrl()}${path}`, {
     method: "POST",
     headers: authHeaders,
@@ -286,9 +286,11 @@ export async function learnerLoginAction(
   }
 
   try {
+    const authHeaders = await getAuthJsonHeaders();
+    authHeaders.set("Cookie", await getCookieHeader());
     const response = await fetch(`${getApiBaseUrl()}/auth/learner-login`, {
       method: "POST",
-      headers: await getAuthJsonHeaders(),
+      headers: authHeaders,
       body: JSON.stringify({ accountId, learnerId, switchPassword }),
       cache: "no-store"
     });

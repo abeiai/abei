@@ -75,6 +75,21 @@ const { NextRequest } = await import("next/server");
 const { proxy } = await import("../src/proxy.js");
 const originalFetch = globalThis.fetch;
 
+test("四类用户登录 Server Action 转发扫码上下文，保留浏览器登录互斥",async()=>{
+  const cases:Array<{action:typeof authActions.userLoginAction;entries:Record<string,string>}>=[
+    {action:authActions.userLoginAction,entries:{email:"owner@example.com",password:"password"}},
+    {action:authActions.registerAction,entries:{nickname:"用户",email:"owner@example.com",password:"password",emailCode:"123456"}},
+    {action:authActions.phoneLoginAction,entries:{phone:"13800000001",code:"123456"}},
+    {action:authActions.learnerLoginAction,entries:{accountId:"10000",learnerId:"100",switchPassword:"123456"}}
+  ];
+  for(const {action,entries}of cases){
+    globalThis.__task4Mocks=createTask4Mocks();globalThis.__task4Mocks.cookieStore.values.set("__Host-abei_wechat_scan_context","bound-browser-context");let forwarded:string|null=null;
+    globalThis.fetch=async(_input,init)=>{forwarded=new Headers(init?.headers).get("Cookie");return apiResponse(400,{code:40011,message:"扫码登录处理中",data:null});};
+    await action({},formData(entries));assert.match(forwarded??"",/__Host-abei_wechat_scan_context=bound-browser-context/);
+    assert.equal(globalThis.__task4Mocks.cookieStore.setCalls.length,0);
+  }
+});
+
 beforeEach(() => {
   globalThis.__task4Mocks = createTask4Mocks();
   globalThis.fetch = async () =>

@@ -1,0 +1,478 @@
+"use client";
+import { faWeixin } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  WechatScanClient,
+  type WechatChallenge,
+  type WechatScanState,
+} from "@/lib/wechat-auth";
+
+type Phase =
+  | "CLOSED"
+  | "PREPARING"
+  | "WAITING"
+  | "SCANNED"
+  | "COMPLETING"
+  | "RESOLUTION"
+  | "EXPIRED"
+  | "ERROR";
+export function WechatLoginPanel({
+  next,
+  disabled = false,
+}: {
+  next?: string;
+  disabled?: boolean;
+}) {
+  const [phase, setPhase] = useState<Phase>("CLOSED"),
+    [challenge, setChallenge] = useState<WechatChallenge | null>(null),
+    [scan, setScan] = useState<WechatScanState | null>(null);
+  const [error, setError] = useState<string | null>(null),
+    [seconds, setSeconds] = useState(180),
+    [busy, setBusy] = useState(false),
+    [phone, setPhone] = useState(""),
+    [code, setCode] = useState(""),
+    [countdown, setCountdown] = useState(0),
+    [action, setAction] = useState<"BIND" | "CREATE" | null>(null),
+    [registrationEnabled, setRegistrationEnabled] = useState(false);
+  const [bindingMethod, setBindingMethod] = useState<"PHONE" | "EMAIL">(
+      "PHONE",
+    ),
+    [email, setEmail] = useState(""),
+    [password, setPassword] = useState("");
+  const clientRef = useRef<WechatScanClient | null>(null),
+    requestRef = useRef<AbortController | null>(null),
+    generation = useRef(0);
+  async function start() {
+    if (disabled) return;
+    const current = ++generation.current;
+    requestRef.current?.abort();
+    const abort = new AbortController();
+    requestRef.current = abort;
+    const client = new WechatScanClient();
+    clientRef.current = client;
+    setPhase("PREPARING");
+    setError(null);
+    setScan(null);
+    setChallenge(null);
+    setPhone("");
+    setCode("");
+    setAction(null);
+    setCountdown(0);
+    setBindingMethod("PHONE");
+    setEmail("");
+    setPassword("");
+    try {
+      const result = await client.start(next, abort.signal);
+      if (current !== generation.current) return;
+      setRegistrationEnabled(client.registrationEnabled);
+      setChallenge(result);
+      setPhase("WAITING");
+    } catch (cause) {
+      if (current === generation.current && !abort.signal.aborted) {
+        setError(
+          cause instanceof Error ? cause.message : "二维码获取失败，请重试",
+        );
+        setPhase("ERROR");
+      }
+    }
+  }
+  function close() {
+    const old = challenge,
+      client = clientRef.current;
+    ++generation.current;
+    requestRef.current?.abort();
+    setPhase("CLOSED");
+    setChallenge(null);
+    setScan(null);
+    setError(null);
+    if (old && client) void client.cancel(old.challengeId).catch(() => {});
+  }
+  useEffect(() => {
+    if (disabled) close();
+  }, [disabled]);
+  useEffect(
+    () => () => {
+      ++generation.current;
+      requestRef.current?.abort();
+    },
+    [],
+  );
+  useEffect(() => {
+    if (!challenge || (phase !== "WAITING" && phase !== "SCANNED")) return;
+    function tick() {
+      const remaining = Math.max(
+        0,
+        Math.ceil((challenge!.expiresAt - Date.now()) / 1000),
+      );
+      setSeconds(remaining);
+      if (!remaining) setPhase("EXPIRED");
+    }
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [challenge, phase]);
+  useEffect(() => {
+    if (!challenge) return;
+    let finished = false,
+      stopped = false,
+      timer: ReturnType<typeof setTimeout> | undefined,
+      running = false;
+    const id = generation.current,
+      client = clientRef.current!,
+      abort = new AbortController();
+    async function poll() {
+      if (finished || stopped || running || id !== generation.current) return;
+      if (challenge!.expiresAt <= Date.now()) {
+        finished = true;
+        setPhase("EXPIRED");
+        return;
+      }
+      if (document.hidden) {
+        timer = setTimeout(poll, 2000);
+        return;
+      }
+      running = true;
+      try {
+        const result = await client.poll(challenge!.challengeId, abort.signal);
+        if (stopped || id !== generation.current) return;
+        if (result.status === "CANCELLED" || result.status === "CONSUMED") {
+          finished = true;
+          setPhase("EXPIRED");
+          return;
+        }
+        if (result.status === "CONFIRMED") {
+          finished = true;
+          setPhase("COMPLETING");
+          const completed = await client.complete(
+            challenge!.challengeId,
+            abort.signal,
+          );
+          if (stopped || id !== generation.current) return;
+          if (completed.status === "AUTHENTICATED")
+            window.location.assign(completed.next);
+          else setPhase("RESOLUTION");
+          return;
+        }
+        setScan(result);
+        setPhase(result.status === "SCANNED" ? "SCANNED" : "WAITING");
+      } catch (cause) {
+        if (!stopped && id === generation.current) {
+          finished = true;
+          setError(
+            cause instanceof Error
+              ? cause.message
+              : "扫码状态查询失败，请刷新二维码",
+          );
+          setPhase("ERROR");
+        }
+      } finally {
+        running = false;
+      }
+      if (!finished && !stopped && id === generation.current)
+        timer = setTimeout(poll, 2000);
+    }
+    function visible() {
+      if (!finished && !document.hidden && !running) {
+        if (timer) clearTimeout(timer);
+        void poll();
+      }
+    }
+    timer = setTimeout(poll, 500);
+    document.addEventListener("visibilitychange", visible);
+    return () => {
+      stopped = true;
+      abort.abort();
+      if (timer) clearTimeout(timer);
+      document.removeEventListener("visibilitychange", visible);
+    };
+  }, [challenge]);
+  useEffect(() => {
+    if (!countdown) return;
+    const timer = setTimeout(
+      () => setCountdown((x) => Math.max(0, x - 1)),
+      1000,
+    );
+    return () => clearTimeout(timer);
+  }, [countdown]);
+  async function sendCode() {
+    setBusy(true);
+    setError(null);
+    try {
+      await clientRef.current!.sendPhoneCode(phone);
+      setCountdown(60);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "验证码发送失败");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function resolveAccount(event: React.FormEvent) {
+    event.preventDefault();
+    if (!action) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const result =
+        bindingMethod === "EMAIL" && action === "BIND"
+          ? await clientRef.current!.resolveEmail(email, password)
+          : await clientRef.current!.resolvePhone(phone, code, action);
+      if (result.status === "AUTHENTICATED")
+        window.location.assign(result.next);
+    } catch (cause) {
+      setError(
+        cause instanceof Error ? cause.message : "验证未完成，请刷新二维码重试",
+      );
+      setPhase("ERROR");
+    } finally {
+      setBusy(false);
+    }
+  }
+  if (phase === "CLOSED")
+    return (
+      <Button
+        type="button"
+        variant="outline"
+        disabled={disabled}
+        onClick={() => void start()}
+      >
+        <FontAwesomeIcon
+          aria-hidden="true"
+          className="size-5 text-[#07c160]"
+          icon={faWeixin}
+        />
+        微信登录
+      </Button>
+    );
+  const working = phase === "PREPARING" || phase === "COMPLETING" || busy;
+  return (
+    <section
+      aria-label="微信扫码登录"
+      className="rounded-xl border bg-background p-5"
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-base font-semibold">微信扫码登录</h3>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          disabled={working}
+          onClick={close}
+        >
+          关闭
+        </Button>
+      </div>
+      <div aria-live="polite" className="flex flex-col items-center gap-4">
+        {phase === "PREPARING" ? (
+          <p className="text-sm text-muted-foreground">正在获取二维码…</p>
+        ) : null}
+        {(phase === "WAITING" || phase === "SCANNED") && challenge ? (
+          <>
+            <img
+              alt="本次微信登录二维码"
+              className="size-52 rounded-lg border bg-white p-2"
+              src={challenge.qrcodeUrl}
+              width={208}
+              height={208}
+              referrerPolicy="no-referrer"
+            />
+            {phase === "WAITING" ? (
+              <p className="text-sm">微信扫码，首次使用请关注公众号</p>
+            ) : (
+              <div className="text-center">
+                <p className="text-sm">请在公众号回复</p>
+                <p className="mt-2 select-all text-2xl font-semibold tracking-widest">
+                  登录 {scan?.confirmationCode}
+                </p>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground">{seconds} 秒后失效</p>
+          </>
+        ) : null}
+        {phase === "COMPLETING" ? (
+          <p className="text-sm">确认成功，正在登录…</p>
+        ) : null}
+        {phase === "RESOLUTION" ? (
+          <form onSubmit={resolveAccount} className="w-full space-y-4">
+            <fieldset className="space-y-2">
+              <legend className="mb-2 text-sm font-semibold">关联账号</legend>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="radio"
+                  name="wechat-account-action"
+                  checked={action === "BIND"}
+                  onChange={() => setAction("BIND")}
+                />
+                绑定已有账号
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="radio"
+                  name="wechat-account-action"
+                  disabled={!registrationEnabled}
+                  checked={action === "CREATE"}
+                  onChange={() => {
+                    setAction("CREATE");
+                    setBindingMethod("PHONE");
+                  }}
+                />
+                创建新账号
+                {!registrationEnabled ? (
+                  <span className="text-xs text-muted-foreground">
+                    暂未开放
+                  </span>
+                ) : null}
+              </label>
+            </fieldset>
+            {action === "CREATE" ? (
+              <p className="text-xs text-muted-foreground">
+                已有账号请先绑定，新账号不会带入原有资产。手机号已有账号时将关联原账号。
+              </p>
+            ) : null}
+            {action === "BIND" ? (
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="radio"
+                    name="wechat-binding-method"
+                    checked={bindingMethod === "PHONE"}
+                    onChange={() => setBindingMethod("PHONE")}
+                  />
+                  手机号验证
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="radio"
+                    name="wechat-binding-method"
+                    checked={bindingMethod === "EMAIL"}
+                    onChange={() => setBindingMethod("EMAIL")}
+                  />
+                  邮箱和密码
+                </label>
+              </div>
+            ) : null}
+            {bindingMethod === "EMAIL" && action === "BIND" ? (
+              <>
+                <label
+                  className="block text-sm font-semibold"
+                  htmlFor="wechat-binding-email"
+                >
+                  已有账号邮箱
+                </label>
+                <Input
+                  id="wechat-binding-email"
+                  type="email"
+                  autoComplete="username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={busy}
+                />
+                <label
+                  className="block text-sm font-semibold"
+                  htmlFor="wechat-binding-password"
+                >
+                  账号密码
+                </label>
+                <Input
+                  id="wechat-binding-password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={busy}
+                />
+              </>
+            ) : (
+              <>
+                <label
+                  className="block text-sm font-semibold"
+                  htmlFor="wechat-resolution-phone"
+                >
+                  手机号
+                </label>
+                <Input
+                  id="wechat-resolution-phone"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    setCode("");
+                  }}
+                  maxLength={11}
+                  placeholder="请输入手机号"
+                  disabled={busy}
+                />
+                <label
+                  className="block text-sm font-semibold"
+                  htmlFor="wechat-resolution-code"
+                >
+                  短信验证码
+                </label>
+                <div className="grid grid-cols-[minmax(0,1fr)_112px] gap-2">
+                  <Input
+                    id="wechat-resolution-code"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    maxLength={8}
+                    placeholder="请输入验证码"
+                    disabled={busy}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => void sendCode()}
+                    disabled={
+                      busy || !/^1[3-9]\d{9}$/.test(phone) || countdown > 0
+                    }
+                  >
+                    {countdown ? `${countdown}秒` : "获取验证码"}
+                  </Button>
+                </div>
+              </>
+            )}
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={
+                busy ||
+                !action ||
+                (bindingMethod === "EMAIL" && action === "BIND"
+                  ? !email || !password
+                  : !code || !/^1[3-9]\d{9}$/.test(phone))
+              }
+            >
+              {busy
+                ? "验证中…"
+                : action === "CREATE"
+                  ? "验证并创建账号"
+                  : "验证并绑定账号"}
+            </Button>
+          </form>
+        ) : null}
+        {phase === "EXPIRED" ? (
+          <p className="text-sm">二维码已失效，请刷新</p>
+        ) : null}
+        {error ? (
+          <p className="w-full text-sm text-destructive" role="alert">
+            {error}
+          </p>
+        ) : null}
+        {phase === "ERROR" ||
+        phase === "EXPIRED" ||
+        phase === "WAITING" ||
+        phase === "SCANNED" ? (
+          <Button type="button" variant="outline" onClick={() => void start()}>
+            刷新二维码
+          </Button>
+        ) : null}
+      </div>
+    </section>
+  );
+}
