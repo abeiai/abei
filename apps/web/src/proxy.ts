@@ -9,6 +9,19 @@ import {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isPageNavigation = request.method === "GET" || request.method === "HEAD";
+  const isPrefetch = request.headers.has("next-router-prefetch") || request.headers.get("purpose") === "prefetch";
+
+  if (pathname === "/center" && isPageNavigation && !isPrefetch &&
+      (request.cookies.get("xueleai_user_access")?.value || request.cookies.get("xueleai_user_refresh")?.value) &&
+      await isResourceCenterSessionInvalid(request)) {
+    // Re-enter with expired credentials removed; the API still validates every identity.
+    const response = NextResponse.redirect(request.nextUrl);
+    response.headers.set("Cache-Control", "private, no-store");
+    for (const name of ["xueleai_user_access", "xueleai_user_refresh", "xueleai_profile_context"]) {
+      response.cookies.delete(name);
+    }
+    return response;
+  }
 
   if (/^\/u\/[a-z0-9]{4,32}$/.test(pathname) && request.method === "GET" && !request.headers.has("next-router-prefetch") && request.headers.get("purpose") !== "prefetch") {
     const response = NextResponse.next();
@@ -69,8 +82,26 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/u/:path*", "/dashboard", "/dashboard/:path*", "/select-profile", "/learn", "/learn/:path*", "/admin/:path*"]
+  matcher: ["/center", "/u/:path*", "/dashboard", "/dashboard/:path*", "/select-profile", "/learn", "/learn/:path*", "/admin/:path*"]
 };
+
+async function isResourceCenterSessionInvalid(request: NextRequest) {
+  try {
+    const apiBaseUrl = process.env.API_BASE_URL ?? "http://localhost:3602/api";
+    const response = await fetch(`${apiBaseUrl}/public/courses?view=listing`, {
+      headers: { Cookie: request.headers.get("cookie") ?? "" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(4000)
+    });
+    if (response.status === 401) return true;
+    if (!response.ok) return false;
+    const payload = await response.json() as { code?: number };
+    return payload.code === 40101 || payload.code === 40102;
+  } catch {
+    // An API outage must not discard a usable session.
+    return false;
+  }
+}
 
 function loginUrl(request: NextRequest) {
   const requestedPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
