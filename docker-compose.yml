@@ -33,7 +33,7 @@ services:
       HOSTNAME: 0.0.0.0
       API_BASE_URL: http://api-core:3602/api
       PUBLIC_API_BASE_URL: /api
-      APP_BASE_URL: http://localhost:3600
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3600}
     depends_on:
       api-core:
         condition: service_healthy
@@ -56,7 +56,7 @@ services:
       DATABASE_URL: postgresql://abei:${POSTGRES_PASSWORD}@postgres:3604/abei?schema=public
       REDIS_URL: redis://redis:3605
       AI_GATEWAY_BASE_URL: http://ai-gateway:3603
-      APP_BASE_URL: http://localhost:3600
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3600}
       PUBLIC_API_BASE_URL: /api
       UPLOAD_DRIVER: local
       UPLOAD_DIR: /app/uploads

@@ -35,7 +35,7 @@ const next = {
   handle: () => undefined
 } as unknown as CallHandler;
 
-test("微信授权与回调共享 GET 限流桶", () => {
+test("微信创建挑战和完成请求受限流，回调不共用浏览器桶", () => {
   const previousMax = process.env.RATE_LIMIT_AUTH_WECHAT_MAX;
   const previousWindow = process.env.RATE_LIMIT_WINDOW_SECONDS;
   process.env.RATE_LIMIT_AUTH_WECHAT_MAX = "1";
@@ -43,16 +43,16 @@ test("微信授权与回调共享 GET 限流桶", () => {
 
   try {
     const interceptor = new RateLimitInterceptor();
-    const options = { method: "GET", ip: "203.0.113.80" };
+    const options = { method: "POST", ip: "203.0.113.80" };
 
     interceptor.intercept(
-      contextFor("/api/auth/wechat/authorize", options),
+      contextFor("/api/auth/wechat/mp/challenges", options),
       next
     );
     assert.throws(
       () =>
         interceptor.intercept(
-          contextFor("/api/auth/wechat/callback", options),
+          contextFor("/api/auth/wechat/mp/challenges/opaque-id/complete", options),
           next
         ),
       (error: unknown) =>

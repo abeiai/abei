@@ -30,6 +30,7 @@ backups
 .DS_Store
 .playwright-mcp
 .superpowers
+abeiai/
 design-demos
 .turbo
 **/.turbo

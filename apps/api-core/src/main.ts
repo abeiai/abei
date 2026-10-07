@@ -20,15 +20,17 @@ async function bootstrap() {
     limit: bodyLimit
   });
 
+  app.useBodyParser("text", { type: ["application/xml", "text/xml"], limit: "64kb" });
+
   app.setGlobalPrefix("api");
   app.enableCors({
-    origin: process.env.APP_BASE_URL ?? "http://localhost:3321",
+    origin: process.env.APP_BASE_URL ?? "http://localhost:3600",
     credentials: true
   });
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(createValidationPipe());
 
-  const port = Number(process.env.API_CORE_PORT ?? 3322);
+  const port = Number(process.env.API_CORE_PORT ?? 3602);
   await app.listen(port, "0.0.0.0");
 }
 

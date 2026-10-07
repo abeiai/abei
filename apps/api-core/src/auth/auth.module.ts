@@ -11,35 +11,38 @@ import { AuthService } from "./auth.service.js";
 import { WechatAuthController } from "./wechat-auth.controller.js";
 import {
   WECHAT_AUTH_PRISMA,
-  WechatAuthService
+  WechatAuthService,
 } from "./wechat-auth.service.js";
-import {
-  WECHAT_OAUTH_STATE_STORE,
-  RedisWechatOAuthStateStore
-} from "./wechat-oauth-state.store.js";
-import { WechatOAuthClient } from "./wechat-oauth.client.js";
+import { WECHAT_SCAN_STORE, RedisWechatScanStore } from "./wechat-mp.store.js";
+import { WechatMpClient } from "./wechat-mp.client.js";
 
 @Module({
   imports: [MediaModule, AdminAuthModule],
-  controllers: [AuthController, WechatAuthController, ReferralController, AdminReferralController],
+  controllers: [
+    AuthController,
+    WechatAuthController,
+    ReferralController,
+    AdminReferralController,
+  ],
   providers: [
     ReferralService,
     AuthService,
     ProfileContextService,
     WechatAuthService,
     {
-      provide: WechatOAuthClient,
-      useFactory: () => new WechatOAuthClient()
+      provide: WECHAT_SCAN_STORE,
+      useFactory: () => new RedisWechatScanStore(),
     },
     {
-      provide: WECHAT_OAUTH_STATE_STORE,
-      useFactory: () => new RedisWechatOAuthStateStore()
+      provide: WechatMpClient,
+      inject: [WECHAT_SCAN_STORE],
+      useFactory: (store: RedisWechatScanStore) => new WechatMpClient(store),
     },
     {
       provide: WECHAT_AUTH_PRISMA,
-      useFactory: () => getPrismaClient()
-    }
+      useFactory: () => getPrismaClient(),
+    },
   ],
-  exports: [AuthService, ProfileContextService]
+  exports: [AuthService, ProfileContextService],
 })
 export class AuthModule {}

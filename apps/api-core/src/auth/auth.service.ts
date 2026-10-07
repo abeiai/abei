@@ -487,6 +487,9 @@ export class AuthService {
     let sendStatus = "短信服务未配置，已启用默认验证码";
 
     const aliyunSmsConfig = await this.getAliyunSmsConfig();
+    if (!aliyunSmsConfig && process.env.NODE_ENV === "production") {
+      throw new AppException(50001, "短信服务尚未配置，请使用其他登录方式", HttpStatus.SERVICE_UNAVAILABLE);
+    }
 
     if (aliyunSmsConfig?.provider === aliyunDypnsSmsProvider) {
       const sent = await this.sendAliyunSmsVerifyCode(phone, expiresIn, aliyunSmsConfig);
@@ -501,7 +504,7 @@ export class AuthService {
       sendStatus = sent.status;
     }
 
-    await this.prisma.smsVerificationCode.create({
+    const verification = await this.prisma.smsVerificationCode.create({
       data: {
         phone,
         purpose,
@@ -514,6 +517,7 @@ export class AuthService {
     });
 
     return {
+      verificationId: verification.id,
       phone,
       purpose,
       expiresIn,
@@ -528,6 +532,32 @@ export class AuthService {
               ? "验证码已发送"
               : `短信服务未配置，可使用默认验证码 ${defaultPhoneVerificationCode}`
     };
+  }
+
+  async sendWechatPhoneCode(phone: string) {
+    if ((await this.getAliyunSmsConfig())?.provider !== aliyunStandardSmsProvider) {
+      throw new AppException(50001, "微信账号关联需要标准短信验证，请使用邮箱账号绑定或其他登录方式", HttpStatus.SERVICE_UNAVAILABLE);
+    }
+    const result = await this.sendPhoneCode({ phone, purpose: "LOGIN" });
+    if (!result.sent || !result.verificationId) throw new AppException(50001, "短信发送失败，请稍后重试", HttpStatus.SERVICE_UNAVAILABLE);
+    return { verificationId: result.verificationId, expiresIn: result.expiresIn, message: "验证码已发送" };
+  }
+
+  async verifyWechatPhoneCode(phone: string, code: string, verificationId: string) {
+    await this.verifyPhoneCode(this.normalizePhone(phone), "LOGIN", code, verificationId);
+  }
+
+  async verifyWechatEmailPassword(email: string, password: string) {
+    email = this.normalizeEmail(email);
+    await assertLoginAllowed("USER", email);
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user || !user.passwordLoginEnabled || !(await verifyPassword(password, user.passwordHash))) {
+      await recordLoginFailure("USER", email);
+      throw new AppException(40003, "邮箱或密码错误", HttpStatus.BAD_REQUEST);
+    }
+    if (user.status !== "ACTIVE") throw new AppException(40301, "账号已被禁用", HttpStatus.FORBIDDEN);
+    await clearLoginFailures("USER", email);
+    return {id:user.id,email:user.email,passwordHash:user.passwordHash,passwordLoginEnabled:user.passwordLoginEnabled};
   }
 
   async loginByPhone(dto: PhoneLoginDto, response: ResponseLike, referralToken?: string | null) {
@@ -1452,63 +1482,28 @@ export class AuthService {
     }
   }
 
-  private async verifyPhoneCode(phone: string, purpose: SmsCodePurpose, code: string) {
+  private async verifyPhoneCode(phone: string, purpose: SmsCodePurpose, code: string, verificationId?: string) {
     const normalizedCode = code.trim();
-
-    if (normalizedCode === defaultPhoneVerificationCode) {
-      return;
-    }
-
+    if (!verificationId && normalizedCode === defaultPhoneVerificationCode && process.env.NODE_ENV !== "production") return;
     const record = await this.prisma.smsVerificationCode.findFirst({
-      where: {
-        phone,
-        purpose,
-        consumedAt: null,
-        expiresAt: {
-          gt: new Date()
-        }
-      },
-      orderBy: {
-        createdAt: "desc"
-      }
+      where: { ...(verificationId ? { id: verificationId } : {}), phone, purpose, consumedAt: null, expiresAt: { gt: new Date() } },
+      orderBy: { createdAt: "desc" }
     });
-
-    if (!record) {
+    if (!record || (verificationId && record.sendProvider !== aliyunStandardSmsProvider)) {
       throw new AppException(40003, "验证码错误或已过期", HttpStatus.BAD_REQUEST);
     }
-
     if (record.sendProvider === aliyunDypnsSmsProvider) {
-      const aliyunSmsConfig = await this.getAliyunSmsConfig();
-
-      if (!aliyunSmsConfig) {
-        throw new AppException(50001, "短信服务配置缺失，请联系管理员", HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-
-      await this.checkAliyunSmsVerifyCode(phone, normalizedCode, aliyunSmsConfig);
-      await this.prisma.smsVerificationCode.update({
-        where: {
-          id: record.id
-        },
-        data: {
-          consumedAt: new Date()
-        }
-      });
-
-      return;
-    }
-
-    if (record.codeHash !== this.hashSmsCode(phone, purpose, normalizedCode)) {
+      const config = await this.getAliyunSmsConfig();
+      if (!config || config.provider !== aliyunDypnsSmsProvider) throw new AppException(50001, "短信服务配置缺失，请联系管理员", HttpStatus.SERVICE_UNAVAILABLE);
+      await this.checkAliyunSmsVerifyCode(phone, normalizedCode, config);
+    } else if (record.codeHash !== this.hashSmsCode(phone, purpose, normalizedCode)) {
       throw new AppException(40003, "验证码错误或已过期", HttpStatus.BAD_REQUEST);
     }
-
-    await this.prisma.smsVerificationCode.update({
-      where: {
-        id: record.id
-      },
-      data: {
-        consumedAt: new Date()
-      }
+    const consumed = await this.prisma.smsVerificationCode.updateMany({
+      where: { id: record.id, phone, purpose, consumedAt: null, expiresAt: { gt: new Date() }, codeHash: record.codeHash },
+      data: { consumedAt: new Date() }
     });
+    if (consumed.count !== 1) throw new AppException(40003, "验证码错误或已过期", HttpStatus.BAD_REQUEST);
   }
 
   private async getSmsCodeTtlSeconds() {
