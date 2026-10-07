@@ -40,6 +40,24 @@ test("normalizeOutline rejects an incomplete or mismatched storyboard", () => {
   assert.throws(() => normalizeOutline(JSON.stringify({ title: "测试", theme: "友谊", audience: "4-6岁", plot: "寻找朋友", pages: [null] }), 1), /第 1 页内容/);
 });
 
+test("原文模式校验逐字分页，拒绝改写、漏句和替换用户提供的原文", () => {
+  const source = "白日依山尽，黄河入海流。欲穷千里目，更上一层楼。";
+  const value = { title: "登鹳雀楼", theme: "诵读", audience: "婴儿期0-1岁", plot: "诗歌诵读", originalText: source, pages: [
+    { caption: "白日依山尽，黄河入海流。", imagePrompt: "夕阳与黄河" },
+    { caption: "欲穷千里目，更上一层楼。", imagePrompt: "登楼望远" }
+  ] };
+  const plan = normalizeOutline(JSON.stringify(value), 2, "婴儿期0-1岁", true, [`保持原文\n原文：${source}`]);
+  assert.equal(plan.pages.slice(1).map(page => page.caption).join(""), source);
+  assert.ok(plan.pages.every(page => page.narration === page.caption));
+  const { originalText: _source, ...withoutRepeatedSource } = value;
+  assert.equal(normalizeOutline(JSON.stringify(withoutRepeatedSource), 2, "婴儿期0-1岁", true, [`保持原文\n原文：${source}`]).pages.slice(1).map(page => page.caption).join(""), source);
+  for (const caption of ["太阳落山啦，黄河流向大海。", "白日依山尽。", "白日依山尽，黄河入海流。听，小河在唱歌！"]) {
+    assert.throws(() => normalizeOutline(JSON.stringify({ ...value, pages: [{ ...value.pages[0], caption }, value.pages[1]] }), 2, "婴儿期0-1岁", true), /保留原文/);
+  }
+  assert.throws(() => normalizeOutline(JSON.stringify({ ...value, originalText: "替换的原文", pages: [{ caption: "替换的原文", imagePrompt: "河流" }] }), 1, "幼儿园", true, [`保持原文\n原文：${source}`]), /用户提供的原文/);
+  assert.throws(() => normalizeOutline(JSON.stringify({ ...value, originalText: value.pages[0]!.caption, pages: [value.pages[0]] }), 1, "幼儿园", true, [`保持原文\n原文：${source}`]), /用户提供的原文/);
+});
+
 test("changing page content invalidates only the related generated asset", () => {
   const original = {
     position: 1,

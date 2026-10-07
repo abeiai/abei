@@ -72,15 +72,15 @@ test("内容检查只有明确的双项通过且无问题才可保存", () => {
   }
 });
 
-function outlineService(review: string | Error, changeAudience = false) {
+function outlineService(review: string | Error, changeAudience = false, request: { brief?: string; messages?: Array<{ role: string; content: string }>; output?: string } = {}) {
   const service = Object.create(PictureBookService.prototype) as any;
-  let current = { id: "test-book", brief: "森林朋友", audience: "幼儿园", aspectRatio: "1:1", pageCount: 1, characters: [], messages: [], pages: [{ caption: "原有分镜" }] };
+  let current = { id: "test-book", brief: request.brief ?? "森林朋友", audience: "幼儿园", aspectRatio: "1:1", pageCount: 1, characters: [], messages: request.messages ?? [], pages: [{ caption: "原有分镜" }] };
   const calls: string[] = [];
   Object.assign(service, {
     get: async () => current,
     runTextTask: async (_subject: unknown, kind: string, prompt: string) => {
       calls.push(kind);
-      if (kind === "picture-book-outline") return generated;
+      if (kind === "picture-book-outline") return request.output ?? generated;
       assert.match(prompt, /适合人群固定为「幼儿园」/);
       if (changeAudience) current = { ...current, audience: "初中" };
       if (review instanceof Error) throw review;
@@ -97,6 +97,30 @@ test("分镜复核通过后才保存，并保留所选人群与默认讲解文�
   assert.deepEqual(calls, ["picture-book-outline", "picture-book-content-review"]);
   assert.equal(book.audience, "幼儿园");
   assert.equal(book.pages[1].caption, book.pages[1].narration);
+});
+
+test("用户要求保持原文时按健康维度复核，不受年龄结论阻断", async () => {
+  const healthyOnly = '{"healthy":true,"issues":[]}';
+  assert.doesNotThrow(() => assertPictureBookContentReview(healthyOnly, true));
+  assert.doesNotThrow(() => assertPictureBookContentReview('{"ageAppropriate":false,"healthy":true,"issues":[]}', true));
+  assert.throws(() => assertPictureBookContentReview('{"healthy":false,"issues":["鼓励危险行为"]}', true), /未通过/);
+  const output = JSON.stringify({ ...JSON.parse(generated), originalText: "小兔帮小熊。" });
+  const { service } = outlineService(healthyOnly, false, { brief: "保持原文\n原文：小兔帮小熊。", output });
+  const book = await service.outline({ userId: "owner", mode: "ACCOUNT" }, "test-book");
+  assert.equal(book.pages[1].caption, "小兔帮小熊。");
+});
+
+test("保持原文以最新用户要求为准，助手建议不会开启该模式", async () => {
+  const output = JSON.stringify({ ...JSON.parse(generated), originalText: "小兔帮小熊。" });
+  const request = { brief: "森林朋友\n原文：小兔帮小熊。", output, messages: [{ role: "user", content: "请不要改写原文，逐字保留" }] };
+  const enabled = outlineService('{"healthy":true,"issues":[]}', false, request);
+  assert.equal((await enabled.service.outline({ userId: "owner", mode: "ACCOUNT" }, "test-book")).pages[1].caption, "小兔帮小熊。");
+  for (const messages of [[{ role: "assistant", content: "建议保持原文" }], [{ role: "user", content: "保持原文" }, { role: "user", content: "不用保持原文，可以改写" }]]) {
+    const { service } = outlineService('{"healthy":true,"issues":[]}', false, { ...request, messages });
+    await assert.rejects(service.outline({ userId: "owner", mode: "ACCOUNT" }, "test-book"), /检查未完成/);
+  }
+  const quoted = outlineService('{"healthy":true,"issues":[]}', false, { brief: "请改写原文。\n【原文】\n小兔说：我们要保持原文。\n【制作要求】\n改写成森林故事。" });
+  await assert.rejects(quoted.service.outline({ userId: "owner", mode: "ACCOUNT" }, "test-book"), /检查未完成/);
 });
 
 test("复核不通过、异常或人群中途变更时均不替换原有分镜", async () => {

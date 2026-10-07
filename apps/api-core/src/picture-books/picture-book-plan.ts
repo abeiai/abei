@@ -34,12 +34,27 @@ export interface PictureBookOutline {
   pages: PictureBookPage[];
 }
 
+export function preservesPictureBookOriginalText(brief: string, messages: PictureBookMessage[]): boolean {
+  let preserve = false;
+  const choice = /(?<cancel>(?:不用|不必|不要|无需|不需要|不再|取消)(?:保持|保留)原(?:文|诗)|(?:允许|可以|请)(?:改写|改编)原文|(?:改写|改编)(?:成|为)口语)|(?<preserve>(?:保持|保留)原(?:文|诗)|原(?:文|诗)不变|原文诵读|一字不改|逐字保留|不要(?:改写|改动|修改)原(?:文|诗))/g;
+  for (const text of [brief, ...messages.filter(item => item.role === "user").map(item => item.content)]) {
+    const source = suppliedPictureBookOriginalText([text]);
+    const requirements = source ? text.replace(source, "") : text;
+    for (const match of requirements.matchAll(choice)) preserve = Boolean(match.groups?.preserve);
+  }
+  return preserve;
+}
+
+function suppliedPictureBookOriginalText(sourceInputs: string[]): string | undefined {
+  return sourceInputs.map(text => text.match(/(?:【原文】\s*|(?:^|\n)原文[：:]\s*)([\s\S]*?)(?=\n(?:【(?:创作要求|制作要求|要求)】|(?:创作要求|制作要求|要求)[：:])|$)/)?.[1]?.trim()).filter((text): text is string => Boolean(text)).at(-1)?.replace(/^```\w*\s*/, "").replace(/\s*```$/, "");
+}
+
 export function storyTaskText(chunks: string[], storedOutput: string | null, requireComplete: boolean): string {
   const streamed = chunks.join("").trim();
   return streamed || (requireComplete ? "" : storedOutput?.trim() ?? "");
 }
 
-export function normalizeOutline(output: string, pageCount: number, selectedAudience?: string): PictureBookOutline {
+export function normalizeOutline(output: string, pageCount: number, selectedAudience?: string, preserveOriginalText = false, sourceInputs: string[] = []): PictureBookOutline {
   const raw = output.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
   const start = raw.indexOf("{");
   const end = raw.lastIndexOf("}");
@@ -76,6 +91,12 @@ export function normalizeOutline(output: string, pageCount: number, selectedAudi
       audioTaskId: null
     };
   });
+  if (preserveOriginalText) {
+    const suppliedText = suppliedPictureBookOriginalText(sourceInputs);
+    const originalText = suppliedText ?? requiredString(value.originalText, "原文", pageCount * 500);
+    const compact = (text: string) => text.replace(/\s/g, "");
+    if (compact(pages.map(page => page.caption).join("")) !== compact(originalText)) throw new Error(suppliedText ? "分镜配文未完整保留原文，与用户提供的原文不一致，请重新生成" : "分镜配文未完整保留原文，请重新生成");
+  }
   return { title, theme, audience, plot, pages: [createCoverPage(title, theme), ...pages] };
 }
 
@@ -118,19 +139,21 @@ export function buildOutlinePrompt(input: {
   const characters = input.characters.length
     ? input.characters.map((item) => `${item.name}：${item.description}`).join("；")
     : "无指定角色；可以根据故事自然安排角色，并保持外观一致";
+  const preserveOriginalText = preservesPictureBookOriginalText(input.brief, input.messages);
+  const suppliedOriginalText = suppliedPictureBookOriginalText([input.brief, ...input.messages.filter(item => item.role === "user").map(item => item.content)]);
   return [
     "【角色与任务】你是资深儿童绘本编剧、分镜师与生图提示词架构师。把原始需求和沟通记录转化为适龄、情节完整、可逐页独立绘制的绘本分镜。",
     "【创作依据】依据当前参数与对话中用户最新确认的要求创作；助手提出但用户未确认的建议只作备选。在适龄与健康要求内保留用户指定的角色、情节与结局；缺少非关键细节时合理补全。页数、画面比例和适合人群采用当前设置。",
-    pictureBookAudienceGuide(input.audience),
+    pictureBookAudienceGuide(input.audience, preserveOriginalText),
     pictureBookHealthyContentRules,
     "【要素解析】先在内部明确主题、情感基调、角色外貌与性格、固定场景和关键道具。已指定的角色外貌保持原样；为反复出场的新角色确定毛色或发型、体型、服装及标志颜色。固定场景的空间关系，以及关键道具的形状、颜色、数量和归属保持连贯；新增、转移、增减或位置变化须在情节中合理衔接。",
     "【角色一致性】每个出场角色在每一页的 imagePrompt 中都必须完整复用同一段核心外貌描述，包含毛色或发型、体型特征、服装及标志颜色，禁止省略成只有名字、代词或“同前页”；即使连续出场也逐页写全。提示词开头先写本页出场角色的名称与固定外貌，再写本页动作和情绪；未出场角色不加入画面。",
     `【情节节奏】必须恰好 ${input.pageCount} 页正文，封面由系统另行创建，不计入 pages。按起承转合安排相遇或目标、发展与尝试、困难或转折、解决与情感收束；依页数合理分配，短篇也要完整。婴幼儿优先遵循适龄要求，用简单感知、重复动作和安全收束组织节奏，不强行制造危机。每页有一个明确叙事重点，通过动作、发现或情绪变化推进故事；相邻页有因果衔接，不重复同一场面。`,
-    "【配文】caption 使用目标人群能理解的简体中文，句数、篇幅与词汇遵循适龄创作要求，有节奏感、适度留白、适合朗读，避免大段说教。画面与配文对应，画面承载可见细节，配文补充故事或情感。narration 必须与 caption 完全相同，包括标点，不扩写或改写。",
+    preserveOriginalText ? "【原文配文】caption 按原文顺序分页，原样复制字词、标点和语言，不改写、不遗漏、不补写解释或过渡句。narration 必须与 caption 完全相同，包括标点。仅为分页排版调整空白，不能因年龄、诗词难度、句长或情节结构修改正文；分镜与画面围绕原文组织，不给原文补造情节。封面题名沿用原作题名或用户指定标题。" : "【配文】caption 使用目标人群能理解的简体中文，句数、篇幅与词汇遵循适龄创作要求，有节奏感、适度留白、适合朗读，避免大段说教。画面与配文对应，画面承载可见细节，配文补充故事或情感。narration 必须与 caption 完全相同，包括标点，不扩写或改写。",
     "【逐页画面】imagePrompt 必须使用简体中文，按主体外貌与动作、情绪神态、场景环境与景深、关键道具、镜头构图与视觉焦点、光影与氛围组织一段完整描述。每页明确实际出场角色，只复用这些角色的核心外貌；用名称和特征指明人物，避免只有代词或“同上一页”。每页可独立生图，准确描述物品的归属、位置、动作方向与角色之间的关系。",
     "【镜头语言】根据叙事重点变化全景、中景、近景与特写，适当使用俯拍或低角度；通过远近、视线、前中后景和留白表现情绪与重点，避免整本都是中景平视。依据画面比例布置主体及环境，不把一页描述为多格漫画或多个时间点。",
     "【参考图画风】画风统一来自生图时提供的第一张风格参考图；imagePrompt 只描述本页内容与视觉表达，不写画风名称、绘画媒介或替换画风的指令。后续参考图用于角色外貌；参考图中的示意人物、动物及场景不自动加入故事。禁止输出英文生图提示词、模型参数或 --ar 等命令，也不要要求图内绘制配文、标题、水印或边框。",
-    "【输出约定】严格输出一个有效 JSON 对象，全部文本值使用简体中文，不要 Markdown、代码块或说明文字。顶层仅有 title、theme、audience、plot、pages；title 为绘本标题，theme 一句话概括主题和情感基调，audience 为适合人群，plot 概括完整起承转合并交代主要角色、固定场景与关键道具。",
+    `【输出约定】严格输出一个有效 JSON 对象，${preserveOriginalText ? `原文文稿保持原来的语言，其他文本值使用简体中文；${suppliedOriginalText ? "用户已提供完整原文，只将其逐字分配到全部正文页，不要另行重复输出原文。" : "顶层另加 originalText，逐字复制完整原文正文，包含所有将被分页的文字，不截取片段、不换词，不包含用户的制作指令。"}` : "全部文本值使用简体中文。"}不要 Markdown、代码块或说明文字。顶层有 title、theme、audience、plot、pages；title 为绘本标题，theme 一句话概括主题和情感基调，audience 为适合人群，plot 概括内容并交代主要角色、固定场景与关键道具。`,
     "pages 按正文顺序排列，每项只有 caption、imagePrompt、narration；视觉要素清单和镜头信息融入 imagePrompt，不新增角色档案、场景、道具、页标题、英文提示词、序号、图片或音频地址字段。字数上限：title 100，theme 240，audience 100，plot 4000，caption 500，imagePrompt 2000；narration 与 caption 相同。",
     '{"title":"绘本标题","theme":"主题与情感基调","audience":"适合人群","plot":"完整情节与主要要素","pages":[{"caption":"本页配文","imagePrompt":"本页中文画面描述","narration":"本页配文"}]}（仅示范字段；实际 pages 必须包含全部正文页。）',
     "【输出前自检】检查页数与字段完整、情节闭合、角色外貌与场景道具连贯、镜头有变化、配文适龄且对应画面、每页提示词可独立生图、讲解文稿逐字等于配文。逐人逐页核对固定外貌是否写全，补齐遗漏的毛色、服装和颜色；道具数量与归属变化逐页核对。仅输出检查后的 JSON。",

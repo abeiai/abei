@@ -15,7 +15,7 @@ import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./pictu
 import { SystemConfigService } from "../system-config/system-config.service.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { characterImageForStyle, characterStyleKey, mergeDiscussedCharacters, officialCharacter, officialCharacters, parseCharacterDiscussion } from "./picture-book-characters.js";
-import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
+import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, preservesPictureBookOriginalText, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 const presets = [
@@ -139,7 +139,7 @@ export class PictureBookService {
     }));
     const prompt = [
       "你是儿童绘本创作搭档。围绕用户需求讨论主题、适合人群、主要情节与角色。",
-      pictureBookAudienceGuide(book.audience), pictureBookHealthyContentRules,
+      pictureBookAudienceGuide(book.audience, preservesPictureBookOriginalText(book.brief, messages)), pictureBookHealthyContentRules,
       "如果关键信息不够，优先提出一个具体问题；如果已足够，给出简短创作方向并建议进入分镜。不要直接输出完整绘本。使用简体中文。",
       "同时从用户的原始需求与最新沟通中提取已确认的全部出场角色，包含名字和外貌/性格描述；不要把助手尚未获得用户确认的建议当成出场角色。角色最多9个。",
       "characters 必须是最新确认的完整出场名单，不是本轮新增名单。保留未被用户更改的已有角色；删除、取消出场或换成另一个角色时移除旧角色。最新用户要求优先于原始需求和历史助手回复；用户原文写大明时不得写成小明。",
@@ -175,13 +175,14 @@ export class PictureBookService {
       characters: charactersOf(book.characters), messages: messagesOf(book.messages)
     });
     const output = await this.runTextTask(subject, "picture-book-outline", prompt);
+    const preserveOriginalText = preservesPictureBookOriginalText(book.brief, messagesOf(book.messages));
     let outline;
     try {
-      outline = normalizeOutline(output, book.pageCount, book.audience);
-      const review = await this.runTextTask(subject, "picture-book-content-review", buildPictureBookContentReviewPrompt(book.audience, outline)).catch(() => {
+      outline = normalizeOutline(output, book.pageCount, book.audience, preserveOriginalText, [book.brief, ...messagesOf(book.messages).filter(item => item.role === "user").map(item => item.content)]);
+      const review = await this.runTextTask(subject, "picture-book-content-review", buildPictureBookContentReviewPrompt(book.audience, outline, preserveOriginalText)).catch(() => {
         throw new Error("分镜内容检查暂时无法完成，请稍后重新生成");
       });
-      assertPictureBookContentReview(review);
+      assertPictureBookContentReview(review, preserveOriginalText);
     }
     catch (error) {
       throw new AppException(50201, error instanceof Error ? error.message : "分镜解析失败", HttpStatus.BAD_GATEWAY);
