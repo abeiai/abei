@@ -33,7 +33,9 @@ export function PictureBookDemos({ compact = false }: { compact?: boolean }) {
       </button>)}
     </div>
     {selected ? <dialog ref={dialogRef} aria-label={`示范绘本：${selected.title}`} onClose={() => setSelected(null)} className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none overflow-y-auto border-0 bg-[#f6f6f5] p-0 backdrop:bg-black/50">
-      <PictureBookPlayer key={selected.id} bookId={selected.id} initialBook={selected} learnerMode={false} onClose={() => setSelected(null)} />
+      <PictureBookPlayer key={selected.id} bookId={selected.id} initialBook={{ ...selected, pages: [
+        { position: 0, caption: "", narration: "", imageUrl: selected.coverUrl, audioUrl: null }, ...selected.pages
+      ] }} learnerMode={false} onClose={() => setSelected(null)} />
     </dialog> : null}
   </section>;
 }

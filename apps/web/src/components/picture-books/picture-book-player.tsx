@@ -39,6 +39,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   const pages = book?.pages ?? [];
   const page = pages[index];
+  const hasCover = pages[0]?.position === 0;
+  const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);
 
@@ -99,7 +101,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       <header className="flex min-h-16 items-center justify-between gap-4 border-b border-border bg-background px-4 sm:px-8">
         {onClose ? <button type="button" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" onClick={onClose}><ArrowLeft className="size-4" />返回示范绘本</button> : <Link className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" href="/storybook"><ArrowLeft className="size-4" />返回绘本</Link>}
         <h1 className="truncate text-base font-semibold sm:text-lg">{book?.title || "绘本播放"}</h1>
-        <span className="min-w-16 text-right text-sm tabular-nums text-muted-foreground">{pages.length ? `${index + 1} / ${pages.length}` : ""}</span>
+        <span className="min-w-16 text-right text-sm tabular-nums text-muted-foreground">{pages.length ? hasCover && index === 0 ? "封面" : `${index + 1 - Number(hasCover)} / ${pages.length - Number(hasCover)}` : ""}</span>
       </header>
 
       {error ? <div className="mx-auto mt-16 max-w-md rounded-2xl border bg-background p-8 text-center text-sm">{error}</div> : null}
@@ -109,13 +111,13 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       {page ? (
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-4 py-6 sm:px-8 sm:py-8">
           <div className="relative flex w-full items-center justify-center overflow-hidden rounded-2xl border border-border bg-background shadow-sm" style={{ minHeight: "min(64vh, 680px)" }}>
-            {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}第 ${pages.indexOf(item) + 1} 页`} className="max-h-[68vh] w-full object-contain" src={pictureBookPageImageSource(bookId, item.position, item.imageUrl)} /> : null)}
+            {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className="max-h-[68vh] w-full object-contain" src={pictureBookPageImageSource(bookId, item.position, item.imageUrl)} /> : null)}
             {!page.imageUrl ? <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
             <button aria-label="上一页" className="absolute left-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 shadow disabled:opacity-30 sm:left-4" disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><ChevronLeft className="size-6" /></button>
             <button aria-label="下一页" className="absolute right-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-background/90 shadow disabled:opacity-30 sm:right-4" disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><ChevronRight className="size-6" /></button>
           </div>
 
-          <p className="max-w-3xl text-center text-base leading-8 sm:text-xl">{page.caption || "　"}</p>
+          {page.caption ? <p className="max-w-3xl text-center text-base leading-8 sm:text-xl">{page.caption}</p> : null}
           {preloadPages.map(item => {
             const current = item.position === page.position;
             const source = item.audioUrl ? pictureBookPageAudioSource(bookId, item.position, item.audioUrl) : undefined;
@@ -136,7 +138,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           </div> : null}
           {page.narration && page.narration !== page.caption ? <p className="max-w-3xl text-center text-sm leading-6 text-muted-foreground">讲解：{page.narration}</p> : null}
           <nav aria-label="绘本页面" className="flex max-w-full gap-2 overflow-x-auto pb-2">
-            {pages.map((item, pageIndex) => <button aria-current={pageIndex === index ? "page" : undefined} aria-label={`第 ${pageIndex + 1} 页`} className={`size-9 shrink-0 rounded-lg border text-xs tabular-nums ${pageIndex === index ? "border-primary bg-primary text-primary-foreground" : "bg-background"}`} key={`${item.position}-${pageIndex}`} onClick={() => goTo(pageIndex)} type="button">{pageIndex + 1}</button>)}
+            {pages.map((item, pageIndex) => <button aria-current={pageIndex === index ? "page" : undefined} aria-label={pageLabel(pageIndex)} className={`h-9 min-w-9 shrink-0 rounded-lg border px-2 text-xs tabular-nums ${pageIndex === index ? "border-primary bg-primary text-primary-foreground" : "bg-background"}`} key={`${item.position}-${pageIndex}`} onClick={() => goTo(pageIndex)} type="button">{hasCover && pageIndex === 0 ? "封面" : pageIndex + 1 - Number(hasCover)}</button>)}
           </nav>
         </div>
       ) : null}

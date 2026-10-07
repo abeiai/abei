@@ -4,7 +4,7 @@ type DemoStory = { slug: string; title: string; theme: string; companion: string
 const stories: DemoStory[] = [
   {
     slug: "lele-rabbit", title: "等等我，小兔", theme: "照顾彼此的节奏", companion: "小兔米米",
-    coverPrompt: "熊猫乐乐与穿青蓝色背带裤的小白兔米米并肩走在金色阳光下的森林小路上，相视微笑，路旁有蕨草和白色雏菊。",
+    coverPrompt: "熊猫乐乐与穿青蓝色背带裤的小白兔米米并肩走在金色阳光下的森林小路上，相视微笑，路旁有蕨草和白色雏菊。封面上方清晰写出书名“等等我，小兔”，书名上方用较小文字写“熊猫乐乐的森林朋友”。",
     story: [
       ["森林里的早晨，阳光一格一格落在小路上。熊猫乐乐遇见了小兔米米。", "Morning establishing scene: Lele the panda stands on a dappled forest path greeting Mimi the white rabbit in teal overalls, sunlight pools on moss and daisies, both wave, full bodies."],
       ["‘山坡上的花开啦！’米米蹦了两下，‘我们一起去看吧！’乐乐高兴地点点头。", "Mimi excitedly points up at a distant flower-covered hill visible between teal trunks; Lele smiles and nods beside her, joyful invitation, wide forest composition."],
@@ -22,7 +22,7 @@ const stories: DemoStory[] = [
   },
   {
     slug: "lele-hedgehog", title: "小刺猬的拥抱", theme: "尊重边界，表达关心", companion: "小刺猬球球",
-    coverPrompt: "熊猫乐乐与小刺猬球球坐在森林的苔藓树桩两侧，一起举起小爪子互相挥手，金色树叶飘落，温暖而亲密。",
+    coverPrompt: "熊猫乐乐与小刺猬球球坐在森林的苔藓树桩两侧，一起举起小爪子互相挥手，金色树叶飘落，温暖而亲密。封面上方清晰写出书名“小刺猬的拥抱”，书名上方用较小文字写“熊猫乐乐的森林朋友”。",
     story: [
       ["风把金色的叶子吹进森林。熊猫乐乐在树下，遇见了小刺猬球球。", "Autumn establishing scene: Lele waves hello to Qiuqiu the small cinnamon-spined hedgehog under a tall teal tree, drifting gold leaves, both full bodies, warm ochre forest palette."],
       ["球球捧来一片心形叶子。‘送给你。’乐乐接过来：‘我好喜欢！’", "Qiuqiu offers one big heart-shaped golden leaf in his tiny paws to delighted Lele who gently receives it, eye-level medium composition, textured autumn woodland."],
@@ -40,7 +40,7 @@ const stories: DemoStory[] = [
   },
   {
     slug: "lele-squirrel", title: "松鼠的橡果约定", theme: "遵守约定，修复信任", companion: "松鼠松果",
-    coverPrompt: "熊猫乐乐与背着鼠尾草绿色小挎包的橙红色松鼠松果，在森林橡树下各自捧着一颗橡果，脚边是装着橡果的小藤篮。",
+    coverPrompt: "熊猫乐乐与背着鼠尾草绿色小挎包的橙红色松鼠松果，在森林橡树下各自捧着一颗橡果，脚边是装着橡果的小藤篮。封面上方清晰写出书名“松鼠的橡果约定”，书名上方用较小文字写“熊猫乐乐的森林朋友”。",
     story: [
       ["森林的橡树下，松鼠松果捡了一篮子橡果。熊猫乐乐走过来：‘需要帮忙吗？’", "Lele approaches Songguo the rusty orange squirrel with a sage green satchel under an oak tree. Songguo has a small wicker basket full of acorns at his feet, autumn-green forest, friendly establishing scene."],
       ["‘太好啦！请帮我看一会儿。我要去拿大篮子，我们等会儿一起分。’", "Songguo gestures at the little acorn basket while speaking to Lele, then points toward the forest path to fetch a larger basket, panda nods attentively, both characters visible, medium scene."],
@@ -60,7 +60,7 @@ const stories: DemoStory[] = [
 
 export const pictureBookDemos = stories.map(({ story, ...book }) => ({
   ...book, id: `demo-${book.slug}`, series: "熊猫乐乐的森林朋友", audience: "4–7岁", style: "森林肌理插画", aspectRatio: "1:1", pageCount: 12,
-  coverUrl: `/picture-book-demos/${book.slug}/cover.webp`,
+  coverUrl: `/picture-book-demos/${book.slug}/cover.webp?v=title-v1`,
   pages: story.map(([caption, imagePrompt], index) => ({
     position: index + 1, caption, narration: caption, imagePrompt,
     imageUrl: `/picture-book-demos/${book.slug}/${String(index + 1).padStart(2, "0")}.webp`, audioUrl: null
