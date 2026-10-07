@@ -1,5 +1,6 @@
+import { additionalLeleStories } from "./lele-additional-stories";
 type StoryPage = readonly [caption: string, imagePrompt: string];
-type DemoStory = { slug: string; title: string; theme: string; companion: string; coverPrompt: string; story: readonly StoryPage[] };
+type DemoStory = { slug: string; title: string; theme: string; companion: string; companionDescription?: string; characterPrompt?: string; coverPrompt: string; pageImageVersions?: Record<number, string>; story: readonly StoryPage[] };
 
 const stories: DemoStory[] = [
   {
@@ -55,7 +56,8 @@ const stories: DemoStory[] = [
       ["松果摸摸篮子，点点头：“我还需要缓一缓。你愿意陪我把它们搬回家吗？”", "Songguo rests a paw on the refilled basket, calm but thoughtful rather than instantly exuberant, looks up asking Lele to carry it together; panda nods, warm medium composition."],
       ["“愿意！”他们各扶住篮子的一边，慢慢走。明天的约定，乐乐也会好好放在心里。", "Finale: Lele and Songguo carry the same small full acorn basket together, each holds one side, walking along a golden forest path toward a low oak tree hollow, warm cautious smiles and restored cooperation, wide sunset scene."]
     ]
-  }
+  },
+  ...additionalLeleStories
 ];
 
 export const leleSeriesBooks = stories.map(({ story, ...book }) => ({
@@ -64,6 +66,6 @@ export const leleSeriesBooks = stories.map(({ story, ...book }) => ({
   coverUrl: `/picture-book-demos/${book.slug}/cover.webp?v=title-position-v3`,
   pages: story.map(([caption, imagePrompt], index) => ({
     position: index + 1, caption, narration: caption, imagePrompt,
-    imageUrl: `/picture-book-demos/${book.slug}/${String(index + 1).padStart(2, "0")}.webp`, audioUrl: null
+    imageUrl: `/picture-book-demos/${book.slug}/${String(index + 1).padStart(2, "0")}${book.pageImageVersions?.[index + 1] ? `-${book.pageImageVersions[index + 1]}` : ""}.webp`, audioUrl: null
   }))
 }));
