@@ -32,7 +32,7 @@ export function LearnerShell({
 }) {
   return (
     <LearnerLearningProvider enabled={process.env.LEARNER_LEARNING_ENABLED === "1"}>
-      <main className="min-h-screen bg-[#f6f6f5] text-foreground">
+      <main className="min-h-screen bg-[#f6f6f5] text-foreground" data-public-theme="default">
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-[4.5rem] w-full max-w-7xl items-center justify-between gap-4 px-5">
           <Link className="flex items-center gap-3 font-display text-xl font-semibold" href="/learn">

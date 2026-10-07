@@ -270,7 +270,7 @@ export function VoiceConsole({
           <Link
             aria-label="新建生成"
             className={cn(
-              "flex h-11 items-center justify-center gap-2 rounded-full border border-border bg-background text-sm font-medium shadow-sm hover:bg-secondary",
+              "xueleai-button flex h-11 items-center justify-center gap-2 rounded-md border border-border bg-background text-sm font-medium shadow-sm hover:bg-secondary",
               sidebarCollapsed ? "px-0" : "px-4"
             )}
             href="/voice"

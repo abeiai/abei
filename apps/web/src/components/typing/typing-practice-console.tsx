@@ -289,7 +289,7 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
   const wordSlots = question?.slots.filter((slot) => slot.kind === "WORD") ?? [];
 
   return (
-    <main className="relative flex h-dvh flex-col overflow-hidden bg-[#f8fafc] text-[#33445e]">
+    <main data-public-theme="default" className="relative flex h-dvh flex-col overflow-hidden bg-[#f6f6f5] text-[#33445e]">
       <header className="relative z-10 grid h-18 shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-1 border-b border-[#e5eaf0] bg-white/95 px-4 sm:gap-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <button className="flex size-9 shrink-0 items-center justify-center rounded-full text-[#66758a] hover:bg-[#f0f3f7] sm:size-10" onClick={() => void pause()} type="button">
@@ -366,7 +366,7 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
                   autoComplete="off"
                   autoCorrect="off"
                   className={cn(
-                    "h-16 border-0 border-b-[3px] bg-transparent px-1 text-center text-[clamp(1.8rem,4vw,3rem)] text-[#34445d] outline-none transition placeholder:text-[#a9b7ca] focus:border-[#4d86e8]",
+                    "h-16 border-0 border-b-[3px] bg-transparent px-1 text-center text-[clamp(1.8rem,4vw,3rem)] text-[#34445d] outline-none transition placeholder:text-[#a9b7ca] focus:border-primary",
                     error && "border-red-400 text-transparent caret-[#34445d] focus:border-red-500",
                     practice.phase === "CORRECT_REVEAL" && "border-emerald-400 text-emerald-700"
                   )}
@@ -459,11 +459,11 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
           </button>
           ) : null}
           {practice.phase !== "CORRECT_REVEAL" ? (
-            <Button className="h-11 rounded-xl bg-[#3978dd] px-7 text-white hover:bg-[#2f69c7]" disabled={practice.phase === "CHECKING"} onClick={() => void submit()}>
+            <Button className="h-11 rounded-xl bg-primary px-7 text-white hover:bg-primary/95" disabled={practice.phase === "CHECKING"} onClick={() => void submit()}>
               {practice.phase === "CHECKING" ? "正在检查…" : "提交答案"}
             </Button>
           ) : (
-            <Button className="h-11 rounded-xl bg-[#3978dd] px-7 text-white hover:bg-[#2f69c7]" onClick={() => void next()}>
+            <Button className="h-11 rounded-xl bg-primary px-7 text-white hover:bg-primary/95" onClick={() => void next()}>
               下一题 <span className="text-xs opacity-70">Enter</span>
             </Button>
           )}
@@ -477,10 +477,10 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
       {showPause ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-[#24334a]/45 p-5 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl bg-white p-7 text-center shadow-2xl">
-            <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#edf4ff] text-[#4b80d8]"><Pause className="size-6" /></span>
+            <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-accent text-primary"><Pause className="size-6" /></span>
             <h2 className="mt-5 text-2xl font-semibold text-[#34445d]">练习已暂停</h2>
             <p className="mt-2 text-sm text-[#7c899c]">当前进度已经保存，可以继续或返回词库。</p>
-            <Button className="mt-6 h-11 w-full rounded-xl bg-[#3978dd] text-white hover:bg-[#2f69c7]" onClick={() => void resume()}>
+            <Button className="mt-6 h-11 w-full rounded-xl bg-primary text-white hover:bg-primary/95" onClick={() => void resume()}>
               <Play className="size-4 fill-current" /> 继续练习
             </Button>
             <Button className="mt-3 h-11 w-full rounded-xl" onClick={() => void finish()} variant="outline">结束本轮并返回</Button>
@@ -543,15 +543,15 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
 
 function TypingLoading() {
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f8fafc] text-[#728197]">
-      <div className="text-center"><span className="mx-auto block size-9 animate-spin rounded-full border-2 border-[#d5deea] border-t-[#4d86e8]" /><p className="mt-4 text-sm">正在准备练习…</p></div>
+    <main data-public-theme="default" className="grid min-h-screen place-items-center bg-[#f6f6f5] text-[#728197]">
+      <div className="text-center"><span className="mx-auto block size-9 animate-spin rounded-full border-2 border-[#d5deea] border-t-primary" /><p className="mt-4 text-sm">正在准备练习…</p></div>
     </main>
   );
 }
 
 function TypingCompleted({ session, onBack }: { session: TypingSession; onBack: () => void }) {
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f7f9fc] p-5">
+    <main data-public-theme="default" className="grid min-h-screen place-items-center bg-[#f6f6f5] p-5">
       <div className="w-full max-w-lg rounded-3xl border border-[#e0e6ee] bg-white p-8 text-center shadow-[0_24px_70px_rgba(37,52,77,0.12)]">
         <span className="mx-auto flex size-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600"><CheckCircle2 className="size-8" /></span>
         <h1 className="mt-5 text-3xl font-semibold text-[#34445d]">本轮练习完成</h1>
@@ -561,7 +561,7 @@ function TypingCompleted({ session, onBack }: { session: TypingSession; onBack: 
           <Summary label="错词" value={session.wrongCount} />
           <Summary label="提示" value={session.hintedCount} />
         </div>
-        <Button className="mt-7 h-11 w-full rounded-xl bg-[#3978dd] text-white hover:bg-[#2f69c7]" onClick={onBack}>返回词库</Button>
+        <Button className="mt-7 h-11 w-full rounded-xl bg-primary text-white hover:bg-primary/95" onClick={onBack}>返回词库</Button>
       </div>
     </main>
   );
@@ -581,11 +581,11 @@ function TypingCorrectReveal({
         ) : (
           <div className="min-w-28" key={`${token.text}-${index}`}>
             {explanation.partOfSpeech && wordCount === 1 ? (
-              <span className="inline-flex rounded-lg bg-[#3f80dd] px-3 py-1 text-sm font-semibold text-white">
+              <span className="inline-flex rounded-lg bg-primary px-3 py-1 text-sm font-semibold text-white">
                 {explanation.partOfSpeech}
               </span>
             ) : <span className="block h-7" />}
-            <div className="mt-3 border-b-[3px] border-[#4d86e8] px-2 pb-2 text-[clamp(2.8rem,6vw,5rem)] font-medium leading-none tracking-tight text-[#34445d]">
+            <div className="mt-3 border-b-[3px] border-primary px-2 pb-2 text-[clamp(2.8rem,6vw,5rem)] font-medium leading-none tracking-tight text-[#34445d]">
               {token.text}
             </div>
             {explanation.britishPhonetic && wordCount === 1 ? (

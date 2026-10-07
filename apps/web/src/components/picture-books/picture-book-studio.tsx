@@ -64,8 +64,8 @@ async function getVoices(): Promise<VoiceList> {
 }
 
 function Button({ children, onClick, disabled, kind = "neutral", className = "", title }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean; kind?: "neutral" | "primary" | "quiet"; className?: string; title?: string }) {
-  const tone = kind === "primary" ? "bg-[#ff7b3b] text-white hover:bg-[#ea6526] border-[#ff7b3b]" : kind === "quiet" ? "border-transparent bg-transparent text-[#4e5157] hover:bg-[#f6f4f2]" : "border-[#e9e7e4] bg-white text-[#31343a] hover:border-[#ffae84] hover:text-[#e96931]";
-  return <button type="button" title={title} disabled={disabled} onClick={onClick} className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${tone} ${className}`}>{children}</button>;
+  const tone = kind === "primary" ? "bg-primary text-primary-foreground hover:bg-primary/95 border-primary" : kind === "quiet" ? "border-transparent bg-transparent text-muted-foreground hover:bg-secondary" : "border-border bg-background text-foreground hover:border-primary/35 hover:text-primary";
+  return <button type="button" title={title} disabled={disabled} onClick={onClick} className={`xueleai-button inline-flex min-h-10 items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${tone} ${className}`}>{children}</button>;
 }
 
 function Field({ label, value, onChange, rows = 3, placeholder, maxLength, readOnly = false }: { label: string; value: string; onChange: (value: string) => void; rows?: number; placeholder?: string; maxLength?: number; readOnly?: boolean }) {
@@ -340,7 +340,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     {loading ? <div className="flex h-[60vh] items-center justify-center"><LoaderCircle className="size-7 animate-spin" /></div> : !book?.pages.length ? <section className="grid min-h-[calc(100vh-72px)] grid-cols-1 bg-[#f6f6f5] lg:h-[calc(100vh-72px)] lg:min-h-0 lg:grid-cols-[292px_minmax(0,1fr)] lg:overflow-hidden">
       <aside aria-label="绘本创作历史" className="flex max-h-[50vh] min-h-0 flex-col border-b border-border bg-background lg:max-h-none lg:border-b-0 lg:border-r">
         <div className="flex h-16 shrink-0 items-center gap-2 px-5"><BookOpen className="size-7" /><h1 className="text-2xl font-semibold tracking-normal">绘本创作</h1></div>
-        <div className="px-4 pb-5"><Button className="h-11 w-full !rounded-full border-border shadow-sm" disabled={Boolean(busy)} onClick={startNewBook}><Sparkles className="size-4" />新建绘本</Button></div>
+        <div className="px-4 pb-5"><Button className="h-11 w-full border-border shadow-sm" disabled={Boolean(busy)} onClick={startNewBook}><Sparkles className="size-4" />新建绘本</Button></div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
           <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" /><span>绘本创作历史</span><span className="ml-auto">{books.length} 本</span></div>
           {books.length ? <div className="space-y-2">{books.map(item => <button key={item.id} disabled={Boolean(busy)} onClick={() => void run("open", () => openBook(item.id))} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition hover:bg-secondary disabled:opacity-50 ${book?.id === item.id ? "border-foreground/20 bg-secondary" : "border-transparent"}`}>

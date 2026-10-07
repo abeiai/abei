@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getPublicSystemConfigs } from "@/lib/settings-api";
 
 interface AuthPanelProps {
+  variant?: "public" | "admin";
   title: string;
   description: string;
   children: ReactNode;
@@ -15,11 +16,11 @@ interface AuthPanelProps {
   };
 }
 
-export async function AuthPanel({ title, description, children, footer }: AuthPanelProps) {
+export async function AuthPanel({ title, description, children, footer, variant = "public" }: AuthPanelProps) {
   const { siteLogo, siteName } = await getSiteIdentity();
 
   return (
-    <main className="xueleai-auth-shell min-h-screen bg-background text-foreground">
+    <main className="xueleai-auth-shell min-h-screen bg-background text-foreground" data-public-theme={variant === "public" ? "default" : undefined}>
       <div className="mx-auto flex min-h-screen w-full max-w-[460px] flex-col justify-center px-5 py-10">
         <section className="flex flex-col items-center gap-6">
           <Link className="flex min-h-10 items-center justify-center gap-3 font-display text-3xl font-semibold" href="/">

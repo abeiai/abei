@@ -14,7 +14,7 @@ export default async function SelectProfilePage({
   const selection = await getProfileSelection(safeNext);
 
   return (
-    <main className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto bg-black/45 px-5 py-8 backdrop-blur-sm">
+    <main data-public-theme="default" className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto bg-black/45 px-5 py-8 backdrop-blur-sm">
       <section
         aria-labelledby="profile-selection-title"
         aria-modal="true"

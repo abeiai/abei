@@ -94,7 +94,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f6f5] text-foreground">
+    <main className="min-h-screen bg-[#f6f6f5] text-foreground" data-public-theme="default">
       <header className="flex min-h-16 items-center justify-between gap-4 border-b border-border bg-background px-4 sm:px-8">
         <Link className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" href="/storybook"><ArrowLeft className="size-4" />返回绘本</Link>
         <h1 className="truncate text-base font-semibold sm:text-lg">{book?.title || "绘本播放"}</h1>
@@ -129,7 +129,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           })}
           {audioError ? <div role="alert" className="flex items-center gap-2 text-sm text-red-600">{audioError}<button className="rounded-lg border bg-background px-3 py-2 text-foreground" onClick={() => { setAudioError(""); setAudioRetry(audioRetry + 1); }} type="button">重试加载</button></div> : null}
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <button aria-label={playing ? "暂停讲解" : "播放讲解"} className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground disabled:opacity-50" disabled={!page.audioUrl} onClick={toggleAudio} type="button">{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "暂停" : page.audioUrl ? "播放讲解" : "暂无讲解语音"}</button>
+            <button aria-label={playing ? "暂停讲解" : "播放讲解"} className="xueleai-button inline-flex h-10 items-center gap-2 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground disabled:opacity-50" disabled={!page.audioUrl} onClick={toggleAudio} type="button">{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "暂停" : page.audioUrl ? "播放讲解" : "暂无讲解语音"}</button>
             <button aria-label={muted ? "开启声音" : "静音"} className="flex size-10 items-center justify-center rounded-full border bg-background" onClick={() => setMuted(!muted)} type="button">{muted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}</button>
             <button aria-pressed={autoTurn} className={`inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm ${autoTurn ? "border-primary bg-primary/10" : "bg-background"}`} onClick={() => setAutoTurn(!autoTurn)} type="button"><RotateCcw className="size-4" />自动翻页</button>
           </div>

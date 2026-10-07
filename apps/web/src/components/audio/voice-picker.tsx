@@ -42,7 +42,7 @@ export function VoicePicker({ disabled = false, label = "语音", onChange, valu
     <div className="flex flex-col gap-2">
       {label ? <p className="text-sm font-semibold">{label}</p> : null}
       <button
-        className="flex min-h-16 w-full items-center gap-3 rounded-xl border border-input bg-card px-4 py-3 text-left outline-none transition-colors hover:bg-secondary focus:border-foreground focus:ring-[3px] focus:ring-ring/10 disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex min-h-16 w-full items-center gap-3 rounded-xl border border-input bg-card px-4 py-3 text-left outline-none transition-colors hover:bg-secondary focus:border-primary focus:ring-[3px] focus:ring-ring/10 disabled:cursor-not-allowed disabled:opacity-50"
         disabled={unavailable}
         onClick={() => setOpen(true)}
         type="button"
@@ -202,7 +202,7 @@ function VoicePickerDialog({
             ] as const).map(([tabValue, tabLabel]) => (
               <button
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium",
+                  "rounded-md px-4 py-2 text-sm font-medium",
                   tab === tabValue ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground"
                 )}
                 key={tabValue}
@@ -215,7 +215,7 @@ function VoicePickerDialog({
           </div>
           <div className="grid gap-2 lg:grid-cols-[minmax(180px,1fr)_120px_120px_110px_110px_110px]">
             <input
-              className="h-10 rounded-full border border-input bg-background px-4 text-sm outline-none focus:border-foreground"
+              className="h-10 rounded-md border border-input bg-background px-4 text-sm outline-none focus:border-primary"
               onChange={(event) => setKeyword(event.target.value)}
               placeholder="搜索音色名称、标签或描述"
               value={keyword}
@@ -255,7 +255,7 @@ function VoicePickerDialog({
                       return (
                         <button
                           className={cn(
-                            "rounded-full border px-3 py-1.5 text-xs",
+                            "rounded-md border px-3 py-1.5 text-xs",
                             active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background"
                           )}
                           key={tag}
@@ -335,7 +335,7 @@ function VoiceAvatar({ className, voice }: { className: string; voice: VoicePick
 
 function FilterSelect({ disabled = false, label, onChange, options, value }: { disabled?: boolean; label: string; onChange: (value: string) => void; options: string[]; value: string }) {
   return (
-    <Select className="h-10 rounded-full" disabled={disabled} onChange={(event) => onChange(event.target.value)} value={value}>
+    <Select className="h-10 rounded-md" disabled={disabled} onChange={(event) => onChange(event.target.value)} value={value}>
       <option value="all">{label}</option>
       {options.map((option) => <option key={option} value={option}>{option}</option>)}
     </Select>
