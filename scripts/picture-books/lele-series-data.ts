@@ -58,8 +58,8 @@ const stories: DemoStory[] = [
   }
 ];
 
-export const pictureBookDemos = stories.map(({ story, ...book }) => ({
-  ...book, id: `demo-${book.slug}`, series: "熊猫乐乐的森林朋友", audience: "4–7岁", style: "森林肌理插画", aspectRatio: "1:1", pageCount: 12,
+export const leleSeriesBooks = stories.map(({ story, ...book }) => ({
+  ...book, series: "熊猫乐乐的森林朋友", audience: "4–7岁", style: "森林肌理插画", aspectRatio: "1:1", pageCount: 12,
   coverPrompt: `${book.coverPrompt}保持统一的书名字体、字号和配色。系列名起点距顶约8%–10%，主书名位于画面高度14%–29%区域。角色与核心道具整体放在画面下半部，适度等比例缩小，书名下沿与角色之间留出充足的森林空间，保留完整身体与连续森林背景。`,
   coverUrl: `/picture-book-demos/${book.slug}/cover.webp?v=title-position-v3`,
   pages: story.map(([caption, imagePrompt], index) => ({
@@ -67,5 +67,3 @@ export const pictureBookDemos = stories.map(({ story, ...book }) => ({
     imageUrl: `/picture-book-demos/${book.slug}/${String(index + 1).padStart(2, "0")}.webp`, audioUrl: null
   }))
 }));
-
-export type PictureBookDemo = typeof pictureBookDemos[number];

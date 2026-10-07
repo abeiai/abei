@@ -127,9 +127,7 @@ export function PublicCourseDetail({
                     <CourseMaterialLaunch
                       canOpenDirectly={canOpenMaterials}
                       courseId={course.id}
-                      href={item.materialType === "PICTURE_BOOK"
-                        ? `${presentation.href}?courseId=${encodeURIComponent(course.id)}&courseRevisionItemId=${encodeURIComponent(item.id)}`
-                        : presentation.href}
+                      href={presentation.href}
                       itemName={item.displayName}
                     />
                   ) : (

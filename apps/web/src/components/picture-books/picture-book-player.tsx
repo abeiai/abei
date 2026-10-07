@@ -11,8 +11,8 @@ import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Book = { id: string; title: string; style: string; aspectRatio: string; pages: Page[] };
 
-export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode, initialBook, onClose }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean; initialBook?: Book; onClose?: () => void }) {
-  const [book, setBook] = useState<Book | null>(initialBook ?? null);
+export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean }) {
+  const [book, setBook] = useState<Book | null>(null);
   const [error, setError] = useState("");
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -23,7 +23,6 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (initialBook) return;
     const controller = new AbortController();
     fetch(`/api/picture-books/${encodeURIComponent(bookId)}/play`, { credentials: "include", signal: controller.signal, cache: "no-store" })
       .then(async (response) => {
@@ -35,7 +34,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : "绘本加载失败");
       });
     return () => controller.abort();
-  }, [bookId, initialBook]);
+  }, [bookId]);
 
   const pages = book?.pages ?? [];
   const page = pages[index];
@@ -99,7 +98,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   return (
     <main className="min-h-screen bg-[#f6f6f5] text-foreground" data-public-theme="default">
       <header className="flex min-h-16 items-center justify-between gap-4 border-b border-border bg-background px-4 sm:px-8">
-        {onClose ? <button type="button" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" onClick={onClose}><ArrowLeft className="size-4" />返回示范绘本</button> : <Link className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" href="/storybook"><ArrowLeft className="size-4" />返回绘本</Link>}
+        <Link className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground" href={courseId ? `/c/${encodeURIComponent(courseId)}` : "/storybook"}><ArrowLeft className="size-4" />{courseId ? "返回资源" : "返回绘本"}</Link>
         <h1 className="truncate text-base font-semibold sm:text-lg">{book?.title || "绘本播放"}</h1>
         <span className="min-w-16 text-right text-sm tabular-nums text-muted-foreground">{pages.length ? hasCover && index === 0 ? "封面" : `${index + 1 - Number(hasCover)} / ${pages.length - Number(hasCover)}` : ""}</span>
       </header>

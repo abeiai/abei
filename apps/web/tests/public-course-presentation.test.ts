@@ -500,6 +500,22 @@ test("登录用户从资源详情直接进入课件", () => {
   assert.doesNotMatch(html, /登录后继续学习/u);
 });
 
+test("绘本资源播放链接只包含一组资源和目录条目参数", () => {
+  const runtime = globalThis as typeof globalThis & { React?: typeof React };
+  const previousReact = runtime.React;
+  runtime.React = React;
+  const course = publicCourseFixture({ reviewing: false });
+  course.items = [{ ...course.items[0]!, materialType: "PICTURE_BOOK", launchHref: "/picture-books/book-1/play" }];
+  let html: string;
+  try {
+    html = renderToStaticMarkup(React.createElement(PublicCourseDetail, { canOpenMaterials: true, course }));
+  } finally {
+    runtime.React = previousReact;
+  }
+  const href = html.match(/href="(\/picture-books\/[^"]+)"/u)?.[1]?.replaceAll("&amp;", "&");
+  assert.equal(href, "/picture-books/book-1/play?courseId=507f1f77bcf86cd799439011&courseRevisionItemId=item-1");
+});
+
 test("待审课件在游客和授权预览中都保持锁定且不出现登录入口", () => {
   const runtime = globalThis as typeof globalThis & { React?: typeof React };
   const previousReact = runtime.React;
