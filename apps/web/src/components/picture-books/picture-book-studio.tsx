@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, ChevronLeft, ChevronRight, History, ImagePlus, LibraryBig, LoaderCircle, MessageCircle, Mic2, Plus, Play, Save, Send, Sparkles, Volume2, WandSparkles, X } from "lucide-react";
 import { pictureBookPageImageSource, waitForPictureBookImage } from "@/lib/picture-book-images";
 import { PictureBookImage } from "./picture-book-image";
+import { PictureBookDemos } from "./picture-book-demos";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
 import { PictureBookAudio } from "./picture-book-audio";
 import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, type PictureBookPageDraft } from "@/lib/picture-book-background";
@@ -325,7 +326,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     await runPageGeneration("audio", payload);
   }
 
-  if (!signedIn) return <div className="flex min-h-screen items-center justify-center bg-[#f7f6f4] p-6"><div className="max-w-md rounded-3xl border bg-white p-10 text-center shadow-sm"><BookOpen className="mx-auto mb-5 size-12 text-[#ff7b3b]" /><h1 className="text-2xl font-semibold">绘本创作</h1><p className="mt-3 text-sm leading-6 text-gray-500">登录后保存故事构想、角色与每一页的创作内容。</p><Link href={`/login?next=${encodeURIComponent(initialBookId ? `/storybook?book=${encodeURIComponent(initialBookId)}` : "/storybook")}`} className="mt-6 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始</Link></div></div>;
+  if (!signedIn) return <div className="min-h-screen space-y-8 bg-[#f7f6f4] p-5 sm:p-8"><div className="mx-auto max-w-5xl"><h1 className="text-2xl font-semibold">绘本创作</h1><Link href={`/login?next=${encodeURIComponent(initialBookId ? `/storybook?book=${encodeURIComponent(initialBookId)}` : "/storybook")}`} className="mt-4 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始创作</Link></div><PictureBookDemos /></div>;
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] text-foreground">
     {book?.pages.length ? <header className="sticky top-[4.5rem] z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
@@ -342,6 +343,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
         <div className="flex h-16 shrink-0 items-center gap-2 px-5"><BookOpen className="size-7" /><h1 className="text-2xl font-semibold tracking-normal">绘本创作</h1></div>
         <div className="px-4 pb-5"><Button className="h-11 w-full border-border shadow-sm" disabled={Boolean(busy)} onClick={startNewBook}><Sparkles className="size-4" />新建绘本</Button></div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+          <PictureBookDemos compact />
           <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" /><span>绘本创作历史</span><span className="ml-auto">{books.length} 本</span></div>
           {books.length ? <div className="space-y-2">{books.map(item => <button key={item.id} disabled={Boolean(busy)} onClick={() => void run("open", () => openBook(item.id))} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition hover:bg-secondary disabled:opacity-50 ${book?.id === item.id ? "border-foreground/20 bg-secondary" : "border-transparent"}`}>
             <span className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary">{item.coverUrl ? <PictureBookImage src={pictureBookPageImageSource(item.id, 0, item.coverUrl)} alt="" compact className="size-full object-cover" /> : <BookOpen className="size-6 text-muted-foreground" />}</span>
