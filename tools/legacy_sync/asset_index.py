@@ -152,7 +152,10 @@ def transfer_index(root,manifest,key,origin,client,public_base,workers=2,limit=N
             value=unseal(payload,key,identity)
             try: result=transfer_one(origin,client,public_base,value['url'],value['hint'],manifest['sourceSystem'])
             except Exception as error:
-                result={'status':'MISSING','errorCategory':type(error).__name__,'errorCode':getattr(error,'status',None) or getattr(error,'response',{}).get('Error',{}).get('Code'),'errorReason':str(error)[:1000]}
+                response=getattr(error,'response',None)
+                details=response.get('Error') if isinstance(response,dict) else None
+                code=details.get('Code') if isinstance(details,dict) else None
+                result={'status':'MISSING','errorCategory':type(error).__name__,'errorCode':getattr(error,'status',None) or code,'errorReason':str(error)[:1000]}
             return identity,result
         completed=0
         last_progress=time.monotonic()

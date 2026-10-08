@@ -114,5 +114,27 @@ class AssetCheckpoint(unittest.TestCase):
             self.assertNotIn(reason.encode(),Path(root,'assets/index.sqlite').read_bytes())
             self.assertNotIn(url,json.dumps(progress))
 
+    def test_network_failure_without_response_is_checkpointed_and_can_be_retried(self):
+        from requests.exceptions import ConnectionError
+        key=b'x'*32;url='https://cdn.abeiai.com/network-fixture.png'
+        identity=hashlib.sha256(json.dumps({'url':url},sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        with tempfile.TemporaryDirectory() as root:
+            db=open_index(root)
+            db.execute('INSERT INTO objects(id,payload) VALUES (?,?)',(identity,seal({'url':url,'hint':'image','identity':{'url':url}},key,identity)))
+            db.execute('INSERT INTO state(name,value) VALUES (?,?)',('namespace',seal({'sourceSystem':'abeiai-v1','runId':None,'schemaSha256':None},key,'index:namespace').hex()))
+            db.commit();db.close()
+            manifest={'validationPassed':True,'dataSnapshotComplete':True,'assetsScanComplete':True,'sourceSystem':'abeiai-v1','assetReferenceCount':0,'assetObjectCount':1}
+            with patch('tools.legacy_sync.asset_index.transfer_one',side_effect=ConnectionError('synthetic connection unavailable')):
+                transfer_index(root,manifest,key,None,None,'https://fixture.invalid',workers=1)
+            self.assertEqual(manifest['assetTransferCounts'],{'MISSING':1})
+            db=open_index(root)
+            encoded=db.execute('SELECT result FROM objects WHERE id=?',(identity,)).fetchone()[0]
+            value=unseal(encoded,key,identity);db.close()
+            self.assertEqual(value['errorCategory'],'ConnectionError')
+            self.assertIsNone(value['errorCode'])
+            with patch('tools.legacy_sync.asset_index.transfer_one',return_value={'status':'AVAILABLE','sha256':'a'*64,'sizeBytes':8,'objectKey':'fixture'}):
+                transfer_index(root,manifest,key,None,None,'https://fixture.invalid',workers=1,retry_failed=True)
+            self.assertEqual(manifest['assetTransferCounts'],{'AVAILABLE':1})
+
 
 if __name__=='__main__': unittest.main()
