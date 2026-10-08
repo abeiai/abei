@@ -147,7 +147,7 @@ const fallbackVideoModels: ExperienceVideoModel[] = [
 ];
 
 function getApiBaseUrl() {
-  return process.env.API_BASE_URL ?? "http://localhost:3322/api";
+  return process.env.API_BASE_URL ?? "http://localhost:3602/api";
 }
 
 async function apiFetch<TData>(path: string) {

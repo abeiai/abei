@@ -44,6 +44,18 @@ export default async function ToolsPage() {
       ]
     },
     {
+      title: "绘本转视频",
+      description: "上传绘本文档或选择本站绘本，逐页编辑首帧和提示词，生成绘本视频。",
+      href: "/video-books",
+      cta: "开始制作视频",
+      icon: Film,
+      highlights: [
+        { icon: FileText, label: "绘本导入" },
+        { icon: BookOpenText, label: "逐页首帧" },
+        { icon: Film, label: "图生视频" }
+      ]
+    },
+    {
       title: "绘本创作",
       description: "聊聊故事构想，安排角色和分镜，逐页制作插画与讲解语音。",
       href: "/storybook",

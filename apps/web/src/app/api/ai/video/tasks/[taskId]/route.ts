@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 
 function getApiBaseUrl() {
-  return process.env.API_BASE_URL ?? "http://localhost:3322/api";
+  return process.env.API_BASE_URL ?? "http://localhost:3602/api";
 }
 
 export async function GET(_request: Request, { params }: { params: Promise<{ taskId: string }> }) {
