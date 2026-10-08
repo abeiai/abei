@@ -33,6 +33,7 @@ __pycache__/
 *.pyc
 backups/
 private/legacy-ai-logs/
+**/private/legacy-ai-logs/
 *.backup
 *.dump
 *.sql.gz

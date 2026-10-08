@@ -141,4 +141,3 @@ ALTER TABLE "legacy_ai_session_items" ADD CONSTRAINT "legacy_ai_session_items_lo
 
 -- AddForeignKey
 ALTER TABLE "legacy_ai_log_assets" ADD CONSTRAINT "legacy_ai_log_assets_logId_fkey" FOREIGN KEY ("logId") REFERENCES "legacy_ai_logs"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-

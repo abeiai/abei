@@ -1,5 +1,5 @@
-import { createReadStream } from "node:fs";
-import { lstat, realpath } from "node:fs/promises";
+import { constants } from "node:fs";
+import { lstat, open, realpath } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 import { AppException } from "../common/app-exception.js";
 
@@ -12,7 +12,7 @@ const mimeTypes: Record<string, string[]> = {
 
 export async function legacyLogFile(asset: { status: string; mediaType: string; mimeType: string | null; storageKey: string | null; filename: string | null }, range?: string) {
   if (asset.status !== "AVAILABLE" || !asset.storageKey || !asset.mimeType || !mimeTypes[asset.mediaType]?.includes(asset.mimeType)) throw unavailable();
-  if (!/^[A-Za-z0-9_/-]+\.(?:png|jpe?g|webp|gif|mp3|wav|ogg|m4a|aac|mp4|webm)$/.test(asset.storageKey) || asset.storageKey.startsWith("/")) throw unavailable();
+  if (!/^[A-Za-z0-9_-]+\.(?:png|jpe?g|webp|gif|mp3|wav|ogg|m4a|aac|mp4|webm)$/.test(asset.storageKey)) throw unavailable();
   const configured = resolve(process.env.LEGACY_AI_LOG_ASSET_DIR || resolve(process.cwd(), "private/legacy-ai-logs"));
   const uploads = resolve(process.env.UPLOAD_DIR || resolve(process.cwd(), "uploads"));
   if (configured === uploads || configured.startsWith(uploads + sep)) throw unavailable();
@@ -49,5 +49,10 @@ export async function legacyLogFile(asset: { status: string; mediaType: string; 
     "Content-Disposition": `inline; filename*=UTF-8''${encodeURIComponent(asset.filename || "历史素材")}`,
   };
   if (status === 206) headers["Content-Range"] = `bytes ${start}-${end}/${size}`;
-  return { status, headers, stream: createReadStream(filepath, { start, end }) };
+  try {
+    const handle = await open(filepath, constants.O_RDONLY | constants.O_NOFOLLOW);
+    const opened = await handle.stat();
+    if (!opened.isFile() || opened.size !== size) { await handle.close(); throw unavailable(); }
+    return { status, headers, stream: handle.createReadStream({ start, end, autoClose: true }) };
+  } catch { throw unavailable(); }
 }

@@ -3045,9 +3045,18 @@ export class AiService {
     }
 
     const taskType = normalizeAdminAiTaskType(filters.taskType);
+    if (taskType) {
+      const scenarios = await this.prisma.aiScenario.findMany({
+        select: { id: true, requiredCapabilities: true }
+      });
+      where.scenarioId = {
+        in: scenarios
+          .filter((scenario) => adminAiTaskMatchesTaskType(jsonStringArray(scenario.requiredCapabilities), taskType))
+          .map((scenario) => scenario.id)
+      };
+    }
     const pageSize = parseAdminListPageSize(filters.pageSize, filters.page ? 50 : 100);
     const page = parseAdminListPage(filters.page);
-    const take = taskType ? Math.min(Math.max(page * pageSize, 200), 1000) : pageSize;
     const tasks = await this.prisma.aiTask.findMany({
       where,
       include: {
@@ -3073,20 +3082,12 @@ export class AiService {
           take: 5
         }
       },
-      orderBy: {
-        createdAt: "desc"
-      },
-      skip: taskType ? 0 : (page - 1) * pageSize,
-      take
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      skip: (page - 1) * pageSize,
+      take: pageSize
     });
 
-    const filteredTasks = taskType
-      ? tasks
-          .filter((task) => adminAiTaskMatchesTaskType(jsonStringArray(task.scenario.requiredCapabilities), taskType))
-          .slice((page - 1) * pageSize, page * pageSize)
-      : tasks;
-
-    return filteredTasks.map((task) => this.toTask(task));
+    return tasks.map((task) => this.toTask(task));
   }
 
   async getAdminTask(id: string) {

@@ -276,6 +276,11 @@ export const adminNavGroups: AdminNavGroup[] = [
     icon: BrainCircuit,
     items: [
       {
+        href: "/admin/ai-logs",
+        label: "日志查询",
+        icon: ScrollText
+      },
+      {
         href: "/admin/ai-tasks",
         label: "任务清单",
         icon: BrainCircuit

@@ -23,6 +23,8 @@ screenlog.0
 !.env.example
 !.env.production.example
 backups
+private/legacy-ai-logs
+**/private/legacy-ai-logs
 *.backup
 *.dump
 *.sql.gz
