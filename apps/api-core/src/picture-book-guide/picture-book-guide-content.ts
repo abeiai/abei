@@ -2,7 +2,7 @@ import { AppException } from "../common/app-exception.js";
 import { pictureBookAudienceGuide, pictureBookHealthyContentRules } from "../picture-books/picture-book-audience.js";
 
 export type GuidePage = { pageNumber: number; sourceText: string; script: string; audioTaskId: string | null; audioMimeType: string | null; audioVoice: string | null; audioSpeed: number | null };
-export const guidePdfMaxBytes = 50 * 1024 * 1024;
+export const guidePdfMaxBytes = 200 * 1024 * 1024;
 export const guidePdfMaxPages = 80;
 export const guideStyles = [
   { value: "theatrical", label: "戏剧表演型", speed: 1, guide: "重在情绪与趣味，以沉浸式故事讲述为主。用角色口吻、拟声词、节奏和悬念区分角色，少量提问；避免惊吓或过度亢奋，不承诺不存在的音效或多音色。适合故事、寓言、童话。" },
@@ -16,7 +16,7 @@ export function validateGuidePdf(file?: { originalname: string; mimetype: string
   if (!file || !/\.pdf$/i.test(file.originalname) || !file.size || !file.buffer.length || file.buffer.subarray(0, 5).toString("ascii") !== "%PDF-") {
     throw new AppException(40001, "请上传有效的 PDF 绘本", 400);
   }
-  if (file.size > guidePdfMaxBytes || file.buffer.length > guidePdfMaxBytes) throw new AppException(40001, "PDF 大小不能超过 50MB", 400);
+  if (file.size > guidePdfMaxBytes || file.buffer.length > guidePdfMaxBytes) throw new AppException(40001, "PDF 大小不能超过 200MB", 400);
 }
 
 export function buildGuidePrompt(input: { audience: string; style: string; page: GuidePage; pageCount: number; previousScript?: string }): string {

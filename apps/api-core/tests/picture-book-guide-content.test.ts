@@ -6,8 +6,9 @@ const page: GuidePage = { pageNumber: 2, sourceText: "小熊收拾背包。", sc
 test("拒绝伪装的 PDF、空文件及超过上传限制的文档", () => {
   const buffer = Buffer.from("%PDF-1.7\nfixture");
   assert.doesNotThrow(() => validateGuidePdf({ originalname: "绘本.PDF", mimetype: "application/pdf", size: buffer.length, buffer }));
-  for (const file of [undefined, { originalname: "book.docx", mimetype: "application/pdf", size: buffer.length, buffer }, { originalname: "book.pdf", mimetype: "application/pdf", size: 4, buffer: Buffer.from("fake") }, { originalname: "book.pdf", mimetype: "application/pdf", size: 50 * 1024 * 1024 + 1, buffer }]) {
-    assert.throws(() => validateGuidePdf(file), /PDF|50MB/);
+  assert.doesNotThrow(() => validateGuidePdf({ originalname: "绘本.pdf", mimetype: "application/pdf", size: 200 * 1024 * 1024, buffer }));
+  for (const file of [undefined, { originalname: "book.docx", mimetype: "application/pdf", size: buffer.length, buffer }, { originalname: "book.pdf", mimetype: "application/pdf", size: 4, buffer: Buffer.from("fake") }, { originalname: "book.pdf", mimetype: "application/pdf", size: 200 * 1024 * 1024 + 1, buffer }]) {
+    assert.throws(() => validateGuidePdf(file), /PDF|200MB/);
   }
 });
 test("每种风格都进入逐页提示，固定 PDF 页号、受众和画面依据", () => {

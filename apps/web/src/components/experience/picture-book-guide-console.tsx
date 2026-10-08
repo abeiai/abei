@@ -102,7 +102,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   }
 
   async function upload(file: File) {
-    if (!/\.pdf$/i.test(file.name) || !file.size || file.size > 50 * 1024 * 1024) { setError("请选择 50MB 以内、1—80 页的 PDF 绘本"); return; }
+    if (!/\.pdf$/i.test(file.name) || !file.size || file.size > 200 * 1024 * 1024) { setError("请选择 200MB 以内、1—80 页的 PDF 绘本"); return; }
     await run("正在解析 PDF…", async () => {
       const form = new FormData(); form.set("file", file);
       const next = await guideRequest<PictureBookGuide>("", "POST", form);
@@ -188,7 +188,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
           <div className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-6 text-center">
             <FileText className="mb-4 size-12 text-muted-foreground" />
             <p className="text-base font-medium">选择 PDF 绘本文档</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">PDF · 最大 50MB · 最多 80 页</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">PDF · 最大 200MB · 最多 80 页</p>
             {signedIn ? <Button className="mt-6" disabled={disabled} onClick={() => inputRef.current?.click()}><Upload className="size-4" />上传 PDF</Button> : <Button className="mt-6" asChild><Link href={loginHref}>登录后上传绘本</Link></Button>}
           </div>
         </section> : <>
