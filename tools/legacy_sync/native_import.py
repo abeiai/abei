@@ -26,7 +26,7 @@ def verify_mp_namespace(values,context):
 class BulkInsert:
     def __init__(self,connection,table,columns,progress=None):
         if table not in NATIVE_TABLES: raise ValueError('No importer exists for this target table')
-        self.connection=connection; self.table=table; self.columns=list(columns); self.pending=[]; self.rows=0; self.progress=progress
+        self.connection=connection; self.table=table; self.columns=list(columns); self.pending=[]; self.pending_bytes=0; self.rows=0; self.progress=progress
         self.projection=sql.SQL(',').join(map(sql.Identifier,self.columns))
         connection.execute('DROP TABLE IF EXISTS pg_temp.legacy_migration_stage')
         connection.execute(sql.SQL('CREATE TEMP TABLE legacy_migration_stage AS SELECT {} FROM {} WITH NO DATA').format(self.projection,sql.Identifier(table)))
@@ -34,7 +34,8 @@ class BulkInsert:
     def add(self,row):
         if set(row)!=set(self.columns): raise ValueError('Native projection changed')
         self.pending.append(tuple(Jsonb(row[key]) if key in JSON_FIELDS and row[key] is not None else row[key] for key in self.columns))
-        if len(self.pending)>=2000: self.flush()
+        self.pending_bytes+=sum(len(value)*4 if isinstance(value,str) else len(json.dumps(value,ensure_ascii=False))*4 if name in JSON_FIELDS and value is not None else 32 for name,value in row.items())
+        if len(self.pending)>=2000 or self.pending_bytes>=32*1024*1024: self.flush()
     def flush(self):
         if not self.pending: return
         with self.connection.cursor() as cursor:
@@ -43,7 +44,7 @@ class BulkInsert:
             cursor.execute(sql.SQL('INSERT INTO {} ({}) SELECT {} FROM legacy_migration_stage ON CONFLICT (id) DO NOTHING').format(sql.Identifier(self.table),self.projection,self.projection))
             cursor.execute('TRUNCATE legacy_migration_stage')
         self.connection.commit()
-        self.rows+=len(self.pending); self.pending.clear()
+        self.rows+=len(self.pending); self.pending.clear();self.pending_bytes=0
         if self.progress: self.progress({'phase':'native-import','table':self.table,'processed':self.rows})
 
 

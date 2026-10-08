@@ -11,7 +11,7 @@ from tools.legacy_sync.export import export_snapshot, validate_package
 from tools.legacy_sync.package import load_manifest, write_manifest
 from tools.legacy_sync.asset_index import build_index, transfer_index
 from tools.legacy_sync.native_import import import_package
-from tools.legacy_sync.native_mapping import native_id
+from tools.legacy_sync.native_mapping import native_id, target_guard, LOG_KINDS
 
 NOW=dt.datetime(2024,1,1,8)
 KEY=b'x'*32
@@ -42,6 +42,18 @@ class NativeImportIntegration(unittest.TestCase):
     def test_native_tables_are_idempotent_owned_and_do_not_create_finance_tasks_or_admins(self):
         import psycopg
         url=os.environ['ABEI_LEGACY_TEST_DATABASE_URL']
+        target_guard(url,testing=True)
+        def cleanup():
+            with psycopg.connect(url) as conn:
+                conn.execute('DELETE FROM legacy_ai_logs WHERE id=ANY(%s)',([native_id(table,str(pk)) for table in LOG_KINDS for pk in [1,2]],))
+                conn.execute('DELETE FROM legacy_ai_sessions WHERE id=ANY(%s)',([native_id('session:'+table,str(pk)) for table in ['app_ai_chatsubject','app_ai_ttssubject'] for pk in [1,2]],))
+                conn.execute('DELETE FROM media_assets WHERE "createdByUserId"=ANY(%s) AND filename=%s',([native_id('user',str(pk)) for pk in [1,2]],'legacy-sync/abeiai-v1/'+'a'*64+'.png'))
+                conn.execute('DELETE FROM users WHERE id=ANY(%s)',([native_id('user',str(pk)) for pk in [1,2]],))
+        cleanup()
+        self.addCleanup(cleanup)
+        unchanged_tables=['ai_tasks','payment_orders','wallets','admin_users']
+        with psycopg.connect(url) as conn:
+            before={table:conn.execute('SELECT COUNT(*) FROM '+table).fetchone()[0] for table in unchanged_tables}
         with tempfile.TemporaryDirectory() as root:
             export_snapshot(SyntheticSource(),Path(root),KEY,'abeiai-v1','synthetic-native-run')
             manifest=load_manifest(root,KEY)
@@ -52,6 +64,8 @@ class NativeImportIntegration(unittest.TestCase):
             success={'status':'AVAILABLE','sha256':'a'*64,'sizeBytes':8,'mimeType':'image/png','objectKey':'picture-books/legacy-sync/abeiai-v1/'+'a'*64+'.png','publicUrl':'https://fixture.invalid/picture-books/legacy-sync/abeiai-v1/'+'a'*64+'.png'}
             with patch('tools.legacy_sync.asset_index.transfer_one',return_value=success): transfer_index(root,manifest,KEY,None,None,'https://fixture.invalid',workers=1)
             first=import_package(root,KEY,url,testing=True)
+            with psycopg.connect(url) as conn:
+                conn.execute('UPDATE users SET "passwordHash"=%s WHERE id=%s',('synthetic-upgraded-hash',native_id('user','1')))
             second=import_package(root,KEY,url,testing=True)
             with psycopg.connect(url) as conn:
                 self.assertEqual(conn.execute('SELECT COUNT(*) FROM legacy_ai_logs WHERE "sourceSystem"=%s',('abeiai-v1',)).fetchone()[0],6)
@@ -60,8 +74,9 @@ class NativeImportIntegration(unittest.TestCase):
                 self.assertEqual(conn.execute('SELECT COUNT(*) FROM legacy_ai_session_items WHERE "logId"=%s',(native_id('app_ai_ttsmessage','1'),)).fetchone()[0],1)
                 self.assertIsNone(conn.execute('SELECT "logId" FROM legacy_ai_session_items WHERE "sessionId"=%s',(native_id('session:app_ai_ttssubject','2'),)).fetchone()[0])
                 self.assertEqual(conn.execute('SELECT COUNT(*) FROM legacy_ai_log_assets WHERE status=\'AVAILABLE\'').fetchone()[0],3)
-                for table in ['ai_tasks','payment_orders','wallets','admin_users']:
-                    self.assertEqual(conn.execute('SELECT COUNT(*) FROM '+table).fetchone()[0],0)
+                self.assertEqual(conn.execute('SELECT "passwordHash" FROM users WHERE id=%s',(native_id('user','1'),)).fetchone()[0],'synthetic-upgraded-hash')
+                for table in unchanged_tables:
+                    self.assertEqual(conn.execute('SELECT COUNT(*) FROM '+table).fetchone()[0],before[table])
             self.assertEqual(first['sourceLogRows'],second['sourceLogRows'])
 
 if __name__=='__main__': unittest.main()
