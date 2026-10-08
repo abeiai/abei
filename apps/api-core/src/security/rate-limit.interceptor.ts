@@ -34,6 +34,13 @@ interface RateLimitBucket {
 const rules: RateLimitRule[] = [
   {
     method: "POST",
+    path: /^\/api\/picture-book-guide(?:\/[^/]+\/pages\/\d+\/(?:script|audio))?\/?$/,
+    bucketPath: "/api/picture-book-guide/generation",
+    maxEnv: "RATE_LIMIT_PICTURE_BOOK_GUIDE_MAX",
+    fallbackMax: 120,
+  },
+  {
+    method: "POST",
     path: /^\/api\/referrals\/visit\/[a-z0-9]+$/,
     bucketPath: "/api/referrals/visit",
     maxEnv: "RATE_LIMIT_REFERRAL_VISIT_MAX",

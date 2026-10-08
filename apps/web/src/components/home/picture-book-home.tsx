@@ -58,7 +58,7 @@ export function PictureBookHome() {
             <div className={styles.guidePrompt}><Sparkles size={17} /><span>如果是你，会怎么做？</span></div>
             <span className={styles.guideTag}><Upload size={16} />上传你的绘本素材</span>
           </div>
-          <div className={styles.guideCopy}><p className={styles.eyebrow}>绘本导读</p><h2 id="guide-title">好故事，<br />值得再聊一聊。</h2><p>上传绘本素材，制作专属绘本导读。<br />从听懂故事，到读出自己的想法。</p><Link className={styles.primaryLink} href="/magic-reader">制作绘本导读<ArrowUpRight size={19} /></Link></div>
+          <div className={styles.guideCopy}><p className={styles.eyebrow}>绘本导读</p><h2 id="guide-title">好故事，<br />值得再聊一聊。</h2><p>上传绘本素材，制作专属绘本导读。<br />从听懂故事，到读出自己的想法。</p><Link className={styles.primaryLink} href="/picture-book-guide">制作绘本导读<ArrowUpRight size={19} /></Link></div>
         </div></div>
       </section>
 

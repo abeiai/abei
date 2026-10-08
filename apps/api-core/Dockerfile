@@ -49,8 +49,8 @@ ENV LOG_DIR=/app/logs
 ENV APP_VERSION="${APP_VERSION}"
 ENV APP_RELEASE_SHA="${APP_RELEASE_SHA}"
 
-RUN mkdir -p /app/logs /app/uploads \
-  && chown -R node:node /app/logs /app/uploads
+RUN mkdir -p /app/logs /app/uploads /app/private-picture-book-guides \
+  && chown -R node:node /app/logs /app/uploads /app/private-picture-book-guides
 
 COPY --from=prod-deps --chown=node:node /app/node_modules ./node_modules
 COPY --from=prod-deps --chown=node:node /app/apps/api-core/node_modules ./apps/api-core/node_modules

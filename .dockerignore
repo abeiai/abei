@@ -42,6 +42,7 @@ packages/database/generated
 apps/web/public/vendor
 apps/web/public/vendor/vditor
 apps/api-core/uploads
+**/private-picture-book-guides
 apps/**/__pycache__
 **/__pycache__
 apps/**/*.pyc

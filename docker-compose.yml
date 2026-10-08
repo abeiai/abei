@@ -66,6 +66,7 @@ services:
       - uploads:/app/uploads
       - logs:/app/logs
       - legacy_ai_log_assets:/app/private-legacy-ai-log-assets:ro
+      - picture_book_guides:/app/private-picture-book-guides
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -143,3 +144,4 @@ volumes:
   uploads:
   logs:
   legacy_ai_log_assets:
+  picture_book_guides:

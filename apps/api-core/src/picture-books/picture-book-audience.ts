@@ -13,6 +13,8 @@ const audienceProfiles = [
   { name: "高中及以上", maxAge: Infinity, guide: "约15岁及以上，每页约120—300字，可采用更丰富的词汇、隐喻、复杂因果与多元视角，鼓励批判思考和审美理解；仍采用适合未成年人的内容标准，不因包含成年读者而放宽健康要求。" }
 ] as const;
 
+export const pictureBookAudiences = audienceProfiles.map(profile => profile.name);
+
 export function normalizePictureBookAudience(value?: string): string {
   const text = value?.trim() || defaultPictureBookAudience;
   if (audienceProfiles.some(profile => profile.name === text)) return text;

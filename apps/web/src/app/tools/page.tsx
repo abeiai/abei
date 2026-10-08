@@ -32,6 +32,18 @@ export default async function ToolsPage() {
     title: string;
   }> = [
     {
+      title: "绘本导读",
+      description: "上传 PDF 绘本，选择适用对象与带读风格，逐页生成文稿和语音。",
+      href: "/picture-book-guide",
+      cta: "开始绘本导读",
+      icon: BookOpenText,
+      highlights: [
+        { icon: FileText, label: "PDF 导入" },
+        { icon: BookOpenText, label: "逐页文稿" },
+        { icon: Volume2, label: "逐页带读" }
+      ]
+    },
+    {
       title: "绘本创作",
       description: "聊聊故事构想，安排角色和分镜，逐页制作插画与讲解语音。",
       href: "/storybook",

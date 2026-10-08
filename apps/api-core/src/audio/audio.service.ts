@@ -297,7 +297,12 @@ export interface UploadedAudioFileLike {
 }
 
 type PersistedTtsAudio = Pick<PersistedDialogueAudio, "url" | "objectKey" | "mimeType" | "sizeBytes"> &
-  Partial<Pick<PersistedDialogueAudio, "durationMs" | "sampleRate" | "channels">>;
+  Partial<Pick<PersistedDialogueAudio, "durationMs" | "sampleRate" | "channels">> & { storageProvider?: "LOCAL" | "S3" };
+
+export interface PrivateTtsPersistence {
+  persistOutput(taskId: string, payload: Record<string, unknown>): Promise<PersistedTtsAudio>;
+  onCreated?(taskId: string): Promise<void>;
+}
 
 export interface ExternalBillingTtsTaskInput {
   format?: string;
@@ -2488,7 +2493,7 @@ export class AudioService {
   async createTtsTask(
     context: AudioTaskAttributionContext,
     dto: CreateTtsAudioTaskDto,
-    options?: { forceS3Storage?: boolean }
+    options?: { forceS3Storage?: boolean } & Partial<PrivateTtsPersistence>
   ) {
     const attribution = snapshotAudioAttribution(context);
     const { userId } = attribution;
@@ -2549,8 +2554,13 @@ export class AudioService {
       return this.getTaskForExecution(attribution, task.id);
     }
 
+    if (options?.onCreated) {
+      try { await options.onCreated(task.id); }
+      catch { return this.releaseFailedAudioTask(task.id, "AUDIO_CHECKPOINT_FAILED", "语音任务保存失败，请刷新后重试"); }
+    }
+
     return this.executeTtsTask(task.id, model, voice.providerVoiceId, text, parameters, timeoutMs,
-      dto.source === "EXPERIENCE" ? { voiceMasterUserId: userId } : options?.forceS3Storage ? { forceS3Storage: true } : undefined);
+      options?.persistOutput ? { persistOutput: options.persistOutput } : dto.source === "EXPERIENCE" ? { voiceMasterUserId: userId } : options?.forceS3Storage ? { forceS3Storage: true } : undefined);
   }
 
   async prepareDialogueTts(context: AudioTaskAttributionContext, input: { text: string; voiceValue: string; speed: number }): Promise<PreparedDialogueTts> {
@@ -3348,6 +3358,7 @@ export class AudioService {
       forceS3Storage?: boolean;
       videoGuidePersistence?: Omit<VideoGuideNarrationPersistenceRequest, "audioTaskId">;
       onPersistenceStatus?: ExternalBillingTtsTaskInput["onPersistenceStatus"];
+      persistOutput?: PrivateTtsPersistence["persistOutput"];
     }
   ) {
     let persistedVideoGuideAudio: PersistedVideoGuideNarrationAudio | null = null;
@@ -3389,6 +3400,20 @@ export class AudioService {
       }
 
       const providerPayload = payload ?? {};
+
+      if (output?.persistOutput) {
+        const stored = await output.persistOutput(taskId, providerPayload);
+        const safePayload: Record<string, unknown> = { ...providerPayload, audioUrl: stored.url };
+        delete safePayload.audioBase64;
+        delete safePayload.previewAudioUrl;
+        delete safePayload.raw;
+        const nested = jsonObject(safePayload.output);
+        if (nested) {
+          const audio = jsonObject(nested.audio);
+          safePayload.output = { ...nested, ...(nested.url ? { url: stored.url } : {}), ...(audio ? { audio: { url: stored.url } } : {}) };
+        }
+        return await this.settleSuccessfulAudioTask(taskId, safePayload, stored);
+      }
 
       if (output?.voiceMasterUserId) {
         voiceMaster = await persistDialogueClip({ userId: output.voiceMasterUserId, projectId: taskId,
@@ -4281,7 +4306,7 @@ export class AudioService {
   ) {
     if (master && master.sizeBytes > 0) {
       const asset = await transaction.audioAsset.create({ data: {
-        userId, type: "TTS_OUTPUT", storageProvider: "S3", url: master.url, objectKey: master.objectKey,
+        userId, type: "TTS_OUTPUT", storageProvider: master.storageProvider ?? "S3", url: master.url, objectKey: master.objectKey,
         mimeType: master.mimeType, sizeBytes: master.sizeBytes,
         durationMs: master.durationMs ?? null, sampleRate: master.sampleRate ?? null, channels: master.channels ?? null
       } });

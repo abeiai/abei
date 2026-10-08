@@ -61,6 +61,7 @@ packages/database/generated
 apps/web/public/vendor/
 apps/web/public/vendor/vditor/
 apps/api-core/uploads/
+**/private-picture-book-guides/
 
 # 英语音标页面的正式口型素材
 !apps/web/public/yinbiao/studio/*.png

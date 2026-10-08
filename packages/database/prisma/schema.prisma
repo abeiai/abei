@@ -687,6 +687,7 @@ model User {
   typingReviewStates TypingReviewState[]
   typingPreferences TypingPreference[]
   pictureBooks PictureBook[]
+  pictureBookGuides PictureBookGuide[]
   pictureBookCharacters PictureBookCharacter[]
 
   legacyAiSessions LegacyAiSession[]
@@ -842,6 +843,27 @@ model PictureBook {
 
   @@index([userId, updatedAt])
   @@map("picture_books")
+}
+
+model PictureBookGuide {
+  id                 String   @id @default(cuid())
+  userId             String
+  title              String
+  pdfName            String
+  pdfSizeBytes       Int
+  storageKey         String   @unique
+  audience           String   @default("幼儿园")
+  style              String   @default("interactive")
+  pages              Json
+  version            Int      @default(0)
+  operationToken     String?
+  operationExpiresAt DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@map("picture_book_guides")
 }
 
 model PictureBookCharacter {
