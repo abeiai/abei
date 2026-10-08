@@ -1,0 +1,4297 @@
+{
+  "courseId": "306f0ed1871f63b9ed7cbbd9",
+  "owner": "abei-lele-studio",
+  "voice": "yezhiqing_v3.1",
+  "voiceName": "叶知晴",
+  "model": "qwen-audio-3.1-tts-flash",
+  "speed": 1,
+  "createdAt": "2026-10-07T23:54:44.177Z",
+  "entries": {
+    "3bb39540cfaa5231160f4aa63866055d86110cdda3fd8be8fcc691a2d173b7b5": {
+      "key": "3bb39540cfaa5231160f4aa63866055d86110cdda3fd8be8fcc691a2d173b7b5",
+      "bookId": "abei-lele-rabbit",
+      "position": 0,
+      "text": "等等我，小兔",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "32da77b7-320d-9909-b4e1-0a81b00e31de",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 11,
+          "input_tokens": 7,
+          "output_tokens": 20,
+          "total_tokens": 27
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-9bb5563d7a2b0713.mp3",
+      "assetId": "cmuyrlkk20000qamkj8hvdaef",
+      "sizeBytes": 33211,
+      "sha256": "0830792013b746f68d8e60a3af871813bf8ccd84b0f1f5cab428e6079b752106",
+      "durationMs": 1656,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0e66d2bee9ec4d96e1888a879e2af014c36083c9595649d5dc29944b1c3c7cc4": {
+      "key": "0e66d2bee9ec4d96e1888a879e2af014c36083c9595649d5dc29944b1c3c7cc4",
+      "bookId": "abei-lele-rabbit",
+      "position": 1,
+      "text": "森林里的早晨，阳光一格一格落在小路上。熊猫乐乐遇见了小兔米米。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "997125bd-dcb4-9daa-ac19-956cd1ffddef",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 31,
+          "output_tokens": 86,
+          "total_tokens": 117
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-725f91af2e33fffa.mp3",
+      "assetId": "cmuyrlkzq0002qamkmtdnz9x4",
+      "sizeBytes": 138811,
+      "sha256": "7c4392c731da3ba8781ce9687c0b6ce97fe822d49fb2ddf7b465a8e564601455",
+      "durationMs": 6936,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "16ffd6f568f09a5ba3c4ec7f991d4b3ec899aaba1a322a00aa7db1fd94c0051b": {
+      "key": "16ffd6f568f09a5ba3c4ec7f991d4b3ec899aaba1a322a00aa7db1fd94c0051b",
+      "bookId": "abei-lele-rabbit",
+      "position": 2,
+      "text": "“山坡上的花开啦！”米米蹦了两下，“我们一起去看吧！”乐乐高兴地点点头。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "b4a93392-d595-90b1-b391-4d8b3670e1bb",
+      "usage": {
+        "inputCharacters": 36,
+        "providerUsage": {
+          "characters": 64,
+          "input_tokens": 33,
+          "output_tokens": 83,
+          "total_tokens": 116
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-291403eeefe87cb9.mp3",
+      "assetId": "cmuyrlkw70001qamkpd74zzev",
+      "sizeBytes": 134011,
+      "sha256": "12c1c51f3b46362dc4c463be9182eee755e9f2cd51349640eec69d668fab5a21",
+      "durationMs": 6696,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "dc0f8a3d81b740aab69494107ed2f2e56b77a511eeeca663c837f5d5714d7613": {
+      "key": "dc0f8a3d81b740aab69494107ed2f2e56b77a511eeeca663c837f5d5714d7613",
+      "bookId": "abei-lele-rabbit",
+      "position": 3,
+      "text": "米米蹦呀蹦，一会儿就跑到了前面。乐乐迈着大步，肚子却晃得有些累。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "7f5fe255-4aeb-94fb-8585-047e4919e5bb",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 32,
+          "output_tokens": 112,
+          "total_tokens": 144
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-997037c58820d5eb.mp3",
+      "assetId": "cmuyrm05b0002scmkzn9tixbo",
+      "sizeBytes": 180571,
+      "sha256": "e48e93fc888aa8c05ff8395986f10816fd4ca9546b3e457d24ec8d44d0d15c05",
+      "durationMs": 9024,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "872bf0959056150107a6daf63cbdc72f6b8c5637be116de0883786216d7bba68": {
+      "key": "872bf0959056150107a6daf63cbdc72f6b8c5637be116de0883786216d7bba68",
+      "bookId": "abei-lele-rabbit",
+      "position": 4,
+      "text": "“等等我，小兔！”乐乐喊。米米回过头：“快一点，就快到啦！”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "ce2e7a04-3b7f-96ca-ab83-db59fe38abf2",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 50,
+          "input_tokens": 27,
+          "output_tokens": 70,
+          "total_tokens": 97
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2fb8e593239b9990.mp3",
+      "assetId": "cmuyrlzy10000scmk3cjjph99",
+      "sizeBytes": 113371,
+      "sha256": "525280be7a7c6fb6950485b3316c4f823d486370635c8777d8d997402bd2268a",
+      "durationMs": 5664,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "e402f7c7659083bbfb92e47cc279c10bb43ee74c77d21efe389b963c1017baa5": {
+      "key": "e402f7c7659083bbfb92e47cc279c10bb43ee74c77d21efe389b963c1017baa5",
+      "bookId": "abei-lele-rabbit",
+      "position": 5,
+      "text": "米米跑到一片花丛前，发现身边空空的。漂亮的花，也少了一起看的朋友。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "2ac04df5-476c-917d-8dd8-2d7b6b72c63b",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 33,
+          "output_tokens": 87,
+          "total_tokens": 120
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-912e4c8ccc3b1772.mp3",
+      "assetId": "cmuyrm0540001scmkh6s3wf9i",
+      "sizeBytes": 140251,
+      "sha256": "5eb73f5b0abf2552dce2dc597241768c7fc6e2a4fc5a3f5f7e11e8fce614932d",
+      "durationMs": 7008,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "36cfe5cd254c7d3baece7c361e047ce17e0940efd4d6a5d6136bec2eb510ae1e": {
+      "key": "36cfe5cd254c7d3baece7c361e047ce17e0940efd4d6a5d6136bec2eb510ae1e",
+      "bookId": "abei-lele-rabbit",
+      "position": 6,
+      "text": "她跑回去。乐乐坐在树根旁，小声说：“我也想去，可我走不了那么快。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "3ab1dc93-479b-996f-9f8b-3507bfced9e8",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 31,
+          "output_tokens": 93,
+          "total_tokens": 124
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-1baa3b1d32140fe8.mp3",
+      "assetId": "cmuyrm1l50003scmk98xoycl0",
+      "sizeBytes": 149851,
+      "sha256": "efe599304027364412e1c0061ddeceed692b264c92b51e990706c88c7b98edac",
+      "durationMs": 7488,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d2c10578ad61b01811eeeb0eaaf4bea79520d0794d8ee9fc91ec2f9877975899": {
+      "key": "d2c10578ad61b01811eeeb0eaaf4bea79520d0794d8ee9fc91ec2f9877975899",
+      "bookId": "abei-lele-rabbit",
+      "position": 7,
+      "text": "米米的耳朵垂下来。“对不起，我只顾着自己跑了。你想怎么走呢？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "0d22d956-29d7-9a2c-81f7-86795a6efe9a",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 29,
+          "output_tokens": 74,
+          "total_tokens": 103
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-eb276e153148345f.mp3",
+      "assetId": "cmuyrm1u50005scmknuwsxjn1",
+      "sizeBytes": 119611,
+      "sha256": "c8da2ac9d4e2dd9fffde7f715e06c565e8f0bf3570166155ee392a64387bc3c2",
+      "durationMs": 5976,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "78516efa0ce8af7c259fb2ed55017573820f0c1548083e904b4cfa2789a68525": {
+      "key": "78516efa0ce8af7c259fb2ed55017573820f0c1548083e904b4cfa2789a68525",
+      "bookId": "abei-lele-rabbit",
+      "position": 8,
+      "text": "“走一会儿，歇一会儿，好吗？”乐乐说。米米点点头：“我们一起走。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "dc6a76c7-d2a8-9d80-b19a-2ac135c5d503",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 76,
+          "total_tokens": 106
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c247bdea90af81ad.mp3",
+      "assetId": "cmuyrm1qw0004scmkmwhynqyo",
+      "sizeBytes": 122971,
+      "sha256": "7fc5a3ba88b6ea656ea6207ad66fd51e3ec9d0db40f9bf394c18deeec6c5c2f1",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "4b2491d32615162f60fda8f65801c00b4648cfa889510219872f46ac569023bd": {
+      "key": "4b2491d32615162f60fda8f65801c00b4648cfa889510219872f46ac569023bd",
+      "bookId": "abei-lele-rabbit",
+      "position": 9,
+      "text": "慢下来以后，他们看见了弯弯的树根，还发现一朵躲在叶子下面的小花。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "5c225099-68ef-9652-992b-2d041499ac7f",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 32,
+          "output_tokens": 76,
+          "total_tokens": 108
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-58b40165fc8ff74c.mp3",
+      "assetId": "cmuyrm34s0006scmkx7p5fte5",
+      "sizeBytes": 122971,
+      "sha256": "f8ad2b33cda811addc3d0a0115dd168b8f1228dbad2247a4eebdc343316aac89",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "9b4691927f2fbb54f256f82959d532a3cc90f791b175f8d83c8a1fa7f757bff4": {
+      "key": "9b4691927f2fbb54f256f82959d532a3cc90f791b175f8d83c8a1fa7f757bff4",
+      "bookId": "abei-lele-rabbit",
+      "position": 10,
+      "text": "歇脚时，乐乐指着树影说：“像一条大鱼！”米米笑了：“还像我的长耳朵！”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "cda187fb-cb1c-961c-8880-f13c4e0ac6ff",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 31,
+          "output_tokens": 94,
+          "total_tokens": 125
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0a89a3b452d9b424.mp3",
+      "assetId": "cmuyrm3ku0007scmkhj6rcm27",
+      "sizeBytes": 151771,
+      "sha256": "fa66fadafca462a6df7b9c146f255458db8bd0a98f751c2295653da38d200336",
+      "durationMs": 7584,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "814e9e6880d84dd23a951c2451a1181d3fed811380146771018a8c65a8230c60": {
+      "key": "814e9e6880d84dd23a951c2451a1181d3fed811380146771018a8c65a8230c60",
+      "bookId": "abei-lele-rabbit",
+      "position": 11,
+      "text": "他们终于走上山坡。花海在风里轻轻摇，两位朋友肩挨着肩，笑得一样开心。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "b6bed9e8-f0d9-9d8d-b1ec-4ec7bc1ad2b0",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 64,
+          "input_tokens": 34,
+          "output_tokens": 114,
+          "total_tokens": 148
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-b4db32f3297649c6.mp3",
+      "assetId": "cmuyrm3ti0008scmkb9ggft7a",
+      "sizeBytes": 183451,
+      "sha256": "8000ed3ebfebb33f985a7ac3c76d1dc28b6108815fcae284686454b53274720b",
+      "durationMs": 9168,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "92628e460dd806be29c9cb1489b031aea79e8abdf0cf64d86e4979217fb7285d": {
+      "key": "92628e460dd806be29c9cb1489b031aea79e8abdf0cf64d86e4979217fb7285d",
+      "bookId": "abei-lele-rabbit",
+      "position": 12,
+      "text": "回家时，米米问：“明天还一起走吗？”乐乐笑了：“好呀，按我们俩的步子走。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "935efa22-1bd2-9b2c-b906-f882498f6d98",
+      "usage": {
+        "inputCharacters": 37,
+        "providerUsage": {
+          "characters": 64,
+          "input_tokens": 33,
+          "output_tokens": 84,
+          "total_tokens": 117
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-64398192d3826fb7.mp3",
+      "assetId": "cmuyrm4n80009scmkosoz9nzu",
+      "sizeBytes": 135451,
+      "sha256": "42427085dfc197356b8bc301e809d53c84c069356ebcefabf4f1651338337c5e",
+      "durationMs": 6768,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7249064fb5eceb0def2f8c538f4df2534f73c562b93e59cbc7de2ae2fce82f80": {
+      "key": "7249064fb5eceb0def2f8c538f4df2534f73c562b93e59cbc7de2ae2fce82f80",
+      "bookId": "abei-lele-hedgehog",
+      "position": 0,
+      "text": "小刺猬的拥抱",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "fa1ad14f-cf5d-9938-a57c-dd381c3f296c",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 7,
+          "output_tokens": 24,
+          "total_tokens": 31
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-b0222c92c85978bf.mp3",
+      "assetId": "cmuyrm4sy000ascmk4gp71mv3",
+      "sizeBytes": 39451,
+      "sha256": "26dd4869055c5ca72cedb15c5a0b71b63e7ceb89910bbd6fc746a48bc309c53e",
+      "durationMs": 1968,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "b90569a54a4460e6c164a8cdbb0d32105671f6293b540cfc3560e2d26c4a2ec0": {
+      "key": "b90569a54a4460e6c164a8cdbb0d32105671f6293b540cfc3560e2d26c4a2ec0",
+      "bookId": "abei-lele-hedgehog",
+      "position": 1,
+      "text": "风把金色的叶子吹进森林。熊猫乐乐在树下，遇见了小刺猬球球。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "6ed9ee0d-9ce2-9091-9263-0990cff0654e",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 89,
+          "total_tokens": 118
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e605c4c4ba4af7ea.mp3",
+      "assetId": "cmuyrm5i9000bscmkzipr31qh",
+      "sizeBytes": 143611,
+      "sha256": "a76643a873b11531abc5f3da8a781f8e50f727af0cad2c49f93025b9c2907652",
+      "durationMs": 7176,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "38d6920babbf068dcc7ba30a5cd6f4349a0c515431a86022047654b50bc5fbd5": {
+      "key": "38d6920babbf068dcc7ba30a5cd6f4349a0c515431a86022047654b50bc5fbd5",
+      "bookId": "abei-lele-hedgehog",
+      "position": 2,
+      "text": "球球捧来一片心形叶子。“送给你。”乐乐接过来：“我好喜欢！”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "9ad90575-68a4-94eb-aa2b-276bbbd749a4",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 52,
+          "input_tokens": 26,
+          "output_tokens": 72,
+          "total_tokens": 98
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-eb218ecef461ec3c.mp3",
+      "assetId": "cmuyrm68m000cscmk6kiu1m1c",
+      "sizeBytes": 116251,
+      "sha256": "1b6c1a1edc9428a197aa723d83bc07948426a2da3ff26916e90df8d0fb9530c7",
+      "durationMs": 5808,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "b0449e2b959023a4a687cefc356ba71f1c957533dec20ec1540df17861967c38": {
+      "key": "b0449e2b959023a4a687cefc356ba71f1c957533dec20ec1540df17861967c38",
+      "bookId": "abei-lele-hedgehog",
+      "position": 3,
+      "text": "乐乐张开手臂，想给球球一个大大的拥抱。球球却往后退了一小步。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "3e0fb1e6-4e63-933c-94a6-a6878455650f",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 30,
+          "output_tokens": 94,
+          "total_tokens": 124
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c5ada05ae35c0093.mp3",
+      "assetId": "cmuyrm6ly000dscmklrksiefk",
+      "sizeBytes": 151771,
+      "sha256": "78ae6c0439fb079fcb8c4638ff1dba6bbccc627702a4b49bb12a5b6d10d01483",
+      "durationMs": 7584,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "175fedc7b163cc6d7fd288f80a10f99fbbfbed271514b764597965b6c28f4468": {
+      "key": "175fedc7b163cc6d7fd288f80a10f99fbbfbed271514b764597965b6c28f4468",
+      "bookId": "abei-lele-hedgehog",
+      "position": 4,
+      "text": "“先别抱，好吗？”球球轻声说。乐乐的手停在半空，笑容慢慢收了起来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "8b70460a-80d3-93a1-a8d3-46468d1bb999",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 32,
+          "output_tokens": 93,
+          "total_tokens": 125
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0e7a881be2f34c54.mp3",
+      "assetId": "cmuyrm76u000escmkgdf2pqwa",
+      "sizeBytes": 149851,
+      "sha256": "bdde7d81fc144e66aedda7abcb6b240146371dd5550f8f7daa1dae5bf7948fdb",
+      "durationMs": 7488,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "beb5fafb283e2b48e615010a77c55843e50debbb2ae3975ba9f79af0ee36472f": {
+      "key": "beb5fafb283e2b48e615010a77c55843e50debbb2ae3975ba9f79af0ee36472f",
+      "bookId": "abei-lele-hedgehog",
+      "position": 5,
+      "text": "乐乐低下头：“你是不是不想和我做朋友？”球球赶紧摇摇头。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "56844de4-ee07-9a4d-84c9-6380ef4d4730",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 51,
+          "input_tokens": 26,
+          "output_tokens": 80,
+          "total_tokens": 106
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-cd6b3067be67aad6.mp3",
+      "assetId": "cmuyrm82e000fscmkj36bz2cg",
+      "sizeBytes": 129211,
+      "sha256": "5f0cf041beb0558036107096623c71ec3f23fd7ff24be0191767a9869de4aaa9",
+      "durationMs": 6456,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "c95e1e4627adf3384d726070996e2aaa59514a367c8764b530611306386e6319": {
+      "key": "c95e1e4627adf3384d726070996e2aaa59514a367c8764b530611306386e6319",
+      "bookId": "abei-lele-hedgehog",
+      "position": 6,
+      "text": "“我很想呀！可我有尖尖的刺，突然抱过来，我会紧张，也怕扎疼你。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "b87a2779-2812-9f60-8fde-2755f05804d1",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 31,
+          "output_tokens": 92,
+          "total_tokens": 123
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-9f23cef9566fe02e.mp3",
+      "assetId": "cmuyrm8do000gscmkz4uknnof",
+      "sizeBytes": 148411,
+      "sha256": "3de5cc69cfac38155f6f77d1d8ed0936a69ae4720adf523f98cf595b8da4e985",
+      "durationMs": 7416,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7873d3b3fc486f7c4af4e751034500749e3dec043c846e9902f01764c9d82062": {
+      "key": "7873d3b3fc486f7c4af4e751034500749e3dec043c846e9902f01764c9d82062",
+      "bookId": "abei-lele-hedgehog",
+      "position": 7,
+      "text": "乐乐把手放下来。“原来是这样。那我怎么做，你会觉得舒服呢？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "8af627a7-30b6-9f60-8946-4682bf631696",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 54,
+          "input_tokens": 28,
+          "output_tokens": 75,
+          "total_tokens": 103
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-7a65b75ca6e0b3b0.mp3",
+      "assetId": "cmuyrm8s7000hscmk0e3qkyl9",
+      "sizeBytes": 121051,
+      "sha256": "6f35cf607a3ba86d04a517d0f587feebef9d3602f94db91802f9f350ab1e248f",
+      "durationMs": 6048,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f6d18ac23e3ff437ff7a31ded8197e91e7c54039077cda6a66c19bc0c065d2d6": {
+      "key": "f6d18ac23e3ff437ff7a31ded8197e91e7c54039077cda6a66c19bc0c065d2d6",
+      "bookId": "abei-lele-hedgehog",
+      "position": 8,
+      "text": "球球想了想，举起小爪子：“可以先挥挥手，再坐在我旁边。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "62a5ce96-65ab-90dd-90db-ba454acf67e7",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 50,
+          "input_tokens": 26,
+          "output_tokens": 78,
+          "total_tokens": 104
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-ac693088ec3538b6.mp3",
+      "assetId": "cmuyrm9j5000iscmkv75qk2a8",
+      "sizeBytes": 125851,
+      "sha256": "a48cf65540c4406c624ca9f9c7068042e93b5d54831f5e211741a66408ca4322",
+      "durationMs": 6288,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "2ff273eba822bc90bdd2a23cd8d1ce9e6c9aada4247b34020a4521ec316acfa4": {
+      "key": "2ff273eba822bc90bdd2a23cd8d1ce9e6c9aada4247b34020a4521ec316acfa4",
+      "bookId": "abei-lele-hedgehog",
+      "position": 9,
+      "text": "乐乐也挥挥手。他们隔着一点空隙坐好，一起听风吹过树梢。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "9861d090-7eaf-95c4-a8c8-09af7d318152",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 51,
+          "input_tokens": 27,
+          "output_tokens": 68,
+          "total_tokens": 95
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-67efb8d3ab6fc59c.mp3",
+      "assetId": "cmuyrm9tl000jscmkejc5x2fa",
+      "sizeBytes": 110011,
+      "sha256": "cd9e9ad76dac3d6758749c1c15da5c56ff3a20f635397bdba7c0467d16e64b93",
+      "durationMs": 5496,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "2171fa9245022e0a817173e7c4a6a29c84dee0bd5ce02df53b0e4542c3a01991": {
+      "key": "2171fa9245022e0a817173e7c4a6a29c84dee0bd5ce02df53b0e4542c3a01991",
+      "bookId": "abei-lele-hedgehog",
+      "position": 10,
+      "text": "一阵风卷走了心形叶子。乐乐捡回来，问：“可以放在你的爪子里吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "1d199b3f-51df-9f5a-8a9f-b084ffb34c1f",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 30,
+          "output_tokens": 103,
+          "total_tokens": 133
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0320830e92ace7cb.mp3",
+      "assetId": "cmuyrmakn000kscmkcr5pur6b",
+      "sizeBytes": 166171,
+      "sha256": "e661117ee34fe85ddc3b588d39c874c45e7d27c38541ca3e5dc71d12e368da19",
+      "durationMs": 8304,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0a7c8efd62f153767bba9d8676c2b89c5a37df3db5bdc84f6055067a3f30b119": {
+      "key": "0a7c8efd62f153767bba9d8676c2b89c5a37df3db5bdc84f6055067a3f30b119",
+      "bookId": "abei-lele-hedgehog",
+      "position": 11,
+      "text": "“可以呀！”球球笑着接住叶子。他们把叶子夹进树洞里的小画册。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "9c02a245-108b-9fc6-bb41-7d38c7803976",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 76,
+          "total_tokens": 105
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-ed62696e37709eb2.mp3",
+      "assetId": "cmuyrmb6k000lscmk4mxvypr5",
+      "sizeBytes": 122971,
+      "sha256": "3c615dd96fa8f2db2af6724c8a8768c3164b112771bef211f16b63a430c94fc6",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d07bdb9e3550bcb0517c16984f34860aeda7212993741ed4725005a54c704a64": {
+      "key": "d07bdb9e3550bcb0517c16984f34860aeda7212993741ed4725005a54c704a64",
+      "bookId": "abei-lele-hedgehog",
+      "position": 12,
+      "text": "告别时，两只小爪子在空中挥了挥。没有大拥抱，乐乐心里也暖暖的。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "ba148fe3-ef6f-9155-9d53-afa5b57537cd",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 31,
+          "output_tokens": 93,
+          "total_tokens": 124
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-48569f6706809325.mp3",
+      "assetId": "cmuyrmbgp000mscmkh8qtovca",
+      "sizeBytes": 149851,
+      "sha256": "788045142becc2c0dc69399a783b411f0b946e3dcdf57741d240e77f8e39ef7d",
+      "durationMs": 7488,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7a8ecf25afd950ea9249c09dc400a3400d6596aaee8f58ad31ff71b21138a1cb": {
+      "key": "7a8ecf25afd950ea9249c09dc400a3400d6596aaee8f58ad31ff71b21138a1cb",
+      "bookId": "abei-lele-squirrel",
+      "position": 0,
+      "text": "松鼠的橡果约定",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "9bba712b-ee42-91dc-b377-1882dacda0cb",
+      "usage": {
+        "inputCharacters": 7,
+        "providerUsage": {
+          "characters": 14,
+          "input_tokens": 8,
+          "output_tokens": 26,
+          "total_tokens": 34
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-fa6dafcbcf14f072.mp3",
+      "assetId": "cmuyrmbsy000nscmkvvxgnnft",
+      "sizeBytes": 42811,
+      "sha256": "8c0031b3bf135ecc1b2da944920e1db6efb157504134b6f7711e4197406eac28",
+      "durationMs": 2136,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "a74b8dcb66fc3e916054c4c145ee016c5e9d89f6d94abc600de7a2859b535045": {
+      "key": "a74b8dcb66fc3e916054c4c145ee016c5e9d89f6d94abc600de7a2859b535045",
+      "bookId": "abei-lele-squirrel",
+      "position": 1,
+      "text": "森林的橡树下，松鼠松果捡了一篮子橡果。熊猫乐乐走过来：“需要帮忙吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "dbd79867-3b6e-98e0-801c-76769ac56428",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 64,
+          "input_tokens": 33,
+          "output_tokens": 87,
+          "total_tokens": 120
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-562bce804e9f69f9.mp3",
+      "assetId": "cmuyrmd0i000oscmklzwubmdb",
+      "sizeBytes": 140251,
+      "sha256": "5e11d17e5e480108460b72ad00c39f5943e8a9892d5c72e84a5f8d427bd5487a",
+      "durationMs": 7008,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "468adc790b24e81546a37960774d832f03e70aad5b98bd5cc35e80d1aad6e117": {
+      "key": "468adc790b24e81546a37960774d832f03e70aad5b98bd5cc35e80d1aad6e117",
+      "bookId": "abei-lele-squirrel",
+      "position": 2,
+      "text": "“太好啦！请帮我看一会儿。我要去拿大篮子，我们等会儿一起分。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "86083912-af93-90f9-bc39-e3e77eb4112a",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 72,
+          "total_tokens": 102
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-60f86e4586a931b4.mp3",
+      "assetId": "cmuyrmd2i000pscmkpsr67qb9",
+      "sizeBytes": 116251,
+      "sha256": "0b753effe1d0ecc243d00ab20f7c5a66f11650bfbaeee32a612a214718c8293c",
+      "durationMs": 5808,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "046be4cad2566ce7503060ce7d0d31f0c005905b62d0771d761222c670a641d2": {
+      "key": "046be4cad2566ce7503060ce7d0d31f0c005905b62d0771d761222c670a641d2",
+      "bookId": "abei-lele-squirrel",
+      "position": 3,
+      "text": "乐乐认真点头：“我会看好它们。”松果背着小挎包，放心地走开了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "adf9e04b-d862-929c-87a5-2e61eb2735e7",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 29,
+          "output_tokens": 83,
+          "total_tokens": 112
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-cc2fb5b92293a2fe.mp3",
+      "assetId": "cmuyrmdj1000qscmkgev9e68f",
+      "sizeBytes": 134011,
+      "sha256": "1f508de10647cbe747677e049beb2cfb5a6559d2c7a2ae53b6ccdae7c33804d5",
+      "durationMs": 6696,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0860ae833fbe164225b6888c70afcd08ca8a7efe93b6b9475119e08d9a74c747": {
+      "key": "0860ae833fbe164225b6888c70afcd08ca8a7efe93b6b9475119e08d9a74c747",
+      "bookId": "abei-lele-squirrel",
+      "position": 4,
+      "text": "等待时，乐乐拿起一颗橡果。“好圆呀，滚起来一定很好玩！”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "d8b713fe-2f87-9c1e-9522-e3fd8fed81f3",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 50,
+          "input_tokens": 26,
+          "output_tokens": 71,
+          "total_tokens": 97
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-5dcbfd8b37055ec5.mp3",
+      "assetId": "cmuyrmekl000rscmkvtk37jtv",
+      "sizeBytes": 114811,
+      "sha256": "e9a160b728f7df776bb4265e95b9cc63a362ff81eea896f69ff6238042446401",
+      "durationMs": 5736,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "403cfb0e8d9e603360e1b1a0b358f6775528ed2340680fd5ac1c1975f6c0fe85": {
+      "key": "403cfb0e8d9e603360e1b1a0b358f6775528ed2340680fd5ac1c1975f6c0fe85",
+      "bookId": "abei-lele-squirrel",
+      "position": 5,
+      "text": "他把橡果排成小火车。咕噜噜！几颗橡果滚下树根，掉进了枯叶堆。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "3ff74f61-9bfc-900d-8365-15f258f56fad",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 85,
+          "total_tokens": 115
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-eca58b632c942e28.mp3",
+      "assetId": "cmuyrmeyk000sscmkdnio9wei",
+      "sizeBytes": 137371,
+      "sha256": "5322012d43c0bb1fbfbea8d2c692b113154e3f387f5948c906be921d7fdb0ea8",
+      "durationMs": 6864,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "4610aa457452111b0a087521ef91e1c42537704eb92cd674dbda15311805410a": {
+      "key": "4610aa457452111b0a087521ef91e1c42537704eb92cd674dbda15311805410a",
+      "bookId": "abei-lele-squirrel",
+      "position": 6,
+      "text": "松果回来了。“咦，怎么少了？”乐乐抱住篮子，小声说：“我只是玩了一下……”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "f17ef3da-0f0b-9fca-9aa9-42fac8f18112",
+      "usage": {
+        "inputCharacters": 37,
+        "providerUsage": {
+          "characters": 63,
+          "input_tokens": 33,
+          "output_tokens": 99,
+          "total_tokens": 132
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-6e83ca05ccbb1ef7.mp3",
+      "assetId": "cmuyrmfa6000tscmka67rs5ap",
+      "sizeBytes": 159451,
+      "sha256": "5f0fa7ff46a190b7dbd773382793b6fe861779bdc47996edde43b6cdf3187733",
+      "durationMs": 7968,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "5d39a657ea72821d469cd06ffc035348821c0bf1cfac90c88bae07f80553852c": {
+      "key": "5d39a657ea72821d469cd06ffc035348821c0bf1cfac90c88bae07f80553852c",
+      "bookId": "abei-lele-squirrel",
+      "position": 7,
+      "text": "松果的尾巴垂下来：“我有点生气。这些是我捡了很久才攒好的。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "b6efe98a-cd0f-99fe-b65b-28387ccab750",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 28,
+          "output_tokens": 75,
+          "total_tokens": 103
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-cee1a7524679a48d.mp3",
+      "assetId": "cmuyrmgaq000uscmku324mxr0",
+      "sizeBytes": 121051,
+      "sha256": "6774b3308840f712b3e5d589b193092e3660791fe4e88c25347f0b2fa797fe8e",
+      "durationMs": 6048,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "59697898e22bf6fe5503f3ed6b86ac414a9985f503d937e4a390eee78f55ddef": {
+      "key": "59697898e22bf6fe5503f3ed6b86ac414a9985f503d937e4a390eee78f55ddef",
+      "bookId": "abei-lele-squirrel",
+      "position": 8,
+      "text": "乐乐放下篮子。“对不起，我没守住约定，还没先问你。我去把橡果找回来。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "ccbc5c5a-0a13-9e6c-880d-7c9a4b858cb2",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 63,
+          "input_tokens": 33,
+          "output_tokens": 86,
+          "total_tokens": 119
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-6d857d586dd4ff20.mp3",
+      "assetId": "cmuyrmgjx000vscmkt903olqu",
+      "sizeBytes": 138811,
+      "sha256": "be32c4808b2ec199635e5e3652c11156350038bb9ba2a557fab7b40519802905",
+      "durationMs": 6936,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "28c619a10a17b9fcfa44588b5d6dec848a1570fd8e39dcdeefaa7f5929170fdf": {
+      "key": "28c619a10a17b9fcfa44588b5d6dec848a1570fd8e39dcdeefaa7f5929170fdf",
+      "bookId": "abei-lele-squirrel",
+      "position": 9,
+      "text": "乐乐蹲下来，一片一片拨开枯叶。松果站在旁边，过了一会儿，也蹲了下来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "f093f546-ebb4-9b5d-8da0-430648d9e504",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 63,
+          "input_tokens": 34,
+          "output_tokens": 105,
+          "total_tokens": 139
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-de3d10a6d360666f.mp3",
+      "assetId": "cmuyrmgvc000wscmk8ino59vb",
+      "sizeBytes": 169051,
+      "sha256": "8693479fd5e77fbe8f9caaf4be43d71a73bd14279042cd67d865cde06a17e79a",
+      "durationMs": 8448,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "4b13666d5b824e0b947142c556a96245e823d5abc9e8b1c095333792bd2209cb": {
+      "key": "4b13666d5b824e0b947142c556a96245e823d5abc9e8b1c095333792bd2209cb",
+      "bookId": "abei-lele-squirrel",
+      "position": 10,
+      "text": "他们找齐了滚走的橡果。乐乐把它们放进篮子：“下次动你的东西，我会先问。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "6efec081-580d-982f-a082-59dad474a90a",
+      "usage": {
+        "inputCharacters": 36,
+        "providerUsage": {
+          "characters": 66,
+          "input_tokens": 34,
+          "output_tokens": 85,
+          "total_tokens": 119
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-3cbf2608b4794c8c.mp3",
+      "assetId": "cmuyrmhs1000xscmkybyvf7tk",
+      "sizeBytes": 137371,
+      "sha256": "67d23eb02837a7e62bf8bddc0225396cb918402712e7cbfb70c00260c21b0527",
+      "durationMs": 6864,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "8f357fd25d74fe17d90c65134964e686c76ec66d34e8ee5aa6cc8282b96f21d3": {
+      "key": "8f357fd25d74fe17d90c65134964e686c76ec66d34e8ee5aa6cc8282b96f21d3",
+      "bookId": "abei-lele-squirrel",
+      "position": 11,
+      "text": "松果摸摸篮子，点点头：“我还需要缓一缓。你愿意陪我把它们搬回家吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "def1e7ee-5669-98f5-8a08-8e0af3bdf2a7",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 32,
+          "output_tokens": 98,
+          "total_tokens": 130
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-a8ec8e6c78106202.mp3",
+      "assetId": "cmuyrmi50000yscmku1mwpybz",
+      "sizeBytes": 158011,
+      "sha256": "ba88ccf0c9bf025ef7d7556056222de9e2caee05ec85537691fcf02d28a60fcb",
+      "durationMs": 7896,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "dff177ed0a8aad486f7fd65187536ed3ae12d81833aa10f55e8cb41480c15068": {
+      "key": "dff177ed0a8aad486f7fd65187536ed3ae12d81833aa10f55e8cb41480c15068",
+      "bookId": "abei-lele-squirrel",
+      "position": 12,
+      "text": "“愿意！”他们各扶住篮子的一边，慢慢走。明天的约定，乐乐也会好好放在心里。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "a7b97792-32d8-98c7-b8c2-afb991f434eb",
+      "usage": {
+        "inputCharacters": 37,
+        "providerUsage": {
+          "characters": 67,
+          "input_tokens": 36,
+          "output_tokens": 97,
+          "total_tokens": 133
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-11e9c3604abe8511.mp3",
+      "assetId": "cmuyrmiqi000zscmk4g2lzqma",
+      "sizeBytes": 156571,
+      "sha256": "7535ab5259c1ad99e7c8811b592cdd2b7a616e0d485e17a655a539890c9fd62f",
+      "durationMs": 7824,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d2caaa685a4a06b9e6d39389d62b77ba0648bdc69c8c92c688f6ef0626796ff7": {
+      "key": "d2caaa685a4a06b9e6d39389d62b77ba0648bdc69c8c92c688f6ef0626796ff7",
+      "bookId": "abei-lele-fox",
+      "position": 0,
+      "text": "小狐狸说实话",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "b2020daa-6c46-9170-bf76-e28f99abad03",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 7,
+          "output_tokens": 19,
+          "total_tokens": 26
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-8e534de1434aaa94.mp3",
+      "assetId": "cmuyrmj200010scmkh2itlexb",
+      "sizeBytes": 31771,
+      "sha256": "d30cc5aff96f53db8a38e48444d48a99a5e4bcf850e2973bbaaedce5733a908a",
+      "durationMs": 1584,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "c8a8b1aaacc4a56393df485f530e3f2ffba545c818247c8454c868aea13be870": {
+      "key": "c8a8b1aaacc4a56393df485f530e3f2ffba545c818247c8454c868aea13be870",
+      "bookId": "abei-lele-fox",
+      "position": 1,
+      "text": "乐乐做了一只黄色风筝，放在树根旁。他去找长长的线，菲菲留下来看风筝。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "4cfd7d21-8925-9e64-8211-959efa1dadac",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 64,
+          "input_tokens": 34,
+          "output_tokens": 104,
+          "total_tokens": 138
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-674abf5b7134bb8b.mp3",
+      "assetId": "cmuyrmk1a0011scmk8tb5aim1",
+      "sizeBytes": 167611,
+      "sha256": "ac609e95012e4478e21722e90e48b64068e1e69b3cff0f0c3f5f55316c383352",
+      "durationMs": 8376,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "4a4932a0b2fcc35b6e5a6441797eb52bc636c87f43bf8b1287ed454180e6bbf3": {
+      "key": "4a4932a0b2fcc35b6e5a6441797eb52bc636c87f43bf8b1287ed454180e6bbf3",
+      "bookId": "abei-lele-fox",
+      "position": 2,
+      "text": "“尾巴真漂亮！”菲菲想让风筝飞一下。咔嚓，小竹条折了，纸也裂了一道口子。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "0b0221dd-664d-9203-b1c1-254f0c77bf34",
+      "usage": {
+        "inputCharacters": 36,
+        "providerUsage": {
+          "characters": 65,
+          "input_tokens": 35,
+          "output_tokens": 97,
+          "total_tokens": 132
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-443c3308eb4f73f2.mp3",
+      "assetId": "cmuyrmkeq0012scmk14g3x9ky",
+      "sizeBytes": 156571,
+      "sha256": "9af78bd818d02817e6a6f295eec97944d13dc9ee663c6ea36ee9404e93e406f4",
+      "durationMs": 7824,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "710da2004f51d2cc907b79403037139e33cac151d4e0b10e381b898c53d123ff": {
+      "key": "710da2004f51d2cc907b79403037139e33cac151d4e0b10e381b898c53d123ff",
+      "bookId": "abei-lele-fox",
+      "position": 3,
+      "text": "乐乐回来了。“风筝怎么坏了？”菲菲把爪子藏到身后：“是风吹的。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "688c4436-747a-9f6e-a37b-3b520fe09b67",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 28,
+          "output_tokens": 85,
+          "total_tokens": 113
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-aaf3c735b97ee855.mp3",
+      "assetId": "cmuyrmsse001ascmk47v6x0zu",
+      "sizeBytes": 137371,
+      "sha256": "82aae89108e944790dfbcf1bd2d9a634eb7a397b281a0fcd787404aeb1d7df6f",
+      "durationMs": 6864,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7451e6aca551abdd1204144343f1374e568fa94f86925be79c465b6dc66e7ecf": {
+      "key": "7451e6aca551abdd1204144343f1374e568fa94f86925be79c465b6dc66e7ecf",
+      "bookId": "abei-lele-fox",
+      "position": 4,
+      "text": "乐乐看了看安静的树叶。菲菲低着头，肚子里像装了一颗小石头。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "96ba3d4b-bea1-97f8-a611-6cbdcad300bc",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 90,
+          "total_tokens": 119
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-5b1c7c58d8749e27.mp3",
+      "assetId": "cmuyrmmcf0013scmkmw5a2jdj",
+      "sizeBytes": 145051,
+      "sha256": "2617e9d6ead439662c0a80bf0d6149df76a50d4dbbdf44827a368fc3b2c73fc6",
+      "durationMs": 7248,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "70dca0a9794b519b42be0f144f75fb99079eb637570c46854d2521661e92201d": {
+      "key": "70dca0a9794b519b42be0f144f75fb99079eb637570c46854d2521661e92201d",
+      "bookId": "abei-lele-fox",
+      "position": 5,
+      "text": "他们找来新竹条，可菲菲怎么也笑不出来。那颗“小石头”越来越重了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "c47e8a67-f249-9e34-8a3e-6f25aedea08f",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 32,
+          "output_tokens": 78,
+          "total_tokens": 110
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-5fee2e4ef43c09e1.mp3",
+      "assetId": "cmuyrmmny0014scmk0b3dpwku",
+      "sizeBytes": 125851,
+      "sha256": "66da4037de40ae4b7b9ae06809b5c097d017e39942bf8837fef6c8dce0d25f30",
+      "durationMs": 6288,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "950352c03e4d03ee2e5be13d675b1a9fb3308f496596644772a264d19c576064": {
+      "key": "950352c03e4d03ee2e5be13d675b1a9fb3308f496596644772a264d19c576064",
+      "bookId": "abei-lele-fox",
+      "position": 6,
+      "text": "“乐乐，其实……是我弄坏的。”菲菲停下来，“我怕你不想和我玩了。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "9d0e9222-629c-9c2a-811a-73600056ffb0",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 29,
+          "output_tokens": 97,
+          "total_tokens": 126
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-a52539a102264be7.mp3",
+      "assetId": "cmuyrmo110015scmkn24xhnrk",
+      "sizeBytes": 156571,
+      "sha256": "9cbc9a946090ea52bee488baa2d4f2855c0c8f8bae9d53c467c7a7a74962f6b4",
+      "durationMs": 7824,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "62b769c7254268985fd470ed2cd7b53ab6ce57ca3f73a8bded5c72d33bda6532": {
+      "key": "62b769c7254268985fd470ed2cd7b53ab6ce57ca3f73a8bded5c72d33bda6532",
+      "bookId": "abei-lele-fox",
+      "position": 7,
+      "text": "乐乐皱了一下眉：“风筝坏了，我很难过。你没说实话，我也有点生气。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "f7566376-2cd7-9f36-b76e-28d55a49d387",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 31,
+          "output_tokens": 76,
+          "total_tokens": 107
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-30fff068d9d5cdb4.mp3",
+      "assetId": "cmuyrmobe0016scmkxlgq892o",
+      "sizeBytes": 122971,
+      "sha256": "b9232eb56c08f212ad66f72e4e9a1bac6696b4022e3fdd575d81b37f7ab657ce",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "94fef5f60977251db8a0735a140b149c90080e685a55ddf86c13bb278ad6e91e": {
+      "key": "94fef5f60977251db8a0735a140b149c90080e685a55ddf86c13bb278ad6e91e",
+      "bookId": "abei-lele-fox",
+      "position": 8,
+      "text": "菲菲轻声说：“对不起。我可以和你一起修吗？”乐乐想了想，点点头。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "f0fc3ae7-4fd5-98c4-8e99-e0bc9ce83ba6",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 30,
+          "output_tokens": 90,
+          "total_tokens": 120
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-aeb25b3acb7c189c.mp3",
+      "assetId": "cmuyrmpog0017scmknvgk96t1",
+      "sizeBytes": 145051,
+      "sha256": "8c74f0c1d7eca2f6e8cedd152df0a6c30889aed49342085f703a733d09d7da08",
+      "durationMs": 7248,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "6a253322ef3bb6b614d5135dea7378cefdde3e9147a143df8c3575b42090f9d9": {
+      "key": "6a253322ef3bb6b614d5135dea7378cefdde3e9147a143df8c3575b42090f9d9",
+      "bookId": "abei-lele-fox",
+      "position": 9,
+      "text": "乐乐扶住竹条，菲菲慢慢缠线。歪歪的小结，被他们拆开又绑了一次。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "1b1b37da-13a3-9c5f-97f0-681ed5b242ba",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 31,
+          "output_tokens": 82,
+          "total_tokens": 113
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-55a4c538614e6199.mp3",
+      "assetId": "cmuyrmpu50018scmkcrujap4l",
+      "sizeBytes": 132571,
+      "sha256": "66270a1b6784e1a3cfd840866c89810fabe54651c846eb98d9e7733e7bbc765c",
+      "durationMs": 6624,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d54f39149ddde73d94e382833b8647fb4b47b66d81654710d17bda088714cc87": {
+      "key": "d54f39149ddde73d94e382833b8647fb4b47b66d81654710d17bda088714cc87",
+      "bookId": "abei-lele-fox",
+      "position": 10,
+      "text": "风筝修好了，上面多了一片补丁。菲菲说：“以后动你的东西，我会先问。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "0fc2a1f7-86c3-940b-8a50-2108688d5f39",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 32,
+          "output_tokens": 79,
+          "total_tokens": 111
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-1163e5320aef1f3f.mp3",
+      "assetId": "cmuyrmr5g0019scmkfzsrwzbv",
+      "sizeBytes": 127771,
+      "sha256": "4b8d980dced0f02f9ed2883656aa8fc322748a9732f1c2b1f2113e8de63d56f9",
+      "durationMs": 6384,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "27991ddddb23064eaae1ef87b71d60ed72c36f1e41ca9b8aca758d5d92daa449": {
+      "key": "27991ddddb23064eaae1ef87b71d60ed72c36f1e41ca9b8aca758d5d92daa449",
+      "bookId": "abei-lele-fox",
+      "position": 11,
+      "text": "风吹起来了。乐乐把线轴递给菲菲：“这次，我们一起放。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 2,
+      "failures": [
+        {
+          "httpStatus": 502,
+          "code": "GATEWAY_RESPONSE_502",
+          "message": "操作员已核对本次运行和网关日志，响应为502且未返回音频",
+          "operatorReviewed": true,
+          "recoveryDecision": "核对无可恢复结果后重新制作此页；原失败请求的服务商计费结果未知"
+        }
+      ],
+      "requestId": "6b621c20-3993-9097-8add-88b8181fbf59",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 25,
+          "output_tokens": 72,
+          "total_tokens": 97
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f362b9d9906c5ded.mp3",
+      "assetId": "cmuyrno2t0000vzmkn4bkeuuk",
+      "sizeBytes": 116251,
+      "sha256": "c132c8687c2024b1c19677562131404dd392b6f747467719d964c2ef43dec292",
+      "durationMs": 5808,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0a85cbfefa7a083bb88bba85cdde7fed4823d4a5099a37d52ea5c2c871a05fbc": {
+      "key": "0a85cbfefa7a083bb88bba85cdde7fed4823d4a5099a37d52ea5c2c871a05fbc",
+      "bookId": "abei-lele-fox",
+      "position": 12,
+      "text": "黄色风筝飞过树梢。菲菲的心轻了，乐乐也笑了。那片补丁，在阳光里亮亮的。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "c043c4aa-79da-98ba-b9bd-6c46515f4b1e",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 65,
+          "input_tokens": 35,
+          "output_tokens": 117,
+          "total_tokens": 152
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f2f063d84f21b4ac.mp3",
+      "assetId": "cmuyrmt6a001bscmkb3jsnn9z",
+      "sizeBytes": 188251,
+      "sha256": "49d40206feb27f82e3ae3662b0da91143f318acc1d1432d4b81cb53ad86a47fc",
+      "durationMs": 9408,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "6c7a7315e9b558375e6005a35ec262986d88a5eea47c5c672f56224473868d49": {
+      "key": "6c7a7315e9b558375e6005a35ec262986d88a5eea47c5c672f56224473868d49",
+      "bookId": "abei-lele-deer",
+      "position": 0,
+      "text": "小鹿也会害怕",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "d70a5f96-ca05-93cf-be6b-9ef6e7f4f373",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 7,
+          "output_tokens": 22,
+          "total_tokens": 29
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-33a735838e71d769.mp3",
+      "assetId": "cmuyrmty1001cscmksxgle354",
+      "sizeBytes": 36571,
+      "sha256": "851da404b804b9600c51ef76784b5ea3e4b63e9763425d9be7f7aa20cf6ac63a",
+      "durationMs": 1824,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "6a7374e001639f1b00a5f778bccbc37c6bfe0a8311c35fa7880e9a8a4fdec368": {
+      "key": "6a7374e001639f1b00a5f778bccbc37c6bfe0a8311c35fa7880e9a8a4fdec368",
+      "bookId": "abei-lele-deer",
+      "position": 1,
+      "text": "太阳快落山了，乐乐和朵朵要把小灯送回树洞。森林小路慢慢暗下来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "requestId": "cc106ff3-a435-9cb3-9def-a23ed3d7870b",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 31,
+          "output_tokens": 109,
+          "total_tokens": 140
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-66bb801c61a4f434.mp3",
+      "assetId": "cmuyrmuv9001dscmk204skjjq",
+      "sizeBytes": 175771,
+      "sha256": "917ac1efb4c38fd931aebc0b9282eb4e0c486c7e9f262c4229b55b3242621402",
+      "durationMs": 8784,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "35ddb32629c4dbd69c8cd535de3b2995fdce4a7e128a1e559074b97a4c10b932": {
+      "key": "35ddb32629c4dbd69c8cd535de3b2995fdce4a7e128a1e559074b97a4c10b932",
+      "bookId": "abei-lele-deer",
+      "position": 2,
+      "text": "灌木里响了一声。乐乐停住脚：“是什么呀？”他的耳朵一下子竖了起来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "b2aeb6aa-8d4c-99ef-bc2c-51d4e8b469e2",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 31,
+          "output_tokens": 97,
+          "total_tokens": 128
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f5893789034fc662.mp3",
+      "assetId": "cmuyrno6v0002vzmkucycqqsj",
+      "sizeBytes": 156571,
+      "sha256": "f0d5377a4b92bf55add51082e19bf9952115370d43b98a9c87292f10b85bb2dc",
+      "durationMs": 7824,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "209763e20f45fb8be20d9911018ec5d0abe01124b68bc0a31132136db5629bb9": {
+      "key": "209763e20f45fb8be20d9911018ec5d0abe01124b68bc0a31132136db5629bb9",
+      "bookId": "abei-lele-deer",
+      "position": 3,
+      "text": "朵朵站得直直的：“我一点也不怕！”可她的蹄子，悄悄往乐乐身边挪。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "885d28cd-86f7-9f0e-af2e-ed61cdfd6c63",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 30,
+          "output_tokens": 83,
+          "total_tokens": 113
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-35b7c902af27a129.mp3",
+      "assetId": "cmuyrno6q0001vzmkuzzqrem9",
+      "sizeBytes": 134011,
+      "sha256": "1b983f5b928451788fc0210f9eec6f6de4587b9be8f66184357a1b6bc7bb952a",
+      "durationMs": 6696,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f7c59130f3479b907ff7ab95042d5db11d617f9fbb15dc9fec064ee009bcff71": {
+      "key": "f7c59130f3479b907ff7ab95042d5db11d617f9fbb15dc9fec064ee009bcff71",
+      "bookId": "abei-lele-deer",
+      "position": 4,
+      "text": "又一阵沙沙声。朵朵躲到乐乐身后，连脖子上的丝带都抖了一下。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "888ed6a9-6035-9f59-a2c2-c7ee7d0d54c5",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 84,
+          "total_tokens": 113
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-931535132d744b15.mp3",
+      "assetId": "cmuyrnpp80003vzmk5270xolc",
+      "sizeBytes": 135451,
+      "sha256": "0807636da42ee4901c0d3f8ef4f0ef678ddb997634a45863bf3bd7fda92d8ba6",
+      "durationMs": 6768,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "11e1a2beb021220681da147edde107c72522cd001eb29ac00672af9b6319e383": {
+      "key": "11e1a2beb021220681da147edde107c72522cd001eb29ac00672af9b6319e383",
+      "bookId": "abei-lele-deer",
+      "position": 5,
+      "text": "乐乐回过头：“你也害怕吗？”朵朵的耳朵垂下来了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "8c92aedd-fd09-9591-b700-abea8002d76e",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 43,
+          "input_tokens": 22,
+          "output_tokens": 57,
+          "total_tokens": 79
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-b38b920aa9f71523.mp3",
+      "assetId": "cmuyrnpqf0004vzmk0cgw6g75",
+      "sizeBytes": 92251,
+      "sha256": "d44f05fb3f995ec7fbcfd73da6a4ff63d14d53892af6875439409b4a7fb778f7",
+      "durationMs": 4608,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "b63742de447d622204a305af592bc3bc4bc2078c910cea5b7511c5bbfc6d0f3e": {
+      "key": "b63742de447d622204a305af592bc3bc4bc2078c910cea5b7511c5bbfc6d0f3e",
+      "bookId": "abei-lele-deer",
+      "position": 6,
+      "text": "“有一点。”朵朵说，“我怕说出来，你会笑我。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "1b81a0b4-ecb0-9f44-9ab1-b39e3a4d2e22",
+      "usage": {
+        "inputCharacters": 23,
+        "providerUsage": {
+          "characters": 38,
+          "input_tokens": 20,
+          "output_tokens": 46,
+          "total_tokens": 66
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e114faee5e6203e4.mp3",
+      "assetId": "cmuyrnpr00005vzmkxypx8q2a",
+      "sizeBytes": 74971,
+      "sha256": "73140ac8314415d2bb14ffab4916a6d1eb84aabb05516077431e4ecfb47c621b",
+      "durationMs": 3744,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "07f7914a2fa389995d8e080dfd00699d5d2298523bed628d1bde1223a524f251": {
+      "key": "07f7914a2fa389995d8e080dfd00699d5d2298523bed628d1bde1223a524f251",
+      "bookId": "abei-lele-deer",
+      "position": 7,
+      "text": "“我也有一点。”乐乐说，“我们可以一起想办法。”朵朵慢慢抬起头。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "a4d5d4ab-e48d-9822-8e0c-3e165b17244c",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 29,
+          "output_tokens": 72,
+          "total_tokens": 101
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-3faed3692faeea6e.mp3",
+      "assetId": "cmuyrnr8y0006vzmkcadb6twk",
+      "sizeBytes": 116251,
+      "sha256": "e4d67e2dc2e488394382b7c98253703a22e2734e284dc2400272ac77cb5dda2e",
+      "durationMs": 5808,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0f77b459d465d4cb4f1933d06c1d609e0ea7854a993b87eeeb3db1f872b1a234": {
+      "key": "0f77b459d465d4cb4f1933d06c1d609e0ea7854a993b87eeeb3db1f872b1a234",
+      "bookId": "abei-lele-deer",
+      "position": 8,
+      "text": "他们先站住，听了听。沙沙声停了，几片干叶子从灌木上落下来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "e3986c45-2ab0-95f8-bfb2-a2762ed7625a",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 54,
+          "input_tokens": 29,
+          "output_tokens": 104,
+          "total_tokens": 133
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-1e9c1212b0101d5a.mp3",
+      "assetId": "cmuyrnrfw0008vzmkf6f81xr8",
+      "sizeBytes": 167611,
+      "sha256": "bf0e4e422a1b152728253174e26e4e2f38aec8fecc47afb8ed41dbddb061abcf",
+      "durationMs": 8376,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7e10e53542cc0d677d5eac0255f2aa01bc704cdf9e8c23287aec1d930a3da636": {
+      "key": "7e10e53542cc0d677d5eac0255f2aa01bc704cdf9e8c23287aec1d930a3da636",
+      "bookId": "abei-lele-deer",
+      "position": 9,
+      "text": "朵朵举灯，乐乐看路。他们把灯照向脚下，一步一步走在宽宽的小路上。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "df9f385e-0f0f-9cbe-ae96-0fbf7f581a1d",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 32,
+          "output_tokens": 97,
+          "total_tokens": 129
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f857d0ee85208408.mp3",
+      "assetId": "cmuyrnreg0007vzmkfrw6rypi",
+      "sizeBytes": 156571,
+      "sha256": "ab6c6c31dad92430238d9cf66b68d2bc1ca172106986768576b31117e289b6c9",
+      "durationMs": 7824,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "93200b97daacb096c3edddb1caf242f858387478375317b016392372fe722626": {
+      "key": "93200b97daacb096c3edddb1caf242f858387478375317b016392372fe722626",
+      "bookId": "abei-lele-deer",
+      "position": 10,
+      "text": "“那里有个树根。”乐乐提醒。朵朵说：“我看见啦。谢谢你。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "df131f6d-7f8b-9286-b939-f283f7242547",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 49,
+          "input_tokens": 26,
+          "output_tokens": 74,
+          "total_tokens": 100
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0476253a44e664e4.mp3",
+      "assetId": "cmuyrnsyw0009vzmk97qazlch",
+      "sizeBytes": 119611,
+      "sha256": "a13fcdbe3fc80f3831cf7f5f132e7b97305fa0da915ac40861ebd7c94fd7e424",
+      "durationMs": 5976,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "feb176b08795a2781e88cf90c6adb697c375e8490d8357b8c0d14dcffbaee4fd": {
+      "key": "feb176b08795a2781e88cf90c6adb697c375e8490d8357b8c0d14dcffbaee4fd",
+      "bookId": "abei-lele-deer",
+      "position": 11,
+      "text": "树洞到了。他们把小灯放进去，脸上都暖暖的。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "24ac3dc9-c795-9529-922d-ab979afb772e",
+      "usage": {
+        "inputCharacters": 21,
+        "providerUsage": {
+          "characters": 39,
+          "input_tokens": 21,
+          "output_tokens": 69,
+          "total_tokens": 90
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-6ef7fccf8a0c7e39.mp3",
+      "assetId": "cmuyrnt2f000avzmkgj5vn1gm",
+      "sizeBytes": 111451,
+      "sha256": "d3175a66bb3a749d20097364f87ffcc51eff5be4351c4cbdd119323925efba33",
+      "durationMs": 5568,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "1bad754399073a28b3c51ed6829149837f62e8c50b461332ec3d5c7c48d7424c": {
+      "key": "1bad754399073a28b3c51ed6829149837f62e8c50b461332ec3d5c7c48d7424c",
+      "bookId": "abei-lele-deer",
+      "position": 12,
+      "text": "回家的路上，朵朵说：“有朋友在，害怕也可以说出来。”乐乐点点头，和她并肩走。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d6e48677-0079-98cc-ae71-a28557ea2cb2",
+      "usage": {
+        "inputCharacters": 38,
+        "providerUsage": {
+          "characters": 68,
+          "input_tokens": 36,
+          "output_tokens": 104,
+          "total_tokens": 140
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-15787eece0df9ecb.mp3",
+      "assetId": "cmuyrntls000bvzmki33987g0",
+      "sizeBytes": 167611,
+      "sha256": "455b155ef3cff15126d79ab6d86f51da66a00aa9c6fcabf99b303a9f926f5258",
+      "durationMs": 8376,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "c671ed88409eee468505c4b38c30bfe1ad1eb6325f461f29a9685014c3a61790": {
+      "key": "c671ed88409eee468505c4b38c30bfe1ad1eb6325f461f29a9685014c3a61790",
+      "bookId": "abei-lele-bear",
+      "position": 0,
+      "text": "最后一块饼干",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "48a1f411-a437-9e1c-9f49-0ba5680b67ce",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 7,
+          "output_tokens": 19,
+          "total_tokens": 26
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-fcd9ff9d2184d37a.mp3",
+      "assetId": "cmuyrnu79000cvzmkc4zogd0f",
+      "sizeBytes": 31771,
+      "sha256": "0fbd85d04329c7c8733ef3f5080ce287024a26b3a646c28ebc6c950df73a5285",
+      "durationMs": 1584,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "ac91632eea6f10326916e1bfcfaab5838ad76ce4e19010513714d31f5fd1c891": {
+      "key": "ac91632eea6f10326916e1bfcfaab5838ad76ce4e19010513714d31f5fd1c891",
+      "bookId": "abei-lele-bear",
+      "position": 1,
+      "text": "暖暖在林间铺好野餐布。盒子里，剩下一块圆圆的饼干。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "f77c3fc8-5764-9812-b1cd-5a3ef93b0acb",
+      "usage": {
+        "inputCharacters": 25,
+        "providerUsage": {
+          "characters": 47,
+          "input_tokens": 25,
+          "output_tokens": 77,
+          "total_tokens": 102
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2e4ff8dd6bf38834.mp3",
+      "assetId": "cmuyrnukf000dvzmk2g8zbutp",
+      "sizeBytes": 124411,
+      "sha256": "e73e18962f521073596614446d26bc63795bba3094be76db12b0eed859b7b566",
+      "durationMs": 6216,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "03c62648be94de4517588a27f0b9f24e8874d9dfe0e20eb45124ef60897c05b1": {
+      "key": "03c62648be94de4517588a27f0b9f24e8874d9dfe0e20eb45124ef60897c05b1",
+      "bookId": "abei-lele-bear",
+      "position": 2,
+      "text": "乐乐坐下来：“好香呀，我可以尝尝吗？”暖暖把饼干盒往身边挪了一点。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "8172a906-8dbc-943a-8ca6-fc2b2c370966",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 31,
+          "output_tokens": 81,
+          "total_tokens": 112
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c669b15e6e3f4238.mp3",
+      "assetId": "cmuyrnv4m000evzmkers8tv49",
+      "sizeBytes": 130651,
+      "sha256": "998eb62c6294fde3563e33c83e028ad0ac7d814c974655cafc6c539851757bda",
+      "durationMs": 6528,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "3de3c27f22945d1f9d662e1c5ef271c3ced30d4a0839e395916b9a3360095e83": {
+      "key": "3de3c27f22945d1f9d662e1c5ef271c3ced30d4a0839e395916b9a3360095e83",
+      "bookId": "abei-lele-bear",
+      "position": 3,
+      "text": "暖暖早上没吃饱。她很想吃这块饼干，又怕乐乐觉得她小气。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "f5c01657-e97d-9235-abea-fde4de6b42f0",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 51,
+          "input_tokens": 27,
+          "output_tokens": 77,
+          "total_tokens": 104
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-59fd5df7bde20857.mp3",
+      "assetId": "cmuyrnvoy000fvzmk6zgwbxmx",
+      "sizeBytes": 124411,
+      "sha256": "f0253c05b78b7ad557f9b3a1718974eba21446dcdd99940f56121f4f49eeb91c",
+      "durationMs": 6216,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "07b8d56f88e2619e3bceeda23449f1ad063571f83eaa9b56227e8782b7bc42df": {
+      "key": "07b8d56f88e2619e3bceeda23449f1ad063571f83eaa9b56227e8782b7bc42df",
+      "bookId": "abei-lele-bear",
+      "position": 4,
+      "text": "“那……都给你吧。”暖暖小声说。她的肚子，咕噜响了一下。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "acad4476-6bfa-9037-b151-5f2df9928337",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 26,
+          "output_tokens": 75,
+          "total_tokens": 101
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-306a6a52c32bf28c.mp3",
+      "assetId": "cmuyrnw9g000gvzmkpi5woyw3",
+      "sizeBytes": 121051,
+      "sha256": "55531e051cd9bca0fabfda5f7d9e39f7614e387b0dc417f5a79941f0889e4917",
+      "durationMs": 6048,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "4e27c8ac40bf2778e35a5b17935f6494d4f89e36eb1ff00284398f4eef041a53": {
+      "key": "4e27c8ac40bf2778e35a5b17935f6494d4f89e36eb1ff00284398f4eef041a53",
+      "bookId": "abei-lele-bear",
+      "position": 5,
+      "text": "乐乐没有接。“你也饿了，对吗？”暖暖点点头，把爪子放在肚子上。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "7c98c043-562b-9c20-9c06-d7b33844a64c",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 79,
+          "total_tokens": 108
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e9853464e3640a7d.mp3",
+      "assetId": "cmuyrnws9000hvzmkjq18bpys",
+      "sizeBytes": 127771,
+      "sha256": "fabf84f03f629889145fbf5fc948e287ac21ded85806e8939e4929c643a1176d",
+      "durationMs": 6384,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "caf6e5911a3fb34f3d45db4f782f36d26459e061f26adf2f6bd6889a3cd64ae4": {
+      "key": "caf6e5911a3fb34f3d45db4f782f36d26459e061f26adf2f6bd6889a3cd64ae4",
+      "bookId": "abei-lele-bear",
+      "position": 6,
+      "text": "“这是你的饼干。”乐乐说，“你可以先告诉我，你想怎么分。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "1c6593ae-be24-93f4-87a2-82b2aca37bae",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 50,
+          "input_tokens": 26,
+          "output_tokens": 56,
+          "total_tokens": 82
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-56dc24e95b06857e.mp3",
+      "assetId": "cmuyrnx7u000ivzmkoz7hlf2g",
+      "sizeBytes": 90811,
+      "sha256": "c406e0713fca059d2d261217774c25ea3797ab76cb1dc37b7dcf8330fa580bf6",
+      "durationMs": 4536,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "2213bfa2125b260999e1244c75b1ac86d0962ea11598145523ea80177b85a115": {
+      "key": "2213bfa2125b260999e1244c75b1ac86d0962ea11598145523ea80177b85a115",
+      "bookId": "abei-lele-bear",
+      "position": 7,
+      "text": "暖暖想了一会儿：“我想留一半，另一半给你，可以吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "86ad3bf6-70e2-9635-94b1-cefbc8dfac39",
+      "usage": {
+        "inputCharacters": 26,
+        "providerUsage": {
+          "characters": 46,
+          "input_tokens": 24,
+          "output_tokens": 71,
+          "total_tokens": 95
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e7c0c0bae4f6af2c.mp3",
+      "assetId": "cmuyrnxqe000jvzmknrcor0yq",
+      "sizeBytes": 114811,
+      "sha256": "537d2c801eb5f60b8e473506b7113f46959aff10aea36a5663ec928117950985",
+      "durationMs": 5736,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "62fdf4c2a079491f36c7616afa8d2506568e9b7292e23254d09da88517454eb8": {
+      "key": "62fdf4c2a079491f36c7616afa8d2506568e9b7292e23254d09da88517454eb8",
+      "bookId": "abei-lele-bear",
+      "position": 8,
+      "text": "“当然可以！”乐乐说，“你不想分的时候，也可以告诉我。”暖暖的肩膀松了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "9f901c51-be5b-9ed5-b530-8259ff394d63",
+      "usage": {
+        "inputCharacters": 36,
+        "providerUsage": {
+          "characters": 63,
+          "input_tokens": 33,
+          "output_tokens": 79,
+          "total_tokens": 112
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-4804c6ae456b41ea.mp3",
+      "assetId": "cmuyrnyzm000lvzmkqrxo5eu3",
+      "sizeBytes": 127771,
+      "sha256": "6682eb75dad2a8e3d5477ac8c125c1cdd4f3476d1e6698ba9df3617547e93273",
+      "durationMs": 6384,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "bc7d8941563165edefe1a438fde96c69e74608e8e3c90092e1b272305e00d1a2": {
+      "key": "bc7d8941563165edefe1a438fde96c69e74608e8e3c90092e1b272305e00d1a2",
+      "bookId": "abei-lele-bear",
+      "position": 9,
+      "text": "饼干咔地掰成两半。一半大，一半小，暖暖看看乐乐。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "3c570e86-7eaf-944b-ba8d-cfb196008469",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 44,
+          "input_tokens": 24,
+          "output_tokens": 78,
+          "total_tokens": 102
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-20da2384dca0bc4f.mp3",
+      "assetId": "cmuyrnyxj000kvzmk8wc1jzu0",
+      "sizeBytes": 125851,
+      "sha256": "df6cd01792b1fc120bba5b41ce20123fef56920e26ceecb6be90b518557eea7f",
+      "durationMs": 6288,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "1830870e8bed2c99c25a2b5675f4f862f42e21bb3d3d773b7f8a0a6600ca4a71": {
+      "key": "1830870e8bed2c99c25a2b5675f4f862f42e21bb3d3d773b7f8a0a6600ca4a71",
+      "bookId": "abei-lele-bear",
+      "position": 10,
+      "text": "乐乐拿起小的一半：“这块就够啦。”暖暖笑着吃起自己的那块。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "b780215b-8291-9696-8be0-5b97e0018308",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 53,
+          "input_tokens": 27,
+          "output_tokens": 80,
+          "total_tokens": 107
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f9dd1559ef67c79a.mp3",
+      "assetId": "cmuyrnzac000mvzmktk9t0be3",
+      "sizeBytes": 129211,
+      "sha256": "49ebaba226aaab732da442c5a69c201079360709c4f5636d0147837d445bd5af",
+      "durationMs": 6456,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0436f81db749201d9a57cf0defcf6936c77014420a0114a476b46f73c0cd25e4": {
+      "key": "0436f81db749201d9a57cf0defcf6936c77014420a0114a476b46f73c0cd25e4",
+      "bookId": "abei-lele-bear",
+      "position": 11,
+      "text": "乐乐倒了两杯温水。他们慢慢吃，听树叶在头顶轻轻响。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "cbf39f80-0ac2-9453-a7fa-2983fc0df136",
+      "usage": {
+        "inputCharacters": 25,
+        "providerUsage": {
+          "characters": 47,
+          "input_tokens": 25,
+          "output_tokens": 72,
+          "total_tokens": 97
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-54a585c9ec52704b.mp3",
+      "assetId": "cmuyro0fs000nvzmkr6fa086r",
+      "sizeBytes": 116251,
+      "sha256": "cd1adde52aa3cdcc16dc5fa744638adc51ba5d30a3296b82307c8cb293f79e6b",
+      "durationMs": 5808,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d00529644c1559c36833718c9bd9e6bd627b3b34d1724bf311a47d1282ec14fd": {
+      "key": "d00529644c1559c36833718c9bd9e6bd627b3b34d1724bf311a47d1282ec14fd",
+      "bookId": "abei-lele-bear",
+      "position": 12,
+      "text": "盒子空了，暖暖的肚子不饿了。她说：“和你分享的时候，我也能照顾自己。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "220a8826-058f-95e6-bc61-0516e2126f2d",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 63,
+          "input_tokens": 33,
+          "output_tokens": 90,
+          "total_tokens": 123
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-868e3d36fb692d6a.mp3",
+      "assetId": "cmuyro0we000pvzmk08v04qpr",
+      "sizeBytes": 145051,
+      "sha256": "07dc7d94159d3d2a9549ba0374d5ebee80dab4acb3c3e3d9eb99146ceea29833",
+      "durationMs": 7248,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "523001355df0f2930247190ae2a7b07d7fd516d3bf12e86593ae09a3699408bb": {
+      "key": "523001355df0f2930247190ae2a7b07d7fd516d3bf12e86593ae09a3699408bb",
+      "bookId": "abei-lele-raccoon",
+      "position": 0,
+      "text": "浣熊的两种玩法",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "92f30a1f-225d-9acd-8a1a-70a790bfc95d",
+      "usage": {
+        "inputCharacters": 7,
+        "providerUsage": {
+          "characters": 14,
+          "input_tokens": 9,
+          "output_tokens": 25,
+          "total_tokens": 34
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-dfe77521cc2f1c39.mp3",
+      "assetId": "cmuyro0ll000ovzmkqzchvcuf",
+      "sizeBytes": 41371,
+      "sha256": "c561939403dcb8f7fd3f43c34d001faf58810d2396042a1d58e22460a1ca8407",
+      "durationMs": 2064,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "73edd332b288e82d4cfeccdfab60575a267e7fa6ff7610336fa0731756020a11": {
+      "key": "73edd332b288e82d4cfeccdfab60575a267e7fa6ff7610336fa0731756020a11",
+      "bookId": "abei-lele-raccoon",
+      "position": 1,
+      "text": "小溪边有一块软软的沙地。乐乐和淘淘捡来一篮圆石子。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "7d2ea83e-8146-9988-990b-402738f6dda1",
+      "usage": {
+        "inputCharacters": 25,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 25,
+          "output_tokens": 69,
+          "total_tokens": 94
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-7633f5af279c2a82.mp3",
+      "assetId": "cmuyro1yu000qvzmkumiz9gun",
+      "sizeBytes": 111451,
+      "sha256": "fdd0bf02a8bd965405b7a89d81e11adf4c7a10cf155fe8ae78368e7edf1f187c",
+      "durationMs": 5568,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "380d21f38e999546c74e7c5eaa4b7e9eab96760e4e3ab0d3d90d7ccd5e4ec785": {
+      "key": "380d21f38e999546c74e7c5eaa4b7e9eab96760e4e3ab0d3d90d7ccd5e4ec785",
+      "bookId": "abei-lele-raccoon",
+      "position": 2,
+      "text": "“搭一座城堡吧！”乐乐把石子叠高。淘淘摇摇头：“我想铺一条小路。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "9cded438-f583-9ca6-bd88-befeadc93c86",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 30,
+          "output_tokens": 84,
+          "total_tokens": 114
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-b5878356a0048016.mp3",
+      "assetId": "cmuyro247000rvzmkuewb2gfm",
+      "sizeBytes": 135451,
+      "sha256": "10884c7b804b84cb6c299c46c8998787d78e11b25b11452493b87f4fb0eeca90",
+      "durationMs": 6768,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "1c6cdfa5d737980a4812d5ab92b3e65924ca0fd91ba53a6ad11bb04872696458": {
+      "key": "1c6cdfa5d737980a4812d5ab92b3e65924ca0fd91ba53a6ad11bb04872696458",
+      "bookId": "abei-lele-raccoon",
+      "position": 3,
+      "text": "乐乐拿走了路上的石子。淘淘皱起鼻子，又把城堡上的石子搬下来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "cb33e13e-e7e6-9638-a742-f3e6bb3f287e",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 30,
+          "output_tokens": 77,
+          "total_tokens": 107
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2214520e70e73c24.mp3",
+      "assetId": "cmuyro2r3000svzmk1gspq7o8",
+      "sizeBytes": 124411,
+      "sha256": "6ac171c30851dcf3dbfb626ab30f4f601e59f2321d32dac1da9b8610e3955aad",
+      "durationMs": 6216,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0f72a051dc4212ed3bd21513f9fa78d5ea745df410ef436dd5395d2b6ac4d77e": {
+      "key": "0f72a051dc4212ed3bd21513f9fa78d5ea745df410ef436dd5395d2b6ac4d77e",
+      "bookId": "abei-lele-raccoon",
+      "position": 4,
+      "text": "啪嗒，城堡倒了，小路也断了。他们背对背坐着，谁也不看谁。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "2a281c6b-9666-9855-93b8-fdd9caa2e2d1",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 51,
+          "input_tokens": 29,
+          "output_tokens": 81,
+          "total_tokens": 110
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-24df1307b316444c.mp3",
+      "assetId": "cmuyro3ic000tvzmk4xzblahu",
+      "sizeBytes": 130651,
+      "sha256": "1e65436145b82adcea1f51293fd0f81df27f16f70e8d2b7f197b687a8da90b53",
+      "durationMs": 6528,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "a9ee03ee5e4523e0bd6cedd5a1f58d7cc4b60212d8d2b74831f9136ac9fbf7a0": {
+      "key": "a9ee03ee5e4523e0bd6cedd5a1f58d7cc4b60212d8d2b74831f9136ac9fbf7a0",
+      "bookId": "abei-lele-raccoon",
+      "position": 5,
+      "text": "过了一会儿，乐乐转过头：“我想搭城堡，不想它被拆掉。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "13608227-f518-9a70-b6f5-d8c795151122",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 25,
+          "output_tokens": 65,
+          "total_tokens": 90
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0c10d433049fa57d.mp3",
+      "assetId": "cmuyro3m5000uvzmkco5x05md",
+      "sizeBytes": 105211,
+      "sha256": "73ad5370c50ef9eb41a92798ff1e400e14e4ec6e61eadb254ee72aae1af199ac",
+      "durationMs": 5256,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "40958cde681d423ab67a0eeb52e79761699199a8bc3338935913a246870c2d0a": {
+      "key": "40958cde681d423ab67a0eeb52e79761699199a8bc3338935913a246870c2d0a",
+      "bookId": "abei-lele-raccoon",
+      "position": 6,
+      "text": "淘淘也转过头：“我想铺路，也不想石子总被拿走。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "aacf2974-b779-9b13-b4c1-97b0b1b15d5f",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 43,
+          "input_tokens": 22,
+          "output_tokens": 61,
+          "total_tokens": 83
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2c03ce5ef8246228.mp3",
+      "assetId": "cmuyro4aa000vvzmk40i4jtnk",
+      "sizeBytes": 98971,
+      "sha256": "1a5ce5aaa0f372f617d1747a99bc75cfaf8d33a1bdda6dc26b2b8a34da3af5fa",
+      "durationMs": 4944,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f73cfca52c14b29fbfa6422dbcc2af3383b77bf3622c6357b194dfe8ef090b35": {
+      "key": "f73cfca52c14b29fbfa6422dbcc2af3383b77bf3622c6357b194dfe8ef090b35",
+      "bookId": "abei-lele-raccoon",
+      "position": 7,
+      "text": "“原来你也有自己的玩法。”乐乐说。淘淘点点头：“我们都先说完，好吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d95a49d0-6c20-9075-80cb-3de908e636bb",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 32,
+          "output_tokens": 76,
+          "total_tokens": 108
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-dc095f423f61571d.mp3",
+      "assetId": "cmuyro51j000wvzmkesgfisiu",
+      "sizeBytes": 122971,
+      "sha256": "5b090faebffba99a79d00d66ba12234411482063327ac81fcda5e167bab4a468",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0b2e9d7bca25c9e56e8940348506ee962b4738b553dc9535ba142f3b8f8cb861": {
+      "key": "0b2e9d7bca25c9e56e8940348506ee962b4738b553dc9535ba142f3b8f8cb861",
+      "bookId": "abei-lele-raccoon",
+      "position": 8,
+      "text": "他们把石子分成两堆，一堆搭城堡，一堆铺小路。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "a419040a-1db4-9f3e-bfae-44149b7c5670",
+      "usage": {
+        "inputCharacters": 22,
+        "providerUsage": {
+          "characters": 41,
+          "input_tokens": 22,
+          "output_tokens": 76,
+          "total_tokens": 98
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-6f4f9cd668763024.mp3",
+      "assetId": "cmuyro57o000xvzmkflg7z67e",
+      "sizeBytes": 122971,
+      "sha256": "b2540771bf15b2b3317a7a370f59dc1d98f1c3a69923ca955cb67cd01169832a",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7565f966c3959779905ed1f21ac3a044bd987428a609e88c109e30e9da56852c": {
+      "key": "7565f966c3959779905ed1f21ac3a044bd987428a609e88c109e30e9da56852c",
+      "bookId": "abei-lele-raccoon",
+      "position": 9,
+      "text": "淘淘看着弯弯的小路：“它能不能一直通到你的城堡？”乐乐的眼睛亮了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "80f389e3-8e42-9070-86c7-ac0122848e1f",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 31,
+          "output_tokens": 81,
+          "total_tokens": 112
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-084315fd3fd2ba87.mp3",
+      "assetId": "cmuyro5ts000yvzmk8f5vuj8l",
+      "sizeBytes": 130651,
+      "sha256": "9312ac2a6774bd158bbf729679d908ef8ded98e5d3d8d66096cb55a23ea900d5",
+      "durationMs": 6528,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "493d7aace9eb82d2ae96fa717fd98a5e5407c9768380bf13929fe374b0668079": {
+      "key": "493d7aace9eb82d2ae96fa717fd98a5e5407c9768380bf13929fe374b0668079",
+      "bookId": "abei-lele-raccoon",
+      "position": 10,
+      "text": "乐乐留下一个小门，淘淘铺好最后一颗石子。城堡和小路连在了一起。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "3e898d3a-d0fd-9543-a195-f6dcf44cf3b4",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 31,
+          "output_tokens": 89,
+          "total_tokens": 120
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-444ebda5d21299b6.mp3",
+      "assetId": "cmuyro6om000zvzmk5ltvobpn",
+      "sizeBytes": 143611,
+      "sha256": "b66ef30d95967fe3524ed48d7e556df1bb0b7229ed1bff7f7fa30e8ea3e2b24f",
+      "durationMs": 7176,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d25808bde88e2a71256ae2066676b49d77a27587504224be0975b5ec34353a71": {
+      "key": "d25808bde88e2a71256ae2066676b49d77a27587504224be0975b5ec34353a71",
+      "bookId": "abei-lele-raccoon",
+      "position": 11,
+      "text": "一片小叶子成了小船，从路的这头“出发”。他们轮流推着它，走进城堡。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "29fa9e73-5822-9dbe-88b7-193a1d60917b",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 32,
+          "output_tokens": 102,
+          "total_tokens": 134
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-85b864781182b908.mp3",
+      "assetId": "cmuyro6ws0010vzmko8wrpjqr",
+      "sizeBytes": 164251,
+      "sha256": "43b6eb5411978f39622c5d9938f5bc789bb97dec7f40ae3326c59e3e7c2c5956",
+      "durationMs": 8208,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "708131e4578ad381bb40047d783468413bc2c6a29400fff6dae71c7ccb9dd6ef": {
+      "key": "708131e4578ad381bb40047d783468413bc2c6a29400fff6dae71c7ccb9dd6ef",
+      "bookId": "abei-lele-raccoon",
+      "position": 12,
+      "text": "“你的玩法也很有趣！”乐乐说。淘淘笑了：“合在一起，又多了一种。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "c670bf73-b62a-9b94-a882-7722dba05af8",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 30,
+          "output_tokens": 79,
+          "total_tokens": 109
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2854128d803e029f.mp3",
+      "assetId": "cmuyro7fm0011vzmky322hpb8",
+      "sizeBytes": 127771,
+      "sha256": "d9e201a9f5cb04742d1244cfe137e403222f549392e62c161c9ca9f0aed013ac",
+      "durationMs": 6384,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "260e3cd418868651a7ed75893e7ea79a89bc36d81c126151084d4cbf948c5c93": {
+      "key": "260e3cd418868651a7ed75893e7ea79a89bc36d81c126151084d4cbf948c5c93",
+      "bookId": "abei-lele-turtle",
+      "position": 0,
+      "text": "小乌龟的长处",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "71dee0fe-c03d-9ba3-93a2-0a9fe0ba09d0",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 7,
+          "output_tokens": 23,
+          "total_tokens": 30
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c36f6cb42d7b7d3a.mp3",
+      "assetId": "cmuyro7xk0012vzmkakyhvc64",
+      "sizeBytes": 38011,
+      "sha256": "d6f2bc3ebdfa06379318baf0e7d9677ce7194e22848db3608886718d2c57a3df",
+      "durationMs": 1896,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "aa32893bc3cd0ad7ab2537c72199ac7b25216cca0fb2f1f20455194348d90f67": {
+      "key": "aa32893bc3cd0ad7ab2537c72199ac7b25216cca0fb2f1f20455194348d90f67",
+      "bookId": "abei-lele-turtle",
+      "position": 1,
+      "text": "乐乐想把松果送到小溪对岸。他和慢慢坐在岸上，准备做一只叶子船。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "069b1479-7054-9ee7-9176-6c84962630f6",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 31,
+          "output_tokens": 96,
+          "total_tokens": 127
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f7daaedb29a958b1.mp3",
+      "assetId": "cmuyro8nj0013vzmk8rzrrwl3",
+      "sizeBytes": 154651,
+      "sha256": "31855ce3c7faaf62820b997c89cc2a2bd7be213d918e91b6c6eda38d17c7ef1d",
+      "durationMs": 7728,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f728c565683c5275abb3325ee2c96a1496e032b45b29858adf565311dffc8165": {
+      "key": "f728c565683c5275abb3325ee2c96a1496e032b45b29858adf565311dffc8165",
+      "bookId": "abei-lele-turtle",
+      "position": 2,
+      "text": "乐乐动作快，很快就找到一片长叶子。慢慢还在一片一片地看。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d8aa2ce2-b9fa-9a37-9fa9-20336ba2a5e3",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 53,
+          "input_tokens": 28,
+          "output_tokens": 74,
+          "total_tokens": 102
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-5fe33e302799020a.mp3",
+      "assetId": "cmuyro9fb0014vzmksrfie3m1",
+      "sizeBytes": 119611,
+      "sha256": "397259f070b4253923bbac9e692e7f22430513a3d52268e3fb2be1b6aa5901d0",
+      "durationMs": 5976,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "6983534b21fd6b9dde2a3f0c33e0b0449f444adaee847386f1ffee7dd18fa0c0": {
+      "key": "6983534b21fd6b9dde2a3f0c33e0b0449f444adaee847386f1ffee7dd18fa0c0",
+      "bookId": "abei-lele-turtle",
+      "position": 3,
+      "text": "“我做好啦！”乐乐把松果放上去，小船一歪，松果滚到了浅水里。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "4399d394-40dd-9fb4-a7b6-44ad3bd68598",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 54,
+          "input_tokens": 29,
+          "output_tokens": 76,
+          "total_tokens": 105
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-4f3a9e8a5d5ce056.mp3",
+      "assetId": "cmuyro9ym0015vzmkrmeqfvkj",
+      "sizeBytes": 122971,
+      "sha256": "06a38ef51719f9da5a786b57d3cd7329615eeeae7b7b3dfb28f24d9fdf8e5f9a",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "76e5f317dacf796af4bdcefb97ef8954319be8378a0b7ba5c4315d51254c5b8b": {
+      "key": "76e5f317dacf796af4bdcefb97ef8954319be8378a0b7ba5c4315d51254c5b8b",
+      "bookId": "abei-lele-turtle",
+      "position": 4,
+      "text": "乐乐捞回松果，低下头：“我这么快，还是没做好。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "ff0b6ee6-0ea2-9ff0-8b75-d35fa6de4d94",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 42,
+          "input_tokens": 22,
+          "output_tokens": 71,
+          "total_tokens": 93
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-ecf9fa446c517a04.mp3",
+      "assetId": "cmuyroa420016vzmkxn3mrk2g",
+      "sizeBytes": 114811,
+      "sha256": "6e8b296503b0a4a3d32cda90626d85d664a376ec9096c8c457629d32d4303a5c",
+      "durationMs": 5736,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "afb3f749d2a67a2fb270fb0f56907a49ae544bde49bd7c84a6bbde4589aa74eb": {
+      "key": "afb3f749d2a67a2fb270fb0f56907a49ae544bde49bd7c84a6bbde4589aa74eb",
+      "bookId": "abei-lele-turtle",
+      "position": 5,
+      "text": "慢慢说：“我走得慢，常常会多看一会儿。我发现，这片叶子更宽。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "4f54ddad-d3f0-999a-b842-89c5756a96f4",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 85,
+          "total_tokens": 114
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0c4f63253755a4e8.mp3",
+      "assetId": "cmuyrobf80017vzmkw9ak6q6x",
+      "sizeBytes": 137371,
+      "sha256": "de24dded35eb62f08b538bbb90a93e7ec602e69bd45f19e1e54034016315c5e7",
+      "durationMs": 6864,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "be92b44236804873bf834592fb3e5b8526bb6a4b7b276fef55be187b339b9dae": {
+      "key": "be92b44236804873bf834592fb3e5b8526bb6a4b7b276fef55be187b339b9dae",
+      "bookId": "abei-lele-turtle",
+      "position": 6,
+      "text": "他把松果放在叶子中间，轻轻晃了晃。小船没有翻。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "f7352211-0b9f-9cc6-ba25-2dd7bf58b33b",
+      "usage": {
+        "inputCharacters": 23,
+        "providerUsage": {
+          "characters": 43,
+          "input_tokens": 23,
+          "output_tokens": 63,
+          "total_tokens": 86
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-cfc232579a3fac1b.mp3",
+      "assetId": "cmuyrobt30018vzmkkaeep8aa",
+      "sizeBytes": 101851,
+      "sha256": "d1851f8f8d26bdd9c33b127dcf2fd8c7a82ea5e29cce418212592a30f73f2620",
+      "durationMs": 5088,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "5dc6b42435405028234c5b5b96bc104772322296d4f9baadd98e7ef65e644452": {
+      "key": "5dc6b42435405028234c5b5b96bc104772322296d4f9baadd98e7ef65e644452",
+      "bookId": "abei-lele-turtle",
+      "position": 7,
+      "text": "“你看得真仔细！”乐乐说。慢慢笑了：“你的爪子大，可以帮我扶稳它吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d9bc0c9a-59a5-9ab7-af04-35ed443d39f1",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 32,
+          "output_tokens": 74,
+          "total_tokens": 106
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-34b2f3f965317d11.mp3",
+      "assetId": "cmuyroc590019vzmkejqpiswx",
+      "sizeBytes": 119611,
+      "sha256": "5cc1b0855447a67afeb04e4422b98b36980732b7fe35bd3931a5c647b27f426a",
+      "durationMs": 5976,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "114dff63c41c40f778b798114e5114239e2e7cf6691374caf3907da2f6e58ef0": {
+      "key": "114dff63c41c40f778b798114e5114239e2e7cf6691374caf3907da2f6e58ef0",
+      "bookId": "abei-lele-turtle",
+      "position": 8,
+      "text": "乐乐扶住船边，慢慢挪动松果。他们把重的那头，放得更正了一点。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "eadb3c6b-4129-9fec-84d0-667f12e61bb3",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 83,
+          "total_tokens": 113
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-30a799761334c751.mp3",
+      "assetId": "cmuyrodrf001bvzmkgogeuda7",
+      "sizeBytes": 134011,
+      "sha256": "ca9333fbc1fc76add86266c9b6732a904954994f9560e7425b61cbff61e5db5c",
+      "durationMs": 6696,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0973c55851b3d93136686253fc7288a06fe3787735c346cc02268f287b92ba80": {
+      "key": "0973c55851b3d93136686253fc7288a06fe3787735c346cc02268f287b92ba80",
+      "bookId": "abei-lele-turtle",
+      "position": 9,
+      "text": "小船轻轻放进水里，稳稳地漂了起来。他们沿着岸边，一起看它走。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "a1e33c86-84c4-9bbe-9595-8b6334e9439b",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 98,
+          "total_tokens": 128
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-cfd6b7fa2520dbc1.mp3",
+      "assetId": "cmuyrodh9001avzmkqg5to10m",
+      "sizeBytes": 158011,
+      "sha256": "7d743ddd49bfb1ce65f4ab2df587d2116cbfb155027b346e74b167ba4632d114",
+      "durationMs": 7896,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "43aa3da210eb14b7f19a844e8c2006649378fe29e0dbba593ffd90cd241af0bc": {
+      "key": "43aa3da210eb14b7f19a844e8c2006649378fe29e0dbba593ffd90cd241af0bc",
+      "bookId": "abei-lele-turtle",
+      "position": 10,
+      "text": "一根小树枝挡住了船。乐乐伸出长树枝，轻轻把它拨开。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "25c5a91e-a8cb-9075-8535-cafefdb9f05e",
+      "usage": {
+        "inputCharacters": 25,
+        "providerUsage": {
+          "characters": 47,
+          "input_tokens": 25,
+          "output_tokens": 78,
+          "total_tokens": 103
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-70a4013ba34f43c1.mp3",
+      "assetId": "cmuyroduu001cvzmk9mfamnsp",
+      "sizeBytes": 125851,
+      "sha256": "3e26ddae5ad752d72a9192f52fcee1860336a11df5d0748463ecbc649bbfe45b",
+      "durationMs": 6288,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "087c665598a9077c2235ab53e75eec6000d489c2bedd28954fe0ce3c1a5e7e34": {
+      "key": "087c665598a9077c2235ab53e75eec6000d489c2bedd28954fe0ce3c1a5e7e34",
+      "bookId": "abei-lele-turtle",
+      "position": 11,
+      "text": "小船到了对岸的沙地。“你的力气也很有用！”慢慢说，乐乐笑起来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "34d76e53-8682-9249-b29f-53fe7dc3c4b9",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 29,
+          "output_tokens": 88,
+          "total_tokens": 117
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-9ec30d0b549ba30b.mp3",
+      "assetId": "cmuyrof3l001dvzmkqe9r4487",
+      "sizeBytes": 142171,
+      "sha256": "e5f275134e97786a3e277c6228b4bdc643303b9408e4aef0b817d5f2e9a2d00d",
+      "durationMs": 7104,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "e4714e85cec80deec76a6834a876b24a22aed61a1129a143dc85f3e556f3dd74": {
+      "key": "e4714e85cec80deec76a6834a876b24a22aed61a1129a143dc85f3e556f3dd74",
+      "bookId": "abei-lele-turtle",
+      "position": 12,
+      "text": "一快一慢的两位朋友，又坐回树荫下。这一次，他们都看见了对方的长处。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "c34f77c6-da3d-9185-afad-8f6a395d5ef9",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 33,
+          "output_tokens": 92,
+          "total_tokens": 125
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-db6a7f5ce650ee33.mp3",
+      "assetId": "cmuyrofmj001fvzmk73cpuaty",
+      "sizeBytes": 148411,
+      "sha256": "5e2eab646448be676591c5420bd7768ee39cefb32ec27348079918aa23c2c87d",
+      "durationMs": 7416,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "58bd849bbc2422863f738ab985b445f11ccad0e0f1cdf0e8d3670c6d1d127396": {
+      "key": "58bd849bbc2422863f738ab985b445f11ccad0e0f1cdf0e8d3670c6d1d127396",
+      "bookId": "abei-lele-owl",
+      "position": 0,
+      "text": "猫头鹰想静一静",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "27cede6a-589d-9220-9fef-ce993f1b88ce",
+      "usage": {
+        "inputCharacters": 7,
+        "providerUsage": {
+          "characters": 14,
+          "input_tokens": 8,
+          "output_tokens": 25,
+          "total_tokens": 33
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c6078601811066e8.mp3",
+      "assetId": "cmuyrofa2001evzmkixj6v2wf",
+      "sizeBytes": 41371,
+      "sha256": "76dc2fa4e96fb011171cce4f1f8a45025ff6e91ee90fdca8899f5e55042b5411",
+      "durationMs": 2064,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f8616912b364b2ddcfca611a867ec5c2aff52380ce6256997b61858621ccd73b": {
+      "key": "f8616912b364b2ddcfca611a867ec5c2aff52380ce6256997b61858621ccd73b",
+      "bookId": "abei-lele-owl",
+      "position": 1,
+      "text": "乐乐捡到几颗甜甜的野果，想和咕咕一起吃。咕咕刚从树洞里出来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "1beb23ac-1242-932d-94dd-b5b4832e466b",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 30,
+          "output_tokens": 84,
+          "total_tokens": 114
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2bcf13e9be3542e1.mp3",
+      "assetId": "cmuyrogws001gvzmk1lh7a3d1",
+      "sizeBytes": 135451,
+      "sha256": "38ec9a4da2c51ac9f54a915fbb8596c25099935f86aa53f28c4d83fd0025a0eb",
+      "durationMs": 6768,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "8d845638e31d3a36749a87773b36249b9695236939ec96c9dcbb8431c96fc46a": {
+      "key": "8d845638e31d3a36749a87773b36249b9695236939ec96c9dcbb8431c96fc46a",
+      "bookId": "abei-lele-owl",
+      "position": 2,
+      "text": "“我们去唱歌吧！”乐乐说。咕咕揉揉眼睛：“我今天想安静一点。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "bf47fbb9-0d1f-90bf-a65a-c0b48de703e3",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 54,
+          "input_tokens": 28,
+          "output_tokens": 75,
+          "total_tokens": 103
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-dd6723ecfcd1c8b9.mp3",
+      "assetId": "cmuyroh3j001hvzmkpxtz014u",
+      "sizeBytes": 121051,
+      "sha256": "4acece9d5dde2c78b10580666c41f48883f70d109c9ddc929f505c02a847c4e0",
+      "durationMs": 6048,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "2f75e9837141220da758ad5f940905a8ac3532acc7b7c4b69976f7770a26b5a3": {
+      "key": "2f75e9837141220da758ad5f940905a8ac3532acc7b7c4b69976f7770a26b5a3",
+      "bookId": "abei-lele-owl",
+      "position": 3,
+      "text": "“那玩捉迷藏呢？”乐乐又问。咕咕摇摇头，把翅膀抱在身前。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "e3374e07-db73-9751-b835-ca4c0f5ebfe3",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 50,
+          "input_tokens": 27,
+          "output_tokens": 76,
+          "total_tokens": 103
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-ba4b0b2b844e30db.mp3",
+      "assetId": "cmuyroh7o001ivzmkb60x8m2t",
+      "sizeBytes": 122971,
+      "sha256": "43db6662efbfe1c7ee7f500f6e20865c4b6fb9963b6ad8cf2d0bb735cc864b5a",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f6edfcb19b63ad58c763b8dd0bc38221b71f03cfd872072b375a4ea27f5d1551": {
+      "key": "f6edfcb19b63ad58c763b8dd0bc38221b71f03cfd872072b375a4ea27f5d1551",
+      "bookId": "abei-lele-owl",
+      "position": 4,
+      "text": "乐乐的笑容慢慢收起来：“你是不是不想和我做朋友了？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "aa7c8c59-da82-9200-a22b-2d6d1e83fb1c",
+      "usage": {
+        "inputCharacters": 26,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 24,
+          "output_tokens": 59,
+          "total_tokens": 83
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-89ecfa08ea83c687.mp3",
+      "assetId": "cmuyroicb001jvzmkdp66tmza",
+      "sizeBytes": 95611,
+      "sha256": "8ef1389a21cf7b2cc1a40c1fea9a2128fe228619c6fc1fd405841ea4cf03b6e6",
+      "durationMs": 4776,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "195cd496599997e6f1e65319760153ed42ab63867b0beeeb5c54c178c6b69f07": {
+      "key": "195cd496599997e6f1e65319760153ed42ab63867b0beeeb5c54c178c6b69f07",
+      "bookId": "abei-lele-owl",
+      "position": 5,
+      "text": "咕咕飞到低低的树枝上：“我很喜欢你。可是我的耳朵和脑袋，现在都想歇一歇。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "c43fb16f-4bc5-9f51-840d-98e52fb3a714",
+      "usage": {
+        "inputCharacters": 37,
+        "providerUsage": {
+          "characters": 68,
+          "input_tokens": 35,
+          "output_tokens": 105,
+          "total_tokens": 140
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-15b924165dc9e684.mp3",
+      "assetId": "cmuyroit7001kvzmkdqwfx1aw",
+      "sizeBytes": 169051,
+      "sha256": "15664a13108cfaa227ae0463e1da54cca1e420dfd647a04615cc648d0a69d0e5",
+      "durationMs": 8448,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "60d72726abbb748cfa0182fd6a71b0d02b6515244a5fef5c08f543a8b250dc7b": {
+      "key": "60d72726abbb748cfa0182fd6a71b0d02b6515244a5fef5c08f543a8b250dc7b",
+      "bookId": "abei-lele-owl",
+      "position": 6,
+      "text": "乐乐想起自己累的时候，也不想一直说话。他点点头：“我明白了。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "9e1e9146-4287-9efe-88e8-11268e235984",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 29,
+          "output_tokens": 75,
+          "total_tokens": 104
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-467979a11891875d.mp3",
+      "assetId": "cmuyroiva001lvzmkxz3jkijg",
+      "sizeBytes": 121051,
+      "sha256": "104960f025b9efe79cf2c225339c8017d4715bde66c75475547bc00527ad4d9b",
+      "durationMs": 6048,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f2aec08a0c3659ee0cd65e640fa178ebf8533344e154e4ce4e4918994491256f": {
+      "key": "f2aec08a0c3659ee0cd65e640fa178ebf8533344e154e4ce4e4918994491256f",
+      "bookId": "abei-lele-owl",
+      "position": 7,
+      "text": "“你想自己待一会儿，还是我安静地陪你？”乐乐问。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "e91f08b0-aae4-92b6-bbc4-7f3f423a9a8a",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 43,
+          "input_tokens": 23,
+          "output_tokens": 48,
+          "total_tokens": 71
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e4c27f16abe49547.mp3",
+      "assetId": "cmuyrojq4001mvzmkustgoe19",
+      "sizeBytes": 77851,
+      "sha256": "dfff1bee8b6567265d8ea5598ed0562661eef9c173f72cb5c92f41ec5224bd70",
+      "durationMs": 3888,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "ffec0e668826ef59ff46151e3d56873d16b2e7085bee01a01118595e316fd840": {
+      "key": "ffec0e668826ef59ff46151e3d56873d16b2e7085bee01a01118595e316fd840",
+      "bookId": "abei-lele-owl",
+      "position": 8,
+      "text": "咕咕想了想：“你在旁边就很好。我们可以先不说话吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "01a568e5-77a8-90f9-b8a6-41c894873191",
+      "usage": {
+        "inputCharacters": 26,
+        "providerUsage": {
+          "characters": 47,
+          "input_tokens": 24,
+          "output_tokens": 64,
+          "total_tokens": 88
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-34d3603a2f235db3.mp3",
+      "assetId": "cmuyrok80001nvzmkorv1xid2",
+      "sizeBytes": 103771,
+      "sha256": "0b1e8dcf9c07091198d0e9ef58cacee61440007140d5fd78eb04a00c0a4e6312",
+      "durationMs": 5184,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7cb54373f03521d14da7376e5c3ef94ad19edc7aec9fd43287919692a705afb2": {
+      "key": "7cb54373f03521d14da7376e5c3ef94ad19edc7aec9fd43287919692a705afb2",
+      "bookId": "abei-lele-owl",
+      "position": 9,
+      "text": "乐乐把野果篮放好，坐在树根上。咕咕轻轻闭上眼睛。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "192f172f-5e1e-91f9-8f65-793db23e8277",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 45,
+          "input_tokens": 24,
+          "output_tokens": 73,
+          "total_tokens": 97
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-799287f4e24c416e.mp3",
+      "assetId": "cmuyrokg8001ovzmkd9a57jbg",
+      "sizeBytes": 118171,
+      "sha256": "556fba0745d279e345e3dda9382eb19626705f921358b19bd0a26b32aad0b4ba",
+      "durationMs": 5904,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "77231bc64513c45ed2a9347acb5059427dfcc4d7cacfb1330a5831582c5b2eb2": {
+      "key": "77231bc64513c45ed2a9347acb5059427dfcc4d7cacfb1330a5831582c5b2eb2",
+      "bookId": "abei-lele-owl",
+      "position": 10,
+      "text": "风吹动叶子，小溪轻轻响。没有说话的两位朋友，也没有觉得孤单。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "98887e7b-0d77-9624-9a41-73ce260ffde9",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 109,
+          "total_tokens": 139
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-cea9ba907a78d172.mp3",
+      "assetId": "cmuyrolet001pvzmkxtnlbyss",
+      "sizeBytes": 175771,
+      "sha256": "49683621f6e82346c4c9cfff1c7c605bdd4c3105c4978c0e9026c4d209ff868a",
+      "durationMs": 8784,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "88bd3b6dab7081d8cfabd1a27bd2d5c9d5b046929aa4de0f2893fd4095e7e093": {
+      "key": "88bd3b6dab7081d8cfabd1a27bd2d5c9d5b046929aa4de0f2893fd4095e7e093",
+      "bookId": "abei-lele-owl",
+      "position": 11,
+      "text": "过了一会儿，咕咕睁开眼：“现在，我想吃一颗野果。”乐乐笑着把篮子递过去。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "ba8093de-b48a-9b5d-8938-a0a2f8641ba2",
+      "usage": {
+        "inputCharacters": 36,
+        "providerUsage": {
+          "characters": 65,
+          "input_tokens": 34,
+          "output_tokens": 99,
+          "total_tokens": 133
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-201b41d6c1f5f6a6.mp3",
+      "assetId": "cmuyrolul001qvzmk8p6rt2i7",
+      "sizeBytes": 159451,
+      "sha256": "297ba7525b6d623eb88a63996726ad254c6d4b8c4e79d96c0b6b340c71a969a9",
+      "durationMs": 7968,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "227f2c8a762423dade9a07d56ced34635ece5712c8d7c0ccc4889b818e585f0b": {
+      "key": "227f2c8a762423dade9a07d56ced34635ece5712c8d7c0ccc4889b818e585f0b",
+      "bookId": "abei-lele-owl",
+      "position": 12,
+      "text": "他们慢慢吃野果。乐乐知道了：朋友想静一静，友谊也可以好好待在那里。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "12041614-16d3-9847-b8de-483fbd809670",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 33,
+          "output_tokens": 89,
+          "total_tokens": 122
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-95c426aea90ced6b.mp3",
+      "assetId": "cmuyrom3v001rvzmkb4u1rw5p",
+      "sizeBytes": 143611,
+      "sha256": "fab8b3e6869331acc5a2f1164082d11f1cebae04806787e13329f859bb0f74f4",
+      "durationMs": 7176,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "fbde734569256c0e1e02defefc9ffa0731b57b9f1fa8eedb70223212e21dc4c4": {
+      "key": "fbde734569256c0e1e02defefc9ffa0731b57b9f1fa8eedb70223212e21dc4c4",
+      "bookId": "abei-lele-beaver",
+      "position": 0,
+      "text": "河狸的小桥",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "73e61ff2-8568-90ed-9fbc-5374bf3d7411",
+      "usage": {
+        "inputCharacters": 5,
+        "providerUsage": {
+          "characters": 10,
+          "input_tokens": 6,
+          "output_tokens": 20,
+          "total_tokens": 26
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-81a95adb27401b58.mp3",
+      "assetId": "cmuyromj9001svzmk1s0adnog",
+      "sizeBytes": 33211,
+      "sha256": "657e829f0339a0f36acbe269079de37de78c1bb7f501abb43655821b7332f15c",
+      "durationMs": 1656,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d549f781da4bd9698c8d5b339594fd94be571602a99729a13ec7e5d65a8e4ace": {
+      "key": "d549f781da4bd9698c8d5b339594fd94be571602a99729a13ec7e5d65a8e4ace",
+      "bookId": "abei-lele-beaver",
+      "position": 1,
+      "text": "雨后的小水沟，把森林小路分成了两段。木木想搭一座低低的小桥。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "95a9c597-3d3e-9e16-b53c-bd118d0751b3",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 30,
+          "output_tokens": 105,
+          "total_tokens": 135
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0e70ad6c31841085.mp3",
+      "assetId": "cmuyrooef001tvzmkwjp8ia1i",
+      "sizeBytes": 169051,
+      "sha256": "83a42848eabf5a62b3730b1165e879a9440f89b45856248db761ad7fa3a506d3",
+      "durationMs": 8448,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d9ae57e2cc1dec155daf5483703ef7bb1ceec3716f2700a3d5bccdb1144f729d": {
+      "key": "d9ae57e2cc1dec155daf5483703ef7bb1ceec3716f2700a3d5bccdb1144f729d",
+      "bookId": "abei-lele-beaver",
+      "position": 2,
+      "text": "乐乐搬来一根粗树枝：“用这个，结实！”木木皱眉：“可是它放不平。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "96a439a7-2ee8-9f1a-af8b-ddf89db62ea3",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 57,
+          "input_tokens": 29,
+          "output_tokens": 87,
+          "total_tokens": 116
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-d13f807db35c4fb9.mp3",
+      "assetId": "cmuyroopq001uvzmkvebw708s",
+      "sizeBytes": 140251,
+      "sha256": "4f1aa0df99fc8246d820eb682ba7dd6a136cd6da20f12d97a9cf14640474df15",
+      "durationMs": 7008,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "436425268fe8f17749a84119b17bcd03e26793e964c2dadc38dc796fd95077d4": {
+      "key": "436425268fe8f17749a84119b17bcd03e26793e964c2dadc38dc796fd95077d4",
+      "bookId": "abei-lele-beaver",
+      "position": 3,
+      "text": "木木挑了几根细树枝：“这些更整齐。”乐乐试着一碰，它们就滚开了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "8f226f67-a697-9d00-8b76-41b5b277f3d7",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 30,
+          "output_tokens": 83,
+          "total_tokens": 113
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-59c229692036d0ba.mp3",
+      "assetId": "cmuyroozc001vvzmk9tnlqk2m",
+      "sizeBytes": 134011,
+      "sha256": "0b23dc42e638d4f0cfb708bf0cadf2fe95d76d6f53b382111ba4ce0d95b50653",
+      "durationMs": 6696,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "3ee6a1c69ba712969dc6adbe18b87b8c27510ea86c3c93d582d289fedacfb4e2": {
+      "key": "3ee6a1c69ba712969dc6adbe18b87b8c27510ea86c3c93d582d289fedacfb4e2",
+      "bookId": "abei-lele-beaver",
+      "position": 4,
+      "text": "“还是用我的吧！”他们同时说。小桥没搭好，声音倒越来越大了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "cc61a5f4-5b22-91d5-95ec-8d42e513e4dd",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 54,
+          "input_tokens": 29,
+          "output_tokens": 91,
+          "total_tokens": 120
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e964779f4064720d.mp3",
+      "assetId": "cmuyropz4001wvzmkh59apkm1",
+      "sizeBytes": 146971,
+      "sha256": "980ed8d9f69f558bb86ca72d9da969d564b8aa8b9d217b9e2d2d362380496eda",
+      "durationMs": 7344,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "e9bc2aca0699c49e0a25d14744984652f3c8c40c67f2a93b8d8c727d5d98761a": {
+      "key": "e9bc2aca0699c49e0a25d14744984652f3c8c40c67f2a93b8d8c727d5d98761a",
+      "bookId": "abei-lele-beaver",
+      "position": 5,
+      "text": "乐乐放下树枝：“我们先停一停。我想要一座结实的桥。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "144bd8d9-c031-9e82-94bd-bc96700e3715",
+      "usage": {
+        "inputCharacters": 26,
+        "providerUsage": {
+          "characters": 47,
+          "input_tokens": 24,
+          "output_tokens": 59,
+          "total_tokens": 83
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f21adb0aa220ae63.mp3",
+      "assetId": "cmuyroq6j001xvzmkt1wkti4j",
+      "sizeBytes": 95611,
+      "sha256": "567bcced612197fbca6e07ea20db3ca0ea6f6ad8b3ceb90d84646044a9683f8c",
+      "durationMs": 4776,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "ac51e029e49ac82b360baf044928b04420a23355785fd0ac2a4dfef03411cbee": {
+      "key": "ac51e029e49ac82b360baf044928b04420a23355785fd0ac2a4dfef03411cbee",
+      "bookId": "abei-lele-beaver",
+      "position": 6,
+      "text": "“我想要一座平平的桥。”木木说。乐乐看看两堆树枝：“能不能都用上？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "37b84d89-6ddc-9278-b743-00b46e88d8c1",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 31,
+          "output_tokens": 84,
+          "total_tokens": 115
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-05d5166f0b4b99f9.mp3",
+      "assetId": "cmuyroqib001yvzmkuaor68vb",
+      "sizeBytes": 135451,
+      "sha256": "0feaf08e2cfea755ae4f946b1e643fb9d0cc8c6b59ad21154bf4570f53415155",
+      "durationMs": 6768,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "50e99afa275c3652d91fbc5a2c68b444ef3c2711d6ef1918f87729f264a10a2c": {
+      "key": "50e99afa275c3652d91fbc5a2c68b444ef3c2711d6ef1918f87729f264a10a2c",
+      "bookId": "abei-lele-beaver",
+      "position": 7,
+      "text": "木木的尾巴轻轻一拍：“粗的放下面，细的铺上面！”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "944ebbdf-45bd-9fe9-ae3a-9918ea7d1cf3",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 43,
+          "input_tokens": 22,
+          "output_tokens": 64,
+          "total_tokens": 86
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-ff2d2033fd8c9974.mp3",
+      "assetId": "cmuyrorey001zvzmklsdvuy0m",
+      "sizeBytes": 103771,
+      "sha256": "db495095c1663f089902195820da924d6462660e257d897468835a4d3395036c",
+      "durationMs": 5184,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "efd3923d260fb5d0af549f194a6fa3f01e91c7f9f5064c2c24d7d74813373934": {
+      "key": "efd3923d260fb5d0af549f194a6fa3f01e91c7f9f5064c2c24d7d74813373934",
+      "bookId": "abei-lele-beaver",
+      "position": 8,
+      "text": "乐乐搬好两根粗树枝，木木把它们摆稳。他们一边放，一边问对方：“这样好吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "c67d41de-d004-99e2-acde-92f29899e3ee",
+      "usage": {
+        "inputCharacters": 37,
+        "providerUsage": {
+          "characters": 67,
+          "input_tokens": 35,
+          "output_tokens": 116,
+          "total_tokens": 151
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-28741f5c40d5167c.mp3",
+      "assetId": "cmuyros0r0020vzmkztqqbw9s",
+      "sizeBytes": 186811,
+      "sha256": "1dc3ace2db159d2903d1b691ba17195f850966e88dde4b2e8eb398a8660781cf",
+      "durationMs": 9336,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7f3296eb9d347185c6663e1f8dcf0932afcb4fbc325c3ed503f4e935eee1e51d": {
+      "key": "7f3296eb9d347185c6663e1f8dcf0932afcb4fbc325c3ed503f4e935eee1e51d",
+      "bookId": "abei-lele-beaver",
+      "position": 9,
+      "text": "细树枝排上去了。木木扶着，乐乐用长草绳，把它们一根一根绑紧。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "0a38fed3-85ff-9184-8796-7c4fc3a2fc12",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 56,
+          "input_tokens": 30,
+          "output_tokens": 126,
+          "total_tokens": 156
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f99da120fb0d2ff1.mp3",
+      "assetId": "cmuyrosbd0021vzmkedg42com",
+      "sizeBytes": 202651,
+      "sha256": "2a46a4dcec11e9aa3b0887973f8aa0fec768577f4f7a1e8f676bb74d5a562fef",
+      "durationMs": 10128,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d2a759c36bdb705cb4e12b6749a56d6c8dee78cca4f9f4df34e925785f0829ba": {
+      "key": "d2a759c36bdb705cb4e12b6749a56d6c8dee78cca4f9f4df34e925785f0829ba",
+      "bookId": "abei-lele-beaver",
+      "position": 10,
+      "text": "他们先放上一块小石头，又轻轻按了按。小桥稳稳的，没有摇。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "3525ae21-ec6e-93d8-942e-d7269807854d",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 52,
+          "input_tokens": 28,
+          "output_tokens": 93,
+          "total_tokens": 121
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2f11970cf4a3a9c4.mp3",
+      "assetId": "cmuyrosxy0022vzmk4y1b7c8k",
+      "sizeBytes": 149851,
+      "sha256": "9f9cfe0b9917e6e40ed65f3ae7745b51e060877dce150eaefeb05a3ace52979d",
+      "durationMs": 7488,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "5f6fc28343d10d9039d3c2e8cb4c2da36a451e9dc083ea57411d460263230c1e": {
+      "key": "5f6fc28343d10d9039d3c2e8cb4c2da36a451e9dc083ea57411d460263230c1e",
+      "bookId": "abei-lele-beaver",
+      "position": 11,
+      "text": "木木先走过去，乐乐再慢慢走。两位朋友都到了对面。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "dccf5171-4806-96e2-92c2-ca15c13b4aee",
+      "usage": {
+        "inputCharacters": 24,
+        "providerUsage": {
+          "characters": 45,
+          "input_tokens": 24,
+          "output_tokens": 68,
+          "total_tokens": 92
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-04ffa981ce9e4b99.mp3",
+      "assetId": "cmuyroti00023vzmk4dvsbup9",
+      "sizeBytes": 110011,
+      "sha256": "b8fab18b54067228c29f7cace67b20f7e780223a584edad742371ffdcad5ce51",
+      "durationMs": 5496,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "2a745db8d1a932b627050bb06bb9e69e42448831a7d731e6bae17d6a9794a272": {
+      "key": "2a745db8d1a932b627050bb06bb9e69e42448831a7d731e6bae17d6a9794a272",
+      "bookId": "abei-lele-beaver",
+      "position": 12,
+      "text": "“结实，又平平的！”他们笑着碰了碰爪子。小桥上，有两位朋友的好办法。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "f83552df-394d-9388-982b-78f04c9ce0bb",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 33,
+          "output_tokens": 102,
+          "total_tokens": 135
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2d551d5722e4d162.mp3",
+      "assetId": "cmuyrou220024vzmkqongjp1e",
+      "sizeBytes": 164251,
+      "sha256": "636e34781fb170bf999b0c7ba958df837dd6684a6aa991fceaab2f4ebe3010f2",
+      "durationMs": 8208,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "b35c671a506dcb0f59c29229b019a8353b38b707f4462e1d4a091bceedeb994f": {
+      "key": "b35c671a506dcb0f59c29229b019a8353b38b707f4462e1d4a091bceedeb994f",
+      "bookId": "abei-lele-badger",
+      "position": 0,
+      "text": "小獾勇敢说不",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "a8ecdcf3-b6a0-9fb1-9d82-e09eef94a52a",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 8,
+          "output_tokens": 24,
+          "total_tokens": 32
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0ecd7c11fa4cb75f.mp3",
+      "assetId": "cmuyrou760025vzmkeh5ngtvq",
+      "sizeBytes": 39451,
+      "sha256": "b4cca979c5f498d51a17a532f7504d997b916625eb85c4ab8a32000a165c04de",
+      "durationMs": 1968,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "dec7e6e38dc588304631b847800a74658f89174f68227a8e6d644412069476aa": {
+      "key": "dec7e6e38dc588304631b847800a74658f89174f68227a8e6d644412069476aa",
+      "bookId": "abei-lele-badger",
+      "position": 1,
+      "text": "乐乐想在树根旁种一株小花。阿斑带着自己的小铲子，正要去整理菜地。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d44b9aaf-5eb5-9b48-b811-b561225846fb",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 61,
+          "input_tokens": 32,
+          "output_tokens": 93,
+          "total_tokens": 125
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-9e0dfbd7d80cc21d.mp3",
+      "assetId": "cmuyrov3s0026vzmkp1wiqnsg",
+      "sizeBytes": 149851,
+      "sha256": "a418731c3c4f23e32d2a7bb5d4d2887e407eb83f003d71999ba7d8326e9acad8",
+      "durationMs": 7488,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "e896f9803182dbe90e924eae766fa0f9ae418125bba194d794fe87ad56b9a104": {
+      "key": "e896f9803182dbe90e924eae766fa0f9ae418125bba194d794fe87ad56b9a104",
+      "bookId": "abei-lele-badger",
+      "position": 2,
+      "text": "“你的铲子借我用吧！”乐乐伸出爪子。阿斑捏紧了铲柄，没有马上回答。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d301d26d-588c-9009-85b9-9b48996a1456",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 32,
+          "output_tokens": 85,
+          "total_tokens": 117
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-d27d9b940ea73902.mp3",
+      "assetId": "cmuyrovl30027vzmkao81lzzq",
+      "sizeBytes": 137371,
+      "sha256": "d378a5526e4f45a4ed55a7f4244527b49b0b45e093f74303b5b8aa95ae390733",
+      "durationMs": 6864,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "ef8bbcbed1d403cd9fe5f2e53b477f3043132aa38e23cc81b419df39fa603ebd": {
+      "key": "ef8bbcbed1d403cd9fe5f2e53b477f3043132aa38e23cc81b419df39fa603ebd",
+      "bookId": "abei-lele-badger",
+      "position": 3,
+      "text": "菜地还没整理好，阿斑想先用自己的铲子。可“不愿意”三个字，卡在嘴边。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "4fa4a5d8-98fc-968c-92e7-b35a7c4b9699",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 34,
+          "output_tokens": 95,
+          "total_tokens": 129
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-490dadc1918f4df0.mp3",
+      "assetId": "cmuyrovt60028vzmk39j9lgad",
+      "sizeBytes": 153211,
+      "sha256": "6fe650afb50a83314df5a0e40070712be3872c5f2707c6f2e9538d056e48e096",
+      "durationMs": 7656,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f213d5c10171c36d0eb3c12966ff8f53f8c8de22853775b68b46bc06af79448b": {
+      "key": "f213d5c10171c36d0eb3c12966ff8f53f8c8de22853775b68b46bc06af79448b",
+      "bookId": "abei-lele-badger",
+      "position": 4,
+      "text": "“就用一下嘛。”乐乐又说。阿斑后退半步，鼻尖都有些紧张了。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "38d02b3a-40a7-9247-8bfc-0e25bad1febe",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 52,
+          "input_tokens": 28,
+          "output_tokens": 69,
+          "total_tokens": 97
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c28da5c8e6e85ef5.mp3",
+      "assetId": "cmuyrowkg0029vzmku06yd2ri",
+      "sizeBytes": 111451,
+      "sha256": "2482eee2d90739517c02d325b1ce3b94f9128f2b9e7c1f2e6245e0ea4e9aefca",
+      "durationMs": 5568,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0c97ed537bb150055d4e377afab186e15deadc3a746dc8ca33d7b5dc935846eb": {
+      "key": "0c97ed537bb150055d4e377afab186e15deadc3a746dc8ca33d7b5dc935846eb",
+      "bookId": "abei-lele-badger",
+      "position": 5,
+      "text": "阿斑深深吸了一口气：“我现在不想借。我还要用它整理菜地。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "69981c58-3b3d-91b8-8ab2-107eb40d43fe",
+      "usage": {
+        "inputCharacters": 29,
+        "providerUsage": {
+          "characters": 53,
+          "input_tokens": 27,
+          "output_tokens": 71,
+          "total_tokens": 98
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-9697dddb1376b5af.mp3",
+      "assetId": "cmuyrowyh002avzmka88tztgr",
+      "sizeBytes": 114811,
+      "sha256": "32f12765ca4b13eb8ee0b9020ad6d76d98972332af6987c0bc4e21c6a2945a84",
+      "durationMs": 5736,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "0f69a813f50fc380dd92573c89d59f34d3c7bb637fae1b67d5311056f826ffe0": {
+      "key": "0f69a813f50fc380dd92573c89d59f34d3c7bb637fae1b67d5311056f826ffe0",
+      "bookId": "abei-lele-badger",
+      "position": 6,
+      "text": "乐乐的爪子慢慢放下：“好，我听见了。刚才我一直催你，对不起。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "fd96c8aa-15b6-919f-bb60-7ff06269e1f6",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 83,
+          "total_tokens": 112
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c73d9631d739c191.mp3",
+      "assetId": "cmuyroxdt002bvzmk2eouz2kr",
+      "sizeBytes": 134011,
+      "sha256": "8e36ab3eb1411f4dc2bfce67922225341b221fa95f683f9b3082ea2eba06196b",
+      "durationMs": 6696,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "fd29890d849e137f701c3687d451962b32468afe21b4dc3679a976384cbd01d8": {
+      "key": "fd29890d849e137f701c3687d451962b32468afe21b4dc3679a976384cbd01d8",
+      "bookId": "abei-lele-badger",
+      "position": 7,
+      "text": "阿斑眨眨眼：“你不会生气吗？”乐乐摇摇头：“你可以自己决定。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "ac9e2b57-db0b-9d32-ad13-a127ab898167",
+      "usage": {
+        "inputCharacters": 31,
+        "providerUsage": {
+          "characters": 54,
+          "input_tokens": 27,
+          "output_tokens": 82,
+          "total_tokens": 109
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c14bdc93603cf94a.mp3",
+      "assetId": "cmuyroy40002cvzmke3z7omg9",
+      "sizeBytes": 132571,
+      "sha256": "a5914fb1de006ff52d53d5914a290d3293dc396c05825daa7f5ed56f66cae6d3",
+      "durationMs": 6624,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "2392fb0a001ce3c2297e72b3d4275398d794acaf4fc8669fdc4ab2d581f110e6": {
+      "key": "2392fb0a001ce3c2297e72b3d4275398d794acaf4fc8669fdc4ab2d581f110e6",
+      "bookId": "abei-lele-badger",
+      "position": 8,
+      "text": "乐乐找来一根圆圆的树枝，试着松土。阿斑用铲子，整理自己的小菜地。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "6c2800a5-035c-9a46-95b1-cdfe2e83dfbe",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 60,
+          "input_tokens": 32,
+          "output_tokens": 92,
+          "total_tokens": 124
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-e18df48c9162faf8.mp3",
+      "assetId": "cmuyroygs002dvzmk63affidr",
+      "sizeBytes": 148411,
+      "sha256": "82e84465f0262289c350d1c5340f2aa266997fb4ecbb72b4e4b69462b0876f48",
+      "durationMs": 7416,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "5a5dffeb27b0298aa25557c446022dc00273d93ebd60796fb5f4cdc9c934cb55": {
+      "key": "5a5dffeb27b0298aa25557c446022dc00273d93ebd60796fb5f4cdc9c934cb55",
+      "bookId": "abei-lele-badger",
+      "position": 9,
+      "text": "一块石头有点重。阿斑问：“乐乐，你愿意帮我搬一下吗？”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "e88e0f64-5b92-97c1-adcc-cae2478a2bae",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 25,
+          "output_tokens": 67,
+          "total_tokens": 92
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-6d7e502c37152c42.mp3",
+      "assetId": "cmuyroz5l002evzmksew3zojc",
+      "sizeBytes": 108571,
+      "sha256": "6fc42ff48ea8998b67c40cf8a888511287c369e9140caff677146654f2bcf1ac",
+      "durationMs": 5424,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "5391d6f098f499e6b5223b43837aba63a2ce48c128b856e1e62fbad33ada862d": {
+      "key": "5391d6f098f499e6b5223b43837aba63a2ce48c128b856e1e62fbad33ada862d",
+      "bookId": "abei-lele-badger",
+      "position": 10,
+      "text": "乐乐想了想：“我先种好小花，再来，好吗？”阿斑说：“好，我等你。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "b7ea9384-4033-938b-9e6b-6e12236582b8",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 55,
+          "input_tokens": 29,
+          "output_tokens": 90,
+          "total_tokens": 119
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-a492f897c3638482.mp3",
+      "assetId": "cmuyrozq9002fvzmk5g4mida0",
+      "sizeBytes": 145051,
+      "sha256": "29e6c3e141a6e47de7bfc465ddb827f6d3205d7bdf8db751549a4fe6d86c5747",
+      "durationMs": 7248,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d9c7241f2ce89bf0d8c54d654992e0ede3afb496eceeb6c39a4c15db344a3e96": {
+      "key": "d9c7241f2ce89bf0d8c54d654992e0ede3afb496eceeb6c39a4c15db344a3e96",
+      "bookId": "abei-lele-badger",
+      "position": 11,
+      "text": "小花种好了。他们一起搬开石头，给菜地留出一条窄窄的小路。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "a81ef022-6a00-9061-a3c3-83b84a0a1290",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 53,
+          "input_tokens": 28,
+          "output_tokens": 87,
+          "total_tokens": 115
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-0b215c54bd519e7b.mp3",
+      "assetId": "cmuyrp03q002gvzmkdjt0iq1u",
+      "sizeBytes": 140251,
+      "sha256": "cde0bf359e6c9ed8609b4280613eeb81a08223db64ffad15e8f2309eb486e8e7",
+      "durationMs": 7008,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "ba3b5b5f13660f2159b30455a9104a7bcb3024b9bdd7670aef36d9e3eb09760f": {
+      "key": "ba3b5b5f13660f2159b30455a9104a7bcb3024b9bdd7670aef36d9e3eb09760f",
+      "bookId": "abei-lele-badger",
+      "position": 12,
+      "text": "阿斑笑着说：“说不以后，我们还是朋友。”乐乐点点头，把小路踩得平平的。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "b2368dd8-c0e5-9f6e-af05-ac122a26992e",
+      "usage": {
+        "inputCharacters": 35,
+        "providerUsage": {
+          "characters": 63,
+          "input_tokens": 33,
+          "output_tokens": 93,
+          "total_tokens": 126
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-a16da3a25d9893da.mp3",
+      "assetId": "cmuyrp0or002hvzmkdaf7foh2",
+      "sizeBytes": 149851,
+      "sha256": "e4a444c78990c9ebb21f75ec27a07b209be963f703000117e1dece3b738ea61b",
+      "durationMs": 7488,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "d34b9572bd69ce0171ae9da4be12157bcf793cbb330239ba6225c2656396247d": {
+      "key": "d34b9572bd69ce0171ae9da4be12157bcf793cbb330239ba6225c2656396247d",
+      "bookId": "abei-lele-bird",
+      "position": 0,
+      "text": "小鸟的新朋友",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "f145c605-ad1d-94e0-8b00-5182f0715503",
+      "usage": {
+        "inputCharacters": 6,
+        "providerUsage": {
+          "characters": 12,
+          "input_tokens": 7,
+          "output_tokens": 19,
+          "total_tokens": 26
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-96991ac7fd421b6d.mp3",
+      "assetId": "cmuyrp0zp002ivzmkcp4kfnvl",
+      "sizeBytes": 31771,
+      "sha256": "51f1636121bff7d1dbeec7be842c5cda6263a059bf68b444258b8e6180e404de",
+      "durationMs": 1584,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "8fa0804066c0fa04e8cb032d801f217f6505f4f00ccec90ddede308b8c254ec6": {
+      "key": "8fa0804066c0fa04e8cb032d801f217f6505f4f00ccec90ddede308b8c254ec6",
+      "bookId": "abei-lele-bird",
+      "position": 1,
+      "text": "森林里新来了一只小鸟，叫啾啾。她停在低低的树枝上，望着陌生的小路。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "27c56f2c-0462-9905-919e-0b035550cbd6",
+      "usage": {
+        "inputCharacters": 33,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 35,
+          "output_tokens": 101,
+          "total_tokens": 136
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-dea22c8638b4aec4.mp3",
+      "assetId": "cmuyrp1qm002jvzmkr03axaco",
+      "sizeBytes": 162811,
+      "sha256": "0b3e91f4a3e74dabee3b2466281e259e17f539d77bb454f822b7b4720c2353cc",
+      "durationMs": 8136,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "90e6e2144ff0f10885de35e2d030c37583c8a46f1094e0ccb0e9765f6c839d2d": {
+      "key": "90e6e2144ff0f10885de35e2d030c37583c8a46f1094e0ccb0e9765f6c839d2d",
+      "bookId": "abei-lele-bird",
+      "position": 2,
+      "text": "乐乐跑过去：“你好！我叫乐乐！”啾啾吓了一跳，往树叶后面躲。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "6f2cb79d-73be-98ae-bfdb-bcb62c2f9afb",
+      "usage": {
+        "inputCharacters": 30,
+        "providerUsage": {
+          "characters": 53,
+          "input_tokens": 30,
+          "output_tokens": 76,
+          "total_tokens": 106
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-63598c2ea6a2b820.mp3",
+      "assetId": "cmuyrp2c8002kvzmkhmeoxle2",
+      "sizeBytes": 122971,
+      "sha256": "3f5ed8ae09dd0a7fe8e8dc47c87eff7afa84ca42fa669c92a31df956c9f46b14",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "6cc3d46b47331a2c53588d42c14643a17fdf2a539cc1d403ddf7d2ba12769cc0": {
+      "key": "6cc3d46b47331a2c53588d42c14643a17fdf2a539cc1d403ddf7d2ba12769cc0",
+      "bookId": "abei-lele-bird",
+      "position": 3,
+      "text": "乐乐停住了。他把声音放轻：“对不起，我刚才太大声了。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "e64933ef-b7bb-9a41-a952-de4ae1ebfede",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 48,
+          "input_tokens": 25,
+          "output_tokens": 69,
+          "total_tokens": 94
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-1065f815fd5bd36b.mp3",
+      "assetId": "cmuyrp329002lvzmko4jmf00s",
+      "sizeBytes": 111451,
+      "sha256": "14a1863df7fe2a4156a9d94868824e98f394b636b4260fa48b563f6fe35b7eb8",
+      "durationMs": 5568,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "74587419c4c70d9f537b8c883471b8b1a83557e275325bee60b092047b01deb0": {
+      "key": "74587419c4c70d9f537b8c883471b8b1a83557e275325bee60b092047b01deb0",
+      "bookId": "abei-lele-bird",
+      "position": 4,
+      "text": "“我还不太认识这里。”啾啾小声说。乐乐蹲下来，和她看着一样高的地方。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "ac91a214-d7fe-98a1-b347-6b0a6a9c6150",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 62,
+          "input_tokens": 35,
+          "output_tokens": 76,
+          "total_tokens": 111
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-725e691127e521aa.mp3",
+      "assetId": "cmuyrp3hp002mvzmk6q31oh7z",
+      "sizeBytes": 122971,
+      "sha256": "5a53ee31001cf040382130c43c48bd6cbb614630622e2e3da3b87913e1f511f4",
+      "durationMs": 6144,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "b31d3b9f4e4d051403afdb30d396f1e0eea30d756998da4352842c62528740e4": {
+      "key": "b31d3b9f4e4d051403afdb30d396f1e0eea30d756998da4352842c62528740e4",
+      "bookId": "abei-lele-bird",
+      "position": 5,
+      "text": "“你想先看看小路，还是在树上歇一会儿？”乐乐问。啾啾说：“先歇一会儿吧。”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d838ce9a-4fcb-95d0-9957-af4aa1f59703",
+      "usage": {
+        "inputCharacters": 37,
+        "providerUsage": {
+          "characters": 65,
+          "input_tokens": 36,
+          "output_tokens": 88,
+          "total_tokens": 124
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-941185bea567fd4e.mp3",
+      "assetId": "cmuyrp3xl002nvzmk9355mafq",
+      "sizeBytes": 142171,
+      "sha256": "4ef11104ce0f92ab572fd3c53e4ca4143666f16e7cd3a6fdbf20fac3dbed0c91",
+      "durationMs": 7104,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "5bb149f43c64ea69007265a77dc22b12818ccb11ca5460d79faec49b8bd558e2": {
+      "key": "5bb149f43c64ea69007265a77dc22b12818ccb11ca5460d79faec49b8bd558e2",
+      "bookId": "abei-lele-bird",
+      "position": 6,
+      "text": "乐乐坐在旁边，留出一点空位。啾啾慢慢从叶子后面挪了出来。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "13132b2a-c1d0-99da-b282-85381b261fdb",
+      "usage": {
+        "inputCharacters": 28,
+        "providerUsage": {
+          "characters": 53,
+          "input_tokens": 30,
+          "output_tokens": 80,
+          "total_tokens": 110
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-c8fa547f2fd1a8b2.mp3",
+      "assetId": "cmuyrp4nu002ovzmkbww5ww83",
+      "sizeBytes": 129211,
+      "sha256": "b24f09b7945b888bc2107545c2498f60cd8df8da50b4d480d025e9e016fdc7c1",
+      "durationMs": 6456,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "1d59cdac936b947a4a9ebd60d080ab966d365a06f936fcebc6947ee9520420cd": {
+      "key": "1d59cdac936b947a4a9ebd60d080ab966d365a06f936fcebc6947ee9520420cd",
+      "bookId": "abei-lele-bird",
+      "position": 7,
+      "text": "过了一会儿，啾啾问：“这里有能躲雨的树洞吗？”乐乐指向一棵大树。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "98c5bc50-c277-96c6-92d2-40eb9b8b33e9",
+      "usage": {
+        "inputCharacters": 32,
+        "providerUsage": {
+          "characters": 58,
+          "input_tokens": 32,
+          "output_tokens": 85,
+          "total_tokens": 117
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-f59c7f1721a8ae15.mp3",
+      "assetId": "cmuyrp51k002pvzmk0ftewhqj",
+      "sizeBytes": 137371,
+      "sha256": "c61be9c7fcd321622c01a8cf1b87b13052cf5549f9400d46d0b7d4894ef82a67",
+      "durationMs": 6864,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "7f2809ddb72fce3f8e221317e2dfe617e02f6dc08b22287ce07a4c0ef9af2bfa": {
+      "key": "7f2809ddb72fce3f8e221317e2dfe617e02f6dc08b22287ce07a4c0ef9af2bfa",
+      "bookId": "abei-lele-bird",
+      "position": 8,
+      "text": "他们一起去看树洞。乐乐走在路上，啾啾沿着低低的树枝，飞一小段，停一小段。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "79667682-82f8-9e1e-b54b-1146b7cb8c70",
+      "usage": {
+        "inputCharacters": 36,
+        "providerUsage": {
+          "characters": 67,
+          "input_tokens": 38,
+          "output_tokens": 102,
+          "total_tokens": 140
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-b8f889bedd4efbc6.mp3",
+      "assetId": "cmuyrp5sc002qvzmki40i23h7",
+      "sizeBytes": 164251,
+      "sha256": "f040945c238a43c5b66664954a14f68d722c17a739c282591e1f9d17b160bc07",
+      "durationMs": 8208,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "eca2ae56fb5c53a1ca49579692806f7ec64c3490ac63724bd604415ae622863c": {
+      "key": "eca2ae56fb5c53a1ca49579692806f7ec64c3490ac63724bd604415ae622863c",
+      "bookId": "abei-lele-bird",
+      "position": 9,
+      "text": "树洞边开着小黄花。“我喜欢这朵花。”啾啾说。乐乐笑了：“我也喜欢！”",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "02996985-72f3-9335-9ef6-f56533326194",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 59,
+          "input_tokens": 32,
+          "output_tokens": 100,
+          "total_tokens": 132
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-d422c9bac16c4537.mp3",
+      "assetId": "cmuyrp69t002rvzmkzhz3tgmh",
+      "sizeBytes": 161371,
+      "sha256": "1a530dc7f808a5839f8f621daf474e3196928b47c81099a4c70ea1c040f7c990",
+      "durationMs": 8064,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "f35218e2efd219bab841402a962de6eddd32a1ba706beaf2b055b22a1de95829": {
+      "key": "f35218e2efd219bab841402a962de6eddd32a1ba706beaf2b055b22a1de95829",
+      "bookId": "abei-lele-bird",
+      "position": 10,
+      "text": "啾啾轻轻唱了两声。乐乐用爪子打拍子，慢慢跟着她的节奏。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "90e16b30-1da6-905a-9427-15ca6838325c",
+      "usage": {
+        "inputCharacters": 27,
+        "providerUsage": {
+          "characters": 51,
+          "input_tokens": 29,
+          "output_tokens": 81,
+          "total_tokens": 110
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-2358a4dfa04037f9.mp3",
+      "assetId": "cmuyrp6lo002svzmkwjrr4gog",
+      "sizeBytes": 130651,
+      "sha256": "82a9f9593523d37b347f60d1a3c8729432d67933cd579c26dedb84e6b9725099",
+      "durationMs": 6528,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "11c95b6a37cf4e9dd0d80592b9a32b7b6f316e8429ba4cf102013c1bc7810c38": {
+      "key": "11c95b6a37cf4e9dd0d80592b9a32b7b6f316e8429ba4cf102013c1bc7810c38",
+      "bookId": "abei-lele-bird",
+      "position": 11,
+      "text": "“明天你还会来吗？”啾啾问。“会呀，明天下午再一起看花，好吗？”乐乐说。啾啾点点头。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "de911cb2-1f94-9a73-8da7-a4f5a755f57f",
+      "usage": {
+        "inputCharacters": 42,
+        "providerUsage": {
+          "characters": 73,
+          "input_tokens": 43,
+          "output_tokens": 105,
+          "total_tokens": 148
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-692814405bd264b7.mp3",
+      "assetId": "cmuyrp7nw002tvzmknv47zglu",
+      "sizeBytes": 169051,
+      "sha256": "8570932d3d77e8b17808f81bc8a36ea45d3bf289028bafd9e58ee5d7ef6733a2",
+      "durationMs": 8448,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    },
+    "371bc3e0a59c39f112f6ec77b0a353e6fb10f1ef38e53d4d3456ed137ce49d76": {
+      "key": "371bc3e0a59c39f112f6ec77b0a353e6fb10f1ef38e53d4d3456ed137ce49d76",
+      "bookId": "abei-lele-bird",
+      "position": 12,
+      "text": "夕阳落在新家的树洞上。陌生的小路，已经连着一位愿意慢慢认识她的朋友。",
+      "voice": "yezhiqing_v3.1",
+      "status": "READY",
+      "attempts": 1,
+      "failures": [],
+      "requestId": "d67d14d3-a80e-99c7-ab56-0114e7701299",
+      "usage": {
+        "inputCharacters": 34,
+        "providerUsage": {
+          "characters": 65,
+          "input_tokens": 34,
+          "output_tokens": 105,
+          "total_tokens": 139
+        }
+      },
+      "url": "https://r.abeiai.com/picture-books/audio/20261007-19f4d5aeaebcac7a.mp3",
+      "assetId": "cmuyrp7y0002uvzmkigzunfkk",
+      "sizeBytes": 169051,
+      "sha256": "d12cd8a14cfa245439ad9be4870a4d8dce473ea0f8ed71c936599a666641ea6b",
+      "durationMs": 8448,
+      "codec": "mp3",
+      "sampleRate": 24000,
+      "channels": 1
+    }
+  },
+  "verifiedAt": "2026-10-07T23:58:27.602Z",
+  "totalDurationSeconds": 998.736,
+  "publishedAt": "2026-10-08T00:02:20.432Z",
+  "publicationVerification": {
+    "courseId": "306f0ed1871f63b9ed7cbbd9",
+    "books": 12,
+    "publishedClips": 156,
+    "voice": "叶知晴",
+    "proxyReadsAndSha256": true,
+    "accountPasswordAndWalletPreserved": true,
+    "existingCourseRevisionPreserved": true,
+    "materialApprovals": 12,
+    "approvalLogs": 12,
+    "totalDurationSeconds": 998.736,
+    "verifiedAt": "2026-10-08T00:02:36.353Z"
+  }
+}

@@ -27,7 +27,24 @@
 - `apps/web/public/picture-book-demos/series-cover.webp`：1600×900 系列资源封面，作为作者名下的 MediaAsset 上传到已配置的 R2。
 - 12集保存为虚拟账号名下的正式 PictureBook，通过现有资源保存、投稿和管理员审核服务发布。公开资源使用审核快照，阅读遵循现有登录与学习者访问流程。`/storybook` 不再提供独立的静态示范区。
 - 不需要 schema migration；运行专用导入脚本新增账号、作品、资源及审核记录。首次导入默认关闭密码登录；用户可单独授权为投稿账号设置登录密码。导入脚本不会重置已启用登录的账号密码或自动接管账号。
-- 正文配文与图片分离，由播放器显示简体中文。正文插画无文字；封面直接包含书名和系列名。已准备逐页旁白文稿，当前示范不含音频。
+- 正文配文与图片分离，由播放器显示简体中文。正文插画无文字；封面直接包含书名和系列名。每集封面书名及12页正文使用“叶知晴”旁白，全文与配文一致，共156段音频。
+
+## 叶知晴配音
+
+固定系统音色 `yezhiqing_v3.1`，模型 `qwen-audio-3.1-tts-flash`，正常语速，24kHz单声道MP3。音频登记为工作室账号名下的 `TTS_OUTPUT` 素材并保存至R2；公开播放器通过现有鉴权音频接口读取已审核快照，支持逐页播放和自动翻页。工作室默认声音设为叶知晴。
+
+`scripts/picture-books/narrate-lele-series.mjs` 是本地运营素材制作脚本，限制abei数据库、3603网关、固定账号和同一12集资源。服务商请求ID、真实用量和文件校验记录保存于 `lele-narration-manifest.json`；不包含凭据。运营制作不修改用户钱包，不伪造前台付费任务。
+
+生成和发布分开执行。生成清单原子保存，已完成文件复用；生成成功而上传中断时复用原服务商结果。失败响应和请求结果未知时均停止，需人工核对并显式记录恢复决定，最多恢复三次。正式发布前读取验证全部156个R2文件，逐本使用版本条件写入，仅更改音频字段；文字、插画与目录必须和原稿一致。拒绝记录阻止自动重审，既存待审快照必须严格等于预定配音版本，再通过现有课件变更审核服务及管理员操作日志公开。课程目录及资源地址保持一致。
+
+在abei API容器内运行，先按下方导入步骤准备完整12集的 `books.json`，再复制 `lele-import.mjs`、`lele-narration.mjs` 和 `narrate-lele-series.mjs` 至同一目录：
+
+```bash
+docker compose exec -T api-core node /tmp/abei-lele-narration/narrate-lele-series.mjs --admin-id="$ABEI_ADMIN_ID" --data=/tmp/abei-lele-narration/books.json --output=/tmp/abei-lele-narration/audio --mode=generate
+docker compose exec -T api-core node /tmp/abei-lele-narration/narrate-lele-series.mjs --admin-id="$ABEI_ADMIN_ID" --data=/tmp/abei-lele-narration/books.json --output=/tmp/abei-lele-narration/audio --mode=publish
+```
+
+完整生成清单和服务商结果文件应保存到本地运营备份，容器重建前保留恢复目录。原作品导入器仍保留严格的原稿校验；它不会覆盖已配音或已修改的作品。
 
 ## 插画提示词
 
