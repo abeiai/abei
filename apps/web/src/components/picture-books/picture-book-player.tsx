@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Captions, ChevronLeft, ChevronRight, LoaderCircle, Maximize, Minimize, PanelRight, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowLeft, Captions, ChevronLeft, ChevronRight, LoaderCircle, Maximize, Minimize, PanelLeft, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
@@ -13,7 +13,7 @@ type Page = { position: number; caption: string; narration: string; imageUrl: st
 type Book = { id: string; title: string; style: string; aspectRatio: string; pages: Page[] };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
-  { value: "side", label: "左图右文", icon: PanelRight },
+  { value: "side", label: "左文右图", icon: PanelLeft },
   { value: "below", label: "上图下文", icon: PanelsTopLeft },
 ] as const;
 

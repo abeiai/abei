@@ -15,9 +15,9 @@
 .image[hidden] { display: none; }
 .caption { overflow-y: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: clamp(16px, 1.5vw, 24px); line-height: 1.9; }
 .sheet[data-layout="subtitle"] .caption { position: absolute; bottom: 20px; left: 50%; width: max-content; max-width: calc(100% - 40px); max-height: 40%; transform: translateX(-50%); border-radius: 12px; background: #171717b8; padding: 10px 20px; color: white; text-align: center; backdrop-filter: blur(8px); }
-.sheet[data-layout="side"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * var(--image-ratio) * 2)); height: min(var(--reader-height), calc((100vw - 128px) / (var(--image-ratio) * 2))); flex-direction: row; }
+.sheet[data-layout="side"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * var(--image-ratio) * 2)); height: min(var(--reader-height), calc((100vw - 128px) / (var(--image-ratio) * 2))); flex-direction: row-reverse; }
 .sheet[data-layout="side"] .artwork { flex: 1 1 50%; }
-.sheet[data-layout="side"] .caption { display: flex; flex: 1 1 50%; align-items: center; border-left: 1px solid #eee; padding: clamp(20px, 3vw, 56px); }
+.sheet[data-layout="side"] .caption { display: flex; flex: 1 1 50%; align-items: center; border-right: 1px solid #eee; padding: clamp(20px, 3vw, 56px); }
 .sheet[data-layout="side"] .caption p { margin: auto 0; }
 .sheet[data-layout="below"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * .74 * var(--image-ratio))); height: var(--reader-height); }
 .sheet[data-layout="below"] .caption { flex-shrink: 0; max-height: 38%; min-height: 26%; padding: 22px 32px; }
