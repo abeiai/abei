@@ -37,7 +37,7 @@ import {
   type AuthActionState,
   type PublicUser
 } from "@/lib/auth-actions";
-import { accountProfileIdentityRows } from "@/lib/user-identity";
+import { accountProfileIdentityRows, isInternalUserEmail, publicEmailLabel } from "@/lib/user-identity";
 
 const initialState: AuthActionState = {};
 const dialogButtonClass = "h-11 w-32 rounded-md text-base font-medium";
@@ -51,7 +51,7 @@ const profileRowActionClass =
 type ProfileDialog = "avatar" | "nickname" | "email" | "password" | "phone";
 
 function displayEmail(email: string) {
-  return email.endsWith("@users.xueleai.local") ? "未绑定邮箱" : email;
+  return publicEmailLabel(email);
 }
 
 function maskPhone(phone: string | null) {
@@ -67,7 +67,7 @@ function userInitial(user: PublicUser) {
 }
 
 function resetEmailValue(user: PublicUser) {
-  return user.email.endsWith("@users.xueleai.local") ? "" : user.email;
+  return isInternalUserEmail(user.email) ? "" : user.email;
 }
 
 export function ProfileSettingsPanel({ user }: { user: PublicUser }) {

@@ -59,7 +59,7 @@ def checkpoint_identity(manifest):
 
 def table_digest(db,table):
     digest=hashlib.sha256();count=0
-    for row in db.execute('SELECT id,source_pk,ordinal,object_id,payload FROM refs WHERE table_name=? ORDER BY id',(table,)):
+    for row in db.execute('SELECT id,source_pk,ordinal,object_id,payload FROM refs WHERE table_name=? ORDER BY source_pk,ordinal',(table,)):
         digest.update(json.dumps(row[:4],separators=(',',':')).encode());digest.update(row[4]);count+=1
     return {'count':count,'digest':digest.hexdigest()}
 
@@ -106,6 +106,7 @@ def build_index(root,manifest,key,origin_config,progress=None):
             done=db.execute('SELECT value FROM state WHERE name=?',('table:'+table,)).fetchone()
             if done: continue
             count=0
+            last_progress=time.monotonic()
             for row in table_rows(root,manifest,key,table):
                 owner=owners.get(row['values'].get('subject_id')) if table=='app_ai_chatmessage' else None
                 for ordinal,ref in enumerate(find_references(row,owner,origin_config.get('MEDIA_URL','/abei/'))):
@@ -122,6 +123,10 @@ def build_index(root,manifest,key,origin_config,progress=None):
                     db.execute('INSERT OR IGNORE INTO refs(id,table_name,source_pk,ordinal,object_id,payload) VALUES (?,?,?,?,?,?)',(ref['referenceId'],table,row['sourcePk'],ordinal,object_id,seal(ref,key,ref['referenceId'])))
                     count+=1
                 if int(row['sourcePk'])%1000==0: db.commit()
+                if progress and time.monotonic()-last_progress>=15:
+                    db.commit()
+                    progress({'phase':'asset-index-progress','table':table,'sourceRowsThroughPk':row['sourcePk'],'references':count})
+                    last_progress=time.monotonic()
             db.execute('INSERT OR REPLACE INTO state(name,value) VALUES (?,?)',('table:'+table,seal(table_digest(db,table),key,'index:table:'+table).hex()))
             db.commit()
             if progress: progress({'phase':'asset-index','table':table,'references':count})

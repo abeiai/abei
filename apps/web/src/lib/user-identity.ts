@@ -1,5 +1,9 @@
+export function isInternalUserEmail(email: string) {
+  return /@(?:users\.(?:xueleai|abei)\.local|legacy\.abei\.invalid)$/.test(email.trim().toLowerCase());
+}
+
 export function publicEmailLabel(email: string) {
-  return /@users\.(?:xueleai|abei)\.local$/.test(email) ? "未绑定邮箱" : email;
+  return isInternalUserEmail(email) ? "未绑定邮箱" : email;
 }
 
 export function publicAccountLabel(user: {
@@ -7,7 +11,7 @@ export function publicAccountLabel(user: {
   phone: string | null;
   nickname: string;
 }) {
-  if (!/@users\.(?:xueleai|abei)\.local$/.test(user.email)) {
+  if (!isInternalUserEmail(user.email)) {
     return user.email;
   }
   if (user.phone) {

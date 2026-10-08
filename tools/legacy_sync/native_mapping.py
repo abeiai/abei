@@ -54,7 +54,7 @@ def identity_values(v):
     return {'email':email,'phone':phone,'wechatMpOpenId':v.get('openid') or None,'wechatUnionId':v.get('unionid') or None}
 
 
-def user_identity(values,counts,existing):
+def user_identity(values,counts,existing,namespace_verified=True):
     identity=identity_values(values)
     conflicts=[]
     for field,value in identity.items():
@@ -64,6 +64,9 @@ def user_identity(values,counts,existing):
     identity['email']=identity['email'] or native_id('user',values['id'])+'@legacy.abei.invalid'
     identity['status']='ACTIVE' if str(values.get('is_active'))=='1' else 'DISABLED'
     identity['phoneVerifiedAt']=None
+    if not namespace_verified:
+        identity['wechatMpOpenId']=None
+        identity['wechatUnionId']=None
     return identity,conflicts
 
 

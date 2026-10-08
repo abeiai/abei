@@ -1,10 +1,21 @@
 import unittest
 from collections import Counter
 from tools.legacy_sync.native_mapping import target_guard, native_id, user_identity, log_row, book_row
+import hashlib
 
 STAMP={'type':'datetime','utc':'2024-01-01T00:00:00Z','raw':'2024-01-01T08:00:00','timezone':'Asia/Shanghai'}
 
 class NativeMapping(unittest.TestCase):
+    def test_mp_namespace_uses_actual_runtime_config_and_gates_both_identifiers(self):
+        from tools.legacy_sync.native_import import verify_mp_namespace
+        context={'sourceAppIdSha256':hashlib.sha256(b'fixture-app').hexdigest()}
+        self.assertTrue(verify_mp_namespace({'WECHAT_APP_ID':'fixture-app'},context))
+        self.assertFalse(verify_mp_namespace({'WECHAT_MP_APP_ID':'fixture-app','WECHAT_APP_ID':'another-app'},context))
+        row={'id':'1','openid':'fixture-openid','unionid':'fixture-union','is_active':'1'}
+        counts={'email':Counter(),'phone':Counter(),'wechatMpOpenId':Counter({'fixture-openid':1}),'wechatUnionId':Counter({'fixture-union':1})}
+        identity,_=user_identity(row,counts,{field:set() for field in counts},namespace_verified=False)
+        self.assertIsNone(identity['wechatMpOpenId'])
+        self.assertIsNone(identity['wechatUnionId'])
     def test_target_guard_rejects_source_remote_other_project_and_wrong_port(self):
         target_guard('postgresql://abei:fixture@127.0.0.1:3604/abei')
         target_guard('postgresql://fixture:fixture@127.0.0.1:3606/abei_wechat_test',testing=True)

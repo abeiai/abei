@@ -2,6 +2,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { publicAccountLabel, publicEmailLabel } from "../src/lib/user-identity.js";
 
+test("旧用户内部邮箱显示未绑定并使用昵称识别账号", () => {
+  assert.equal(publicEmailLabel("fixture@legacy.abei.invalid"), "未绑定邮箱");
+  assert.equal(publicAccountLabel({ email: "fixture@legacy.abei.invalid", phone: null, nickname: "旧用户" }), "旧用户");
+});
+
 test("微信占位邮箱不会显示给用户", () => {
   assert.equal(
     publicEmailLabel("wechat-hash@users.xueleai.local"),

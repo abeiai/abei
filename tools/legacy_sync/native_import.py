@@ -19,6 +19,10 @@ NATIVE_TABLES=frozenset({'users','legacy_ai_sessions','legacy_ai_logs','legacy_a
 JSON_FIELDS=frozenset({'metadata','parameters','messages','characters','pages'})
 
 
+def verify_mp_namespace(values,context):
+    return bool(values.get('WECHAT_APP_ID')) and hashlib.sha256(values['WECHAT_APP_ID'].encode()).hexdigest()==context['sourceAppIdSha256']
+
+
 class BulkInsert:
     def __init__(self,connection,table,columns,progress=None):
         if table not in NATIVE_TABLES: raise ValueError('No importer exists for this target table')
@@ -141,10 +145,9 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
             if phase in {'all','records'}:
                 def user_rows():
                     for row in users_source:
-                        v=row['values']; pk=row['sourcePk']; identity,conflicts=user_identity(v,counts,existing)
+                        v=row['values']; pk=row['sourcePk']; identity,conflicts=user_identity(v,counts,existing,namespace_verified=mp_identity_verified)
                         report['identityConflicts'].update(conflicts)
                         if not mp_identity_verified:
-                            identity['wechatMpOpenId']=None
                             report['wechatMpIdentityDeferred']=report.get('wechatMpIdentityDeferred',0)+bool(v.get('openid'))
                         password_hash=hashes[pk]
                         enabled=isinstance(password_hash,str) and bool(__import__('re').fullmatch(r'pbkdf2_sha256\$[1-9]\d{0,6}\$[^$]{1,128}\$[A-Za-z0-9+/]{43}=',password_hash)) and int(password_hash.split('$')[1])<=2000000
@@ -248,11 +251,11 @@ def main():
     parser.add_argument('--phase',choices=['all','records','assets'],default='all');parser.add_argument('--allow-pending-assets',action='store_true');parser.add_argument('--verified-mp-identity-file')
     parser.add_argument('--dry-run',action='store_true')
     args=parser.parse_args()
-    values=env_values([args.target_env],{'DATABASE_URL','WECHAT_MP_APP_ID'})
+    values=env_values([args.target_env],{'DATABASE_URL','WECHAT_APP_ID'})
     verified=False
     if args.verified_mp_identity_file:
         context=json.loads(Path(args.verified_mp_identity_file).read_text())
-        verified=bool(values.get('WECHAT_MP_APP_ID')) and hashlib.sha256(values['WECHAT_MP_APP_ID'].encode()).hexdigest()==context['sourceAppIdSha256']
+        verified=verify_mp_namespace(values,context)
         if not verified: raise ValueError('Legacy/new MP identity namespace mismatch')
     key=Path(args.key_file).read_bytes()
     if args.dry_run: print(json.dumps(preflight_package(args.package,key,values['DATABASE_URL'],verified)),flush=True)

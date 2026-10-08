@@ -1274,7 +1274,9 @@ export class AuthService {
   }
 
   private normalizeEmail(email: string) {
-    return email.trim().toLowerCase();
+    const normalized = email.trim().toLowerCase();
+    if (normalized.endsWith("@legacy.abei.invalid")) throw new AppException(40001, "请使用真实邮箱，或通过微信、手机号登录", HttpStatus.BAD_REQUEST);
+    return normalized;
   }
 
   private normalizePhone(value: string) {

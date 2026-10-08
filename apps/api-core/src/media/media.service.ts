@@ -629,6 +629,8 @@ export class MediaService {
     url: string;
     storageProvider: string;
   }, assetLabel: "头像" | "课程封面") {
+    // Imported originals are shared by immutable log/book/other-owner references.
+    if (asset.storageProvider === "S3" && /^legacy-sync\/abeiai-v1\/[a-f0-9]{64}\.[a-z0-9]+$/.test(asset.filename)) return;
     if (asset.storageProvider === "LOCAL") {
       const directory = resolve(uploadDir());
       const filename = basename(asset.filename);
