@@ -39,6 +39,20 @@ class SyntheticSource:
 
 @unittest.skipUnless(os.environ.get('ABEI_LEGACY_TEST_DATABASE_URL'),'Dedicated test database required')
 class NativeImportIntegration(unittest.TestCase):
+    def test_core_import_does_not_require_or_modify_an_unfinished_asset_index(self):
+        import psycopg
+        url=os.environ['ABEI_LEGACY_TEST_DATABASE_URL'];target_guard(url,testing=True)
+        with tempfile.TemporaryDirectory() as root:
+            export_snapshot(SyntheticSource(),Path(root),KEY,'abeiai-v1','synthetic-core-run')
+            validate_package(root,KEY)
+            report=import_package(root,KEY,url,testing=True,phase='core',allow_pending=True)
+            self.assertEqual(report['nativeLogRows'],6)
+            self.assertFalse(Path(root,'assets/index.sqlite').exists())
+            with psycopg.connect(url) as conn:
+                conn.execute('DELETE FROM legacy_ai_logs WHERE id=ANY(%s)',([native_id(table,str(pk)) for table in LOG_KINDS for pk in [1,2]],))
+                conn.execute('DELETE FROM legacy_ai_sessions WHERE id=ANY(%s)',([native_id('session:'+table,str(pk)) for table in ['app_ai_chatsubject','app_ai_ttssubject'] for pk in [1,2]],))
+                conn.execute('DELETE FROM users WHERE id=ANY(%s)',([native_id('user',str(pk)) for pk in [1,2]],))
+
     def test_native_tables_are_idempotent_owned_and_do_not_create_finance_tasks_or_admins(self):
         import psycopg
         url=os.environ['ABEI_LEGACY_TEST_DATABASE_URL']

@@ -60,6 +60,7 @@ def bulk_rows(conn,table,rows,progress=None):
 
 def refs_for(db,key,table,pk):
     result=[]
+    if db is None: return result
     for identity,ordinal,object_id,payload,status,encoded in db.execute('SELECT r.id,r.ordinal,r.object_id,r.payload,o.status,o.result FROM refs r JOIN objects o ON o.id=r.object_id WHERE r.table_name=? AND r.source_pk=? ORDER BY r.ordinal',(table,pk)):
         ref=unseal(payload,key,identity)
         if ref['sourceTable']!=table or ref['sourcePk']!=pk or ref['ordinal']!=ordinal or ref['objectId']!=object_id: raise ValueError('Asset reference checkpoint mismatch')
@@ -83,11 +84,11 @@ def version_labels(root,manifest,key):
     return labels
 
 
-def preflight_package(root,key,target_url,mp_identity_verified=False):
+def preflight_package(root,key,target_url,mp_identity_verified=False,allow_unindexed=False):
     from .native_mapping import target_guard
     target_guard(target_url)
     manifest=load_manifest(root,key)
-    if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or not manifest.get('assetsScanComplete'): raise ValueError('Completed indexed package required')
+    if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or (not allow_unindexed and not manifest.get('assetsScanComplete')): raise ValueError('Completed indexed package required')
     validate_package(root,key)
     rows=list(table_rows(root,manifest,key,'app_user_user',False))
     imported={native_id('user',row['sourcePk']) for row in rows}
@@ -106,7 +107,8 @@ def preflight_package(root,key,target_url,mp_identity_verified=False):
         conflicts=Counter()
         for row in rows: conflicts.update(user_identity(row['values'],counts,existing)[1])
         before={table:conn.execute(sql.SQL('SELECT COUNT(*) FROM {}').format(sql.Identifier(table))).fetchone()[0] for table in sorted(NATIVE_TABLES|{'ai_tasks','wallets','payment_orders','admin_users','ledger_entries'})}
-        with open_index(root) as db: validate_index(db,manifest,key)
+        if manifest.get('assetsScanComplete'):
+            with open_index(root) as db: validate_index(db,manifest,key)
         report={'phase':'native-preflight','runId':manifest['runId'],'sourceUsers':len(rows),'sourceLogs':{table:manifest['tables'][table]['count'] for table in LOG_KINDS},'sourceProducts':manifest['tables']['app_ai_product']['count'],'identityConflicts':dict(conflicts),'mpIdentityVerified':mp_identity_verified,'targetBeforeCounts':before,'assetCounts':manifest.get('assetTransferCounts',{}),'sourceTablesArchived':len(manifest['tables']),'financeActivated':False}
         write_chunk(root,'reports/native-preflight.enc',[report],key)
         return report
@@ -117,19 +119,20 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
     target_guard(target_url,testing)
     root=Path(root)
     manifest=load_manifest(root,key)
-    if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or not manifest.get('assetsScanComplete'): raise ValueError('Authenticated completed source package with asset index required')
+    if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or (phase!='core' and not manifest.get('assetsScanComplete')): raise ValueError('Authenticated completed source package with asset index required')
     validate_package(root,key)
     if not allow_pending and not manifest.get('assetTransferFinished'): raise ValueError('Asset transfers must finish before final import')
-    if phase not in {'all','records','assets'}: raise ValueError('Unknown import phase')
+    if phase not in {'all','records','assets','core'}: raise ValueError('Unknown import phase')
     report={'sourceSystem':SOURCE_SYSTEM,'runId':manifest['runId'],'phase':phase,'assetTransferFinished':manifest.get('assetTransferFinished',False),'sourceUserRows':manifest['tables']['app_user_user']['count'],'sourceLogRows':sum(manifest['tables'][table]['count'] for table in LOG_KINDS),'identityConflicts':Counter(),'booksArchived':Counter(),'ttsLinksUnresolved':0}
     with psycopg.connect(target_url.split('?')[0],connect_timeout=10) as conn:
         target=conn.execute('SELECT current_database(),inet_server_port()').fetchone()
         if target!=(('abei_wechat_test',3606) if testing else ('abei',3604)): raise ValueError('Target server identity mismatch')
         # Exclusive migration session lock; target application remains usable.
         if not conn.execute('SELECT pg_try_advisory_lock(626234801)').fetchone()[0]: raise ValueError('Another local legacy importer is active')
-        db=open_index(root)
+        db=None if phase=='core' else open_index(root)
+        lookup=None
         try:
-            validate_index(db,manifest,key)
+            if db is not None: validate_index(db,manifest,key)
             users_source=list(table_rows(root,manifest,key,'app_user_user',False))
             imported_ids={native_id('user',row['sourcePk']) for row in users_source}
             existing={field:set() for field in ['email','phone','wechatMpOpenId','wechatUnionId']}
@@ -143,7 +146,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 for field,value in identity_values(row['values']).items():
                     if value: counts[field][value]+=1
             hashes={row['sourcePk']:row['values']['password'] for chunk in manifest['tables']['app_user_user']['credentialChunks'] for row in read_chunk(root,chunk,key)}
-            if phase in {'all','records'}:
+            if phase in {'all','records','core'}:
                 def user_rows():
                     for row in users_source:
                         v=row['values']; pk=row['sourcePk']; identity,conflicts=user_identity(v,counts,existing,namespace_verified=mp_identity_verified)
@@ -159,8 +162,8 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
             valid_ids={row[0] for row in conn.execute('SELECT id FROM users WHERE id=ANY(%s)',(list(imported_ids),))}
             users={row['sourcePk']:native_id('user',row['sourcePk']) for row in users_source if native_id('user',row['sourcePk']) in valid_ids}
             del hashes,users_source
-            subjects={row['sourcePk']:row['values'] for row in table_rows(root,manifest,key,'app_ai_chatsubject',False)}
-            if phase in {'all','records'}:
+            subjects={row['sourcePk']:{field:row['values'].get(field) for field in ['user_id','chat_system','version_id']} for row in table_rows(root,manifest,key,'app_ai_chatsubject',False)}
+            if phase in {'all','records','core'}:
                 def session_rows():
                     for table in ['app_ai_chatsubject','app_ai_ttssubject']:
                         for row in table_rows(root,manifest,key,table,False):
@@ -179,13 +182,14 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                         yield {'id':native_id('chat-link',row['sourcePk']),'sessionId':native_id('session:app_ai_chatsubject',subject),'logId':native_id('app_ai_chatmessage',row['sourcePk']),'position':position,'sourceMsgId':v.get('msg_id'),'sourceVersionId':subjects[subject].get('version_id'),'sourceHash':None}
                 bulk_rows(conn,'legacy_ai_session_items',chat_links(),progress)
                 # Local temporary lookup supports millions of reused TTS messages without a target schema migration.
-                db.execute('CREATE TEMP TABLE tts_lookup (msg TEXT, owner TEXT, version TEXT, hash TEXT, log_id TEXT)')
-                db.execute('CREATE INDEX temp.tts_lookup_identity ON tts_lookup(msg,owner,version,hash)')
+                lookup=db if db is not None else sqlite3.connect(':memory:')
+                lookup.execute('CREATE TEMP TABLE tts_lookup (msg TEXT, owner TEXT, version TEXT, hash TEXT, log_id TEXT)')
+                lookup.execute('CREATE INDEX temp.tts_lookup_identity ON tts_lookup(msg,owner,version,hash)')
                 for row in table_rows(root,manifest,key,'app_ai_ttsmessage',False):
                     v=row['values']; content=text(v.get('user_content'))
                     if content and v.get('user_id') and v.get('msg_id'):
                         digest=hashlib.md5((content+'_'+str(v.get('version_id'))).encode(),usedforsecurity=False).hexdigest()
-                        db.execute('INSERT INTO tts_lookup VALUES (?,?,?,?,?)',(v['msg_id'].replace('-',''),v['user_id'],v.get('version_id'),digest,native_id('app_ai_ttsmessage',row['sourcePk'])))
+                        lookup.execute('INSERT INTO tts_lookup VALUES (?,?,?,?,?)',(v['msg_id'].replace('-',''),v['user_id'],v.get('version_id'),digest,native_id('app_ai_ttsmessage',row['sourcePk'])))
                 def tts_links():
                     for row in table_rows(root,manifest,key,'app_ai_ttssubject',False):
                         v=row['values']; body=json_value(v.get('body'),[])
@@ -194,7 +198,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                             if not isinstance(item,dict): report['ttsLinksUnresolved']+=1; continue
                             msg=str(item.get('msg_id') or '').replace('-',''); version=str(item.get('version_id') or ''); digest=item.get('hash_str')
                             expected=hashlib.md5((str(item.get('user_content') or '')+'_'+version).encode(),usedforsecurity=False).hexdigest()
-                            matches=db.execute('SELECT log_id FROM tts_lookup WHERE msg=? AND owner=? AND version=? AND hash=? LIMIT 2',(msg,v.get('user_id'),version,digest)).fetchall() if digest==expected and v.get('user_id') else []
+                            matches=lookup.execute('SELECT log_id FROM tts_lookup WHERE msg=? AND owner=? AND version=? AND hash=? LIMIT 2',(msg,v.get('user_id'),version,digest)).fetchall() if digest==expected and v.get('user_id') else []
                             log=matches[0][0] if len(matches)==1 else None
                             if not log: report['ttsLinksUnresolved']+=1
                             yield {'id':native_id('tts-link',row['sourcePk']+':'+str(position)),'sessionId':native_id('session:app_ai_ttssubject',row['sourcePk']),'logId':log,'position':position,'sourceMsgId':msg or None,'sourceVersionId':version or None,'sourceHash':digest}
@@ -205,6 +209,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                         if reason: report['booksArchived'][reason]+=1
                         else: yield book
                 report['compatibleBooksProcessed']=bulk_rows(conn,'picture_books',books(),progress)
+            if db is not None:
                 def asset_rows():
                     for table in LOG_KINDS:
                         for pk, in db.execute('SELECT DISTINCT source_pk FROM refs WHERE table_name=?',(table,)).fetchall():
@@ -242,14 +247,16 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
             write_chunk(root,'reports/native-'+phase+'.enc',[report],key)
             if progress: progress({'phase':'native-import-finished',**report})
             return report
-        finally: db.close()
+        finally:
+            if lookup is not None and lookup is not db: lookup.close()
+            if db is not None: db.close()
 
 
 def main():
     os.umask(0o077)
     parser=argparse.ArgumentParser()
     parser.add_argument('--package',required=True);parser.add_argument('--key-file',required=True);parser.add_argument('--target-env',required=True)
-    parser.add_argument('--phase',choices=['all','records','assets'],default='all');parser.add_argument('--allow-pending-assets',action='store_true');parser.add_argument('--verified-mp-identity-file')
+    parser.add_argument('--phase',choices=['all','records','assets','core'],default='all');parser.add_argument('--allow-pending-assets',action='store_true');parser.add_argument('--verified-mp-identity-file')
     parser.add_argument('--dry-run',action='store_true')
     args=parser.parse_args()
     values=env_values([args.target_env],{'DATABASE_URL','WECHAT_APP_ID'})
@@ -259,7 +266,7 @@ def main():
         verified=verify_mp_namespace(values,context)
         if not verified: raise ValueError('Legacy/new MP identity namespace mismatch')
     key=Path(args.key_file).read_bytes()
-    if args.dry_run: print(json.dumps(preflight_package(args.package,key,values['DATABASE_URL'],verified)),flush=True)
+    if args.dry_run: print(json.dumps(preflight_package(args.package,key,values['DATABASE_URL'],verified,allow_unindexed=args.phase=='core')),flush=True)
     else: import_package(args.package,key,values['DATABASE_URL'],phase=args.phase,allow_pending=args.allow_pending_assets,mp_identity_verified=verified,progress=lambda value:print(json.dumps(value),flush=True))
 
 
