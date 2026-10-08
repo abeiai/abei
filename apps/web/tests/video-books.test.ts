@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createVideoBookProject, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookModels, videoBookPrompt, videoBookRequest } from "../src/lib/video-books.js";
+import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookModels, videoBookPrompt, videoBookRequest } from "../src/lib/video-books.js";
 import type { ExperienceVideoModel } from "../src/lib/experience-api.js";
 import type { PictureBookGuide } from "../src/lib/picture-book-guide.js";
 
@@ -76,4 +76,20 @@ test("刷新或批量继续生成时跳过已提交和成功的页面，避免�
 
 test("素材请求体超过接口上限时在提交前拒绝，避免上传失败后重复生成", async () => {
   await assert.rejects(videoBookRequest("/api/ai/video/generate", { data: "x".repeat(12 * 1024 * 1024) }), /参考素材总量过大/);
+});
+
+test("查询进度使用本站任务编号，服务商编号不同或缺失也能恢复已提交任务", async context => {
+  const result = { status: "SUCCEEDED", videoUrl: "/clip.mp4", errorMessage: null };
+  const requests: Array<{ path: string; method: string | undefined }> = [];
+  context.mock.method(globalThis, "fetch", async (path: string, options: RequestInit) => {
+    requests.push({ path, method: options.method });
+    return Response.json({ code: 0, message: "成功", data: result });
+  });
+  for (const clip of [{ id: "local-task", providerTaskId: "provider-task" }, { id: "local-task", providerTaskId: null }]) {
+    assert.deepEqual(await getVideoBookTask(clip), result);
+  }
+  assert.deepEqual(requests, [
+    { path: "/api/ai/video/tasks/local-task", method: "GET" },
+    { path: "/api/ai/video/tasks/local-task", method: "GET" }
+  ]);
 });

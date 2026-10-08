@@ -88,6 +88,13 @@ export async function videoBookRequest<T>(path: string, body?: unknown, signal?:
   return payload.data;
 }
 
+export function getVideoBookTask(clip: Pick<VideoBookClip, "id">, signal?: AbortSignal) {
+  // The API resolves the local task before querying the provider.
+  return videoBookRequest<Pick<VideoBookClip, "status" | "videoUrl" | "errorMessage">>(
+    `/api/ai/video/tasks/${encodeURIComponent(clip.id)}`, undefined, signal
+  );
+}
+
 export async function readVideoBookReference(file: File): Promise<VideoBookReference> {
   const type = file.type.split("/")[0];
   if (type !== "image" && type !== "audio" && type !== "video") throw new Error("请选择图片、音频或视频文件");

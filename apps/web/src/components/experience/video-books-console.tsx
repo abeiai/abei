@@ -10,14 +10,13 @@ import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { ExperienceImageModel, ExperienceVideoModel } from "@/lib/experience-api";
 import { guideRequest, type GuideBookChoice, type PictureBookGuide } from "@/lib/picture-book-guide";
-import { createVideoBookProject, pendingVideoBookPages, readVideoBookFrame, readVideoBookReference, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookMotions, videoBookPrompt, videoBookRequest,
+import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, readVideoBookFrame, readVideoBookReference, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookMotions, videoBookPrompt, videoBookRequest,
   type VideoBookClip, type VideoBookPage, type VideoBookProject } from "@/lib/video-books";
 import { loadVideoBooks, removeVideoBook, saveVideoBook } from "@/lib/video-books-storage";
 import { cn } from "@/lib/utils";
 
 type Props = { userId: string; initialBookId: string; models: ExperienceVideoModel[]; imageModels: ExperienceImageModel[] };
 type VideoResult = Pick<VideoBookClip, "providerTaskId" | "status" | "videoUrl" | "errorMessage"> & { id: string; modelName: string; createdAt: string };
-type TaskResult = Pick<VideoBookClip, "status" | "videoUrl" | "errorMessage">;
 const panel = "min-w-0 rounded-2xl border border-border bg-background p-5 shadow-sm";
 
 function Help({ label, children }: { label: string; children: string }) {
@@ -108,14 +107,14 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
     if (!project || busy || !hasRunning) return;
     let active = true;
     const controller = new AbortController();
-    const pending = project.pages.filter(item => item.clip?.status === "RUNNING" && item.clip.providerTaskId);
+    const pending = project.pages.filter(item => item.clip?.status === "RUNNING" && item.clip.id);
     let querying = false;
     const timer = window.setInterval(() => {
       if (querying) return;
       querying = true;
       void Promise.allSettled(pending.map(async item => {
         const clip = item.clip!;
-        const result = await videoBookRequest<TaskResult>(`/api/ai/video/tasks/${encodeURIComponent(clip.providerTaskId!)}`, undefined, controller.signal);
+        const result = await getVideoBookTask(clip, controller.signal);
         if (active && result.status !== "RUNNING") patchPage(item.pageNumber, { clip: { ...clip, ...result } }, project.id);
       })).then(results => {
         querying = false;
@@ -244,13 +243,12 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
       if (clip.status === "SUCCEEDED" && !clip.videoUrl) throw new Error("视频任务未返回可播放文件，请稍后重试");
       patchPage(target.pageNumber, { clip }, current.id);
       await saveQueue.current;
-      const taskId = clip.providerTaskId;
-      if (clip.status === "RUNNING" && !taskId) throw new Error("任务已提交但未返回查询编号，请在生成记录中查看进度");
+      if (clip.status === "RUNNING" && !clip.id) throw new Error("任务已提交但未返回查询编号，请在生成记录中查看进度");
       for (let attempt = 0; clip.status === "RUNNING" && attempt < 120 && !stopRef.current && activeRef.current; attempt++) {
         setBusy(`正在生成第 ${target.pageNumber} 页视频…`);
         await new Promise(resolve => window.setTimeout(resolve, 5000));
         if (stopRef.current || !activeRef.current) break;
-        const result = await videoBookRequest<TaskResult>(`/api/ai/video/tasks/${encodeURIComponent(taskId!)}`, undefined, abortRef.current?.signal);
+        const result = await getVideoBookTask(clip, abortRef.current?.signal);
         clip = { ...clip, ...result };
         patchPage(target.pageNumber, { clip }, current.id);
       }
