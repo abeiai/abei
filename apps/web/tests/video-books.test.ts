@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookModels, videoBookPrompt, videoBookRequest } from "../src/lib/video-books.js";
+import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookModels, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll } from "../src/lib/video-books.js";
 import type { ExperienceVideoModel } from "../src/lib/experience-api.js";
 import type { PictureBookGuide } from "../src/lib/picture-book-guide.js";
 
@@ -23,6 +23,34 @@ test("绘本页面保留顺序，每页独立保存描述、参考素材和生�
   assert.equal(project.pages[1]!.prompt, "");
   assert.equal(project.editing, false);
   validateVideoBookSettings(project, model);
+});
+
+test("停止等待会立即中断下一次查询的延时，已停止的信号也不会开始等待", async () => {
+  const controller = new AbortController();
+  const waiting = waitForVideoBookPoll(controller.signal, 10);
+  controller.abort();
+  await assert.rejects(waiting, { name: "AbortError" });
+  await assert.rejects(waitForVideoBookPoll(controller.signal, 0), { name: "AbortError" });
+});
+
+test("任务不存在保留业务错误码，以便停止无效轮询而不重复提交任务", async context => {
+  context.mock.method(globalThis, "fetch", async () => Response.json({ code: 40401, message: "视频任务不存在", data: null }, { status: 404 }));
+  await assert.rejects(getVideoBookTask({ id: "missing" }), cause => cause instanceof VideoBookRequestError && cause.code === 40401);
+});
+
+test("多页同时查询时，前一页的网络错误不会掩盖后一页的任务不存在", async () => {
+  const missing = new VideoBookRequestError("视频任务不存在", 40401);
+  const results = await Promise.allSettled([Promise.reject(new Error("网络暂时不可用")), Promise.reject(missing), Promise.resolve({ status: "RUNNING" })]);
+  assert.equal(videoBookPollingError(results), missing);
+  assert.equal(videoBookPollingError([]), undefined);
+});
+
+test("读取进度响应时点击停止，保留中止信号而不误报请求失败", async context => {
+  const controller = new AbortController();
+  const response = Response.json({ code: 0, data: { status: "RUNNING" } });
+  context.mock.method(response, "json", async () => { controller.abort(); throw new DOMException("已停止", "AbortError"); });
+  context.mock.method(globalThis, "fetch", async () => response);
+  await assert.rejects(getVideoBookTask({ id: "local-task" }, controller.signal), { name: "AbortError" });
 });
 
 test("模型筛选排除纯文生视频、参考生视频和演示模型，确保首帧会送入图生视频接口", () => {

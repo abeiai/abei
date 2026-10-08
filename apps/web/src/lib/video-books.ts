@@ -22,6 +22,7 @@ export type VideoBookPage = {
 export type VideoBookProject = {
   id: string; title: string; pdfUrl: string; sourceName: string; editing: boolean; removeText: boolean;
   modelId: string; ratio: string; resolution: string; duration: number; updatedAt: string; pages: VideoBookPage[];
+  pollingPaused?: boolean;
 };
 
 // Only models whose adapter sends the image as first_frame belong in this tool.
@@ -83,9 +84,31 @@ export async function videoBookRequest<T>(path: string, body?: unknown, signal?:
   if (encoded && new TextEncoder().encode(encoded).byteLength > 11 * 1024 * 1024) throw new Error("参考素材总量过大，请压缩文件后再生成");
   const response = await fetch(path, { method: body === undefined ? "GET" : "POST", credentials: "include", cache: "no-store", signal,
     headers: body === undefined ? undefined : { "Content-Type": "application/json" }, body: encoded });
-  const payload = await response.json().catch(() => null) as { code?: number; message?: string; data?: T } | null;
-  if (!response.ok || payload?.code !== 0 || payload.data == null) throw new Error(response.status === 401 ? "登录已过期，请重新登录" : payload?.message || "视频制作请求失败，请稍后重试");
+  const payload = await response.json().catch(cause => {
+    if (cause instanceof Error && cause.name === "AbortError") throw cause;
+    return null;
+  }) as { code?: number; message?: string; data?: T } | null;
+  if (!response.ok || payload?.code !== 0 || payload.data == null) throw new VideoBookRequestError(response.status === 401 ? "登录已过期，请重新登录" : payload?.message || "视频制作请求失败，请稍后重试", payload?.code);
   return payload.data;
+}
+
+export class VideoBookRequestError extends Error {
+  constructor(message: string, public readonly code?: number) { super(message); }
+}
+
+export function videoBookPollingError(results: PromiseSettledResult<unknown>[]) {
+  const failures = results.filter((result): result is PromiseRejectedResult => result.status === "rejected");
+  return failures.find(result => result.reason instanceof VideoBookRequestError && result.reason.code === 40401)?.reason ?? failures[0]?.reason;
+}
+
+export function waitForVideoBookPoll(signal?: AbortSignal, delayMs = 5000) {
+  return new Promise<void>((resolve, reject) => {
+    const stopped = () => new DOMException("已停止等待", "AbortError");
+    if (signal?.aborted) { reject(stopped()); return; }
+    const timer = setTimeout(() => { signal?.removeEventListener("abort", abort); resolve(); }, delayMs);
+    function abort() { clearTimeout(timer); signal?.removeEventListener("abort", abort); reject(stopped()); }
+    signal?.addEventListener("abort", abort, { once: true });
+  });
 }
 
 export function getVideoBookTask(clip: Pick<VideoBookClip, "id">, signal?: AbortSignal) {

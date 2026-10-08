@@ -1882,17 +1882,13 @@ export class AiService {
   }
 
   private async findVideoTask(subject: ProfileSubject, localTaskId: string) {
+    const scope = { ...aiTaskSubjectWhere(subject), scenario: { slug: "experience-video-generation" } };
+    const include = { scenario: true } as const;
+    const localTask = await this.prisma.aiTask.findFirst({ where: { ...scope, id: localTaskId }, include });
+    if (localTask) return localTask;
+    // Older open tabs used the provider ID. Resolve it within the same subject and scenario.
     return this.prisma.aiTask.findFirst({
-      where: {
-        id: localTaskId,
-        ...aiTaskSubjectWhere(subject),
-        scenario: {
-          slug: "experience-video-generation"
-        }
-      },
-      include: {
-        scenario: true
-      }
+      where: { ...scope, input: { path: ["providerTaskId"], equals: localTaskId } }, include
     });
   }
 

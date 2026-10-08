@@ -10,7 +10,7 @@ import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { ExperienceImageModel, ExperienceVideoModel } from "@/lib/experience-api";
 import { guideRequest, type GuideBookChoice, type PictureBookGuide } from "@/lib/picture-book-guide";
-import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, readVideoBookFrame, readVideoBookReference, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookMotions, videoBookPrompt, videoBookRequest,
+import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, readVideoBookFrame, readVideoBookReference, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookMotions, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll,
   type VideoBookClip, type VideoBookPage, type VideoBookProject } from "@/lib/video-books";
 import { loadVideoBooks, removeVideoBook, saveVideoBook } from "@/lib/video-books-storage";
 import { cn } from "@/lib/utils";
@@ -42,6 +42,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
   const stopRef = useRef(false);
   const activeRef = useRef(true);
   const abortRef = useRef<AbortController | null>(null);
+  const pollingAbortRef = useRef<AbortController | null>(null);
   const saveQueue = useRef<Promise<void>>(Promise.resolve());
   const saveVersion = useRef(0);
   const [saveState, setSaveState] = useState("");
@@ -102,11 +103,22 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
     void commit({ ...current, pages: current.pages.map(item => item.pageNumber === number ? { ...item, ...patch } : item), updatedAt: new Date().toISOString() });
   }
 
+  function stopVideoWaiting() {
+    stopRef.current = true;
+    pollingAbortRef.current?.abort();
+    // Keep an in-flight submission until its task ID is saved, so it cannot be submitted twice.
+    if (!busy.includes("正在提交")) abortRef.current?.abort();
+    patchProject({ pollingPaused: true });
+    setError("");
+    setNotice(busy.includes("正在提交") ? "提交完成后将停止等待和后续生成" : "已停止等待和后续生成，已提交任务仍会执行，可恢复查询结果");
+  }
+
   // Resume polling submitted tasks after a reload without submitting them again.
   useEffect(() => {
-    if (!project || busy || !hasRunning) return;
+    if (!project || busy || !hasRunning || project.pollingPaused) return;
     let active = true;
     const controller = new AbortController();
+    pollingAbortRef.current = controller;
     const pending = project.pages.filter(item => item.clip?.status === "RUNNING" && item.clip.id);
     let querying = false;
     const timer = window.setInterval(() => {
@@ -118,11 +130,17 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
         if (active && result.status !== "RUNNING") patchPage(item.pageNumber, { clip: { ...clip, ...result } }, project.id);
       })).then(results => {
         querying = false;
-        const failure = results.find(result => result.status === "rejected");
-        if (active && failure?.status === "rejected") setNotice("视频任务仍保留在作品中，暂时无法查询进度，请稍后重试");
+        const failure = videoBookPollingError(results);
+        if (active && !controller.signal.aborted && !failure) setNotice("");
+        if (active && !controller.signal.aborted && failure) {
+          if (failure instanceof VideoBookRequestError && failure.code === 40401) {
+            patchProject({ pollingPaused: true });
+            setNotice("视频任务记录不存在，已停止查询。请确认登录账号后恢复查询");
+          } else setNotice("视频任务仍保留在作品中，暂时无法查询进度，请稍后重试");
+        }
       });
     }, 5000);
-    return () => { active = false; controller.abort(); window.clearInterval(timer); };
+    return () => { active = false; controller.abort(); window.clearInterval(timer); if (pollingAbortRef.current === controller) pollingAbortRef.current = null; };
   }, [project, busy, hasRunning]);
 
   useEffect(() => {
@@ -148,7 +166,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
     abortRef.current = new AbortController();
     setBusy(label); setError(""); setNotice("");
     try { await action(); }
-    catch (cause) { if (activeRef.current) setError(cause instanceof Error ? cause.message : "操作失败，请稍后重试"); }
+    catch (cause) { if (activeRef.current && !(stopRef.current && cause instanceof Error && cause.name === "AbortError")) setError(cause instanceof Error ? cause.message : "操作失败，请稍后重试"); }
     finally { busyRef.current = false; if (activeRef.current) setBusy(""); }
   }
 
@@ -246,7 +264,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
       if (clip.status === "RUNNING" && !clip.id) throw new Error("任务已提交但未返回查询编号，请在生成记录中查看进度");
       for (let attempt = 0; clip.status === "RUNNING" && attempt < 120 && !stopRef.current && activeRef.current; attempt++) {
         setBusy(`正在生成第 ${target.pageNumber} 页视频…`);
-        await new Promise(resolve => window.setTimeout(resolve, 5000));
+        await waitForVideoBookPoll(abortRef.current?.signal);
         if (stopRef.current || !activeRef.current) break;
         const result = await getVideoBookTask(clip, abortRef.current?.signal);
         clip = { ...clip, ...result };
@@ -255,7 +273,10 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
       if (clip.status === "FAILED" || clip.status === "CANCELLED") throw new Error(clip.errorMessage || "本页视频生成失败，请重试");
       if (clip.status === "RUNNING" && !stopRef.current) throw new Error("本页仍在生成中，已保留任务；请稍后查看结果");
     } catch (cause) {
-      if (clip?.status === "RUNNING") throw cause; // A query failure must never trigger a second paid submission.
+      if (clip?.status === "RUNNING") {
+        if (cause instanceof VideoBookRequestError && cause.code === 40401) patchProject({ pollingPaused: true });
+        throw cause; // A query failure must never trigger a second paid submission.
+      }
       const message = cause instanceof Error ? cause.message : "本页视频生成失败";
       patchPage(target.pageNumber, { clip: clip ? { ...clip, status: "FAILED", errorMessage: message } : {
         id: crypto.randomUUID(), providerTaskId: null, status: "FAILED", videoUrl: null, errorMessage: message,
@@ -276,6 +297,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
       for (const target of targets) { videoBookPrompt(target, current.removeText); validateVideoBookReferences(target.references, model); }
       if (current.removeText && !imageModel && targets.some(target => !target.cleanImageUrl)) throw new Error("暂无支持去字的图片模型，请取消去除文字或在后台配置模型");
     } catch (cause) { setError(cause instanceof Error ? cause.message : "请检查生成参数"); return; }
+    patchProject({ pollingPaused: false });
     await run("准备生成视频…", async () => {
       setPreviewTab("video");
       let finished = 0;
@@ -306,7 +328,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
         {project?.editing ? <div className="mb-3 flex gap-2"><Button size="sm" variant={leftTab === "pages" ? "default" : "ghost"} aria-pressed={leftTab === "pages"} onClick={() => setLeftTab("pages")}><BookOpenText className="size-4" />分镜页面</Button><Button size="sm" variant={leftTab === "history" ? "default" : "ghost"} aria-pressed={leftTab === "history"} onClick={() => setLeftTab("history")}><History className="size-4" />历史</Button></div> : <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" />视频作品历史<span className="ml-auto">{projects.length} 本</span></div>}
         <div className="min-h-0 space-y-2 overflow-y-auto">
           {project?.editing && leftTab === "pages" ? project.pages.map(item => <button key={item.pageNumber} type="button" disabled={disabled} onClick={() => { setPageNumber(item.pageNumber); setPreviewTab("frame"); }} className={cn("flex w-full items-center gap-3 rounded-xl border p-3 text-left disabled:opacity-50", item.pageNumber === pageNumber ? "border-primary/30 bg-background shadow-sm" : "border-transparent hover:bg-background/70")}>
-            <img src={project.removeText && item.cleanImageUrl ? item.cleanImageUrl : item.imageUrl} alt="" loading="lazy" className="h-16 w-20 shrink-0 rounded-lg bg-secondary object-contain" /><span className="min-w-0"><span className="block text-sm font-medium">第 {item.pageNumber} 页</span><span className="mt-1 block truncate text-xs text-muted-foreground">{item.description || "待编辑描述"}</span><span className={cn("mt-1 block text-xs", item.clip?.status === "FAILED" ? "text-destructive" : "text-muted-foreground")}>{item.clip?.status === "SUCCEEDED" ? "视频已生成" : item.clip?.status === "RUNNING" ? "视频生成中" : item.clip?.status === "FAILED" ? "生成失败" : "待生成"}</span></span>
+            <img src={project.removeText && item.cleanImageUrl ? item.cleanImageUrl : item.imageUrl} alt="" loading="lazy" className="h-16 w-20 shrink-0 rounded-lg bg-secondary object-contain" /><span className="min-w-0"><span className="block text-sm font-medium">第 {item.pageNumber} 页</span><span className="mt-1 block truncate text-xs text-muted-foreground">{item.description || "待编辑描述"}</span><span className={cn("mt-1 block text-xs", item.clip?.status === "FAILED" ? "text-destructive" : "text-muted-foreground")}>{item.clip?.status === "SUCCEEDED" ? "视频已生成" : item.clip?.status === "RUNNING" ? project.pollingPaused ? "等待已停止" : "视频生成中" : item.clip?.status === "FAILED" ? "生成失败" : "待生成"}</span></span>
           </button>) : projects.length ? projects.map(item => <button key={item.id} type="button" disabled={disabled} onClick={() => activate(item)} className={cn("w-full rounded-xl border p-3 text-left disabled:opacity-50", project?.id === item.id ? "border-primary/30 bg-background shadow-sm" : "border-transparent hover:bg-background/70")}><span className="block truncate text-sm font-medium">{item.title}</span><span className="mt-1 block text-xs text-muted-foreground">{item.pages.length} 页 · 视频 {item.pages.filter(value => value.clip?.status === "SUCCEEDED").length}/{item.pages.length}</span></button>) : <p className="p-3 text-sm leading-6 text-muted-foreground">暂无视频作品</p>}
         </div>
         <div className="mt-4 flex items-center gap-1 text-xs text-muted-foreground">作品记录<Help label="作品记录">作品和参考素材保存在当前浏览器，按登录账号区分。更换浏览器后需要重新导入；原绘本素材仍可在绘本导读中找到。</Help></div>
@@ -315,7 +337,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
       <main className="min-w-0 space-y-5">
         {error ? <div role="alert" className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 text-sm text-destructive">{error}</div> : null}
         {notice ? <div role="status" className="rounded-xl border border-border bg-background p-4 text-sm">{notice}</div> : null}
-        {busy ? <div role="status" className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-background p-4 text-sm"><LoaderCircle className="size-4 animate-spin" />{busy}{project?.editing && busy.includes("视频") ? <Button size="sm" variant="ghost" className="ml-auto" onClick={() => { stopRef.current = true; setNotice("当前已提交任务会继续执行，完成后停止后续页面"); }}>停止后续生成</Button> : null}</div> : null}
+        {busy ? <div role="status" className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-background p-4 text-sm"><LoaderCircle className="size-4 animate-spin" />{busy}{project?.editing && busy.includes("视频") ? <Button size="sm" variant="ghost" className="ml-auto" onClick={stopVideoWaiting}>{busy.includes("正在提交") ? "停止后续生成" : "停止等待"}</Button> : null}</div> : hasRunning && project?.editing ? <div role="status" className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-background p-4 text-sm">{!project.pollingPaused ? <LoaderCircle className="size-4 animate-spin" /> : null}{project.pollingPaused ? "已停止等待" : "正在查询视频任务"}<Button size="sm" variant="outline" className="ml-auto" onClick={() => { if (project.pollingPaused) { patchProject({ pollingPaused: false }); setError(""); setNotice(""); } else stopVideoWaiting(); }}>{project.pollingPaused ? "恢复查询" : "停止等待"}</Button></div> : null}
         {!project ? <div className="grid gap-5 md:grid-cols-2">
           <section className={panel}><h2 className="text-base font-semibold">上传绘本</h2><div onDragOver={event => event.preventDefault()} onDrop={event => { event.preventDefault(); if (!disabled) void uploadPdf(event.dataTransfer.files[0]); }} className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-4 text-center"><FileText className="mb-4 size-12 text-muted-foreground" /><p className="text-base font-medium">选择 PDF 绘本文档</p><p className="mt-2 text-sm leading-6 text-muted-foreground">PDF · 最大 200MB · 最多 80 页</p>{userId ? <Button className="mt-6" disabled={disabled} onClick={() => pdfInput.current?.click()}><Upload className="size-4" />上传绘本</Button> : <Button asChild className="mt-6"><Link href={loginHref}>登录后上传绘本</Link></Button>}</div></section>
           <section className={panel}><h2 className="text-base font-semibold">本站绘本</h2><div className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-4 text-center"><BookOpenText className="mb-4 size-12 text-muted-foreground" /><p className="text-base font-medium">选择本站绘本</p><p className="mt-2 text-sm leading-6 text-muted-foreground">资源中心 · 我的绘本</p>{userId ? <Button className="mt-6" disabled={disabled} onClick={() => setBookPicker(true)}><BookOpenText className="size-4" />选择绘本</Button> : <Button asChild className="mt-6"><Link href={loginHref}>登录后选择绘本</Link></Button>}</div></section>
@@ -332,7 +354,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
               <span className="ml-auto text-xs text-muted-foreground">第 {pageNumber} / {project.pages.length} 页</span>
             </div>
             {page ? <div className="flex min-h-80 flex-col items-center justify-center bg-secondary/20 p-5">
-              {previewTab === "video" && project.editing ? page.clip?.status === "SUCCEEDED" && page.clip.videoUrl ? <video key={page.clip.id} src={page.clip.videoUrl} poster={project.removeText ? page.cleanImageUrl ?? page.imageUrl : page.imageUrl} controls playsInline preload="metadata" className="max-h-[50vh] w-full rounded-xl bg-black" style={{ aspectRatio: page.clip.ratio.replace(":", "/") }} /> : <div className="flex min-h-72 flex-col items-center justify-center gap-3 text-sm text-muted-foreground">{page.clip?.status === "RUNNING" ? <LoaderCircle className="size-8 animate-spin" /> : <Video className="size-10" />}<p>{page.clip?.status === "RUNNING" ? "本页视频生成中，稍后会自动更新" : page.clip?.errorMessage || "尚未生成本页视频"}</p></div> : <><img src={project.removeText && page.cleanImageUrl ? page.cleanImageUrl : page.imageUrl} alt={`绘本第 ${pageNumber} 页视频首帧`} className="max-h-[50vh] w-auto max-w-full object-contain" />{project.removeText ? <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-background px-3 py-1 text-xs text-muted-foreground">{page.cleanImageUrl ? <><Check className="size-3" />已去除文字</> : <><Eraser className="size-3" />生成前处理文字</>}</span> : null}</>}
+              {previewTab === "video" && project.editing ? page.clip?.status === "SUCCEEDED" && page.clip.videoUrl ? <video key={page.clip.id} src={page.clip.videoUrl} poster={project.removeText ? page.cleanImageUrl ?? page.imageUrl : page.imageUrl} controls playsInline preload="metadata" className="max-h-[50vh] w-full rounded-xl bg-black" style={{ aspectRatio: page.clip.ratio.replace(":", "/") }} /> : <div className="flex min-h-72 flex-col items-center justify-center gap-3 text-sm text-muted-foreground">{page.clip?.status === "RUNNING" && !project.pollingPaused ? <LoaderCircle className="size-8 animate-spin" /> : <Video className="size-10" />}<p>{page.clip?.status === "RUNNING" ? project.pollingPaused ? "已停止等待，可恢复查询视频结果" : "本页视频生成中，稍后会自动更新" : page.clip?.errorMessage || "尚未生成本页视频"}</p></div> : <><img src={project.removeText && page.cleanImageUrl ? page.cleanImageUrl : page.imageUrl} alt={`绘本第 ${pageNumber} 页视频首帧`} className="max-h-[50vh] w-auto max-w-full object-contain" />{project.removeText ? <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-background px-3 py-1 text-xs text-muted-foreground">{page.cleanImageUrl ? <><Check className="size-3" />已去除文字</> : <><Eraser className="size-3" />生成前处理文字</>}</span> : null}</>}
             </div> : null}
             <div className="flex items-center justify-between gap-3 border-t border-border p-4"><Button variant="outline" size="sm" disabled={disabled || pageNumber <= 1} onClick={() => setPageNumber(pageNumber - 1)}><ChevronLeft className="size-4" />上一页</Button><Select aria-label="跳转绘本页面" className="h-9 w-auto" disabled={disabled} value={pageNumber} onChange={event => setPageNumber(Number(event.target.value))}>{project.pages.map(item => <option key={item.pageNumber} value={item.pageNumber}>第 {item.pageNumber} 页</option>)}</Select><Button variant="outline" size="sm" disabled={disabled || pageNumber >= project.pages.length} onClick={() => setPageNumber(pageNumber + 1)}>下一页<ChevronRight className="size-4" /></Button></div>
           </section>
