@@ -89,7 +89,7 @@ def preflight_package(root,key,target_url,mp_identity_verified=False,allow_unind
     target_guard(target_url)
     manifest=load_manifest(root,key)
     if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or (not allow_unindexed and not manifest.get('assetsScanComplete')): raise ValueError('Completed indexed package required')
-    validate_package(root,key)
+    validate_package(root,key,record_validation=False)
     rows=list(table_rows(root,manifest,key,'app_user_user',False))
     imported={native_id('user',row['sourcePk']) for row in rows}
     counts={field:Counter() for field in ['email','phone','wechatMpOpenId','wechatUnionId']}
@@ -120,7 +120,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
     root=Path(root)
     manifest=load_manifest(root,key)
     if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or (phase!='core' and not manifest.get('assetsScanComplete')): raise ValueError('Authenticated completed source package with asset index required')
-    validate_package(root,key)
+    validate_package(root,key,record_validation=False)
     if not allow_pending and not manifest.get('assetTransferFinished'): raise ValueError('Asset transfers must finish before final import')
     if phase not in {'all','records','assets','core'}: raise ValueError('Unknown import phase')
     report={'sourceSystem':SOURCE_SYSTEM,'runId':manifest['runId'],'phase':phase,'assetTransferFinished':manifest.get('assetTransferFinished',False),'sourceUserRows':manifest['tables']['app_user_user']['count'],'sourceLogRows':sum(manifest['tables'][table]['count'] for table in LOG_KINDS),'identityConflicts':Counter(),'booksArchived':Counter(),'ttsLinksUnresolved':0}

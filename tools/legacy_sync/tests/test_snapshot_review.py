@@ -32,6 +32,28 @@ class FixtureSource:
 
 
 class ReviewRegressions(unittest.TestCase):
+    def test_import_validation_does_not_overwrite_concurrent_asset_completion(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            export_snapshot(FixtureSource(),root,KEY,'fixture-source','fixture-run')
+            validate_package(root,KEY)
+            original_read=read_chunk
+            changed=False
+            def concurrent_read(package,info,key):
+                nonlocal changed
+                if not changed:
+                    changed=True
+                    current=load_manifest(root,KEY)
+                    current['assetsScanComplete']=True
+                    current['assetReferenceCount']=3
+                    write_manifest(root,current,KEY)
+                return original_read(package,info,key)
+            with patch('tools.legacy_sync.export.read_chunk',side_effect=concurrent_read):
+                validate_package(root,KEY,record_validation=False)
+            latest=load_manifest(root,KEY)
+            self.assertTrue(latest['assetsScanComplete'])
+            self.assertEqual(latest['assetReferenceCount'],3)
+
     def test_constructor_sets_session_read_only_before_current_snapshot(self):
         queries = []
         class Cursor:

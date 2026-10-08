@@ -106,7 +106,7 @@ def export_snapshot(source, root, key, source_system, run_id, progress=None):
         source.close()
 
 
-def validate_package(root, key):
+def validate_package(root, key, record_validation=True):
     manifest = load_manifest(root, key)
     if manifest.get('protocol') != 1 or not manifest.get('sourceSystem') or set(manifest.get('tables', {})) != set(SCHEMA_BASELINE):
         raise ValueError('Incomplete table inventory or unknown package protocol')
@@ -165,7 +165,7 @@ def validate_package(root, key):
         if not count and (info['minPk'] is not None or info['maxPk'] is not None): raise ValueError('Empty source table has invalid range')
     if manifest['tables']['app_user_user']['count'] < 1: raise ValueError('Expected existing legacy users')
     manifest['validationPassed'] = True
-    write_manifest(root, manifest, key)
+    if record_validation: write_manifest(root, manifest, key)
     return manifest
 
 
