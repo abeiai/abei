@@ -34,7 +34,10 @@ export function legacyLogFilters(query: Record<string, unknown>) {
   if (start || end) where.requestedAt = { gte: start, lt: end ? new Date(end.getTime() + 86400_000) : undefined };
   const sourceId = text("sourceId"), model = text("model"), application = text("application"), user = text("user");
   if (sourceId) where.sourcePk = sourceId;
-  if (model) where.modelName = { contains: model, mode: "insensitive" };
+  if (model) where.AND = [{ OR: [
+    { modelName: { contains: model, mode: "insensitive" } },
+    { versionName: { contains: model, mode: "insensitive" } },
+  ] }];
   if (application) where.application = { contains: application, mode: "insensitive" };
   if (user) where.OR = [
     { sourceUserId: user },
@@ -49,14 +52,18 @@ const secretKey = /^(?:api[_-]?key|api[_-]?secret|secret|password|passwd|authori
 export function redactLogText(value: string | null | undefined): string | null {
   if (value == null) return null;
   return value
-    .replace(/\bBearer\s+[A-Za-z0-9._~+/-]+/gi, "Bearer [已隐藏]")
+    .replace(/\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+/gi, "$1 [已隐藏]")
     .replace(/\bsk-[A-Za-z0-9_-]{16,}/g, "[已隐藏]")
-    .replace(/((?:api[_-]?key|api[_-]?secret|password|passwd|access[_-]?token|refresh[_-]?token|client[_-]?secret|secret|authorization|cookie|x-api-key)["']?\s*[:=]\s*["']?)[^\s,"';&<>]+/gi, "$1[已隐藏]")
-    .replace(/([?&](?:token|signature|x-amz-signature|x-amz-credential|x-amz-security-token|ossaccesskeyid|security-token)=)[^&#\s"'<>]*/gi, "$1[已隐藏]");
+    .replace(/((?:api[_-]?key|api[_-]?secret|password|passwd|access[_-]?token|refresh[_-]?token|client[_-]?secret|private[_-]?key|credential[s]?|encodingaeskey|token|secret|authorization|cookie|set-cookie|x-api-key)["']?\s*[:=]\s*)(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/gi, "$1\"[已隐藏]\"")
+    .replace(/\b((?:set-)?cookie\s*[:=]\s*)[^\r\n]+/gi, "$1[已隐藏]")
+    .replace(/((?:api[_-]?key|api[_-]?secret|password|passwd|access[_-]?token|refresh[_-]?token|client[_-]?secret|private[_-]?key|credential[s]?|encodingaeskey|token|secret|authorization|x-api-key)["']?\s*[:=]\s*)[^\s,"';&<>]+/gi, "$1[已隐藏]")
+    // The restricted export retains original URLs; browser logs only expose protected asset routes.
+    .replace(/\b(?:https?|s3|oss):(?:\/|\\\/){2}[^\s"'<>\])}]+/gi, "[历史链接已隐藏]");
 }
 
 export function redactLogJson(value: unknown, depth = 0): unknown {
   if (depth > 16) return "[嵌套内容过深]";
+  if (value instanceof Date) return value;
   if (typeof value === "string") return redactLogText(value);
   if (Array.isArray(value)) return value.map(item => redactLogJson(item, depth + 1));
   if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, secretKey.test(key) ? "[已隐藏]" : redactLogJson(child, depth + 1)]));

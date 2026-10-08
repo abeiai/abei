@@ -38,6 +38,9 @@ async function seedLogs() {
     { id: logId("video"), sourceSystem, sourceTable: "app_ai_videomessage", sourcePk: "400", kind: "VIDEO", status: "RUNNING", requestedAt: new Date("2026-10-01T16:00:00Z"), sourceUserId: "999" },
     { id: logId("other"), sourceSystem, sourceTable: "app_ai_chatmessage", sourcePk: "900", userId: otherUserId, kind: "CHAT", status: "UNKNOWN", requestedAt: new Date("2026-09-01T00:00:00Z"), inputText: "其他用户内容不能通过当前会话关联展示" },
   ] });
+  await prisma.legacyAiLog.update({ where: { id: logId("chat-00") }, data: { versionName: "旧版本", parameters: { api_key: "hidden-provider-key", safe: { temperature: 0.7 }, header: "Authorization: Basic Zml4dHVyZTpwYXNzd29yZA==", cookieText: "Cookie: theme=dark; sid=private-cookie-secret", rawJson: '{"token":"private-json-secret"}' } } });
+  await prisma.legacyAiLog.update({ where: { id: logId("image") }, data: { inputPreview: "图片参考 https://old.invalid/preview.png" } });
+  for (const kind of ["audio", "video"]) await prisma.legacyAiLog.update({ where: { id: logId(kind) }, data: { outputText: `https://old.invalid/${kind}.mp4` } });
   const session = await prisma.legacyAiSession.create({ data: { id: logId("session"), sourceSystem, sourceTable: "app_ai_chatsubject", sourcePk: "10", userId, sourceUserId: "123", title: "旧对话", requestedAt: new Date("2026-10-01T00:00:00Z") } });
   await prisma.legacyAiSessionItem.createMany({ data: [
     { sessionId: session.id, logId: logId("chat-00"), position: 1 },
@@ -107,6 +110,8 @@ test("四类日志、旧用户、模型和状态筛选在数据库中生效，�
   }
   const filtered = await (await request("?user=123&model=" + encodeURIComponent("旧模型") + "&application=" + encodeURIComponent("旧应用") + "&status=SUCCEEDED")).json();
   assert.equal(filtered.data.total, 55);
+  const version = await (await request("?user=123&model=" + encodeURIComponent("旧版本"))).json();
+  assert.equal(version.data.total, 1);
   const orphan = await (await request("?kind=VIDEO&user=999")).json();
   assert.equal(orphan.data.items[0].user, null);
   const exact = await (await request("?sourceId=200&status=FAILED")).json();
@@ -139,11 +144,17 @@ test("列表不返回全文或参数，详情脱敏且会话按顺序展示并�
   assert.equal(data.inputText, "完整用户输入");
   assert.equal(data.systemPrompt, "系统提示词");
   assert.equal(data.parameters.safe.temperature, 0.7);
-  assert.doesNotMatch(JSON.stringify(data), /hidden-provider-key|Bearer secret|其他用户内容/);
+  assert.doesNotMatch(JSON.stringify(data), /hidden-provider-key|Zml4dHVyZTpwYXNzd29yZA|private-cookie-secret|private-json-secret|其他用户内容/);
   assert.deepEqual(data.sessions[0].items.map((item: { position: number }) => item.position), [0, 1, 2, 3]);
   assert.equal(data.sessions[0].items[2].log, null);
   assert.equal(data.sessions[0].items[3].log, null);
   assert.equal((await request("/does-not-exist")).status, 404);
+  for (const kind of ["image", "audio", "video"]) {
+    const detail = await (await request("/" + logId(kind))).json();
+    assert.doesNotMatch(JSON.stringify(detail), /old\.invalid|private-reference-token/);
+  }
+  const imageList = await (await request("?kind=IMAGE")).json();
+  assert.doesNotMatch(JSON.stringify(imageList), /old\.invalid/);
 });
 
 test("长会话分段分页可完整访问，页面不会一次返回全部全文", async () => {

@@ -316,7 +316,7 @@ export async function AdminTaskList({ searchParams, basePath = "/admin/ai-tasks"
                     应用筛选
                   </Button>
                   <Button asChild type="button" variant="outline">
-                    <Link href="/admin/ai-tasks">重置</Link>
+                    <Link href={basePath}>重置</Link>
                   </Button>
                 </div>
               </FieldGroup>

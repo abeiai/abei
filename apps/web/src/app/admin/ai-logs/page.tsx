@@ -31,7 +31,7 @@ export default async function AdminAiLogsPage({ searchParams }: { searchParams?:
   let errorMessage: string | null = null;
   try { page = await getLegacyAiLogs(query); }
   catch (error) { errorMessage = error instanceof Error ? error.message : "日志查询暂不可用，请稍后重试"; }
-  const textFields = [ ["user", "用户", "用户邮箱、昵称或旧用户 ID"], ["model", "模型", "模型名称"], ["application", "应用", "旧应用名称"], ["sourceId", "旧记录 ID", "原始记录 ID"], ["startDate", "开始日期", ""], ["endDate", "结束日期", ""] ] as const;
+  const textFields = [ ["user", "用户", "用户邮箱、昵称或旧用户 ID"], ["model", "模型 / 版本", "模型或版本名称"], ["application", "应用", "旧应用名称"], ["sourceId", "旧记录 ID", "原始记录 ID"], ["startDate", "开始日期", ""], ["endDate", "结束日期", ""] ] as const;
   return <AdminShell active="/admin/ai-logs" title="日志查询">
     <div className="flex flex-col gap-6">
       <AiLogSourceLinks source="LEGACY" />

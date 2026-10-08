@@ -1,6 +1,6 @@
 import { constants } from "node:fs";
 import { lstat, open, realpath } from "node:fs/promises";
-import { resolve, sep } from "node:path";
+import { basename, dirname, resolve, sep } from "node:path";
 import { AppException } from "../common/app-exception.js";
 
 const unavailable = () => new AppException(40401, "历史素材尚不可用", 404);
@@ -9,6 +9,14 @@ const mimeTypes: Record<string, string[]> = {
   AUDIO: ["audio/mpeg", "audio/wav", "audio/x-wav", "audio/ogg", "audio/mp4", "audio/aac"],
   VIDEO: ["video/mp4", "video/webm", "video/ogg"],
 };
+
+async function canonicalDirectory(path: string): Promise<string> {
+  try { return await realpath(path); }
+  catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT" || dirname(path) === path) throw error;
+    return resolve(await canonicalDirectory(dirname(path)), basename(path));
+  }
+}
 
 export async function legacyLogFile(asset: { status: string; mediaType: string; mimeType: string | null; storageKey: string | null; filename: string | null }, range?: string) {
   if (asset.status !== "AVAILABLE" || !asset.storageKey || !asset.mimeType || !mimeTypes[asset.mediaType]?.includes(asset.mimeType)) throw unavailable();
@@ -19,6 +27,8 @@ export async function legacyLogFile(asset: { status: string; mediaType: string; 
   let filepath: string, size: number;
   try {
     const root = await realpath(configured);
+    const publicRoot = await canonicalDirectory(uploads);
+    if (root === publicRoot || root.startsWith(publicRoot + sep)) throw unavailable();
     const candidate = resolve(root, asset.storageKey);
     const info = await lstat(candidate);
     filepath = await realpath(candidate);

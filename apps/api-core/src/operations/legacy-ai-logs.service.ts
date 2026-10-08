@@ -14,7 +14,7 @@ const listSelect = {
 } as const;
 
 function summary<T extends { inputPreview: string | null; outputPreview: string | null }>(row: T) {
-  return { ...row, inputPreview: redactLogText(row.inputPreview)?.slice(0, 160) ?? null, outputPreview: redactLogText(row.outputPreview)?.slice(0, 160) ?? null };
+  return { ...(redactLogJson(row) as T), inputPreview: redactLogText(row.inputPreview)?.slice(0, 160) ?? null, outputPreview: redactLogText(row.outputPreview)?.slice(0, 160) ?? null };
 }
 
 @Injectable()
@@ -74,7 +74,7 @@ export class LegacyAiLogsService {
           } : null,
         })),
       }));
-    return {
+    return redactLogJson({
       ...summary({ id: log.id, kind: log.kind, status: log.status, sourceSystem: log.sourceSystem, sourceTable: log.sourceTable, sourcePk: log.sourcePk,
         sourceUserId: log.sourceUserId, sourceStatus: log.sourceStatus, application: log.application, providerName: log.providerName,
         modelName: log.modelName, versionName: log.versionName, inputPreview: log.inputPreview, outputPreview: log.outputPreview,
@@ -89,6 +89,6 @@ export class LegacyAiLogsService {
         mediaType: asset.mediaType, status: asset.status, filename: redactLogText(asset.filename),
         url: asset.status === "AVAILABLE" && asset.storageKey ? `/api/admin/legacy-ai-logs/${encodeURIComponent(id)}/assets/${encodeURIComponent(asset.id)}/file` : null,
       })),
-    };
+    });
   }
 }
