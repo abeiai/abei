@@ -25,3 +25,18 @@ export class GuideAudioDto extends GuideVersionDto {
   @IsOptional() @Type(() => Number) @IsNumber() @Min(0.5) @Max(1.5)
   speed?: number;
 }
+
+export class GuideBookQueryDto {
+  @IsIn(["MINE", "PUBLIC"])
+  scope: "MINE" | "PUBLIC" = "PUBLIC";
+  @IsOptional() @IsString() @MaxLength(80)
+  search?: string;
+  @Type(() => Number) @IsInt() @Min(1) @Max(10000)
+  page = 1;
+}
+export class GuideBookImportDto {
+  @IsIn(["MINE", "PUBLIC"])
+  scope!: "MINE" | "PUBLIC";
+  @IsString() @MinLength(1) @MaxLength(80)
+  bookId!: string;
+}

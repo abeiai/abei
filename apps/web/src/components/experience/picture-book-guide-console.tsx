@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BookOpenText, Check, ChevronLeft, ChevronRight, FileText, History, Info, LoaderCircle, Plus, Save, Sparkles, Trash2, Upload, Volume2 } from "lucide-react";
 import { VoicePicker } from "@/components/audio/voice-picker";
+import { GuideBookPicker } from "@/components/picture-books/guide-book-picker";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import type { VoiceLibrary } from "@/lib/audio-api";
-import { defaultGuideVoice, guideAudioExtension, guideAudioSelection, guideRequest, type GuideOptions, type GuideSummary, type PictureBookGuide } from "@/lib/picture-book-guide";
+import { defaultGuideVoice, guideAudioExtension, guideAudioSelection, guideRequest, type GuideBookChoice, type GuideOptions, type GuideSummary, type PictureBookGuide } from "@/lib/picture-book-guide";
 import type { VoicePickerOption } from "@/lib/voice-picker";
 
 function Help({ text }: { text: string }) {
@@ -37,6 +38,8 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   const [autoPlay, setAutoPlay] = useState(false);
   const [resetDialog, setResetDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const [bookPickerOpen, setBookPickerOpen] = useState(false);
+  const closeBookPicker = useCallback(() => setBookPickerOpen(false), []);
   const audioRef = useRef<HTMLAudioElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const active = useRef(true);
@@ -106,6 +109,16 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
     await run("正在解析 PDF…", async () => {
       const form = new FormData(); form.set("file", file);
       const next = await guideRequest<PictureBookGuide>("", "POST", form);
+      preserveDraft.current = false;
+      accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style);
+      setSpeed(options.styles.find(item => item.value === next.style)?.speed ?? 0.95);
+      window.history.replaceState(null, "", `/picture-book-guide?guide=${next.id}`);
+    });
+  }
+  async function selectBook(book: GuideBookChoice) {
+    closeBookPicker();
+    await run("正在载入绘本…", async () => {
+      const next = await guideRequest<PictureBookGuide>("/books", "POST", { bookId: book.bookId, scope: book.scope });
       preserveDraft.current = false;
       accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style);
       setSpeed(options.styles.find(item => item.value === next.style)?.speed ?? 0.95);
@@ -183,19 +196,30 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
         {error ? <div role="alert" className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 text-sm text-destructive">{error}</div> : null}
         {notice ? <div role="status" className="rounded-xl border border-primary/20 bg-background p-4 text-sm">{notice}</div> : null}
         {busy || guide?.busy ? <div role="status" className="flex items-center gap-2 rounded-xl border border-border bg-background p-4 text-sm"><LoaderCircle className="size-4 animate-spin" />{busy || "本绘本正在生成中…"}</div> : null}
-        {!guide ? <section className="rounded-2xl border border-border bg-background p-6 shadow-sm">
+        {!guide ? <div className="grid gap-5 md:grid-cols-2">
+          <section className="min-w-0 rounded-2xl border border-border bg-background p-5 shadow-sm">
           <h2 className="text-base font-semibold">上传绘本</h2>
-          <div className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-6 text-center">
+          <div className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-4 text-center">
             <FileText className="mb-4 size-12 text-muted-foreground" />
             <p className="text-base font-medium">选择 PDF 绘本文档</p>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">PDF · 最大 200MB · 最多 80 页</p>
             {signedIn ? <Button className="mt-6" disabled={disabled} onClick={() => inputRef.current?.click()}><Upload className="size-4" />上传 PDF</Button> : <Button className="mt-6" asChild><Link href={loginHref}>登录后上传绘本</Link></Button>}
           </div>
-        </section> : <>
+          </section>
+          <section className="min-w-0 rounded-2xl border border-border bg-background p-5 shadow-sm">
+            <h2 className="text-base font-semibold">本站绘本</h2>
+            <div className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-4 text-center">
+              <BookOpenText className="mb-4 size-12 text-muted-foreground" />
+              <p className="text-base font-medium">选择本站绘本</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">资源中心 · 我的绘本</p>
+              {signedIn ? <Button className="mt-6" disabled={disabled} onClick={() => setBookPickerOpen(true)}><BookOpenText className="size-4" />选择绘本</Button> : <Button className="mt-6" asChild><Link href={loginHref}>登录后选择绘本</Link></Button>}
+            </div>
+          </section>
+        </div> : <>
           <section className="overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
               <div className="min-w-0"><h2 className="truncate text-base font-semibold">{guide.title}</h2><p className="mt-1 text-xs text-muted-foreground">第 {pageNumber} / {guide.pageCount} 页</p></div>
-              <div className="flex gap-2"><Button size="sm" variant="outline" asChild><a href={guide.pdfUrl} target="_blank" rel="noreferrer">原始 PDF</a></Button><Button size="sm" variant="ghost" disabled={disabled} aria-label="删除导读" onClick={() => setDeleteDialog(true)}><Trash2 className="size-4" /></Button></div>
+              <div className="flex gap-2"><Button size="sm" variant="outline" asChild><a href={guide.pdfUrl} target="_blank" rel="noreferrer">查看 PDF</a></Button><Button size="sm" variant="ghost" disabled={disabled} aria-label="删除导读" onClick={() => setDeleteDialog(true)}><Trash2 className="size-4" /></Button></div>
             </div>
             {page ? <div className="flex min-h-72 items-center justify-center bg-secondary/20 p-4">
               {/* Private PDF previews require the authenticated image endpoint. */}
@@ -232,6 +256,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
         <div className="space-y-4 border-t border-border pt-5"><div className="flex items-center justify-between"><h3 className="text-sm font-semibold">2. 生成带读语音</h3>{guide && guide.audioCount === guide.pageCount ? <Check className="size-4 text-primary" /> : null}</div><VoicePicker label="带读声音" value={voice} voices={voiceOptions} disabled={disabled || !signedIn} onChange={setVoice} /><label className="block space-y-2 text-sm font-semibold">语速<Select value={speed} disabled={disabled} onChange={event => setSpeed(Number(event.target.value))}>{[0.5, 0.75, 0.85, 0.9, 0.95, 1, 1.1, 1.25, 1.5].map(value => <option key={value} value={value}>{value} 倍</option>)}</Select></label><Button className="w-full" variant="outline" disabled={!allScripts || disabled || settingsDirty || !script.trim() || !voice} onClick={() => void generateAudio()}><Volume2 className="size-4" />生成全部语音</Button><p className="text-xs text-muted-foreground">已生成 {guide?.audioCount ?? 0} / {guide?.pageCount ?? 0} 页</p></div>
       </aside>
     </div>
-    {resetDialog || deleteDialog ? <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-5"><div role="dialog" aria-modal="true" aria-labelledby="guide-confirm-title" className="w-full max-w-sm rounded-2xl border border-border bg-background p-6 shadow-xl"><h2 id="guide-confirm-title" className="text-base font-semibold">{deleteDialog ? "删除这份导读？" : "按新设置重新生成？"}</h2><p className="mt-3 text-sm leading-6 text-muted-foreground">{deleteDialog ? "上传的 PDF、逐页文稿和带读语音将从导读记录中删除。" : "原有文稿和语音将失效，所有页面会按新的适用对象与带读风格重新生成文稿。"}</p><div className="mt-5 flex justify-end gap-3"><Button variant="outline" onClick={() => { setResetDialog(false); setDeleteDialog(false); }}>取消</Button><Button onClick={() => { if (deleteDialog) { setDeleteDialog(false); void run("正在删除导读…", async () => { await guideRequest(`/${guide!.id}`, "DELETE"); newGuide(); }); } else void generateScripts(); }}>{deleteDialog ? "删除" : "重新生成"}</Button></div></div></div> : null}
+    {bookPickerOpen ? <GuideBookPicker onClose={closeBookPicker} onSelect={book => void selectBook(book)} /> : null}
+    {resetDialog || deleteDialog ? <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-5"><div role="dialog" aria-modal="true" aria-labelledby="guide-confirm-title" className="w-full max-w-sm rounded-2xl border border-border bg-background p-6 shadow-xl"><h2 id="guide-confirm-title" className="text-base font-semibold">{deleteDialog ? "删除这份导读？" : "按新设置重新生成？"}</h2><p className="mt-3 text-sm leading-6 text-muted-foreground">{deleteDialog ? "绘本文件、逐页文稿和带读语音将从导读记录中删除。" : "原有文稿和语音将失效，所有页面会按新的适用对象与带读风格重新生成文稿。"}</p><div className="mt-5 flex justify-end gap-3"><Button variant="outline" onClick={() => { setResetDialog(false); setDeleteDialog(false); }}>取消</Button><Button onClick={() => { if (deleteDialog) { setDeleteDialog(false); void run("正在删除导读…", async () => { await guideRequest(`/${guide!.id}`, "DELETE"); newGuide(); }); } else void generateScripts(); }}>{deleteDialog ? "删除" : "重新生成"}</Button></div></div></div> : null}
   </div>;
 }

@@ -26,7 +26,7 @@ export class PictureBookGuideService {
 
   options() { return { audiences: pictureBookAudiences, styles: guideStyles.map(({ value, label, guide, speed }) => ({ value, label, description: guide, speed })) }; }
 
-  async upload(userId: string, file?: UploadedFileLike) {
+  async upload(userId: string, file?: UploadedFileLike, options: { audience?: string } = {}) {
     validateGuidePdf(file);
     const storageKey = randomUUID();
     const directory = this.directory(storageKey);
@@ -38,7 +38,7 @@ export class PictureBookGuideService {
       const rawName = basename(file!.originalname.replaceAll("\\", "/"));
       const decodedName = Buffer.from(rawName, "latin1").toString("utf8");
       const pdfName = (/[\u0080-\u00ff]/.test(rawName) && !decodedName.includes("�") ? decodedName : rawName).slice(0, 200);
-      const row = await this.prisma.pictureBookGuide.create({ data: { userId, storageKey, pdfName, pdfSizeBytes: file!.buffer.length,
+      const row = await this.prisma.pictureBookGuide.create({ data: { userId, storageKey, pdfName, pdfSizeBytes: file!.buffer.length, audience: options.audience,
         title: pdfName.replace(/\.pdf$/i, "").slice(0, 100) || "未命名绘本", pages: pages as unknown as Prisma.InputJsonValue } });
       return this.view(row);
     } catch (error) {

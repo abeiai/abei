@@ -8,6 +8,8 @@ export type GuideSummary = {
 };
 export type PictureBookGuide = GuideSummary & { pages: GuidePage[] };
 export type GuideOptions = { audiences: string[]; styles: Array<{ value: string; label: string; description: string; speed: number }> };
+export type GuideBookChoice = { bookId: string; title: string; pageCount: number; scope: "MINE" | "PUBLIC"; completed: boolean };
+export type GuideBookListing = { items: GuideBookChoice[]; total: number; page: number; pageSize: number };
 
 export async function guideRequest<T>(path = "", method = "GET", data?: unknown): Promise<T> {
   const isForm = data instanceof FormData;

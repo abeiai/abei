@@ -1,4 +1,4 @@
-import { Body, CanActivate, Controller, Delete, ExecutionContext, Get, Headers, Inject, Injectable, Param, ParseIntPipe, Patch, Post, Query, Req, Res, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, CanActivate, Controller, Delete, ExecutionContext, Get, Headers, Inject, Injectable, Param, ParseIntPipe, Patch, Post, Query, Req, Res, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AuthService } from "../auth/auth.service.js";
 import { AppException } from "../common/app-exception.js";
@@ -7,11 +7,13 @@ import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { guidePdfMaxBytes } from "./picture-book-guide-content.js";
-import { GuideAudioDto, GuidePageDto, GuideSettingsDto, GuideVersionDto } from "./picture-book-guide.dto.js";
+import { GuideAudioDto, GuideBookImportDto, GuideBookQueryDto, GuidePageDto, GuideSettingsDto, GuideVersionDto } from "./picture-book-guide.dto.js";
 import { PictureBookGuideService } from "./picture-book-guide.service.js";
+import { PictureBookGuideLibraryService } from "./picture-book-guide-library.service.js";
 
 type GuideRequest = { guideSubject: ProfileSubject & { mode: "ACCOUNT" } };
 type BinaryResponse = { setHeader(name: string, value: string | number): void; status(code: number): BinaryResponse; send(buffer?: Buffer): void };
+const bookInputPipe = (expectedType: typeof GuideBookQueryDto | typeof GuideBookImportDto) => new ValidationPipe({ expectedType, transform: true, whitelist: true, exceptionFactory: () => new AppException(40001, "请求参数错误", 400) });
 
 @Injectable()
 export class PictureBookGuideAccountGuard implements CanActivate {
@@ -27,10 +29,16 @@ export class PictureBookGuideAccountGuard implements CanActivate {
 @Controller("picture-book-guide")
 @UseGuards(PictureBookGuideAccountGuard)
 export class PictureBookGuideController {
-  constructor(@Inject(PictureBookGuideService) private readonly guides: PictureBookGuideService) {}
+  constructor(@Inject(PictureBookGuideService) private readonly guides: PictureBookGuideService, @Inject(PictureBookGuideLibraryService) private readonly library: PictureBookGuideLibraryService) {}
 
   @Get("options")
   options() { return successResponse(this.guides.options()); }
+
+  @Get("books")
+  async books(@Req() request: GuideRequest, @Query(bookInputPipe(GuideBookQueryDto)) query: GuideBookQueryDto) { return successResponse(await this.library.list(request.guideSubject.userId, query)); }
+
+  @Post("books")
+  async importBook(@Req() request: GuideRequest, @Body(bookInputPipe(GuideBookImportDto)) dto: GuideBookImportDto) { return successResponse(await this.library.import(request.guideSubject.userId, dto)); }
 
   @Get()
   async list(@Req() request: GuideRequest) { return successResponse(await this.guides.list(request.guideSubject.userId)); }
