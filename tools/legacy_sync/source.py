@@ -5,6 +5,8 @@ import re
 from pathlib import Path
 from .tables import TABLES, FORBIDDEN_COLUMNS
 
+SCHEMA_BASELINE = json.loads((Path(__file__).parent / 'schema-baseline.json').read_text())
+
 
 def identifier(value):
     if not re.fullmatch(r'[a-z][a-z0-9_]*', value): raise ValueError('Invalid source identifier')
@@ -13,7 +15,8 @@ def identifier(value):
 
 def selected_columns(table, names):
     if table not in TABLES: raise ValueError('Source table is not approved')
-    provider_config = {'endpoint', 'extra'} if re.fullmatch(r'app_ai_(?:bots|llm|draw|human|recognition|clone|tts|video)(?:model|version|price)', table) else set()
+    if set(names) - {column['name'] for column in SCHEMA_BASELINE[table]['columns']}: raise ValueError('Unreviewed source column')
+    provider_config = {'endpoint'} if re.fullmatch(r'app_ai_(?:bots|llm|draw|human|recognition|clone|tts|video)(?:model|version|price)', table) else set()
     return [name for name in names if name.lower() not in FORBIDDEN_COLUMNS | provider_config and not name.lower().endswith(('_secret', '_password', '_token', '_api_key'))]
 
 
@@ -25,7 +28,7 @@ def batch_query(table, columns, after, upper, limit):
 
 
 def validate_tables(tables):
-    if not tables or 'app_user_user' not in tables: raise ValueError('Required source tables missing')
+    if tables != SCHEMA_BASELINE: raise ValueError('Source schema differs from reviewed column/type baseline')
     for name, table in tables.items():
         if name not in TABLES or table['engine'] != 'InnoDB' or table['primaryKey'] != ['id']:
             raise ValueError('Unsupported source snapshot layout')
@@ -58,6 +61,7 @@ class ReadOnlySource:
         self.closed = False
         try:
             with self.connection.cursor() as cursor:
+                cursor.execute('SET SESSION TRANSACTION READ ONLY')
                 cursor.execute('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ')
                 cursor.execute('START TRANSACTION WITH CONSISTENT SNAPSHOT, READ ONLY')
                 cursor.execute('SELECT VERSION(), DATABASE(), @@transaction_read_only, @@transaction_isolation')

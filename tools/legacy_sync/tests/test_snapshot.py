@@ -1,9 +1,10 @@
 import datetime as dt
+import copy
 import decimal
 import tempfile
 import unittest
 from pathlib import Path
-from tools.legacy_sync.source import batch_query, validate_tables, selected_columns
+from tools.legacy_sync.source import batch_query, validate_tables, selected_columns, SCHEMA_BASELINE
 from tools.legacy_sync.package import encode_value, write_chunk, read_chunk, write_manifest, load_manifest
 from tools.legacy_sync.export import export_snapshot
 
@@ -20,10 +21,12 @@ class SnapshotContract(unittest.TestCase):
         self.assertEqual(selected_columns('app_open_app', ['id', 'app_secret', 'title']), ['id', 'title'])
 
     def test_only_transactional_tables_and_stable_primary_keys(self):
-        good = {'app_user_user': {'engine': 'InnoDB', 'primaryKey': ['id'], 'columns': [{'name': 'id', 'type': 'bigint'}]}}
+        good = copy.deepcopy(SCHEMA_BASELINE)
         validate_tables(good)
         for engine, primary in [('MyISAM', ['id']), ('InnoDB', []), ('InnoDB', ['a', 'b'])]:
-            with self.assertRaises(ValueError): validate_tables({'app_user_user': {**good['app_user_user'], 'engine': engine, 'primaryKey': primary}})
+            changed = copy.deepcopy(good)
+            changed['app_user_user'].update(engine=engine, primaryKey=primary)
+            with self.assertRaises(ValueError): validate_tables(changed)
 
     def test_integer_money_json_and_shanghai_time_keep_precision(self):
         self.assertEqual(encode_value(9007199254740993), '9007199254740993')
@@ -59,33 +62,19 @@ class SnapshotContract(unittest.TestCase):
             with self.assertRaises(ValueError): load_manifest(root, bytes(reversed(key)))
 
     def test_failed_connection_or_schema_change_never_marks_snapshot_complete(self):
-        class FixtureSource:
-            closed = False
-            calls = 0
-            version = '8.0.36'
-            def schema(self):
-                self.calls += 1
-                return {'app_user_user': {'engine': 'InnoDB', 'primaryKey': ['id'], 'columns': [{'name': 'id', 'type': 'bigint'}, {'name': 'username', 'type': 'varchar(150)'}]}}
-            def bounds(self, table): return (1, 1, 1)
+        from tools.legacy_sync.tests.test_snapshot_review import FixtureSource as ReviewFixture
+        class FixtureSource(ReviewFixture):
             def rows(self, *args): raise ConnectionError('simulated source loss')
-            def close(self): self.closed = True
         source = FixtureSource()
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             with self.assertRaises(ConnectionError): export_snapshot(source, root, bytes(range(32)), 'fixture-source', 'fixture-run')
             with self.assertRaises(ValueError): load_manifest(root, bytes(range(32)))
         self.assertTrue(source.closed)
-        self.assertEqual(source.calls, 1)
+        self.assertEqual(source.schema_calls, 1)
 
     def test_business_and_password_hash_streams_are_separate_and_counted(self):
-        class FixtureSource:
-            version = '8.0.36'
-            closed = False
-            def schema(self): return {'app_user_user': {'engine': 'InnoDB', 'primaryKey': ['id'], 'columns': [{'name': 'id', 'type': 'bigint'}, {'name': 'username', 'type': 'varchar(150)'}, {'name': 'password', 'type': 'varchar(128)'}]}}
-            def bounds(self, table): return (1, 1, 1)
-            def rows(self, table, columns, after, upper, limit): return [(1, 'fixture-user')] if not after else []
-            def credentials(self, table, columns, after, upper, limit): return [(1, 'pbkdf2_sha256$1$fixture$fixture')] if not after else []
-            def close(self): self.closed = True
+        from tools.legacy_sync.tests.test_snapshot_review import FixtureSource
         key = bytes(range(32))
         source = FixtureSource()
         with tempfile.TemporaryDirectory() as directory:

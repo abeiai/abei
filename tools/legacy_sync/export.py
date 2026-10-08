@@ -7,13 +7,15 @@ import json
 import os
 import time
 from pathlib import Path
-from .source import ReadOnlySource, read_config, selected_columns, schema_hash, validate_tables
+from .source import ReadOnlySource, read_config, selected_columns, schema_hash, validate_tables, SCHEMA_BASELINE
 from .tables import CREDENTIAL_COLUMNS
 from .package import encode_value, write_chunk, write_manifest, read_chunk, load_manifest
+from .sensitive import split_restricted
 
 
 def export_snapshot(source, root, key, source_system, run_id, progress=None):
     root = Path(root)
+    if root.exists() and any(root.iterdir()): raise ValueError('A source snapshot requires a fresh empty package directory')
     root.mkdir(parents=True, exist_ok=True, mode=0o700)
     os.chmod(root, 0o700)
     manifest = {'protocol': 1, 'runId': run_id, 'sourceSystem': source_system, 'sourceVersion': source.version,
@@ -37,20 +39,26 @@ def export_snapshot(source, root, key, source_system, run_id, progress=None):
             lower, upper, expected = source.bounds(table)
             info = {'columns': columns, 'excludedColumns': [c for c in names if c not in columns], 'expectedCount': expected,
                 'minPk': str(lower) if lower is not None else None, 'maxPk': str(upper) if upper is not None else None,
-                'count': 0, 'chunks': [], 'credentialChunks': []}
+                'count': 0, 'chunks': [], 'credentialChunks': [], 'restrictedChunks': [], 'restrictedCount': 0}
             manifest['tables'][table] = info
             after, number = 0, 0
             while upper is not None:
                 raw = source.rows(table, columns, after, upper, 250)
                 if not raw: break
-                rows = []
+                rows, restricted_rows = [], []
                 for row in raw:
                     values = {column: encode_value(value) for column, value in zip(columns, row)}
-                    rows.append({'sourceSystem': source_system, 'sourceTable': table, 'sourcePk': str(row[columns.index('id')]), 'values': values})
+                    ordinary, restricted = split_restricted(values)
+                    envelope = {'sourceSystem': source_system, 'sourceTable': table, 'sourcePk': str(row[columns.index('id')])}
+                    rows.append({**envelope, 'values': ordinary, 'restrictedFields': sorted(restricted)})
+                    if restricted: restricted_rows.append({**envelope, 'values': restricted})
                 number += 1
                 prefix = 'finance' if table == 'app_distribution_withdrawalrecord' else 'tables'
                 chunk = write_chunk(root, f'{prefix}/{table}.{number:06}.enc', rows, key)
                 info['chunks'].append(chunk)
+                if restricted_rows:
+                    info['restrictedChunks'].append(write_chunk(root, f'credentials/{table}.restricted.{number:06}.enc', restricted_rows, key))
+                    info['restrictedCount'] += len(restricted_rows)
                 info['count'] += len(rows)
                 next_after = int(rows[-1]['sourcePk'])
                 if next_after <= after: raise ValueError('Source cursor failed to advance')
@@ -100,18 +108,62 @@ def export_snapshot(source, root, key, source_system, run_id, progress=None):
 
 def validate_package(root, key):
     manifest = load_manifest(root, key)
-    read_chunk(root, manifest['schema'], key)
-    for info in manifest['tables'].values():
-        count = 0
-        last = 0
-        for chunk in info['chunks']:
-            for row in read_chunk(root, chunk, key):
-                primary = int(row['sourcePk'])
-                if primary <= last: raise ValueError('Duplicate or unordered source primary key')
-                last = primary
-                count += 1
-        if count != info['count'] or count != info['expectedCount']: raise ValueError('Table checksum coverage mismatch')
-        for chunk in info['credentialChunks']: read_chunk(root, chunk, key)
+    if manifest.get('protocol') != 1 or not manifest.get('sourceSystem') or set(manifest.get('tables', {})) != set(SCHEMA_BASELINE):
+        raise ValueError('Incomplete table inventory or unknown package protocol')
+    if manifest['schema']['file'] != 'metadata/schema.enc': raise ValueError('Unexpected schema package location')
+    schema = read_chunk(root, manifest['schema'], key)[0]
+    validate_tables(schema)
+    if schema_hash(schema) != manifest['schemaSha256']: raise ValueError('Schema signature mismatch')
+    seen_files = {manifest['schema']['file']}
+    for table, info in manifest['tables'].items():
+        columns = selected_columns(table, [column['name'] for column in schema[table]['columns']])
+        if info['columns'] != columns: raise ValueError('Unexpected source column projection')
+        credentials = sorted(CREDENTIAL_COLUMNS.get(table, set()) & {c['name'] for c in schema[table]['columns']})
+
+        def entries(chunks, mode):
+            last = 0
+            prefix = ('finance/' if table == 'app_distribution_withdrawalrecord' else 'tables/') if mode == 'business' else 'credentials/'
+            for chunk in chunks:
+                filename = chunk['file']
+                if not filename.startswith(prefix + table + '.') or filename in seen_files: raise ValueError('Duplicate or misplaced source chunk')
+                seen_files.add(filename)
+                for row in read_chunk(root, chunk, key):
+                    if row.get('sourceSystem') != manifest['sourceSystem'] or row.get('sourceTable') != table: raise ValueError('Source envelope attribution mismatch')
+                    primary = int(row['sourcePk'])
+                    if primary <= last or primary < int(info['minPk']) or primary > int(info['maxPk']): raise ValueError('Duplicate, unordered or out-of-range source key')
+                    last = primary
+                    values = row['values']
+                    if mode != 'restricted' and (values.get('id') != row['sourcePk'] or set(values) != set(columns if mode == 'business' else ['id'] + credentials)):
+                        raise ValueError('Source row projection/id mismatch')
+                    if mode == 'restricted' and (not values or set(values) - set(columns)): raise ValueError('Unknown restricted source fields')
+                    yield row
+
+        credential_rows = iter(entries(info['credentialChunks'], 'credential'))
+        restricted_rows = iter(entries(info['restrictedChunks'], 'restricted'))
+        current_restricted = next(restricted_rows, None)
+        count, last, first, restricted_count = 0, 0, None, 0
+        for row in entries(info['chunks'], 'business'):
+            primary = int(row['sourcePk'])
+            if first is None: first = primary
+            last = primary
+            count += 1
+            if credentials:
+                credential = next(credential_rows, None)
+                if credential is None or credential['sourcePk'] != row['sourcePk']: raise ValueError('Missing or mismatched credential coverage')
+            fields = row.get('restrictedFields', [])
+            if current_restricted is not None and int(current_restricted['sourcePk']) < primary: raise ValueError('Orphan restricted source row')
+            if fields:
+                if current_restricted is None or current_restricted['sourcePk'] != row['sourcePk'] or set(current_restricted['values']) != set(fields): raise ValueError('Missing or mismatched restricted source fields')
+                for field in fields:
+                    if row['values'].get(field) != {'type': 'restricted', 'field': field}: raise ValueError('Restricted source marker mismatch')
+                restricted_count += 1
+                current_restricted = next(restricted_rows, None)
+            elif current_restricted is not None and int(current_restricted['sourcePk']) == primary: raise ValueError('Unexpected restricted source row')
+        if next(credential_rows, None) is not None or current_restricted is not None or next(restricted_rows, None) is not None: raise ValueError('Extraneous restricted/credential records')
+        if count != info['count'] or count != info['expectedCount'] or restricted_count != info['restrictedCount']: raise ValueError('Table checksum coverage mismatch')
+        if count and (str(first) != info['minPk'] or str(last) != info['maxPk']): raise ValueError('Incomplete source key range')
+        if not count and (info['minPk'] is not None or info['maxPk'] is not None): raise ValueError('Empty source table has invalid range')
+    if manifest['tables']['app_user_user']['count'] < 1: raise ValueError('Expected existing legacy users')
     manifest['validationPassed'] = True
     write_manifest(root, manifest, key)
     return manifest
