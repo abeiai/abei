@@ -94,5 +94,25 @@ class AssetCheckpoint(unittest.TestCase):
             upload.assert_not_called()
         self.assertTrue(body.closed)
 
+    def test_failure_reason_is_retained_only_in_authenticated_encrypted_result(self):
+        key=b'x'*32;url='https://cdn.abeiai.com/private-fixture.png'
+        identity=hashlib.sha256(json.dumps({'url':url},sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        with tempfile.TemporaryDirectory() as root:
+            db=open_index(root)
+            db.execute('INSERT INTO objects(id,payload) VALUES (?,?)',(identity,seal({'url':url,'hint':'image','identity':{'url':url}},key,identity)))
+            db.execute('INSERT INTO state(name,value) VALUES (?,?)',('namespace',seal({'sourceSystem':'abeiai-v1','runId':None,'schemaSha256':None},key,'index:namespace').hex()))
+            db.commit();db.close()
+            manifest={'validationPassed':True,'dataSnapshotComplete':True,'assetsScanComplete':True,'sourceSystem':'abeiai-v1','assetReferenceCount':0,'assetObjectCount':1}
+            progress=[]
+            reason='Synthetic missing original: '+url
+            with patch('tools.legacy_sync.asset_index.transfer_one',side_effect=ValueError(reason)):
+                transfer_index(root,manifest,key,None,None,'https://fixture.invalid',workers=1,progress=progress.append)
+            db=open_index(root)
+            encoded=db.execute('SELECT result FROM objects WHERE id=?',(identity,)).fetchone()[0]
+            self.assertEqual(unseal(encoded,key,identity)['errorReason'],reason)
+            db.close()
+            self.assertNotIn(reason.encode(),Path(root,'assets/index.sqlite').read_bytes())
+            self.assertNotIn(url,json.dumps(progress))
+
 
 if __name__=='__main__': unittest.main()
