@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Check, ImagePlus, LoaderCircle, Plus, Sparkles, X } from "lucide-react";
+import { usePictureBookGenerationConfirmation } from "./picture-book-generation-confirmation";
 
 export type StoryCharacter = { id?: string; name: string; description: string; imageUrl?: string | null; referenceName?: string };
 
@@ -16,6 +17,7 @@ export function PictureBookCharacterPicker({ value, style, styleName, disabled, 
   value: StoryCharacter[]; style: string; styleName: string; disabled?: boolean;
   onChange(characters: StoryCharacter[]): Promise<void>;
 }) {
+  const generationConfirmation = usePictureBookGenerationConfirmation();
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [target, setTarget] = useState<string | null>(null);
@@ -67,6 +69,7 @@ export function PictureBookCharacterPicker({ value, style, styleName, disabled, 
   }
   async function generate(character: StoryCharacter) {
     if (!character.id) return;
+    if (!await generationConfirmation.confirm({ label: "角色形象生成", path: "/image-cost", body: { referenceImageCount: character.id.startsWith("preset:") || character.imageUrl ? 2 : 1 } })) return;
     const updated = await request<StoryCharacter>(`/characters/${encodeURIComponent(character.id)}/image`, { style });
     setLibrary(items => [...items.filter(item => item.id !== updated.id), updated]);
     if (character.id.startsWith("preset:") || (target && value.find(item => item.name === target)?.id === character.id)) await choose(updated);
@@ -75,6 +78,7 @@ export function PictureBookCharacterPicker({ value, style, styleName, disabled, 
     if (!name.trim() || description.trim().length < 2) throw new Error("请填写形象名称和外貌描述");
     const role = value.find(item => item.name === target);
     const existing = library.find(item => item.id === role?.id && !item.id?.startsWith("preset:") && item.name === name.trim() && item.description === description.trim());
+    if (mode === "generate" && !await generationConfirmation.confirm({ label: "角色形象生成", path: "/image-cost", body: { referenceImageCount: existing?.imageUrl ? 2 : 1 } })) return;
     let created = existing ?? await request<StoryCharacter>("/characters", { name: name.trim(), description: description.trim() });
     if (mode === "generate") created = await request<StoryCharacter>(`/characters/${created.id}/image`, { style });
     else if (file) {
@@ -89,6 +93,7 @@ export function PictureBookCharacterPicker({ value, style, styleName, disabled, 
   }
 
   return <div className="space-y-3">
+    {generationConfirmation.dialog}
     <div className="flex items-center justify-between"><h3 className="text-sm font-semibold">出场角色</h3><button type="button" disabled={disabled || working} onClick={() => setAdding(current => !current)} className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm hover:bg-secondary disabled:opacity-50"><Plus className="size-4" />添加角色</button></div>
     {adding ? <form className="flex gap-2" onSubmit={event => { event.preventDefault(); void run(addRole); }}><input aria-label="新增角色名称" value={roleName} onChange={event => setRoleName(event.target.value)} maxLength={80} placeholder="角色名称" disabled={disabled || working} className="min-w-0 flex-1 rounded-lg border px-3 py-2 text-sm" /><button type="submit" disabled={disabled || working} className="rounded-lg border px-3 py-2 text-sm">添加</button></form> : null}
     <div className="space-y-2">{value.map(character => <div key={character.name} className="flex items-center gap-2 rounded-xl border border-border p-3">

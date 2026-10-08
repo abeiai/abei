@@ -88,6 +88,22 @@ export class GeneratePictureBookAudioDto {
   voice?: string;
 }
 
+export class PictureBookGenerationCostDto extends GeneratePictureBookAudioDto {
+  @IsIn(["outline", "blank", "image", "audio"])
+  kind!: "outline" | "blank" | "image" | "audio";
+
+  @IsOptional() @IsInt() @Min(0) @Max(24)
+  position?: number;
+
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(1000)
+  narration?: string;
+}
+
+export class PictureBookImageCostDto {
+  @IsOptional() @IsInt() @Min(1) @Max(2)
+  referenceImageCount?: number;
+}
+
 export class CreatePictureBookCharacterDto {
   @IsString() @MinLength(1) @MaxLength(80)
   name!: string;

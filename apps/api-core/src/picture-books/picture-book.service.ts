@@ -16,7 +16,7 @@ import { SystemConfigService } from "../system-config/system-config.service.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { characterImageForStyle, characterStyleKey, mergeDiscussedCharacters, officialCharacter, officialCharacters, parseCharacterDiscussion } from "./picture-book-characters.js";
 import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, preservesPictureBookOriginalText, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
-import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
+import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, PictureBookGenerationCostDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 const presets = [
   { id: "preset:rabbit", name: "小白兔米米", description: "圆脸白兔，粉色耳朵，穿蓝色背带裤；勇敢又有点害羞", imageUrl: null },
@@ -165,6 +165,33 @@ export class PictureBookService {
         characters: characters as unknown as Prisma.InputJsonValue
       };
     });
+  }
+
+  async generationCost(userId: string, id: string, dto: PictureBookGenerationCostDto) {
+    const book = await this.get(userId, id);
+    if (dto.kind === "blank") return { credits: 0 };
+    if (dto.kind === "outline") {
+      const scenarios = await this.prisma.aiScenario.findMany({ where: { slug: { in: ["picture-book-outline", "picture-book-content-review"] } }, select: { costCredits: true } });
+      return { credits: scenarios.reduce((total, item) => total + Math.max(0, Math.ceil(item.costCredits)), 0) };
+    }
+    const page = pageOf(book.pages, dto.position ?? -1);
+    if (dto.kind === "image") {
+      const characters = charactersOf(book.characters).slice(0, 9);
+      const ids = characters.flatMap(item => item.id && !item.id.startsWith("preset:") ? [item.id] : []);
+      const owned = ids.length ? await this.prisma.pictureBookCharacter.findMany({ where: { id: { in: ids }, userId }, select: { id: true } }) : [];
+      const referenceImageCount = 1 + characters.filter(item => item.id && (officialCharacter(item.id, book.style) || owned.some(role => role.id === item.id))).length;
+      return this.aiService.quotePictureBookImage({ ...pictureBookImageSize(book.aspectRatio), referenceImageCount });
+    }
+    const selection = selectPictureBookVoice(dto, await this.audioService.listVoiceAssets(userId));
+    if (!selection) throw new AppException(40001, "暂无可用讲解音色，请先配置语音模型", HttpStatus.BAD_REQUEST);
+    const text = (dto.narration ?? page.narration).trim();
+    if (!text) throw new AppException(40001, "请先填写讲解语音文稿", HttpStatus.BAD_REQUEST);
+    const prepared = await this.audioService.prepareDialogueTts({ userId, learnerId: null }, { text, voiceValue: "voiceAssetId" in selection ? `voice:${selection.voiceAssetId}` : `system:${selection.voice}`, speed: 1 });
+    return { credits: prepared.credits };
+  }
+
+  async imageCost(referenceImageCount = 1) {
+    return this.aiService.quotePictureBookImage({ referenceImageCount });
   }
 
   async outline(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string) {

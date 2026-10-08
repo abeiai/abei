@@ -12,6 +12,7 @@ import { loadPictureBookStyles, selectedPictureBookStyle, type PictureBookStyle 
 import { PictureBookStylePicker } from "./picture-book-style-picker";
 import { PictureBookCharacterPicker, type StoryCharacter } from "./picture-book-character-picker";
 import { VoicePicker } from "@/components/audio/voice-picker";
+import { usePictureBookGenerationConfirmation } from "./picture-book-generation-confirmation";
 import type { VoiceAsset } from "@/lib/audio-api";
 import type { VoicePickerOption } from "@/lib/voice-picker";
 
@@ -73,6 +74,7 @@ function Field({ label, value, onChange, rows = 3, placeholder, maxLength, readO
 }
 
 export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boolean; initialBookId: string }) {
+  const generationConfirmation = usePictureBookGenerationConfirmation();
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [book, setBook] = useState<Book | null>(null);
   const [draftCharacters, setDraftCharacters] = useState<Character[]>([]);
@@ -227,14 +229,14 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   }
 
   async function makeOutline() {
-    if (!book || !storyModelReady) return;
-    if (book.pages.length && !window.confirm("重新生成分镜会替换当前所有页面内容。确定继续吗？")) return;
+    if (!book || !storyModelReady || busy) return;
+    if (!await generationConfirmation.confirm({ label: "生成分镜", path: `/${book.id}/generation-cost`, body: { kind: "outline" }, warning: book.pages.length ? "重新生成分镜会替换当前所有页面内容。" : undefined })) return;
     await run("outline", async () => { const updated = await api<Book>(`/${book.id}/outline`, "POST"); setBook(updated); setPosition(updated.pages[0]?.position ?? 1); setNotice("分镜已生成，可以逐页修改内容并制作图片和语音。"); await refreshList(); });
   }
 
   async function makeBlank() {
-    if (!book) return;
-    if (book.pages.length && !window.confirm("新建空白分镜会替换当前所有页面内容。确定继续吗？")) return;
+    if (!book || busy) return;
+    if (!await generationConfirmation.confirm({ label: "建立空白分镜", path: `/${book.id}/generation-cost`, body: { kind: "blank" }, warning: book.pages.length ? "新建空白分镜会替换当前所有页面内容。" : undefined })) return;
     await run("blank", async () => { const updated = await api<Book>(`/${book.id}/blank`, "POST"); setBook(updated); setPosition(updated.pages[0]?.position ?? 1); setNotice("空白分镜已建立，请逐页填写内容。"); await refreshList(); });
   }
 
@@ -305,7 +307,8 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   }
 
   async function generateImage() {
-    if (!book || !page) return;
+    if (!book || !page || busy || imagePending) return;
+    if (!await generationConfirmation.confirm({ label: `${position === 0 ? "封面" : `第 ${position} 页`}图片生成`, path: `/${book.id}/generation-cost`, body: { kind: "image", position } })) return;
     await runPageGeneration("image", {});
   }
 
@@ -320,14 +323,16 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   }
 
   async function generateAudio() {
-    if (!book || !page) return;
+    if (!book || !page || busy || audioPending) return;
     const payload = voiceKey.startsWith("voice:") ? { voiceAssetId: voiceKey.slice(6) } : voiceKey.startsWith("system:") ? { voice: voiceKey.slice(7) } : {};
+    if (!await generationConfirmation.confirm({ label: `${position === 0 ? "封面" : `第 ${position} 页`}讲解语音生成`, path: `/${book.id}/generation-cost`, body: { kind: "audio", position, narration: draft.narration, ...payload } })) return;
     await runPageGeneration("audio", payload);
   }
 
   if (!signedIn) return <div className="min-h-screen bg-[#f7f6f4] p-5 sm:p-8"><div className="mx-auto max-w-5xl"><h1 className="text-2xl font-semibold">绘本创作</h1><Link href={`/login?next=${encodeURIComponent(initialBookId ? `/storybook?book=${encodeURIComponent(initialBookId)}` : "/storybook")}`} className="mt-4 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始创作</Link></div></div>;
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] text-foreground">
+    {generationConfirmation.dialog}
     {book?.pages.length ? <header className="sticky top-[4.5rem] z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
       {book ? <button onClick={() => void leaveBook("tools")} className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</button> : <Link href="/tools" className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</Link>}
       <span className="flex size-9 items-center justify-center rounded-xl bg-[#ff7b3b] text-white"><BookOpen className="size-5" /></span>

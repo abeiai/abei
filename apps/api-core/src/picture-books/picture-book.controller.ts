@@ -5,7 +5,7 @@ import { successResponse } from "../common/api-response.js";
 import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
 import { PictureBookService } from "./picture-book.service.js";
-import { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, GeneratePictureBookCharacterImageDto, PictureBookCharacterStyleDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
+import { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, GeneratePictureBookCharacterImageDto, PictureBookCharacterStyleDto, PictureBookGenerationCostDto, PictureBookImageCostDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 @Controller("picture-books")
 export class PictureBookController {
@@ -25,6 +25,12 @@ export class PictureBookController {
   async create(@Req() request: unknown, @Body() dto: CreatePictureBookDto) {
     const subject = await this.account(request);
     return successResponse(await this.books.create(subject.userId, dto));
+  }
+
+  @Post("image-cost")
+  async imageCost(@Req() request: unknown, @Body() dto: PictureBookImageCostDto) {
+    await this.account(request);
+    return successResponse(await this.books.imageCost(dto.referenceImageCount));
   }
 
   @Post("style-reference")
@@ -132,6 +138,12 @@ export class PictureBookController {
   async discuss(@Req() request: unknown, @Param("id") id: string, @Body() dto: DiscussPictureBookDto) {
     const subject = await this.account(request);
     return successResponse(await this.books.discuss(subject, id, dto));
+  }
+
+  @Post(":id/generation-cost")
+  async generationCost(@Req() request: unknown, @Param("id") id: string, @Body() dto: PictureBookGenerationCostDto) {
+    const subject = await this.account(request);
+    return successResponse(await this.books.generationCost(subject.userId, id, dto));
   }
 
   @Post(":id/outline")

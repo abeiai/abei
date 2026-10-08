@@ -984,11 +984,7 @@ export class AiService {
   }
 
   async generatePictureBookImage(subject: ProfileSubject, dto: Omit<CreateImageGenerationDto, "modelInstanceId"> & { modelInstanceId?: string }): Promise<ImageGenerationResult> {
-    const models = await this.listImageModels();
-    const referenceCount = dto.referenceImages?.length ? 1 : 0;
-    const primary = models.find(model => model.providerKey === "abeiai" && model.modelName === "Qwen-Image-2.1" && model.maxReferenceImages >= referenceCount);
-    const fallback = models.find(model => model.providerKey === "dashscope" && model.modelName === "qwen-image-3.0" && model.maxReferenceImages >= referenceCount);
-    if (!primary) throw new AppException(40001, "绘本默认图片模型 Abei 2.1 尚未配置或启用，请联系管理员。", HttpStatus.BAD_REQUEST);
+    const { primary, fallback } = await this.pictureBookImageModels(dto.referenceImages?.length ? 1 : 0);
     const inputFor = (model: typeof primary) => ({ ...dto, modelInstanceId: model.id, referenceImages: dto.referenceImages?.slice(0, model.maxReferenceImages) });
     try {
       return await this.generateImage(subject, inputFor(primary), { pictureBookR2: true });
@@ -996,6 +992,25 @@ export class AiService {
       if (!(error instanceof AbeiaiImageConnectionError) || !fallback) throw error;
       return this.generateImage(subject, inputFor(fallback), { pictureBookR2: true });
     }
+  }
+
+  async quotePictureBookImage(input: { width?: number; height?: number; referenceImageCount?: number }) {
+    const { primary, fallback } = await this.pictureBookImageModels();
+    const cost = async (selected: typeof primary) => imageGenerationCreditsFromModel(
+      await this.getImageGenerationModel(selected.id), 1,
+      Math.min(input.referenceImageCount ?? 1, selected.maxReferenceImages), input.width ?? 1024, input.height ?? 1024
+    );
+    const credits = await cost(primary);
+    if (credits <= 0) throw new AppException(40001, "请先为阿贝智能图片模型配置有效的点数价格。", HttpStatus.BAD_REQUEST);
+    return { credits, ...(fallback ? { fallbackCredits: await cost(fallback) } : {}) };
+  }
+
+  private async pictureBookImageModels(referenceCount = 1) {
+    const models = await this.listImageModels();
+    const primary = models.find(model => model.providerKey === "abeiai" && model.modelName === "Qwen-Image-2.1" && model.maxReferenceImages >= referenceCount);
+    const fallback = models.find(model => model.providerKey === "dashscope" && model.modelName === "qwen-image-3.0" && model.maxReferenceImages >= referenceCount);
+    if (!primary) throw new AppException(40001, "绘本默认图片模型 Abei 2.1 尚未配置或启用，请联系管理员。", HttpStatus.BAD_REQUEST);
+    return { primary, fallback };
   }
 
   async generateImage(subject: ProfileSubject, dto: CreateImageGenerationDto, options?: { fixedCredits?: number; requiredImages?: number; studentPhotoSize?: { widthMm: number; heightMm: number }; clientRequestId?: string; pictureBookR2?: boolean }): Promise<ImageGenerationResult> {
