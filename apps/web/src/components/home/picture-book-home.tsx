@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, AudioLines, BookOpen, Cloud, Download, Flower2, GraduationCap, Heart, Headphones, Quote, School, Sparkles, Star, Sun, Upload, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, AudioLines, BookOpen, Cloud, Download, Flower2, Headphones, Sparkles, Star, Sun, Upload } from "lucide-react";
 import { StoryIdeaForm } from "./story-idea-form";
 import { pictureBookLibraryHref, recommendedPictureBooks } from "./recommended-picture-books";
 import styles from "./picture-book-home.module.css";
 
 const testimonials = [
-  { role: "家长", icon: Heart, headline: "孩子成了故事里的主角", quote: "把孩子的小小想法写进绘本，再一起听、一起读。睡前的这段时间，成了我们每天最期待的时刻。", context: "亲子共读 · 睡前陪伴" },
-  { role: "老师", icon: GraduationCap, headline: "让阅读从听故事开始", quote: "把课堂主题变成孩子喜欢的故事，配上画面和声音。读完再聊一聊，孩子们更愿意说出自己的想法。", context: "绘本教学 · 课堂互动" },
-  { role: "培训机构", icon: Users, headline: "每一节课都有自己的故事", quote: "围绕课程制作绘本和导读，把故事延伸到课后的家庭阅读。老师备课有了素材，家长也更容易参与。", context: "课程创作 · 家校延伸" },
-  { role: "学校", icon: School, headline: "把孩子的创作留下来", quote: "从一个想法到一本有声绘本，让阅读和表达连在一起。我们希望每个孩子都能拥有自己的作品。", context: "校园阅读 · 学生创作" }
+  { name: "林女士", role: "家长", avatar: "female-middle", quote: "把孩子的小小想法写进绘本，再一起听、一起读。睡前的这段时间，成了我们每天最期待的时刻。" },
+  { name: "陈老师", role: "老师", avatar: "male-young", quote: "把课堂主题变成孩子喜欢的故事，配上画面和声音。读完再聊一聊，孩子们更愿意说出自己的想法。" },
+  { name: "许老师", role: "培训机构", avatar: "female-young", quote: "围绕课程制作绘本和导读，把故事延伸到课后的家庭阅读。老师备课有了素材，家长也更容易参与。" },
+  { name: "李校长", role: "学校", avatar: "male-middle", quote: "从一个想法到一本有声绘本，让阅读和表达连在一起。我们希望每个孩子都能拥有自己的作品。" }
 ];
 
 export function PictureBookHome() {
@@ -64,7 +64,19 @@ export function PictureBookHome() {
 
       <section className={`${styles.testimonials} ${styles.container}`} id="voices" aria-labelledby="voices-title">
         <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>客户感言</p><h2 id="voices-title">不同的身份，同样的陪伴。</h2></div><span className={styles.sampleLabel}>示例感言 · 待真实反馈替换</span></div>
-        <div className={styles.testimonialGrid}>{testimonials.map((item) => { const Icon = item.icon; return <figure className={styles.testimonial} key={item.role}><div className={styles.testimonialTop}><span><Icon size={17} />{item.role}</span><Quote size={27} strokeWidth={1.1} aria-hidden="true" /></div><h3>{item.headline}</h3><blockquote>{item.quote}</blockquote><figcaption>{item.context}</figcaption></figure>; })}</div>
+        <div className={styles.testimonialGrid}>
+          {testimonials.map((item) => (
+            <figure className={styles.testimonial} key={item.role}>
+              <div className={styles.testimonialStars} aria-hidden="true">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={16} fill="currentColor" strokeWidth={0} />)}</div>
+              <blockquote>{item.quote}</blockquote>
+              <figcaption>
+                <img className={styles.testimonialAvatar} src={`/images/voice-avatars/${item.avatar}.jpg`} alt={`${item.name}的示例头像`} width={90} height={90} loading="lazy" />
+                <h3>{item.name}<span className={styles.testimonialSample}>（示例）</span></h3>
+                <span className={styles.testimonialRole}>{item.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </section>
 
       <section className={styles.closing}><div className={styles.container}><BookOpen size={34} strokeWidth={1.3} aria-hidden="true" /><h2>今天，想给孩子讲个什么故事？</h2><a href="#create">从一个想法开始<ArrowUpRight size={18} /></a></div></section>
