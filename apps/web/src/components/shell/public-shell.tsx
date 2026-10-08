@@ -62,6 +62,7 @@ export async function PublicShell({
   currentUser,
   brandName,
   primaryNavigation,
+  className,
   showHeader = true,
   showFooter = true
 }: Readonly<{
@@ -69,6 +70,7 @@ export async function PublicShell({
   currentUser?: PublicUser | null;
   brandName?: string;
   primaryNavigation?: Array<{ href: string; label: string }>;
+  className?: string;
   showHeader?: boolean;
   showFooter?: boolean;
 }>) {
@@ -131,7 +133,7 @@ export async function PublicShell({
       }
     >
       <main
-        className={cn("xueleai-public-shell min-h-screen bg-background text-foreground", `theme-${theme.key}`)}
+        className={cn("xueleai-public-shell min-h-screen bg-background text-foreground", `theme-${theme.key}`, className)}
         data-public-theme={theme.key}
         style={style}
       >

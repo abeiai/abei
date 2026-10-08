@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PictureBookHome } from "@/components/home/picture-book-home";
 import { PublicShell } from "@/components/shell/public-shell";
+import styles from "@/components/home/picture-book-home.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <PublicShell brandName="阿贝 AI" primaryNavigation={[
+    <PublicShell className={styles.shell} brandName="阿贝 AI" primaryNavigation={[
       { href: "/#create", label: "绘本创作" },
       { href: "/#library", label: "线上绘本馆" },
       { href: "/magic-reader", label: "绘本导读" },

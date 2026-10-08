@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, AudioLines, BookOpen, Download, GraduationCap, Heart, Headphones, Quote, School, Sparkles, Upload, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, AudioLines, BookOpen, Cloud, Download, Flower2, GraduationCap, Heart, Headphones, Quote, School, Sparkles, Star, Sun, Upload, Users } from "lucide-react";
 import { StoryIdeaForm } from "./story-idea-form";
 import { pictureBookLibraryHref, recommendedPictureBooks } from "./recommended-picture-books";
 import styles from "./picture-book-home.module.css";
@@ -15,6 +15,7 @@ export function PictureBookHome() {
   return (
     <div className={styles.home}>
       <section className={styles.hero} id="create" aria-labelledby="create-title">
+        <div className={styles.heroDoodles} aria-hidden="true"><Cloud /><Star /><Sun /><Flower2 /><Star /></div>
         <div className={styles.container}>
           <div className={styles.heroGrid}>
             <div className={styles.heroCopy}>
@@ -25,15 +26,13 @@ export function PictureBookHome() {
             </div>
             <div className={styles.heroArt}>
               <div className={styles.artBackdrop} />
-              <img className={styles.backBook} src="/picture-book-demos/lele-hedgehog/cover.webp" alt="小刺猬的拥抱绘本封面" width={360} height={360} />
-              <img className={styles.frontBook} src="/picture-book-demos/lele-rabbit/cover.webp" alt="等等我，小兔绘本封面，熊猫乐乐和小兔在森林中相伴" width={440} height={440} fetchPriority="high" />
+              <img className={styles.heroIllustration} src="/home-assets/reading-hero-v2.webp" alt="两个孩子坐在彩色绘本上一起阅读，小熊猫陪在身旁" width={1024} height={1024} fetchPriority="high" />
               <div className={styles.soundLabel}><span className={styles.soundIcon}><AudioLines size={24} /></span><div><strong>每个故事，都能听见</strong><span>画面与声音，一起陪伴</span></div><div className={styles.waveform} aria-hidden="true">{[12, 22, 32, 18, 27, 14, 23].map((height, index) => <i key={index} style={{ height }} />)}</div></div>
-              <span className={styles.artNote}>翻开想象的第一页</span>
               <Sparkles className={styles.artSparkle} size={32} strokeWidth={1.2} aria-hidden="true" />
             </div>
           </div>
-          <div className={styles.heroFoot}><span><BookOpen size={17} />把想法画成故事</span><span><Headphones size={17} />用声音温暖陪伴</span><span><Heart size={17} />让阅读成为日常</span><a href="#library">先找一本喜欢的绘本<ArrowRight size={16} /></a></div>
         </div>
+        <svg className={styles.heroWaves} viewBox="0 0 1600 130" preserveAspectRatio="none" aria-hidden="true"><path fill="#c6ed8e" d="M0 14C380 14 790 125 1160 90S1460 40 1600 70V130H0Z" /><path fill="#74d1ce" d="M0 83C390 148 920 30 1260 35S1490 60 1600 62V130H0Z" /><path fill="#459ebc" d="M0 109C450 165 1000 63 1330 78S1500 98 1600 89V130H0Z" /></svg>
       </section>
 
       <section className={`${styles.library} ${styles.container}`} id="library" aria-labelledby="library-title">
