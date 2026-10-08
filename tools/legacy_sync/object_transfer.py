@@ -5,7 +5,7 @@ import json
 import re
 import tempfile
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urlparse, quote
 from .assets import source_locator, validate_download_url, mime_from_bytes, upload_to_r2
 
 
@@ -89,6 +89,7 @@ class SourceObjects:
         self.web=requests.Session()
         self.web.trust_env=False
         self.web.mount('https://',pinned_adapter()[0])
+        self.sdk_auth_usable=True
 
     def read(self,url):
         locator=source_locator(url,self.config)
@@ -99,15 +100,29 @@ class SourceObjects:
         if locator['provider']=='OSS':
             bucket=self.buckets[locator['bucket']]
             params={'versionId':locator['versionId']} if locator['versionId'] else None
-            meta=bucket.head_object(locator['objectKey'],params=params)
-            body=bucket.get_object(locator['objectKey'],headers={'If-Match':meta.etag},params=params)
-            return body,{'contentLength':meta.content_length,'etag':meta.etag,'lastModified':meta.last_modified,
-                'consistencyStatus':'snapshot-versioned' if locator['versionId'] else 'download-time-only'}
+            if getattr(self,'sdk_auth_usable',True):
+                try:
+                    meta=bucket.head_object(locator['objectKey'],params=params)
+                    body=bucket.get_object(locator['objectKey'],headers={'If-Match':meta.etag},params=params)
+                    return body,{'contentLength':meta.content_length,'etag':meta.etag,'lastModified':meta.last_modified,
+                        'consistencyStatus':'snapshot-versioned' if locator['versionId'] else 'download-time-only'}
+                except Exception as error:
+                    if getattr(error,'code',None)!='InvalidAccessKeyId': raise
+                    self.sdk_auth_usable=False
+            base=self.config['OSS_DOMAIN'] if locator['bucket']==self.config['OSS_BUCKET_NAME'] else 'https://filed.abeiai.com/'
+            public_url=base.rstrip('/')+'/'+quote(locator['objectKey'],safe='/')
+            if locator['versionId']: public_url+='?versionId='+quote(locator['versionId'],safe='')
+            body,metadata=self.read_public(public_url,{urlparse(base).hostname})
+            metadata['sourceReadMethod']='public-cdn-after-invalid-access-key'
+            return body,metadata
         # Only known pure object CDNs: never follow a legacy application or provider task API.
         host=urlparse(url).hostname or ''
         approved = host in {'mmbiz.qpic.cn','thirdwx.qlogo.cn','wx.qlogo.cn','avatars.githubusercontent.com'} or bool(re.fullmatch(r'[a-z0-9-]+\.oss-[a-z0-9-]+\.aliyuncs\.com|pub-[a-z0-9]+\.r2\.dev',host))
         if not approved: raise ValueError('Unclassified external media origin')
-        safe=validate_download_url(url,{host})
+        return self.read_public(url,{host})
+
+    def read_public(self,url,hosts):
+        safe=validate_download_url(url,hosts)
         response=self.web.get(safe,timeout=(10,60),stream=True,allow_redirects=False)
         if response.status_code!=200:
             response.close()
