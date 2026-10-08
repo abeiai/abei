@@ -32,6 +32,7 @@ design-demos/
 __pycache__/
 *.pyc
 backups/
+private/legacy-ai-logs/
 *.backup
 *.dump
 *.sql.gz

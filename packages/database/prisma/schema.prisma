@@ -689,7 +689,133 @@ model User {
   pictureBooks PictureBook[]
   pictureBookCharacters PictureBookCharacter[]
 
+  legacyAiSessions LegacyAiSession[]
+  legacyAiLogs     LegacyAiLog[]
+
   @@map("users")
+}
+
+enum LegacyAiLogKind {
+  CHAT
+  IMAGE
+  AUDIO
+  VIDEO
+}
+
+enum LegacyAiLogStatus {
+  WAITING
+  RUNNING
+  SUCCEEDED
+  FAILED
+  UNKNOWN
+}
+
+enum LegacyAiAssetStatus {
+  PENDING
+  AVAILABLE
+  MISSING
+}
+
+model LegacyAiSession {
+  id           String @id @default(cuid())
+  sourceSystem String @db.VarChar(64)
+  sourceTable  String @db.VarChar(128)
+  sourcePk     String @db.VarChar(128)
+  sourceUserId String? @db.VarChar(128)
+  sourceMsgId  String? @db.VarChar(128)
+  userId       String?
+  title        String?
+  systemPrompt String?
+  metadata     Json?
+  requestedAt  DateTime @db.Timestamptz(3)
+  importedAt   DateTime @default(now())
+  user         User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items        LegacyAiSessionItem[]
+
+  @@unique([sourceSystem, sourceTable, sourcePk])
+  @@index([userId])
+  @@map("legacy_ai_sessions")
+}
+
+model LegacyAiLog {
+  id           String @id @default(cuid())
+  sourceSystem String @db.VarChar(64)
+  sourceTable  String @db.VarChar(128)
+  sourcePk     String @db.VarChar(128)
+  sourceMsgId  String? @db.VarChar(128)
+  sourceUserId String? @db.VarChar(128)
+  sourceTaskId String?
+  userId       String?
+  kind         LegacyAiLogKind
+  status       LegacyAiLogStatus @default(UNKNOWN)
+  sourceStatus String?
+  application  String?
+  providerName String?
+  modelName    String?
+  versionName  String?
+  voiceName    String?
+  inputPreview String?
+  outputPreview String?
+  inputText    String?
+  outputText   String?
+  systemPrompt String?
+  parameters   Json?
+  errorMessage String?
+  inputTokens  Int?
+  outputTokens Int?
+  totalTokens  Int?
+  textLength   Int?
+  durationRaw  String?
+  durationUnit String?
+  usageVerified Boolean @default(false)
+  requestedAt  DateTime @db.Timestamptz(3)
+  respondedAt  DateTime? @db.Timestamptz(3)
+  importedAt   DateTime @default(now())
+  user         User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionItems LegacyAiSessionItem[]
+  assets       LegacyAiLogAsset[]
+
+  @@unique([sourceSystem, sourceTable, sourcePk])
+  @@index([requestedAt, id])
+  @@index([kind, requestedAt, id])
+  @@index([status, requestedAt])
+  @@index([userId, requestedAt])
+  @@index([sourceUserId])
+  @@map("legacy_ai_logs")
+}
+
+model LegacyAiSessionItem {
+  id           String @id @default(cuid())
+  sessionId    String
+  logId        String?
+  position     Int
+  sourceMsgId  String?
+  sourceVersionId String?
+  sourceHash   String?
+  session      LegacyAiSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  log          LegacyAiLog? @relation(fields: [logId], references: [id], onDelete: SetNull)
+
+  @@unique([sessionId, position])
+  @@index([logId])
+  @@map("legacy_ai_session_items")
+}
+
+model LegacyAiLogAsset {
+  id           String @id @default(cuid())
+  logId        String
+  position     Int
+  role         String @db.VarChar(32)
+  fieldPath    String
+  mediaType    MediaAssetType
+  status       LegacyAiAssetStatus @default(PENDING)
+  filename     String?
+  mimeType     String?
+  storageKey   String?
+  sha256       String? @db.VarChar(64)
+  log          LegacyAiLog @relation(fields: [logId], references: [id], onDelete: Cascade)
+
+  @@unique([logId, fieldPath, position])
+  @@map("legacy_ai_log_assets")
 }
 
 model PictureBook {

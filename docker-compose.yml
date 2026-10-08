@@ -60,10 +60,12 @@ services:
       PUBLIC_API_BASE_URL: /api
       UPLOAD_DRIVER: local
       UPLOAD_DIR: /app/uploads
+      LEGACY_AI_LOG_ASSET_DIR: /app/private-legacy-ai-log-assets
       VIDEO_GUIDE_MEDIA_UPLOAD_DRIVER: local
     volumes:
       - uploads:/app/uploads
       - logs:/app/logs
+      - legacy_ai_log_assets:/app/private-legacy-ai-log-assets:ro
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -140,3 +142,4 @@ volumes:
   redis_data:
   uploads:
   logs:
+  legacy_ai_log_assets:
