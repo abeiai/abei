@@ -60,11 +60,15 @@ const experienceNavItems = [
 export async function PublicShell({
   children,
   currentUser,
+  brandName,
+  primaryNavigation,
   showHeader = true,
   showFooter = true
 }: Readonly<{
   children: ReactNode;
   currentUser?: PublicUser | null;
+  brandName?: string;
+  primaryNavigation?: Array<{ href: string; label: string }>;
   showHeader?: boolean;
   showFooter?: boolean;
 }>) {
@@ -91,7 +95,7 @@ export async function PublicShell({
     billingIdentity?.type === "ORGANIZATION"
       ? billingOrganization?.quota.remainingQuota ?? billingOrganization?.wallet?.balanceAvailable ?? null
       : wallet?.availableCredits ?? null;
-  const siteName = displaySiteName(configs.get("siteName"));
+  const siteName = brandName ?? displaySiteName(configs.get("siteName"));
   const siteLogo = safeImageUrl(configs.get("siteLogo"));
   const beianNo = configs.get("beianNo") || "";
   const copyrightText = configs.get("copyrightText") || "";
@@ -109,7 +113,7 @@ export async function PublicShell({
       );
   const navItems = profile.mode === "LEARNER"
     ? learnerNavigationItems.map((item) => toNavMenuItem(item))
-    : publicNavItems;
+    : primaryNavigation?.map((item) => toNavMenuItem(item)) ?? publicNavItems;
   const footerLinks = profile.mode === "LEARNER"
     ? []
     : hasManagedMenus
@@ -140,7 +144,7 @@ export async function PublicShell({
                 <img alt={siteName} className="h-9 w-auto shrink-0 object-contain" src={siteLogo} />
               ) : (
                 <>
-                  <span className="xueleai-brand-mark">学</span>
+                  <span className="xueleai-brand-mark">{siteName.startsWith("阿贝") ? "阿" : "学"}</span>
                   <span className="truncate">{siteName}</span>
                 </>
               )}
@@ -148,16 +152,16 @@ export async function PublicShell({
             <nav className="xueleai-public-nav hidden items-center gap-7 text-sm font-medium text-muted-foreground lg:flex">
               {navItems.map((item, index) => (
                 <Fragment key={`${item.label}-${item.href}`}>
-                  {profile.mode !== "LEARNER" && !hasManagedMenus && index === 1 ? <ExperienceNavMenu /> : null}
+                  {profile.mode !== "LEARNER" && !primaryNavigation && !hasManagedMenus && index === 1 ? <ExperienceNavMenu /> : null}
                   <HeaderMenuItem item={item} />
                 </Fragment>
               ))}
-              {profile.mode !== "LEARNER" && !hasManagedMenus && navItems.length <= 1 ? <ExperienceNavMenu /> : null}
+              {profile.mode !== "LEARNER" && !primaryNavigation && !hasManagedMenus && navItems.length <= 1 ? <ExperienceNavMenu /> : null}
             </nav>
             <div className="flex items-center gap-2">
               <MobileNavMenu
                 navItems={navItems}
-                showExperience={profile.mode !== "LEARNER"}
+                showExperience={profile.mode !== "LEARNER" && !primaryNavigation}
                 showRegister={!user}
               />
               <UserAccountMenu

@@ -73,7 +73,7 @@ function Field({ label, value, onChange, rows = 3, placeholder, maxLength, readO
   return <label className="block space-y-2"><span className="text-sm font-semibold text-[#272a30]">{label}</span><textarea value={value} onChange={(event) => onChange(event.target.value)} readOnly={readOnly} rows={rows} maxLength={maxLength} placeholder={placeholder} className="w-full resize-y rounded-xl border border-[#e8e6e3] bg-white px-3 py-3 text-sm leading-6 outline-none transition focus:border-[#ff8c55] focus:ring-2 focus:ring-[#ff8c55]/15 read-only:bg-[#f8f7f5]" /></label>;
 }
 
-export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boolean; initialBookId: string }) {
+export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "", returnPath = "/storybook" }: { signedIn: boolean; initialBookId: string; initialPrompt?: string; returnPath?: string }) {
   const generationConfirmation = usePictureBookGenerationConfirmation();
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [book, setBook] = useState<Book | null>(null);
@@ -99,7 +99,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
   const [styleChoices, setStyleChoices] = useState<PictureBookStyle[]>([]);
   const [count, setCount] = useState(8);
   const [ratio, setRatio] = useState<AspectRatio>("1:1");
-  const [chatInput, setChatInput] = useState("");
+  const [chatInput, setChatInput] = useState(initialBookId ? "" : initialPrompt);
   const conversationRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(1);
   const [pageDrafts, setPageDrafts] = useState<Record<string, PictureBookPageDraft>>({});
@@ -329,7 +329,7 @@ export function PictureBookStudio({ signedIn, initialBookId }: { signedIn: boole
     await runPageGeneration("audio", payload);
   }
 
-  if (!signedIn) return <div className="min-h-screen bg-[#f7f6f4] p-5 sm:p-8"><div className="mx-auto max-w-5xl"><h1 className="text-2xl font-semibold">绘本创作</h1><Link href={`/login?next=${encodeURIComponent(initialBookId ? `/storybook?book=${encodeURIComponent(initialBookId)}` : "/storybook")}`} className="mt-4 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始创作</Link></div></div>;
+  if (!signedIn) return <div className="min-h-screen bg-[#f7f6f4] p-5 sm:p-8"><div className="mx-auto max-w-5xl"><h1 className="text-2xl font-semibold">绘本创作</h1>{initialPrompt ? <p className="mt-5 whitespace-pre-wrap rounded-2xl border border-border bg-background p-5 text-base leading-8">{initialPrompt}</p> : null}<Link href={`/login?next=${encodeURIComponent(returnPath)}`} className="mt-4 inline-flex rounded-xl bg-[#ff7b3b] px-6 py-3 text-sm font-semibold text-white">登录后开始创作</Link></div></div>;
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] text-foreground">
     {generationConfirmation.dialog}
