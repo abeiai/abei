@@ -4,6 +4,15 @@ from tools.legacy_sync.assets import find_references, source_locator, validate_d
 
 
 class AssetTransfer(unittest.TestCase):
+    def test_relative_html_and_extensionless_file_fields_are_not_silently_skipped(self):
+        row={'sourceTable':'app_ai_chatmessage','sourcePk':'1','values':{'assistant_content':'<img src="/abei/opaque-image">','extra':'{"avatar":"avatar/fixture.png","audio":"abei/opaque-audio"}'}}
+        refs=list(find_references(row))
+        self.assertEqual(len(refs),3)
+        self.assertEqual(refs[0]['originalUrl'],'/abei/opaque-image')
+        self.assertEqual(refs[1]['originalUrl'],'avatar/fixture.png')
+        config={'OSS_BUCKET_NAME':'abei-cdn','OSS_DOMAIN':'https://cdn.abeiai.com/','OSS_ENDPOINT':'https://oss-cn-hangzhou.aliyuncs.com','MEDIA_URL':'/abei/'}
+        self.assertEqual(source_locator(refs[1]['originalUrl'],config)['objectKey'],'avatar/fixture.png')
+
     def test_nested_json_and_markup_keep_all_reference_positions(self):
         row = {'sourceTable':'app_ai_drawmessage','sourcePk':'10','values':{'id':'10','user_id':'3','results':'["https://cdn.abeiai.com/a.png","https://cdn.abeiai.com/a.png"]','extra':'{"reference":{"character":["https://cdn.abeiai.com/ref.webp"]}}','prompt':'<img src="https://cdn.abeiai.com/p.png">'}}
         refs = list(find_references(row))

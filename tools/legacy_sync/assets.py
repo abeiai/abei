@@ -40,7 +40,7 @@ def source_locator(url, config):
         if not key or '..' in key.split('/'): raise ValueError('Invalid source object path')
         version = parse_qs(parsed.query).get('versionId',[None])[0]
         return {'provider':'OSS','bucket':hosts[parsed.hostname],'objectKey':key,'versionId':version}
-    if not parsed.scheme and not parsed.netloc and (url.startswith(config.get('MEDIA_URL','/abei/')) or url.startswith('abei/')):
+    if not parsed.scheme and not parsed.netloc and (url.startswith(config.get('MEDIA_URL','/abei/')) or url.startswith('abei/') or MEDIA_SUFFIX.search(url)):
         key = unquote(parsed.path.lstrip('/'))
         if '..' in key.split('/'): raise ValueError('Invalid source object path')
         return {'provider':'OSS','bucket':bucket,'objectKey':key,'versionId':None}
@@ -48,7 +48,7 @@ def source_locator(url, config):
     return {'provider':'HTTPS','url':url}
 
 
-def find_references(row, owner=None):
+def find_references(row, owner=None, media_prefix='/abei/'):
     values = row['values']
     user = owner if owner is not None else (row['sourcePk'] if row['sourceTable']=='app_user_user' else values.get('user_id'))
     def walk(value, path, depth=0):
@@ -65,12 +65,15 @@ def find_references(row, owner=None):
                 if isinstance(parsed,(dict,list)):
                     yield from walk(parsed,path,depth+1)
                     return
-            matches = list(URL.finditer(value))
-            if not matches and value.startswith(('/abei/','abei/')) and MEDIA_SUFFIX.search(value):
-                urls=[value]
-            else: urls=[match.group(0).rstrip('),;]') for match in matches]
+            matches = [(match.start(),match.group(0)) for match in URL.finditer(value)]
+            relative=re.compile(r'(?<![A-Za-z0-9])(?:'+re.escape(media_prefix)+'|'+re.escape(media_prefix.lstrip('/'))+r')[^\s"\'<>\\]+')
+            occupied=[(match.start(),match.end()) for match in URL.finditer(value)]
+            matches.extend((match.start(),match.group(0)) for match in relative.finditer(value) if not any(start<=match.start()<end for start,end in occupied))
+            media_field=any(tag in path.lower() for tag in ['image','avatar','audio','video','assistant_content','results','/img','/cover'])
+            if not matches and media_field and MEDIA_SUFFIX.search(value) and not re.search(r'[\s<>]',value): matches=[(0,value)]
+            urls=[url.rstrip('),;]') for _,url in sorted(matches)]
             for position,url in enumerate(urls):
-                if not (MEDIA_SUFFIX.search(url) or url.startswith('data:') or any(tag in path.lower() for tag in ['image','avatar','audio','video','assistant_content','results','/img','/cover'])): continue
+                if not (MEDIA_SUFFIX.search(url) or url.startswith(('data:',media_prefix,media_prefix.lstrip('/'))) or media_field): continue
                 object_id=hashlib.sha256(url.encode()).hexdigest()
                 identity=json.dumps([row['sourceTable'],row['sourcePk'],path,position,url],ensure_ascii=False,separators=(',',':'))
                 role='OUTPUT' if any(tag in path.lower() for tag in ['assistant_content','/results','/result/','/video']) else 'REFERENCE' if any(tag in path.lower() for tag in ['reference','/image']) else 'INPUT'

@@ -325,7 +325,7 @@ export class AuthService {
 
     await assertLoginAllowed("USER", email);
 
-    const user = await this.prisma.user.findUnique({
+    let user = await this.prisma.user.findUnique({
       where: {
         email
       }
@@ -339,6 +339,8 @@ export class AuthService {
     if (user.status !== "ACTIVE") {
       throw new AppException(40301, "账号已被禁用", HttpStatus.FORBIDDEN);
     }
+
+    user = await this.upgradeLegacyPassword(user, dto.password);
 
     await clearLoginFailures("USER", email);
 
@@ -550,14 +552,26 @@ export class AuthService {
   async verifyWechatEmailPassword(email: string, password: string) {
     email = this.normalizeEmail(email);
     await assertLoginAllowed("USER", email);
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    let user = await this.prisma.user.findUnique({ where: { email } });
     if (!user || !user.passwordLoginEnabled || !(await verifyPassword(password, user.passwordHash))) {
       await recordLoginFailure("USER", email);
       throw new AppException(40003, "邮箱或密码错误", HttpStatus.BAD_REQUEST);
     }
     if (user.status !== "ACTIVE") throw new AppException(40301, "账号已被禁用", HttpStatus.FORBIDDEN);
+    user = await this.upgradeLegacyPassword(user, password);
     await clearLoginFailures("USER", email);
     return {id:user.id,email:user.email,passwordHash:user.passwordHash,passwordLoginEnabled:user.passwordLoginEnabled};
+  }
+
+  private async upgradeLegacyPassword<T extends { id: string; passwordHash: string; status: string; passwordLoginEnabled: boolean }>(user: T, password: string): Promise<T> {
+    if (!user.passwordHash.startsWith("pbkdf2_sha256$")) return user;
+    const passwordHash = await hashPassword(password);
+    const result = await this.prisma.user.updateMany({
+      where: { id: user.id, passwordHash: user.passwordHash, status: "ACTIVE", passwordLoginEnabled: true },
+      data: { passwordHash },
+    });
+    if (result.count !== 1) throw new AppException(40003, "账号信息已更新，请重新登录", HttpStatus.BAD_REQUEST);
+    return { ...user, passwordHash };
   }
 
   async loginByPhone(dto: PhoneLoginDto, response: ResponseLike, referralToken?: string | null) {

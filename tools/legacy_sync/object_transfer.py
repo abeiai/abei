@@ -9,6 +9,32 @@ from urllib.parse import urlparse
 from .assets import source_locator, validate_download_url, mime_from_bytes, upload_to_r2
 
 
+def pinned_adapter():
+    from requests.adapters import HTTPAdapter
+    from urllib3 import PoolManager
+    from urllib3.connection import HTTPSConnection
+    from urllib3.connectionpool import HTTPSConnectionPool
+    from urllib3.util.connection import create_connection
+    from .assets import public_dns
+    import ipaddress
+    class PinnedConnection(HTTPSConnection):
+        def _new_conn(self):
+            addresses=public_dns(self.host)
+            if not addresses or any(not ipaddress.ip_address(address).is_global for address in addresses): raise ValueError('Non-public media transport address')
+            failure=None
+            for address in addresses:
+                try: return create_connection((address,self.port),self.timeout,source_address=self.source_address,socket_options=self.socket_options)
+                except OSError as error: failure=error
+            raise failure
+    class PinnedPool(HTTPSConnectionPool):
+        ConnectionCls=PinnedConnection
+    class Adapter(HTTPAdapter):
+        def init_poolmanager(self,connections,maxsize,block=False,**kwargs):
+            self.poolmanager=PoolManager(num_pools=connections,maxsize=maxsize,block=block,**kwargs)
+            self.poolmanager.pool_classes_by_scheme={**self.poolmanager.pool_classes_by_scheme,'https':PinnedPool}
+    return Adapter(pool_connections=16,pool_maxsize=16),PinnedConnection
+
+
 def env_values(files, keys):
     result={}
     for filename in files:
@@ -57,10 +83,12 @@ class SourceObjects:
         session=oss2.Session(pool_size=8)
         session.session=ReadOnlySession()
         session.session.trust_env=False
+        session.session.mount('https://',pinned_adapter()[0])
         auth=oss2.Auth(self.config['OSS_ACCESS_KEY_ID'],self.config['OSS_ACCESS_KEY_SECRET'])
         self.buckets={bucket:oss2.Bucket(auth,self.config['OSS_ENDPOINT'],bucket,session=session,connect_timeout=60) for bucket in [self.config['OSS_BUCKET_NAME'],'abei-filed']}
         self.web=requests.Session()
         self.web.trust_env=False
+        self.web.mount('https://',pinned_adapter()[0])
 
     def read(self,url):
         locator=source_locator(url,self.config)
@@ -89,6 +117,7 @@ class SourceObjects:
 
 
 def transfer_one(origin,client,public_base,url,hint,source_system,max_bytes=1024*1024*1024):
+    if url.startswith('data:') and len(url.split(',',1)[1])>4*((max_bytes+2)//3): raise ValueError('Inline media exceeds transfer limit before decoding')
     body,metadata=origin.read(url)
     try:
         with tempfile.TemporaryFile() as temporary:
