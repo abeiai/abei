@@ -238,6 +238,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                     query='SELECT r.id,r.payload,r.object_id,o.status,o.result FROM refs r JOIN objects o ON o.id=r.object_id WHERE o.status="AVAILABLE"' if selection_id is None else 'SELECT r.id,r.payload,r.object_id,o.status,o.result FROM selected_scope_refs s CROSS JOIN refs r ON r.id=s.reference_id JOIN objects o ON o.id=r.object_id WHERE s.selection_id=? AND o.status="AVAILABLE"'
                     for ref_id,payload,object_id,status,encoded in db.execute(query,() if selection_id is None else (selection_id,)):
                         ref=unseal(payload,key,ref_id); value=unseal(encoded,key,object_id)
+                        if ref['objectId']!=object_id: raise ValueError('Media reference object binding changed')
                         if value['status']!=status or not value['objectKey'].startswith('picture-books/legacy-sync/abeiai-v1/'): raise ValueError('Invalid available R2 object')
                         owner=users.get(ref.get('sourceUserId')); filename=value['objectKey'].removeprefix('picture-books/')
                         yield {'id':native_id('media',value['objectKey']+':'+(owner or 'unowned')),'filename':filename,'originalName':value['objectKey'].split('/')[-1],'mimeType':value['mimeType'],'size':value['sizeBytes'],'url':value['publicUrl'],'mediaType':value['mimeType'].split('/')[0].upper(),'sourceType':'USER_UPLOAD','storageProvider':'S3','createdByUserId':owner}

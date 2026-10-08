@@ -32,6 +32,7 @@ class RecentNative(unittest.TestCase):
         protected=['ai_tasks','payment_orders','wallets','admin_users','ledger_entries']
         with psycopg.connect(url) as conn: before={t:conn.execute('SELECT COUNT(*) FROM '+t).fetchone()[0] for t in protected}
         source=SyntheticSource();source.data['app_user_user'][0]['last_login']=NOW
+        source.data['app_user_user'][0]['avatar']='https://cdn.abeiai.com/abei/fixture.png'
         source.data['app_user_user'][1]['avatar']='https://cdn.abeiai.com/abei/outside.png'
         source.data['app_ai_drawmessage'].append({'id':2,'user_id':2,'prompt':'旧用户素材','results':'["https://cdn.abeiai.com/abei/outside.png"]','req_time':NOW,'status':2})
         with tempfile.TemporaryDirectory() as root:
@@ -73,6 +74,21 @@ class RecentNative(unittest.TestCase):
                 self.assertEqual(conn.execute('SELECT COUNT(*) FROM media_assets WHERE "createdByUserId"=%s AND filename=ANY(%s)',(users[1],filenames)).fetchone()[0],0)
             with patch('tools.legacy_sync.asset_index.transfer_one',return_value=result('a')):
                 transfer_index(root,m,KEY,None,None,'https://fixture.invalid',workers=1,selection_id=sid)
+            avatar_ref=None;avatar_object=None
+            def rebind_object(conn,table,rows,progress=None):
+                nonlocal avatar_ref,avatar_object
+                if table=='media_assets':
+                    other=open_index(root)
+                    avatar_ref,avatar_object=other.execute('SELECT id,object_id FROM refs WHERE table_name="app_user_user" AND source_pk="1"').fetchone()
+                    other.execute('UPDATE refs SET object_id=? WHERE id=?',(outside,avatar_ref));other.commit();other.close()
+                return original_bulk(conn,table,rows,progress)
+            try:
+                with patch('tools.legacy_sync.native_import.bulk_rows',side_effect=rebind_object):
+                    with self.assertRaises(ValueError):import_package(root,KEY,url,testing=True,phase='assets',selection_id=sid)
+            finally:
+                other=open_index(root);other.execute('UPDATE refs SET object_id=? WHERE id=?',(avatar_object,avatar_ref));other.commit();other.close()
+            with psycopg.connect(url) as conn:
+                self.assertEqual(conn.execute('SELECT COUNT(*) FROM media_assets WHERE "createdByUserId"=%s AND filename=%s',(users[0],filenames[1])).fetchone()[0],0,'A validated reference must never be rebound to an outside object during backfill')
             import_package(root,KEY,url,testing=True,phase='assets',selection_id=sid)
             import_package(root,KEY,url,testing=True,phase='assets',selection_id=sid)
             with psycopg.connect(url) as conn:
