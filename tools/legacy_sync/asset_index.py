@@ -8,7 +8,7 @@ import sqlite3
 import time
 from pathlib import Path
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from .package import read_chunk, load_manifest, write_manifest
+from .package import read_chunk, load_manifest, write_manifest, write_chunk
 from .assets import find_references, source_locator
 from .object_transfer import SourceObjects, r2_client, transfer_one
 
@@ -138,14 +138,19 @@ def build_index(root,manifest,key,origin_config,progress=None):
     finally: db.close()
 
 
-def transfer_index(root,manifest,key,origin,client,public_base,workers=2,limit=None,retry_failed=False,progress=None):
+def transfer_index(root,manifest,key,origin,client,public_base,workers=2,limit=None,retry_failed=False,progress=None,selection_id=None):
     if not manifest.get('validationPassed') or not manifest.get('dataSnapshotComplete') or not manifest.get('assetsScanComplete'): raise ValueError('Validated indexed package required')
     if not 1<=workers<=16: raise ValueError('Invalid transfer concurrency')
     db=open_index(root)
     try:
-        validate_index(db,manifest,key)
+        descriptor=None
+        if selection_id is not None:
+            from .recent_assets import validate_selection,selection_counts,freeze_selection
+            descriptor=freeze_selection(db,root,manifest,key,selection_id)
+        else: validate_index(db,manifest,key)
         if retry_failed:
-            db.execute('UPDATE objects SET status="PENDING",result=NULL,sha256=NULL,size_bytes=NULL WHERE status="MISSING"')
+            if selection_id is None: db.execute('UPDATE objects SET status="PENDING",result=NULL,sha256=NULL,size_bytes=NULL WHERE status="MISSING"')
+            else: db.execute('UPDATE objects SET status="PENDING",result=NULL,sha256=NULL,size_bytes=NULL WHERE status="MISSING" AND id IN (SELECT object_id FROM selected_scope_objects WHERE selection_id=?)',(selection_id,))
             db.commit()
         def execute(record):
             identity,payload=record
@@ -158,19 +163,31 @@ def transfer_index(root,manifest,key,origin,client,public_base,workers=2,limit=N
                 result={'status':'MISSING','errorCategory':type(error).__name__,'errorCode':getattr(error,'status',None) or code,'errorReason':str(error)[:1000]}
             return identity,result
         completed=0
+        after=''
         last_progress=time.monotonic()
         with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
             while limit is None or completed<limit:
                 take=min(workers*4,limit-completed) if limit is not None else workers*4
-                records=db.execute('SELECT id,payload FROM objects WHERE status="PENDING" ORDER BY rowid LIMIT ?', (take,)).fetchall()
+                if selection_id is None: records=db.execute('SELECT id,payload FROM objects WHERE status="PENDING" ORDER BY rowid LIMIT ?', (take,)).fetchall()
+                else: records=db.execute('SELECT o.id,o.payload FROM selected_scope_objects s CROSS JOIN objects o ON o.id=s.object_id WHERE s.selection_id=? AND s.object_id>? AND o.status="PENDING" ORDER BY s.object_id LIMIT ?',(selection_id,after,take)).fetchall()
                 if not records: break
+                after=records[-1][0]
                 for identity,result in executor.map(execute,records):
                     db.execute('UPDATE objects SET status=?,result=?,sha256=?,size_bytes=? WHERE id=?',(result['status'],seal(result,key,identity),result.get('sha256'),result.get('sizeBytes'),identity))
                     db.commit()
                     completed+=1
                     if progress and time.monotonic()-last_progress>=15:
-                        progress({'phase':'r2-transfer','processedThisRun':completed,'counts':dict(db.execute('SELECT status,COUNT(*) FROM objects GROUP BY status').fetchall()),'copiedBytes':db.execute('SELECT COALESCE(SUM(size_bytes),0) FROM objects WHERE status="AVAILABLE"').fetchone()[0]})
+                        counts=selection_counts(db,selection_id,True) if selection_id is not None else dict(db.execute('SELECT status,COUNT(*) FROM objects GROUP BY status').fetchall())
+                        copied=db.execute('SELECT COALESCE(SUM(size_bytes),0) FROM objects WHERE status="AVAILABLE"').fetchone()[0] if selection_id is None else db.execute('SELECT COALESCE(SUM(o.size_bytes),0) FROM selected_scope_objects s JOIN objects o ON o.id=s.object_id WHERE s.selection_id=? AND o.status="AVAILABLE"',(selection_id,)).fetchone()[0]
+                        progress({'phase':'r2-transfer','selectionId':selection_id,'processedThisRun':completed,'counts':counts,'copiedBytes':copied})
                         last_progress=time.monotonic()
+        if selection_id is not None:
+            validate_selection(db,root,manifest,key,selection_id)
+            counts=selection_counts(db,selection_id)
+            report={'selection':descriptor,'coverage':'DIRECT_USER_OR_CHAT_SESSION','cohortAllAssetsRestored':False,'counts':counts,'transferFinished':not counts.get('PENDING',0),'assetsComplete':not counts.get('PENDING',0) and not counts.get('MISSING',0),'copiedBytes':db.execute('SELECT COALESCE(SUM(o.size_bytes),0) FROM selection_objects s JOIN objects o ON o.id=s.object_id WHERE s.selection_id=? AND o.status="AVAILABLE"',(selection_id,)).fetchone()[0]}
+            write_chunk(root,'reports/selection-'+selection_id+'.enc',[report],key)
+            if progress: progress({'phase':'selected-transfer-finished','selectionId':selection_id,'counts':counts,'transferFinished':report['transferFinished'],'assetsComplete':report['assetsComplete'],'copiedBytes':report['copiedBytes']})
+            return report
         validate_index(db,manifest,key)
         counts=dict(db.execute('SELECT status,COUNT(*) FROM objects GROUP BY status').fetchall())
         manifest['assetTransferCounts']=counts
@@ -194,16 +211,22 @@ def main():
     parser.add_argument('--workers',type=int,default=2)
     parser.add_argument('--limit',type=int)
     parser.add_argument('--retry-failed',action='store_true')
+    parser.add_argument('--selection')
     args=parser.parse_args()
     key=Path(args.key_file).read_bytes()
     root=Path(args.package)
     manifest=load_manifest(root,key)
     origin=SourceObjects(args.source_storage_env)
     progress=lambda value:print(json.dumps(value),flush=True)
-    manifest=build_index(root,manifest,key,origin.config,progress)
+    if args.selection:
+        if args.index_only: raise ValueError('Selection transfer cannot rebuild the index')
+        with open_index(root) as db:
+            from .recent_assets import validate_selection
+            validate_selection(db,root,manifest,key,args.selection)
+    else: manifest=build_index(root,manifest,key,origin.config,progress)
     if not args.index_only:
         client,public_base=r2_client(args.r2_env)
-        transfer_index(root,manifest,key,origin,client,public_base,args.workers,args.limit,args.retry_failed,progress)
+        transfer_index(root,manifest,key,origin,client,public_base,args.workers,args.limit,args.retry_failed,progress,selection_id=args.selection)
 
 
 if __name__=='__main__':

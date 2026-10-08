@@ -58,10 +58,14 @@ def bulk_rows(conn,table,rows,progress=None):
     return writer.rows
 
 
-def refs_for(db,key,table,pk):
+def refs_for(db,key,table,pk,selection_id=None):
     result=[]
     if db is None: return result
-    for identity,ordinal,object_id,payload,status,encoded in db.execute('SELECT r.id,r.ordinal,r.object_id,r.payload,o.status,o.result FROM refs r JOIN objects o ON o.id=r.object_id WHERE r.table_name=? AND r.source_pk=? ORDER BY r.ordinal',(table,pk)):
+    query='SELECT r.id,r.ordinal,r.object_id,r.payload,o.status,o.result FROM refs r JOIN objects o ON o.id=r.object_id '
+    query+=('JOIN selected_scope_refs s ON s.reference_id=r.id ' if selection_id is not None else '')+'WHERE r.table_name=? AND r.source_pk=? '
+    parameters=[table,pk]
+    if selection_id is not None:query+='AND s.selection_id=? ';parameters.append(selection_id)
+    for identity,ordinal,object_id,payload,status,encoded in db.execute(query+'ORDER BY r.ordinal',parameters):
         ref=unseal(payload,key,identity)
         if ref['sourceTable']!=table or ref['sourcePk']!=pk or ref['ordinal']!=ordinal or ref['objectId']!=object_id: raise ValueError('Asset reference checkpoint mismatch')
         value=unseal(encoded,key,object_id) if encoded else {'status':'PENDING'}
@@ -70,8 +74,13 @@ def refs_for(db,key,table,pk):
     return result
 
 
-def replacement_urls(db,key,table,pk):
-    return {ref['originalUrl']:value['publicUrl'] for ref,value in refs_for(db,key,table,pk) if value['status']=='AVAILABLE'}
+def replacement_urls(db,key,table,pk,selection_id=None):
+    return {ref['originalUrl']:value['publicUrl'] for ref,value in refs_for(db,key,table,pk,selection_id) if value['status']=='AVAILABLE'}
+
+
+def reference_source_pks(db,table,selection_id=None):
+    if selection_id is None:return db.execute('SELECT DISTINCT source_pk FROM refs WHERE table_name=?',(table,))
+    return db.execute('SELECT DISTINCT r.source_pk FROM selected_scope_refs s CROSS JOIN refs r ON r.id=s.reference_id WHERE s.selection_id=? AND r.table_name=?',(selection_id,table))
 
 
 def version_labels(root,manifest,key):
@@ -114,14 +123,15 @@ def preflight_package(root,key,target_url,mp_identity_verified=False,allow_unind
         return report
 
 
-def import_package(root,key,target_url,testing=False,phase='all',allow_pending=False,progress=None,mp_identity_verified=False):
+def import_package(root,key,target_url,testing=False,phase='all',allow_pending=False,progress=None,mp_identity_verified=False,selection_id=None):
     from .native_mapping import target_guard
     target_guard(target_url,testing)
     root=Path(root)
     manifest=load_manifest(root,key)
     if manifest.get('sourceSystem')!=SOURCE_SYSTEM or not manifest.get('validationPassed') or (phase!='core' and not manifest.get('assetsScanComplete')): raise ValueError('Authenticated completed source package with asset index required')
     validate_package(root,key,record_validation=False)
-    if not allow_pending and not manifest.get('assetTransferFinished'): raise ValueError('Asset transfers must finish before final import')
+    if selection_id is not None and phase!='assets': raise ValueError('Selection can only backfill assets')
+    if selection_id is None and not allow_pending and not manifest.get('assetTransferFinished'): raise ValueError('Asset transfers must finish before final import')
     if phase not in {'all','records','assets','core'}: raise ValueError('Unknown import phase')
     report={'sourceSystem':SOURCE_SYSTEM,'runId':manifest['runId'],'phase':phase,'assetTransferFinished':manifest.get('assetTransferFinished',False),'sourceUserRows':manifest['tables']['app_user_user']['count'],'sourceLogRows':sum(manifest['tables'][table]['count'] for table in LOG_KINDS),'identityConflicts':Counter(),'booksArchived':Counter(),'ttsLinksUnresolved':0}
     with psycopg.connect(target_url.split('?')[0],connect_timeout=10) as conn:
@@ -132,7 +142,13 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
         db=None if phase=='core' else open_index(root)
         lookup=None
         try:
-            if db is not None: validate_index(db,manifest,key)
+            selected_users=None
+            if selection_id is not None:
+                from .recent_assets import validate_selection,freeze_selection
+                descriptor=freeze_selection(db,root,manifest,key,selection_id,allow_pending)
+                selected_users=set(descriptor['sourceUserIds'])
+                report.update({'assetSelectionId':selection_id,'assetCoverage':'DIRECT_USER_OR_CHAT_SESSION','cohortAllAssetsRestored':False,'eligibleUserCount':len(selected_users),'windowStart':descriptor['windowStart'],'windowEnd':descriptor['windowEnd']})
+            elif db is not None: validate_index(db,manifest,key)
             users_source=list(table_rows(root,manifest,key,'app_user_user',False))
             imported_ids={native_id('user',row['sourcePk']) for row in users_source}
             existing={field:set() for field in ['email','phone','wechatMpOpenId','wechatUnionId']}
@@ -212,14 +228,15 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
             if db is not None:
                 def asset_rows():
                     for table in LOG_KINDS:
-                        for pk, in db.execute('SELECT DISTINCT source_pk FROM refs WHERE table_name=?',(table,)).fetchall():
-                            for ref,value in refs_for(db,key,table,pk):
+                        for pk, in reference_source_pks(db,table,selection_id):
+                            for ref,value in refs_for(db,key,table,pk,selection_id):
                                 mime=value.get('mimeType'); hint=ref['mediaHint'].upper()
                                 yield {'id':native_id('log-asset',ref['referenceId']),'logId':native_id(table,pk),'position':ref['ordinal'],'role':ref['role'],'fieldPath':ref['fieldPath'],'mediaType':mime.split('/')[0].upper() if mime else hint,'status':value['status'],'filename':value.get('objectKey','').split('/')[-1] or None,'mimeType':mime,'storageKey':'r2:'+value['objectKey'] if value['status']=='AVAILABLE' else None,'sha256':value.get('sha256')}
                 bulk_rows(conn,'legacy_ai_log_assets',asset_rows(),progress)
             if phase in {'all','assets'}:
                 def media_rows():
-                    for ref_id,payload,object_id,status,encoded in db.execute('SELECT r.id,r.payload,r.object_id,o.status,o.result FROM refs r JOIN objects o ON o.id=r.object_id WHERE o.status="AVAILABLE"'):
+                    query='SELECT r.id,r.payload,r.object_id,o.status,o.result FROM refs r JOIN objects o ON o.id=r.object_id WHERE o.status="AVAILABLE"' if selection_id is None else 'SELECT r.id,r.payload,r.object_id,o.status,o.result FROM selected_scope_refs s CROSS JOIN refs r ON r.id=s.reference_id JOIN objects o ON o.id=r.object_id WHERE s.selection_id=? AND o.status="AVAILABLE"'
+                    for ref_id,payload,object_id,status,encoded in db.execute(query,() if selection_id is None else (selection_id,)):
                         ref=unseal(payload,key,ref_id); value=unseal(encoded,key,object_id)
                         if value['status']!=status or not value['objectKey'].startswith('picture-books/legacy-sync/abeiai-v1/'): raise ValueError('Invalid available R2 object')
                         owner=users.get(ref.get('sourceUserId')); filename=value['objectKey'].removeprefix('picture-books/')
@@ -227,24 +244,27 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 report['availableMediaReferences']=bulk_rows(conn,'media_assets',media_rows(),progress)
                 # Only imported records are updated; interactive changes are not overwritten.
                 for row in table_rows(root,manifest,key,'app_user_user',False):
-                    urls=replacement_urls(db,key,'app_user_user',row['sourcePk']); avatar=urls.get(row['values'].get('avatar'))
+                    if selected_users is not None and row['sourcePk'] not in selected_users:continue
+                    urls=replacement_urls(db,key,'app_user_user',row['sourcePk'],selection_id); avatar=urls.get(row['values'].get('avatar'))
                     if avatar: conn.execute('UPDATE users SET "avatarUrl"=%s WHERE id=%s AND "avatarUrl" IS NULL',(avatar,users.get(row['sourcePk'])))
                 for row in table_rows(root,manifest,key,'app_ai_product',False):
-                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']))
+                    if selected_users is not None and row['values'].get('user_id') not in selected_users:continue
+                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id))
                     if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
                 conn.commit()
                 updates=[]
                 for table in LOG_KINDS:
-                    for pk, in db.execute('SELECT DISTINCT source_pk FROM refs WHERE table_name=?',(table,)).fetchall():
-                        for ref,value in refs_for(db,key,table,pk):
+                    for pk, in reference_source_pks(db,table,selection_id):
+                        for ref,value in refs_for(db,key,table,pk,selection_id):
                             updates.append((value['status'],value.get('mimeType'),'r2:'+value['objectKey'] if value['status']=='AVAILABLE' else None,value.get('sha256'),value.get('objectKey','').split('/')[-1] or None,native_id('log-asset',ref['referenceId'])))
                             if len(updates)>=2000:
                                 conn.cursor().executemany('UPDATE legacy_ai_log_assets SET status=%s,"mimeType"=%s,"storageKey"=%s,sha256=%s,filename=%s WHERE id=%s',updates);conn.commit();updates=[]
                 if updates: conn.cursor().executemany('UPDATE legacy_ai_log_assets SET status=%s,"mimeType"=%s,"storageKey"=%s,sha256=%s,filename=%s WHERE id=%s',updates);conn.commit()
             report['nativeLogRows']=conn.execute('SELECT COUNT(*) FROM legacy_ai_logs WHERE "sourceSystem"=%s',(SOURCE_SYSTEM,)).fetchone()[0]
+            if selection_id is not None:validate_selection(db,root,manifest,key,selection_id)
             report['nativeUserRows']=len(users)
             report['identityConflicts']=dict(report['identityConflicts']);report['booksArchived']=dict(report['booksArchived'])
-            write_chunk(root,'reports/native-'+phase+'.enc',[report],key)
+            write_chunk(root,'reports/native-'+phase+('-'+selection_id if selection_id is not None else '')+'.enc',[report],key)
             if progress: progress({'phase':'native-import-finished',**report})
             return report
         finally:
@@ -258,6 +278,7 @@ def main():
     parser.add_argument('--package',required=True);parser.add_argument('--key-file',required=True);parser.add_argument('--target-env',required=True)
     parser.add_argument('--phase',choices=['all','records','assets','core'],default='all');parser.add_argument('--allow-pending-assets',action='store_true');parser.add_argument('--verified-mp-identity-file')
     parser.add_argument('--dry-run',action='store_true')
+    parser.add_argument('--selection')
     args=parser.parse_args()
     values=env_values([args.target_env],{'DATABASE_URL','WECHAT_APP_ID'})
     verified=False
@@ -266,8 +287,10 @@ def main():
         verified=verify_mp_namespace(values,context)
         if not verified: raise ValueError('Legacy/new MP identity namespace mismatch')
     key=Path(args.key_file).read_bytes()
-    if args.dry_run: print(json.dumps(preflight_package(args.package,key,values['DATABASE_URL'],verified,allow_unindexed=args.phase=='core')),flush=True)
-    else: import_package(args.package,key,values['DATABASE_URL'],phase=args.phase,allow_pending=args.allow_pending_assets,mp_identity_verified=verified,progress=lambda value:print(json.dumps(value),flush=True))
+    if args.dry_run:
+        if args.selection: raise ValueError('Scoped backfill uses the authenticated selection report for preflight')
+        print(json.dumps(preflight_package(args.package,key,values['DATABASE_URL'],verified,allow_unindexed=args.phase=='core')),flush=True)
+    else: import_package(args.package,key,values['DATABASE_URL'],phase=args.phase,allow_pending=args.allow_pending_assets,mp_identity_verified=verified,selection_id=args.selection,progress=lambda value:print(json.dumps(value),flush=True))
 
 
 if __name__=='__main__':
