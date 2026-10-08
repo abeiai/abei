@@ -1970,7 +1970,9 @@ export class AiService {
           model: input.modelName,
           input: dashScopeVideoInput(input.modelName, input.prompt, input.referenceFiles),
           parameters: {
-            size: videoSizeFromRatio(input.ratio, input.resolution),
+            ...(input.modelName.startsWith("wan2.7-i2v")
+              ? { resolution: input.resolution.includes("1080") ? "1080P" : "720P" }
+              : { size: videoSizeFromRatio(input.ratio, input.resolution) }),
             duration: input.duration,
             watermark: false,
             prompt_extend: true
@@ -10358,6 +10360,13 @@ function dashScopeVideoInput(modelName: string, prompt: string, references: Prov
     }
   } else if (audios[0]?.dataUrl) {
     media.push({ type: "audio", audio_url: audios[0].dataUrl });
+  }
+
+  // Wan2.7 image-to-video uses a shared URL field for every media type.
+  if (modelName.startsWith("wan2.7-i2v")) {
+    return { prompt, media: media.map(({ type, image_url, video_url, audio_url }) => ({
+      type, url: image_url ?? video_url ?? audio_url
+    })) };
   }
 
   return media.length > 0 ? { prompt, media } : { prompt };
