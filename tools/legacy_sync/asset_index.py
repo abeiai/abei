@@ -54,7 +54,9 @@ def open_index(root):
 
 
 def checkpoint_identity(manifest):
-    return {field:manifest.get(field) for field in ['sourceSystem','runId','schemaSha256']}
+    value={field:manifest.get(field) for field in ['sourceSystem','runId','schemaSha256']}
+    if manifest.get('incremental'):value['incrementalMediaScope']='AI_GENERATION_AND_NEW_USER_V1'
+    return value
 
 
 def table_digest(db,table):

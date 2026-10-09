@@ -52,7 +52,13 @@ def initialize_cursor(path,root,key_file,missing_report=None):
         reconciled=read_chunk(root,{'file':'reports/reconciliation-'+sid+'.enc'},key)[0]
         if reconciled.get('runId')!=m['runId'] or reconciled.get('selectionId')!=sid or reconciled.get('counts')!=assets['counts']:raise ValueError('Verified baseline scope reconciliation required')
         if assets['counts'].get('MISSING'):pending=[{'runId':m['runId'],'package':str(Path(root).resolve()),'keyFile':str(Path(key_file).resolve()),'receiptFile':missing_report,'missingCount':assets['counts']['MISSING']}]
-    value={'protocol':1,'runId':m['runId'],'sourceFingerprint':m['sourceFingerprint'],'package':str(Path(root).resolve()),'keyFile':str(Path(key_file).resolve()),'snapshotAt':m['startedAt'],'incompleteAssetPackages':pending}
+    endpoint=m.get('sourceEndpointFingerprint')
+    if not endpoint:
+        binding=read_chunk(root,{'file':'metadata/source-endpoint.enc'},key)[0]
+        if binding.get('runId')!=m['runId'] or binding.get('sourceFingerprint')!=m['sourceFingerprint']:raise ValueError('Baseline endpoint receipt mismatch')
+        endpoint=binding.get('sourceEndpointFingerprint')
+    if not re.fullmatch(r'[a-f0-9]{64}',endpoint or ''):raise ValueError('Baseline endpoint required')
+    value={'protocol':1,'sourceEndpointFingerprint':endpoint,'runId':m['runId'],'sourceFingerprint':m['sourceFingerprint'],'package':str(Path(root).resolve()),'keyFile':str(Path(key_file).resolve()),'snapshotAt':m['startedAt'],'incompleteAssetPackages':pending}
     lock_path=Path(str(path)+'.lock');lock_path.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
     with lock_path.open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
@@ -66,18 +72,18 @@ def advance_cursor(path,root,key_file,key,manifest):
     if Path(key_file).resolve().is_relative_to(Path(root).resolve()):raise ValueError('Cursor key must remain outside package')
     report=read_chunk(root,{'file':'reports/incremental-reconciliation.enc'},key)[0]
     parent=manifest['incremental']['parentRunId']
-    if report.get('runId')!=manifest['runId'] or report.get('parentRunId')!=parent or report.get('sourceFingerprint')!=manifest['sourceFingerprint'] or report.get('snapshotAt')!=manifest['startedAt'] or report.get('dataVerified') is not True or report.get('assetTransferFinished') is not True or report.get('assetCounts',{}).get('PENDING',0):raise ValueError('Verified finished delta receipt required')
+    if report.get('runId')!=manifest['runId'] or report.get('parentRunId')!=parent or report.get('sourceFingerprint')!=manifest['sourceFingerprint'] or report.get('sourceEndpointFingerprint')!=manifest['sourceEndpointFingerprint'] or report.get('snapshotAt')!=manifest['startedAt'] or report.get('dataVerified') is not True or report.get('assetTransferFinished') is not True or report.get('assetCounts',{}).get('PENDING',0):raise ValueError('Verified finished delta receipt required')
     lock_path=Path(str(path)+'.lock')
     with lock_path.open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX);current=read_cursor(path)
-        if current.get('sourceFingerprint')!=manifest['sourceFingerprint']:raise ValueError('Cursor source mismatch')
+        if current.get('sourceFingerprint')!=manifest['sourceFingerprint'] or current.get('sourceEndpointFingerprint')!=manifest['sourceEndpointFingerprint']:raise ValueError('Cursor source mismatch')
         if current.get('runId')==manifest['runId']:
             if current.get('package')!=str(Path(root).resolve()) or current.get('keyFile')!=str(Path(key_file).resolve()):raise ValueError('Replayed cursor path mismatch')
             return current
-        if current.get('runId')!=parent:raise ValueError('Cursor parent is stale or branched')
+        if current.get('runId')!=parent or current.get('snapshotAt')!=manifest['incremental']['since']:raise ValueError('Cursor parent is stale or branched')
         pending=list(current.get('incompleteAssetPackages',[]));missing=report['assetCounts'].get('MISSING',0)
         if missing:pending.append({'runId':manifest['runId'],'package':str(Path(root).resolve()),'keyFile':str(Path(key_file).resolve()),'receiptFile':'reports/incremental-reconciliation.enc','missingCount':missing})
-        value={'protocol':1,'runId':manifest['runId'],'sourceFingerprint':manifest['sourceFingerprint'],'package':str(Path(root).resolve()),'keyFile':str(Path(key_file).resolve()),'snapshotAt':manifest['startedAt'],'incompleteAssetPackages':pending}
+        value={'protocol':1,'sourceEndpointFingerprint':manifest['sourceEndpointFingerprint'],'runId':manifest['runId'],'sourceFingerprint':manifest['sourceFingerprint'],'package':str(Path(root).resolve()),'keyFile':str(Path(key_file).resolve()),'snapshotAt':manifest['startedAt'],'incompleteAssetPackages':pending}
         atomic_cursor(path,value);return value
 
 
@@ -93,8 +99,8 @@ def milliseconds(moment):
     return moment.replace(microsecond=0)+dt.timedelta(milliseconds=(moment.microsecond+500)//1000)
 
 
-def reconcile_increment(root,key,target,public):
-    target_guard(target);m=load_manifest(root,key);validate_package(root,key,record_validation=False)
+def reconcile_increment(root,key,target,public,testing=False):
+    target_guard(target,testing);m=load_manifest(root,key);validate_package(root,key,record_validation=False)
     if not m.get('incremental') or not m.get('assetTransferFinished'):raise ValueError('Finished incremental package required')
     for phase in ('core','assets'):
         native=read_chunk(root,{'file':'reports/native-'+phase+'.enc'},key)[0]
@@ -106,7 +112,7 @@ def reconcile_increment(root,key,target,public):
         ids=[native_id('user',r['sourcePk']) for r in source_users];expected_assets=Counter();actual_assets=Counter();new_counts={};book_counts=Counter();media_want={}
         with psycopg.connect(target.split('?')[0],connect_timeout=10) as conn:
             conn.execute('SET TRANSACTION READ ONLY')
-            if conn.execute('SELECT current_database(),inet_server_port()').fetchone()!=('abei',3604):raise ValueError('Wrong reconciliation target')
+            if conn.execute('SELECT current_database(),inet_server_port()').fetchone()!=(('abei_wechat_test',3606) if testing else ('abei',3604)):raise ValueError('Wrong reconciliation target')
             present={r[0] for r in conn.execute('SELECT id FROM users WHERE id=ANY(%s)',(ids,))};users={r['sourcePk']:native_id('user',r['sourcePk']) for r in source_users if native_id('user',r['sourcePk']) in present}
             previous_user=int(m['incremental']['tables']['app_user_user']['fromPk'])
             if any(user_is_new(m,r['sourcePk']) and r['sourcePk'] not in users for r in source_users):raise ValueError('New source user coverage mismatch')
@@ -165,7 +171,7 @@ def reconcile_increment(root,key,target,public):
                     if digest.hexdigest()!=value['sha256'] or size!=value['sizeBytes']:raise ValueError('R2 readback hash mismatch')
                 samples.append({'kind':kind,'sizeBytes':size,'sha256Matches':True});seen.add(kind)
                 if len(seen)==3:break
-        report={'runId':m['runId'],'parentRunId':m['incremental']['parentRunId'],'sourceFingerprint':m['sourceFingerprint'],'snapshotAt':m['startedAt'],'dataVerified':True,'assetTransferFinished':True,'assetCounts':asset_counts,'availableBytes':db.execute('SELECT COALESCE(SUM(size_bytes),0) FROM objects WHERE status="AVAILABLE"').fetchone()[0],'newSourceRows':new_counts,'bookCounts':dict(book_counts),'expectedLogAssetCounts':dict(expected_assets),'actualLogAssetCounts':dict(actual_assets),'publicReadbackSamples':samples,'targetCounts':target_counts,'fullSourceMirror':False}
+        report={'sourceEndpointFingerprint':m['sourceEndpointFingerprint'],'runId':m['runId'],'parentRunId':m['incremental']['parentRunId'],'sourceFingerprint':m['sourceFingerprint'],'snapshotAt':m['startedAt'],'dataVerified':True,'assetTransferFinished':True,'assetCounts':asset_counts,'availableBytes':db.execute('SELECT COALESCE(SUM(size_bytes),0) FROM objects WHERE status="AVAILABLE"').fetchone()[0],'newSourceRows':new_counts,'bookCounts':dict(book_counts),'expectedLogAssetCounts':dict(expected_assets),'actualLogAssetCounts':dict(actual_assets),'publicReadbackSamples':samples,'targetCounts':target_counts,'fullSourceMirror':False}
         write_chunk(root,'reports/incremental-reconciliation.enc',[report],key);return report
 
 
@@ -175,7 +181,7 @@ def main():
     if a.initialize:initialize_cursor(a.cursor_file,a.package,a.key_file,a.baseline_missing_report);print(json.dumps({'phase':'increment-cursor-initialized'}));return
     if not a.target_env or not a.r2_public_env:raise ValueError('Explicit local target and public R2 configuration required')
     m=load_manifest(a.package,Path(a.key_file).read_bytes());cursor=read_cursor(a.cursor_file)
-    if cursor['sourceFingerprint']!=m['sourceFingerprint'] or cursor['runId'] not in {m['incremental']['parentRunId'],m['runId']}:raise ValueError('Delta cursor parent mismatch')
+    if cursor['sourceFingerprint']!=m['sourceFingerprint'] or cursor.get('sourceEndpointFingerprint')!=m['sourceEndpointFingerprint'] or cursor['runId'] not in {m['incremental']['parentRunId'],m['runId']} or cursor['snapshotAt']!=(m['startedAt'] if cursor['runId']==m['runId'] else m['incremental']['since']):raise ValueError('Delta cursor parent mismatch')
     key=Path(a.key_file).read_bytes();target=env_values([a.target_env],{'DATABASE_URL'})['DATABASE_URL'];public=env_values([a.r2_public_env],{'S3_PUBLIC_BASE_URL'})['S3_PUBLIC_BASE_URL']
     r=reconcile_increment(a.package,key,target,public);advance_cursor(a.cursor_file,a.package,a.key_file,key,m)
     print(json.dumps({'phase':'increment-reconciled','runId':r['runId'],'assetCounts':r['assetCounts'],'availableBytes':r['availableBytes'],'newSourceRows':r['newSourceRows'],'bookCounts':r['bookCounts'],'publicReadbackSamples':r['publicReadbackSamples']}),flush=True)

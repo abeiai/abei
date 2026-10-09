@@ -119,6 +119,7 @@ def index_row_allowed(manifest,row):
     if value is None:return True
     table=row['sourceTable'];info=value['tables'][table];v=row['values']
     if table=='app_user_user':return user_is_new(manifest,row['sourcePk'])
+    if not table.startswith('app_ai_'):return False
     if table=='app_ai_chatmessage':return True
     if not v.get('user_id'):return False
     if info['mode']=='CONTEXT':

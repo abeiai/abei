@@ -29,6 +29,16 @@ class IncrementalContract(unittest.TestCase):
         self.assertTrue(index_row_allowed(manifest,row('app_ai_drawmessage',95,'1')))
         self.assertFalse(index_row_allowed(manifest,row('app_ai_drawmessage',101)))
 
+    def test_delta_media_excludes_updated_gallery_and_financial_rows(self):
+        from tools.legacy_sync.incremental import index_row_allowed
+        from tools.legacy_sync.asset_index import checkpoint_identity
+        manifest={'sourceSystem':'abeiai-v1','runId':'child','schemaSha256':'a'*64,'incremental':{'tables':{t:{'mode':'DELTA','fromPk':'1'} for t in ('app_piazza_realproduct','app_user_memberorder','app_ai_product')}}}
+        for table in ('app_piazza_realproduct','app_user_memberorder'):
+            self.assertFalse(index_row_allowed(manifest,{'sourceTable':table,'sourcePk':'2','values':{'user_id':'1'}}))
+        self.assertTrue(index_row_allowed(manifest,{'sourceTable':'app_ai_product','sourcePk':'2','values':{'user_id':'1'}}))
+        self.assertEqual(checkpoint_identity(manifest)['incrementalMediaScope'],'AI_GENERATION_AND_NEW_USER_V1')
+        self.assertNotIn('incrementalMediaScope',checkpoint_identity({k:v for k,v in manifest.items() if k!='incremental'}))
+
     def test_incremental_watermarks_keep_empty_table_cursor_and_parent_binding(self):
         from tools.legacy_sync.incremental import baseline_watermarks, validate_incremental_manifest
         with tempfile.TemporaryDirectory() as directory:
