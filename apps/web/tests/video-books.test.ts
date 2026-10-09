@@ -60,12 +60,16 @@ test("读取进度响应时点击停止，保留中止信号而不误报请求�
 });
 
 test("绘本视频只提供 MiniMax H3s 和 Wan3.0-Video-Prime，排除其他模型、演示和重复实例", () => {
-  const prime = { ...model, id: "prime", modelName: "wan3.0-video-prime" };
-  const minimax = { ...model, id: "minimax", modelName: "MiniMax-H3" };
+  const prime = { ...model, id: "prime", modelName: "wan3.0-video-prime", defaultResolution: "高清 1080P", supportedResolutions: ["高清 480P", "高清 720P", "高清 1080P"] };
+  const minimax = { ...model, id: "minimax", modelName: "MiniMax-H3", defaultResolution: "高清 768P", supportedResolutions: ["高清 480P", "高清 768P"] };
   const models = [model, { ...model, id: "horse", modelName: "happyhorse-1.0-i2v" }, prime, minimax,
     { ...prime, id: "duplicate" }, { ...minimax, id: "mock", isMock: true }];
   const choices = videoBookModels(models);
   assert.deepEqual(choices.map(item => [item.id, item.displayName]), [["minimax", "MiniMax H3s"], ["prime", "Wan3.0-Video-Prime"]]);
+  for (const choice of choices) {
+    assert.equal(createVideoBookProject(guide, choice).resolution, "高清 480P");
+    validateVideoBookSettings(createVideoBookProject(guide, choice), choice);
+  }
   assert.deepEqual(videoBookModels([{ ...prime, maxReferenceFiles: 0 }, { ...minimax, acceptedReferenceTypes: [] }]), []);
 });
 

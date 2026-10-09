@@ -30,7 +30,8 @@ export function videoBookModels(models: ExperienceVideoModel[]) {
   return choices.flatMap(choice => {
     const model = models.find(item => !item.isMock && item.modelName.trim().toLowerCase() === choice.name
       && item.maxReferenceFiles >= 1 && item.acceptedReferenceTypes.includes("image/*"));
-    return model ? [{ ...model, displayName: choice.label }] : [];
+    return model ? [{ ...model, displayName: choice.label,
+      defaultResolution: model.supportedResolutions.includes("高清 480P") ? "高清 480P" : model.defaultResolution }] : [];
   });
 }
 
@@ -47,7 +48,7 @@ export function createVideoBookProject(guide: PictureBookGuide, model?: Experien
   return {
     id: guide.id, title: guide.title, pdfUrl: guide.pdfUrl, sourceName: guide.pdfName,
     editing: false, removeText: false, modelId: model?.id ?? "", ratio: model?.supportedRatios.includes("16:9") ? "16:9" : model?.supportedRatios[0] ?? "16:9",
-    resolution: model?.defaultResolution ?? "高清 720P", duration: model?.defaultDuration ?? 5, updatedAt: new Date().toISOString(),
+    resolution: model?.defaultResolution ?? "高清 480P", duration: model?.defaultDuration ?? 5, updatedAt: new Date().toISOString(),
     pages: guide.pages.map(page => ({ pageNumber: page.pageNumber, imageUrl: page.imageUrl, cleanImageUrl: null, sourceText: page.sourceText,
       description: page.sourceText.slice(0, 1000), prompt: "", motion: "gentle", references: [], clip: null }))
   };
