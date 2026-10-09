@@ -38,8 +38,8 @@ export class CreateVideoGenerationDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  @Min(3)
-  @Max(15)
+  @Min(2)
+  @Max(30)
   duration?: number;
 
   @IsOptional()

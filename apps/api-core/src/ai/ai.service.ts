@@ -1491,6 +1491,9 @@ export class AiService {
     const billingContext = this.billingContextFromDto(dto);
     const scenario = await this.ensureExperienceVideoScenario();
     const model = await this.getVideoGenerationModel(dto.modelInstanceId);
+    if (!isWan30VideoPrimeModel(model.providerModelName) && dto.duration !== undefined && (dto.duration < 3 || dto.duration > 15)) {
+      throw new AppException(40001, "视频时长应为 3–15 秒。", HttpStatus.BAD_REQUEST);
+    }
     const activeModel = this.activeModelFromInstance(model, scenario, null);
     const capabilityTags = jsonStringArray(model.capabilityTags);
     const maxReferenceFiles = videoReferenceLimit(model.providerModelName, capabilityTags);
@@ -1513,10 +1516,10 @@ export class AiService {
       resolution,
       modelName: model.providerModelName
     });
-    if (model.providerInstance.providerPreset.adapterType === "MINIMAX_VIDEO" && estimatedCredits <= 0) {
+    if ((model.providerInstance.providerPreset.adapterType === "MINIMAX_VIDEO" || isWan30VideoPrimeModel(model.providerModelName)) && estimatedCredits <= 0) {
       throw new AppException(
         40001,
-        `MiniMax H3s 尚未配置 ${resolution} 的有效计费价格。`,
+        `${isWan30VideoPrimeModel(model.providerModelName) ? "Wan3.0 Video Prime" : "MiniMax H3s"} 尚未配置 ${resolution} 的有效计费价格。`,
         HttpStatus.BAD_REQUEST
       );
     }
@@ -1565,7 +1568,8 @@ export class AiService {
             ratio,
             resolution,
             duration,
-            referenceFiles
+            referenceFiles,
+            promptRewrite: Boolean(dto.promptRewrite)
           });
       const providerTaskId = dashScopeTaskId(response);
       const videoUrl = extractDashScopeVideoUrls(response)[0] ?? null;
@@ -1950,6 +1954,7 @@ export class AiService {
     resolution: string;
     duration: number;
     referenceFiles: ProviderTextAttachment[];
+    promptRewrite?: boolean;
   }) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), aiVideoTimeoutMs());
@@ -1965,7 +1970,14 @@ export class AiService {
         body: JSON.stringify({
           model: input.modelName,
           input: dashScopeVideoInput(input.modelName, input.prompt, input.referenceFiles),
-          parameters: {
+          parameters: isWan30VideoPrimeModel(input.modelName) ? {
+            resolution: input.resolution.includes("480") ? "480P" : input.resolution.includes("720") ? "720P" : "1080P",
+            ratio: input.ratio,
+            duration: input.duration,
+            audio: true,
+            watermark: false,
+            prompt_extend: input.promptRewrite ?? true
+          } : {
             ...(usesImageToVideoMediaUrl(input.modelName)
               ? { resolution: input.resolution.includes("1080") ? "1080P" : "720P" }
               : { size: videoSizeFromRatio(input.ratio, input.resolution) }),
@@ -9840,6 +9852,10 @@ function videoReferenceLimit(modelName: string, capabilityTags: string[]) {
     return 0;
   }
 
+  if (isWan30VideoPrimeModel(modelName)) {
+    return 10;
+  }
+
   if (modelName.includes("-t2v")) {
     return capabilityTags.includes("REFERENCE_AUDIO") ? 1 : 0;
   }
@@ -9866,6 +9882,10 @@ function videoReferenceLimit(modelName: string, capabilityTags: string[]) {
 }
 
 function videoReferenceAccept(modelName: string, capabilityTags: string[]) {
+  if (isWan30VideoPrimeModel(modelName)) {
+    return ["image/*"];
+  }
+
   const accepts = new Set<string>();
 
   if (capabilityTags.includes("IMAGE_INPUT") || capabilityTags.includes("REFERENCE_IMAGE")) {
@@ -9896,6 +9916,10 @@ function videoDefaultDuration(modelName: string) {
 }
 
 function videoSupportedDurations(modelName: string) {
+  if (isWan30VideoPrimeModel(modelName)) {
+    return Array.from({ length: 29 }, (_, index) => index + 2);
+  }
+
   return isMiniMaxH3sModel(modelName)
     ? Array.from({ length: 12 }, (_, index) => index + 4)
     : [5, 10];
@@ -9903,6 +9927,10 @@ function videoSupportedDurations(modelName: string) {
 
 function normalizedVideoDuration(value: number | undefined, modelName: string) {
   const normalized = Math.trunc(value ?? videoDefaultDuration(modelName));
+
+  if (isWan30VideoPrimeModel(modelName)) {
+    return Math.max(2, Math.min(normalized, 30));
+  }
 
   return isMiniMaxH3sModel(modelName)
     ? Math.max(4, Math.min(normalized, 15))
@@ -9958,7 +9986,11 @@ function videoGenerationModelPriority(modelName: string) {
 }
 
 function isDashScopeVideoGenerationModel(modelName: string) {
-  return modelName.startsWith("wan2.7-") || modelName.startsWith("happyhorse-1.0-");
+  return isWan30VideoPrimeModel(modelName) || modelName.startsWith("wan2.7-") || modelName.startsWith("happyhorse-1.0-");
+}
+
+function isWan30VideoPrimeModel(modelName: string) {
+  return modelName === "wan3.0-video-prime";
 }
 
 function isMiniMaxH3sModel(modelName: string) {
@@ -10043,7 +10075,7 @@ function selectVideoPricingVariant(
     );
   });
 
-  if (isMiniMaxH3sModel(modelName)) {
+  if (isMiniMaxH3sModel(modelName) || isWan30VideoPrimeModel(modelName)) {
     return exactVariant ?? null;
   }
 
@@ -10227,7 +10259,11 @@ function normalizeVideoReferences(value: unknown, maxReferenceFiles: number, mod
   }
 
   const accepts = videoReferenceAccept(modelName, capabilityTags);
-  const normalized = normalizeProviderAttachments(value)
+  const attachments = normalizeProviderAttachments(value, isWan30VideoPrimeModel(modelName) ? 15 : 6);
+  if (isWan30VideoPrimeModel(modelName) && attachments.some(item => item.type === "video" || item.type === "audio")) {
+    throw new AppException(40001, "Wan3.0 Video Prime 当前仅支持图片参考，请移除视频或音频文件。", HttpStatus.BAD_REQUEST);
+  }
+  const normalized = attachments
     .filter((attachment) => {
       if (attachment.type === "image") {
         return accepts.includes("image/*") && attachment.mimeType.startsWith("image/") && Boolean(attachment.dataUrl?.startsWith("data:image/"));
@@ -10273,7 +10309,7 @@ function assertVideoReferences(modelName: string, references: ProviderTextAttach
 }
 
 function videoSupportedRatios(modelName: string) {
-  return isMiniMaxH3sModel(modelName)
+  return isMiniMaxH3sModel(modelName) || isWan30VideoPrimeModel(modelName)
     ? ["adaptive", "21:9", "16:9", "4:3", "1:1", "3:4", "9:16"]
     : ["16:9", "9:16", "1:1", "4:3", "3:4"];
 }
@@ -10286,10 +10322,16 @@ function normalizedVideoRatio(value: string | undefined, modelName: string) {
 }
 
 function videoDefaultResolution(modelName: string) {
+  if (isWan30VideoPrimeModel(modelName)) {
+    return "高清 1080P";
+  }
   return isMiniMaxH3sModel(modelName) ? "高清 768P" : "高清 720P";
 }
 
 function videoSupportedResolutions(modelName: string) {
+  if (isWan30VideoPrimeModel(modelName)) {
+    return ["高清 480P", "高清 720P", "高清 1080P"];
+  }
   return isMiniMaxH3sModel(modelName)
     ? ["高清 480P", "高清 768P"]
     : ["高清 720P", "高清 1080P"];
@@ -10328,6 +10370,11 @@ function usesImageToVideoMediaUrl(modelName: string) {
 
 function dashScopeVideoInput(modelName: string, prompt: string, references: ProviderTextAttachment[]) {
   const images = references.filter((item) => item.type === "image" && item.dataUrl);
+  if (isWan30VideoPrimeModel(modelName)) {
+    return { prompt, ...(images.length ? {
+      media: images.slice(0, 10).map(image => ({ type: "reference_image", url: image.dataUrl }))
+    } : {}) };
+  }
   const videos = references.filter((item) => item.type === "video" && item.dataUrl);
   const audios = references.filter((item) => item.type === "audio" && item.dataUrl);
   const media: Array<{ type: string; video_url?: string; image_url?: string; audio_url?: string }> = [];

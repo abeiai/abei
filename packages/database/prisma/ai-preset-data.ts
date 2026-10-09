@@ -1,4 +1,4 @@
-export const aiPresetVersion = "2026.09.25.4";
+export const aiPresetVersion = "2026.10.09.1";
 
 const pricingSources = {
   deepSeek: "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
@@ -40,6 +40,20 @@ const qwenImage30Pricing = {
   output: 0.18,
   source: pricingSources.aliyunModelStudio,
   note: "阿里云百炼华北 2（北京）长期原价：输入图片 0.02 元/张，成功生成图片 0.18 元/张。"
+};
+
+const wan30VideoPrimePricing = {
+  mode: "VIDEO_SECONDS",
+  currency: "CNY",
+  unit: "SECOND",
+  billingBasis: "OUTPUT_SECONDS",
+  variants: [
+    { label: "480P 视频生成", resolution: "480P", jobMode: "STANDARD", taskType: "OTHER", withAudio: true, input: 0, output: 0.45 },
+    { label: "720P 视频生成", resolution: "720P", jobMode: "STANDARD", taskType: "OTHER", withAudio: true, input: 0, output: 0.9 },
+    { label: "1080P 视频生成", resolution: "1080P", jobMode: "STANDARD", taskType: "OTHER", withAudio: true, input: 0, output: 1.8 }
+  ],
+  source: "https://help.aliyun.com/zh/model-studio/prime-mode",
+  note: "阿里云百炼北京区 Prime 原价，按生成视频秒数计费；文生视频与图片参考生成同价，含音频。当前接入不支持参考视频或参考音频。"
 };
 
 const seedream50ProPricing = {
@@ -586,6 +600,15 @@ export const providerPresets = [
     docsUrl: "https://help.aliyun.com/zh/model-studio/",
     region: "CHINA",
     models: [
+      {
+        modelKey: "wan3-0-video-prime",
+        displayName: "Wan3.0 Video Prime",
+        providerModelName: "wan3.0-video-prime",
+        capabilityTags: ["VIDEO_GENERATION", "TEXT_TO_VIDEO", "IMAGE_TO_VIDEO", "IMAGE_INPUT", "REFERENCE_IMAGE", "PROMPT_REWRITE", "CHINA_FRIENDLY"],
+        supportsVision: true,
+        recommendedAlias: "video-generation",
+        pricingConfig: wan30VideoPrimePricing
+      },
       {
         modelKey: "happyhorse-1-0-t2v",
         displayName: "HappyHorse 1.0 文生视频",

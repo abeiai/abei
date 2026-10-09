@@ -4,7 +4,23 @@ import test from "node:test";
 import { aiPresetVersion, providerPresets } from "./ai-preset-data.js";
 
 test("AI 预设版本包含阿贝智能模型", () => {
-  assert.equal(aiPresetVersion, "2026.09.25.4");
+  assert.equal(aiPresetVersion, "2026.10.09.1");
+});
+
+test("DashScope 预设包含按分辨率计费的 Wan3.0 Video Prime", () => {
+  const model = providerPresets.find(provider => provider.providerKey === "dashscope")?.models.find(item => item.providerModelName === "wan3.0-video-prime");
+  assert.ok(model);
+  assert.equal(model.recommendedAlias, "video-generation");
+  assert.ok(model.capabilityTags.includes("TEXT_TO_VIDEO"));
+  assert.ok(model.capabilityTags.includes("REFERENCE_IMAGE"));
+  assert.ok(!model.capabilityTags.includes("REFERENCE_VIDEO"));
+  assert.ok(!model.capabilityTags.includes("REFERENCE_AUDIO"));
+  assert.ok("pricingConfig" in model);
+  const pricing = model.pricingConfig as { mode: string; variants: Array<{ resolution: string; output: number }>; source: string };
+  assert.equal(pricing.mode, "VIDEO_SECONDS");
+  assert.deepEqual(pricing.variants.map(item => [item.resolution, item.output]), [["480P", 0.45], ["720P", 0.9], ["1080P", 1.8]]);
+  assert.ok(pricing.variants.every(item => "withAudio" in item && item.withAudio === true));
+  assert.equal(pricing.source, "https://help.aliyun.com/zh/model-studio/prime-mode");
 });
 
 test("阿贝智能预置七个模型并按接口类型分组", () => {

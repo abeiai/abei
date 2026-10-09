@@ -709,6 +709,8 @@ async function seedVideoProviderDefaults(
       continue;
     }
 
+    const pricingConfig = modelPresetPricingConfig(modelPreset);
+    const pricingSummary = pricingConfig ? pricingSummaryFromPresetConfig(pricingConfig) : null;
     const model = await prisma.aiModelInstance.upsert({
       where: {
         providerInstanceId_providerModelName: {
@@ -730,10 +732,11 @@ async function seedVideoProviderDefaults(
         webSocketUrl: providerInstance?.webSocketUrl,
         region: providerInstance?.region,
         capabilityTags,
-        inputPrice: "0",
-        outputPrice: "0",
-        pricingMode: "VIDEO_SECONDS",
-        pricingUnit: "SECOND",
+        inputPrice: pricingSummary?.inputPrice ?? "0",
+        outputPrice: pricingSummary?.outputPrice ?? "0",
+        pricingMode: pricingSummary?.pricingMode ?? "VIDEO_SECONDS",
+        pricingUnit: pricingSummary?.pricingUnit ?? "SECOND",
+        pricingConfig: pricingConfig ?? undefined,
         isEnabled: isEnabledOnCreate
       }
     });
