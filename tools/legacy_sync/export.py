@@ -22,7 +22,10 @@ def export_snapshot(source, root, key, source_system, run_id, progress=None, inc
         'sourceTimezone': 'Asia/Shanghai', 'startedAt': dt.datetime.now(dt.timezone.utc).isoformat(),
         'dataSnapshotComplete': False, 'assetsComplete': False, 'validationPassed': False,
         'accessPolicy': 'user-confirmed-legacy-entry/fixed-select/read-only-transaction', 'tables': {}}
-    if incremental is not None: manifest['incremental']=incremental
+    if incremental is not None:
+        manifest['incremental']=incremental
+        manifest['sourceEndpointFingerprint']=incremental.get('sourceEndpointFingerprint')
+        manifest['captureKind']='INCREMENTAL'
     if source_fingerprint is not None: manifest['sourceFingerprint']=source_fingerprint
     write_manifest(root, manifest, key)
     last_progress = time.monotonic()
@@ -198,6 +201,8 @@ def main():
         config = read_config(args.source_env)
         source = ReadOnlySource(config, args.confirmed_legacy_entry)
         result = export_snapshot(source, root, key, args.source_system, args.run_id, lambda value: print(json.dumps(value), flush=True))
+        from .incremental import endpoint_fingerprint
+        result['sourceEndpointFingerprint']=endpoint_fingerprint(config)
         result['sourceFingerprint'] = hashlib.sha256((config['MYSQL_URL'] + '/' + config['MYSQL_DATABASE']).encode()).hexdigest()
         write_manifest(root, result, key)
         result = validate_package(root, key)

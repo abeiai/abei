@@ -15,6 +15,7 @@ from .export import validate_package
 from .package import load_manifest, read_chunk, write_chunk
 from .native_mapping import SOURCE_SYSTEM, LOG_KINDS, native_id, identity_values, user_identity, log_row, book_row, json_value, text, timestamp
 from .object_transfer import env_values
+from .incremental import user_is_new
 
 NATIVE_TABLES=frozenset({'users','legacy_ai_sessions','legacy_ai_logs','legacy_ai_session_items','legacy_ai_log_assets','media_assets','picture_books'})
 JSON_FIELDS=frozenset({'metadata','parameters','messages','characters','pages'})
@@ -100,6 +101,27 @@ def version_labels(root,manifest,key):
     return labels
 
 
+def add_existing_tts_candidates(conn,lookup,subjects):
+    needed=set()
+    for row in subjects:
+        v=row['values'];body=json_value(v.get('body'),[])
+        if not isinstance(body,list) or not v.get('user_id'):continue
+        for item in body:
+            if not isinstance(item,dict):continue
+            msg=str(item.get('msg_id') or '').replace('-','');version=str(item.get('version_id') or '')
+            digest=hashlib.md5((str(item.get('user_content') or '')+'_'+version).encode(),usedforsecurity=False).hexdigest()
+            if msg and digest==item.get('hash_str'):needed.add((msg,v['user_id'],version,digest))
+    if not needed:return
+    messages=sorted({v[0] for v in needed});owners=sorted({v[1] for v in needed})
+    for start in range(0,len(messages),500):
+        query="""SELECT id,"sourcePk","sourceMsgId","sourceUserId",parameters->>'sourceVersionId',"inputText" FROM legacy_ai_logs WHERE "sourceSystem"=%s AND "sourceTable"=%s AND replace("sourceMsgId",'-','')=ANY(%s) AND "sourceUserId"=ANY(%s)"""
+        for log_id,pk,msg,owner,version,content in conn.execute(query,(SOURCE_SYSTEM,'app_ai_ttsmessage',messages[start:start+500],owners)):
+            if log_id!=native_id('app_ai_ttsmessage',pk):raise ValueError('Untrusted legacy TTS candidate identity')
+            if not content or version is None:continue
+            digest=hashlib.md5((content+'_'+str(version)).encode(),usedforsecurity=False).hexdigest();identity=(msg.replace('-',''),owner,str(version),digest)
+            if identity in needed:lookup.execute('INSERT OR IGNORE INTO tts_lookup VALUES (?,?,?,?,?)',(*identity,log_id))
+
+
 def preflight_package(root,key,target_url,mp_identity_verified=False,allow_unindexed=False):
     from .native_mapping import target_guard
     target_guard(target_url)
@@ -144,6 +166,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
     capture_time=dt.datetime.fromisoformat(manifest['startedAt'].replace('Z','+00:00')) if incremental else None
     report={'sourceSystem':SOURCE_SYSTEM,'runId':manifest['runId'],'phase':phase,'assetTransferFinished':manifest.get('assetTransferFinished',False),'sourceUserRows':manifest['tables']['app_user_user']['count'],'sourceLogRows':sum(manifest['tables'][table]['count'] for table in LOG_KINDS),'identityConflicts':Counter(),'booksArchived':Counter(),'ttsLinksUnresolved':0}
     with psycopg.connect(target_url.split('?')[0],connect_timeout=10) as conn:
+        conn.execute("SET TIME ZONE 'UTC'")
         target=conn.execute('SELECT current_database(),inet_server_port()').fetchone()
         if target!=(('abei_wechat_test',3606) if testing else ('abei',3604)): raise ValueError('Target server identity mismatch')
         # Exclusive migration session lock; target application remains usable.
@@ -159,6 +182,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 report.update({'assetSelectionId':selection_id,'assetCoverage':'DIRECT_USER_OR_CHAT_SESSION','cohortAllAssetsRestored':False,'eligibleUserCount':len(selected_users),'windowStart':descriptor['windowStart'],'windowEnd':descriptor['windowEnd']})
             elif db is not None: validate_index(db,manifest,key)
             users_source=list(table_rows(root,manifest,key,'app_user_user',False))
+            if incremental:report['sourceNewUserRows']=sum(user_is_new(manifest,row['sourcePk']) for row in users_source)
             imported_ids={native_id('user',row['sourcePk']) for row in users_source}
             existing={field:set() for field in ['email','phone','wechatMpOpenId','wechatUnionId']}
             users={}
@@ -174,6 +198,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
             if phase in {'all','records','core'}:
                 def user_rows():
                     for row in users_source:
+                        if incremental and not user_is_new(manifest,row['sourcePk']):continue
                         v=row['values']; pk=row['sourcePk']; identity,conflicts=user_identity(v,counts,existing,namespace_verified=mp_identity_verified)
                         report['identityConflicts'].update(conflicts)
                         if not mp_identity_verified:
@@ -225,11 +250,14 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 lookup=db if db is not None else sqlite3.connect(':memory:')
                 lookup.execute('CREATE TEMP TABLE tts_lookup (msg TEXT, owner TEXT, version TEXT, hash TEXT, log_id TEXT)')
                 lookup.execute('CREATE INDEX temp.tts_lookup_identity ON tts_lookup(msg,owner,version,hash)')
+                lookup.execute('CREATE UNIQUE INDEX temp.tts_lookup_log ON tts_lookup(log_id)')
                 for row in table_rows(root,manifest,key,'app_ai_ttsmessage',False):
                     v=row['values']; content=text(v.get('user_content'))
                     if content and v.get('user_id') and v.get('msg_id'):
                         digest=hashlib.md5((content+'_'+str(v.get('version_id'))).encode(),usedforsecurity=False).hexdigest()
                         lookup.execute('INSERT INTO tts_lookup VALUES (?,?,?,?,?)',(v['msg_id'].replace('-',''),v['user_id'],v.get('version_id'),digest,native_id('app_ai_ttsmessage',row['sourcePk'])))
+                if incremental:add_existing_tts_candidates(conn,lookup,table_rows(root,manifest,key,'app_ai_ttssubject',False))
+                heals=[]
                 def tts_links():
                     for row in table_rows(root,manifest,key,'app_ai_ttssubject',False):
                         v=row['values']; body=json_value(v.get('body'),[])
@@ -241,8 +269,12 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                             matches=lookup.execute('SELECT log_id FROM tts_lookup WHERE msg=? AND owner=? AND version=? AND hash=? LIMIT 2',(msg,v.get('user_id'),version,digest)).fetchall() if digest==expected and v.get('user_id') else []
                             log=matches[0][0] if len(matches)==1 else None
                             if not log: report['ttsLinksUnresolved']+=1
+                            elif incremental:heals.append((log,native_id('tts-link',row['sourcePk']+':'+str(position)),native_id('session:app_ai_ttssubject',row['sourcePk']),msg,version,digest))
                             yield {'id':native_id('tts-link',row['sourcePk']+':'+str(position)),'sessionId':native_id('session:app_ai_ttssubject',row['sourcePk']),'logId':log,'position':position,'sourceMsgId':msg or None,'sourceVersionId':version or None,'sourceHash':digest}
                 bulk_rows(conn,'legacy_ai_session_items',tts_links(),progress)
+                if heals:
+                    conn.cursor().executemany('UPDATE legacy_ai_session_items SET "logId"=%s WHERE id=%s AND "sessionId"=%s AND "sourceMsgId"=%s AND "sourceVersionId"=%s AND "sourceHash"=%s AND "logId" IS NULL',heals)
+                    conn.commit()
                 def books():
                     for row in table_rows(root,manifest,key,'app_ai_product',False):
                         book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']))
