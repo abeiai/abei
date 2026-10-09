@@ -144,12 +144,17 @@ export function ProviderModelManager({ provider }: { provider: AiProviderPreset 
     setPendingRowKey(row.rowKey);
     startTransition(async () => {
       try {
+        let result;
         if (row.modelInstanceId) {
-          await updateAiModelInstanceAction(formData);
+          result = await updateAiModelInstanceAction(formData);
         } else if (!row.modelPresetId) {
-          await createAiModelInstanceAction(formData);
+          result = await createAiModelInstanceAction(formData);
         } else {
-          await enableAiModelPresetAction(formData);
+          result = await enableAiModelPresetAction(formData);
+        }
+        if (result.error) {
+          setMessage(result.error);
+          return;
         }
         refreshAfterChange(nextEnabled ? "模型已启用。" : "模型已停用。");
       } catch (error) {
@@ -413,10 +418,12 @@ function ModelEditModal({
 
     startTransition(async () => {
       try {
-        if (row.modelInstanceId) {
-          await updateAiModelInstanceAction(formData);
-        } else {
-          await enableAiModelPresetAction(formData);
+        const result = row.modelInstanceId
+          ? await updateAiModelInstanceAction(formData)
+          : await enableAiModelPresetAction(formData);
+        if (result.error) {
+          setMessage(result.error);
+          return;
         }
         onSaved();
       } catch (error) {

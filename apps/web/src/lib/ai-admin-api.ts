@@ -11,6 +11,12 @@ interface ApiResponse<TData> {
   data: TData;
 }
 
+class AiAdminApiError extends Error {
+  constructor(message: string, readonly code: number, readonly status: number) {
+    super(message);
+  }
+}
+
 export interface AiModel {
   id: string;
   providerId: string;
@@ -413,10 +419,23 @@ async function apiFetch<TData>(path: string, init: RequestInit = {}) {
   const payload = (await response.json()) as ApiResponse<TData | null>;
 
   if (!response.ok || payload.code !== 0 || payload.data === null) {
-    throw new Error(payload.message || "请求失败");
+    throw new AiAdminApiError(payload.message || "请求失败", payload.code, response.status);
   }
 
   return payload.data;
+}
+
+async function modelMutationRequest(path: string, init: RequestInit): Promise<{ error: string | null }> {
+  try {
+    await apiFetch(path, init);
+    return { error: null };
+  } catch (error) {
+    return {
+      error: error instanceof AiAdminApiError && error.code >= 40000 && error.code < 50000 && error.status < 500
+        ? error.message
+        : "模型操作失败，请稍后重试。"
+    };
+  }
 }
 
 function buildQuery(filters: AdminAiTaskFilters = {}) {
@@ -636,7 +655,7 @@ function aiProviderPresetPayload(formData: FormData) {
 export async function enableAiModelPresetAction(formData: FormData) {
   const providerId = text(formData, "providerId");
   const modelPresetId = text(formData, "modelPresetId");
-  await apiFetch<AiProviderPreset>(`/admin/ai/providers/${providerId}/model-presets/${modelPresetId}/enable`, {
+  const result = await modelMutationRequest(`/admin/ai/providers/${providerId}/model-presets/${modelPresetId}/enable`, {
     method: "POST",
     body: JSON.stringify({
       displayName: text(formData, "displayName"),
@@ -656,14 +675,16 @@ export async function enableAiModelPresetAction(formData: FormData) {
     })
   });
 
+  if (result.error) return result;
   revalidatePath("/admin/ai/providers");
   revalidatePath(`/admin/ai/providers/${providerId}`);
   revalidatePath("/admin/ai/model-aliases");
+  return result;
 }
 
 export async function createAiModelInstanceAction(formData: FormData) {
   const providerId = text(formData, "providerId");
-  await apiFetch<AiModelInstance>(`/admin/ai/providers/${providerId}/model-instances`, {
+  const result = await modelMutationRequest(`/admin/ai/providers/${providerId}/model-instances`, {
     method: "POST",
     body: JSON.stringify({
       displayName: text(formData, "displayName"),
@@ -682,15 +703,17 @@ export async function createAiModelInstanceAction(formData: FormData) {
     })
   });
 
+  if (result.error) return result;
   revalidatePath("/admin/ai/providers");
   revalidatePath(`/admin/ai/providers/${providerId}`);
   revalidatePath("/admin/ai/model-aliases");
+  return result;
 }
 
 export async function updateAiModelInstanceAction(formData: FormData) {
   const id = text(formData, "id");
   const providerId = text(formData, "providerId");
-  await apiFetch<AiModelInstance>(`/admin/ai/providers/model-instances/${id}`, {
+  const result = await modelMutationRequest(`/admin/ai/providers/model-instances/${id}`, {
     method: "PATCH",
     body: JSON.stringify({
       displayName: text(formData, "displayName"),
@@ -710,9 +733,11 @@ export async function updateAiModelInstanceAction(formData: FormData) {
     })
   });
 
+  if (result.error) return result;
   revalidatePath("/admin/ai/providers");
   revalidatePath(`/admin/ai/providers/${providerId}`);
   revalidatePath("/admin/ai/model-aliases");
+  return result;
 }
 
 export async function checkAiModelInstanceDeleteAction(modelInstanceId: string) {
