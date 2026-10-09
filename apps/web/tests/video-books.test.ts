@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookErrorMessage, videoBookFrame, videoBookModels, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll } from "../src/lib/video-books.js";
+import { createVideoBookProject, getVideoBookTask, normalizeVideoBookModel, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookErrorMessage, videoBookFrame, videoBookModels, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll } from "../src/lib/video-books.js";
 import type { ExperienceVideoModel } from "../src/lib/experience-api.js";
 import type { PictureBookGuide } from "../src/lib/picture-book-guide.js";
 
@@ -59,10 +59,28 @@ test("读取进度响应时点击停止，保留中止信号而不误报请求�
   await assert.rejects(getVideoBookTask({ id: "local-task" }, controller.signal), { name: "AbortError" });
 });
 
-test("模型筛选排除纯文生视频、参考生视频和演示模型，确保首帧会送入图生视频接口", () => {
-  const models = [model, { ...model, id: "text", modelName: "wan2.7-t2v" }, { ...model, id: "reference", modelName: "wan2.7-r2v" },
-    { ...model, id: "mock", isMock: true }, { ...model, id: "unavailable", maxReferenceFiles: 0 }];
-  assert.deepEqual(videoBookModels(models).map(item => item.id), ["wan"]);
+test("绘本视频只提供 MiniMax H3s 和 Wan3.0-Video-Prime，排除其他模型、演示和重复实例", () => {
+  const prime = { ...model, id: "prime", modelName: "wan3.0-video-prime" };
+  const minimax = { ...model, id: "minimax", modelName: "MiniMax-H3" };
+  const models = [model, { ...model, id: "horse", modelName: "happyhorse-1.0-i2v" }, prime, minimax,
+    { ...prime, id: "duplicate" }, { ...minimax, id: "mock", isMock: true }];
+  const choices = videoBookModels(models);
+  assert.deepEqual(choices.map(item => [item.id, item.displayName]), [["minimax", "MiniMax H3s"], ["prime", "Wan3.0-Video-Prime"]]);
+  assert.deepEqual(videoBookModels([{ ...prime, maxReferenceFiles: 0 }, { ...minimax, acceptedReferenceTypes: [] }]), []);
+});
+
+test("旧作品的已移除模型切换到默认模型并同步可用参数，保留页面与历史视频", () => {
+  const project = createVideoBookProject(guide, model);
+  const minimax = { ...model, id: "minimax", modelName: "MiniMax-H3", defaultResolution: "高清 768P", supportedResolutions: ["高清 480P", "高清 768P"] };
+  const normalized = normalizeVideoBookModel(project, [minimax]);
+  assert.equal(normalized.modelId, "minimax");
+  assert.equal(normalized.resolution, "高清 768P");
+  assert.equal(normalized.duration, project.duration);
+  assert.equal(normalized.pages, project.pages);
+  assert.equal(project.modelId, "wan");
+  validateVideoBookSettings(normalized, minimax);
+  assert.equal(normalizeVideoBookModel(normalized, [minimax]), normalized);
+  assert.equal(normalizeVideoBookModel(project, []), project);
 });
 
 test("去字选项必须使用真实处理后的首帧，不能只修改提示词或丢弃原图", () => {

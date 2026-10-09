@@ -25,9 +25,22 @@ export type VideoBookProject = {
   pollingPaused?: boolean;
 };
 
-// Only models whose adapter sends the image as first_frame belong in this tool.
 export function videoBookModels(models: ExperienceVideoModel[]) {
-  return models.filter(model => !model.isMock && model.modelName.includes("-i2v") && model.maxReferenceFiles >= 1 && model.acceptedReferenceTypes.includes("image/*"));
+  const choices = [{ name: "minimax-h3", label: "MiniMax H3s" }, { name: "wan3.0-video-prime", label: "Wan3.0-Video-Prime" }];
+  return choices.flatMap(choice => {
+    const model = models.find(item => !item.isMock && item.modelName.trim().toLowerCase() === choice.name
+      && item.maxReferenceFiles >= 1 && item.acceptedReferenceTypes.includes("image/*"));
+    return model ? [{ ...model, displayName: choice.label }] : [];
+  });
+}
+
+export function normalizeVideoBookModel(project: VideoBookProject, models: ExperienceVideoModel[]) {
+  if (models.some(model => model.id === project.modelId) || !models.length) return project;
+  const model = models[0]!;
+  return { ...project, modelId: model.id,
+    ratio: model.supportedRatios.includes(project.ratio) ? project.ratio : model.supportedRatios[0],
+    resolution: model.supportedResolutions.includes(project.resolution) ? project.resolution : model.defaultResolution,
+    duration: model.supportedDurations.includes(project.duration) ? project.duration : model.defaultDuration };
 }
 
 export function createVideoBookProject(guide: PictureBookGuide, model?: ExperienceVideoModel): VideoBookProject {

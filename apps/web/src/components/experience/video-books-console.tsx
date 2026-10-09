@@ -10,7 +10,7 @@ import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { ExperienceImageModel, ExperienceVideoModel } from "@/lib/experience-api";
 import { guideRequest, type GuideBookChoice, type PictureBookGuide } from "@/lib/picture-book-guide";
-import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, readVideoBookFrame, readVideoBookReference, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookErrorMessage, videoBookFrame, videoBookMotions, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll,
+import { createVideoBookProject, getVideoBookTask, normalizeVideoBookModel, pendingVideoBookPages, readVideoBookFrame, readVideoBookReference, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookErrorMessage, videoBookFrame, videoBookMotions, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll,
   type VideoBookClip, type VideoBookPage, type VideoBookProject } from "@/lib/video-books";
 import { loadVideoBooks, removeVideoBook, saveVideoBook } from "@/lib/video-books-storage";
 import { cn } from "@/lib/utils";
@@ -65,8 +65,9 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
   useEffect(() => {
     activeRef.current = true;
     if (userId) {
-      void loadVideoBooks(userId).then(items => {
+      void loadVideoBooks(userId).then(saved => {
         if (!activeRef.current) return;
+        const items = saved.map(item => normalizeVideoBookModel(item, models));
         setProjects(items);
         if (initialBookId) {
           const initial = items.find(item => item.id === initialBookId);
@@ -77,7 +78,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
         .finally(() => { if (activeRef.current) setReady(true); });
     }
     return () => { activeRef.current = false; stopRef.current = true; abortRef.current?.abort(); };
-  }, [userId, initialBookId]);
+  }, [userId, initialBookId, models]);
 
   function commit(next: VideoBookProject) {
     projectRef.current = next;
@@ -171,6 +172,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
   }
 
   function activate(next: VideoBookProject | null) {
+    if (next) next = normalizeVideoBookModel(next, models);
     saveVersion.current++;
     projectRef.current = next; setProject(next); setPageNumber(next?.pages[0]?.pageNumber ?? 1);
     setPreviewTab("frame"); setLeftTab("pages"); setError(""); setNotice(""); setSaveState("");
@@ -378,7 +380,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
             {project.removeText && page && !page.cleanImageUrl ? <Button variant="outline" className="w-full" disabled={disabled || !imageModel} onClick={() => void run("正在处理首帧…", async () => { await cleanFrame(page); setPreviewTab("frame"); setNotice("首帧文字已处理，请检查画面后生成视频"); })}><Eraser className="size-4" />先处理本页文字</Button> : null}
             {!models.length ? <p className="text-sm leading-6 text-muted-foreground">暂无可用图生视频模型，请在后台配置后刷新页面。</p> : null}
           </section>
-          <section className={cn(panel, "space-y-4")}><div className="flex items-center justify-between"><h2 className="text-base font-semibold">参考素材</h2><Help label="参考素材">每页绘本图片自动作为首帧。附加图片作为尾帧，语音作为驱动音频；可用类型和数量以当前视频模型为准。</Help></div>
+          <section className={cn(panel, "space-y-4")}><div className="flex items-center justify-between"><h2 className="text-base font-semibold">参考素材</h2><Help label="参考素材">绘本页面自动作为画面参考，附加素材用于补充画面或声音。可用类型以当前模型为准。</Help></div>
             {page?.references.map(file => <div key={file.id} className="rounded-xl border border-border p-3"><div className="flex items-center gap-2">{file.type === "image" ? <ImagePlus className="size-4 shrink-0" /> : file.type === "audio" ? <Volume2 className="size-4 shrink-0" /> : <Video className="size-4 shrink-0" />}<span className="min-w-0 flex-1 truncate text-sm">{file.name}</span><Button variant="ghost" size="sm" aria-label={`移除${file.name}`} disabled={disabled} onClick={() => patchPage(pageNumber, { references: page.references.filter(item => item.id !== file.id) })}><X className="size-4" /></Button></div>{file.type === "image" ? <img src={file.dataUrl} alt={file.name} className="mt-2 max-h-32 w-full rounded-lg object-contain" /> : file.type === "audio" ? <audio controls src={file.dataUrl} preload="metadata" className="mt-2 h-9 w-full" /> : <video controls playsInline src={file.dataUrl} preload="metadata" className="mt-2 max-h-32 w-full rounded-lg" />}</div>)}
             <Button variant="outline" className="w-full" disabled={disabled || !model || (page?.references.length ?? 0) + 1 >= model.maxReferenceFiles} onClick={() => referenceInput.current?.click()}><Plus className="size-4" />添加参考素材</Button>
             <p className="text-xs leading-5 text-muted-foreground">{model && model.maxReferenceFiles > 1 ? `可添加${model.acceptedReferenceTypes.map(type => type === "image/*" ? "图片" : type === "audio/*" ? "语音" : "视频").join(" / ")} · 每个不超过 10MB` : "当前模型仅接收绘本首帧"}</p>
