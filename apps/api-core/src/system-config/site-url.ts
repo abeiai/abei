@@ -1,10 +1,14 @@
 const PRODUCTION_SITE_ORIGIN = "https://xueleai.com";
 
 export function defaultSiteOrigin(environmentUrl: string | undefined, production: boolean) {
-  return normalizeSiteOrigin(
-    production ? PRODUCTION_SITE_ORIGIN : environmentUrl || "http://localhost:3321",
-    production
-  );
+  if (production) {
+    try {
+      return normalizeSiteOrigin(environmentUrl || PRODUCTION_SITE_ORIGIN, true);
+    } catch {
+      return PRODUCTION_SITE_ORIGIN;
+    }
+  }
+  return normalizeSiteOrigin(environmentUrl || "http://localhost:3600", false);
 }
 
 export function normalizeSiteOrigin(value: string, production: boolean) {

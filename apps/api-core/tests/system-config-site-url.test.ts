@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+test("生产默认站点地址尊重合法的部署域名", async () => {
+  const { defaultSiteOrigin } = await import("../src/system-config/site-url.js");
+  assert.equal(defaultSiteOrigin("https://new.abeiai.com/", true), "https://new.abeiai.com");
+});
+
 test("系统配置拒绝生产环境的 HTTP、IP 和非站点根地址", async () => {
   let siteUrlModule: typeof import("../src/system-config/site-url") | null = null;
 

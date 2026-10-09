@@ -33,3 +33,7 @@ Docker 项目名为 `abei`，入口容器名为 `abei`。端口均在指定范�
 账号绑定支持已有邮箱与密码，或真实手机号短信。微信绑定/注册要求 `ALIYUN_SMS` 标准短信，验证码与本次发送记录绑定；开发默认码和目前无法证明本条发送记录的 `ALIYUN_DYPNS` 均不可用于微信关联。普通手机登录原有 DYPNS 入口保留。未注册手机号仅在明确选择创建且注册开关开启后生成零余额钱包，不重发旧账号奖励。验证失败后需重新扫码。
 
 本次代码不执行生产二维码创建、公众号消息地址/模式变更或旧库写入。真实公众号权限、消息接管、既有菜单/自动回复与共享 token 策略须在另行授权的发布联调中核验，支付 OAuth/回调保持原有业务。无需新增数据库 migration 或真实数据 seed。上游 `docker-compose.prod.yml` 为历史部署模板，abei 使用根 Compose 和 `deploy/abei`，服务端口限于 3600–3680。
+
+## 生产部署
+
+首个域名为 `https://new.abeiai.com`，使用独立 `docker-compose.abei-prod.yml`；完整发布与数据同步说明见 [abei 生产发布](docs/ops/abei-production.md)。

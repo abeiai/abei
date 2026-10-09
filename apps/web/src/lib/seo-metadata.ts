@@ -24,22 +24,18 @@ interface SitemapEntriesInput {
 export function resolvePublicSiteUrl(configuredUrl?: string, options: PublicSiteUrlOptions = {}) {
   const production = options.production ?? process.env.NODE_ENV === "production";
 
-  if (production) {
-    return PRODUCTION_SITE_URL;
-  }
-
   const environmentUrl = options.environmentUrl ?? process.env.APP_BASE_URL;
   const candidates = [environmentUrl, configuredUrl];
 
   for (const candidate of candidates) {
     const origin = parseOrigin(candidate);
 
-    if (origin) {
+    if (origin && (!production || isProductionOrigin(origin))) {
       return origin;
     }
   }
 
-  return "http://localhost:3600";
+  return production ? PRODUCTION_SITE_URL : "http://localhost:3600";
 }
 
 export function buildRobotsMetadata(siteUrl: string): MetadataRoute.Robots {
@@ -105,4 +101,10 @@ function parseOrigin(value?: string) {
   } catch {
     return null;
   }
+}
+
+function isProductionOrigin(origin: string) {
+  const url = new URL(origin);
+  return url.protocol === "https:" && url.hostname !== "localhost" &&
+    !/^\d{1,3}(?:\.\d{1,3}){3}$/.test(url.hostname) && !url.hostname.includes(":");
 }

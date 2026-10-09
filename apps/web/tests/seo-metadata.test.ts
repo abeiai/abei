@@ -22,7 +22,7 @@ test("生产 SEO 元数据始终使用 HTTPS 域名并覆盖全部公开教材",
       environmentUrl: "https://staging.example.com",
       production: true
     }),
-    "https://xueleai.com"
+    "https://staging.example.com"
   );
   assert.equal(
     seoModule.resolvePublicSiteUrl("http://8.130.169.220", {
@@ -68,6 +68,13 @@ test("生产 SEO 元数据始终使用 HTTPS 域名并覆盖全部公开教材",
   assert.ok(entries.some((entry) => entry.url === "https://xueleai.com/textbook/textbook-125"));
   assert.ok(entries.every((entry) => entry.url.startsWith("https://xueleai.com")));
   assert.ok(!entries.some((entry) => entry.url.includes("private")));
+});
+
+test("生产 SEO 使用本次发布域名，忽略旧库的站点地址", async () => {
+  const { resolvePublicSiteUrl } = await import("../src/lib/seo-metadata");
+  assert.equal(resolvePublicSiteUrl("https://xueleai.com", {
+    environmentUrl: "https://new.abeiai.com/", production: true
+  }), "https://new.abeiai.com");
 });
 
 test("后台页面通过元数据明确禁止索引", async () => {

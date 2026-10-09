@@ -1,0 +1,169 @@
+name: abei-prod
+
+services:
+  abei:
+    image: nginx:1.27-alpine
+    container_name: abei-prod
+    restart: unless-stopped
+    ports:
+      - "80:3600"
+      - "443:3610"
+    volumes:
+      - ./deploy/abei/production.conf:/etc/nginx/conf.d/default.conf:ro
+      - uploads:/var/www/uploads:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./deploy/data/certbot:/var/www/certbot:ro
+      - ./deploy/data/state:/var/www/state:ro
+    depends_on:
+      web:
+        condition: service_healthy
+      api-core:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3600/healthz >/dev/null 2>&1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  web:
+    image: abei-web:${APP_RELEASE_SHA:-local}
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        APP_VERSION: ${APP_VERSION:-0.0.16}
+        APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      APP_VERSION: ${APP_VERSION:-0.0.16}
+      APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
+      PORT: "3601"
+      HOSTNAME: 0.0.0.0
+      API_BASE_URL: http://api-core:3602/api
+      PUBLIC_API_BASE_URL: /api
+      APP_BASE_URL: https://new.abeiai.com
+    depends_on:
+      api-core:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3601/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+
+  api-core:
+    image: abei-api-core:${APP_RELEASE_SHA:-local}
+    build:
+      context: .
+      dockerfile: apps/api-core/Dockerfile
+      args:
+        APP_VERSION: ${APP_VERSION:-0.0.16}
+        APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
+    restart: unless-stopped
+    env_file:
+      - path: .env.production
+        required: false
+    environment:
+      NODE_ENV: production
+      APP_VERSION: ${APP_VERSION:-0.0.16}
+      APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
+      API_CORE_PORT: "3602"
+      DATABASE_URL: postgresql://abei:${POSTGRES_PASSWORD}@postgres:3604/abei?schema=public
+      REDIS_URL: redis://redis:3605
+      AI_GATEWAY_BASE_URL: http://ai-gateway:3603
+      APP_BASE_URL: https://new.abeiai.com
+      PUBLIC_API_BASE_URL: /api
+      UPLOAD_DRIVER: local
+      UPLOAD_DIR: /app/uploads
+      LEGACY_AI_LOG_ASSET_DIR: /app/private-legacy-ai-log-assets
+      VIDEO_GUIDE_MEDIA_UPLOAD_DRIVER: local
+    volumes:
+      - uploads:/app/uploads
+      - logs:/app/logs
+      - legacy_ai_log_assets:/app/private-legacy-ai-log-assets:ro
+      - picture_book_guides:/app/private-picture-book-guides
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3602/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+
+  migrate:
+    image: abei-api-core:${APP_RELEASE_SHA:-local}
+    build:
+      context: .
+      dockerfile: apps/api-core/Dockerfile
+      args:
+        APP_VERSION: ${APP_VERSION:-0.0.16}
+        APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
+    env_file:
+      - path: .env.production
+        required: false
+    environment:
+      DATABASE_URL: postgresql://abei:${POSTGRES_PASSWORD}@postgres:3604/abei?schema=public
+    command: ["pnpm", "--filter", "@xueleai/database", "db:migrate:deploy"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  ai-gateway:
+    image: abei-ai-gateway:${APP_RELEASE_SHA:-local}
+    build:
+      context: .
+      dockerfile: apps/ai-gateway/Dockerfile
+      args:
+        APP_VERSION: ${APP_VERSION:-0.0.16}
+        APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:3603/health', timeout=3).read()\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: abei-prod-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: abei
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: abei
+    command: ["postgres", "-p", "3604"]
+    ports:
+      - "127.0.0.1:3604:3604"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U abei -d abei -p 3604"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: abei-prod-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--port", "3605"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "3605", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+  redis_data:
+  uploads:
+  logs:
+  legacy_ai_log_assets:
+  picture_book_guides:

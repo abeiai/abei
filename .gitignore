@@ -66,3 +66,7 @@ apps/api-core/uploads/
 # 英语音标页面的正式口型素材
 !apps/web/public/yinbiao/studio/*.png
 !apps/web/public/yinbiao/generated/*.png
+
+# 旧版源码和私有环境仅供本地迁移参考
+/abeiai/
+/deploy/data/state/
