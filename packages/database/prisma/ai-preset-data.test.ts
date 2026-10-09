@@ -4,7 +4,12 @@ import test from "node:test";
 import { aiPresetVersion, providerPresets } from "./ai-preset-data.js";
 
 test("AI 预设版本包含阿贝智能模型", () => {
-  assert.equal(aiPresetVersion, "2026.10.09.1");
+  assert.equal(aiPresetVersion, "2026.10.09.2");
+});
+
+test("内置供应商不再包含 Moonshot、OpenRouter、Anthropic 或 Gemini", () => {
+  const removedKeys = new Set(["moonshot", "openrouter", "anthropic", "gemini"]);
+  assert.deepEqual(providerPresets.filter(provider => removedKeys.has(provider.providerKey)), []);
 });
 
 test("DashScope 预设包含按分辨率计费的 Wan3.0 Video Prime", () => {

@@ -1,4 +1,4 @@
-export const aiPresetVersion = "2026.10.09.1";
+export const aiPresetVersion = "2026.10.09.2";
 
 const pricingSources = {
   deepSeek: "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
@@ -929,97 +929,6 @@ export const providerPresets = [
         deprecatedMessage: "火山方舟已于 2026-09-21 下线该模型，请迁移到 Doubao Seedream 5.0 Pro。",
         replacementModelKey: "doubao-seedream-5-0-pro-260628",
         recommendedAlias: "image-generation"
-      }
-    ]
-  },
-  {
-    providerKey: "moonshot",
-    displayName: "Moonshot Kimi",
-    adapterType: "OPENAI_COMPATIBLE",
-    defaultBaseUrl: "https://api.moonshot.cn/v1",
-    apiKeyEnvName: "MOONSHOT_API_KEY",
-    docsUrl: "https://platform.moonshot.cn/docs/",
-    region: "CHINA",
-    models: [
-      {
-        modelKey: "moonshot-v1-8k",
-        displayName: "Moonshot v1 8K",
-        providerModelName: "moonshot-v1-8k",
-        capabilityTags: ["TEXT", "STREAMING", "CHINA_FRIENDLY"],
-        contextWindow: 8192,
-        supportsStreaming: true,
-        recommendedAlias: "fast-chat"
-      },
-      {
-        modelKey: "moonshot-v1-128k",
-        displayName: "Moonshot v1 128K",
-        providerModelName: "moonshot-v1-128k",
-        capabilityTags: ["TEXT", "STREAMING", "LONG_CONTEXT", "CHINA_FRIENDLY"],
-        contextWindow: 128000,
-        supportsStreaming: true,
-        recommendedAlias: "long-context"
-      }
-    ]
-  },
-  {
-    providerKey: "openrouter",
-    displayName: "OpenRouter",
-    adapterType: "OPENAI_COMPATIBLE",
-    defaultBaseUrl: "https://openrouter.ai/api/v1",
-    apiKeyEnvName: "OPENROUTER_API_KEY",
-    docsUrl: "https://openrouter.ai/docs",
-    region: "GLOBAL",
-    models: [
-      {
-        modelKey: "openai-gpt-4o-mini",
-        displayName: "OpenAI GPT-4o mini via OpenRouter",
-        providerModelName: "openai/gpt-4o-mini",
-        capabilityTags: ["TEXT", "VISION", "TOOLS", "STREAMING", "LOW_COST", "GLOBAL"],
-        supportsStreaming: true,
-        supportsVision: true,
-        supportsTools: true,
-        recommendedAlias: "default-chat"
-      }
-    ]
-  },
-  {
-    providerKey: "anthropic",
-    displayName: "Anthropic Claude",
-    adapterType: "ANTHROPIC",
-    defaultBaseUrl: "https://api.anthropic.com/v1",
-    apiKeyEnvName: "ANTHROPIC_API_KEY",
-    docsUrl: "https://docs.anthropic.com/en/docs/about-claude/models",
-    region: "GLOBAL",
-    models: [
-      {
-        modelKey: "claude-3-5-sonnet-latest",
-        displayName: "Claude 3.5 Sonnet",
-        providerModelName: "claude-3-5-sonnet-latest",
-        capabilityTags: ["TEXT", "REASONING", "VISION", "TOOLS", "STREAMING", "GLOBAL"],
-        supportsStreaming: true,
-        supportsVision: true,
-        supportsTools: true,
-        recommendedAlias: "reasoning"
-      }
-    ]
-  },
-  {
-    providerKey: "gemini",
-    displayName: "Google Gemini",
-    adapterType: "GEMINI",
-    defaultBaseUrl: "https://generativelanguage.googleapis.com/v1beta",
-    apiKeyEnvName: "GEMINI_API_KEY",
-    docsUrl: "https://ai.google.dev/gemini-api/docs/models",
-    region: "GLOBAL",
-    models: [
-      {
-        modelKey: "gemini-1-5-flash",
-        displayName: "Gemini 1.5 Flash",
-        providerModelName: "gemini-1.5-flash",
-        capabilityTags: ["TEXT", "VISION", "STREAMING", "LOW_COST", "GLOBAL"],
-        supportsStreaming: true,
-        supportsVision: true,
-        recommendedAlias: "vision"
       }
     ]
   },
