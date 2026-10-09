@@ -1,6 +1,3 @@
-.shell:global(.xueleai-public-shell) { --primary: #7b68ee; --primary-foreground: #fff; --secondary: #f6f5ff; --secondary-foreground: #6553c6; --ring: #7b68ee; }
-.shell :global(.xueleai-public-header) { border-color: #f0eef8; box-shadow: 0 2px 14px #57478105; }
-.shell :global(.xueleai-brand-mark) { background: #7b68ee; border-radius: 14px 14px 14px 5px; }
 .shell :global(.xueleai-public-footer) { border-color: #eeeafa; background: #f6f5ff; }
 .home { --ink: #363442; --soft-ink: #74717f; --brand: #7b68ee; color: var(--ink); background: #fff; font-family: var(--font-mulish), "PingFang SC", "Microsoft YaHei", sans-serif; }
 .home * { box-sizing: border-box; }

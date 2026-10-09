@@ -21,12 +21,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <PublicShell className={styles.shell} brandName="阿贝 AI" primaryNavigation={[
-      { href: "/#create", label: "绘本创作" },
-      { href: "/#library", label: "线上绘本馆" },
-      { href: "/magic-reader", label: "绘本导读" },
-      { href: "/#voices", label: "客户感言" }
-    ]}>
+    <PublicShell className={styles.shell}>
       <PictureBookHome />
     </PublicShell>
   );
