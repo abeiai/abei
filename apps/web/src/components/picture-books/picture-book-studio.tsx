@@ -10,6 +10,7 @@ import { PictureBookAudio } from "./picture-book-audio";
 import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, type PictureBookPageDraft } from "@/lib/picture-book-background";
 import { loadPictureBookStyles, selectedPictureBookStyle, type PictureBookStyle } from "@/lib/picture-book-styles";
 import { PictureBookStylePicker } from "./picture-book-style-picker";
+import { PictureBookRatioPicker, type PictureBookAspectRatio } from "./picture-book-ratio-picker";
 import { PictureBookCharacterPicker, type StoryCharacter } from "./picture-book-character-picker";
 import { VoicePicker } from "@/components/audio/voice-picker";
 import { usePictureBookGenerationConfirmation } from "./picture-book-generation-confirmation";
@@ -18,8 +19,7 @@ import type { VoicePickerOption } from "@/lib/voice-picker";
 
 type Page = { position: number; caption: string; imagePrompt: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Character = StoryCharacter;
-const aspectRatios = ["16:9", "4:3", "3:2", "1:1", "3:4", "2:3", "9:16"] as const;
-type AspectRatio = typeof aspectRatios[number];
+type AspectRatio = PictureBookAspectRatio;
 type Submission = { status: "PENDING" | "APPROVED" | "REJECTED"; reviewNote: string | null };
 function submissionLabel(submission?: Submission | null) { return submission?.status === "PENDING" ? "投稿审核中" : submission?.status === "APPROVED" ? "投稿已通过" : submission?.status === "REJECTED" ? "投稿未通过" : ""; }
 type Book = { submission?: Submission | null; id: string; title: string; brief: string; theme: string; audience: string; plot: string; style: string; aspectRatio: AspectRatio; pageCount: number; status: string; messages: Array<{ role: "user" | "assistant"; content: string }>; characters: Character[]; pages: Page[]; updatedAt: string };
@@ -395,7 +395,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
               <label className="block space-y-2 text-sm font-semibold">适合人群<select value={book?.audience ?? audience} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ audience: event.target.value })) : setAudience(event.target.value)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{audiences.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
               <PictureBookStylePicker value={book?.style ?? style} styles={styleChoices} onStylesChange={setStyleChoices} disabled={Boolean(busy)} onChange={value => book ? void run("settings", () => saveBook({ style: value })) : setStyle(value)} />
               <label className="block space-y-2 text-sm font-semibold">页数<select value={book?.pageCount ?? count} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ pageCount: Number(event.target.value) })) : setCount(Number(event.target.value))} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{pageCounts.map(item => <option key={item} value={item}>{item} 页</option>)}</select></label>
-              <label className="block space-y-2 text-sm font-semibold">画面比例<select value={book?.aspectRatio ?? ratio} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ aspectRatio: event.target.value })) : setRatio(event.target.value as typeof ratio)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{aspectRatios.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
+              <PictureBookRatioPicker value={book?.aspectRatio ?? ratio} disabled={Boolean(busy)} onChange={value => book ? void run("settings", () => saveBook({ aspectRatio: value })) : setRatio(value)} />
             </section>
             <section className="rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="mb-4 text-base font-semibold">故事信息</h2><dl className="space-y-3 text-sm leading-6"><div><dt className="font-semibold">主题</dt><dd className="mt-1 whitespace-pre-wrap break-words text-muted-foreground">{book?.theme || "待确定"}</dd></div><div><dt className="font-semibold">主要情节</dt><dd className="mt-1 whitespace-pre-wrap break-words text-muted-foreground">{book?.plot || book?.brief || "待讨论"}</dd></div></dl><div className="mt-4 border-t border-border pt-4"><PictureBookCharacterPicker value={book?.characters ?? draftCharacters} style={book?.style ?? style} styleName={selectedPictureBookStyle(book?.style ?? style, styleChoices)?.name ?? "当前风格"} disabled={Boolean(busy)} onChange={changeCharacters} /></div></section>
             <section className="space-y-3 rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="text-base font-semibold">分镜制作</h2><Button kind="primary" className="w-full !border-primary !bg-primary !text-primary-foreground hover:!bg-primary/90" disabled={!book || !storyModelReady || Boolean(busy)} onClick={() => void makeOutline()}>{busy === "outline" ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}生成分镜</Button><Button className="w-full" disabled={!book || Boolean(busy)} onClick={() => void makeBlank()}><Plus className="size-4" />先建空白分镜</Button></section>
