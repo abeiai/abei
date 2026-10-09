@@ -62,7 +62,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
     const next = await guideRequest<PictureBookGuide>(`/${encodeURIComponent(id)}`);
     preserveDraft.current = false;
     accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style); setAutoPlay(false);
-    window.history.replaceState(null, "", `/picture-book-guide?guide=${encodeURIComponent(id)}`);
+    window.history.replaceState(null, "", `/magic-reader?guide=${encodeURIComponent(id)}`);
   }, [accept]);
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
       preserveDraft.current = false;
       accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style);
       setSpeed(options.styles.find(item => item.value === next.style)?.speed ?? 0.95);
-      window.history.replaceState(null, "", `/picture-book-guide?guide=${next.id}`);
+      window.history.replaceState(null, "", `/magic-reader?guide=${next.id}`);
     });
   }
   async function selectBook(book: GuideBookChoice) {
@@ -122,7 +122,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
       preserveDraft.current = false;
       accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style);
       setSpeed(options.styles.find(item => item.value === next.style)?.speed ?? 0.95);
-      window.history.replaceState(null, "", `/picture-book-guide?guide=${next.id}`);
+      window.history.replaceState(null, "", `/magic-reader?guide=${next.id}`);
     });
   }
   async function saveDraft(current: PictureBookGuide) {
@@ -171,10 +171,10 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
     void generateScripts(onlyPage);
   }
   function newGuide() {
-    acceptEmpty(); window.history.replaceState(null, "", "/picture-book-guide");
+    acceptEmpty(); window.history.replaceState(null, "", "/magic-reader");
   }
   function acceptEmpty() { preserveDraft.current = false; guideRef.current = null; setGuide(null); setPageNumber(1); setScript(""); setAutoPlay(false); setError(""); setNotice(""); }
-  const loginHref = `/login?next=${encodeURIComponent(initialGuideId ? `/picture-book-guide?guide=${initialGuideId}` : "/picture-book-guide")}`;
+  const loginHref = `/login?next=${encodeURIComponent(initialGuideId ? `/magic-reader?guide=${initialGuideId}` : "/magic-reader")}`;
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] p-5">
     <div className="grid items-start gap-5 lg:grid-cols-[292px_minmax(0,1fr)_360px]">

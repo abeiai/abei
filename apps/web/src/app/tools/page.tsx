@@ -34,7 +34,7 @@ export default async function ToolsPage() {
     {
       title: "绘本导读",
       description: "上传 PDF 绘本，选择适用对象与带读风格，逐页生成文稿和语音。",
-      href: "/picture-book-guide",
+      href: "/magic-reader",
       cta: "开始绘本导读",
       icon: BookOpenText,
       highlights: [

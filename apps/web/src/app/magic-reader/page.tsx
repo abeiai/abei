@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "绘本导读 - 阿贝智能", descri
 
 export default async function PictureBookGuidePage({ searchParams }: { searchParams: Promise<{ guide?: string }> }) {
   const [user, params] = await Promise.all([getOptionalCurrentUser(), searchParams]);
-  const returnPath = params.guide ? `/picture-book-guide?guide=${encodeURIComponent(params.guide)}` : "/picture-book-guide";
+  const returnPath = params.guide ? `/magic-reader?guide=${encodeURIComponent(params.guide)}` : "/magic-reader";
   if (user) {
     const profile = await getWebProfile(returnPath);
     if (profile.mode !== "ACCOUNT") redirect(profileSelectionHref(returnPath));
