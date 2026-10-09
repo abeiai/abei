@@ -9,6 +9,7 @@ import {
   type Prisma
 } from "@xueleai/database";
 import { AppException } from "../common/app-exception.js";
+import { isProviderRequestTimeout } from "./provider-request-errors.js";
 import { MediaService } from "../media/media.service.js";
 import { downloadPrivateStudentPhoto, uploadPrivateStudentPhoto } from "../copybooks/copybook-storage.js";
 import { assertValidSlug } from "../cms/slug.js";
@@ -2088,7 +2089,7 @@ export class AiService {
 
       throw new AppException(
         50201,
-        error instanceof Error && error.name === "AbortError" ? "视频生成接口请求超时，请稍后重试。" : "MiniMax H3s 视频生成接口调用失败，请稍后重试。",
+        isProviderRequestTimeout(error, controller.signal.aborted) ? "MiniMax H3s 视频生成接口请求超时，请稍后重试。" : "MiniMax H3s 视频生成接口调用失败，请稍后重试。",
         HttpStatus.BAD_GATEWAY
       );
     } finally {
@@ -2123,7 +2124,7 @@ export class AiService {
 
       throw new AppException(
         50201,
-        error instanceof Error && error.name === "AbortError" ? "视频任务查询超时，请稍后重试。" : "MiniMax H3s 视频任务查询失败，请稍后重试。",
+        isProviderRequestTimeout(error, controller.signal.aborted) ? "MiniMax H3s 视频任务查询超时，请稍后重试。" : "MiniMax H3s 视频任务查询失败，请稍后重试。",
         HttpStatus.BAD_GATEWAY
       );
     } finally {

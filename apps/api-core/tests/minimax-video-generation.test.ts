@@ -190,3 +190,52 @@ test("MiniMax H3s 视频客户端遵循官方异步协议并传递提示词重�
     globalThis.fetch = originalFetch;
   }
 });
+
+test("MiniMax 连接超时在生成、查询和连接测试中返回明确提示且不重试提交", async () => {
+  const { encryptSecret } = await import("@xueleai/database");
+  const { AiService } = await import("../src/ai/ai.service.js");
+  const { getProviderAdapter } = await import("../src/ai/provider-adapters.js");
+  const service = Object.create(AiService.prototype) as {
+    callMiniMaxVideoGeneration(input: Record<string, unknown>): Promise<unknown>;
+    queryMiniMaxVideoTask(input: Record<string, unknown>): Promise<unknown>;
+  };
+  const apiKeyEncrypted = encryptSecret("sk-h3s-timeout-test");
+  const originalFetch = globalThis.fetch;
+  let requests = 0;
+  globalThis.fetch = async () => {
+    requests += 1;
+    throw new TypeError("fetch failed", {
+      cause: Object.assign(new Error("Connect Timeout Error"), { code: "UND_ERR_CONNECT_TIMEOUT" })
+    });
+  };
+
+  try {
+    await assert.rejects(service.callMiniMaxVideoGeneration({
+      baseUrl: "https://video.example.com",
+      apiKeyEncrypted,
+      modelName: "MiniMax-H3",
+      prompt: "海边日落",
+      ratio: "16:9",
+      resolution: "480P",
+      duration: 5,
+      referenceFiles: []
+    }), /MiniMax H3s 视频生成接口请求超时/);
+    assert.equal(requests, 1);
+    await assert.rejects(service.queryMiniMaxVideoTask({
+      baseUrl: "https://video.example.com",
+      apiKeyEncrypted,
+      taskId: "h3s-timeout-task"
+    }), /MiniMax H3s 视频任务查询超时/);
+    assert.equal(requests, 2);
+    const result = await getProviderAdapter("MINIMAX_VIDEO").testConnection({
+      baseUrl: "https://video.example.com",
+      apiKeyEncrypted,
+      modelName: "MiniMax-H3",
+      timeoutMs: 1000
+    });
+    assert.deepEqual(result, { success: false, message: "MiniMax H3s 视频服务连接超时，请检查服务器网络。" });
+    assert.equal(requests, 3);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

@@ -1,6 +1,7 @@
 import { HttpStatus } from "@nestjs/common";
 import { decryptSecret } from "@xueleai/database";
 import { AppException } from "../common/app-exception.js";
+import { isProviderRequestTimeout } from "./provider-request-errors.js";
 import { calculateUsageCredits, type TokenUsage } from "./ai-cost.js";
 import type { AiModelPricingConfig, AiModelPricingUnit } from "./model-pricing.js";
 
@@ -775,7 +776,9 @@ class MiniMaxVideoProviderAdapter extends ReservedProviderAdapter {
     } catch (error) {
       return {
         success: false,
-        message: error instanceof Error && error.name === "AbortError" ? "连接超时" : "MiniMax H3s Base URL 无法访问"
+        message: isProviderRequestTimeout(error, controller.signal.aborted)
+          ? "MiniMax H3s 视频服务连接超时，请检查服务器网络。"
+          : "MiniMax H3s Base URL 无法访问"
       };
     } finally {
       clearTimeout(timeout);
