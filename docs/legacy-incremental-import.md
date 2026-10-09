@@ -28,7 +28,17 @@
 
 1. 生成独立密钥和空批次目录，按游标只读采集。连接端口、来源、架构、父包和时间必须一致，断连后整包失效，应重新采集。旧 V1 父包缺少端点指纹时，首次绑定才使用 `--bind-legacy-endpoint`；本项目当前父包已绑定。
 
+独立密钥使用独占创建，已有批次不能覆盖：
+
 ```bash
+"$PYTHON" - "$KEY" <<'PY_KEY'
+import os, secrets, sys
+from pathlib import Path
+path = Path(sys.argv[1])
+path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), 'wb') as out:
+    out.write(secrets.token_bytes(32))
+PY_KEY
 "$PYTHON" -m tools.legacy_sync.incremental \
   --source-env "$SOURCE_BASE" --source-env "$SOURCE_DEV" \
   --cursor-file "$CURSOR" --output "$BATCH" --key-file "$KEY" \
@@ -85,3 +95,36 @@ MISSING 表示本批已尝试但仍需补档，可以在原生数据对账通过
 3. 旧绘本正文的后续修订、企业/开放平台/助手的间接素材归属需要明确关系映射及冲突处理。
 4. 订单、流水、余额和会员权益需要独立的类型、单位、状态和履约规则；当前仅留档。
 5. 缺失或失效的旧素材需补源；AAC/M4A、Ogg 视频等后台播放兼容按已有迁移缺口继续处理。
+
+## 2026-10-09 实测结果
+
+批次 `legacy-delta-20261009T123322Z-0eb94d9e`，截止 **北京时间 2026-10-09 20:33:23**，已应用并推进游标。
+
+| 内容 | 本批新增 / 结果 |
+| --- | ---: |
+| 用户 | 17 |
+| 普通对话会话 | 32 |
+| 对话日志 | 29 |
+| 图片日志 | 124 |
+| 语音日志 | 104 |
+| 视频日志 | 0 |
+| 产品 | 17：13 本兼容绘本导入，4 条不兼容留档 |
+| 通用作品 | 47：原始记录及对应素材留档，需补原生结构 |
+| 范围内素材 | 478 个源对象，5,890 处引用 |
+| R2 完成 | 478 AVAILABLE，0 MISSING，0 PENDING |
+| 核验文件总量 | 232,122,167 字节（按源对象计，内容相同可复用 R2 对象） |
+| 日志素材关联 | 1,896 AVAILABLE，对账完全一致 |
+
+图片、语音和视频各抽样公开回读，长度和 SHA-256 一致。本地当前用户 36,549、旧版日志 4,048,418、绘本 42,928；后台旧版日志页显示 4,048,418 条且可见本批记录。钱包、流水、订单、管理员和任务总数与本批前一致，未激活旧财务/权限。核心数据重复应用计数一致。63 项迁移测试（包含真实隔离 PostgreSQL）、独立代码复审及最终认证对账通过。
+
+游标继续保留上批 **52** 个缺失对象；历史全量素材上传保持暂停。初次索引发现旧广场更新时间带入大量历史引用，已停传并封存 `assets/index-pre-scope-fix.sqlite`，以范围版本重新建索引。原检查点有 856 个认证成功对象，其中 474 个仍属于当前范围并复用；其余 382 个未挂接到本地，不删除可能已经共享的 R2 对象。后续增量已从规则上排除广场和财务表素材。
+
+本地运行文件已保存到 `/Users/ericword/abei/.superpowers/legacy-sync/`（Git 忽略，配置文件权限 0600）：
+
+- 解释器：`asset-venv/bin/python`。
+- 已应用游标：`increment-cursor.json`；本批路径：`increment-run.json`。
+- 目标 / 公众号证明：`target-only.env`、`source-mp-namespace.json`。
+- 旧对象 / R2：`source-storage.env`、`r2-only.env`。
+- 本批重放管线：`finish-increment-pipeline.py`；只重新核验使用 `--reconcile-only`，重新回填并核验使用 `--finalize-only`。重放不会采集新的旧库数据。
+
+下一批使用以上游标和配置，另建包、密钥及唯一 RUN_ID，执行前述采集到对账步骤；如使用本地管线应用新包，先将 `increment-run.json` 指向已验证的新包及包外密钥。不要把该文件指回全量父包。密钥实际保存在 `/Users/ericword/.local/share/abei-legacy-migration/keys/`，不与包共同分发。
