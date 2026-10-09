@@ -32,11 +32,11 @@ export class PictureBookService {
   constructor(private readonly aiService: AiService, private readonly audioService: AudioService, private readonly mediaService: MediaService, @Inject(CourseReviewService) private readonly courseReviewService: CourseReviewService, @Inject(SystemConfigService) private readonly systemConfigService: SystemConfigService) {}
 
   async list(userId: string) {
-    const rows = await this.prisma.pictureBook.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 50 });
+    const rows = await this.prisma.pictureBook.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 50, include: { submission: { select: { status: true, reviewNote: true } } } });
     return rows.map((row) => ({
       id: row.id, title: row.title, theme: row.theme, audience: row.audience, style: row.style,
       status: row.status, pageCount: row.pageCount, coverUrl: pagesOf(row.pages)[0]?.imageUrl ?? null,
-      createdAt: row.createdAt, updatedAt: row.updatedAt
+      createdAt: row.createdAt, updatedAt: row.updatedAt, submission: row.submission
     }));
   }
 
@@ -56,7 +56,7 @@ export class PictureBookService {
   }
 
   async get(userId: string, id: string) {
-    const row = await this.prisma.pictureBook.findFirst({ where: { id, userId } });
+    const row = await this.prisma.pictureBook.findFirst({ where: { id, userId }, include: { submission: { select: { status: true, reviewNote: true } } } });
     if (!row) throw new AppException(40401, "绘本作品不存在", HttpStatus.NOT_FOUND);
     const characters = await this.resolveCharacters(userId, charactersOf(row.characters), row.style);
     return { ...row, audience: normalizePictureBookAudience(row.audience), characters: characters as unknown as Prisma.JsonValue };

@@ -216,3 +216,25 @@ test("真实生成链路向 Abei 传递风格图和九个角色，备用链路�
   await service.generatePictureBookImage(subject, { ...generation, referenceImages: references });
   assert.deepEqual(received, [references.map(image => image.name), references.slice(0, 3).map(image => image.name)]);
 });
+
+test("后台统一封面通过真实图片执行流程以零点预留和结算，普通生成仍要求有效价格", async () => {
+  const service = Object.create(AiService.prototype) as { generateImage(subject: unknown, input: unknown, options: unknown): Promise<{ images: Array<{ url: string }> }> };
+  const charged: number[] = [];
+  const model = { id: "primary", displayName: "阿贝图片", providerModelName: "Qwen-Image-2.1", capabilityTags: ["image-edit", "image-generation"], inputPrice: 0, outputPrice: 0, pricingMode: "IMAGES", pricingUnit: "IMAGE", providerInstance: { name: "阿贝", providerPreset: { providerKey: "abeiai" } } };
+  Object.assign(service, {
+    prisma: { aiTask: { update: async () => ({}) } },
+    ensureExperienceImageScenario: async () => ({ id: "image", costCredits: 0 }),
+    getImageGenerationModel: async () => model,
+    activeModelFromInstance: () => ({}),
+    resolveModelRuntimeConfig: () => ({ apiKeyEncrypted: "configured", baseUrl: "https://model.test.invalid" }),
+    mediaService: { assertAbeiaiImageStorageReady: () => {}, archivePictureBookGeneratedImage: async () => ({ url: "https://r.abeiai.com/picture-books/cover.png" }) },
+    reserveCredits: async (_attribution: unknown, _scenario: unknown, _prompt: unknown, _active: unknown, _input: unknown, credits: number) => { charged.push(credits); return { id: "cover-task", createdAt: new Date("2026-10-10T00:00:00Z") }; },
+    callAbeiaiImageGeneration: async () => ({ data: [{ url: "https://generated.test.invalid/image.png" }] }),
+    writeAiCallLog: async () => {},
+    settleSuccessfulTask: async (_id: string, _result: unknown, credits: number) => { charged.push(credits); }
+  });
+  const cover = await service.generateImage(subject, { ...generation, modelInstanceId: "primary" }, { pictureBookR2: true, fixedCredits: 0 });
+  assert.equal(cover.images[0].url, "https://r.abeiai.com/picture-books/cover.png");
+  assert.deepEqual(charged, [0, 0]);
+  await assert.rejects(service.generateImage(subject, { ...generation, modelInstanceId: "primary" }, { pictureBookR2: true }), /配置有效的点数价格/);
+});
