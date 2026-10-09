@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PictureBookHome } from "@/components/home/picture-book-home";
 import { PublicShell } from "@/components/shell/public-shell";
+import { getPictureBookLibrary } from "@/lib/picture-book-library-api";
 import styles from "@/components/home/picture-book-home.module.css";
 
 export const dynamic = "force-dynamic";
@@ -19,10 +20,11 @@ export const metadata: Metadata = {
   }
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const library = await getPictureBookLibrary();
   return (
     <PublicShell className={styles.shell}>
-      <PictureBookHome />
+      <PictureBookHome albums={library.albums} books={library.books.items} libraryFailed={library.failed} />
     </PublicShell>
   );
 }

@@ -17,7 +17,7 @@ const layouts = [
   { value: "below", label: "上图下文", icon: PanelsTopLeft },
 ] as const;
 
-export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean }) {
+export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode, publicMode = false }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean; publicMode?: boolean }) {
   const [book, setBook] = useState<Book | null>(null);
   const [error, setError] = useState("");
   const [index, setIndex] = useState(0);
@@ -50,7 +50,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`/api/picture-books/${encodeURIComponent(bookId)}/play`, { credentials: "include", signal: controller.signal, cache: "no-store" })
+    fetch(`/api/${publicMode ? "public/" : ""}picture-books/${encodeURIComponent(bookId)}/play`, { credentials: "include", signal: controller.signal, cache: "no-store" })
       .then(async (response) => {
         const result = await response.json() as { code?: number; message?: string; data?: Book };
         if (!response.ok || result.code !== 0 || !result.data) throw new Error(result.message || "绘本加载失败");
@@ -60,7 +60,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : "绘本加载失败");
       });
     return () => controller.abort();
-  }, [bookId]);
+  }, [bookId, publicMode]);
 
   const pages = book?.pages ?? [];
   const page = pages[index];
@@ -136,7 +136,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   return (
     <main ref={playerRef} className={`${styles.player} text-foreground`} data-public-theme="default" style={{ "--image-ratio": imageRatio } as CSSProperties}>
       <header className={styles.header}>
-        <Link className={styles.back} href={courseId ? `/c/${encodeURIComponent(courseId)}` : "/storybook"}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
+        <Link className={styles.back} href={courseId ? `/c/${encodeURIComponent(courseId)}` : publicMode ? "/library" : "/storybook"}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
         <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
         <span aria-hidden="true" />
       </header>
@@ -150,7 +150,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           <div className={styles.stage}>
             <article className={styles.sheet} data-layout={layout} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
-                {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(bookId, item.position, item.imageUrl)} /> : null)}
+                {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(bookId, item.position, item.imageUrl, publicMode ? "public" : "private")} /> : null)}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
               </div>
               {page.caption && !cover ? <div className={styles.caption}><p>{page.caption}</p></div> : null}
@@ -160,7 +160,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           </div>
           {preloadPages.map(item => {
             const current = item.position === page.position;
-            const source = item.audioUrl ? pictureBookPageAudioSource(bookId, item.position, item.audioUrl) : undefined;
+            const source = item.audioUrl ? pictureBookPageAudioSource(bookId, item.position, item.audioUrl, publicMode ? "public" : "private") : undefined;
             const retry = current ? audioRetry : 0;
             return <audio key={`${item.position}-${retry}`} hidden={!current} muted={muted} preload="auto"
               onError={current ? () => { setPlaying(false); setAudioError("语音加载失败"); } : undefined}

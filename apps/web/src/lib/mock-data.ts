@@ -259,6 +259,11 @@ export const adminNavGroups: AdminNavGroup[] = [
         icon: ClipboardCheck
       },
       {
+        href: "/admin/picture-book-reviews",
+        label: "单本绘本审核",
+        icon: ClipboardCheck
+      },
+      {
         href: "/admin/learning-materials/textbooks",
         label: "教材管理",
         icon: BookOpen

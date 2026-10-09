@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, AudioLines, BookOpen, Cloud, Download, Flower2, Headphones, Sparkles, Star, Sun, Upload } from "lucide-react";
 import { StoryIdeaForm } from "./story-idea-form";
-import { pictureBookLibraryHref, recommendedPictureBooks } from "./recommended-picture-books";
+import { homepageLibrary, type LibraryAlbum, type LibraryBook } from "@/lib/picture-book-library";
+import { PictureBookShelves } from "./picture-book-shelves";
 import styles from "./picture-book-home.module.css";
 
 const testimonials = [
@@ -11,7 +12,8 @@ const testimonials = [
   { name: "李校长", role: "学校", avatar: "male-middle", quote: "从一个想法到一本有声绘本，让阅读和表达连在一起。我们希望每个孩子都能拥有自己的作品。" }
 ];
 
-export function PictureBookHome() {
+export function PictureBookHome({ albums, books, libraryFailed = false }: { albums: LibraryAlbum[]; books: LibraryBook[]; libraryFailed?: boolean }) {
+  const library = homepageLibrary(albums, books);
   return (
     <div className={styles.home}>
       <section className={styles.hero} id="create" aria-labelledby="create-title">
@@ -36,19 +38,11 @@ export function PictureBookHome() {
       </section>
 
       <section className={`${styles.library} ${styles.container}`} id="library" aria-labelledby="library-title">
-        <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>线上绘本馆</p><h2 id="library-title"><span>2,000+</span> 本绘本，读不完的好故事</h2></div><a className={styles.textLink} href={pictureBookLibraryHref}>进入绘本馆<ArrowUpRight size={19} /></a></div>
+        <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>线上绘本馆</p><h2 id="library-title">读不完的好故事</h2></div><a className={styles.textLink} href="/library">进入绘本馆<ArrowUpRight size={19} /></a></div>
         <div className={styles.libraryDetails}><p>看绘本、听故事，也可以下载收藏。</p><div><span><BookOpen size={16} />在线看</span><span><Headphones size={16} />随时听</span><span><Download size={16} />下载读</span></div></div>
-        <div className={styles.shelfHeading}><h3>为你推荐</h3><span>20 本，开启今天的阅读</span></div>
-        <div className={styles.bookGrid}>
-          {recommendedPictureBooks.map((book) => (
-            <a className={styles.bookCard} href={book.href} key={book.id} aria-label={`阅读《${book.title}》`}>
-              <div className={styles.bookCover}><img src={book.cover} alt={`${book.title}绘本封面`} width={320} height={320} loading="lazy" /><span className={styles.readOverlay}><BookOpen size={19} />开始阅读</span></div>
-              <div className={styles.bookTitle}><h4>{book.title}</h4><ArrowUpRight size={17} aria-hidden="true" /></div>
-              <span className={styles.bookMeta}><AudioLines size={13} />有声绘本</span>
-            </a>
-          ))}
-        </div>
-        <div className={styles.libraryBottom}><span>下一本喜欢的故事，就在这里。</span><a href={pictureBookLibraryHref}>发现更多绘本<ArrowRight size={17} /></a></div>
+        {libraryFailed ? <p className="py-4 text-sm text-destructive" role="alert">绘本馆暂时无法加载，请稍后重试。</p> : null}
+        <PictureBookShelves albums={library.albums} books={library.books} />
+        <div className={styles.libraryBottom}><span>下一本喜欢的故事，就在这里。</span><a href="/library">发现更多绘本<ArrowRight size={17} /></a></div>
       </section>
 
       <section className={styles.guideSection} id="guide" aria-labelledby="guide-title">
