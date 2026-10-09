@@ -37,7 +37,7 @@ class IncrementalReconciliationIntegration(unittest.TestCase):
             for table in list(source.data):
                 if table not in CONTEXT_TABLES:source.data[table]=[]
             source.data['app_ai_drawmessage']=[{'id':2,'user_id':3,'prompt':'合成增量图片','results':'["https://cdn.abeiai.com/abei/increment-fixture.png"]','req_time':NOW.replace(microsecond=999600),'status':2}]
-            source.data['app_ai_product']=[{'id':2,'user_id':3,'title':'合成绘本','is_delete':0,'building':0,'create_time':NOW,'update_time':NOW,'result':json.dumps([{'title_zh':'合成绘本','rn_case_pages':[{'body_zh':'合成正文','img':'https://cdn.abeiai.com/abei/increment-fixture.png'}]}])}]
+            source.data['app_ai_product']=[{'id':2,'user_id':3,'title':'合成绘本','is_delete':0,'building':0,'create_time':NOW.replace(microsecond=999600),'update_time':NOW.replace(microsecond=999600),'result':json.dumps([{'title_zh':'合成绘本','rn_case_pages':[{'body_zh':'合成正文','img':'https://cdn.abeiai.com/abei/increment-fixture.png'}]}])}]
             meta={'protocol':1,'parentRunId':prior['runId'],'parentSchemaSha256':prior['schemaSha256'],'sourceFingerprint':'a'*64,'sourceEndpointFingerprint':'e'*64,'since':prior['startedAt'],'overlapMinutes':10,'watermarks':{t:str(max(n,max((r['id'] for r in source.data.get(t,[])),default=0))) for t,n in previous.items()},'tables':{t:{'mode':'CONTEXT' if t in CONTEXT_TABLES else 'DELTA','fromPk':str(n)} for t,n in previous.items()}}
             export_snapshot(source,root,KEY,'abeiai-v1','reconcile-child',incremental=meta,source_fingerprint='a'*64);m=validate_package(root,KEY)
             import_package(root,KEY,url,True,phase='core',allow_pending=True)

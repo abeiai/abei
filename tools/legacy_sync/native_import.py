@@ -307,7 +307,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 for row in table_rows(root,manifest,key,'app_ai_product',False):
                     if selected_users is not None and row['values'].get('user_id') not in selected_users:continue
                     book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id))
-                    if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
+                    if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s::timestamp(3)',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
                 conn.commit()
                 updates=[]
                 for table in LOG_KINDS:
