@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookFrame, videoBookModels, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll } from "../src/lib/video-books.js";
+import { createVideoBookProject, getVideoBookTask, pendingVideoBookPages, validateVideoBookReferences, validateVideoBookSettings, videoBookAttachment, videoBookErrorMessage, videoBookFrame, videoBookModels, videoBookPollingError, videoBookPrompt, videoBookRequest, VideoBookRequestError, waitForVideoBookPoll } from "../src/lib/video-books.js";
 import type { ExperienceVideoModel } from "../src/lib/experience-api.js";
 import type { PictureBookGuide } from "../src/lib/picture-book-guide.js";
 
@@ -13,6 +13,12 @@ const guide = { id: "guide", title: "小熊的故事", pdfUrl: "/original.pdf", 
 ] } as PictureBookGuide;
 const audio = { id: "voice", name: "朗读.mp3", type: "audio" as const, mimeType: "audio/mpeg", size: 1024, dataUrl: "data:audio/mpeg;base64,AA==" };
 const image = { id: "image", name: "尾帧.png", type: "image" as const, mimeType: "image/png", size: 2048, dataUrl: "data:image/png;base64,AA==" };
+
+test("失败任务说明首帧格式错误并提供重试指引，其他错误保持原提示", () => {
+  assert.match(videoBookErrorMessage("Field required: input.media.0.url"), /首帧参数格式错误.*重试本页视频/);
+  assert.equal(videoBookErrorMessage("余额不足"), "余额不足");
+  assert.equal(videoBookErrorMessage(null), "");
+});
 
 test("绘本页面保留顺序，每页独立保存描述、参考素材和生成结果", () => {
   const project = createVideoBookProject(guide, model);

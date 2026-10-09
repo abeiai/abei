@@ -1966,12 +1966,12 @@ export class AiService {
           model: input.modelName,
           input: dashScopeVideoInput(input.modelName, input.prompt, input.referenceFiles),
           parameters: {
-            ...(input.modelName.startsWith("wan2.7-i2v")
+            ...(usesImageToVideoMediaUrl(input.modelName)
               ? { resolution: input.resolution.includes("1080") ? "1080P" : "720P" }
               : { size: videoSizeFromRatio(input.ratio, input.resolution) }),
             duration: input.duration,
             watermark: false,
-            prompt_extend: true
+            ...(isHappyHorseImageToVideo(input.modelName) ? {} : { prompt_extend: true })
           }
         }),
         signal: controller.signal
@@ -10318,6 +10318,14 @@ function videoSizeFromRatio(ratio: string, resolution: string) {
   return `${width}*${height}`;
 }
 
+function isHappyHorseImageToVideo(modelName: string) {
+  return modelName.startsWith("happyhorse-") && modelName.includes("-i2v");
+}
+
+function usesImageToVideoMediaUrl(modelName: string) {
+  return modelName.startsWith("wan2.7-i2v") || isHappyHorseImageToVideo(modelName);
+}
+
 function dashScopeVideoInput(modelName: string, prompt: string, references: ProviderTextAttachment[]) {
   const images = references.filter((item) => item.type === "image" && item.dataUrl);
   const videos = references.filter((item) => item.type === "video" && item.dataUrl);
@@ -10358,8 +10366,8 @@ function dashScopeVideoInput(modelName: string, prompt: string, references: Prov
     media.push({ type: "audio", audio_url: audios[0].dataUrl });
   }
 
-  // Wan2.7 image-to-video uses a shared URL field for every media type.
-  if (modelName.startsWith("wan2.7-i2v")) {
+  // Wan2.7 and HappyHorse image-to-video use a shared URL field.
+  if (usesImageToVideoMediaUrl(modelName)) {
     return { prompt, media: media.map(({ type, image_url, video_url, audio_url }) => ({
       type, url: image_url ?? video_url ?? audio_url
     })) };

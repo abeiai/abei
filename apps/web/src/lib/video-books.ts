@@ -70,6 +70,11 @@ export function videoBookAttachment(reference: VideoBookReference) {
   return { name: reference.name, type: reference.type, mimeType: reference.mimeType, size: reference.size, dataUrl: reference.dataUrl };
 }
 
+export function videoBookErrorMessage(message?: string | null) {
+  if (message?.includes("Field required: input.media.0.url")) return "这次任务因首帧参数格式错误而失败，请点击「重试本页视频」重新生成。";
+  return message ?? "";
+}
+
 export function pendingVideoBookPages(project: VideoBookProject) {
   return project.pages.filter(page => !page.clip || page.clip.status === "FAILED" || page.clip.status === "CANCELLED");
 }
