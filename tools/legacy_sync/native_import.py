@@ -1,5 +1,6 @@
 """Offline additive native import; connects exclusively to guarded local PostgreSQL."""
 import argparse
+import datetime as dt
 from collections import Counter, defaultdict
 import hashlib
 import json
@@ -24,8 +25,10 @@ def verify_mp_namespace(values,context):
 
 
 class BulkInsert:
-    def __init__(self,connection,table,columns,progress=None):
+    def __init__(self,connection,table,columns,progress=None,refresh=False):
         if table not in NATIVE_TABLES: raise ValueError('No importer exists for this target table')
+        if refresh and (table!='legacy_ai_logs' or 'importedAt' not in columns): raise ValueError('Only timestamped source logs can refresh')
+        self.refresh=refresh
         self.connection=connection; self.table=table; self.columns=list(columns); self.pending=[]; self.pending_bytes=0; self.rows=0; self.progress=progress
         self.projection=sql.SQL(',').join(map(sql.Identifier,self.columns))
         connection.execute('DROP TABLE IF EXISTS pg_temp.legacy_migration_stage')
@@ -41,17 +44,21 @@ class BulkInsert:
         with self.connection.cursor() as cursor:
             with cursor.copy(sql.SQL('COPY legacy_migration_stage ({}) FROM STDIN').format(self.projection)) as copy:
                 for row in self.pending: copy.write_row(row)
-            cursor.execute(sql.SQL('INSERT INTO {} ({}) SELECT {} FROM legacy_migration_stage ON CONFLICT (id) DO NOTHING').format(sql.Identifier(self.table),self.projection,self.projection))
+            conflict=sql.SQL('DO NOTHING')
+            if self.refresh:
+                fields=sql.SQL(',').join(sql.SQL('{}=EXCLUDED.{}').format(sql.Identifier(c),sql.Identifier(c)) for c in self.columns if c!='id')
+                conflict=sql.SQL('DO UPDATE SET {} WHERE legacy_ai_logs."sourceSystem"=EXCLUDED."sourceSystem" AND legacy_ai_logs."sourceTable"=EXCLUDED."sourceTable" AND legacy_ai_logs."sourcePk"=EXCLUDED."sourcePk" AND legacy_ai_logs."importedAt"<=EXCLUDED."importedAt"').format(fields)
+            cursor.execute(sql.SQL('INSERT INTO {} ({}) SELECT {} FROM legacy_migration_stage ON CONFLICT (id) {}').format(sql.Identifier(self.table),self.projection,self.projection,conflict))
             cursor.execute('TRUNCATE legacy_migration_stage')
         self.connection.commit()
         self.rows+=len(self.pending); self.pending.clear();self.pending_bytes=0
         if self.progress: self.progress({'phase':'native-import','table':self.table,'processed':self.rows})
 
 
-def bulk_rows(conn,table,rows,progress=None):
+def bulk_rows(conn,table,rows,progress=None,refresh=False):
     iterator=iter(rows); first=next(iterator,None)
     if first is None: return 0
-    writer=BulkInsert(conn,table,first,progress)
+    writer=BulkInsert(conn,table,first,progress,refresh)
     writer.add(first)
     for row in iterator: writer.add(row)
     writer.flush()
@@ -133,6 +140,8 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
     if selection_id is not None and phase!='assets': raise ValueError('Selection can only backfill assets')
     if selection_id is None and not allow_pending and not manifest.get('assetTransferFinished'): raise ValueError('Asset transfers must finish before final import')
     if phase not in {'all','records','assets','core'}: raise ValueError('Unknown import phase')
+    incremental=manifest.get('incremental') is not None
+    capture_time=dt.datetime.fromisoformat(manifest['startedAt'].replace('Z','+00:00')) if incremental else None
     report={'sourceSystem':SOURCE_SYSTEM,'runId':manifest['runId'],'phase':phase,'assetTransferFinished':manifest.get('assetTransferFinished',False),'sourceUserRows':manifest['tables']['app_user_user']['count'],'sourceLogRows':sum(manifest['tables'][table]['count'] for table in LOG_KINDS),'identityConflicts':Counter(),'booksArchived':Counter(),'ttsLinksUnresolved':0}
     with psycopg.connect(target_url.split('?')[0],connect_timeout=10) as conn:
         target=conn.execute('SELECT current_database(),inet_server_port()').fetchone()
@@ -188,13 +197,28 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 bulk_rows(conn,'legacy_ai_sessions',session_rows(),progress)
                 versions=version_labels(root,manifest,key)
                 for table in LOG_KINDS:
-                    bulk_rows(conn,'legacy_ai_logs',(log_row(row,users,subjects,versions) for row in table_rows(root,manifest,key,table,False)),progress)
+                    def logs():
+                        for row in table_rows(root,manifest,key,table,False):
+                            value=log_row(row,users,subjects,versions)
+                            if incremental:value['importedAt']=capture_time
+                            yield value
+                    bulk_rows(conn,'legacy_ai_logs',logs(),progress,refresh=incremental)
                 def chat_links():
-                    positions=defaultdict(int)
+                    positions=defaultdict(int);existing_links={}
+                    if incremental:
+                        for log_id,session_id,position in conn.execute('SELECT i."logId",i."sessionId",i.position FROM legacy_ai_session_items i JOIN legacy_ai_sessions s ON s.id=i."sessionId" WHERE s."sourceSystem"=%s AND s."sourceTable"=%s',(SOURCE_SYSTEM,'app_ai_chatsubject')):
+                            if log_id:existing_links[log_id]=(session_id,position)
+                            positions[session_id]=max(positions[session_id],position+1)
                     for row in table_rows(root,manifest,key,'app_ai_chatmessage',False):
                         v=row['values']; subject=v.get('subject_id')
                         if subject not in subjects: continue
-                        position=positions[subject];positions[subject]+=1
+                        session_id=native_id('session:app_ai_chatsubject',subject);log_id=native_id('app_ai_chatmessage',row['sourcePk'])
+                        if incremental and log_id in existing_links:
+                            if existing_links[log_id][0]!=session_id:raise ValueError('Existing chat link ownership changed')
+                            position=existing_links[log_id][1]
+                        else:
+                            cursor=session_id if incremental else subject
+                            position=positions[cursor];positions[cursor]+=1
                         yield {'id':native_id('chat-link',row['sourcePk']),'sessionId':native_id('session:app_ai_chatsubject',subject),'logId':native_id('app_ai_chatmessage',row['sourcePk']),'position':position,'sourceMsgId':v.get('msg_id'),'sourceVersionId':subjects[subject].get('version_id'),'sourceHash':None}
                 bulk_rows(conn,'legacy_ai_session_items',chat_links(),progress)
                 # Local temporary lookup supports millions of reused TTS messages without a target schema migration.
@@ -262,6 +286,11 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                                 conn.cursor().executemany('UPDATE legacy_ai_log_assets SET status=%s,"mimeType"=%s,"storageKey"=%s,sha256=%s,filename=%s WHERE id=%s',updates);conn.commit();updates=[]
                 if updates: conn.cursor().executemany('UPDATE legacy_ai_log_assets SET status=%s,"mimeType"=%s,"storageKey"=%s,sha256=%s,filename=%s WHERE id=%s',updates);conn.commit()
             report['nativeLogRows']=conn.execute('SELECT COUNT(*) FROM legacy_ai_logs WHERE "sourceSystem"=%s',(SOURCE_SYSTEM,)).fetchone()[0]
+            if incremental:
+                report['nativeLogTotalRows']=report['nativeLogRows']
+                ids=[native_id(table,row['sourcePk']) for table in LOG_KINDS for row in table_rows(root,manifest,key,table,False)]
+                report['nativeLogRows']=conn.execute('SELECT COUNT(*) FROM legacy_ai_logs WHERE id=ANY(%s)',(ids,)).fetchone()[0]
+                report['incrementalParentRunId']=manifest['incremental']['parentRunId']
             if selection_id is not None:validate_selection(db,root,manifest,key,selection_id)
             report['nativeUserRows']=len(users)
             report['identityConflicts']=dict(report['identityConflicts']);report['booksArchived']=dict(report['booksArchived'])

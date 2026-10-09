@@ -13,7 +13,7 @@ from .package import encode_value, write_chunk, write_manifest, read_chunk, load
 from .sensitive import split_restricted
 
 
-def export_snapshot(source, root, key, source_system, run_id, progress=None):
+def export_snapshot(source, root, key, source_system, run_id, progress=None, incremental=None, source_fingerprint=None):
     root = Path(root)
     if root.exists() and any(root.iterdir()): raise ValueError('A source snapshot requires a fresh empty package directory')
     root.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -22,6 +22,8 @@ def export_snapshot(source, root, key, source_system, run_id, progress=None):
         'sourceTimezone': 'Asia/Shanghai', 'startedAt': dt.datetime.now(dt.timezone.utc).isoformat(),
         'dataSnapshotComplete': False, 'assetsComplete': False, 'validationPassed': False,
         'accessPolicy': 'user-confirmed-legacy-entry/fixed-select/read-only-transaction', 'tables': {}}
+    if incremental is not None: manifest['incremental']=incremental
+    if source_fingerprint is not None: manifest['sourceFingerprint']=source_fingerprint
     write_manifest(root, manifest, key)
     last_progress = time.monotonic()
     try:
@@ -110,6 +112,8 @@ def validate_package(root, key, record_validation=True):
     manifest = load_manifest(root, key)
     if manifest.get('protocol') != 1 or not manifest.get('sourceSystem') or set(manifest.get('tables', {})) != set(SCHEMA_BASELINE):
         raise ValueError('Incomplete table inventory or unknown package protocol')
+    from .incremental import validate_incremental_manifest
+    validate_incremental_manifest(manifest)
     if manifest['schema']['file'] != 'metadata/schema.enc': raise ValueError('Unexpected schema package location')
     schema = read_chunk(root, manifest['schema'], key)[0]
     validate_tables(schema)
@@ -136,6 +140,9 @@ def validate_package(root, key, record_validation=True):
                     if mode != 'restricted' and (values.get('id') != row['sourcePk'] or set(values) != set(columns if mode == 'business' else ['id'] + credentials)):
                         raise ValueError('Source row projection/id mismatch')
                     if mode == 'restricted' and (not values or set(values) - set(columns)): raise ValueError('Unknown restricted source fields')
+                    if mode=='business':
+                        from .incremental import validate_delta_row
+                        validate_delta_row(manifest,row)
                     yield row
 
         credential_rows = iter(entries(info['credentialChunks'], 'credential'))
