@@ -1,0 +1,8 @@
+{
+  "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-902b58ba-f48d-45bc-9e5b-51c8b4c826b9.png",
+  "prompt": "Use case: text-localization. Edit the attached existing Chinese preschool SERIES COVER. Change ONLY the small subtitle immediately under the big title from 职业启蒙绘本 to exact Chinese text 职业启蒙绘本 · 16种职业 . One legible horizontal subtitle, dark navy rounded Chinese letters, same visual treatment, balanced full width under title with ample clear space. Keep the big main title 我想成为 EXACTLY unchanged. Keep ALL three DIFFERENT children and the three adult professionals EXACTLY unchanged: yellow-shirt turquoise-overalls boy Xiao An, emerald shirt/navy shorts boy Xiao Yu, lavender white-collar dress/star-clip bob girl Duoduo; female doctor, male firefighter, male teacher. Preserve their faces, clothes, distinct identities, Chinese city community careers open day, red fire engine, background, composition, cyan/red/yellow palette and glossy rounded illustration. No new people or additional labels. Strict 16:9 landscape, high quality, no watermark. This is an expanded 16-book edition of the same series, these three children remain representative book characters.",
+  "refs": [
+    "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/series-cover-v2.webp"
+  ],
+  "assetName": "series-cover-v3.webp"
+}
