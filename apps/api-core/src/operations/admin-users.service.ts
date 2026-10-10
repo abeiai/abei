@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AppException } from "../common/app-exception.js";
+import { adminUserFilters } from "./admin-user-query.js";
 import { AdjustUserCreditsDto, RechargeUserCreditsDto } from "./dto/admin-user.dto.js";
 
 type UserStatus = "ACTIVE" | "DISABLED";
@@ -11,27 +12,39 @@ export class AdminUsersService {
   private readonly prisma = getPrismaClient();
 
   async listUsers() {
-    const users = await this.prisma.user.findMany({
-      include: {
-        wallet: true
-      },
-      orderBy: {
-        createdAt: "desc"
-      },
-      take: 100
-    });
+    return (await this.listUsersPage({ pageSize: "100" })).items;
+  }
 
-    return users.map((user) => ({
-      id: user.id,
-      email: user.email,
-      nickname: user.nickname,
-      status: user.status,
-      statusName: this.statusName(user.status),
-      availableCredits: user.wallet?.availableCredits ?? 0,
-      frozenCredits: user.wallet?.frozenCredits ?? 0,
-      createdAt: user.createdAt,
-      lastLoginAt: user.lastLoginAt
-    }));
+  async listUsersPage(query: Record<string, unknown> = {}) {
+    const { where, page: requestedPage, pageSize } = adminUserFilters(query);
+    return this.prisma.$transaction(async (tx) => {
+      const total = await tx.user.count({ where });
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const page = Math.min(requestedPage, totalPages);
+      const users = await tx.user.findMany({
+        where,
+        select: {
+          id: true, email: true, nickname: true, status: true,
+          createdAt: true, lastLoginAt: true,
+          wallet: { select: { availableCredits: true, frozenCredits: true } }
+        },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        skip: (page - 1) * pageSize,
+        take: pageSize
+      });
+      const items = users.map((user) => ({
+        id: user.id,
+        email: user.email,
+        nickname: user.nickname,
+        status: user.status,
+        statusName: this.statusName(user.status),
+        availableCredits: user.wallet?.availableCredits ?? 0,
+        frozenCredits: user.wallet?.frozenCredits ?? 0,
+        createdAt: user.createdAt,
+        lastLoginAt: user.lastLoginAt
+      }));
+      return { items, total, page, pageSize, totalPages };
+    }, { isolationLevel: "RepeatableRead" });
   }
 
   async getUserDetail(id: string) {

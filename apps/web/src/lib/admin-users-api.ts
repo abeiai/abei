@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { adminUserQuery, type AdminUserFilters } from "./admin-user-query";
 
 interface ApiResponse<TData> {
   code: number;
@@ -19,6 +20,14 @@ export interface AdminUserListItem {
   frozenCredits: number;
   createdAt: string;
   lastLoginAt: string | null;
+}
+
+export interface AdminUsersPage {
+  items: AdminUserListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 export interface AdminWallet {
@@ -167,6 +176,10 @@ function revalidateUserPaths(id: string) {
 
 export async function getAdminUsers() {
   return apiFetch<AdminUserListItem[]>("/admin/users");
+}
+
+export async function getAdminUsersPage(filters: AdminUserFilters = {}) {
+  return apiFetch<AdminUsersPage>(`/admin/users/search?${adminUserQuery(filters)}`);
 }
 
 export async function getAdminUser(id: string) {

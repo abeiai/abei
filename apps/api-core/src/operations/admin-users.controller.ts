@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Patch, Post, Req } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, Patch, Post, Query, Req } from "@nestjs/common";
 import { AdminAuthService } from "../admin-auth/admin-auth.service.js";
 import { successResponse } from "../common/api-response.js";
 import { writeAdminOperationLog } from "../security/admin-operation-log.js";
@@ -18,6 +18,13 @@ export class AdminUsersController {
     await this.adminAuthService.me(request as never);
 
     return successResponse(await this.adminUsersService.listUsers());
+  }
+
+  @Get("search")
+  async search(@Req() request: unknown, @Query() query: Record<string, unknown>) {
+    await this.adminAuthService.me(request as never);
+
+    return successResponse(await this.adminUsersService.listUsersPage(query));
   }
 
   @Get(":id")

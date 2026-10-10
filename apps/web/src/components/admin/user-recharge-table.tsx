@@ -59,8 +59,8 @@ export function UserRechargeTable({ users }: { users: AdminUserListItem[] }) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-xl border border-border">
-        <Table>
+      <div className="overflow-x-auto rounded-xl border border-border">
+        <Table className="whitespace-nowrap">
           <TableHeader>
             <TableRow>
               <TableHead>用户 ID</TableHead>
@@ -90,7 +90,7 @@ export function UserRechargeTable({ users }: { users: AdminUserListItem[] }) {
                   <TableCell>{formatDate(user.createdAt)}</TableCell>
                   <TableCell>{formatDate(user.lastLoginAt)}</TableCell>
                   <TableCell>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex gap-2">
                       <Button asChild size="sm" variant="outline">
                         <Link href={`/admin/users/${user.id}`}>
                           <Eye data-icon="inline-start" />
@@ -124,7 +124,7 @@ export function UserRechargeTable({ users }: { users: AdminUserListItem[] }) {
             ) : (
               <TableRow>
                 <TableCell className="text-muted-foreground" colSpan={8}>
-                  暂无用户。
+                  没有符合条件的用户。
                 </TableCell>
               </TableRow>
             )}
