@@ -9,6 +9,8 @@ import { adminLogoutAction, getCurrentAdmin } from "@/lib/auth-actions";
 import { adminNavGroups, adminNavItems } from "@/lib/mock-data";
 import { getPublicSystemConfigs } from "@/lib/settings-api";
 
+import "@/components/shell/admin-theme.css";
+
 interface AdminShellProps {
   active: string;
   title: string;
