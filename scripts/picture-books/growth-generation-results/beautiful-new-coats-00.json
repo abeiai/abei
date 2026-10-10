@@ -1,0 +1,11 @@
+{
+  "key": "beautiful-new-coats:0",
+  "slug": "beautiful-new-coats",
+  "position": 0,
+  "referenced_image_paths": [
+    "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-12aec425-f0f6-4b13-99e7-751d845abc45.png"
+  ],
+  "previousSource": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-12aec425-f0f6-4b13-99e7-751d845abc45.png",
+  "prompt": "Use case: precise-object-edit scientific correction. Edit only the deer in the attached finished 5:4 watercolor book cover. Preserve ALL Chinese lettering verbatim, preserve title typography and locations, the other two birds, watercolor texture, composition, colors, lighting, background and 5:4 dimensions. The animal must be a genuine male Père David's deer (Elaphurus davidianus), not generic elk/red deer. Correct its antlers: distinctive main beams extend POSTERIORLY over the shoulders toward the tail, with forks mainly pointing BACKWARD; remove the generic upright elk crown and forward brow tines. Head faces right, so the long antler beams should sweep LEFT over its back, not rise straight up over face. Give the animal an elongated horse-like muzzle, broad marsh hooves, and a LONG black-tufted tail hanging down toward hocks. Anatomically natural and gracefully drawn in the same hand-painted watercolor. Do not add animals or change any word. Exact invariant text: \"长大以后，我是谁？\" / \"换上美丽的新衣裳\" / \"麋鹿 · 丹顶鹤 · 火烈鸟\" / \"第四册\". No watermark.",
+  "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-b765c8f0-6a81-427f-b852-ae74d93d658c.png"
+}

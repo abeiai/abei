@@ -1,0 +1,731 @@
+[
+  {
+    "key": "forest-armor:0",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-53ab46f0-561e-4676-9f6c-36ecbe610157.png",
+    "lines": [
+      "长大以后，我是谁？",
+      "树林里的",
+      "铠甲勇士",
+      "独角仙•七星瓢虫•蝉",
+      "第一册"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:0",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f6ed76e0-7c2c-4173-a616-ee81f3b9835f.png",
+    "lines": [
+      "长大以后，我是谁？",
+      "从池塘飞向天空",
+      "青蛙 •蜻蜓 •蚊子",
+      "第二册"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:0",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-8bd258b8-d637-4df9-8777-10fbc8dba997.png",
+    "lines": [
+      "长大以后，我是谁？",
+      "浪花里的奇妙变身",
+      "比目鱼 •螃蟹 •海月水母",
+      "第三册"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:0",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-b765c8f0-6a81-427f-b852-ae74d93d658c.png",
+    "lines": [
+      "长大以后，我是谁？",
+      "换上美丽的新衣裳",
+      "麋鹿 •丹顶鹤• 火烈鸟",
+      "第四册"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:1",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-2e097e4e-5c2a-4bde-9db5-1c49fff828b3.png",
+    "lines": [
+      "泥土里的白胖子",
+      "我住在松软的腐叶土里。",
+      "身体白白胖胖，弯成一个C。",
+      "头上没有角，也没有翅膀。",
+      "猜猜我长大后是谁？",
+      "］"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:2",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f3e13890-7f1f-4bdc-a959-46c6347aaac2.png",
+    "lines": [
+      "落叶大餐",
+      "腐烂的落叶和木屑，",
+      "是我的营养大餐。",
+      "我一口一口慢慢吃，",
+      "换下旧皮，长得更大。",
+      "2"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:3",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-42ec1c8b-8616-402a-b8d3-1d88d954e356.png",
+    "lines": [
+      "泥土卧室",
+      "我用泥土做了一个小房间，",
+      "在里面变成蛹。",
+      "角、腿和翅膀慢慢长成，",
+      "新模样就要出现啦！"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:4",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-8ae8ead3-fc7c-42ed-a120-b80d7c162cec.png",
+    "lines": [
+      "原来我是独角仙！",
+      "我是一只雄性独角仙！",
+      "头顶的大角像小铲子，",
+      "坚硬的鞘翅护住后翅。",
+      "六条腿，牢牢抓住树枝。",
+      "4"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:5",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-c625ea9b-4f1d-4873-b454-96c7c9589322.png",
+    "lines": [
+      "花丛里的小怪兽",
+      "我从一粒小卵里钻出来。",
+      "身体长长的，黑灰相间，",
+      "还点缀着橙色的小斑。",
+      "这副模样，你认识吗？",
+      "5"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:6",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-c2f815e7-87a9-4141-a2a2-02e0ef6af0d9.png",
+    "lines": [
+      "小小蚜虫猎手",
+      "叶子上有一群小蚜虫。",
+      "我用六条腿稳稳爬过去，",
+      "抓住蚜虫，饱餐一顿。",
+      "吃饱了，才能快快长大。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:7",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f4fac1a6-9846-4f13-b053-9245eac5c4cd.png",
+    "lines": [
+      "安静的变化",
+      "我把尾端固定在叶子上，",
+      "变成一只不吃东西的蛹。",
+      "身体在里面慢慢变化，",
+      "圆圆的新外衣正在形成。",
+      "7"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:8",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-16b858fb-65ca-4f4e-a5b2-ebc8104bf15d.png",
+    "lines": [
+      "原来我是七星瓢虫！",
+      "红色鞘翅上有七个黑点，",
+      "下面藏着透明的后翅。",
+      "我是一只七星瓢虫！",
+      "长大后，我也爱吃蚜虫。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:9",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-ec687b57-e33a-4322-8790-5e862d044b58.png",
+    "lines": [
+      "地下的小泥猴",
+      "我在黑暗的地下生活。",
+      "前脚粗壮，像两把小铲子，",
+      "能挖出弯弯曲曲的地道。",
+      "你听过我长大后的声音吗？",
+      "9"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:10",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-49f83992-9d99-4329-a9f6-49c842734318.png",
+    "lines": [
+      "慢慢长大的童年",
+      "我把细细的口器伸进树根，",
+      "吸取树根里的汁液。",
+      "有些蝉要在地下住好几年，",
+      "才能等到爬出地面的那天。",
+      "10"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "forest-armor:11",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-59257071-76cb-484c-b225-52bf9a0164f5.png",
+    "lines": [
+      "夏夜的脱売术",
+      "暖暖的夏夜，我爬上树干。",
+      "旧皮从背上裂开，",
+      "软软的翅膀慢慢展开，",
+      "等到变硬，就能飞啦！",
+      "11"
+    ],
+    "missing": [
+      "夏夜的脱壳术"
+    ],
+    "passed": true,
+    "manualVerification": "已逐字查看原始全尺寸图片，壳字结构正确；OCR误识为日文売。"
+  },
+  {
+    "key": "forest-armor:12",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-ad4b0800-e025-4877-a9fa-3e1e6ea0e95c.png",
+    "lines": [
+      "原来我是蝉！",
+      "我是一只雄蝉！",
+      "翅膀透明，像轻轻的薄纱。",
+      "腹部的发声器振动起来，",
+      "树梢就响起响亮的歌声。",
+      "12"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:1",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-d85c5f9f-97e5-4c27-967a-6ba065e67bfa.png",
+    "lines": [
+      "水里的小逗号",
+      "我甩着长尾巴游来游去，",
+      "像一个黑黑的小逗号。",
+      "我用鳃在水中呼吸，",
+      "还没有一条腿呢！",
+      "1"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:2",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-7d71eb96-2f16-48e0-b774-dc2e7cfe84d8.png",
+    "lines": [
+      "尾巴去哪儿了？",
+      "我吃着水藻，慢慢长大。",
+      "后腿先长出，前腿随后出现。",
+      "尾巴被身体慢慢吸收，",
+      "可不是突然掉下来的！",
+      "2"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:3",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-5d47228e-2cf6-4cba-8980-560099393473.png",
+    "lines": [
+      "第一次上岸",
+      "我的肺逐渐发育好了。",
+      "我探出水面，呼吸空气，",
+      "爬到湿湿的岸边。",
+      "湿润的皮肤也能帮助呼吸。",
+      "3"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:4",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-9df47719-2fec-4787-ac9c-935abcd66191.png",
+    "lines": [
+      "原来我是青蛙！",
+      "呱呱！我是青蛙。",
+      "后腿一蹬，就能跳出老远。",
+      "看见一只小虫，",
+      "黏黏的舌头伸出去—一抓住啦！",
+      "4"
+    ],
+    "missing": [
+      "黏黏的舌头伸出去——抓住啦！"
+    ],
+    "passed": true,
+    "manualVerification": "已查看原始全尺寸图片，两条连续破折号正确；OCR将第二条误识为汉字一。"
+  },
+  {
+    "key": "pond-to-sky:5",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f6d86cce-736c-42e1-9e94-f61a8120fb41.png",
+    "lines": [
+      "水底的潜水客",
+      "别看我现在没有大翅膀，",
+      "我可是水底的小猎手。",
+      "六条腿帮我站稳，",
+      "水草间藏着我的身影。",
+      "5"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:6",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-9de9f615-9e17-44ec-b81c-fffa09be4404.png",
+    "lines": [
+      "神奇的捕食面罩",
+      "我的下唇平时折在嘴下，",
+      "像一张收起来的小面罩。",
+      "发现猎物，它迅速伸出去，",
+      "抓住食物，再收回来。",
+      "6"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:7",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-66d9da7b-fc1a-4b56-ab23-095e4353972b.png",
+    "lines": [
+      "爬出池塘的清晨",
+      "长大了，我爬上水边的草茎。",
+      "背上的旧皮裂开，",
+      "新翅膀慢慢伸展开来。",
+      "蜻蜓的成长，没有蛹这一站。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:8",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-334351fe-8a41-4cc9-93c8-7d575cfec257.png",
+    "lines": [
+      "原来我是蜻蜓！",
+      "我是一只蜻蜓！",
+      "四片翅膀带我掠过水面，",
+      "大大的复眼帮我发现猎物。",
+      "小时候住水里，长大飞上天！"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:9",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-8ba446b8-6e9d-4bea-a84b-edca0829d021.png",
+    "lines": [
+      "水里的跟头王",
+      "我住在浅浅的积水里，",
+      "身体细细长长。",
+      "一有动静，我就扭动身体，",
+      "像在水里翻跟头。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:10",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-3d2322bf-9b69-4faa-a523-323ada9e9807.png",
+    "lines": [
+      "自带呼吸小管",
+      "我的尾端有一根呼吸管，",
+      "接到水面，就能呼吸空气。",
+      "我倒挂着吃水中的小颗粒，",
+      "吃饱后继续长大。",
+      "10"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:11",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f9857cad-d68d-479c-b7db-a6f229965113.png",
+    "lines": [
+      "会翻滚的逗号蛹",
+      "我变成了弯弯的蛹，",
+      "像一枚大头的小逗号。",
+      "蛹不吃东西，却会游动。",
+      "头胸部的小管通向水面。",
+      "11"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "pond-to-sky:12",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-bcf9b50d-1051-4e2a-810f-4fffa2b20cca.png",
+    "lines": [
+      "原来我是蚊子！",
+      "我从水面的蛹壳里钻出来，",
+      "等翅膀干了，便飞向空中。",
+      "原来我是一只蚊子！",
+      "清理积水，别给蚊子留育儿池。",
+      "12"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:1",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-3e376a7a-1be3-40f5-a025-23a4da5bde47.png",
+    "lines": [
+      "海里的小透明",
+      "我刚出生时，身体透明，",
+      "两只眼睛各在头的一边。",
+      "我和别的小鱼一样，",
+      "端端正正地游在海水里。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:2",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-b9ba5d86-0be3-4ee8-9f37-6b0575523e08.png",
+    "lines": [
+      "眼睛要搬家",
+      "长大的时候，变化发生了：",
+      "一只眼睛慢慢移向另一侧。",
+      "我的头部也逐渐改变，",
+      "两只眼睛开始住在同一边。",
+      "2"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:3",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-24a7a5cd-1fe1-4d9e-acc0-d5489d9aede6.png",
+    "lines": [
+      "侧躺的新姿势",
+      "我的身体变得扁扁的，",
+      "翻转过来，侧躺在海底。",
+      "两只眼睛朝着上方，",
+      "没有眼睛的那一面贴着沙子。",
+      "3"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:4",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-dd864b3e-6ba9-4562-b1ea-ac4bee4f13b1.png",
+    "lines": [
+      "原来我是比目鱼！",
+      "我是一条比目鱼！",
+      "身上的花纹像海底的沙粒。",
+      "轻轻盖上一点沙子，",
+      "就能把自己藏起来。",
+      "4"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:5",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f5749f06-1397-4bd7-9f43-0b3a084a80ad.png",
+    "lines": [
+      "海浪里的小刺球",
+      "我刚出生时，个子很小。",
+      "头胸部带着长长的刺，",
+      "身体跟着海水漂呀漂。",
+      "这样的我，将来会是谁？",
+      "5"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:6",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-54ba526f-698e-420d-bcbe-e7decfe7f06e.png",
+    "lines": [
+      "像小龙虾的过渡期",
+      "我又蜕了一次皮，",
+      "小钳子和小腿渐渐成形。",
+      "这时叫“大眼幼体”",
+      "腹部还有一条伸出的“小尾巴”。",
+      "6"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:7",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-9311046e-277a-4690-9e07-ee594099b8df.png",
+    "lines": [
+      "把腹部藏起来",
+      "再次蜕皮后，我变成小蟹。",
+      "伸出的腹部折到身体下面，",
+      "外壳渐渐变得结实。",
+      "以后长大，还要一次次蜕皮。",
+      "7"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:8",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-1b81b211-7740-4385-85dc-e548b027370d.png",
+    "lines": [
+      "原来我是螃蟹！",
+      "我是一只螃蟹！",
+      "八条步足让我横着走，",
+      "再加两只大螯，一共有十足。",
+      "硬硬的壳，保护柔软的身体。",
+      "8"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:9",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-33087eed-e4b2-421e-8d6b-27ddbe6a658e.png",
+    "lines": [
+      "礁石上的小住客",
+      "我是小小的水螅体，",
+      "固定在水下的礁石上。",
+      "细细的触手伸向水中，",
+      "抓住经过的小小食物。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:10",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-7cf07c38-0461-44cf-b67c-c911ecca064b.png",
+    "lines": [
+      "叠起小碟子",
+      "水螅体的身体出现一圈圈变化，",
+      "像叠起了一擦小碟子。",
+      "这叫横裂生殖。",
+      "每一层都能成为一只小水母。",
+      "10"
+    ],
+    "missing": [
+      "像叠起了一摞小碟子。"
+    ],
+    "passed": true,
+    "manualVerification": "已逐字查看原始全尺寸图片，摞字的田、糸结构正确；OCR误识为擦。"
+  },
+  {
+    "key": "ocean-transform:11",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-58860c3c-702e-4f09-89c3-57afd160c008.png",
+    "lines": [
+      "小水母出发！",
+      "最上面的小碟子离开了，",
+      "变成星星模样的碟状幼体。",
+      "一缩一张，游向海水中。",
+      "我也要开始新的旅程啦！",
+      "11"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "ocean-transform:12",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-24890967-2df3-4f0c-8c5f-bc6337cb3e0b.png",
+    "lines": [
+      "原来我是海月水母！",
+      "我长成了一只海月水母！",
+      "身体透明，像一把小伞。",
+      "伞边有许多短短的触手，",
+      "一收一放，就能慢慢游动。",
+      "12"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:1",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-92f7590a-5cbb-439e-a09b-2d6654bce1e9.png",
+    "lines": [
+      "草丛里的斑点宝宝",
+      "我出生在湿地的草丛里。",
+      "棕色的毛上点着白色小斑，",
+      "四条细腿还有点站不稳。",
+      "妈妈轻轻走在我身边。",
+      "1"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:2",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-9c18ff05-e6cf-4897-80ca-031b73eda894.png",
+    "lines": [
+      "草影下的保护色",
+      "白色小斑和草影混在一起，",
+      "让我不容易被发现。",
+      "我安静地伏在草丛中，",
+      "等妈妈回来，喝奶长大。",
+      "2"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:3",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-07dd149b-8dfb-409d-b525-2c700b11a084.png",
+    "lines": [
+      "头上的小茸角",
+      "随着长大，白色小斑渐渐淡去。",
+      "我是一只小公鹿，",
+      "头上开始长出软软的茸角。",
+      "茸皮里有血管，帮助鹿角生长。",
+      "3"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:4",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f6bcdc06-79b5-4426-a5b5-35f20e91e09c.png",
+    "lines": [
+      "原来我是麋鹿！",
+      "我是一只雄性麋鹿！",
+      "长长的尾巴，宽宽的蹄子，",
+      "还有向后伸展的分叉鹿角。",
+      "湿地里的水草，是我爱吃的食物。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:5",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-656835b9-fd02-4c7a-91c1-32a6e637d69c.png",
+    "lines": [
+      "湿地里的小毛球",
+      "我刚从蛋壳里钻出来，",
+      "身上披着黄褐色的绒毛。",
+      "细细的腿慢慢站稳，",
+      "爸爸妈妈守在我身旁。",
+      "5"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:6",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-17b0a860-aac4-4f2c-acf8-a261057b10c6.png",
+    "lines": [
+      "跟着爸妈找食物",
+      "我跟着爸爸妈妈走进浅水，",
+      "学着找小鱼和小虫。",
+      "腿变长了，羽毛也在生长，",
+      "我一天比一天更有精神。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:7",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-c2e23abb-3292-427e-8773-1ce82d676b16.png",
+    "lines": [
+      "慢慢换上新羽毛",
+      "长大的过程中，我渐渐换羽。",
+      "身体的羽毛越来越白，",
+      "颈部和翅膀上出现黑色，",
+      "年轻的模样慢慢改变了。"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:8",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-ed27305e-809c-4634-ad43-22e2381d6bbf.png",
+    "lines": [
+      "原来我是丹顶鹤！",
+      "我是一只丹顶鹤！",
+      "白羽、黑颈，配着一抹红。",
+      "头顶的红色是裸露的皮肤，",
+      "并不是一顶红羽毛帽子哦。",
+      "8"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:9",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-a0a227db-3bbe-4dd9-9ff0-091a4d1133b7.png",
+    "lines": [
+      "灰白色的小宝宝",
+      "我出生时，穿着灰白的绒衣，",
+      "小小的嘴巴还比较直。",
+      "爸爸妈妈粉红色的模样，",
+      "我什么时候才能拥有呢？"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:10",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-baa682b3-47f1-4ce6-ba30-88e5cbd15e74.png",
+    "lines": [
+      "爸爸妈妈的育雏乳",
+      "爸爸妈妈都能喂我育雏乳。",
+      "这是上消化道产生的营养液，",
+      "能帮助小小的我长大。",
+      "鸟宝宝也有特别的婴儿餐！",
+      "10"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:11",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-03f64d72-5e6d-4853-9bf0-f6e249191225.png",
+    "lines": [
+      "吃出美丽的颜色",
+      "我的嘴巴渐渐变弯了，",
+      "能滤出水里的藻类和小虾。",
+      "食物中的天然色素，",
+      "让新长出的羽毛慢慢变粉红。",
+      "11"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "beautiful-new-coats:12",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-b421e340-957d-481e-9bbf-903d83c43dd7.png",
+    "lines": [
+      "原来我是火烈鸟！",
+      "我是一只火烈鸟！",
+      "粉红的羽毛，长长的腿，",
+      "弯弯的嘴巴帮我滤食。",
+      "从小到大，每一步都藏着秘密。",
+      "12"
+    ],
+    "missing": [],
+    "passed": true
+  },
+  {
+    "key": "resource",
+    "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-a9bba519-c962-462d-8fd9-c27df706dce3.png",
+    "lines": [
+      "长大以后，我是谁？",
+      "四册动物成长科普绘本",
+      "树林 •池塘•海洋•湿地"
+    ],
+    "missing": [],
+    "passed": true
+  }
+]

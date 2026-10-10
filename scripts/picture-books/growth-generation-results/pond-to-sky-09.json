@@ -1,0 +1,10 @@
+{
+  "key": "pond-to-sky:9",
+  "slug": "pond-to-sky",
+  "position": 9,
+  "heading": "水里的跟头王",
+  "caption": "我住在浅浅的积水里，\n身体细细长长。\n一有动静，我就扭动身体，\n像在水里翻跟头。",
+  "prompt": "Edit ONLY the first body line of this page to exactly: 我住在浅浅的积水里， . Every character must be correct and highly legible. Preserve the heading 水里的跟头王, the other three body lines, page 9, original typography, layout, all artwork, paper texture, colors and 5:4 canvas. No other changes.",
+  "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-8ba446b8-6e9d-4bea-a84b-edca0829d021.png",
+  "previousSource": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-fdfed317-e7ce-43c7-8469-cc39b8500d44.png"
+}

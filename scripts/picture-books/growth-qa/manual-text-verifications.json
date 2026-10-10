@@ -1,0 +1,26 @@
+[
+  {
+    "key": "forest-armor:11",
+    "sha256": "dbd21b51178e279ed3ff5730f15c276be24630be148fa0d87efdfa9b50868852",
+    "missing": [
+      "夏夜的脱壳术"
+    ],
+    "note": "已逐字查看原始全尺寸图片，壳字结构正确；OCR误识为日文売。"
+  },
+  {
+    "key": "pond-to-sky:4",
+    "sha256": "85b24015d3d3cd0e3e4c8a27b71f2cc9aed159b069ae0ded64487b315d3c4a32",
+    "missing": [
+      "黏黏的舌头伸出去——抓住啦！"
+    ],
+    "note": "已查看原始全尺寸图片，两条连续破折号正确；OCR将第二条误识为汉字一。"
+  },
+  {
+    "key": "ocean-transform:10",
+    "sha256": "762ec1ba29e8be642b2b86f91ed152d1ad1c2406e33ce05db632d5eaadb196de",
+    "missing": [
+      "像叠起了一摞小碟子。"
+    ],
+    "note": "已逐字查看原始全尺寸图片，摞字的田、糸结构正确；OCR误识为擦。"
+  }
+]

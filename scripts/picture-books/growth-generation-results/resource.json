@@ -1,0 +1,9 @@
+{
+  "key": "resource",
+  "slug": null,
+  "position": null,
+  "prompt": "Use case: scientific-educational children's nature picture-book series cover. ONE flat watercolor illustration, LANDSCAPE 16:9, 1600×900 pixels. This is a resource-center SERIES thumbnail, separate from the 5:4 book pages. Naturalistic hand-painted watercolor/gouache with delicate pencil lines, luminous lime green botanical leaves, soft cream paper grain, warm bark and turquoise water, same style as the user's painted cicada reference. No photograph, no 3D, no animal human faces. A graceful panoramic composition of four softly separated natural habitat vignettes: woodland cicada on leaves at far left; freshwater spotted green frog at left center; shallow sea shore crab and translucent moon jelly at right center; white red-crowned crane standing among wetland reeds at far right. These are separate habitat views, not animals sharing one pool. All scientific anatomies accurate (frog four legs; crab two claws plus eight walking legs; moon jelly four horseshoe gonads and short rim tentacles; crane bare red crown and black neck). Large calm cream open sky area in upper center for lettering, subjects mostly bottom and sides. Exact simplified Chinese printed in dark forest green directly in the image, very clear picture-book typography: main title \"长大以后，我是谁？\"; smaller subtitle \"四册动物成长科普绘本\"; small lower-center line \"树林 · 池塘 · 海洋 · 湿地\". No other text, no watermark, no mockup. Keep all lettering within 8% safe margins.",
+  "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-a9bba519-c962-462d-8fd9-c27df706dce3.png",
+  "previousSource": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-31eecbb2-1417-4cd9-8cfd-46663231f826.png",
+  "editPrompt": "Correct only crab anatomy to two claws and eight walking legs, preserve all other image content and text."
+}
