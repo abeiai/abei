@@ -28,6 +28,14 @@ export function pictureBookAfterPage(input: { autoTurn: boolean; mode: PictureBo
   return null;
 }
 
+export function pictureBookSpreadTurn(pages: Array<{ position: number; imageUrl: string | null }>, isSpread: boolean, from: number, to: number, reducedMotion = false): "forward" | "backward" | null {
+  if (!isSpread || reducedMotion || Math.abs(to - from) !== 1) return null;
+  const current = pages[from];
+  const next = pages[to];
+  if (!current || !next || current.position <= 0 || next.position <= 0 || !current.imageUrl || !next.imageUrl) return null;
+  return to > from ? "forward" : "backward";
+}
+
 export function pictureBookFullscreenZones(x: number, y: number, width: number, height: number) {
   const controls = y >= height - 120;
   const close = x >= width - 120 && y <= 96;

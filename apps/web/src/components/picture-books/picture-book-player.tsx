@@ -9,12 +9,13 @@ import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { pictureBookPageRatio, pictureBookPlaybackLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
-import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
+import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; textInImage?: boolean };
 type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; pages: Page[] };
+type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
   { value: "side", label: "左文右图", icon: PanelLeft },
@@ -31,6 +32,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [book, setBook] = useState<Book | null>(null);
   const [error, setError] = useState("");
   const [index, setIndex] = useState(0);
+  const [pageTurn, setPageTurn] = useState<PageTurn | null>(null);
   const [playing, setPlaying] = useState(false);
   const [running, setRunning] = useState(true);
   const [coverNarrationEnded, setCoverNarrationEnded] = useState(false);
@@ -49,6 +51,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [viewError, setViewError] = useState("");
   const [zones, setZones] = useState({ controls: false, close: false, previous: false, next: false });
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const pageTurnRef = useRef<PageTurn | null>(null);
   const playerRef = useRef<HTMLElement | null>(null);
   const settingsRef = useRef<HTMLDialogElement | null>(null);
   const activeBookId = entry.bookId;
@@ -112,6 +115,9 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);
+  const imagePages = pages.slice(Math.max(0, index - 1), index + 2);
+  const turningPage = pageTurn ? pages[pageTurn.to] : null;
+  const imageSource = (item: Page) => pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, publicMode ? "public" : "private");
 
   useEffect(() => {
     if (!book || !learnerMode || !courseId || !activeRevisionItemId) return;
@@ -140,11 +146,33 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     setIndex(next);
   }, [pages.length, autoTurn, running]);
 
+  const turnTo = useCallback((next: number) => {
+    if (next < 0 || next >= pages.length || pageTurnRef.current) return;
+    const direction = pictureBookSpreadTurn(pages, Boolean(book?.isSpread), index, next, window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (direction) {
+      const turn: PageTurn = { from: index, to: next, direction };
+      audioRef.current?.pause();
+      setPlaying(false);
+      pageTurnRef.current = turn;
+      setPageTurn(turn);
+      return;
+    }
+    goTo(next);
+  }, [book?.isSpread, goTo, index, pages]);
+
+  const completePageTurn = useCallback(() => {
+    const turn = pageTurnRef.current;
+    if (!turn) return;
+    pageTurnRef.current = null;
+    setPageTurn(null);
+    goTo(turn.to);
+  }, [goTo]);
+
   const finishPage = useCallback(() => {
     const next = pictureBookAfterPage({ autoTurn, mode: loopMode, pageIndex: index, pageCount: pages.length, albumIndex, albumCount: album.length });
     setPlaying(false);
     setCoverNarrationEnded(false);
-    if (next && "page" in next) { goTo(next.page); return; }
+    if (next && "page" in next) { turnTo(next.page); return; }
     if (next && "album" in next) {
       const selected = album[next.album]!;
       if (selected.bookId === activeBookId && selected.revisionItemId === activeRevisionItemId) { goTo(0); return; }
@@ -154,13 +182,13 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       return;
     }
     setRunning(false);
-  }, [autoTurn, loopMode, index, pages.length, albumIndex, album, activeBookId, activeRevisionItemId, goTo]);
+  }, [autoTurn, loopMode, index, pages.length, albumIndex, album, activeBookId, activeRevisionItemId, goTo, turnTo]);
 
   useEffect(() => {
-    if (!page || page.audioUrl || !running || !autoTurn) return;
+    if (!page || page.audioUrl || !running || !autoTurn || pageTurn) return;
     const timer = window.setTimeout(finishPage, pictureBookSilentPageDuration(page.caption, cover));
     return () => window.clearTimeout(timer);
-  }, [page, cover, running, autoTurn, finishPage]);
+  }, [page, cover, running, autoTurn, pageTurn, finishPage]);
 
   useEffect(() => {
     if (!cover || !coverNarrationEnded || !running || !autoTurn) return;
@@ -173,12 +201,12 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       if (settingsRef.current?.open) return;
       if (event.target instanceof HTMLElement && /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
       if (event.key === "Escape" && volumeOpen) setVolumeOpen(false);
-      if (event.key === "ArrowLeft") { event.preventDefault(); goTo(index - 1); }
-      if (event.key === "ArrowRight") { event.preventDefault(); goTo(index + 1); }
+      if (event.key === "ArrowLeft") { event.preventDefault(); turnTo(index - 1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); turnTo(index + 1); }
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [goTo, index, volumeOpen]);
+  }, [turnTo, index, volumeOpen]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -239,13 +267,23 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           <div className={styles.stage}>
             <article className={styles.sheet} data-layout={activeLayout} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
-                {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(activeBookId, item.position, item.imageUrl, publicMode ? "public" : "private")} /> : null)}
+                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(activeBookId, item.position, item.imageUrl, publicMode ? "public" : "private")} /> : null)}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
+                {pageTurn && turningPage && page.imageUrl && turningPage.imageUrl ? (
+                  <div className={styles.pageTurn} data-direction={pageTurn.direction} aria-hidden="true">
+                    <PictureBookImage src={imageSource(turningPage)} alt="" compact className={styles.turnUnderlay} />
+                    <div className={styles.turnStatic}><PictureBookImage src={imageSource(page)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "backward" ? styles.turnRightImage : ""}`} /></div>
+                    <div className={styles.turnLeaf} onAnimationEnd={completePageTurn}>
+                      <div className={styles.turnFront}><PictureBookImage src={imageSource(page)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "forward" ? styles.turnRightImage : ""}`} /></div>
+                      <div className={styles.turnBack}><PictureBookImage src={imageSource(turningPage)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "backward" ? styles.turnRightImage : ""}`} /></div>
+                    </div>
+                  </div>
+                ) : null}
               </div>
               {page.caption && !cover ? <div className={activeLayout === "hidden" ? "sr-only" : styles.caption}><p>{page.caption}</p></div> : null}
             </article>
-            <button aria-label="上一页" className={`${styles.pageArrow} ${styles.previous}`} disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><ChevronLeft /></button>
-            <button aria-label="下一页" className={`${styles.pageArrow} ${styles.next}`} disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><ChevronRight /></button>
+            <button aria-label="上一页" className={`${styles.pageArrow} ${styles.previous}`} disabled={index === 0 || Boolean(pageTurn)} onClick={() => turnTo(index - 1)} type="button"><ChevronLeft /></button>
+            <button aria-label="下一页" className={`${styles.pageArrow} ${styles.next}`} disabled={index === pages.length - 1 || Boolean(pageTurn)} onClick={() => turnTo(index + 1)} type="button"><ChevronRight /></button>
           </div>
           {preloadPages.map(item => {
             const current = item.position === page.position;
@@ -262,16 +300,16 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           <footer className={styles.footer}>
             {audioError || viewError ? <div role="alert" className={styles.feedback}>{audioError || viewError}{audioError ? <button className="ml-2 underline" onClick={() => { setAudioError(""); setRunning(true); setAudioRetry(audioRetry + 1); }} type="button">重试加载</button> : null}</div> : null}
             <nav aria-label="绘本播放控制" className={styles.toolbar}>
-              <button title="上一页" aria-label="上一页" disabled={index === 0} onClick={() => goTo(index - 1)} type="button"><SkipBack /></button>
+              <button title="上一页" aria-label="上一页" disabled={index === 0 || Boolean(pageTurn)} onClick={() => turnTo(index - 1)} type="button"><SkipBack /></button>
               <button title={playing || running ? "暂停播放" : "播放绘本"} aria-label={playing || running ? "暂停播放" : "播放绘本"} className={styles.play} onClick={toggleAudio} type="button">{playing || running ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}</button>
-              <button title="下一页" aria-label="下一页" disabled={index === pages.length - 1} onClick={() => goTo(index + 1)} type="button"><SkipForward /></button>
+              <button title="下一页" aria-label="下一页" disabled={index === pages.length - 1 || Boolean(pageTurn)} onClick={() => turnTo(index + 1)} type="button"><SkipForward /></button>
               <button title="播放设置" aria-label="播放设置" onClick={() => setSettingsOpen(true)} type="button"><SlidersHorizontal /></button>
               {fullscreenAvailable ? <button title={fullscreen ? "退出全屏" : "全屏观看"} aria-label={fullscreen ? "退出全屏" : "全屏观看"} onClick={toggleFullscreen} type="button">{fullscreen ? <Minimize /> : <Maximize />}</button> : null}
               <div ref={volumeRef} className={styles.volume} onKeyDown={event => { if (event.key === "Escape") { event.stopPropagation(); setVolumeOpen(false); } }}>
                 <button title="调节音量" aria-label="调节音量" aria-expanded={volumeOpen} aria-controls={volumeId} onClick={() => setVolumeOpen(!volumeOpen)} type="button">{volume === 0 ? <VolumeX /> : <Volume2 />}</button>
                 {volumeOpen ? <div id={volumeId} className={styles.volumePopover}><input aria-label="音量" aria-valuetext={volume === 0 ? "静音" : `${Math.round(volume * 100)}%`} type="range" min="0" max="1" step="0.01" value={volume} onChange={event => setVolume(Number(event.target.value))} /><span>{Math.round(volume * 100)}%</span></div> : null}
               </div>
-              <select aria-label="跳转页面" title="跳转页面" className={styles.pageSelect} value={index} onChange={event => goTo(Number(event.target.value))}>
+              <select aria-label="跳转页面" title="跳转页面" className={styles.pageSelect} value={index} disabled={Boolean(pageTurn)} onChange={event => turnTo(Number(event.target.value))}>
                 {pages.map((item, pageIndex) => <option key={item.position} value={pageIndex}>{hasCover && pageIndex === 0 ? "封面" : pageIndex + 1 - Number(hasCover)} / {pages.length - Number(hasCover)}</option>)}
               </select>
             </nav>

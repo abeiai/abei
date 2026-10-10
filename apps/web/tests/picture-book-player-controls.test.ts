@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { pictureBookAfterPage, pictureBookAlbumEntries, pictureBookAlbumLaunchHref, pictureBookFullscreenZones, pictureBookSilentPageDuration } from "../src/lib/picture-book-player-controls";
+import { pictureBookAfterPage, pictureBookAlbumEntries, pictureBookAlbumLaunchHref, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn } from "../src/lib/picture-book-player-controls";
 import type { PublicCourseItem } from "../src/lib/course-types";
 
 test("只有专辑中的绘本播放链接带专辑标记，保留学习上下文", () => {
@@ -36,6 +36,17 @@ test("播放结束遵循自动翻页和三种循环模式", () => {
   assert.equal(pictureBookAfterPage({ ...last, mode: "album", albumCount: 0 }), null);
   assert.equal(pictureBookAfterPage({ ...last, mode: "book", autoTurn: false }), null);
   assert.equal(pictureBookAfterPage({ ...last, pageCount: 0 }), null);
+});
+
+test("跨页内页相邻翻动，封面和减少动画设置保持直接切页", () => {
+  const pages = [{ position: 0, imageUrl: "cover" }, { position: 1, imageUrl: "one" }, { position: 2, imageUrl: "two" }];
+  assert.equal(pictureBookSpreadTurn(pages, true, 1, 2), "forward");
+  assert.equal(pictureBookSpreadTurn(pages, true, 2, 1), "backward");
+  assert.equal(pictureBookSpreadTurn(pages, true, 0, 1), null);
+  assert.equal(pictureBookSpreadTurn(pages, true, 0, 2), null);
+  assert.equal(pictureBookSpreadTurn(pages, false, 1, 2), null);
+  assert.equal(pictureBookSpreadTurn(pages, true, 1, 2, true), null);
+  assert.equal(pictureBookSpreadTurn([{ ...pages[1]!, imageUrl: null }, pages[2]!], true, 0, 1), null);
 });
 
 test("全屏仅在底部、右上角和左右四分之一区域显示对应控制器", () => {
