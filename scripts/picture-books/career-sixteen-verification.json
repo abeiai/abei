@@ -1,0 +1,176 @@
+{
+  "courseId": "e2edf14f892a944946c00c80",
+  "courseReviewId": "cmv1rrh1g000x36mzkcqm6rk7",
+  "books": [
+    {
+      "slug": "doctor",
+      "book": "我想成为医生",
+      "child": "小安",
+      "parents": [
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "971770c213996d379b13fa5bf707fe4f3f0c0e2a53a0a340e58563cb9728460a"
+    },
+    {
+      "slug": "firefighter",
+      "book": "我想成为消防员",
+      "child": "小宇",
+      "parents": [
+        "爸爸"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "fea5a96230fb5b870f819a97ffc3dbd992aa7c6d2e75c7d60c73dde2efdbf4f5"
+    },
+    {
+      "slug": "teacher",
+      "book": "我想成为老师",
+      "child": "朵朵",
+      "parents": [
+        "爸爸",
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "fb9b2b74e310f4c40c3c6024e2f3c9ba765eafb961d88ec16df68aa6ae0b93f3"
+    },
+    {
+      "slug": "nurse",
+      "book": "我想成为护士",
+      "child": "甜甜",
+      "parents": [
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "5288f896c423a61427d47639fca9da6a28b9856b7631d1eb4e364ceeb476a49f"
+    },
+    {
+      "slug": "police",
+      "book": "我想成为警察",
+      "child": "晨晨",
+      "parents": [
+        "爸爸"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "59ad167331b2015d1f850236471dc2684f4261bcd5d4e3b8595d986489edd82e"
+    },
+    {
+      "slug": "chef",
+      "book": "我想成为厨师",
+      "child": "糖糖",
+      "parents": [
+        "爸爸",
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "ea3acfae005b8cb34b0c59b036ea4fe6e57bd1388ecd2502ad0dc9268c7593ff"
+    },
+    {
+      "slug": "bus-driver",
+      "book": "我想成为公交车司机",
+      "child": "航航",
+      "parents": [
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "49842deada1cf2b7b52e16e090b907511527907ed3534b1c7d1d3d7b7e3f94ea"
+    },
+    {
+      "slug": "subway-driver",
+      "book": "我想成为地铁司机",
+      "child": "可可",
+      "parents": [
+        "爸爸"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "e84cc2fb4298e4ec8aa0b0eedff980f49691a2bffd77aab61af6c47655f22c13"
+    },
+    {
+      "slug": "courier",
+      "book": "我想成为快递员",
+      "child": "东东",
+      "parents": [
+        "爸爸",
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "34dc68709362e2e0affa01ffe5ed710a222ae43ae0cd3506e7f66eaa72ea02d9"
+    },
+    {
+      "slug": "sanitation-worker",
+      "book": "我想成为环卫工人",
+      "child": "琪琪",
+      "parents": [
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "ae4e143ab2d5fb9e35203604d38a547c6060f321914fd01d4aec145021cbfa7f"
+    },
+    {
+      "slug": "architect",
+      "book": "我想成为建筑师",
+      "child": "星星",
+      "parents": [
+        "爸爸"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "1f4af5edd2be6ea1a2b17616be85325d1649c85d2248815d89bcd264dbf6eb80"
+    },
+    {
+      "slug": "engineer",
+      "book": "我想成为工程师",
+      "child": "佳佳",
+      "parents": [
+        "爸爸",
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "77e6e04a4615aa9a4ea79d534850c51f58e4be8d20937076a3c4227caf2aa9b8"
+    },
+    {
+      "slug": "scientist",
+      "book": "我想成为科学家",
+      "child": "豆豆",
+      "parents": [
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "956c759225d26ea5d9c2ea23fb63b2f95f42b49f40565fc473cc9728b36ac813"
+    },
+    {
+      "slug": "pilot",
+      "book": "我想成为飞行员",
+      "child": "悦悦",
+      "parents": [
+        "爸爸"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "81a7e9deebe08ffbf4b76e0db3e317604dff3bea29a47811a9d4c3e30cbcd9f1"
+    },
+    {
+      "slug": "gardener",
+      "book": "我想成为园艺师",
+      "child": "林林",
+      "parents": [
+        "爸爸",
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "cbcf6c52cd2519019542c41983bfa1eb8390b9d2c8c1c5bb1bf8202b223bcecc"
+    },
+    {
+      "slug": "veterinarian",
+      "book": "我想成为兽医",
+      "child": "诺诺",
+      "parents": [
+        "妈妈"
+      ],
+      "readerFrames": 17,
+      "approvedHash": "b238338a2868806ae33b21b89078d89841a57719e09d7f470380607a3721935c"
+    }
+  ],
+  "selectedImages": 273,
+  "uniqueSeries": 1,
+  "newApprovalLogs": 1,
+  "resumeState": "PUBLISHED",
+  "verifiedAt": "2026-10-10T02:23:21.935Z"
+}

@@ -1,0 +1,2740 @@
+{
+  "series": "我想成为",
+  "revision": "sixteen-careers-v1",
+  "owner": "abei-lele-studio",
+  "courseId": "e2edf14f892a944946c00c80",
+  "assets": {
+    "doctor:0": {
+      "id": "cmv1a52z80002drmxaw1bw823",
+      "url": "https://r.abeiai.com/picture-books/20261009-b22726ce6bd2c7f3.webp",
+      "sha256": "643ea00eeefc66d3375470ad801b08c4060f3772b4b3efe3002e1273e0fa4055",
+      "sizeBytes": 151164,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 0
+    },
+    "doctor:2": {
+      "id": "cmv1a52mm0000drmxq7i8jbgj",
+      "url": "https://r.abeiai.com/picture-books/20261009-9a7ee18964dd268a.webp",
+      "sha256": "f6004b4be3c7288d865b1828c78f721f2556633a4ab5abde03e404c04b7c287e",
+      "sizeBytes": 158194,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 2
+    },
+    "doctor:1": {
+      "id": "cmv1a52xh0001drmx8k2lkelo",
+      "url": "https://r.abeiai.com/picture-books/20261009-b4bf9b6faa71bab2.webp",
+      "sha256": "bf70db43c7eb3e5d20775b8055722985643f133179b463a14713c7838921149f",
+      "sizeBytes": 191756,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 1
+    },
+    "doctor:4": {
+      "id": "cmv1a53rl0004drmxak8aorii",
+      "url": "https://r.abeiai.com/picture-books/20261009-f41d4221fe37188a.webp",
+      "sha256": "80e69d646bbf4b82ecd234238942bcc28905496db6d32a4f4c912eac2be2e11b",
+      "sizeBytes": 148850,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 4
+    },
+    "doctor:3": {
+      "id": "cmv1a53sz0005drmx1zoqg2yl",
+      "url": "https://r.abeiai.com/picture-books/20261009-b4270e88de2d9bf3.webp",
+      "sha256": "1e904bde883e8a5c3bc960ca2b948ebbe8197ab4179f9e0b28bb248626eaa790",
+      "sizeBytes": 134064,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 3
+    },
+    "doctor:5": {
+      "id": "cmv1a53nz0003drmxlc65ruud",
+      "url": "https://r.abeiai.com/picture-books/20261009-64fd4e2fa0857c20.webp",
+      "sha256": "b1caf79e0f0372dea1e9398c30b011e592ca31b5acd08b1513419e4b638bdf4b",
+      "sizeBytes": 137896,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 5
+    },
+    "doctor:6": {
+      "id": "cmv1a541c0006drmx4b2lqoez",
+      "url": "https://r.abeiai.com/picture-books/20261009-5291540fb0edd7b9.webp",
+      "sha256": "e4cecbd70dc5050a6f10a00fad6e9113d9319f66d0e317f8ce522717d9979275",
+      "sizeBytes": 141870,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 6
+    },
+    "doctor:7": {
+      "id": "cmv1a552q000cdrmxs0361we6",
+      "url": "https://r.abeiai.com/picture-books/20261009-e511953b1b8efe6d.webp",
+      "sha256": "d62f9e019ddf5e489bb1ac35ba7ec8747f8f4f4e144899a54fb4b4c93edf0416",
+      "sizeBytes": 146272,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 7
+    },
+    "doctor:9": {
+      "id": "cmv1a54ci0008drmxwy6zmwmk",
+      "url": "https://r.abeiai.com/picture-books/20261009-a71566e7f628bf0b.webp",
+      "sha256": "e073d4c1f8620e266f8fc58bcff341b47d9feb4510b57e7e07563ce74580e161",
+      "sizeBytes": 128626,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 9
+    },
+    "doctor:10": {
+      "id": "cmv1a54lo0009drmxhrvkbiml",
+      "url": "https://r.abeiai.com/picture-books/20261009-bd4932e834fe8606.webp",
+      "sha256": "4792604669bda8e97c7f42bdbaa360ec81844d17d3719b4c99b233cea6e93627",
+      "sizeBytes": 153596,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 10
+    },
+    "doctor:8": {
+      "id": "cmv1a546n0007drmx56350u3j",
+      "url": "https://r.abeiai.com/picture-books/20261009-f706a9227b15d1b3.webp",
+      "sha256": "c891bcd3928a9ab80f62f13a89b5403c0aba19149848d32243ec089557aaf2d8",
+      "sizeBytes": 134882,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 8
+    },
+    "doctor:12": {
+      "id": "cmv1a556o000ddrmxkzrgjadc",
+      "url": "https://r.abeiai.com/picture-books/20261009-44d9980e0d193bd1.webp",
+      "sha256": "1f2d1c4d6fe5ac10c0c1b05119f32efc91df60b541c28995951087074b0111ef",
+      "sizeBytes": 149446,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 12
+    },
+    "doctor:11": {
+      "id": "cmv1a54nr000adrmxrad9azwj",
+      "url": "https://r.abeiai.com/picture-books/20261009-00b21ab25d1916db.webp",
+      "sha256": "a0c2a1a23441cac804e8747ca6291a0e7027c2d887c4851fcd290928075c78f0",
+      "sizeBytes": 129166,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 11
+    },
+    "doctor:13": {
+      "id": "cmv1a54zh000bdrmx5f3clhl4",
+      "url": "https://r.abeiai.com/picture-books/20261009-7157e36346519449.webp",
+      "sha256": "395c1a32fbe5ee861d959a895fcbc596f2168d1b499ee37a29ed816614fef8b2",
+      "sizeBytes": 132220,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 13
+    },
+    "doctor:14": {
+      "id": "cmv1a55m2000edrmxjjovgonk",
+      "url": "https://r.abeiai.com/picture-books/20261009-7000a180ff5facb0.webp",
+      "sha256": "8ad6e5f0b078ac302282a066639c775580a9610f3c97a249c19a228d3b51cfc0",
+      "sizeBytes": 166176,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 14
+    },
+    "doctor:15": {
+      "id": "cmv1nhpvb0000udmzmavssh7p",
+      "url": "https://r.abeiai.com/picture-books/20261010-a5221bb3888f5e94.webp",
+      "sha256": "d7430e27b49549954b6fd904f97f780d5a86b9ca99454c10d2f71161fc556fff",
+      "sizeBytes": 180374,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 15
+    },
+    "doctor:16": {
+      "id": "cmv1a55r9000gdrmxifm8v40m",
+      "url": "https://r.abeiai.com/picture-books/20261009-b4f4f6a112ad87ea.webp",
+      "sha256": "2cd9afba216d97964cde26a0fbe4a9cd6cabdc18970209d85571b62c87ab3663",
+      "sizeBytes": 188472,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 16
+    },
+    "firefighter:0": {
+      "id": "cmv1nhq460001udmzf8xu2f16",
+      "url": "https://r.abeiai.com/picture-books/20261010-bd299bf883358314.webp",
+      "sha256": "08685ff2efce2d0440ad83cf67ea1c35b75ad5ee8a319146119e32119ac84174",
+      "sizeBytes": 196546,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 0
+    },
+    "firefighter:1": {
+      "id": "cmv1nhql50002udmzqj8y8kpr",
+      "url": "https://r.abeiai.com/picture-books/20261010-13ea34e20059e349.webp",
+      "sha256": "f6b5828a0757493585f0ce2427ff724006277c21b468731144e2939473f2a8c0",
+      "sizeBytes": 196146,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 1
+    },
+    "firefighter:3": {
+      "id": "cmv1nhr0s0004udmzh4v7s6oz",
+      "url": "https://r.abeiai.com/picture-books/20261010-7366bda526dcec8d.webp",
+      "sha256": "273c7e30ed6d1eb414e095a40b699272e2d76b1efdb44c8105fbc1039c8e537d",
+      "sizeBytes": 167018,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 3
+    },
+    "firefighter:2": {
+      "id": "cmv1nhql60003udmzn9jok05j",
+      "url": "https://r.abeiai.com/picture-books/20261010-3632ffbff9947e46.webp",
+      "sha256": "211fd96d59401ebc92f2cf2b13eb52da16f2cfe672f4e89a349c553a1185cdc2",
+      "sizeBytes": 194946,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 2
+    },
+    "firefighter:4": {
+      "id": "cmv1nhr320005udmzph35e1v7",
+      "url": "https://r.abeiai.com/picture-books/20261010-9679a281e805f2ca.webp",
+      "sha256": "e00b27e899987aece6cb451c9f37f018deb63207b581aa27643da1527cc56d10",
+      "sizeBytes": 183642,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 4
+    },
+    "firefighter:5": {
+      "id": "cmv1nhrfj0006udmzw0u5ueks",
+      "url": "https://r.abeiai.com/picture-books/20261010-3bf9357d9747588e.webp",
+      "sha256": "50d4652cbfd9441e026c23c8f862f65ca18089258a5764722e9bb3c320bddf36",
+      "sizeBytes": 162894,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 5
+    },
+    "firefighter:7": {
+      "id": "cmv1nhrx10008udmzhlww2tx4",
+      "url": "https://r.abeiai.com/picture-books/20261010-670bcd89df991ed1.webp",
+      "sha256": "93e1e10fbf70ca60c1fadac99a53ed4f685da98d2a2811a1a152b389e7ecaf0b",
+      "sizeBytes": 208058,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 7
+    },
+    "firefighter:6": {
+      "id": "cmv1nhrkr0007udmzro9xmug5",
+      "url": "https://r.abeiai.com/picture-books/20261010-d2f976d408899c55.webp",
+      "sha256": "cbae669e06ce0a80dc57b504793153c6404087f2b154f5abbec0c67006ca29a3",
+      "sizeBytes": 180754,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 6
+    },
+    "firefighter:8": {
+      "id": "cmv1nhsqj000budmzcj4wq1l3",
+      "url": "https://r.abeiai.com/picture-books/20261010-620c1bbc40a4f609.webp",
+      "sha256": "6a6bfdab6254c9174ac7098da58ed72d43c1ff614c23822b08cf9e19a762a7fa",
+      "sizeBytes": 183782,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 8
+    },
+    "firefighter:9": {
+      "id": "cmv1nhs850009udmz61w4o28w",
+      "url": "https://r.abeiai.com/picture-books/20261010-7ce6c88cf56416f7.webp",
+      "sha256": "15065bcdbf94b322ef72a7e9702a83838d6b59271d56cc815e93565c470c80ba",
+      "sizeBytes": 209924,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 9
+    },
+    "firefighter:11": {
+      "id": "cmv1nhsxn000cudmz4ok6m6ps",
+      "url": "https://r.abeiai.com/picture-books/20261010-e486a98cfd622b9d.webp",
+      "sha256": "381e1f0efbcb861cbda3e2ba72f1d946eafa215d4a5e9f1d297e01918651e9e6",
+      "sizeBytes": 161120,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 11
+    },
+    "firefighter:10": {
+      "id": "cmv1nhsfm000audmz125ihaj3",
+      "url": "https://r.abeiai.com/picture-books/20261010-d0c992cbc7afb365.webp",
+      "sha256": "084f696f1f8e8aa27b5c1d77a366165634d4a13b9867b95a91b73585fdeb6350",
+      "sizeBytes": 165360,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 10
+    },
+    "firefighter:12": {
+      "id": "cmv1nht09000dudmzmeb9nvsf",
+      "url": "https://r.abeiai.com/picture-books/20261010-f3b36c9e31b966cf.webp",
+      "sha256": "c66650101ab40874d4b55f08d59dd4136336d8e417ce233c3ba86165ea3fe104",
+      "sizeBytes": 214948,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 12
+    },
+    "firefighter:13": {
+      "id": "cmv1nhu1o000gudmz56ihwcn1",
+      "url": "https://r.abeiai.com/picture-books/20261010-1a96712e6efbb202.webp",
+      "sha256": "fd327a0b06ee0daa5f22e27650aea973ebc451a92648fa4ba9be3576dc4442a7",
+      "sizeBytes": 213216,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 13
+    },
+    "firefighter:15": {
+      "id": "cmv1nhtl7000fudmz93vvm0hm",
+      "url": "https://r.abeiai.com/picture-books/20261010-42c4085699bc70c6.webp",
+      "sha256": "88c9fa37bf37efe6f27f24673b2f2fdab3f58df4a55f1085b91f4ac0045657de",
+      "sizeBytes": 170550,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 15
+    },
+    "firefighter:14": {
+      "id": "cmv1nhtg0000eudmzmhpq521e",
+      "url": "https://r.abeiai.com/picture-books/20261010-0f8b0d1c5c7a9f99.webp",
+      "sha256": "64a3f08ec2300e3ae737ef2e8e51e98382a350562ed86f9704dc51a7c8a89ae0",
+      "sizeBytes": 185064,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 14
+    },
+    "firefighter:16": {
+      "id": "cmv1nhusm000judmzhash7ros",
+      "url": "https://r.abeiai.com/picture-books/20261010-8aa8ffa324acb8ea.webp",
+      "sha256": "383fcdeb5e69af251de8d771511a36e4ab0b0724bd3968a58e063c36ecd4ba84",
+      "sizeBytes": 196184,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 16
+    },
+    "teacher:1": {
+      "id": "cmv1nhukk000iudmz5sruz095",
+      "url": "https://r.abeiai.com/picture-books/20261010-60999f2669721105.webp",
+      "sha256": "bb175ceccd5181837a7d15412756cc00f467422e2002556e3794400f6f7a5dbe",
+      "sizeBytes": 188462,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 1
+    },
+    "teacher:2": {
+      "id": "cmv1nhv2r000kudmzob3uldk7",
+      "url": "https://r.abeiai.com/picture-books/20261010-c1893a2881f8aca6.webp",
+      "sha256": "0d5c09c7930de19f0ea048dab2c87160bba68a698b5417571910686f7d4859d3",
+      "sizeBytes": 192982,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 2
+    },
+    "teacher:4": {
+      "id": "cmv1nhv81000ludmzjnbnpnia",
+      "url": "https://r.abeiai.com/picture-books/20261010-0c70cc3210afd614.webp",
+      "sha256": "ea34d95247e7ce0a15ace1c1e691dfe32d39cc0ffafea2e4e8a3fd36a1742865",
+      "sizeBytes": 175176,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 4
+    },
+    "teacher:3": {
+      "id": "cmv1nhvfh000mudmzp7juaku0",
+      "url": "https://r.abeiai.com/picture-books/20261010-5ba836d657569bc8.webp",
+      "sha256": "d487614d643584d3d79a51f47be9cfe02da540bbff8ae3ddc5921d99e9efd6e2",
+      "sizeBytes": 188254,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 3
+    },
+    "teacher:5": {
+      "id": "cmv1nhvm4000oudmzqjl458e5",
+      "url": "https://r.abeiai.com/picture-books/20261010-12319c3606ba4cc5.webp",
+      "sha256": "c76130c50abcd6daf3efbb4e895666115e29a242dd8e21aebc012ccb80d08d0e",
+      "sizeBytes": 183724,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 5
+    },
+    "teacher:6": {
+      "id": "cmv1nhvl0000nudmz5jhdl5mi",
+      "url": "https://r.abeiai.com/picture-books/20261010-cc61dd6a55ac1f7b.webp",
+      "sha256": "824c5b361e8732a8c001518cefdbbd606ccc51fb3c4804e44a949e83c5d3875b",
+      "sizeBytes": 181958,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 6
+    },
+    "teacher:0": {
+      "id": "cmv1nhu3f000hudmz6d5b31ij",
+      "url": "https://r.abeiai.com/picture-books/20261010-d4aa724eaafb45d4.webp",
+      "sha256": "7e7955042192bbb54186a9f8db8a705196c7b28ab5a573d24a640bc6647cf5a1",
+      "sizeBytes": 188330,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 0
+    },
+    "teacher:7": {
+      "id": "cmv1nhw34000qudmzpgmsxz6k",
+      "url": "https://r.abeiai.com/picture-books/20261010-ac14d81f32ea0b8e.webp",
+      "sha256": "2aaeed87f1ec883797974f1db8aa8e35e86dea9c16737ff6d7f528a7cb8b862d",
+      "sizeBytes": 207344,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 7
+    },
+    "teacher:8": {
+      "id": "cmv1nhw18000pudmz1p4prgnw",
+      "url": "https://r.abeiai.com/picture-books/20261010-ea5241ec706da4e1.webp",
+      "sha256": "a2a20f84d7756e5918f7bb2a0f1fd1c814f0e9007179b440894ce4f72d30bf0b",
+      "sizeBytes": 148096,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 8
+    },
+    "teacher:9": {
+      "id": "cmv1nhw6b000rudmzurdaqbwz",
+      "url": "https://r.abeiai.com/picture-books/20261010-cf8cd174a5abe969.webp",
+      "sha256": "0d19a03a18763198c4bab1d9a73337fd487e69fcdfbd7d9da8d6342942db7083",
+      "sizeBytes": 179972,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 9
+    },
+    "teacher:10": {
+      "id": "cmv1nhwfd000sudmz15xi561i",
+      "url": "https://r.abeiai.com/picture-books/20261010-b7b8b0a19c0639bd.webp",
+      "sha256": "2ecb99834d415388eedac5606db06f473b95d95c9bb95b277f946de9d99e863f",
+      "sizeBytes": 156968,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 10
+    },
+    "teacher:13": {
+      "id": "cmv1nhwti000vudmzm8zbv83v",
+      "url": "https://r.abeiai.com/picture-books/20261010-616722da1ba4a076.webp",
+      "sha256": "83a7ed1e5f046fc77cba518b66177c2dd6a10a3f02c2377909d23f6d5af37ba5",
+      "sizeBytes": 194630,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 13
+    },
+    "teacher:12": {
+      "id": "cmv1nhwk6000tudmzivb9cxmf",
+      "url": "https://r.abeiai.com/picture-books/20261010-e45622c0cdf3f3e1.webp",
+      "sha256": "cfa1e12be8bf316829a73f5e5c12b3670dcfafa1272b704bac37f38b68486ae9",
+      "sizeBytes": 178254,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 12
+    },
+    "teacher:11": {
+      "id": "cmv1nhwll000uudmznnlum7ae",
+      "url": "https://r.abeiai.com/picture-books/20261010-2a6dc695f1c257f8.webp",
+      "sha256": "7bb32bd44ff821907531fd6098312621980607bd524b4716fb1796ce7fa0bc0e",
+      "sizeBytes": 187578,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 11
+    },
+    "teacher:15": {
+      "id": "cmv1nhx9e000xudmz7yov23oo",
+      "url": "https://r.abeiai.com/picture-books/20261010-ccf964a2597ecdfc.webp",
+      "sha256": "fd301440aa698b7f7ba71c02327455857739473e5d2274f9a4e59471f4bfae43",
+      "sizeBytes": 201626,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 15
+    },
+    "teacher:14": {
+      "id": "cmv1nhwzi000wudmzk2594biz",
+      "url": "https://r.abeiai.com/picture-books/20261010-04a4f02937146937.webp",
+      "sha256": "8e7705bd1e392d6c19aaf07866bb302a29b69931a149b9e66f65fb1bc2e6b11e",
+      "sizeBytes": 169144,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 14
+    },
+    "teacher:16": {
+      "id": "cmv1nhxbf000yudmzelfg8aqo",
+      "url": "https://r.abeiai.com/picture-books/20261010-dc0ea7fa457eaa8c.webp",
+      "sha256": "e5981b747ef740efe36dfc135b622ddd6e13b4c82e85dc96a02175f6caad997f",
+      "sizeBytes": 211366,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 16
+    },
+    "nurse:1": {
+      "id": "cmv1rpcq6000002mzasek1h9b",
+      "url": "https://r.abeiai.com/picture-books/20261010-5a595f3d7f98bbf0.webp",
+      "sha256": "516957593ce35feca39b560dc1d584f0ea6a1c6cac2c6cf2c40fa4889ea7508b",
+      "sizeBytes": 123812,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 1
+    },
+    "nurse:2": {
+      "id": "cmv1rpcqx000102mz5s8r5aov",
+      "url": "https://r.abeiai.com/picture-books/20261010-6a7582ffafd0c9b5.webp",
+      "sha256": "693ac0e94cc60ec11abccde85b7752a7a442d4d8831dd783864fbdc325549717",
+      "sizeBytes": 110650,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 2
+    },
+    "nurse:0": {
+      "id": "cmv1rpctv000202mzcv8qayqk",
+      "url": "https://r.abeiai.com/picture-books/20261010-99ce7c94b2c7cbc0.webp",
+      "sha256": "d488d473b610ca758091ef500e252251dfcde1bf906be4bd1c58ee10c5074990",
+      "sizeBytes": 166760,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 0
+    },
+    "nurse:4": {
+      "id": "cmv1rpd74000302mz4v6t2m8q",
+      "url": "https://r.abeiai.com/picture-books/20261010-0c4392e58ccd6b94.webp",
+      "sha256": "815ec726de07c6d8d7a37e46d3db7a6833bf9136bea045ba7260f71a147e51de",
+      "sizeBytes": 128092,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 4
+    },
+    "nurse:3": {
+      "id": "cmv1rpd76000402mztr06eon9",
+      "url": "https://r.abeiai.com/picture-books/20261010-a4136d9c46dddf99.webp",
+      "sha256": "43316eed0899a1f37d9e06e0464eef5f74af2006126df09c67f37230a1535085",
+      "sizeBytes": 128854,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 3
+    },
+    "nurse:5": {
+      "id": "cmv1rpdas000502mziu0fiffe",
+      "url": "https://r.abeiai.com/picture-books/20261010-bd438ab1721acdbe.webp",
+      "sha256": "9a497968cfe8ae43043afc6290b517f4c77569211ac995ba68de4a6d5aaaa00a",
+      "sizeBytes": 118988,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 5
+    },
+    "nurse:8": {
+      "id": "cmv1rpdo4000702mzhdd4pm33",
+      "url": "https://r.abeiai.com/picture-books/20261010-596328ed63fc2847.webp",
+      "sha256": "e4d8100c62efaba1e923e59466f6f0aa7658240076c1653ca5d781c38a11bd22",
+      "sizeBytes": 116014,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 8
+    },
+    "nurse:7": {
+      "id": "cmv1rpdna000602mzzdpwyod9",
+      "url": "https://r.abeiai.com/picture-books/20261010-50538eb6963f2363.webp",
+      "sha256": "b592dee1d665965b6285d85cb80c3dfd688d2efefbc8a74f8f36ed02fbdd7608",
+      "sizeBytes": 126684,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 7
+    },
+    "nurse:6": {
+      "id": "cmv1rpdvv000802mzyxtfl9j4",
+      "url": "https://r.abeiai.com/picture-books/20261010-5f66815940634a57.webp",
+      "sha256": "7ed7cfdf2b0c1d91855168b826f30ccafc93be6fbc13cd07fe6845925553d132",
+      "sizeBytes": 100186,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 6
+    },
+    "nurse:9": {
+      "id": "cmv1rpdzy000902mz2cbycf3q",
+      "url": "https://r.abeiai.com/picture-books/20261010-e0f2debfb05fb06e.webp",
+      "sha256": "9e1748d4c196953dca6c17f97469bceb5d3c048bb23175553ae84569025a0903",
+      "sizeBytes": 117920,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 9
+    },
+    "nurse:10": {
+      "id": "cmv1rpe5w000a02mzlvkk2owt",
+      "url": "https://r.abeiai.com/picture-books/20261010-80749197d23e8222.webp",
+      "sha256": "064e3147f8f87bd6f9247f6d599ac4fc0a957af9bd8e6a4ee8a2f07b288e8172",
+      "sizeBytes": 156054,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 10
+    },
+    "nurse:11": {
+      "id": "cmv1rpead000b02mz6ehxep9f",
+      "url": "https://r.abeiai.com/picture-books/20261010-b297866b8ddfb880.webp",
+      "sha256": "cfe65bfd57885e8b37b70289dc99180ec3066c1440f5d72d430d2dcfd87dce5d",
+      "sizeBytes": 141988,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 11
+    },
+    "nurse:12": {
+      "id": "cmv1rpecp000c02mzg5ymuec0",
+      "url": "https://r.abeiai.com/picture-books/20261010-a9564f33c0dbdf46.webp",
+      "sha256": "da62f59f8d38e0ed58e0c2d6693f4067d11bcb49d9624900ac7a57efa8e6d4c4",
+      "sizeBytes": 132084,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 12
+    },
+    "nurse:13": {
+      "id": "cmv1rpek5000d02mzptiocx16",
+      "url": "https://r.abeiai.com/picture-books/20261010-f78fc13e739886d0.webp",
+      "sha256": "4111140078a635c894b775b919fd02cfe2a6b7431138e841d9aeda97a28b28ff",
+      "sizeBytes": 153394,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 13
+    },
+    "nurse:14": {
+      "id": "cmv1rpeo5000f02mzv8zkphkn",
+      "url": "https://r.abeiai.com/picture-books/20261010-35b85e35c0abf862.webp",
+      "sha256": "f9918a9ce3c5ffcbab2974bdb6e7a21109122eed298d901e7d289a4e930b5a56",
+      "sizeBytes": 148510,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 14
+    },
+    "nurse:15": {
+      "id": "cmv1rpenr000e02mz49mh3e6z",
+      "url": "https://r.abeiai.com/picture-books/20261010-696d97dc9d3354ca.webp",
+      "sha256": "06ca579d75ee8e0e47414263ed2f6447557248771cff22b4b678467fad41633f",
+      "sizeBytes": 126488,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 15
+    },
+    "nurse:16": {
+      "id": "cmv1rpf03000h02mzj3edhf0w",
+      "url": "https://r.abeiai.com/picture-books/20261010-ac05bc44c1ba64f1.webp",
+      "sha256": "3d36c3f115ac16d6944dbe5b557de119159e504f65a75e2bd30b2f3f24ddf1fe",
+      "sizeBytes": 127330,
+      "width": 960,
+      "height": 1280,
+      "slug": "nurse",
+      "position": 16
+    },
+    "police:1": {
+      "id": "cmv1rpezy000g02mzk657f1v0",
+      "url": "https://r.abeiai.com/picture-books/20261010-6dec7d948b4c2740.webp",
+      "sha256": "b3fe85b84687356e6420c47179cae71a40deadf5251910efac02b10d91d45544",
+      "sizeBytes": 168464,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 1
+    },
+    "police:0": {
+      "id": "cmv1rpf2v000i02mzhf1gb8hx",
+      "url": "https://r.abeiai.com/picture-books/20261010-113463f08590520d.webp",
+      "sha256": "ac04dfc61a9715d3dc6ed1c0ba389dd3da8ca4b5f54d3b4684b338d1fcf07362",
+      "sizeBytes": 199348,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 0
+    },
+    "police:3": {
+      "id": "cmv1rpfdj000j02mzrqa80lco",
+      "url": "https://r.abeiai.com/picture-books/20261010-4ce072a089ac235f.webp",
+      "sha256": "a38fcd4100f733406a78e2bad0a83f861f40310747f8ec9049eb7d79cf42db87",
+      "sizeBytes": 160402,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 3
+    },
+    "police:4": {
+      "id": "cmv1rpfhy000k02mzh4zsajds",
+      "url": "https://r.abeiai.com/picture-books/20261010-bade74792c810ece.webp",
+      "sha256": "b1b17e377132fb57ed7b0d26fe00f6681788a03dd21840f0d058861ad462c8b9",
+      "sizeBytes": 190374,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 4
+    },
+    "police:2": {
+      "id": "cmv1rpfk5000l02mzikpd5nun",
+      "url": "https://r.abeiai.com/picture-books/20261010-25dd6778926af919.webp",
+      "sha256": "a79a3e8e722783d2e456afe12f44a111d0bf74697d03749cf9743d6769da7bd2",
+      "sizeBytes": 165220,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 2
+    },
+    "police:5": {
+      "id": "cmv1rpfrd000m02mzoyuv6vkv",
+      "url": "https://r.abeiai.com/picture-books/20261010-9b27aa6a6a704352.webp",
+      "sha256": "7b3aa099170fae92e2ad5bfd1a522c5511d26ed7d01fcb45b3e7e70c0b480610",
+      "sizeBytes": 189508,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 5
+    },
+    "police:6": {
+      "id": "cmv1rpg25000n02mz9ngwwpmq",
+      "url": "https://r.abeiai.com/picture-books/20261010-9b8c09d81c33269a.webp",
+      "sha256": "030585efe5e8dc027675861f3239d869f4fed4893edf4dff091b5cda641daf2c",
+      "sizeBytes": 186528,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 6
+    },
+    "police:8": {
+      "id": "cmv1rpg6i000o02mzlzqmxc8e",
+      "url": "https://r.abeiai.com/picture-books/20261010-0bc34e4328888144.webp",
+      "sha256": "231bb91632005171dbd9a844c056f99ec4ed1553c4086f20a3d84326ed33d27b",
+      "sizeBytes": 191288,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 8
+    },
+    "police:7": {
+      "id": "cmv1rpg6r000p02mzkkvry5p9",
+      "url": "https://r.abeiai.com/picture-books/20261010-f3b0f5014ced9b7d.webp",
+      "sha256": "fa8eb249f21faea86bb7f6dc1565d941be6d0f1fe54f9ee14eb844a4bf0a6de9",
+      "sizeBytes": 182638,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 7
+    },
+    "police:9": {
+      "id": "cmv1rpgg2000q02mzhin9ak1o",
+      "url": "https://r.abeiai.com/picture-books/20261010-86e3e0eea7dac581.webp",
+      "sha256": "1426276335e81a4eb488145c907a9573d88e14984a5795f924504ad5c66909ab",
+      "sizeBytes": 167040,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 9
+    },
+    "police:10": {
+      "id": "cmv1rpgig000r02mz7dkd9oyt",
+      "url": "https://r.abeiai.com/picture-books/20261010-6a035cd17313ec91.webp",
+      "sha256": "ebc357bf06fcad890ccd24d6c310275f6025b97b4d65ea2b85101fcf7d297740",
+      "sizeBytes": 163442,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 10
+    },
+    "police:11": {
+      "id": "cmv1rpgkf000s02mz75gvxq65",
+      "url": "https://r.abeiai.com/picture-books/20261010-2ea9a6fb1ea1dc44.webp",
+      "sha256": "7e65a026ff87a5119730c33207f94d5e01f398dd4ac0499c9183d08e07b80fcb",
+      "sizeBytes": 140422,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 11
+    },
+    "police:12": {
+      "id": "cmv1rpgsa000t02mzddmqhtg3",
+      "url": "https://r.abeiai.com/picture-books/20261010-dce5f957da9bd0c9.webp",
+      "sha256": "81a691cd88bd2d79d760115947650af3199389773758cdcc7f3e16c0941fa0cc",
+      "sizeBytes": 122872,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 12
+    },
+    "police:13": {
+      "id": "cmv1rpgta000u02mzb2lrxu3v",
+      "url": "https://r.abeiai.com/picture-books/20261010-ccfcbee5c26c8de3.webp",
+      "sha256": "09e084306c79417ae9e546e08487096ed321982ad23d423a94ac264e2b956b34",
+      "sizeBytes": 158534,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 13
+    },
+    "police:14": {
+      "id": "cmv1rph05000v02mzwu1v2b0t",
+      "url": "https://r.abeiai.com/picture-books/20261010-9f9bdb0adaa65ad2.webp",
+      "sha256": "bfe3757ee4e6728d3023e4dae0a73735fbc86b03b57c4d4b6a1b4cf0b21cb5c7",
+      "sizeBytes": 136582,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 14
+    },
+    "police:16": {
+      "id": "cmv1rph61000w02mz4dmkymsh",
+      "url": "https://r.abeiai.com/picture-books/20261010-351731f0f487b8af.webp",
+      "sha256": "ec5af7cea06065d6fcf378be1c23b05358fadb8d06830d9e37e09c8969a68338",
+      "sizeBytes": 135640,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 16
+    },
+    "police:15": {
+      "id": "cmv1rph6k000x02mzcis1itl4",
+      "url": "https://r.abeiai.com/picture-books/20261010-8f0b3ee9dca64ebe.webp",
+      "sha256": "81a47d192c49fa612618f309ac01ad716bc9e0a464453bd8d80f69f04904bca2",
+      "sizeBytes": 196592,
+      "width": 960,
+      "height": 1280,
+      "slug": "police",
+      "position": 15
+    },
+    "chef:1": {
+      "id": "cmv1rphi9000y02mzk0ycltbg",
+      "url": "https://r.abeiai.com/picture-books/20261010-46914be78908d028.webp",
+      "sha256": "2db576c06e1a946e74fbe692a1782c1fa575b6bd49a776c46eb64d4f348628a9",
+      "sizeBytes": 162192,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 1
+    },
+    "chef:0": {
+      "id": "cmv1rphm1001002mzgxvyk5mb",
+      "url": "https://r.abeiai.com/picture-books/20261010-c2164526d2a0f4f3.webp",
+      "sha256": "beb2e4f2a1b99306b5ca150860e7d1efad1d1fd45e0b17da90d40373ac701d1e",
+      "sizeBytes": 180888,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 0
+    },
+    "chef:2": {
+      "id": "cmv1rphjf000z02mz0i09fcb2",
+      "url": "https://r.abeiai.com/picture-books/20261010-33abfb6e6d813769.webp",
+      "sha256": "8f87994ed251d146b34a2772d68b8f4e85e5656a7f36b0ad8a919781f5a82a84",
+      "sizeBytes": 143260,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 2
+    },
+    "chef:3": {
+      "id": "cmv1rphsx001102mzgr6vll4c",
+      "url": "https://r.abeiai.com/picture-books/20261010-599ded531307c792.webp",
+      "sha256": "45c296f019ad12d2284aebc7701b974364078dc8b4798b3a45c3daae7dbf4e9b",
+      "sizeBytes": 139358,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 3
+    },
+    "chef:4": {
+      "id": "cmv1rphxw001202mz11yngh9i",
+      "url": "https://r.abeiai.com/picture-books/20261010-c8dcdee04cd7920c.webp",
+      "sha256": "abdab7b87f5cbaec31fd9239c98aa22735c7183f17498d6703265db45a2c1ef9",
+      "sizeBytes": 156684,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 4
+    },
+    "chef:6": {
+      "id": "cmv1rpi3i001402mzp8v9xz5q",
+      "url": "https://r.abeiai.com/picture-books/20261010-524a526b31d65d05.webp",
+      "sha256": "c56dd22e61129218504c371b6e58a84958a373cd690f126e738db088f9dd5f48",
+      "sizeBytes": 155210,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 6
+    },
+    "chef:5": {
+      "id": "cmv1rpi37001302mz19kfczcz",
+      "url": "https://r.abeiai.com/picture-books/20261010-a5b45b85eab3de88.webp",
+      "sha256": "b6527f96dec03cd751d78581c0ce7e643e56b02e330e9030c5ced8889e58a2c2",
+      "sizeBytes": 149544,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 5
+    },
+    "chef:7": {
+      "id": "cmv1rpi93001502mz08a90bu9",
+      "url": "https://r.abeiai.com/picture-books/20261010-94631ded56698130.webp",
+      "sha256": "742d8bf38c856393c9d936d8a8e8095873cbc177843de85b3275d53ae8081090",
+      "sizeBytes": 165686,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 7
+    },
+    "chef:8": {
+      "id": "cmv1rpiek001602mz2dknwdox",
+      "url": "https://r.abeiai.com/picture-books/20261010-f967ade4728f5e71.webp",
+      "sha256": "418752d0d518764fde8d5ed0591e130395b78caa486ec1b759783997b56464ea",
+      "sizeBytes": 162036,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 8
+    },
+    "chef:9": {
+      "id": "cmv1rpigd001702mz6kz09p5f",
+      "url": "https://r.abeiai.com/picture-books/20261010-a9eb8c24e56b59a4.webp",
+      "sha256": "6a7356d62eb4720eadf564e533034f7595b952ec906883dccf7bc0ee613efb3d",
+      "sizeBytes": 158334,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 9
+    },
+    "chef:11": {
+      "id": "cmv1rpio3001802mzannoz0i2",
+      "url": "https://r.abeiai.com/picture-books/20261010-e85bda9f838ab889.webp",
+      "sha256": "3299e1e00e936f5ce0805548fccf19ea3a9366de9aff772237f647364fc3ed97",
+      "sizeBytes": 153792,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 11
+    },
+    "chef:10": {
+      "id": "cmv1rpiud001a02mz085ifbc6",
+      "url": "https://r.abeiai.com/picture-books/20261010-e843587adfee5a5f.webp",
+      "sha256": "cb4215e20609870aece0a4b7b9f21cd03de3f1122c8bfb4497f4ac89827beef1",
+      "sizeBytes": 168714,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 10
+    },
+    "chef:12": {
+      "id": "cmv1rpiu9001902mzsoqn98ff",
+      "url": "https://r.abeiai.com/picture-books/20261010-1c24cac76e46082a.webp",
+      "sha256": "eb27191e43d1bd767d3ca97a14eb20e20d4c3fbc1a9428e76ea41f63afa7b0c6",
+      "sizeBytes": 157918,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 12
+    },
+    "chef:14": {
+      "id": "cmv1rpj5f001b02mzvcesrw7h",
+      "url": "https://r.abeiai.com/picture-books/20261010-27faf99b2a78b777.webp",
+      "sha256": "037cb141b09ed576ea60436fe17bf22bbfe73fefe033a9e21777164328a237d3",
+      "sizeBytes": 148100,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 14
+    },
+    "chef:15": {
+      "id": "cmv1rpj7m001c02mzivrr78cu",
+      "url": "https://r.abeiai.com/picture-books/20261010-25989abfededc2c3.webp",
+      "sha256": "6e7b9c7390cd9c243d1764b47dddbe0066b82b371c9cef3141da1f92424f7b57",
+      "sizeBytes": 164882,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 15
+    },
+    "chef:16": {
+      "id": "cmv1rpjhf001d02mzcpie725r",
+      "url": "https://r.abeiai.com/picture-books/20261010-ff8c48ae4941cef1.webp",
+      "sha256": "3f4033af537537aeff364f966ff54abf896cce31641ac456e228d717e08db962",
+      "sizeBytes": 139638,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 16
+    },
+    "chef:13": {
+      "id": "cmv1rpjri001f02mzhe5yqs3h",
+      "url": "https://r.abeiai.com/picture-books/20261010-f7c09c0b9b879058.webp",
+      "sha256": "70e467de4aec59b75b9ab1bd00374e4c49bad5cd3996282e90eb444572cb8c85",
+      "sizeBytes": 143826,
+      "width": 960,
+      "height": 1280,
+      "slug": "chef",
+      "position": 13
+    },
+    "bus-driver:1": {
+      "id": "cmv1rpjty001g02mzspc2ts34",
+      "url": "https://r.abeiai.com/picture-books/20261010-cdf7024aa7746b27.webp",
+      "sha256": "772e3eb4e76aea11b952cb4c6d81bf51eac4f4f110ea8884b4b008b15474dcd5",
+      "sizeBytes": 167442,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 1
+    },
+    "bus-driver:0": {
+      "id": "cmv1rpjm2001e02mznvyopblt",
+      "url": "https://r.abeiai.com/picture-books/20261010-d688198bfcc6d660.webp",
+      "sha256": "5be6be5ab2999eab689009a5bac40142469c0d39a30afc6b7af70a53459f1f27",
+      "sizeBytes": 205764,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 0
+    },
+    "bus-driver:2": {
+      "id": "cmv1rpk51001h02mzrr4ie433",
+      "url": "https://r.abeiai.com/picture-books/20261010-ab589952ef4f09c7.webp",
+      "sha256": "a2f146e6ccd395bfe95d879514d9088544b3f09d5ba7d651863f288321b224aa",
+      "sizeBytes": 168488,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 2
+    },
+    "bus-driver:3": {
+      "id": "cmv1rpk7d001i02mzic6kjr6q",
+      "url": "https://r.abeiai.com/picture-books/20261010-c7642bd5f7b8254f.webp",
+      "sha256": "f141e71ddd7335a253dac14743d9d4b204e5f0fe0881be40d945f053906452ed",
+      "sizeBytes": 140146,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 3
+    },
+    "bus-driver:4": {
+      "id": "cmv1rpk8z001j02mza19mtwms",
+      "url": "https://r.abeiai.com/picture-books/20261010-11a3f8386394aa00.webp",
+      "sha256": "11b3ee3993510746741f9f311e6dc725715c2b55fd1defe6bb4dc05e952b53fb",
+      "sizeBytes": 170478,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 4
+    },
+    "bus-driver:5": {
+      "id": "cmv1rpkfp001k02mzdnaie9pc",
+      "url": "https://r.abeiai.com/picture-books/20261010-81aa1ba9749ca3c6.webp",
+      "sha256": "82ca8da27e82c1e84b8e37c3cbc1fc2f3cb84c5e4455e1665783b7ea3918d3a6",
+      "sizeBytes": 171764,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 5
+    },
+    "bus-driver:7": {
+      "id": "cmv1rpkob001m02mzde4lfcrr",
+      "url": "https://r.abeiai.com/picture-books/20261010-1d2a6b05dda48766.webp",
+      "sha256": "61a913ca50257c26f0efaacc969fb0b11bc699c61e9cedd5fb9eba7b077d9430",
+      "sizeBytes": 164030,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 7
+    },
+    "bus-driver:6": {
+      "id": "cmv1rpkiv001l02mz0fu9juh5",
+      "url": "https://r.abeiai.com/picture-books/20261010-8a8e955f6f4e127e.webp",
+      "sha256": "29cf6b545e57e9567d6def51ad6eaac5ee2a7c67433f2d4d8d9a0f1f15c731b7",
+      "sizeBytes": 175352,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 6
+    },
+    "bus-driver:8": {
+      "id": "cmv1rpkt8001n02mzja3rt372",
+      "url": "https://r.abeiai.com/picture-books/20261010-6859244dd809f6b9.webp",
+      "sha256": "222c43fee507e98fff4eed3494468572253f69fdfb8aee814e519b20276a4808",
+      "sizeBytes": 180808,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 8
+    },
+    "bus-driver:10": {
+      "id": "cmv1rpl5c001q02mzt0gjrsro",
+      "url": "https://r.abeiai.com/picture-books/20261010-315515b6516fd2f5.webp",
+      "sha256": "4fcfc9fa7c5fdb86ab30fb6e54760c47bca67b34f263176ad6a3d9d24fb776b7",
+      "sizeBytes": 157158,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 10
+    },
+    "bus-driver:9": {
+      "id": "cmv1rpl54001p02mztffx36mj",
+      "url": "https://r.abeiai.com/picture-books/20261010-b502c2f0ce27147f.webp",
+      "sha256": "308ad1765e7444f111029a5720dc270d75555f2732467ee95e0b57589bb3cf64",
+      "sizeBytes": 174264,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 9
+    },
+    "bus-driver:11": {
+      "id": "cmv1rpl4j001o02mzrzy0ynht",
+      "url": "https://r.abeiai.com/picture-books/20261010-d3c5dc1025adcecc.webp",
+      "sha256": "743ab41ffe844b505edae3fee6b84576594ccdfb9f060934ebb14b099c6689cf",
+      "sizeBytes": 183948,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 11
+    },
+    "bus-driver:13": {
+      "id": "cmv1rplil001r02mzmt3jefl6",
+      "url": "https://r.abeiai.com/picture-books/20261010-ef2b277994529d24.webp",
+      "sha256": "2f6d470fc8f9a95bebf88b93ca358dc442fa6df8ff46ea339f1e35df3ca95e01",
+      "sizeBytes": 148902,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 13
+    },
+    "bus-driver:14": {
+      "id": "cmv1rplo0001s02mzrisndrh2",
+      "url": "https://r.abeiai.com/picture-books/20261010-17191306b33f9bca.webp",
+      "sha256": "2ad25d870a46ac8f36a152255ff613c02be40a04ec6e43f644b3291818c43a93",
+      "sizeBytes": 140332,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 14
+    },
+    "bus-driver:15": {
+      "id": "cmv1rplvc001t02mzozz5y4bq",
+      "url": "https://r.abeiai.com/picture-books/20261010-1a16e593f2cd5be7.webp",
+      "sha256": "c70b67f2b4114ef3c61ad61c7cc971ad2960b59900ba0187a95fef24d3e3cc49",
+      "sizeBytes": 135306,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 15
+    },
+    "bus-driver:16": {
+      "id": "cmv1rpm0z001v02mz3km8n3fl",
+      "url": "https://r.abeiai.com/picture-books/20261010-83367e34d5c31bfb.webp",
+      "sha256": "25c4677060d3b2ea23e056653e2c14dce18dd6bce70a401d5c715e72e7f2a54d",
+      "sizeBytes": 148572,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 16
+    },
+    "subway-driver:0": {
+      "id": "cmv1rpm8o001w02mzoa9j13yc",
+      "url": "https://r.abeiai.com/picture-books/20261010-cd47e1dcd745baff.webp",
+      "sha256": "ae20da94a79865bbeb73f4cf00931f884ba7eb72b48262d3a61aecda0bd7fde5",
+      "sizeBytes": 194128,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 0
+    },
+    "bus-driver:12": {
+      "id": "cmv1rpm0k001u02mz9k1qsp54",
+      "url": "https://r.abeiai.com/picture-books/20261010-c2f7a4eb8964443c.webp",
+      "sha256": "babccf2a9db5c950d9fb77d69709f21f00dad56cee05f4d1a2adf6bc257a7f90",
+      "sizeBytes": 173638,
+      "width": 960,
+      "height": 1280,
+      "slug": "bus-driver",
+      "position": 12
+    },
+    "subway-driver:2": {
+      "id": "cmv1rpmir001x02mzf5azea8j",
+      "url": "https://r.abeiai.com/picture-books/20261010-606d9d0b9ff42109.webp",
+      "sha256": "d535973b81da898afcf1f5c09c4e2754204a97148f2e57fe5a6a5a61ff66e351",
+      "sizeBytes": 172446,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 2
+    },
+    "subway-driver:1": {
+      "id": "cmv1rpmk4001y02mzrdv0dicl",
+      "url": "https://r.abeiai.com/picture-books/20261010-85b0234cc36ab4e1.webp",
+      "sha256": "36ffff72dd066de02e85493148daa5f12d11f7d093387beeaf8e7ca4cdbe24c3",
+      "sizeBytes": 179298,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 1
+    },
+    "subway-driver:4": {
+      "id": "cmv1rpmtd002002mz70e9wgk4",
+      "url": "https://r.abeiai.com/picture-books/20261010-bed8f5bc93c2a68c.webp",
+      "sha256": "b2ca395c6f77bbf4cc710567d6fca0dc5f40963117a3677d5d479187381634b5",
+      "sizeBytes": 157500,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 4
+    },
+    "subway-driver:3": {
+      "id": "cmv1rpml1001z02mzder6t82q",
+      "url": "https://r.abeiai.com/picture-books/20261010-b9804fd9112f1c46.webp",
+      "sha256": "fd277cc897eacac83a0c7996513091c5345052799307c8c2df0aa144cd57e13e",
+      "sizeBytes": 171032,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 3
+    },
+    "subway-driver:5": {
+      "id": "cmv1rpn0j002102mz6tmxfrtp",
+      "url": "https://r.abeiai.com/picture-books/20261010-feb2a8f079caa283.webp",
+      "sha256": "f35faed5c65e7aa33a805b5fe822abd8844b53d09e77633b8945dd79f587a502",
+      "sizeBytes": 172038,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 5
+    },
+    "subway-driver:7": {
+      "id": "cmv1rpn44002202mz66mgcsi3",
+      "url": "https://r.abeiai.com/picture-books/20261010-fbe8bfe99291c522.webp",
+      "sha256": "7d9802a13610e646e21a1f8763b97ab01e54237a96eda506e4cb18a6f02de621",
+      "sizeBytes": 176840,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 7
+    },
+    "subway-driver:6": {
+      "id": "cmv1rpn5v002302mz3rlkl6mm",
+      "url": "https://r.abeiai.com/picture-books/20261010-bb585aa7bb8fdc4e.webp",
+      "sha256": "e0ed71d557c15adc1285d9a601f946df298ed9048daf84d3412eb72fbc787444",
+      "sizeBytes": 173678,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 6
+    },
+    "subway-driver:9": {
+      "id": "cmv1rpngq002502mzcrzfx43u",
+      "url": "https://r.abeiai.com/picture-books/20261010-3f8c1c35b8c9f19e.webp",
+      "sha256": "12a1b4f3a69ab957cba5701c2eaacdaa47ab6f0dbd05abbe019d57085deb30ce",
+      "sizeBytes": 211354,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 9
+    },
+    "subway-driver:8": {
+      "id": "cmv1rpnf4002402mzus0d8imn",
+      "url": "https://r.abeiai.com/picture-books/20261010-0d4cf8d56250f485.webp",
+      "sha256": "af15a3c1a1f157757c084ee850de3833b43c927bb572caee92f229b29ed1c5d1",
+      "sizeBytes": 172464,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 8
+    },
+    "subway-driver:10": {
+      "id": "cmv1rpnp6002602mzs0xo7en2",
+      "url": "https://r.abeiai.com/picture-books/20261010-799ab453f0af2f37.webp",
+      "sha256": "024a6b877d211270e0a6bf83eb0fea4c7fd9e5e9d0e4479877bb7945365d6e39",
+      "sizeBytes": 189202,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 10
+    },
+    "subway-driver:11": {
+      "id": "cmv1rpnx8002702mzc9x1px6i",
+      "url": "https://r.abeiai.com/picture-books/20261010-678b448af66afa66.webp",
+      "sha256": "f136e299231b2b61b28386980224e8fa3c6f934fbcc546d5e6c920e127c07cc3",
+      "sizeBytes": 162164,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 11
+    },
+    "subway-driver:12": {
+      "id": "cmv1rpnyc002802mzqwpp7fyz",
+      "url": "https://r.abeiai.com/picture-books/20261010-bcfda32af34b254a.webp",
+      "sha256": "4b16bdf7336f74e3b8f9fbd3e9ad787250653a2cd58c9cf8e7c7d74ad19627cc",
+      "sizeBytes": 166532,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 12
+    },
+    "subway-driver:13": {
+      "id": "cmv1rpo0r002902mzoirhpajt",
+      "url": "https://r.abeiai.com/picture-books/20261010-b87d3ac36d9421a0.webp",
+      "sha256": "0af0f2ef0bc61a97c434c454e183732792dea84085b92f9386901d8f39bf8dce",
+      "sizeBytes": 181644,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 13
+    },
+    "subway-driver:15": {
+      "id": "cmv1rpoag002b02mzhgqtr7ez",
+      "url": "https://r.abeiai.com/picture-books/20261010-360b4a5dc034f34d.webp",
+      "sha256": "17be3b73184b718f138b6719711bdae9c05817b949e53d4895984e8e773ec863",
+      "sizeBytes": 173930,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 15
+    },
+    "subway-driver:16": {
+      "id": "cmv1rpoe6002c02mzh4mumo21",
+      "url": "https://r.abeiai.com/picture-books/20261010-052109029bb2e308.webp",
+      "sha256": "8c5e28aa7c5eead615a2a074438fc33cf0d5fd83ac888326fe8483d428a7181c",
+      "sizeBytes": 189276,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 16
+    },
+    "subway-driver:14": {
+      "id": "cmv1rpoa7002a02mzp1hbm9hf",
+      "url": "https://r.abeiai.com/picture-books/20261010-529c8277abaa7040.webp",
+      "sha256": "b0d6cb6f125fc4d7d4701fd3035bc23223300271143a59f0c4dcc6c549cfbb9b",
+      "sizeBytes": 177418,
+      "width": 960,
+      "height": 1280,
+      "slug": "subway-driver",
+      "position": 14
+    },
+    "courier:1": {
+      "id": "cmv1rporv002d02mz80xc67f7",
+      "url": "https://r.abeiai.com/picture-books/20261010-68ae53221af43f77.webp",
+      "sha256": "adaf8ff78d7f87e4c83d34bb10db863a52ba4ca2f1605738b59b37eb7363d745",
+      "sizeBytes": 173286,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 1
+    },
+    "courier:2": {
+      "id": "cmv1rpotz002e02mz3cy6jfau",
+      "url": "https://r.abeiai.com/picture-books/20261010-1439dd6b04771c7e.webp",
+      "sha256": "aac16200b6b4b85c7d1c303860bdf1547588c78b3d1dd3a52ca52486de8f0237",
+      "sizeBytes": 176704,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 2
+    },
+    "courier:4": {
+      "id": "cmv1rpp4m002h02mznh5ehsxk",
+      "url": "https://r.abeiai.com/picture-books/20261010-d36c868c76ef32bc.webp",
+      "sha256": "aa1a9c72b002f2e0af8b260c1fb0a9e8c7c9950622f7697a10ef2755817e619d",
+      "sizeBytes": 168800,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 4
+    },
+    "courier:0": {
+      "id": "cmv1rpouy002f02mzaikv5vnh",
+      "url": "https://r.abeiai.com/picture-books/20261010-bcefe8c313746dbb.webp",
+      "sha256": "e21a25da6ec81dc1009251fd9945e0ea6abb5c7d01d0d89c18a070117c2050e9",
+      "sizeBytes": 212020,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 0
+    },
+    "courier:3": {
+      "id": "cmv1rpp4g002g02mzabyiomla",
+      "url": "https://r.abeiai.com/picture-books/20261010-050fd164c1c8f548.webp",
+      "sha256": "e49d3350d8106cee1f3bb4a1000a14cf2345878030831114c6e2a86fa90dd7cc",
+      "sizeBytes": 177696,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 3
+    },
+    "courier:5": {
+      "id": "cmv1rppev002i02mzhrmv76e6",
+      "url": "https://r.abeiai.com/picture-books/20261010-f58b9203720c584c.webp",
+      "sha256": "1e7b53cf6c7036244322e4e145c5298c790c2604f8f7f6d2896aede44cef0c1a",
+      "sizeBytes": 206904,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 5
+    },
+    "courier:6": {
+      "id": "cmv1rppjv002j02mz5f3s5065",
+      "url": "https://r.abeiai.com/picture-books/20261010-6441044c53124366.webp",
+      "sha256": "54aa50ec4ffa88b123a6588dbf79c713667037f3cc128cd96820c6399f547b5d",
+      "sizeBytes": 217482,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 6
+    },
+    "courier:7": {
+      "id": "cmv1rppng002k02mzpy30q0or",
+      "url": "https://r.abeiai.com/picture-books/20261010-55a5f48d7c5ae680.webp",
+      "sha256": "e34ad593ec8f19fd6ff1b6b3531cd234ae1907ce9703b1448f0dda37a916a7f9",
+      "sizeBytes": 231668,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 7
+    },
+    "courier:8": {
+      "id": "cmv1rppvi002l02mz298rh3k7",
+      "url": "https://r.abeiai.com/picture-books/20261010-108c56d175829aa2.webp",
+      "sha256": "47fb8bc4684638b0eb67f577794ac0651497d29eb8f4220b7866d9f232a0b54c",
+      "sizeBytes": 201594,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 8
+    },
+    "courier:9": {
+      "id": "cmv1rpq0q002m02mztxu99ts0",
+      "url": "https://r.abeiai.com/picture-books/20261010-171b6564f53b2a76.webp",
+      "sha256": "fcffaaed2690efdf7fde02677ce621fe7f4d787b024f5849b616743955f93cdd",
+      "sizeBytes": 217402,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 9
+    },
+    "courier:10": {
+      "id": "cmv1rpq51002n02mzsbqchne8",
+      "url": "https://r.abeiai.com/picture-books/20261010-bbae21608ce758ed.webp",
+      "sha256": "c80b8b94b02a389efa24c55c5779fe8a49a9446b5bc57df97b17e9ad9eda7a68",
+      "sizeBytes": 142218,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 10
+    },
+    "courier:11": {
+      "id": "cmv1rpq9i002o02mzshcarhcq",
+      "url": "https://r.abeiai.com/picture-books/20261010-0851cd57a077679a.webp",
+      "sha256": "a5b428a50bdbdf6d31adf864850e6115bbee172061752b95b559c94aa6767893",
+      "sizeBytes": 163142,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 11
+    },
+    "courier:13": {
+      "id": "cmv1rpqfi002p02mzun4n5eob",
+      "url": "https://r.abeiai.com/picture-books/20261010-12ed82365db12238.webp",
+      "sha256": "91c3fd1829b80c5355ee75213445163b41a006beb99a2eda3560d1829aa77ebb",
+      "sizeBytes": 175946,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 13
+    },
+    "courier:12": {
+      "id": "cmv1rpqgk002q02mzfic8gig0",
+      "url": "https://r.abeiai.com/picture-books/20261010-5911cf7f8a7cc0bf.webp",
+      "sha256": "2e9ad4d3400448d4cc9a20d3e1fa8ee72cfa8e8ce9ae6aa294e4697aecbd0eeb",
+      "sizeBytes": 177076,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 12
+    },
+    "courier:14": {
+      "id": "cmv1rpqkz002r02mzf6zjupy8",
+      "url": "https://r.abeiai.com/picture-books/20261010-b070eabb8186f797.webp",
+      "sha256": "e8e633f016e412465cf4b1e01fca8c1a4eaaf621af12364b7d4efab7e6d97226",
+      "sizeBytes": 172550,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 14
+    },
+    "courier:15": {
+      "id": "cmv1rpr1f002u02mz4by6fe21",
+      "url": "https://r.abeiai.com/picture-books/20261010-738d4f730c58fe3c.webp",
+      "sha256": "7704ead8007ec470dd342011f82c58c6761a126bf844132a86d5649004bc1fd7",
+      "sizeBytes": 187932,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 15
+    },
+    "courier:16": {
+      "id": "cmv1rpqs5002s02mzi44mpgcb",
+      "url": "https://r.abeiai.com/picture-books/20261010-e0b8f235c1a9be48.webp",
+      "sha256": "78dc5f9c4d410316c133987dccf9200a7dbe53ed7f9ae325857c3fdf5ec634c1",
+      "sizeBytes": 172336,
+      "width": 960,
+      "height": 1280,
+      "slug": "courier",
+      "position": 16
+    },
+    "sanitation-worker:0": {
+      "id": "cmv1rpqwb002t02mzwu9f96o4",
+      "url": "https://r.abeiai.com/picture-books/20261010-e1a1eb8ed4ae8590.webp",
+      "sha256": "823d43a809cbe10a586bc1afc826f1be76634e98bff5d614e21c731f4a513ea0",
+      "sizeBytes": 236542,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 0
+    },
+    "sanitation-worker:3": {
+      "id": "cmv1rprtd002w02mzyzgg4ue7",
+      "url": "https://r.abeiai.com/picture-books/20261010-9ef34e03a3da65a5.webp",
+      "sha256": "9aa337307723c94c0beb55205fea9cfa62549692d88abb36b663fe350736911d",
+      "sizeBytes": 226368,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 3
+    },
+    "sanitation-worker:1": {
+      "id": "cmv1rprql002v02mz9zacdxwe",
+      "url": "https://r.abeiai.com/picture-books/20261010-94b9ecc8af6f4ef5.webp",
+      "sha256": "0bc9bbc4d57aff8e767db19a2eb4f185e2e256dba70248b7008dcd09fda73f7a",
+      "sizeBytes": 273652,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 1
+    },
+    "sanitation-worker:2": {
+      "id": "cmv1rprwd002x02mzsfu9gd4k",
+      "url": "https://r.abeiai.com/picture-books/20261010-b76a305f5ef7c46d.webp",
+      "sha256": "e89d23d1dc644f1770a6eca5407a35474dd1c33f473ed99315c1236125d0da83",
+      "sizeBytes": 227504,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 2
+    },
+    "sanitation-worker:6": {
+      "id": "cmv1rps8z002z02mz1rnbq7yj",
+      "url": "https://r.abeiai.com/picture-books/20261010-b5ff723bad904bff.webp",
+      "sha256": "d3e4a3d2a96164b49702bed17c2e1732b18d35ec85ad704a14194ee83bbef823",
+      "sizeBytes": 255772,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 6
+    },
+    "sanitation-worker:5": {
+      "id": "cmv1rpsbi003002mz86udvloy",
+      "url": "https://r.abeiai.com/picture-books/20261010-78acf143dde42af5.webp",
+      "sha256": "b4c2b2aee7f0c27f36d8f66bd0a7264c586e1e295f7394e50ed2eef9796a2b6c",
+      "sizeBytes": 227834,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 5
+    },
+    "sanitation-worker:4": {
+      "id": "cmv1rps6j002y02mzjvh004e0",
+      "url": "https://r.abeiai.com/picture-books/20261010-04de5a0a75add455.webp",
+      "sha256": "6f18ea43c8b77f5bf344f0dc344310832007c6b5b5385796798bb4869d4c8bb0",
+      "sizeBytes": 270610,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 4
+    },
+    "sanitation-worker:7": {
+      "id": "cmv1rpspa003202mzd91pv78q",
+      "url": "https://r.abeiai.com/picture-books/20261010-3c3624b97f749ad7.webp",
+      "sha256": "4da6b08db31f36a2ebc333906c8ed3b22af2c3a3676b64a3dd43fca9f2d55362",
+      "sizeBytes": 268008,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 7
+    },
+    "sanitation-worker:9": {
+      "id": "cmv1rpsrm003302mz1rxvvd62",
+      "url": "https://r.abeiai.com/picture-books/20261010-9d9862c82d0d6d2b.webp",
+      "sha256": "8cebb1bb281bb5ad6e4865d3a118fb15e2c8c560071902f5d0afd5afda638857",
+      "sizeBytes": 209254,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 9
+    },
+    "sanitation-worker:8": {
+      "id": "cmv1rpsnt003102mzms8p2tyx",
+      "url": "https://r.abeiai.com/picture-books/20261010-0a52cb0385308792.webp",
+      "sha256": "c661a341fc979b44ee73e0164356ff4d136a2f3a24397b1001017355a9ff9577",
+      "sizeBytes": 212576,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 8
+    },
+    "sanitation-worker:10": {
+      "id": "cmv1rpt2i003402mz14uhgop2",
+      "url": "https://r.abeiai.com/picture-books/20261010-5614928525d82238.webp",
+      "sha256": "017adabf1429b967ec632bc011dbcfdc31daa687f7b37405c72bec4f99e9fbca",
+      "sizeBytes": 227756,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 10
+    },
+    "sanitation-worker:12": {
+      "id": "cmv1rpt7v003602mzipocwjjj",
+      "url": "https://r.abeiai.com/picture-books/20261010-e43a8167d2d8b122.webp",
+      "sha256": "51316216213c54bd8edc2549ae8932085a78ea1adbc4587e469f5a7fc163e47e",
+      "sizeBytes": 214184,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 12
+    },
+    "sanitation-worker:11": {
+      "id": "cmv1rpt63003502mz7pd8vic1",
+      "url": "https://r.abeiai.com/picture-books/20261010-8cc1376f2ee07eb8.webp",
+      "sha256": "1833dd4aed2332aeeb9810745463b74bb81e9c50ca5206572d44460942ca1b0d",
+      "sizeBytes": 270392,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 11
+    },
+    "sanitation-worker:13": {
+      "id": "cmv1rptgs003702mz9314gs1l",
+      "url": "https://r.abeiai.com/picture-books/20261010-70e55be7931ecb64.webp",
+      "sha256": "6ed5f654f0f6d613fe9b323ea907d9e98581a7ef2562f390bf41c716c215d989",
+      "sizeBytes": 261646,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 13
+    },
+    "sanitation-worker:15": {
+      "id": "cmv1rptpu003902mz6t7f216b",
+      "url": "https://r.abeiai.com/picture-books/20261010-f88c66baeee01fd8.webp",
+      "sha256": "a3ec0c01f1820ebe15fe80135486a0810e43dd30addd250117e0ca593a667705",
+      "sizeBytes": 178986,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 15
+    },
+    "sanitation-worker:14": {
+      "id": "cmv1rptji003802mzd3r1br16",
+      "url": "https://r.abeiai.com/picture-books/20261010-3d9a63d9a9ac8950.webp",
+      "sha256": "7b15fecb307011cd27c7575e01ecb7ed8c9947ef10f7882302e7a004bf3abdba",
+      "sizeBytes": 171946,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 14
+    },
+    "sanitation-worker:16": {
+      "id": "cmv1rpttq003a02mzn34mz53a",
+      "url": "https://r.abeiai.com/picture-books/20261010-ba1b4dcefce785ba.webp",
+      "sha256": "b0d5d32c0c829828967725db538fa0dffc5bab9b65e7f61dc28e8fd368a16741",
+      "sizeBytes": 162034,
+      "width": 960,
+      "height": 1280,
+      "slug": "sanitation-worker",
+      "position": 16
+    },
+    "architect:1": {
+      "id": "cmv1rpu32003c02mzd5cs571k",
+      "url": "https://r.abeiai.com/picture-books/20261010-0499b7724d06d051.webp",
+      "sha256": "75ee847e64230107c102546f18e51ae653ff36a528ff899306c760f5e478dd83",
+      "sizeBytes": 190392,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 1
+    },
+    "architect:0": {
+      "id": "cmv1rpu1g003b02mziaw7nwly",
+      "url": "https://r.abeiai.com/picture-books/20261010-d91d9891b77b592a.webp",
+      "sha256": "fb8dfb43541619b9fcb1ef592c780385e2e68943543cd5ce674920194e45ebad",
+      "sizeBytes": 201366,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 0
+    },
+    "architect:2": {
+      "id": "cmv1rpu4w003d02mzlvdgqz39",
+      "url": "https://r.abeiai.com/picture-books/20261010-e95b7852de024a08.webp",
+      "sha256": "82557b0bc6e2a7ddb40600190564a5b1668170798dbe743d97f14686d62b13bf",
+      "sizeBytes": 205548,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 2
+    },
+    "architect:3": {
+      "id": "cmv1rpuiu003e02mzg4mjhqd8",
+      "url": "https://r.abeiai.com/picture-books/20261010-645358f610b47f54.webp",
+      "sha256": "1f92f3ec0abe709a6457658825b3b6b40464da9ab2f531d093ba40324333c5c5",
+      "sizeBytes": 191986,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 3
+    },
+    "architect:4": {
+      "id": "cmv1rpuiz003f02mzc4rxf5sa",
+      "url": "https://r.abeiai.com/picture-books/20261010-c141182859904361.webp",
+      "sha256": "12d4aba6011bba2d2f9c36ff458dd96680e0399c661c1b7c4fa83b6d77353a22",
+      "sizeBytes": 172092,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 4
+    },
+    "architect:6": {
+      "id": "cmv1rputy003h02mz30zgc8fu",
+      "url": "https://r.abeiai.com/picture-books/20261010-547334bd7f7b5dfb.webp",
+      "sha256": "b28ab4652c1ef9bc27d6190d5e047683197bcf9374a52c89ffc604c76a6b15fc",
+      "sizeBytes": 205254,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 6
+    },
+    "architect:7": {
+      "id": "cmv1rpux0003i02mz2g6rdzd1",
+      "url": "https://r.abeiai.com/picture-books/20261010-1d9f13357644bdb5.webp",
+      "sha256": "9bb175a6787af6c613cf9e368031c416cf1f6b381cec3c2dcc47ec8934035df7",
+      "sizeBytes": 180424,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 7
+    },
+    "architect:5": {
+      "id": "cmv1rpupw003g02mzb9d6xzto",
+      "url": "https://r.abeiai.com/picture-books/20261010-84503f48981d74d9.webp",
+      "sha256": "80bf5177b6be30fda556ac513a3651d1e6de661563b95e893b76bedacf16d53f",
+      "sizeBytes": 211862,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 5
+    },
+    "architect:9": {
+      "id": "cmv1rpvbu003l02mz6hme2lcu",
+      "url": "https://r.abeiai.com/picture-books/20261010-47fb5781ada21bbd.webp",
+      "sha256": "a01408e0bde55826cca214aff826ab413deb4f6b1c841dc45d6a81c5fb475933",
+      "sizeBytes": 180180,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 9
+    },
+    "architect:10": {
+      "id": "cmv1rpvbu003k02mz4vuakpzj",
+      "url": "https://r.abeiai.com/picture-books/20261010-2f448e73bcae430e.webp",
+      "sha256": "116901b1fdd0b89c817a8169723c575360762256fc5152f755502665a8224185",
+      "sizeBytes": 168644,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 10
+    },
+    "architect:8": {
+      "id": "cmv1rpv60003j02mz9udgddlq",
+      "url": "https://r.abeiai.com/picture-books/20261010-d6df545ddbaf5cdb.webp",
+      "sha256": "9d6b0a577130a28b40343cafb1dd8970ee62fb75e8ee8f642695e08502789917",
+      "sizeBytes": 180560,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 8
+    },
+    "architect:11": {
+      "id": "cmv1rpvpd003m02mzcto412ga",
+      "url": "https://r.abeiai.com/picture-books/20261010-7b40305a3ba6c8f1.webp",
+      "sha256": "c1d8b9451335afbb5fe9a5554c81b15154b66c79a9d8b2ce41ca2daa1294dff7",
+      "sizeBytes": 195512,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 11
+    },
+    "architect:13": {
+      "id": "cmv1rpvun003o02mzwtbmwd77",
+      "url": "https://r.abeiai.com/picture-books/20261010-7099f79a03dcd5c9.webp",
+      "sha256": "7208a59cb0fd166e91175c15743b7387efe5bd15cbcb79a4f77532654ae045ed",
+      "sizeBytes": 144326,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 13
+    },
+    "architect:12": {
+      "id": "cmv1rpvr7003n02mzj1c93ppt",
+      "url": "https://r.abeiai.com/picture-books/20261010-39db833a3743a2e9.webp",
+      "sha256": "8ca676f756756c602538e518348386be91a14a7719d5140754e9fc258fa9cc03",
+      "sizeBytes": 171530,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 12
+    },
+    "architect:14": {
+      "id": "cmv1rpw27003p02mz3rrx12r8",
+      "url": "https://r.abeiai.com/picture-books/20261010-e8d42f97f6127885.webp",
+      "sha256": "c5145ee21802900920df73ce8d1618037e78d1568a0942b0f07c44e6698a629e",
+      "sizeBytes": 162880,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 14
+    },
+    "architect:15": {
+      "id": "cmv1rpw6q003q02mz0bn4on3r",
+      "url": "https://r.abeiai.com/picture-books/20261010-f33e4e4d2cc5b318.webp",
+      "sha256": "18f539de3e8a276b165c2b42eba48f8de745a912b995d2ba08363c9080549977",
+      "sizeBytes": 172084,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 15
+    },
+    "architect:16": {
+      "id": "cmv1rpwdj003r02mzmlrbjez9",
+      "url": "https://r.abeiai.com/picture-books/20261010-a29662ca87670cb6.webp",
+      "sha256": "acc6dbd7aa85a187d5e73a4cc06e3828775c8e172939098c5b503b6886fa15f4",
+      "sizeBytes": 190920,
+      "width": 960,
+      "height": 1280,
+      "slug": "architect",
+      "position": 16
+    },
+    "engineer:0": {
+      "id": "cmv1rpwdu003s02mz7ovcbfdp",
+      "url": "https://r.abeiai.com/picture-books/20261010-8f5fc7ccc3897452.webp",
+      "sha256": "cfaae99cefa82a7e788f86de0da7ea5e29b8531fece980595afbf83c52b2e6c9",
+      "sizeBytes": 198048,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 0
+    },
+    "engineer:3": {
+      "id": "cmv1rpwva003v02mzfsm80nja",
+      "url": "https://r.abeiai.com/picture-books/20261010-663f5cc1cde48a40.webp",
+      "sha256": "51f1d2638c12609a29a796815f1b79a464ec6051d5fcd6a8851b5531e8f31d55",
+      "sizeBytes": 185276,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 3
+    },
+    "engineer:1": {
+      "id": "cmv1rpwps003t02mzljs6mcx7",
+      "url": "https://r.abeiai.com/picture-books/20261010-1c11b47fc37bdc30.webp",
+      "sha256": "3bea71aa7f9e2a5a3d0192d5a6ac536d173b060c9637d76cf9892a858b3314d2",
+      "sizeBytes": 196552,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 1
+    },
+    "engineer:2": {
+      "id": "cmv1rpwt3003u02mzuoaszn3o",
+      "url": "https://r.abeiai.com/picture-books/20261010-e83680189038dc13.webp",
+      "sha256": "0fac34978c4fc0399de00c40370dc30ef532faec29394ce7a8fc08d54bbf3f6e",
+      "sizeBytes": 168788,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 2
+    },
+    "engineer:4": {
+      "id": "cmv1rpx8v003w02mzefbj5mu3",
+      "url": "https://r.abeiai.com/picture-books/20261010-162c53e899806b55.webp",
+      "sha256": "24d5ec8caf4509c14ae6f5bb8cd60b6ab088531f31705447149ba20bda70cd8c",
+      "sizeBytes": 178020,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 4
+    },
+    "engineer:6": {
+      "id": "cmv1rpxcj003y02mzoy6vvpkq",
+      "url": "https://r.abeiai.com/picture-books/20261010-9833148d17d5e867.webp",
+      "sha256": "1ebdf71702226516ce53cb3870cfde4b2dca7f56e3ca6d2a03e384311434563e",
+      "sizeBytes": 192916,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 6
+    },
+    "engineer:5": {
+      "id": "cmv1rpxao003x02mznvt31pbl",
+      "url": "https://r.abeiai.com/picture-books/20261010-1adad52b8c5ff4f4.webp",
+      "sha256": "c77ee13a1fd3b471f6a07de6ea146eaf26dec6efb383dbaa24487502ce1c6786",
+      "sizeBytes": 171418,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 5
+    },
+    "engineer:8": {
+      "id": "cmv1rpxmj003z02mzdpl06egl",
+      "url": "https://r.abeiai.com/picture-books/20261010-f9b3618e025f9397.webp",
+      "sha256": "168f30460ae9fa2f00efeb59203a70eea7c519dbfa6d4eba3ef71645dc056c76",
+      "sizeBytes": 161510,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 8
+    },
+    "engineer:9": {
+      "id": "cmv1rpxv3004002mztice5ofe",
+      "url": "https://r.abeiai.com/picture-books/20261010-8154d87ce769b807.webp",
+      "sha256": "a96fbdab20119601ad00437ff7e4c51f7f4bb7efe698e373da9966c0fbda1b5e",
+      "sizeBytes": 170760,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 9
+    },
+    "engineer:7": {
+      "id": "cmv1rpxwj004102mz2phx4gbg",
+      "url": "https://r.abeiai.com/picture-books/20261010-2eb294f41763fe9e.webp",
+      "sha256": "d5285d17a8de34769cd17608a3905125232e73cc537ca7fbd53381b35e26d829",
+      "sizeBytes": 187954,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 7
+    },
+    "engineer:11": {
+      "id": "cmv1rpy5z004202mzce6l2qg6",
+      "url": "https://r.abeiai.com/picture-books/20261010-8daec839ab8b4c72.webp",
+      "sha256": "6ddf13231517433a7e80023fe1ff6595ce4321409d9623af7b494e8f6f5a06b1",
+      "sizeBytes": 171880,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 11
+    },
+    "engineer:12": {
+      "id": "cmv1rpyhe004402mzja0dwy9n",
+      "url": "https://r.abeiai.com/picture-books/20261010-bacc44dc125d3bb8.webp",
+      "sha256": "ad6058429f6ce6bbf3873e2ae0497c28533a7db7231accbd3713537aa36a98a6",
+      "sizeBytes": 193058,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 12
+    },
+    "engineer:10": {
+      "id": "cmv1rpy94004302mz0ashjovg",
+      "url": "https://r.abeiai.com/picture-books/20261010-09c78aad6528136d.webp",
+      "sha256": "fb8d4db79c1616b8625dcd65e2028a54b5fc55a1dbfa38d0db405cce5ba9f873",
+      "sizeBytes": 171716,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 10
+    },
+    "engineer:13": {
+      "id": "cmv1rpyjk004502mznjrmjmq2",
+      "url": "https://r.abeiai.com/picture-books/20261010-115d2e93e9648cef.webp",
+      "sha256": "9100608e0a197242a8a1a3ed112a1cd73735b4f7d859ac8deca50a303e735b9d",
+      "sizeBytes": 162608,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 13
+    },
+    "engineer:16": {
+      "id": "cmv1rpyt0004602mzl4ocrer6",
+      "url": "https://r.abeiai.com/picture-books/20261010-7bb6e09cf6f5db35.webp",
+      "sha256": "b2e11188fea3a952ceef4f25b915935a0874846210f1b1e19838186d6a8044c2",
+      "sizeBytes": 150570,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 16
+    },
+    "engineer:15": {
+      "id": "cmv1rpyv1004702mz9e1vrjjj",
+      "url": "https://r.abeiai.com/picture-books/20261010-52ef9b3cc0d91546.webp",
+      "sha256": "8a9c8fb4b76bb9008593a68ab0f9a71b0c0dfd3f9e83c43b3ed2b098d8e9f941",
+      "sizeBytes": 150248,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 15
+    },
+    "engineer:14": {
+      "id": "cmv1rpyv9004802mzlqyye7s8",
+      "url": "https://r.abeiai.com/picture-books/20261010-f83a54ea12830ef2.webp",
+      "sha256": "5c5a96f6db5768db4ef8fc0e8c714297a8fde3a6467a4bb28b342ca8e25da372",
+      "sizeBytes": 160210,
+      "width": 960,
+      "height": 1280,
+      "slug": "engineer",
+      "position": 14
+    },
+    "scientist:1": {
+      "id": "cmv1rpz6i004902mzyahukdsf",
+      "url": "https://r.abeiai.com/picture-books/20261010-b9e25cc103aa0f96.webp",
+      "sha256": "28e11e6fea746bb07fe9d24c88e6353eb5449eca840b1520f54941f67592d4a8",
+      "sizeBytes": 140516,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 1
+    },
+    "scientist:0": {
+      "id": "cmv1rpz7e004a02mz6caurc17",
+      "url": "https://r.abeiai.com/picture-books/20261010-3b0b076f4699e551.webp",
+      "sha256": "de2b08854c192c3729d00b417d60a0d2fe52a9f847727fafbd4d17e4fa643f1b",
+      "sizeBytes": 191772,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 0
+    },
+    "scientist:2": {
+      "id": "cmv1rpzg8004b02mz3sa3fhoc",
+      "url": "https://r.abeiai.com/picture-books/20261010-3773ea5b8269cd32.webp",
+      "sha256": "5f070076ac928ee4031cb184cace62be5c8cf7b71f48367286894b70c11736dc",
+      "sizeBytes": 165706,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 2
+    },
+    "scientist:3": {
+      "id": "cmv1rpzi7004d02mzjpjy8byp",
+      "url": "https://r.abeiai.com/picture-books/20261010-840adbfca4eaf59b.webp",
+      "sha256": "460a4bdbd97bac67bfa5d3ba66d284990342f3bab465b2eaa16cba393abe9e9a",
+      "sizeBytes": 157740,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 3
+    },
+    "scientist:4": {
+      "id": "cmv1rpzi7004c02mz0ihdlw22",
+      "url": "https://r.abeiai.com/picture-books/20261010-4067a0a6f35fb32b.webp",
+      "sha256": "0b27c6b7c2ec36c2b01689ad4981d8d449a59c9f12398474a3814997ecd47d2a",
+      "sizeBytes": 164870,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 4
+    },
+    "scientist:6": {
+      "id": "cmv1rpzt0004e02mzenwloukl",
+      "url": "https://r.abeiai.com/picture-books/20261010-d6266abfb06680d2.webp",
+      "sha256": "ec9622fe74eeeb50bc5712eead68734441fecb125cc3030719e4b994ec7ff114",
+      "sizeBytes": 166124,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 6
+    },
+    "scientist:5": {
+      "id": "cmv1rpzth004f02mzjmxsimyq",
+      "url": "https://r.abeiai.com/picture-books/20261010-3d1ceb1093427ab0.webp",
+      "sha256": "2ef4ab063754e81f309f4432fa404aec9da8448d68fa771ce45760746a510b92",
+      "sizeBytes": 143748,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 5
+    },
+    "scientist:7": {
+      "id": "cmv1rpzun004g02mzu38bvh29",
+      "url": "https://r.abeiai.com/picture-books/20261010-3bd0e77e7087e8b6.webp",
+      "sha256": "3f62301b9311669b286dac3c50c10b39107ecb861d476d032794b775eb9c31c5",
+      "sizeBytes": 165626,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 7
+    },
+    "scientist:8": {
+      "id": "cmv1rq03p004h02mz8z6uozhd",
+      "url": "https://r.abeiai.com/picture-books/20261010-6299f06ff610eafd.webp",
+      "sha256": "abbe78dce5391799c449eb4b7650d0395169ced651097e860943ff3450d01240",
+      "sizeBytes": 180566,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 8
+    },
+    "scientist:9": {
+      "id": "cmv1rq06o004i02mz3deciebl",
+      "url": "https://r.abeiai.com/picture-books/20261010-76f1102b3625dd62.webp",
+      "sha256": "0a7fc51bd245f18fd600f787a2e119603ff2858083610d7da8ce9a070b200758",
+      "sizeBytes": 150794,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 9
+    },
+    "scientist:11": {
+      "id": "cmv1rq0f0004k02mz7w4gohmd",
+      "url": "https://r.abeiai.com/picture-books/20261010-fbd6104134e13812.webp",
+      "sha256": "76cce75ba9ce30f25148c066846d037744f66127fc8cda696f590a678732bd48",
+      "sizeBytes": 147716,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 11
+    },
+    "scientist:10": {
+      "id": "cmv1rq0dp004j02mz5fiw7rn4",
+      "url": "https://r.abeiai.com/picture-books/20261010-7effc14ba1df484c.webp",
+      "sha256": "e7313afe853e6e3478ffd9225b1eb8a0060afc58012f9f6e010670c4ec44e774",
+      "sizeBytes": 171702,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 10
+    },
+    "scientist:12": {
+      "id": "cmv1rq0is004l02mzv49kmxri",
+      "url": "https://r.abeiai.com/picture-books/20261010-f8b7a7c195f1005a.webp",
+      "sha256": "092c8ec5220a9623323bc522388a0899f78231e427b2852d0174d123599668a8",
+      "sizeBytes": 169564,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 12
+    },
+    "scientist:14": {
+      "id": "cmv1rq0pr004m02mz4td2qt7b",
+      "url": "https://r.abeiai.com/picture-books/20261010-0ec183ed9cbde296.webp",
+      "sha256": "4b6b06b7166ca16c13c2de3f4f0763cdebf7021a4a3fbcdd86a7db53d57c1655",
+      "sizeBytes": 155520,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 14
+    },
+    "scientist:13": {
+      "id": "cmv1rq0sb004n02mz7no8l5bk",
+      "url": "https://r.abeiai.com/picture-books/20261010-50b0277cdd873802.webp",
+      "sha256": "b5464334e45f518800fd921cbd713eeab4fe87fa7c6303d2a40d0e553464186b",
+      "sizeBytes": 166658,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 13
+    },
+    "scientist:15": {
+      "id": "cmv1rq0y0004o02mz5aqpsfgj",
+      "url": "https://r.abeiai.com/picture-books/20261010-d2e6a01b861f1c21.webp",
+      "sha256": "4e7cda64f40b16571f5437013d2f3ce015dbbc172764139055ef1c4910f48a9e",
+      "sizeBytes": 152494,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 15
+    },
+    "scientist:16": {
+      "id": "cmv1rq11r004p02mz0d13oxup",
+      "url": "https://r.abeiai.com/picture-books/20261010-0586322ecf128592.webp",
+      "sha256": "302f5d186b72356b6d4ff301f6c056821b0c970baffb387f5d5a8d7a160531ae",
+      "sizeBytes": 151542,
+      "width": 960,
+      "height": 1280,
+      "slug": "scientist",
+      "position": 16
+    },
+    "pilot:0": {
+      "id": "cmv1rq13h004q02mz72lm7tdv",
+      "url": "https://r.abeiai.com/picture-books/20261010-9cadf6ed5c3e81e6.webp",
+      "sha256": "acb849bfc5bf43035098f45817539d7b81279bf0a2553ebe5e3b17aecb4d3359",
+      "sizeBytes": 173832,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 0
+    },
+    "pilot:3": {
+      "id": "cmv1rq1d6004s02mzjkaixz03",
+      "url": "https://r.abeiai.com/picture-books/20261010-056e0e3c1a867f17.webp",
+      "sha256": "a370c387d69c2255c6f7ffc6c7187e4845e91ac9e227d6debd6deea7bd219438",
+      "sizeBytes": 158306,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 3
+    },
+    "pilot:1": {
+      "id": "cmv1rq1bc004r02mzfk7b7sz0",
+      "url": "https://r.abeiai.com/picture-books/20261010-37ba2598c885807c.webp",
+      "sha256": "c014e3d751777a037456f32507bfbd92f1d25ef44880ba34e5a03b951232cdde",
+      "sizeBytes": 174356,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 1
+    },
+    "pilot:4": {
+      "id": "cmv1rq1mx004u02mzzy2fy029",
+      "url": "https://r.abeiai.com/picture-books/20261010-113faf43bd488d5c.webp",
+      "sha256": "fc3a6d96483c81871ab1a142b06ece8d69d72f0a7ec23fda0ba26dd763e843d0",
+      "sizeBytes": 156512,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 4
+    },
+    "pilot:2": {
+      "id": "cmv1rq1ep004t02mz6nb24her",
+      "url": "https://r.abeiai.com/picture-books/20261010-39e5e829139df299.webp",
+      "sha256": "19b31ad75f72f9de037eedcd883b442b4c7f964257e982de35b3edcbd7b0d778",
+      "sizeBytes": 141912,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 2
+    },
+    "pilot:5": {
+      "id": "cmv1rq1oo004v02mzurbujjk4",
+      "url": "https://r.abeiai.com/picture-books/20261010-c984383f7eb8adab.webp",
+      "sha256": "dd7dfea80d49c88f9512e90df9db529a8e289934f213120dc8851a3815b49378",
+      "sizeBytes": 141576,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 5
+    },
+    "pilot:8": {
+      "id": "cmv1rq200004y02mz7w6tg4pr",
+      "url": "https://r.abeiai.com/picture-books/20261010-f5d4f19fd024bb3d.webp",
+      "sha256": "00ce0d113a123371acf1a0a51350d9bc063d92277543ff62df22796b7f326518",
+      "sizeBytes": 132438,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 8
+    },
+    "pilot:7": {
+      "id": "cmv1rq1yq004x02mzuvccm07w",
+      "url": "https://r.abeiai.com/picture-books/20261010-3a2dab69ea2ff71c.webp",
+      "sha256": "f25a9e9e32c9eff0fbdcb8d19f7111863635641ee534a860299703bd01269952",
+      "sizeBytes": 128720,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 7
+    },
+    "pilot:6": {
+      "id": "cmv1rq1yh004w02mzuywfnywa",
+      "url": "https://r.abeiai.com/picture-books/20261010-a5e911f3c25f6b04.webp",
+      "sha256": "e9865b3465688a2f1f5c425d6c16bc1017c9949908e260368500e6c362ba1035",
+      "sizeBytes": 175194,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 6
+    },
+    "pilot:9": {
+      "id": "cmv1rq2c4004z02mz8ekggfsa",
+      "url": "https://r.abeiai.com/picture-books/20261010-74ee5ee6e5889fcf.webp",
+      "sha256": "78f5423bb96e06f3a31581ff96389c4f0b5ab7eedae34772cb8558fb47427760",
+      "sizeBytes": 154002,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 9
+    },
+    "pilot:10": {
+      "id": "cmv1rq2g5005002mz2neefqq8",
+      "url": "https://r.abeiai.com/picture-books/20261010-9e4c717866c33b1c.webp",
+      "sha256": "5cd8891af35e4fd62cd85accfaa9654c1c417ea0e5608163e1228d8bc4118b3b",
+      "sizeBytes": 148364,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 10
+    },
+    "pilot:11": {
+      "id": "cmv1rq2n8005102mz1o47381a",
+      "url": "https://r.abeiai.com/picture-books/20261010-31458891f0e8f55f.webp",
+      "sha256": "527141b5493686cedd75a0b350fb596f5f294e1bec64d73736cefd033da7f0e0",
+      "sizeBytes": 168006,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 11
+    },
+    "pilot:12": {
+      "id": "cmv1rq2p2005202mz0n2t9zmj",
+      "url": "https://r.abeiai.com/picture-books/20261010-c27522a351b93d7c.webp",
+      "sha256": "2a5a5335bfd04c1d0a5093371815b82a65390691b7eb810f5ad7783998cf016f",
+      "sizeBytes": 150364,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 12
+    },
+    "pilot:13": {
+      "id": "cmv1rq2rf005302mzzrmuqtn7",
+      "url": "https://r.abeiai.com/picture-books/20261010-f9afa7e3359ed134.webp",
+      "sha256": "dc36e74b51c1b789d7609a24584ea603e9ab7be53e9fea4911b37c560404187c",
+      "sizeBytes": 152410,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 13
+    },
+    "pilot:16": {
+      "id": "cmv1rq34w005402mzkzu85owv",
+      "url": "https://r.abeiai.com/picture-books/20261010-5c3bac715c1eb2b5.webp",
+      "sha256": "3fd4cd4aaddb469c93e87a0711d6f4bf21ebb99e21321b49cb3d25f45ceb0281",
+      "sizeBytes": 161560,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 16
+    },
+    "pilot:14": {
+      "id": "cmv1rq3c0005502mzi48g6c3r",
+      "url": "https://r.abeiai.com/picture-books/20261010-a09694982f69de03.webp",
+      "sha256": "d81d398ba4de113fbcea6216e10b86de9dc310ff68cbbc49c4728f7eaf2019bc",
+      "sizeBytes": 158604,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 14
+    },
+    "pilot:15": {
+      "id": "cmv1rq3d5005602mzngc7tvib",
+      "url": "https://r.abeiai.com/picture-books/20261010-cd17dc52b9f8af58.webp",
+      "sha256": "79162f95a43a7109e5a56c42f1932cfa6dad07535e2b6647e516354d3f2d25d5",
+      "sizeBytes": 144622,
+      "width": 960,
+      "height": 1280,
+      "slug": "pilot",
+      "position": 15
+    },
+    "gardener:1": {
+      "id": "cmv1rq3ns005702mzvk27albh",
+      "url": "https://r.abeiai.com/picture-books/20261010-c33f628b1958c586.webp",
+      "sha256": "fe1836b1bb18ff6f54bd1ae2eca0a870d387671d6923f0b57e2ccfcd738fa167",
+      "sizeBytes": 249650,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 1
+    },
+    "gardener:2": {
+      "id": "cmv1rq3o1005802mz6l7nvt2x",
+      "url": "https://r.abeiai.com/picture-books/20261010-c997cf0d74c7627d.webp",
+      "sha256": "31f80c9f8a2288e077fa2fba2d70f8534c847b727384ed08b28113eea4f22e14",
+      "sizeBytes": 267554,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 2
+    },
+    "gardener:0": {
+      "id": "cmv1rq3vf005902mzqj2azjf3",
+      "url": "https://r.abeiai.com/picture-books/20261010-46c5297e910eb67c.webp",
+      "sha256": "f133508964410b8b50f67cde2541813aadb54a1ab418bbe0c5ebcb311fe1c3c5",
+      "sizeBytes": 246124,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 0
+    },
+    "gardener:3": {
+      "id": "cmv1rq401005b02mz6uz57xak",
+      "url": "https://r.abeiai.com/picture-books/20261010-db2803ca58aa6f4a.webp",
+      "sha256": "e69d145a012d5d1992adbce7fc3c03b5621850bb551ab1ec58432209f2fc9307",
+      "sizeBytes": 244334,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 3
+    },
+    "gardener:4": {
+      "id": "cmv1rq3z5005a02mz2jf3f0fz",
+      "url": "https://r.abeiai.com/picture-books/20261010-d8b2fc5053dd2a8e.webp",
+      "sha256": "051c5b644bd4cc7c6b610654497c07a53f5dfd8100285697255ff57a2d8d44c4",
+      "sizeBytes": 247364,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 4
+    },
+    "gardener:5": {
+      "id": "cmv1rq491005c02mzjfkts66g",
+      "url": "https://r.abeiai.com/picture-books/20261010-09bceedb2f5d03f4.webp",
+      "sha256": "e74f4f21383f4731b7e905e56aa0a04af2847041888b1a970f453fa6c69050cc",
+      "sizeBytes": 240120,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 5
+    },
+    "gardener:6": {
+      "id": "cmv1rq4f3005d02mz0rvmahvu",
+      "url": "https://r.abeiai.com/picture-books/20261010-8c9af759c14b2cd4.webp",
+      "sha256": "f589f7a0007cbd984b86ec0b834f6eb68da8c658c92f380641c19e155fc658a3",
+      "sizeBytes": 278230,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 6
+    },
+    "gardener:7": {
+      "id": "cmv1rq4ib005e02mzo6dfwera",
+      "url": "https://r.abeiai.com/picture-books/20261010-a0b1ef222e749190.webp",
+      "sha256": "c811dd16552b8d2a586db6208243b35e206f3acebf2bca4d994839f547bff0cf",
+      "sizeBytes": 285498,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 7
+    },
+    "gardener:8": {
+      "id": "cmv1rq4ju005f02mzyww3p558",
+      "url": "https://r.abeiai.com/picture-books/20261010-abfddd97c4ee14d5.webp",
+      "sha256": "04edf0d64f9fbe19e8006ff4cbf58691481a1a59fca8e57d03f07a0b736a5b74",
+      "sizeBytes": 283000,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 8
+    },
+    "gardener:9": {
+      "id": "cmv1rq4r1005g02mzd0m58m36",
+      "url": "https://r.abeiai.com/picture-books/20261010-4dc3cf75316fffb7.webp",
+      "sha256": "20d2fdd77ebf8881c2f25d41c76071e655a8336770ed25e7922c3e6b8ad49cbc",
+      "sizeBytes": 287094,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 9
+    },
+    "gardener:10": {
+      "id": "cmv1rq4uy005h02mzfdqlyz30",
+      "url": "https://r.abeiai.com/picture-books/20261010-0b706e778ca51fa6.webp",
+      "sha256": "dddd79b3d175aef0737fc1932c023c036841efd55ca952d09078c120f4db441c",
+      "sizeBytes": 243756,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 10
+    },
+    "gardener:11": {
+      "id": "cmv1rq4vp005i02mzo43u5hvl",
+      "url": "https://r.abeiai.com/picture-books/20261010-a87b1616b5057cec.webp",
+      "sha256": "55232e9067577948d86b4836cc3f8047d289e9f8c8ef4cbcfd68e8dcac3af908",
+      "sizeBytes": 268468,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 11
+    },
+    "gardener:12": {
+      "id": "cmv1rq51r005j02mz4zlre67j",
+      "url": "https://r.abeiai.com/picture-books/20261010-f306eecd677561af.webp",
+      "sha256": "aa0a0bf0a5d97cc830c77b6553abb40395909b2c2945589a9cbd670f820386e8",
+      "sizeBytes": 242334,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 12
+    },
+    "gardener:15": {
+      "id": "cmv1rq5cp005l02mz9y40lnol",
+      "url": "https://r.abeiai.com/picture-books/20261010-104359e099b4e199.webp",
+      "sha256": "d520ae7efba2119e5a57b2359c80ade03ebb87d55b9d1a206b338924ca21eb71",
+      "sizeBytes": 214868,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 15
+    },
+    "gardener:14": {
+      "id": "cmv1rq5c5005k02mzkkir8nub",
+      "url": "https://r.abeiai.com/picture-books/20261010-709ffc52cfae4123.webp",
+      "sha256": "3ddad6070eb19b5f74d5ba9794c40a72e2872d22158a82ee9ca09fcf163d501a",
+      "sizeBytes": 206478,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 14
+    },
+    "gardener:13": {
+      "id": "cmv1rq5dt005m02mzyp8mexsm",
+      "url": "https://r.abeiai.com/picture-books/20261010-752d74b367dc3dbe.webp",
+      "sha256": "eb057f9547d4aa02b439fc3af7dbca501eae7e83444852dad46f3b8969f951dd",
+      "sizeBytes": 258418,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 13
+    },
+    "gardener:16": {
+      "id": "cmv1rq5rg005n02mzk5img4bj",
+      "url": "https://r.abeiai.com/picture-books/20261010-ade77579b9e3aadf.webp",
+      "sha256": "9ed4ec92d22c2826d7704389ca65c202eea4a1e997b085383b047ed0e5e56bf0",
+      "sizeBytes": 168380,
+      "width": 960,
+      "height": 1280,
+      "slug": "gardener",
+      "position": 16
+    },
+    "veterinarian:0": {
+      "id": "cmv1rq5vy005o02mz6w91lizb",
+      "url": "https://r.abeiai.com/picture-books/20261010-f43e9cbda18d194f.webp",
+      "sha256": "5b07f2fdd686f7b55ea3002a547a8238f0c4a6f09252c908b394409c91af9afd",
+      "sizeBytes": 183246,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 0
+    },
+    "veterinarian:1": {
+      "id": "cmv1rq5y0005p02mzk9bshtnc",
+      "url": "https://r.abeiai.com/picture-books/20261010-4de008e8eced0ebf.webp",
+      "sha256": "4ae1125351bf9c4b33f1730f5d48bd889333b6f78df6dc0d388119cb4b2bcf01",
+      "sizeBytes": 147102,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 1
+    },
+    "veterinarian:2": {
+      "id": "cmv1rq61r005q02mzxax7i87z",
+      "url": "https://r.abeiai.com/picture-books/20261010-0bb956ff1af58847.webp",
+      "sha256": "e291b126789e1321d28bd56db65d46d0463ec8da99b9513486779a717badf9c8",
+      "sizeBytes": 153258,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 2
+    },
+    "veterinarian:3": {
+      "id": "cmv1rq67t005r02mzpdv7k63t",
+      "url": "https://r.abeiai.com/picture-books/20261010-25727dd306a29149.webp",
+      "sha256": "4548933adc9df5ff7aa7e8b152d566960cc99ac90cfea6b0cf606380b45b5ec7",
+      "sizeBytes": 147948,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 3
+    },
+    "veterinarian:4": {
+      "id": "cmv1rq68z005s02mzfstsovv5",
+      "url": "https://r.abeiai.com/picture-books/20261010-fcc6c6c3d150338e.webp",
+      "sha256": "acf3f17e9a7d8cfe234e14b627cbddc740cedf0b19133daaa6ec62e4f4d69d02",
+      "sizeBytes": 148242,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 4
+    },
+    "veterinarian:6": {
+      "id": "cmv1rq6if005t02mz07s7dwd6",
+      "url": "https://r.abeiai.com/picture-books/20261010-da11575f438e312e.webp",
+      "sha256": "7d6785178067f78a43808353b01f4b1483b42d5a8d891575dfe22fdd68c4f4f9",
+      "sizeBytes": 152470,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 6
+    },
+    "veterinarian:7": {
+      "id": "cmv1rq6j4005u02mzowa5gslz",
+      "url": "https://r.abeiai.com/picture-books/20261010-54414b0c26d2b67e.webp",
+      "sha256": "62bec0a144550707f53c29491f2f1a7401e0eb19995b94a05b655c50912222bd",
+      "sizeBytes": 138848,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 7
+    },
+    "veterinarian:5": {
+      "id": "cmv1rq6pj005v02mzj34i9nbj",
+      "url": "https://r.abeiai.com/picture-books/20261010-b35362d204545590.webp",
+      "sha256": "fc5f87a12a0565d9517726bb4ebea563ced429142112c7279c436380260e946d",
+      "sizeBytes": 139540,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 5
+    },
+    "veterinarian:9": {
+      "id": "cmv1rq6sp005x02mz9tqm9cew",
+      "url": "https://r.abeiai.com/picture-books/20261010-8d3203765c8fda71.webp",
+      "sha256": "1eda6e256f43702a0f73ae0bf2d83ae7a65225a5644fbb4503fa0d88544c16c8",
+      "sizeBytes": 154998,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 9
+    },
+    "veterinarian:8": {
+      "id": "cmv1rq6s6005w02mz994n31ol",
+      "url": "https://r.abeiai.com/picture-books/20261010-a863bac19136f37a.webp",
+      "sha256": "446f7d8fafb1b46d6b827e2fb40baa1783e78e83f7e3380351eb7397ae4131b9",
+      "sizeBytes": 143936,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 8
+    },
+    "veterinarian:10": {
+      "id": "cmv1rq71o005y02mzeg22ofx3",
+      "url": "https://r.abeiai.com/picture-books/20261010-b925cbb4bcf5f02a.webp",
+      "sha256": "4bda8b5c3e6be6dae8f8b6675fd2ead68ce137d9d8079fce28d2203c8b3bee21",
+      "sizeBytes": 147490,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 10
+    },
+    "veterinarian:12": {
+      "id": "cmv1rq75l005z02mz5z2rxh3f",
+      "url": "https://r.abeiai.com/picture-books/20261010-f34821ff73e9e9b1.webp",
+      "sha256": "a59de5aebed9700db3d54a056fdeb523122fc7b3ba29904d4a0b4aa2bb969253",
+      "sizeBytes": 159324,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 12
+    },
+    "veterinarian:11": {
+      "id": "cmv1rq75y006002mz4h7ncgb2",
+      "url": "https://r.abeiai.com/picture-books/20261010-bf9904b8cf6db772.webp",
+      "sha256": "80c330cf9c23231a3778bfbf3feb643e4d8d4667726036ab4d8cd6005b48d7d3",
+      "sizeBytes": 141196,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 11
+    },
+    "veterinarian:13": {
+      "id": "cmv1rq7ds006102mzivo5jxo7",
+      "url": "https://r.abeiai.com/picture-books/20261010-9416caf6f31f94c3.webp",
+      "sha256": "35b0094dfa96b80c040b9d5053b1456c4282b72ca931752501b3d79aaafb6688",
+      "sizeBytes": 171948,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 13
+    },
+    "veterinarian:15": {
+      "id": "cmv1rq7gg006302mzn7apxoah",
+      "url": "https://r.abeiai.com/picture-books/20261010-9465925afab28dad.webp",
+      "sha256": "4fe79d9fc1c21c27081f9753c2c14f77c57a9dbe7a96b96eabebf657a81499af",
+      "sizeBytes": 163708,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 15
+    },
+    "veterinarian:14": {
+      "id": "cmv1rq7fz006202mz2uqccj26",
+      "url": "https://r.abeiai.com/picture-books/20261010-1bd6109b4a696dfc.webp",
+      "sha256": "247a2f51044921d0e074f0a1b6c1f1b465b3d9a21082077717eaae3f251848e7",
+      "sizeBytes": 164866,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 14
+    },
+    "veterinarian:16": {
+      "id": "cmv1rq7p5006402mzs1a0913q",
+      "url": "https://r.abeiai.com/picture-books/20261010-1bfb65a47ed240c0.webp",
+      "sha256": "6511efa15c47b6e11cf5d1280b54cfaa3b463464dd19ca1b905fae50c831de83",
+      "sizeBytes": 157834,
+      "width": 960,
+      "height": 1280,
+      "slug": "veterinarian",
+      "position": 16
+    },
+    "resource": {
+      "id": "cmv1rq80j006502mznyfgwz44",
+      "url": "https://r.abeiai.com/picture-books/20261010-5804dbc9a1dbf5e4.webp",
+      "sha256": "63ce31c58fb87795a934507fbec08f5868da418d81b24479aee45c3bfb11efa4",
+      "sizeBytes": 255062,
+      "width": 1600,
+      "height": 900,
+      "slug": null,
+      "position": null
+    }
+  },
+  "courseReviewId": "cmv1rrh1g000x36mzkcqm6rk7",
+  "publishedAt": "2026-10-10T02:22:40.275Z"
+}
