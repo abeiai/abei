@@ -16,6 +16,7 @@ from .package import load_manifest, read_chunk, write_chunk
 from .native_mapping import SOURCE_SYSTEM, LOG_KINDS, native_id, identity_values, user_identity, log_row, book_row, json_value, text, timestamp
 from .object_transfer import env_values
 from .incremental import user_is_new
+from .book_styles import resolve_book_styles
 
 NATIVE_TABLES=frozenset({'users','legacy_ai_sessions','legacy_ai_logs','legacy_ai_session_items','legacy_ai_log_assets','media_assets','picture_books'})
 JSON_FIELDS=frozenset({'metadata','parameters','messages','characters','pages'})
@@ -275,9 +276,10 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 if heals:
                     conn.cursor().executemany('UPDATE legacy_ai_session_items SET "logId"=%s WHERE id=%s AND "sessionId"=%s AND "sourceMsgId"=%s AND "sourceVersionId"=%s AND "sourceHash"=%s AND "logId" IS NULL',heals)
                     conn.commit()
+                styles=resolve_book_styles(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 def books():
                     for row in table_rows(root,manifest,key,'app_ai_product',False):
-                        book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']))
+                        book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']),styles)
                         if reason: report['booksArchived'][reason]+=1
                         else: yield book
                 report['compatibleBooksProcessed']=bulk_rows(conn,'picture_books',books(),progress)
@@ -304,9 +306,10 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                     if selected_users is not None and row['sourcePk'] not in selected_users:continue
                     urls=replacement_urls(db,key,'app_user_user',row['sourcePk'],selection_id); avatar=urls.get(row['values'].get('avatar'))
                     if avatar: conn.execute('UPDATE users SET "avatarUrl"=%s WHERE id=%s AND "avatarUrl" IS NULL',(avatar,users.get(row['sourcePk'])))
+                styles=resolve_book_styles(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 for row in table_rows(root,manifest,key,'app_ai_product',False):
                     if selected_users is not None and row['values'].get('user_id') not in selected_users:continue
-                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id))
+                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id),styles)
                     if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s::timestamp(3)',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
                 conn.commit()
                 updates=[]

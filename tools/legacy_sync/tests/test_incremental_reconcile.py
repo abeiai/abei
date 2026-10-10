@@ -58,6 +58,11 @@ class IncrementalReconciliationIntegration(unittest.TestCase):
                 with self.assertRaises(ValueError):reconcile_increment(root,KEY,url,'https://fixture.invalid',testing=True)
                 self.assertFalse((root/'reports/incremental-reconciliation.enc').exists());self.assertEqual(cursor.read_bytes(),before)
                 with psycopg.connect(url) as c:c.execute('UPDATE legacy_ai_log_assets SET "storageKey"=%s WHERE id=%s',(asset[1],asset[0]))
+                for invalid_style in ('','watercolor'):
+                    with psycopg.connect(url) as c:c.execute('UPDATE picture_books SET style=%s WHERE id=%s',(invalid_style,native_id('picture-book','2')))
+                    with self.assertRaises(ValueError):reconcile_increment(root,KEY,url,'https://fixture.invalid',testing=True)
+                    self.assertFalse((root/'reports/incremental-reconciliation.enc').exists());self.assertEqual(cursor.read_bytes(),before)
+                with psycopg.connect(url) as c:c.execute('UPDATE picture_books SET style=%s WHERE id=%s',('flat',native_id('picture-book','2')))
                 for bad in ('status','hash'):
                     response=Response()
                     if bad=='status':response.status_code=404

@@ -49,6 +49,19 @@ class NativeMapping(unittest.TestCase):
         self.assertEqual(value['systemPrompt'],'system')
         self.assertFalse(value['usageVerified'])
 
+    def test_import_selects_semantically_matching_legacy_book_style(self):
+        source={'sourcePk':'9','sourceTable':'app_ai_product','values':{'user_id':'4','result':[{'extra':{'draw':{'style':'6','role':[{'style':'水彩画'}]},'config':{'draw_style':[{'id':'4'}]}},'rn_case_pages':[{'body_zh':'正文'}]}],'create_time':STAMP,'update_time':STAMP}}
+        book,reason=book_row(source,{'4':native_id('user','4')},{})
+        self.assertIsNone(reason);self.assertEqual(book['style'],'3d-animation')
+        source['values']['result'][0]['extra']['draw']['style']='17'
+        self.assertEqual(book_row(source,{'4':native_id('user','4')},{})[0]['style'],'classic-oil')
+
+    def test_import_falls_back_to_flat_for_missing_or_unmatched_style(self):
+        source={'sourcePk':'9','sourceTable':'app_ai_product','values':{'user_id':'4','result':[{'extra':{'draw':{'style':'未知风格'},'config':{'draw_style':[{'id':'4'}]}},'rn_case_pages':[{'body_zh':'正文'}]}],'create_time':STAMP,'update_time':STAMP}}
+        self.assertEqual(book_row(source,{'4':native_id('user','4')},{})[0]['style'],'flat')
+        source['values']['result'][0]['extra']={}
+        self.assertEqual(book_row(source,{'4':native_id('user','4')},{})[0]['style'],'flat')
+
     def test_picture_book_mapping_requires_real_chinese_pages_owner_and_not_deleted(self):
         source={'sourcePk':'9','sourceTable':'app_ai_product','values':{'id':'9','user_id':'4','title':'故事','result':'[{"title_zh":"故事","img_cover":"old","rn_case_pages":[{"body_zh":"正文","img":"old-image","audio_zh":"old-audio"}]}]','create_time':STAMP,'update_time':STAMP,'building':'0','is_delete':'0'}}
         replacements={'old':'https://new/cover','old-image':'https://new/image','old-audio':'https://new/audio'}
