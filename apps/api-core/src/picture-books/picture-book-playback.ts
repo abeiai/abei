@@ -2,6 +2,7 @@ type PlaybackPage = {
   position: number;
   caption: string;
   narration: string;
+  textInImage?: true;
   imageUrl: string | null;
   audioUrl: string | null;
 };
@@ -31,6 +32,7 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
       position: Number(page.position),
       caption: string(page.caption),
       narration: string(page.narration) || string(page.caption),
+      ...(page.textInImage === true ? { textInImage: true as const } : {}),
       imageUrl: url(page.imageUrl),
       audioUrl: url(page.audioUrl)
     }))

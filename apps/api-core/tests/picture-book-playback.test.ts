@@ -80,3 +80,25 @@ test("跨页设置进入审核快照并传到播放器，旧版默认不跨页�
   assert.equal(playbackFromSnapshot("spread", spreadSnapshot).isSpread, true);
   assert.notEqual(hashCourseSnapshot(spreadSnapshot), hashCourseSnapshot(oldSnapshot));
 });
+
+test("图片内文字标记经过审核快照传给播放器，同时保留可访问配文", () => {
+  const source = { title: "长大以后", style: "watercolor", aspectRatio: "5:4", pages: [
+    { position: 1, caption: "原来我是蝉！", narration: "原来我是蝉！", imageUrl: "/cicada.webp", audioUrl: null, textInImage: true }
+  ] };
+  const snapshot = snapshotCourseMaterial("PICTURE_BOOK", source);
+  const page = playbackFromSnapshot("growth", snapshot).pages[0];
+  assert.equal(page.textInImage, true);
+  assert.equal(page.caption, "原来我是蝉！");
+  assert.equal(page.imageUrl, "/cicada.webp");
+});
+
+test("缺省、false及非布尔图片内文字标记不改变既有审核快照哈希", () => {
+  const page = { position: 1, caption: "旧绘本", narration: "旧绘本", imageUrl: "/old.webp", audioUrl: null };
+  const source = { title: "旧绘本", style: "watercolor", aspectRatio: "5:4", pages: [page] };
+  const original = snapshotCourseMaterial("PICTURE_BOOK", source);
+  for (const value of [false, "true", 1, null]) {
+    const candidate = snapshotCourseMaterial("PICTURE_BOOK", { ...source, pages: [{ ...page, textInImage: value }] });
+    assert.equal(hashCourseSnapshot(candidate), hashCourseSnapshot(original));
+    assert.equal(Object.hasOwn(playbackFromSnapshot("old", candidate).pages[0], "textInImage"), false);
+  }
+});

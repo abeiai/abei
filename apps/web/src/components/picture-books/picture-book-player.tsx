@@ -13,7 +13,7 @@ import { pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZon
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
-type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null };
+type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; textInImage?: boolean };
 type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; pages: Page[] };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
@@ -107,7 +107,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
   const imageRatio = pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
-  const activeLayout = pictureBookPlaybackLayout(layout, book?.isSpread);
+  const activeLayout = pictureBookPlaybackLayout(layout, book?.isSpread, page?.textInImage === true);
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);

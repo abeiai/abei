@@ -313,6 +313,7 @@ export function snapshotCourseMaterial(
           position: page.position,
           caption: page.caption,
           narration: page.narration,
+          ...(page.textInImage === true ? { textInImage: true } : {}),
           imageUrl: page.imageUrl,
           audioUrl: page.audioUrl
         }))

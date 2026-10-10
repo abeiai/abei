@@ -6,6 +6,7 @@ export function pictureBookPageRatio(aspectRatio: string, isSpread = false, posi
   return singleRatio * (isSpread && position > 0 ? 2 : 1);
 }
 
-export function pictureBookPlaybackLayout(layout: PictureBookPlaybackLayout, isSpread = false): PictureBookPlaybackLayout {
+export function pictureBookPlaybackLayout(layout: PictureBookPlaybackLayout, isSpread = false, textInImage = false): PictureBookPlaybackLayout {
+  if (textInImage) return "hidden";
   return isSpread && layout === "side" ? "subtitle" : layout;
 }

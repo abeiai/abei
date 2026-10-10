@@ -19,3 +19,11 @@ test("跨页模式回退左文右图选择，普通绘本保留所有版式", ()
   assert.equal(pictureBookPlaybackLayout("hidden", false), "hidden");
   assert.equal(pictureBookPlaybackLayout("hidden", true), "hidden");
 });
+
+test("文字已嵌入插画的绘本页面保留完整画面，不为外置文字缩小图片", () => {
+  for (const layout of ["subtitle", "side", "below"] as const) {
+    assert.equal(pictureBookPlaybackLayout(layout, false, true), "hidden");
+    assert.equal(pictureBookPlaybackLayout(layout, false, false), layout);
+  }
+  assert.equal(pictureBookPageRatio("5:4", false, 1), 1.25);
+});
