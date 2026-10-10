@@ -513,7 +513,12 @@ test("绘本资源播放链接只包含一组资源和目录条目参数", () =>
     runtime.React = previousReact;
   }
   const href = html.match(/href="(\/picture-books\/[^"]+)"/u)?.[1]?.replaceAll("&amp;", "&");
-  assert.equal(href, "/picture-books/book-1/play?courseId=507f1f77bcf86cd799439011&courseRevisionItemId=item-1");
+  assert.ok(href);
+  const link = new URL(href, "http://127.0.0.1:3600");
+  assert.equal(link.pathname, "/picture-books/book-1/play");
+  assert.deepEqual(link.searchParams.getAll("courseId"), [course.id]);
+  assert.deepEqual(link.searchParams.getAll("courseRevisionItemId"), ["item-1"]);
+  assert.deepEqual(link.searchParams.getAll("album"), [course.id]);
 });
 
 test("待审课件在游客和授权预览中都保持锁定且不出现登录入口", () => {
