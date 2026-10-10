@@ -4,9 +4,19 @@
 
 四册依次为《树林里的铠甲勇士》《从池塘飞向天空》《浪花里的奇妙变身》《换上美丽的新衣裳》。采用自然写实水彩与铅笔线稿，图中文字由内置 image_gen 直接生成；Sharp只用于尺寸统一、WebP编码和核对用联系表，没有额外叠字。
 
-脚本和最终提示词：`scripts/picture-books/growth-series-data.mjs`；每张图的来源、提示词及选稿记录：`growth-generation-results/`、`growth-assets-manifest.json`。交付素材：`apps/web/public/picture-book-demos/growth/`。53张素材齐全，已核对尺寸、全部文字和动物形态；通过固定既有作者 `abei-lele-studio` 的正常课程投稿、管理员审核服务建立四册系列，不覆盖旧绘本；仅操作本地 abei 3604 数据库，不部署或同步生产。
+脚本和最终提示词：`scripts/picture-books/growth-series-data.mjs`；每张图的来源、提示词及选稿记录：`growth-generation-results/`、`growth-assets-manifest.json`。交付素材：`apps/web/public/picture-book-demos/growth/`。53张素材齐全，已核对尺寸、全部文字和动物形态；通过固定既有作者 `abei-lele-studio` 的正常课程投稿、管理员审核服务建立四册系列，不覆盖旧绘本。
 
-本地已发布入口：[《长大以后，我是谁？》](http://127.0.0.1:3600/c/1885e24ff148bd1a9a877cdd)。系列状态PUBLISHED、审核版本APPROVED，四个绘本课件均APPROVED，保留管理员审核日志。前台实际目录和内页已通过浏览器检查。匿名用户可查看系列目录，播放遵循平台既有登录规则，未额外改变绘本馆公开权限。
+本地与线上已发布入口：[《长大以后，我是谁？》](https://new.abeiai.com/c/1885e24ff148bd1a9a877cdd)。系列状态PUBLISHED、审核版本APPROVED，四个绘本课件均APPROVED，保留管理员审核日志。匿名用户可查看系列目录，播放遵循平台既有登录规则，未额外改变绘本馆公开权限。
+
+## 2026-10-10 线上同步
+
+四册共52张阅读画面、另有1张系列封面；封面与正文共52段 Minimax `speech-2.8-hd` / `Chinese_huolishaonv` 配音。脚本 `growth-narration.mjs` 与 `narrate-growth-series.mjs` 完成了本地逐页配音和五条正式审核记录；`growth-production-sync.mjs` 与 runner 将该已审核版本选择性同步到独立生产实例。没有数据库 migration 或 seed 更新，也没有修改生产应用源码。
+
+GitHub `main` 已包含同步脚本，发布提交为 `922cb23`。生产应用继续运行已具备绘本图片内文字和配音播放能力的 `99acec7` 版本；本次只传输已核验的业务数据包及一次性运维脚本，不重建应用容器。服务器发布目录 `/opt/abei` 不是 Git 仓库。私有包、写入前目标记录、同步结果及复验记录保存在 `/opt/abei/deploy/data/growth-sync/20261010-animal-growth/`，目录权限700、数据文件权限600，均未加入Git。同步包 SHA-256 为 `439ad5b045be9a7b3155b50a33afad5000f8cebd82a653e8b3fb5b40c6153560`。
+
+生产端使用自身 R2 配置签名读取全部53张WebP和52段音频，逐份核对字节数与SHA-256，图片同时核对尺寸和类型。只同步本专辑的媒体、音频、绘本、课件公开快照、课程、目录、五条审核请求及审核日志；生产原有作者与管理员身份只读核对，账号、密码、钱包、提供商配置和其他作品不复制。写入采用单个可序列化事务，已有行逐字段冲突保护。首次新增130行；九表前后计数匹配，范围外业务、作者账号及钱包摘要不变。
+
+独立 `abei_growth_sync_test:3608` PostgreSQL 验证了故障回滚、首次导入、零写入重放和目标冲突保护。生产服务复验读取四册共52个画面，52个音频地址及内嵌文字标记均与批准快照一致。公网 `/api/health`、`/api/health/db`、`/api/health/redis`、`/api/system-config/public` 均返回HTTP200与`code=0`；系列页面HTTP200并包含四册标题。验证时生产应用版本为 `0.0.16`、revision `99acec7`。
 
 ## 科普校正依据
 
