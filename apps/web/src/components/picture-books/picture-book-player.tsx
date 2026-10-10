@@ -41,7 +41,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const volumeRef = useRef<HTMLDivElement | null>(null);
   const [audioError, setAudioError] = useState("");
   const [audioRetry, setAudioRetry] = useState(0);
-  const [layout, setLayout] = useState<typeof layouts[number]["value"]>("subtitle");
+  const [layout, setLayout] = useState<typeof layouts[number]["value"] | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [fullscreenAvailable, setFullscreenAvailable] = useState(false);
@@ -107,7 +107,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
   const imageRatio = pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
-  const activeLayout = pictureBookPlaybackLayout(layout, book?.isSpread, page?.textInImage === true);
+  const activeLayout = pictureBookPlaybackLayout(layout ?? "subtitle", book?.isSpread, layout === null && page?.textInImage === true);
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);
