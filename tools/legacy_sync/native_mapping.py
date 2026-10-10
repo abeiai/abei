@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 from .book_styles import book_style
+from .book_ratios import book_ratio
 from urllib.parse import urlparse, unquote
 
 SOURCE_SYSTEM='abeiai-v1'
@@ -93,7 +94,7 @@ def log_row(row,users,subjects,versions):
     }
 
 
-def book_row(row,users,replacements,styles=None):
+def book_row(row,users,replacements,styles=None,ratios=None):
     v=row['values']; owner=users.get(v.get('user_id'))
     if str(v.get('is_delete'))=='1': return None,'DELETED'
     if not owner: return None,'OWNER_UNRESOLVED'
@@ -107,4 +108,4 @@ def book_row(row,users,replacements,styles=None):
         pages.append({'position':len(pages)+1,'caption':text(page.get('body_zh')) or '', 'imagePrompt':text(page.get('prompt')) or '', 'narration':text(page.get('body_zh')) or '', 'imageUrl':replacements.get(page.get('img'),''),'audioUrl':replacements.get(page.get('audio_zh'),'')})
     if not pages: return None,'EMPTY_BOOK'
     complete=str(v.get('building'))=='0' and all(page['imageUrl'] and page['caption'] for page in pages)
-    return {'id':native_id('picture-book',row['sourcePk']),'userId':owner,'title':text(v.get('title')) or text(case.get('title_zh')) or '旧版作品 '+row['sourcePk'],'brief':'','style':book_style(v,case,(styles or {}).get(row['sourcePk'])),'aspectRatio':'1:1','pageCount':len(pages),'status':'COMPLETED' if complete else 'EDITING','messages':[],'characters':[],'pages':pages,'createdAt':timestamp(v['create_time']),'updatedAt':timestamp(v['update_time'])},None
+    return {'id':native_id('picture-book',row['sourcePk']),'userId':owner,'title':text(v.get('title')) or text(case.get('title_zh')) or '旧版作品 '+row['sourcePk'],'brief':'','style':book_style(v,case,(styles or {}).get(row['sourcePk'])),'aspectRatio':book_ratio(case,(ratios or {}).get(row['sourcePk'])),'pageCount':len(pages),'status':'COMPLETED' if complete else 'EDITING','messages':[],'characters':[],'pages':pages,'createdAt':timestamp(v['create_time']),'updatedAt':timestamp(v['update_time'])},None

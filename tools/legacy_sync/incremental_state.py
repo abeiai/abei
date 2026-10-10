@@ -19,6 +19,7 @@ from .asset_index import open_index,validate_index,table_rows,unseal
 from .native_import import version_labels,refs_for,replacement_urls
 from .native_mapping import SOURCE_SYSTEM,LOG_KINDS,target_guard,native_id,log_row,book_row
 from .book_styles import resolve_book_styles
+from .book_ratios import resolve_book_ratios
 from .object_transfer import env_values,pinned_adapter
 from .assets import validate_download_url
 from .incremental import user_is_new
@@ -149,10 +150,11 @@ def reconcile_increment(root,key,target,public,testing=False):
                 rows=conn.execute('SELECT id,"createdByUserId",url,size,"mimeType" FROM media_assets WHERE id=ANY(%s)',(keys[start:start+2000],)).fetchall()
                 if len(rows)!=len(keys[start:start+2000]) or any(tuple(row[1:])!=media_want[row[0]] for row in rows):raise ValueError('Owned media reconciliation mismatch')
             styles=resolve_book_styles(conn,table_rows(root,m,key,'app_ai_product',False),table_rows(root,m,key,'app_ai_onetaketask',False))
+            ratios=resolve_book_ratios(conn,table_rows(root,m,key,'app_ai_product',False),table_rows(root,m,key,'app_ai_onetaketask',False))
             prior=int(m['incremental']['tables']['app_ai_product']['fromPk'])
             for row in table_rows(root,m,key,'app_ai_product',False):
                 if int(row['sourcePk'])<=prior:book_counts['existingPreserved']+=1;continue
-                book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']),styles)
+                book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']),styles,ratios)
                 if reason:book_counts['archived:'+reason]+=1
                 else:
                     got=conn.execute('SELECT "userId",pages,style FROM picture_books WHERE id=%s',(book['id'],)).fetchone()
