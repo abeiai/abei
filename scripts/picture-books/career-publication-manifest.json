@@ -1,16 +1,18 @@
 {
   "series": "我想成为",
+  "revision": "different-children-families-v2",
   "owner": "abei-lele-studio",
+  "courseId": "e2edf14f892a944946c00c80",
   "assets": {
-    "doctor:1": {
-      "id": "cmv1a52xh0001drmx8k2lkelo",
-      "url": "https://r.abeiai.com/picture-books/20261009-b4bf9b6faa71bab2.webp",
-      "sha256": "bf70db43c7eb3e5d20775b8055722985643f133179b463a14713c7838921149f",
-      "sizeBytes": 191756,
+    "doctor:0": {
+      "id": "cmv1a52z80002drmxaw1bw823",
+      "url": "https://r.abeiai.com/picture-books/20261009-b22726ce6bd2c7f3.webp",
+      "sha256": "643ea00eeefc66d3375470ad801b08c4060f3772b4b3efe3002e1273e0fa4055",
+      "sizeBytes": 151164,
       "width": 960,
       "height": 1280,
       "slug": "doctor",
-      "position": 1
+      "position": 0
     },
     "doctor:2": {
       "id": "cmv1a52mm0000drmxq7i8jbgj",
@@ -22,25 +24,15 @@
       "slug": "doctor",
       "position": 2
     },
-    "doctor:0": {
-      "id": "cmv1a52z80002drmxaw1bw823",
-      "url": "https://r.abeiai.com/picture-books/20261009-b22726ce6bd2c7f3.webp",
-      "sha256": "643ea00eeefc66d3375470ad801b08c4060f3772b4b3efe3002e1273e0fa4055",
-      "sizeBytes": 151164,
+    "doctor:1": {
+      "id": "cmv1a52xh0001drmx8k2lkelo",
+      "url": "https://r.abeiai.com/picture-books/20261009-b4bf9b6faa71bab2.webp",
+      "sha256": "bf70db43c7eb3e5d20775b8055722985643f133179b463a14713c7838921149f",
+      "sizeBytes": 191756,
       "width": 960,
       "height": 1280,
       "slug": "doctor",
-      "position": 0
-    },
-    "doctor:5": {
-      "id": "cmv1a53nz0003drmxlc65ruud",
-      "url": "https://r.abeiai.com/picture-books/20261009-64fd4e2fa0857c20.webp",
-      "sha256": "b1caf79e0f0372dea1e9398c30b011e592ca31b5acd08b1513419e4b638bdf4b",
-      "sizeBytes": 137896,
-      "width": 960,
-      "height": 1280,
-      "slug": "doctor",
-      "position": 5
+      "position": 1
     },
     "doctor:4": {
       "id": "cmv1a53rl0004drmxak8aorii",
@@ -62,6 +54,16 @@
       "slug": "doctor",
       "position": 3
     },
+    "doctor:5": {
+      "id": "cmv1a53nz0003drmxlc65ruud",
+      "url": "https://r.abeiai.com/picture-books/20261009-64fd4e2fa0857c20.webp",
+      "sha256": "b1caf79e0f0372dea1e9398c30b011e592ca31b5acd08b1513419e4b638bdf4b",
+      "sizeBytes": 137896,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 5
+    },
     "doctor:6": {
       "id": "cmv1a541c0006drmx4b2lqoez",
       "url": "https://r.abeiai.com/picture-books/20261009-5291540fb0edd7b9.webp",
@@ -71,6 +73,16 @@
       "height": 1280,
       "slug": "doctor",
       "position": 6
+    },
+    "doctor:7": {
+      "id": "cmv1a552q000cdrmxs0361we6",
+      "url": "https://r.abeiai.com/picture-books/20261009-e511953b1b8efe6d.webp",
+      "sha256": "d62f9e019ddf5e489bb1ac35ba7ec8747f8f4f4e144899a54fb4b4c93edf0416",
+      "sizeBytes": 146272,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 7
     },
     "doctor:8": {
       "id": "cmv1a546n0007drmx56350u3j",
@@ -112,26 +124,6 @@
       "slug": "doctor",
       "position": 11
     },
-    "doctor:13": {
-      "id": "cmv1a54zh000bdrmx5f3clhl4",
-      "url": "https://r.abeiai.com/picture-books/20261009-7157e36346519449.webp",
-      "sha256": "395c1a32fbe5ee861d959a895fcbc596f2168d1b499ee37a29ed816614fef8b2",
-      "sizeBytes": 132220,
-      "width": 960,
-      "height": 1280,
-      "slug": "doctor",
-      "position": 13
-    },
-    "doctor:7": {
-      "id": "cmv1a552q000cdrmxs0361we6",
-      "url": "https://r.abeiai.com/picture-books/20261009-e511953b1b8efe6d.webp",
-      "sha256": "d62f9e019ddf5e489bb1ac35ba7ec8747f8f4f4e144899a54fb4b4c93edf0416",
-      "sizeBytes": 146272,
-      "width": 960,
-      "height": 1280,
-      "slug": "doctor",
-      "position": 7
-    },
     "doctor:12": {
       "id": "cmv1a556o000ddrmxkzrgjadc",
       "url": "https://r.abeiai.com/picture-books/20261009-44d9980e0d193bd1.webp",
@@ -141,6 +133,16 @@
       "height": 1280,
       "slug": "doctor",
       "position": 12
+    },
+    "doctor:13": {
+      "id": "cmv1a54zh000bdrmx5f3clhl4",
+      "url": "https://r.abeiai.com/picture-books/20261009-7157e36346519449.webp",
+      "sha256": "395c1a32fbe5ee861d959a895fcbc596f2168d1b499ee37a29ed816614fef8b2",
+      "sizeBytes": 132220,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 13
     },
     "doctor:14": {
       "id": "cmv1a55m2000edrmxjjovgonk",
@@ -152,16 +154,6 @@
       "slug": "doctor",
       "position": 14
     },
-    "doctor:15": {
-      "id": "cmv1a55ou000fdrmxgyye3kah",
-      "url": "https://r.abeiai.com/picture-books/20261009-78e87ee94f2c9f6f.webp",
-      "sha256": "92801161f7852963e0d9418ef87d892156d18cf3d06e00de0a42334411414776",
-      "sizeBytes": 188482,
-      "width": 960,
-      "height": 1280,
-      "slug": "doctor",
-      "position": 15
-    },
     "doctor:16": {
       "id": "cmv1a55r9000gdrmxifm8v40m",
       "url": "https://r.abeiai.com/picture-books/20261009-b4f4f6a112ad87ea.webp",
@@ -172,399 +164,372 @@
       "slug": "doctor",
       "position": 16
     },
+    "doctor:15": {
+      "id": "cmv1nhpvb0000udmzmavssh7p",
+      "url": "https://r.abeiai.com/picture-books/20261010-a5221bb3888f5e94.webp",
+      "sha256": "d7430e27b49549954b6fd904f97f780d5a86b9ca99454c10d2f71161fc556fff",
+      "sizeBytes": 180374,
+      "width": 960,
+      "height": 1280,
+      "slug": "doctor",
+      "position": 15
+    },
     "firefighter:0": {
-      "id": "cmv1a563a000hdrmxoove8gzv",
-      "url": "https://r.abeiai.com/picture-books/20261009-3da50e8441b4a1a0.webp",
-      "sha256": "f48d89e1268da2307a005e0df82d1ac82e13cac22860a7d71ac5d84302c02bb5",
-      "sizeBytes": 193368,
+      "id": "cmv1nhq460001udmzf8xu2f16",
+      "url": "https://r.abeiai.com/picture-books/20261010-bd299bf883358314.webp",
+      "sha256": "08685ff2efce2d0440ad83cf67ea1c35b75ad5ee8a319146119e32119ac84174",
+      "sizeBytes": 196546,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 0
     },
-    "firefighter:2": {
-      "id": "cmv1a56hc000idrmxwfbw0y86",
-      "url": "https://r.abeiai.com/picture-books/20261009-21b6e991b16f2641.webp",
-      "sha256": "27c6ee9749186fb42b64262b82d152d4a8a0ec62eafeb8b387a5ef59dfca9c7f",
-      "sizeBytes": 216512,
-      "width": 960,
-      "height": 1280,
-      "slug": "firefighter",
-      "position": 2
-    },
     "firefighter:1": {
-      "id": "cmv1a56i3000jdrmxt0y9kry0",
-      "url": "https://r.abeiai.com/picture-books/20261009-5573dbc2de45af02.webp",
-      "sha256": "48a1a2b0797f58c6d9a2a0c9996ea1b831492cfa4ebd9ece5fed23b03675255c",
-      "sizeBytes": 219750,
+      "id": "cmv1nhql50002udmzqj8y8kpr",
+      "url": "https://r.abeiai.com/picture-books/20261010-13ea34e20059e349.webp",
+      "sha256": "f6b5828a0757493585f0ce2427ff724006277c21b468731144e2939473f2a8c0",
+      "sizeBytes": 196146,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 1
     },
+    "firefighter:2": {
+      "id": "cmv1nhql60003udmzn9jok05j",
+      "url": "https://r.abeiai.com/picture-books/20261010-3632ffbff9947e46.webp",
+      "sha256": "211fd96d59401ebc92f2cf2b13eb52da16f2cfe672f4e89a349c553a1185cdc2",
+      "sizeBytes": 194946,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 2
+    },
     "firefighter:3": {
-      "id": "cmv1a56rz000kdrmx33qnt02y",
-      "url": "https://r.abeiai.com/picture-books/20261009-6c34846f3755aa27.webp",
-      "sha256": "bb5788a6cfd60801bb0bcd8563e3dcd9046bafbbf3ca741da6f3bb5984b8526e",
-      "sizeBytes": 181858,
+      "id": "cmv1nhr0s0004udmzh4v7s6oz",
+      "url": "https://r.abeiai.com/picture-books/20261010-7366bda526dcec8d.webp",
+      "sha256": "273c7e30ed6d1eb414e095a40b699272e2d76b1efdb44c8105fbc1039c8e537d",
+      "sizeBytes": 167018,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 3
     },
     "firefighter:4": {
-      "id": "cmv1a56yu000ldrmxqpd7881x",
-      "url": "https://r.abeiai.com/picture-books/20261009-74ee75c9741adfcf.webp",
-      "sha256": "f41e8d612ce540b04640d18526cc6a789a9ba7ac6b211c5ce3132d8b15107166",
-      "sizeBytes": 203838,
+      "id": "cmv1nhr320005udmzph35e1v7",
+      "url": "https://r.abeiai.com/picture-books/20261010-9679a281e805f2ca.webp",
+      "sha256": "e00b27e899987aece6cb451c9f37f018deb63207b581aa27643da1527cc56d10",
+      "sizeBytes": 183642,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 4
     },
     "firefighter:5": {
-      "id": "cmv1a577j000ndrmxwiyzd4os",
-      "url": "https://r.abeiai.com/picture-books/20261009-2762e3b8f404aa1f.webp",
-      "sha256": "dc5713f5f65171767dee6425ce8090ebd0e9341cfe992d9b945b1c15bb441bd2",
-      "sizeBytes": 179624,
+      "id": "cmv1nhrfj0006udmzw0u5ueks",
+      "url": "https://r.abeiai.com/picture-books/20261010-3bf9357d9747588e.webp",
+      "sha256": "50d4652cbfd9441e026c23c8f862f65ca18089258a5764722e9bb3c320bddf36",
+      "sizeBytes": 162894,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 5
     },
     "firefighter:6": {
-      "id": "cmv1a573r000mdrmxcb7fqgtf",
-      "url": "https://r.abeiai.com/picture-books/20261009-8cf0997c7a845e57.webp",
-      "sha256": "e5010e0c843fd1ce038d534a6fd865d1aef48c79f920f8f35996e2039a1f9bfc",
-      "sizeBytes": 198286,
+      "id": "cmv1nhrkr0007udmzro9xmug5",
+      "url": "https://r.abeiai.com/picture-books/20261010-d2f976d408899c55.webp",
+      "sha256": "cbae669e06ce0a80dc57b504793153c6404087f2b154f5abbec0c67006ca29a3",
+      "sizeBytes": 180754,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 6
     },
-    "firefighter:9": {
-      "id": "cmv1a57ri000qdrmxy72c0dkv",
-      "url": "https://r.abeiai.com/picture-books/20261009-38e231c64b6250c5.webp",
-      "sha256": "65ecc7164d0d344086ce9ba06ddc33b79313eb71073de4c703c6d106001a8066",
-      "sizeBytes": 231960,
-      "width": 960,
-      "height": 1280,
-      "slug": "firefighter",
-      "position": 9
-    },
     "firefighter:7": {
-      "id": "cmv1a57ni000odrmxqufzus74",
-      "url": "https://r.abeiai.com/picture-books/20261009-4f0d9a112a6a92bc.webp",
-      "sha256": "8272a044941026ed4103ad9b954bbbb55742c54c8cf04d4de6a93f9bcc5c162f",
-      "sizeBytes": 225040,
+      "id": "cmv1nhrx10008udmzhlww2tx4",
+      "url": "https://r.abeiai.com/picture-books/20261010-670bcd89df991ed1.webp",
+      "sha256": "93e1e10fbf70ca60c1fadac99a53ed4f685da98d2a2811a1a152b389e7ecaf0b",
+      "sizeBytes": 208058,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 7
     },
-    "firefighter:8": {
-      "id": "cmv1a57p9000pdrmxqin41beq",
-      "url": "https://r.abeiai.com/picture-books/20261009-31501c12fddb1d18.webp",
-      "sha256": "9c0f9aef9516f2a358869416ce9dd7ed92578b65c43e0225df600e8533201088",
-      "sizeBytes": 194868,
+    "firefighter:9": {
+      "id": "cmv1nhs850009udmz61w4o28w",
+      "url": "https://r.abeiai.com/picture-books/20261010-7ce6c88cf56416f7.webp",
+      "sha256": "15065bcdbf94b322ef72a7e9702a83838d6b59271d56cc815e93565c470c80ba",
+      "sizeBytes": 209924,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
-      "position": 8
+      "position": 9
     },
     "firefighter:10": {
-      "id": "cmv1a5891000rdrmxozx8ynt3",
-      "url": "https://r.abeiai.com/picture-books/20261009-0d119e6e4306f729.webp",
-      "sha256": "c1c292bae6ad85a25dd88860b1f2d6cc0a5eb48346668ca983024f66e9f2cddd",
-      "sizeBytes": 179372,
+      "id": "cmv1nhsfm000audmz125ihaj3",
+      "url": "https://r.abeiai.com/picture-books/20261010-d0c992cbc7afb365.webp",
+      "sha256": "084f696f1f8e8aa27b5c1d77a366165634d4a13b9867b95a91b73585fdeb6350",
+      "sizeBytes": 165360,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 10
     },
+    "firefighter:8": {
+      "id": "cmv1nhsqj000budmzcj4wq1l3",
+      "url": "https://r.abeiai.com/picture-books/20261010-620c1bbc40a4f609.webp",
+      "sha256": "6a6bfdab6254c9174ac7098da58ed72d43c1ff614c23822b08cf9e19a762a7fa",
+      "sizeBytes": 183782,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 8
+    },
     "firefighter:11": {
-      "id": "cmv1a58dj000sdrmxp9rfqcyg",
-      "url": "https://r.abeiai.com/picture-books/20261009-43b172bfab2b468d.webp",
-      "sha256": "34246a0b2fd874b4a2680af9b095caca8896c5b5a1041011f4dbf84f69aa5520",
-      "sizeBytes": 181960,
+      "id": "cmv1nhsxn000cudmz4ok6m6ps",
+      "url": "https://r.abeiai.com/picture-books/20261010-e486a98cfd622b9d.webp",
+      "sha256": "381e1f0efbcb861cbda3e2ba72f1d946eafa215d4a5e9f1d297e01918651e9e6",
+      "sizeBytes": 161120,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 11
     },
     "firefighter:12": {
-      "id": "cmv1a58i2000tdrmxj4di21gp",
-      "url": "https://r.abeiai.com/picture-books/20261009-4eeac0061c812e77.webp",
-      "sha256": "6004bcc70c08fe8a68b05eba9a31dffa5fe180e49527611d92ec0bdd1de6cc07",
-      "sizeBytes": 227896,
+      "id": "cmv1nht09000dudmzmeb9nvsf",
+      "url": "https://r.abeiai.com/picture-books/20261010-f3b36c9e31b966cf.webp",
+      "sha256": "c66650101ab40874d4b55f08d59dd4136336d8e417ce233c3ba86165ea3fe104",
+      "sizeBytes": 214948,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 12
     },
+    "firefighter:14": {
+      "id": "cmv1nhtg0000eudmzmhpq521e",
+      "url": "https://r.abeiai.com/picture-books/20261010-0f8b0d1c5c7a9f99.webp",
+      "sha256": "64a3f08ec2300e3ae737ef2e8e51e98382a350562ed86f9704dc51a7c8a89ae0",
+      "sizeBytes": 185064,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 14
+    },
+    "firefighter:15": {
+      "id": "cmv1nhtl7000fudmz93vvm0hm",
+      "url": "https://r.abeiai.com/picture-books/20261010-42c4085699bc70c6.webp",
+      "sha256": "88c9fa37bf37efe6f27f24673b2f2fdab3f58df4a55f1085b91f4ac0045657de",
+      "sizeBytes": 170550,
+      "width": 960,
+      "height": 1280,
+      "slug": "firefighter",
+      "position": 15
+    },
+    "teacher:0": {
+      "id": "cmv1nhu3f000hudmz6d5b31ij",
+      "url": "https://r.abeiai.com/picture-books/20261010-d4aa724eaafb45d4.webp",
+      "sha256": "7e7955042192bbb54186a9f8db8a705196c7b28ab5a573d24a640bc6647cf5a1",
+      "sizeBytes": 188330,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 0
+    },
     "firefighter:13": {
-      "id": "cmv1a58p9000udrmxlbynweho",
-      "url": "https://r.abeiai.com/picture-books/20261009-0e5597a36afe6884.webp",
-      "sha256": "002c81ee60080d4a8485cdd7db629f295718a75c4aa785811ccdd23d0fffba78",
-      "sizeBytes": 224332,
+      "id": "cmv1nhu1o000gudmz56ihwcn1",
+      "url": "https://r.abeiai.com/picture-books/20261010-1a96712e6efbb202.webp",
+      "sha256": "fd327a0b06ee0daa5f22e27650aea973ebc451a92648fa4ba9be3576dc4442a7",
+      "sizeBytes": 213216,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 13
     },
     "firefighter:16": {
-      "id": "cmv1a591t000wdrmxukb8d96y",
-      "url": "https://r.abeiai.com/picture-books/20261009-beaed61efbfed1c6.webp",
-      "sha256": "61387fc73fb7798bbee65b4e937f574333a7196175e35337491555a9ff181840",
-      "sizeBytes": 218750,
+      "id": "cmv1nhusm000judmzhash7ros",
+      "url": "https://r.abeiai.com/picture-books/20261010-8aa8ffa324acb8ea.webp",
+      "sha256": "383fcdeb5e69af251de8d771511a36e4ab0b0724bd3968a58e063c36ecd4ba84",
+      "sizeBytes": 196184,
       "width": 960,
       "height": 1280,
       "slug": "firefighter",
       "position": 16
     },
-    "firefighter:15": {
-      "id": "cmv1a58xt000vdrmx0nwmy7pu",
-      "url": "https://r.abeiai.com/picture-books/20261009-a023efc41b53e4e5.webp",
-      "sha256": "7a64bb1762424b9cf634dea7918d638fc5c4fcdbed6a4f4bef51e3f5f2d7b5c4",
-      "sizeBytes": 170956,
-      "width": 960,
-      "height": 1280,
-      "slug": "firefighter",
-      "position": 15
-    },
-    "firefighter:14": {
-      "id": "cmv1a595z000xdrmxa2n1l2pt",
-      "url": "https://r.abeiai.com/picture-books/20261009-69339ebaf5bbdd39.webp",
-      "sha256": "a7da42df39d9189a0955cf360fa0815360c111066dfbaebe81dfa2b34263935b",
-      "sizeBytes": 203164,
-      "width": 960,
-      "height": 1280,
-      "slug": "firefighter",
-      "position": 14
-    },
-    "teacher:0": {
-      "id": "cmv1a59h7000ydrmxehe6jmzm",
-      "url": "https://r.abeiai.com/picture-books/20261009-9a6d6057d24fa16e.webp",
-      "sha256": "f378502227cb820fc36e0525bab0e8eec5882b7d8bd06673a3760e03422e91a8",
-      "sizeBytes": 198406,
-      "width": 960,
-      "height": 1280,
-      "slug": "teacher",
-      "position": 0
-    },
     "teacher:1": {
-      "id": "cmv1a59p9000zdrmx2db3qvah",
-      "url": "https://r.abeiai.com/picture-books/20261009-ca884d84ce7f2e69.webp",
-      "sha256": "233453582ec06bf2a2d25da0e79c3065f8800909aac9c11b294e454ab68cc529",
-      "sizeBytes": 204028,
+      "id": "cmv1nhukk000iudmz5sruz095",
+      "url": "https://r.abeiai.com/picture-books/20261010-60999f2669721105.webp",
+      "sha256": "bb175ceccd5181837a7d15412756cc00f467422e2002556e3794400f6f7a5dbe",
+      "sizeBytes": 188462,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 1
     },
     "teacher:2": {
-      "id": "cmv1a59vx0010drmxpz2x2fal",
-      "url": "https://r.abeiai.com/picture-books/20261009-5f8a12070d52eb4d.webp",
-      "sha256": "b093b31e01811d32d00af08eebc82f5e4ffbd9666550eb84a56b550a649cc2fd",
-      "sizeBytes": 201680,
+      "id": "cmv1nhv2r000kudmzob3uldk7",
+      "url": "https://r.abeiai.com/picture-books/20261010-c1893a2881f8aca6.webp",
+      "sha256": "0d5c09c7930de19f0ea048dab2c87160bba68a698b5417571910686f7d4859d3",
+      "sizeBytes": 192982,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 2
     },
-    "teacher:3": {
-      "id": "cmv1a5a2r0011drmxz8s8yiws",
-      "url": "https://r.abeiai.com/picture-books/20261009-c1d5fd6dbe090e52.webp",
-      "sha256": "7a0fe66c7c6b9b2e72afdcdf32b2b5c2123e159d8ab520f001a02cad41526e10",
-      "sizeBytes": 205326,
-      "width": 960,
-      "height": 1280,
-      "slug": "teacher",
-      "position": 3
-    },
     "teacher:4": {
-      "id": "cmv1a5abd0012drmxahqj5gyy",
-      "url": "https://r.abeiai.com/picture-books/20261009-cef46844332b2bc1.webp",
-      "sha256": "e3ba200d6752e7319e0fd97c6e33be05200c673558a1b6d120f282ed90945574",
-      "sizeBytes": 183814,
+      "id": "cmv1nhv81000ludmzjnbnpnia",
+      "url": "https://r.abeiai.com/picture-books/20261010-0c70cc3210afd614.webp",
+      "sha256": "ea34d95247e7ce0a15ace1c1e691dfe32d39cc0ffafea2e4e8a3fd36a1742865",
+      "sizeBytes": 175176,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 4
     },
-    "teacher:6": {
-      "id": "cmv1a5aj20013drmxdbh56iud",
-      "url": "https://r.abeiai.com/picture-books/20261009-0814003296664ab9.webp",
-      "sha256": "b9ec1f191187ed272c99831f76853b9b9a1364714364634805b84268d6ace2b2",
-      "sizeBytes": 200660,
+    "teacher:3": {
+      "id": "cmv1nhvfh000mudmzp7juaku0",
+      "url": "https://r.abeiai.com/picture-books/20261010-5ba836d657569bc8.webp",
+      "sha256": "d487614d643584d3d79a51f47be9cfe02da540bbff8ae3ddc5921d99e9efd6e2",
+      "sizeBytes": 188254,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
-      "position": 6
+      "position": 3
     },
     "teacher:5": {
-      "id": "cmv1a5aln0014drmxsztkzi57",
-      "url": "https://r.abeiai.com/picture-books/20261009-d7bf8107994effd4.webp",
-      "sha256": "9179d519ca5c85960e2e64f26bab96f0875a73faba25f00f5b17f0c2d62865f6",
-      "sizeBytes": 195842,
+      "id": "cmv1nhvm4000oudmzqjl458e5",
+      "url": "https://r.abeiai.com/picture-books/20261010-12319c3606ba4cc5.webp",
+      "sha256": "c76130c50abcd6daf3efbb4e895666115e29a242dd8e21aebc012ccb80d08d0e",
+      "sizeBytes": 183724,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 5
     },
-    "teacher:7": {
-      "id": "cmv1a5azg0015drmxfr35c1rq",
-      "url": "https://r.abeiai.com/picture-books/20261009-2dc605e3e0fb64f4.webp",
-      "sha256": "3b64fd58602037bf4de15bc4115ed75e9ef0d6063d09d3b0007f950ac9963bad",
-      "sizeBytes": 218916,
+    "teacher:6": {
+      "id": "cmv1nhvl0000nudmz5jhdl5mi",
+      "url": "https://r.abeiai.com/picture-books/20261010-cc61dd6a55ac1f7b.webp",
+      "sha256": "824c5b361e8732a8c001518cefdbbd606ccc51fb3c4804e44a949e83c5d3875b",
+      "sizeBytes": 181958,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
-      "position": 7
+      "position": 6
     },
     "teacher:8": {
-      "id": "cmv1a5b2w0016drmx8s2q9z8p",
-      "url": "https://r.abeiai.com/picture-books/20261009-410914c7434a8c4f.webp",
-      "sha256": "c7a8117cd205c80508148576d971cafab33153f5157607ec28d9d63d24926ef3",
-      "sizeBytes": 156044,
+      "id": "cmv1nhw18000pudmz1p4prgnw",
+      "url": "https://r.abeiai.com/picture-books/20261010-ea5241ec706da4e1.webp",
+      "sha256": "a2a20f84d7756e5918f7bb2a0f1fd1c814f0e9007179b440894ce4f72d30bf0b",
+      "sizeBytes": 148096,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 8
     },
+    "teacher:7": {
+      "id": "cmv1nhw34000qudmzpgmsxz6k",
+      "url": "https://r.abeiai.com/picture-books/20261010-ac14d81f32ea0b8e.webp",
+      "sha256": "2aaeed87f1ec883797974f1db8aa8e35e86dea9c16737ff6d7f528a7cb8b862d",
+      "sizeBytes": 207344,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 7
+    },
     "teacher:9": {
-      "id": "cmv1a5b5c0017drmx4r8ebfkj",
-      "url": "https://r.abeiai.com/picture-books/20261009-4fa64b8fd409eeac.webp",
-      "sha256": "7657a92d05c718ef14950f9a5a34e22eb692dce027a19e5a9433a8fce7f2441f",
-      "sizeBytes": 187912,
+      "id": "cmv1nhw6b000rudmzurdaqbwz",
+      "url": "https://r.abeiai.com/picture-books/20261010-cf8cd174a5abe969.webp",
+      "sha256": "0d19a03a18763198c4bab1d9a73337fd487e69fcdfbd7d9da8d6342942db7083",
+      "sizeBytes": 179972,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 9
     },
     "teacher:10": {
-      "id": "cmv1a5bax0018drmxpod4hruh",
-      "url": "https://r.abeiai.com/picture-books/20261009-d3e7e053f05de3aa.webp",
-      "sha256": "ddb6615db8956d0b9c6ce263757481b969f11fab9fa9d69117ac9e514fbda573",
-      "sizeBytes": 167776,
+      "id": "cmv1nhwfd000sudmz15xi561i",
+      "url": "https://r.abeiai.com/picture-books/20261010-b7b8b0a19c0639bd.webp",
+      "sha256": "2ecb99834d415388eedac5606db06f473b95d95c9bb95b277f946de9d99e863f",
+      "sizeBytes": 156968,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 10
     },
-    "teacher:11": {
-      "id": "cmv1a5bfi0019drmxx47n9mru",
-      "url": "https://r.abeiai.com/picture-books/20261009-72c08da94e4353db.webp",
-      "sha256": "e15eb34960cf04d161d11817c9ea842767929dea943f76d0277155a65e830e5b",
-      "sizeBytes": 192388,
-      "width": 960,
-      "height": 1280,
-      "slug": "teacher",
-      "position": 11
-    },
     "teacher:12": {
-      "id": "cmv1a5bkr001adrmx26pzabw9",
-      "url": "https://r.abeiai.com/picture-books/20261009-71ad55ecb011fb8e.webp",
-      "sha256": "4f5e38db27847f21871cd2d43c9fac25b44f32f367ce6ea48d0de926cfcb64a1",
-      "sizeBytes": 184914,
+      "id": "cmv1nhwk6000tudmzivb9cxmf",
+      "url": "https://r.abeiai.com/picture-books/20261010-e45622c0cdf3f3e1.webp",
+      "sha256": "cfa1e12be8bf316829a73f5e5c12b3670dcfafa1272b704bac37f38b68486ae9",
+      "sizeBytes": 178254,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 12
     },
-    "teacher:14": {
-      "id": "cmv1a5bsq001cdrmxuqouc5yi",
-      "url": "https://r.abeiai.com/picture-books/20261009-8b1ef8fc3eb537e4.webp",
-      "sha256": "107da0e16448a468879504c020d9d1bc8163d4579393a27a28556b329d9c76a2",
-      "sizeBytes": 173542,
+    "teacher:11": {
+      "id": "cmv1nhwll000uudmznnlum7ae",
+      "url": "https://r.abeiai.com/picture-books/20261010-2a6dc695f1c257f8.webp",
+      "sha256": "7bb32bd44ff821907531fd6098312621980607bd524b4716fb1796ce7fa0bc0e",
+      "sizeBytes": 187578,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
-      "position": 14
+      "position": 11
     },
     "teacher:13": {
-      "id": "cmv1a5bm4001bdrmx06h2hk7x",
-      "url": "https://r.abeiai.com/picture-books/20261009-076085462f086bb2.webp",
-      "sha256": "51df5a4b1697bfd4f087cdffdfe25d7d7979812c893bebb89f9e2a93f2835800",
-      "sizeBytes": 212244,
+      "id": "cmv1nhwti000vudmzm8zbv83v",
+      "url": "https://r.abeiai.com/picture-books/20261010-616722da1ba4a076.webp",
+      "sha256": "83a7ed1e5f046fc77cba518b66177c2dd6a10a3f02c2377909d23f6d5af37ba5",
+      "sizeBytes": 194630,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 13
     },
+    "teacher:14": {
+      "id": "cmv1nhwzi000wudmzk2594biz",
+      "url": "https://r.abeiai.com/picture-books/20261010-04a4f02937146937.webp",
+      "sha256": "8e7705bd1e392d6c19aaf07866bb302a29b69931a149b9e66f65fb1bc2e6b11e",
+      "sizeBytes": 169144,
+      "width": 960,
+      "height": 1280,
+      "slug": "teacher",
+      "position": 14
+    },
     "teacher:15": {
-      "id": "cmv1a5bzm001ddrmxt05bw6dr",
-      "url": "https://r.abeiai.com/picture-books/20261009-a862b8e0bce8ffdd.webp",
-      "sha256": "fd78f2f67e09eaf692e035ed36febcc0957b8cd00e3707549a2dcdc2c3b23dfe",
-      "sizeBytes": 200728,
+      "id": "cmv1nhx9e000xudmz7yov23oo",
+      "url": "https://r.abeiai.com/picture-books/20261010-ccf964a2597ecdfc.webp",
+      "sha256": "fd301440aa698b7f7ba71c02327455857739473e5d2274f9a4e59471f4bfae43",
+      "sizeBytes": 201626,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 15
     },
     "teacher:16": {
-      "id": "cmv1a5c83001edrmx1fflgnpx",
-      "url": "https://r.abeiai.com/picture-books/20261009-f49f1a79f4be9c61.webp",
-      "sha256": "5d35e9713f4e65c4bce6231d2672381b2ce433e479bf58181f0d604e9028fa9f",
-      "sizeBytes": 223330,
+      "id": "cmv1nhxbf000yudmzelfg8aqo",
+      "url": "https://r.abeiai.com/picture-books/20261010-dc0ea7fa457eaa8c.webp",
+      "sha256": "e5981b747ef740efe36dfc135b622ddd6e13b4c82e85dc96a02175f6caad997f",
+      "sizeBytes": 211366,
       "width": 960,
       "height": 1280,
       "slug": "teacher",
       "position": 16
     },
     "resource": {
-      "id": "cmv1a5cr0001fdrmx1guoa60a",
-      "url": "https://r.abeiai.com/picture-books/20261009-f9ca4cd0027671a2.webp",
-      "sha256": "9c354adf80b4f4c67f075f60cf89a2bdd2995f1462af79b51284720c5d33676f",
-      "sizeBytes": 248626,
+      "id": "cmv1nhxqn000zudmzwuhz0977",
+      "url": "https://r.abeiai.com/picture-books/20261010-4247e3504a0a5abb.webp",
+      "sha256": "19c14fb9e2ade4b4906f783f493faad848f07e72313b5133bbc9de5df84da6ad",
+      "sizeBytes": 252524,
       "width": 1600,
       "height": 900,
       "slug": null,
       "position": null
     }
   },
-  "courseId": "e2edf14f892a944946c00c80",
-  "publishedAt": "2026-10-09T18:11:36.736Z",
-  "verification": {
-    "verifiedAt": "2026-10-09T18:15:03.685Z",
-    "courseId": "e2edf14f892a944946c00c80",
-    "reviewId": "cmv1a7yvw0000i2mxayyb1323",
-    "reviewState": "APPROVED",
-    "author": "乐乐绘本工作室",
-    "resourceCount": 1,
-    "books": [
-      {
-        "id": "abei-career-doctor",
-        "title": "我想成为医生",
-        "bodyPages": 16,
-        "coverPages": 1,
-        "ratio": "3:4",
-        "approvedHash": "c24a80b38a7fce7f2039f8facbcb99d01da533a5c6da96cf0446a888a7ee0737",
-        "readerPlayback": true
-      },
-      {
-        "id": "abei-career-firefighter",
-        "title": "我想成为消防员",
-        "bodyPages": 16,
-        "coverPages": 1,
-        "ratio": "3:4",
-        "approvedHash": "7155c14668db945fce3490b219aeec0b4ded232331296e1119f52955b06f6bd1",
-        "readerPlayback": true
-      },
-      {
-        "id": "abei-career-teacher",
-        "title": "我想成为老师",
-        "bodyPages": 16,
-        "coverPages": 1,
-        "ratio": "3:4",
-        "approvedHash": "3bb5587d523249ed2e8eacc9eae475c6db890686152faee0e59d816d10fd1dff",
-        "readerPlayback": true
-      }
-    ],
-    "verifiedR2Images": 52,
-    "authorPreserved": true,
-    "walletPreserved": true,
-    "originalSeriesPreserved": true,
-    "browserChecked": true
-  }
+  "materialReviews": {
+    "abei-career-doctor": "cmv1njhsz0000wsmz60dmtxb3",
+    "abei-career-firefighter": "cmv1njhub0002wsmze7uewnug",
+    "abei-career-teacher": "cmv1njhv10004wsmzzchksgm8"
+  },
+  "courseReviewId": "cmv1njhwz000dwsmzasoy4irx",
+  "publishedAt": "2026-10-10T00:24:29.589Z"
 }

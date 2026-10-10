@@ -1,10 +1,29 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { careerSeriesBooks } from "./career-series-data.mjs";
+import { careerSeriesBooks, careerPagePrompt } from "./career-series-data.mjs";
 import { buildCareerBookRecord, assertCareerRecordMatches, planCareerPublication, assertCareerReviewTarget } from "./career-import.mjs";
 
 const owner = "abei-lele-studio";
 const images = () => Object.fromEntries(Array.from({length:17},(_,i)=>[i,`https://cdn.abei.example/careers/doctor/${i}.webp`]));
+
+test("三本职业理想属于不同孩子，家长组合及配角进入完整人物设定", () => {
+  const expected=[{name:"小安",parents:["妈妈"]},{name:"小宇",parents:["爸爸"]},{name:"朵朵",parents:["爸爸","妈妈"]}];
+  for(const [i,book] of careerSeriesBooks.entries()) {
+    const record=buildCareerBookRecord(book,owner,images());
+    assert.equal(record.characters[0].name,expected[i].name);
+    assert.ok(Array.isArray(book.family),"每本必须记录自己的家长组合");
+    assert.deepEqual(book.family.map(p=>p.relation),expected[i].parents);
+    for(const person of [book.child,...book.family,...book.supportingCharacters])assert.ok(record.characters.some(c=>c.name===person.name&&c.description===person.description));
+    assert.ok(record.pages.at(-1).caption.includes(expected[i].name));
+    if(i>0)assert.ok(record.pages.every(p=>!p.caption.includes("小安")));
+    const prompt=careerPagePrompt(book,1);assert.ok(prompt.includes(book.child.visual));
+    for(const parent of book.family)assert.ok(prompt.includes(parent.visual));
+  }
+  const teacher=careerSeriesBooks[2];
+  for(const position of [1,13,15])assert.ok(teacher.story[position-1][0].includes("爸爸妈妈"));
+  for(const [book,position,excluded] of [[careerSeriesBooks[0],14,'Dr. Lin'],[careerSeriesBooks[0],15,'Dr. Lin'],[careerSeriesBooks[1],15,'Firefighter Liu'],[teacher,15,'Teacher Chen']])assert.ok(!careerPagePrompt(book,position).includes(excluded),'家庭和幼儿园场景不能混入封面职业人物');
+  const preparation=careerPagePrompt(teacher,14);assert.ok(preparation.includes('Caregiver Liu'));assert.ok(!preparation.includes('Duoduo:'));assert.ok(!preparation.includes('Mimi:'));
+});
 
 test("三本职业故事各16页，正式记录含独立封面且保持3:4和中文双引号", () => {
   assert.deepEqual(careerSeriesBooks.map(b=>b.slug),["doctor","firefighter","teacher"]);

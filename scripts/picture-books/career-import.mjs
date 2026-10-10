@@ -28,7 +28,7 @@ export function buildCareerBookRecord(book, userId, images) {
     return { position, caption, narration: caption, imagePrompt: `《${book.title}》${position === 0 ? "带书名的封面" : `第${position}页`}：${caption}。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。`, imageUrl: url.href, audioUrl: null, imageTaskId: null, audioTaskId: null };
   });
   return { id: `abei-career-${book.slug}`, userId, title: book.title, brief: `${book.title}：${book.theme}`, theme: book.theme, audience: "幼儿园", style: "3d-animation", aspectRatio: "3:4", pageCount: 16, status: "COMPLETED", messages: [], plot: book.story.map(([caption]) => caption).join("\n"),
-    characters: [{ name: "小安", description: "五岁中国小朋友，黑色短发、圆脸、红脸颊，黄色短袖上衣、青蓝色背带裤、白色运动鞋。", imageUrl: null }, { name: book.adultName, description: adultDescriptions[book.slug], imageUrl: null }], pages };
+    characters: [book.child,...book.family,{name:book.adultName,description:adultDescriptions[book.slug]},...book.supportingCharacters].map(person=>({name:person.name,description:person.description,imageUrl:null})), pages };
 }
 
 export function assertCareerRecordMatches(current, expected) {

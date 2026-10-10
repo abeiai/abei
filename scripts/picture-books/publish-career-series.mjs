@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { careerSeriesBooks, careerSeriesName } from "./career-series-data.mjs";
+import { careerSeriesBooks, careerSeriesName, careerSeriesDescription } from "./career-series-data.mjs";
 import { buildCareerBookRecord, assertCareerRecordMatches, planCareerPublication, assertCareerReviewTarget } from "./career-import.mjs";
 import { assertAbEiImportTarget } from "./lele-import.mjs";
 
@@ -63,16 +63,18 @@ try {
   const queue=careerSeriesBooks.flatMap(book=>Array.from({length:17},(_,position)=>{
     const entry=position===0?null:generation.pages.find(e=>e.slug===book.slug&&e.position===position);
     if(position>0 && (!entry || entry.caption!==book.story[position-1][0])) throw new Error("插画页码或文稿清单不一致");
-    const filename=position===0?"cover.webp":entry.assetName??`${String(position).padStart(2,"0")}.webp`;
+    const filename=position===0?(generation.covers.find(e=>e.slug===book.slug)?.assetName??"cover.webp"):entry.assetName??`${String(position).padStart(2,"0")}.webp`;
     if(!/^(cover|0[1-9]|1[0-6])(?:-v\d+)?\.webp$/.test(filename)) throw new Error("素材文件名不属于本系列");
     return {key:`${book.slug}:${position}`,path:resolve(root,book.slug,filename),position,slug:book.slug};
   }));
   let stopped=false;const results=await Promise.allSettled(Array.from({length:3},async()=>{while(queue.length&&!stopped){const item=queue.shift();try{await persistImage(item.key,item.path,item.position,item.slug);}catch(e){stopped=true;throw e;}}}));
   const failure=results.find(result=>result.status==="rejected");if(failure)throw failure.reason;
-  const cover=await persistImage("resource",resolve(root,"series-cover.webp"),null,null);
+  const seriesCoverName=generation.seriesCover?.assetName??"series-cover.webp";
+  if(!/^series-cover(?:-v\d+)?\.webp$/.test(seriesCoverName))throw new Error("系列封面文件名错误");
+  const cover=await persistImage("resource",resolve(root,seriesCoverName),null,null);
   const records=careerSeriesBooks.map(book=>buildCareerBookRecord(book,owner,Object.fromEntries(Array.from({length:17},(_,i)=>[i,checkpoint.assets[`${book.slug}:${i}`].url]))));
   await prisma.$transaction(async tx=>{for(const record of records){const existing=await tx.pictureBook.findUnique({where:{id:record.id}});if(existing)assertCareerRecordMatches(existing,record);else await tx.pictureBook.create({data:record});}});
-  const input={name:careerSeriesName,coverMediaId:cover.id,summary:"和小安一起认识医生、消防员和幼儿园老师，看看他们怎样工作、怎样与伙伴合作、怎样关心别人。三本独立故事，每本16页正文加带书名的封面，3:4竖版，面向幼儿园小朋友。",tags:["绘本","职业启蒙","幼儿园","中国城市"],items:records.map(record=>({materialType:"PICTURE_BOOK",materialId:record.id,displayName:record.title}))};
+  const input={name:careerSeriesName,coverMediaId:cover.id,summary:careerSeriesDescription,tags:["绘本","职业启蒙","幼儿园","中国城市"],items:records.map(record=>({materialType:"PICTURE_BOOK",materialId:record.id,displayName:record.title}))};
   // 上传可能耗时；重新读取工作版本，不能使用上传前的状态自动审批。
   if(course)course=await prisma.course.findUnique({where:{id:course.id},include:{approvedRevision:{include:{items:{orderBy:{sortOrder:"asc"}}}},workingRevision:{include:{items:{orderBy:{sortOrder:"asc"}}}}}});
   else {const refreshed=await prisma.course.findMany({where:{userId:owner,revisions:{some:{name:careerSeriesName}}},include:{approvedRevision:{include:{items:{orderBy:{sortOrder:"asc"}}}},workingRevision:{include:{items:{orderBy:{sortOrder:"asc"}}}}}});if(refreshed.length>1)throw new Error("出现重复系列，请人工核对");course=refreshed[0];}
