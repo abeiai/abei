@@ -53,6 +53,7 @@ export interface VoiceTaskItem {
   audioUrl: string | null;
   voiceName: string;
   credits: number;
+  legacyImport?: boolean;
 }
 
 export interface CurrentVoiceTask extends VoiceTaskItem {
@@ -477,7 +478,7 @@ function VoiceResult({ task }: { task: CurrentVoiceTask | null }) {
     return (
       <div className="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
         <WandSparkles className="size-4" />
-        {task.statusName}，刷新后可查看最新播放结果。
+        {task.legacyImport ? task.errorMessage ?? "旧版音频暂不可用。" : `${task.statusName}，刷新后可查看最新播放结果。`}
       </div>
     );
   }
@@ -486,7 +487,7 @@ function VoiceResult({ task }: { task: CurrentVoiceTask | null }) {
     <div className="flex min-w-0 flex-1 flex-col gap-2 rounded-xl border border-border bg-card px-4 py-3">
       <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
         <span className="font-medium">生成结果 · {task.voiceName}</span>
-        <span className="text-muted-foreground">消耗 {task.credits.toLocaleString("zh-CN")} 点</span>
+        <span className="text-muted-foreground">{task.legacyImport ? "旧版记录" : `消耗 ${task.credits.toLocaleString("zh-CN")} 点`}</span>
       </div>
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <audio className="w-full min-w-0 flex-1" controls controlsList="nodownload noplaybackrate noremoteplayback" src={task.audioUrl} />

@@ -233,6 +233,8 @@ function mapCosyVoicePreset(preset: (typeof cosyVoiceV35Presets)[number]): Voice
 }
 
 function mapTaskItem(task: AudioTask): VoiceTaskItem {
+  const marker = task.providerPayload?.legacyImport;
+  const legacyImport = Boolean(marker && typeof marker === "object" && "sourceSystem" in marker && marker.sourceSystem === "abeiai-v1");
   return {
     id: task.id,
     title: taskTitle(task),
@@ -242,6 +244,7 @@ function mapTaskItem(task: AudioTask): VoiceTaskItem {
     createdAtIso: task.createdAt,
     audioUrl: audioUrl(task),
     voiceName: task.voiceAsset?.name ?? "系统音色",
+    legacyImport,
     credits: task.actualCredits ?? task.estimatedCredits
   };
 }

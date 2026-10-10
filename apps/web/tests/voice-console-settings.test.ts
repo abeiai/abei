@@ -185,3 +185,13 @@ test("单人输入区浅色占位、5000 字符右下角计数，右栏无声调
   assert.equal(text(submit), "生成语音");
   assert.match(attrs(submit.parentNode as DefaultTreeAdapterMap["element"]).class, /justify-center/);
 });
+
+test("旧版语音历史保留播放器，缺失素材明确提示且不将历史费用显示为零", () => {
+  const base = { id: "legacy-1", title: "旧版语音", text: "历史正文", status: "SUCCEEDED", statusName: "已完成", createdAt: "2026-10-08", voiceName: "旧版音色", credits: 0, errorMessage: null, legacyImport: true };
+  const playable = render(React.createElement(VoiceConsole, { currentUser: null, models: [model], voices: [voice], history: [], organizations: null, createAction: () => undefined, currentTask: { ...base, audioUrl: "https://fixture.invalid/legacy.mp3" } }));
+  assert.equal(playable.some(n => n.tagName === "audio" && attrs(n).src === "https://fixture.invalid/legacy.mp3"), true);
+  assert.equal(playable.some(n => text(n).includes("消耗 0 点")), false);
+  const missing = render(React.createElement(VoiceConsole, { currentUser: null, models: [model], voices: [voice], history: [], organizations: null, createAction: () => undefined, currentTask: { ...base, audioUrl: null, errorMessage: "旧版音频尚未同步到 R2。" } }));
+  assert.equal(missing.some(n => text(n).includes("旧版音频尚未同步到 R2。")), true);
+  assert.equal(missing.some(n => text(n).includes("刷新后可查看最新播放结果")), false);
+});

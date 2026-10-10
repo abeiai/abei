@@ -67,12 +67,25 @@ PY_KEY
   --source-storage-env "$ORIGIN" --r2-env "$R2" --workers 16 --retry-failed
 ```
 
-4. 回填并对账。对账逐条检查生成正文、时间、归属、素材关联及摘要，验证新兼容绘本，按媒体类型抽样公开 R2 回读。成功后写认证收据，并以父批次/端点/截止时间 CAS 原子推进游标。出现 PENDING、映射错误或回读失败时游标不推进。
+4. 回填素材，再导入独立语音历史。`BASELINE` / `BASELINE_KEY` 必须指向已验证的原始全量包，用来排除早期绘本使用的音频，不能改成上一份增量包。该步骤只读取旧快照及本地已验证的 R2 关联，不访问旧数据库，不发起上传、生成或扣费。
 
 ```bash
 "$PYTHON" -m tools.legacy_sync.native_import \
   --package "$BATCH" --key-file "$KEY" --target-env "$TARGET" \
   --verified-mp-identity-file "$MP_PROOF" --phase assets
+"$PYTHON" -m tools.legacy_sync.voice_history_import \
+  --package "$BATCH" --key-file "$KEY" --target-env "$TARGET" \
+  --r2-public-env "$R2" \
+  --book-reference-package "$BASELINE" --book-reference-key-file "$BASELINE_KEY"
+"$PYTHON" -m tools.legacy_sync.voice_history_import \
+  --package "$BATCH" --key-file "$KEY" --target-env "$TARGET" \
+  --r2-public-env "$R2" \
+  --book-reference-package "$BASELINE" --book-reference-key-file "$BASELINE_KEY" --apply
+```
+
+5. 对账逐条检查生成正文、时间、归属、素材关联及摘要，验证新兼容绘本，按媒体类型抽样公开 R2 回读。独立语音步骤成功后再执行对账及游标推进；成功写认证收据，并以父批次/端点/截止时间 CAS 原子推进游标。出现 PENDING、映射错误或回读失败时游标不推进。
+
+```bash
 "$PYTHON" -m tools.legacy_sync.incremental_state \
   --package "$BATCH" --key-file "$KEY" --cursor-file "$CURSOR" \
   --target-env "$TARGET" --r2-public-env "$R2"
@@ -87,6 +100,18 @@ PY_KEY
 MISSING 表示本批已尝试但仍需补档，可以在原生数据对账通过后推进数据游标；不代表全部素材成功。素材补档继续使用原批次索引和密钥，不能靠推进数据库游标遗忘失败项。公开回读仅证明抽样文件字节一致，不保证所有媒体浏览器播放兼容。
 
 后台验收：`http://localhost:3600/admin/users`、`http://localhost:3600/admin/ai-logs?source=LEGACY`。导入不修改页面、数据库 schema 或 seed。
+
+## 独立语音历史规则
+
+`tools/legacy_sync/voice_history_import.py` 将有已迁移归属的 `app_ai_ttsmessage` 映射到原生 `AudioTask` / `AudioAsset`，在 `/voice` 的单人配音历史中按原始生成时间展示。任务 ID 由来源表及主键固定生成，重复执行不会新增重复记录；只允许刷新相同来源、归属、正文、创建时间且未产生账务的历史任务，较旧快照不能覆盖较新状态。
+
+- 排除 `one_take_id`、`book_id`、`case_id`、`page_id`、`case_page_id` 等来源标记，包括嵌套标记；排除绘本应用、非音频应用，以及已被原始绘本或 CMS 绘本引用的语音。
+- 配置目录中的 `draw_style.book` 是示例图片，不作为绘本生成来源。未知 metadata 类型、未知配置字段及标记为敏感的正文继续留在加密档案，不能默认导入。
+- 只关联同一用户、`OUTPUT`、`/assistant_content`、`AVAILABLE` 的 R2 音频，核对域名、完整对象路径、摘要、MIME 和长度。多个历史记录可复用同一用户已上传的文件，不重传。
+- 历史任务均为终态，成功但缺失 R2 文件的记录显示“旧版音频尚未同步到 R2。”；不会进入新生成队列。费用无法还原时前台显示“旧版记录”，不伪装成历史零费用，不写订单、余额、流水、预扣或用量。
+- 事务先核验旧日志归属、正文、时间及已有资产冲突，再插入。来源不匹配时整批回滚。`reports/voice-history-import.enc` 保存认证收据；不需要 schema migration 或 seed。
+
+全量历史素材上传继续暂停，保留最近 30 日有访问素材的既定范围。新增独立语音素材随未来增量批次上传及回填；历史缺失音频补传须另建明确范围。
 
 ## 后续开发要求
 
