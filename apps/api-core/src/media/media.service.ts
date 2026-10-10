@@ -203,6 +203,11 @@ export class MediaService {
     return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "AI_GENERATED", storageProvider: "S3" });
   }
 
+  async storePictureBookGeneratedImage(userId: string, file: UploadedFileLike) {
+    this.assertPictureBookR2Ready();
+    return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "AI_GENERATED", storageProvider: "S3" });
+  }
+
   async readPictureBookStoredImage(sourceUrl: string) {
     const publicBase = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
     if (!publicBase || !sourceUrl.startsWith(`${publicBase}/`)) {

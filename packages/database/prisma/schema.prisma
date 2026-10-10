@@ -840,9 +840,32 @@ model PictureBook {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   revisionItems CourseRevisionItem[]
   materialPublication CourseMaterialPublication?
+  submission PictureBookSubmission?
 
   @@index([userId, updatedAt])
   @@map("picture_books")
+}
+
+model PictureBookSubmission {
+  id                String @id @default(cuid())
+  pictureBookId     String @unique
+  status            CourseReviewRequestStatus @default(PENDING)
+  snapshot          Json
+  snapshotHash      String
+  coverUrl          String?
+  coverTaskId       String?
+  coverToken        String?
+  coverExpiresAt    DateTime?
+  reviewNote        String?
+  reviewedByAdminId String?
+  submittedAt       DateTime @default(now())
+  reviewedAt        DateTime?
+  updatedAt         DateTime @updatedAt
+  pictureBook       PictureBook @relation(fields: [pictureBookId], references: [id], onDelete: Cascade)
+  reviewedByAdmin   AdminUser? @relation(fields: [reviewedByAdminId], references: [id], onDelete: SetNull)
+
+  @@index([status, submittedAt])
+  @@map("picture_book_submissions")
 }
 
 model PictureBookGuide {
@@ -972,6 +995,7 @@ model AdminUser {
   resolvedAlerts SystemAlert[] @relation("ResolvedSystemAlerts")
   reviewedVoiceAssets VoiceAsset[] @relation("ReviewedVoiceAssets")
   reviewedCourseReviews CourseReviewRequest[] @relation("ReviewedCourseReviews")
+  reviewedPictureBookSubmissions PictureBookSubmission[]
 
   @@map("admin_users")
 }

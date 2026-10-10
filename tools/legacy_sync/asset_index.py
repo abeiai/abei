@@ -54,7 +54,9 @@ def open_index(root):
 
 
 def checkpoint_identity(manifest):
-    return {field:manifest.get(field) for field in ['sourceSystem','runId','schemaSha256']}
+    value={field:manifest.get(field) for field in ['sourceSystem','runId','schemaSha256']}
+    if manifest.get('incremental'):value['incrementalMediaScope']='AI_GENERATION_AND_NEW_USER_V1'
+    return value
 
 
 def table_digest(db,table):
@@ -107,8 +109,11 @@ def build_index(root,manifest,key,origin_config,progress=None):
             if done: continue
             count=0
             last_progress=time.monotonic()
+            from .incremental import index_row_allowed
             for row in table_rows(root,manifest,key,table):
+                if not index_row_allowed(manifest,row): continue
                 owner=owners.get(row['values'].get('subject_id')) if table=='app_ai_chatmessage' else None
+                if manifest.get('incremental') and table=='app_ai_chatmessage' and owner is None: continue
                 for ordinal,ref in enumerate(find_references(row,owner,origin_config.get('MEDIA_URL','/abei/'))):
                     policy_error=None
                     try: locator=source_locator(ref['originalUrl'],origin_config)

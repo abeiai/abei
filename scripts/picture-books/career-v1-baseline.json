@@ -1,0 +1,630 @@
+{
+  "series": "我想成为",
+  "owner": "abei-lele-studio",
+  "courseId": "e2edf14f892a944946c00c80",
+  "referenceCommit": "72d59c6",
+  "records": [
+    {
+      "id": "abei-career-doctor",
+      "userId": "abei-lele-studio",
+      "title": "我想成为医生",
+      "brief": "我想成为医生：认识医生的工作，学习耐心倾听与关心他人",
+      "theme": "认识医生的工作，学习耐心倾听与关心他人",
+      "audience": "幼儿园",
+      "style": "3d-animation",
+      "aspectRatio": "3:4",
+      "pageCount": 16,
+      "status": "COMPLETED",
+      "messages": [],
+      "plot": "小安和妈妈来到街角的社区卫生服务中心。今天，小安要做健康检查。\n妈妈登记好信息。小安坐在候诊区，等医生叫到自己。\n林医生走过来：“你好，小安！”她蹲下来，和小安一样高。\n“最近吃饭香不香？睡得好不好？”林医生认真听小安回答。\n检查前，林医生先洗净双手。小安发现，医生做事很细心。\n“扑通，扑通！”听诊器能帮助医生听见身体里的声音。\n小安张开嘴巴：“啊——”林医生用小灯，仔细看看他的喉咙。\n检查结束，林医生把看到的情况记下来。每一份记录都要认真。\n妈妈问起小安的成长。林医生一边听，一边耐心解释。\n门口的小朋友有点害怕。林医生轻声说：“我们慢慢来。”\n医生和护士一起工作。有人检查，有人准备，大家互相配合。\n有时，医生还要请医院里的同事一起帮忙。照顾大家，需要合作。\n下班前，林医生还会读书、学习。医生的本领，要一点一点练出来。\n回到家，小安拿出玩具听诊器。“小熊，你哪里不舒服呀？”\n小安学着先听别人说话。他知道，关心一个人，也要有耐心。\n“我想成为医生！”小安说，“认真听，仔细看，让需要帮助的人安心。”",
+      "characters": [
+        {
+          "name": "小安",
+          "description": "五岁中国小朋友，黑色短发、圆脸、红脸颊，黄色短袖上衣、青蓝色背带裤、白色运动鞋。",
+          "imageUrl": null
+        },
+        {
+          "name": "林医生",
+          "description": "中国女性医生，黑色齐颈短发，白色医生外套、浅蓝色工作服、青绿色听诊器，耐心亲切。",
+          "imageUrl": null
+        }
+      ],
+      "pages": [
+        {
+          "position": 0,
+          "caption": "我想成为医生",
+          "narration": "我想成为医生",
+          "imagePrompt": "《我想成为医生》带书名的封面：我想成为医生。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-b22726ce6bd2c7f3.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 1,
+          "caption": "小安和妈妈来到街角的社区卫生服务中心。今天，小安要做健康检查。",
+          "narration": "小安和妈妈来到街角的社区卫生服务中心。今天，小安要做健康检查。",
+          "imagePrompt": "《我想成为医生》第1页：小安和妈妈来到街角的社区卫生服务中心。今天，小安要做健康检查。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-b4bf9b6faa71bab2.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 2,
+          "caption": "妈妈登记好信息。小安坐在候诊区，等医生叫到自己。",
+          "narration": "妈妈登记好信息。小安坐在候诊区，等医生叫到自己。",
+          "imagePrompt": "《我想成为医生》第2页：妈妈登记好信息。小安坐在候诊区，等医生叫到自己。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-9a7ee18964dd268a.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 3,
+          "caption": "林医生走过来：“你好，小安！”她蹲下来，和小安一样高。",
+          "narration": "林医生走过来：“你好，小安！”她蹲下来，和小安一样高。",
+          "imagePrompt": "《我想成为医生》第3页：林医生走过来：“你好，小安！”她蹲下来，和小安一样高。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-b4270e88de2d9bf3.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 4,
+          "caption": "“最近吃饭香不香？睡得好不好？”林医生认真听小安回答。",
+          "narration": "“最近吃饭香不香？睡得好不好？”林医生认真听小安回答。",
+          "imagePrompt": "《我想成为医生》第4页：“最近吃饭香不香？睡得好不好？”林医生认真听小安回答。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-f41d4221fe37188a.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 5,
+          "caption": "检查前，林医生先洗净双手。小安发现，医生做事很细心。",
+          "narration": "检查前，林医生先洗净双手。小安发现，医生做事很细心。",
+          "imagePrompt": "《我想成为医生》第5页：检查前，林医生先洗净双手。小安发现，医生做事很细心。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-64fd4e2fa0857c20.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 6,
+          "caption": "“扑通，扑通！”听诊器能帮助医生听见身体里的声音。",
+          "narration": "“扑通，扑通！”听诊器能帮助医生听见身体里的声音。",
+          "imagePrompt": "《我想成为医生》第6页：“扑通，扑通！”听诊器能帮助医生听见身体里的声音。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-5291540fb0edd7b9.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 7,
+          "caption": "小安张开嘴巴：“啊——”林医生用小灯，仔细看看他的喉咙。",
+          "narration": "小安张开嘴巴：“啊——”林医生用小灯，仔细看看他的喉咙。",
+          "imagePrompt": "《我想成为医生》第7页：小安张开嘴巴：“啊——”林医生用小灯，仔细看看他的喉咙。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-e511953b1b8efe6d.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 8,
+          "caption": "检查结束，林医生把看到的情况记下来。每一份记录都要认真。",
+          "narration": "检查结束，林医生把看到的情况记下来。每一份记录都要认真。",
+          "imagePrompt": "《我想成为医生》第8页：检查结束，林医生把看到的情况记下来。每一份记录都要认真。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-f706a9227b15d1b3.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 9,
+          "caption": "妈妈问起小安的成长。林医生一边听，一边耐心解释。",
+          "narration": "妈妈问起小安的成长。林医生一边听，一边耐心解释。",
+          "imagePrompt": "《我想成为医生》第9页：妈妈问起小安的成长。林医生一边听，一边耐心解释。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-a71566e7f628bf0b.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 10,
+          "caption": "门口的小朋友有点害怕。林医生轻声说：“我们慢慢来。”",
+          "narration": "门口的小朋友有点害怕。林医生轻声说：“我们慢慢来。”",
+          "imagePrompt": "《我想成为医生》第10页：门口的小朋友有点害怕。林医生轻声说：“我们慢慢来。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-bd4932e834fe8606.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 11,
+          "caption": "医生和护士一起工作。有人检查，有人准备，大家互相配合。",
+          "narration": "医生和护士一起工作。有人检查，有人准备，大家互相配合。",
+          "imagePrompt": "《我想成为医生》第11页：医生和护士一起工作。有人检查，有人准备，大家互相配合。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-00b21ab25d1916db.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 12,
+          "caption": "有时，医生还要请医院里的同事一起帮忙。照顾大家，需要合作。",
+          "narration": "有时，医生还要请医院里的同事一起帮忙。照顾大家，需要合作。",
+          "imagePrompt": "《我想成为医生》第12页：有时，医生还要请医院里的同事一起帮忙。照顾大家，需要合作。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-44d9980e0d193bd1.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 13,
+          "caption": "下班前，林医生还会读书、学习。医生的本领，要一点一点练出来。",
+          "narration": "下班前，林医生还会读书、学习。医生的本领，要一点一点练出来。",
+          "imagePrompt": "《我想成为医生》第13页：下班前，林医生还会读书、学习。医生的本领，要一点一点练出来。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-7157e36346519449.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 14,
+          "caption": "回到家，小安拿出玩具听诊器。“小熊，你哪里不舒服呀？”",
+          "narration": "回到家，小安拿出玩具听诊器。“小熊，你哪里不舒服呀？”",
+          "imagePrompt": "《我想成为医生》第14页：回到家，小安拿出玩具听诊器。“小熊，你哪里不舒服呀？”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-7000a180ff5facb0.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 15,
+          "caption": "小安学着先听别人说话。他知道，关心一个人，也要有耐心。",
+          "narration": "小安学着先听别人说话。他知道，关心一个人，也要有耐心。",
+          "imagePrompt": "《我想成为医生》第15页：小安学着先听别人说话。他知道，关心一个人，也要有耐心。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-78e87ee94f2c9f6f.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 16,
+          "caption": "“我想成为医生！”小安说，“认真听，仔细看，让需要帮助的人安心。”",
+          "narration": "“我想成为医生！”小安说，“认真听，仔细看，让需要帮助的人安心。”",
+          "imagePrompt": "《我想成为医生》第16页：“我想成为医生！”小安说，“认真听，仔细看，让需要帮助的人安心。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-b4f4f6a112ad87ea.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        }
+      ]
+    },
+    {
+      "id": "abei-career-firefighter",
+      "userId": "abei-lele-studio",
+      "title": "我想成为消防员",
+      "brief": "我想成为消防员：认识消防救援与团队合作，建立安全意识",
+      "theme": "认识消防救援与团队合作，建立安全意识",
+      "audience": "幼儿园",
+      "style": "3d-animation",
+      "aspectRatio": "3:4",
+      "pageCount": 16,
+      "status": "COMPLETED",
+      "messages": [],
+      "plot": "今天是消防站开放日。小安和妈妈一起，来认识消防员。\n大大的消防车停在车库里。车上装着许多帮助大家的工具。\n刘叔叔笑着招招手：“欢迎你们！我们一起看看吧。”\n头盔保护头部，防护服保护身体。消防员工作时，要先保护好自己。\n厚厚的手套、结实的靴子，都有自己的用处。小安看得很认真。\n有些装备能帮助消防员呼吸。真正使用它们，需要专门的训练。\n出发前，车辆和装备都要检查。刘叔叔不漏掉一个小细节。\n消防员一起练习。你拿这一头，我拿那一头，配合才更稳。\n训练场上，水花亮晶晶。小安站在参观区，看叔叔阿姨练本领。\n刘叔叔说：“发现火情，先离开危险，再及时报警求助。”\n小安用玩具电话练习说清地点。真正需要救援时，才拨打119。\n消防员还会走进社区，检查通道。让危险少一些，也很重要。\n遇到紧急情况，消防员会和伙伴一起行动。帮助别人，需要很多本领。\n练习结束，刘叔叔喝了口水。消防员也需要休息，照顾好自己。\n回到幼儿园，小安用积木搭消防站。他和朋友一起商量、一起完成。\n“我想成为消防员！”小安说，“学好本领，和伙伴一起守护大家。”",
+      "characters": [
+        {
+          "name": "小安",
+          "description": "五岁中国小朋友，黑色短发、圆脸、红脸颊，黄色短袖上衣、青蓝色背带裤、白色运动鞋。",
+          "imageUrl": null
+        },
+        {
+          "name": "刘叔叔",
+          "description": "中国男性消防员，黑色短发，米黄色消防防护服、黄银色反光条、黄色头盔、黑色防护靴，细心负责。",
+          "imageUrl": null
+        }
+      ],
+      "pages": [
+        {
+          "position": 0,
+          "caption": "我想成为消防员",
+          "narration": "我想成为消防员",
+          "imagePrompt": "《我想成为消防员》带书名的封面：我想成为消防员。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-3da50e8441b4a1a0.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 1,
+          "caption": "今天是消防站开放日。小安和妈妈一起，来认识消防员。",
+          "narration": "今天是消防站开放日。小安和妈妈一起，来认识消防员。",
+          "imagePrompt": "《我想成为消防员》第1页：今天是消防站开放日。小安和妈妈一起，来认识消防员。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-5573dbc2de45af02.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 2,
+          "caption": "大大的消防车停在车库里。车上装着许多帮助大家的工具。",
+          "narration": "大大的消防车停在车库里。车上装着许多帮助大家的工具。",
+          "imagePrompt": "《我想成为消防员》第2页：大大的消防车停在车库里。车上装着许多帮助大家的工具。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-21b6e991b16f2641.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 3,
+          "caption": "刘叔叔笑着招招手：“欢迎你们！我们一起看看吧。”",
+          "narration": "刘叔叔笑着招招手：“欢迎你们！我们一起看看吧。”",
+          "imagePrompt": "《我想成为消防员》第3页：刘叔叔笑着招招手：“欢迎你们！我们一起看看吧。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-6c34846f3755aa27.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 4,
+          "caption": "头盔保护头部，防护服保护身体。消防员工作时，要先保护好自己。",
+          "narration": "头盔保护头部，防护服保护身体。消防员工作时，要先保护好自己。",
+          "imagePrompt": "《我想成为消防员》第4页：头盔保护头部，防护服保护身体。消防员工作时，要先保护好自己。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-74ee75c9741adfcf.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 5,
+          "caption": "厚厚的手套、结实的靴子，都有自己的用处。小安看得很认真。",
+          "narration": "厚厚的手套、结实的靴子，都有自己的用处。小安看得很认真。",
+          "imagePrompt": "《我想成为消防员》第5页：厚厚的手套、结实的靴子，都有自己的用处。小安看得很认真。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-2762e3b8f404aa1f.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 6,
+          "caption": "有些装备能帮助消防员呼吸。真正使用它们，需要专门的训练。",
+          "narration": "有些装备能帮助消防员呼吸。真正使用它们，需要专门的训练。",
+          "imagePrompt": "《我想成为消防员》第6页：有些装备能帮助消防员呼吸。真正使用它们，需要专门的训练。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-8cf0997c7a845e57.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 7,
+          "caption": "出发前，车辆和装备都要检查。刘叔叔不漏掉一个小细节。",
+          "narration": "出发前，车辆和装备都要检查。刘叔叔不漏掉一个小细节。",
+          "imagePrompt": "《我想成为消防员》第7页：出发前，车辆和装备都要检查。刘叔叔不漏掉一个小细节。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-4f0d9a112a6a92bc.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 8,
+          "caption": "消防员一起练习。你拿这一头，我拿那一头，配合才更稳。",
+          "narration": "消防员一起练习。你拿这一头，我拿那一头，配合才更稳。",
+          "imagePrompt": "《我想成为消防员》第8页：消防员一起练习。你拿这一头，我拿那一头，配合才更稳。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-31501c12fddb1d18.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 9,
+          "caption": "训练场上，水花亮晶晶。小安站在参观区，看叔叔阿姨练本领。",
+          "narration": "训练场上，水花亮晶晶。小安站在参观区，看叔叔阿姨练本领。",
+          "imagePrompt": "《我想成为消防员》第9页：训练场上，水花亮晶晶。小安站在参观区，看叔叔阿姨练本领。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-38e231c64b6250c5.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 10,
+          "caption": "刘叔叔说：“发现火情，先离开危险，再及时报警求助。”",
+          "narration": "刘叔叔说：“发现火情，先离开危险，再及时报警求助。”",
+          "imagePrompt": "《我想成为消防员》第10页：刘叔叔说：“发现火情，先离开危险，再及时报警求助。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-0d119e6e4306f729.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 11,
+          "caption": "小安用玩具电话练习说清地点。真正需要救援时，才拨打119。",
+          "narration": "小安用玩具电话练习说清地点。真正需要救援时，才拨打119。",
+          "imagePrompt": "《我想成为消防员》第11页：小安用玩具电话练习说清地点。真正需要救援时，才拨打119。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-43b172bfab2b468d.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 12,
+          "caption": "消防员还会走进社区，检查通道。让危险少一些，也很重要。",
+          "narration": "消防员还会走进社区，检查通道。让危险少一些，也很重要。",
+          "imagePrompt": "《我想成为消防员》第12页：消防员还会走进社区，检查通道。让危险少一些，也很重要。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-4eeac0061c812e77.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 13,
+          "caption": "遇到紧急情况，消防员会和伙伴一起行动。帮助别人，需要很多本领。",
+          "narration": "遇到紧急情况，消防员会和伙伴一起行动。帮助别人，需要很多本领。",
+          "imagePrompt": "《我想成为消防员》第13页：遇到紧急情况，消防员会和伙伴一起行动。帮助别人，需要很多本领。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-0e5597a36afe6884.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 14,
+          "caption": "练习结束，刘叔叔喝了口水。消防员也需要休息，照顾好自己。",
+          "narration": "练习结束，刘叔叔喝了口水。消防员也需要休息，照顾好自己。",
+          "imagePrompt": "《我想成为消防员》第14页：练习结束，刘叔叔喝了口水。消防员也需要休息，照顾好自己。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-69339ebaf5bbdd39.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 15,
+          "caption": "回到幼儿园，小安用积木搭消防站。他和朋友一起商量、一起完成。",
+          "narration": "回到幼儿园，小安用积木搭消防站。他和朋友一起商量、一起完成。",
+          "imagePrompt": "《我想成为消防员》第15页：回到幼儿园，小安用积木搭消防站。他和朋友一起商量、一起完成。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-a023efc41b53e4e5.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 16,
+          "caption": "“我想成为消防员！”小安说，“学好本领，和伙伴一起守护大家。”",
+          "narration": "“我想成为消防员！”小安说，“学好本领，和伙伴一起守护大家。”",
+          "imagePrompt": "《我想成为消防员》第16页：“我想成为消防员！”小安说，“学好本领，和伙伴一起守护大家。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-beaed61efbfed1c6.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        }
+      ]
+    },
+    {
+      "id": "abei-career-teacher",
+      "userId": "abei-lele-studio",
+      "title": "我想成为老师",
+      "brief": "我想成为老师：认识幼儿园老师的陪伴，学习倾听、鼓励与合作",
+      "theme": "认识幼儿园老师的陪伴，学习倾听、鼓励与合作",
+      "audience": "幼儿园",
+      "style": "3d-animation",
+      "aspectRatio": "3:4",
+      "pageCount": 16,
+      "status": "COMPLETED",
+      "messages": [],
+      "plot": "清晨，小安走进幼儿园。陈老师在门口说：“早上好，小安！”\n故事时间到了。老师打开绘本，小朋友们围过来，听得津津有味。\n“为什么叶子会变黄？”小安问。陈老师蹲下来，认真听。\n搭积木时，老师没有替大家搭好。他让小朋友说说自己的办法。\n小安的高塔倒了。陈老师说：“没关系，我们再想想怎么让它站稳。”\n画画时，每个人都有不同的想法。老师鼓励大家，把喜欢的画出来。\n来到院子里，老师和小朋友蹲下来，看看小蚂蚁怎样走路。\n玩过以后，大家一起洗手。老师陪着我们，把小事情做好。\n吃午饭了。老师和保育老师一起，照顾大家好好吃饭。\n午睡时，教室安静下来。老师轻轻走过，看看大家睡得舒不舒服。\n有小朋友想妈妈了。老师坐在旁边：“我陪你等一会儿。”\n两位朋友都想玩一辆小车。老师请他们说说，再一起想办法。\n放学时，老师和妈妈聊起小安的一天。那些小小的进步，都被看见了。\n小朋友离园后，老师还要准备明天的活动。陪伴，也需要认真学习。\n回家后，小安给小熊讲故事。“你慢慢说，我会认真听。”\n“我想成为老师！”小安说，“陪小朋友发现世界，也陪他们一点点长大。”",
+      "characters": [
+        {
+          "name": "小安",
+          "description": "五岁中国小朋友，黑色短发、圆脸、红脸颊，黄色短袖上衣、青蓝色背带裤、白色运动鞋。",
+          "imageUrl": null
+        },
+        {
+          "name": "陈老师",
+          "description": "中国男性幼儿园老师，黑色短发、圆框眼镜、薄荷绿色上衣、米色长裤、灰色平底鞋，善于倾听与鼓励。",
+          "imageUrl": null
+        }
+      ],
+      "pages": [
+        {
+          "position": 0,
+          "caption": "我想成为老师",
+          "narration": "我想成为老师",
+          "imagePrompt": "《我想成为老师》带书名的封面：我想成为老师。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-9a6d6057d24fa16e.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 1,
+          "caption": "清晨，小安走进幼儿园。陈老师在门口说：“早上好，小安！”",
+          "narration": "清晨，小安走进幼儿园。陈老师在门口说：“早上好，小安！”",
+          "imagePrompt": "《我想成为老师》第1页：清晨，小安走进幼儿园。陈老师在门口说：“早上好，小安！”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-ca884d84ce7f2e69.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 2,
+          "caption": "故事时间到了。老师打开绘本，小朋友们围过来，听得津津有味。",
+          "narration": "故事时间到了。老师打开绘本，小朋友们围过来，听得津津有味。",
+          "imagePrompt": "《我想成为老师》第2页：故事时间到了。老师打开绘本，小朋友们围过来，听得津津有味。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-5f8a12070d52eb4d.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 3,
+          "caption": "“为什么叶子会变黄？”小安问。陈老师蹲下来，认真听。",
+          "narration": "“为什么叶子会变黄？”小安问。陈老师蹲下来，认真听。",
+          "imagePrompt": "《我想成为老师》第3页：“为什么叶子会变黄？”小安问。陈老师蹲下来，认真听。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-c1d5fd6dbe090e52.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 4,
+          "caption": "搭积木时，老师没有替大家搭好。他让小朋友说说自己的办法。",
+          "narration": "搭积木时，老师没有替大家搭好。他让小朋友说说自己的办法。",
+          "imagePrompt": "《我想成为老师》第4页：搭积木时，老师没有替大家搭好。他让小朋友说说自己的办法。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-cef46844332b2bc1.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 5,
+          "caption": "小安的高塔倒了。陈老师说：“没关系，我们再想想怎么让它站稳。”",
+          "narration": "小安的高塔倒了。陈老师说：“没关系，我们再想想怎么让它站稳。”",
+          "imagePrompt": "《我想成为老师》第5页：小安的高塔倒了。陈老师说：“没关系，我们再想想怎么让它站稳。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-d7bf8107994effd4.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 6,
+          "caption": "画画时，每个人都有不同的想法。老师鼓励大家，把喜欢的画出来。",
+          "narration": "画画时，每个人都有不同的想法。老师鼓励大家，把喜欢的画出来。",
+          "imagePrompt": "《我想成为老师》第6页：画画时，每个人都有不同的想法。老师鼓励大家，把喜欢的画出来。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-0814003296664ab9.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 7,
+          "caption": "来到院子里，老师和小朋友蹲下来，看看小蚂蚁怎样走路。",
+          "narration": "来到院子里，老师和小朋友蹲下来，看看小蚂蚁怎样走路。",
+          "imagePrompt": "《我想成为老师》第7页：来到院子里，老师和小朋友蹲下来，看看小蚂蚁怎样走路。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-2dc605e3e0fb64f4.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 8,
+          "caption": "玩过以后，大家一起洗手。老师陪着我们，把小事情做好。",
+          "narration": "玩过以后，大家一起洗手。老师陪着我们，把小事情做好。",
+          "imagePrompt": "《我想成为老师》第8页：玩过以后，大家一起洗手。老师陪着我们，把小事情做好。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-410914c7434a8c4f.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 9,
+          "caption": "吃午饭了。老师和保育老师一起，照顾大家好好吃饭。",
+          "narration": "吃午饭了。老师和保育老师一起，照顾大家好好吃饭。",
+          "imagePrompt": "《我想成为老师》第9页：吃午饭了。老师和保育老师一起，照顾大家好好吃饭。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-4fa64b8fd409eeac.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 10,
+          "caption": "午睡时，教室安静下来。老师轻轻走过，看看大家睡得舒不舒服。",
+          "narration": "午睡时，教室安静下来。老师轻轻走过，看看大家睡得舒不舒服。",
+          "imagePrompt": "《我想成为老师》第10页：午睡时，教室安静下来。老师轻轻走过，看看大家睡得舒不舒服。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-d3e7e053f05de3aa.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 11,
+          "caption": "有小朋友想妈妈了。老师坐在旁边：“我陪你等一会儿。”",
+          "narration": "有小朋友想妈妈了。老师坐在旁边：“我陪你等一会儿。”",
+          "imagePrompt": "《我想成为老师》第11页：有小朋友想妈妈了。老师坐在旁边：“我陪你等一会儿。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-72c08da94e4353db.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 12,
+          "caption": "两位朋友都想玩一辆小车。老师请他们说说，再一起想办法。",
+          "narration": "两位朋友都想玩一辆小车。老师请他们说说，再一起想办法。",
+          "imagePrompt": "《我想成为老师》第12页：两位朋友都想玩一辆小车。老师请他们说说，再一起想办法。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-71ad55ecb011fb8e.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 13,
+          "caption": "放学时，老师和妈妈聊起小安的一天。那些小小的进步，都被看见了。",
+          "narration": "放学时，老师和妈妈聊起小安的一天。那些小小的进步，都被看见了。",
+          "imagePrompt": "《我想成为老师》第13页：放学时，老师和妈妈聊起小安的一天。那些小小的进步，都被看见了。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-076085462f086bb2.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 14,
+          "caption": "小朋友离园后，老师还要准备明天的活动。陪伴，也需要认真学习。",
+          "narration": "小朋友离园后，老师还要准备明天的活动。陪伴，也需要认真学习。",
+          "imagePrompt": "《我想成为老师》第14页：小朋友离园后，老师还要准备明天的活动。陪伴，也需要认真学习。。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-8b1ef8fc3eb537e4.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 15,
+          "caption": "回家后，小安给小熊讲故事。“你慢慢说，我会认真听。”",
+          "narration": "回家后，小安给小熊讲故事。“你慢慢说，我会认真听。”",
+          "imagePrompt": "《我想成为老师》第15页：回家后，小安给小熊讲故事。“你慢慢说，我会认真听。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-a862b8e0bce8ffdd.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        },
+        {
+          "position": 16,
+          "caption": "“我想成为老师！”小安说，“陪小朋友发现世界，也陪他们一点点长大。”",
+          "narration": "“我想成为老师！”小安说，“陪小朋友发现世界，也陪他们一点点长大。”",
+          "imagePrompt": "《我想成为老师》第16页：“我想成为老师！”小安说，“陪小朋友发现世界，也陪他们一点点长大。”。中国城市日常生活，明亮配色、圆润卡通造型，3:4竖版。",
+          "imageUrl": "https://r.abeiai.com/picture-books/20261009-f49f1a79f4be9c61.webp",
+          "audioUrl": null,
+          "imageTaskId": null,
+          "audioTaskId": null
+        }
+      ]
+    }
+  ],
+  "input": {
+    "name": "我想成为",
+    "summary": "和小安一起认识医生、消防员和幼儿园老师，看看他们怎样工作、怎样与伙伴合作、怎样关心别人。三本独立故事，每本16页正文加带书名的封面，3:4竖版，面向幼儿园小朋友。",
+    "coverMediaId": "cmv1a5cr0001fdrmx1guoa60a",
+    "tags": [
+      "绘本",
+      "职业启蒙",
+      "幼儿园",
+      "中国城市"
+    ],
+    "items": [
+      {
+        "materialType": "PICTURE_BOOK",
+        "materialId": "abei-career-doctor",
+        "displayName": "我想成为医生"
+      },
+      {
+        "materialType": "PICTURE_BOOK",
+        "materialId": "abei-career-firefighter",
+        "displayName": "我想成为消防员"
+      },
+      {
+        "materialType": "PICTURE_BOOK",
+        "materialId": "abei-career-teacher",
+        "displayName": "我想成为老师"
+      }
+    ]
+  }
+}

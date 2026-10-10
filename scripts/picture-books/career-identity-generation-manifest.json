@@ -1,0 +1,470 @@
+{
+  "series": "我想成为",
+  "revision": "different-children-families-v2",
+  "method": "built-in image_gen",
+  "aspectRatio": "3:4",
+  "bodyPagesPerBook": 16,
+  "edits": [
+    {
+      "slug": "firefighter",
+      "position": 0,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover.webp",
+      "assetName": "cover-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Edit attached image 1, the book cover. Keep the Chinese title exactly “我想成为消防员”, its navy rounded lettering, white outline, placement, bright toy-like style, Chinese fire station and Firefighter Liu unchanged. Replace ONLY the little boy with a clearly DIFFERENT child: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Preserve his curious pose but use his own hair and clothes. ADD his father standing just behind the boy at left, below the title, watching the demonstration warmly: Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Father is visibly adult and taller than the child. No mother, no yellow-shirt/blue-overalls boy. Keep professional adult Liu and props, no additional foreground people, no extra text, 3:4 portrait. The full lower composition must show child and father clothing clearly. Yellow shoes, emerald shirt and navy shorts are essential consistent identity markers. Preserve all title characters.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-941e0a77-1b18-472b-8220-d29807796825.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 0,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover.webp",
+      "assetName": "cover-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Edit attached image 1, book cover. Keep the Chinese title exactly “我想成为老师”, its lettering and position, bright softly shaded toy-like style, classroom, Teacher Chen's face/glasses/mint polo/beige trousers, book and two classmates unchanged. Replace ONLY the central yellow-shirt/blue-overalls boy next to the teacher with a clearly different little GIRL: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip on HER LEFT temple, lavender short-sleeved dress, white ankle socks, white velcro shoes; never overalls, never yellow shirt. The child in lavender dress is the protagonist, distinct from the existing coral-dress pigtail girl Mimi at left and striped-shirt boy Haohao at right. Preserve all three children being read to by Teacher Chen; exactly one lavender girl, one coral pigtail girl, one striped-shirt boy. No yellow-shirt boy. Do not add parents to this cover. Keep the scene, warm smiles and title space, no other words, 3:4 portrait. The yellow star hair clip on the girl's left temple stays visible.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-fae38d97-66fa-46d1-be00-9d5946a6177e.png"
+    },
+    {
+      "slug": "doctor",
+      "position": 15,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/doctor/15.webp",
+      "assetName": "15-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/doctor/15.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/doctor/14-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET, doctor's book page15 at home. Input2 is the exact mother's IDENTITY reference from page14. Change only the mother in input1 to exactly match the mother in input2: Xiao An's mother: Chinese woman age32, shoulder-length dark-brown hair with side part, pink short-sleeved T-shirt, blue jeans, cream flat shoes, beige canvas shoulder bag outdoors. In particular use her longer shoulder-length DARK-BROWN side-parted hair, same warm adult face, short-sleeved pink T-shirt and blue jeans, instead of the doctor's short black bob. Match the cream shoes, which can be partly hidden as she sits on the floor. Keep child Xiao An unchanged in yellow T-shirt/turquoise overalls, his drawing, toy stethoscope, red-bow brown teddy bear, all objects, apartment setting, pose, gentle listening expression and bright 3D illustration style unchanged. No doctor or other people, no title/caption/text, 3:4 portrait.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-96189632-2f6b-4d67-8cc0-ab85728efe7e.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 1,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/01.webp",
+      "assetName": "01-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/01.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET for interior page1; image2 is the EXACT UPDATED CHARACTER reference. Keep image1's scene, viewpoint, action, composition, fire engine, equipment, Chinese city setting and adult firefighter Liu. Replace ONLY the old yellow-shirt/blue-overalls boy with Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Replace ONLY his pink-shirt mother with Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the boy and father's faces, side-parted hair, body proportions and clothes exactly to image2. The father occupies the previous mother's place beside the boy, actively accompanies him; the mother's feminine face/hair/pink shirt must be completely absent. Page action: Wide exterior of a contemporary Chinese city fire station on a family open day: Xiao Yu and dad in navy polo shirt and beige trousers enter the marked visitor walkway with two other Chinese families. Red bay doors, clean paved yard, parked red fire engine, apartment towers behind, no text or active emergency.. Keep other station visitors in background only; no additional main family. Child in ordinary emerald shirt/navy shorts/yellow shoes, never firefighter costume, never blue overalls. Father navy polo/beige long trousers/white shoes, no glasses. Liu unchanged tan suit/yellow helmet. New illustration without title or caption, strict 3:4 portrait. Keep important faces/props above bottom caption space. Preserve full physical scene rather than copying the reference cover.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-bde1d8ac-aeb6-426c-935f-bdead22453c6.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 1,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/01.webp",
+      "assetName": "01-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/01.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: compositing. Input1 is the edit target, kindergarten arrival scene; input2 is the new EXACT character reference. Preserve the Chinese urban kindergarten gate, safe pavement, trees, warm style and Teacher Chen from both inputs. Replace the yellow-shirt/overalls boy with Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Replace the old pink-shirt mother with Duoduo's mother: Chinese woman age32, long dark-brown hair tied in LOW PONYTAIL, cream short-sleeved blouse, sage-green full-length trousers, white flats; never pink T-shirt. ADD Duoduo's father: Chinese man age34, short black hair, dark rectangular glasses, TEAL polo shirt, charcoal-grey full-length trousers, white sneakers; distinct from round-glasses Teacher Chen. alongside mother and daughter, so BOTH PARENTS accompany their daughter to school. Four main figures only: girl Duoduo, her mother, her father, Teacher Chen. The child holds mother's hand and waves to teacher; father stands close beside mother, face and teal shirt visible. Behind the gate, preserve ONLY the two classmates from input2: coral dress pigtail girl Mimi and blue-striped-shirt boy Haohao, at smaller scale. Do not clone any person; no yellow-shirt boy or pink-shirt mother anywhere. Exactly match Duoduo's lavender white-collar dress, bob and yellow star clip from input2. Parents retain their own faces and fixed clothes, mother's LOW ponytail visible; father's glasses are rectangular, teacher's glasses ROUND. No story text or title, 3:4 portrait, same bright toy-like picture-book style. Keep faces above lower caption area.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-1b7b7f74-22c2-4498-bae0-d8c27dde1234.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 2,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/02.webp",
+      "assetName": "02-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/02.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET for interior page2; image2 is the EXACT UPDATED CHARACTER reference. Keep image1's scene, viewpoint, action, composition, fire engine, equipment, Chinese city setting and adult firefighter Liu. Replace ONLY the old yellow-shirt/blue-overalls boy with Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Replace ONLY his pink-shirt mother with Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the boy and father's faces, side-parted hair, body proportions and clothes exactly to image2. The father occupies the previous mother's place beside the boy, actively accompanies him; the mother's feminine face/hair/pink shirt must be completely absent. Page action: Xiao Yu and dad admire a stationary modern Chinese red fire engine from the visitor side, white roller-shutter equipment doors, modern cab and red-blue roof lamps. Wide side view of vehicle, hoses safely stored, no climbing, no English or vehicle brand.. Keep other station visitors in background only; no additional main family. Child in ordinary emerald shirt/navy shorts/yellow shoes, never firefighter costume, never blue overalls. Father navy polo/beige long trousers/white shoes, no glasses. Liu unchanged tan suit/yellow helmet. New illustration without title or caption, strict 3:4 portrait. Keep important faces/props above bottom caption space. Preserve full physical scene rather than copying the reference cover.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-2cb3cd8d-daf9-41de-a8f1-fba312f51311.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 3,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/03-v2.webp",
+      "assetName": "03-v3.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/03-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET for interior page3; image2 is the EXACT UPDATED CHARACTER reference. Keep image1's scene, viewpoint, action, composition, fire engine, equipment, Chinese city setting and adult firefighter Liu. Replace ONLY the old yellow-shirt/blue-overalls boy with Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Replace ONLY his pink-shirt mother with Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the boy and father's faces, side-parted hair, body proportions and clothes exactly to image2. The father occupies the previous mother's place beside the boy, actively accompanies him; the mother's feminine face/hair/pink shirt must be completely absent. Page action: Firefighter Liu kneels warmly to welcome Xiao Yu and dad beside a station visitor table. Xiao Yu waves, helmet on adult, no equipment handled by child. Friendly close three-person scene, red fire-station architecture and blue sky.. Keep other station visitors in background only; no additional main family. Child in ordinary emerald shirt/navy shorts/yellow shoes, never firefighter costume, never blue overalls. Father navy polo/beige long trousers/white shoes, no glasses. Liu unchanged tan suit/yellow helmet. New illustration without title or caption, strict 3:4 portrait. Keep important faces/props above bottom caption space. Preserve full physical scene rather than copying the reference cover.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-60d760be-c52c-40a9-b75c-7a758efa8392.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 4,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/04.webp",
+      "assetName": "04-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/04.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET for interior page4; image2 is the EXACT UPDATED CHARACTER reference. Keep image1's scene, viewpoint, action, composition, fire engine, equipment, Chinese city setting and adult firefighter Liu. Replace ONLY the old yellow-shirt/blue-overalls boy with Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Replace ONLY his pink-shirt mother with Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the boy and father's faces, side-parted hair, body proportions and clothes exactly to image2. The father occupies the previous mother's place beside the boy, actively accompanies him; the mother's feminine face/hair/pink shirt must be completely absent. Page action: Liu shows a detached yellow helmet and a tan-beige protective jacket hanging on a rack at the fire-station exhibition area. Xiao Yu and dad observe on the safe visitor side. Adult points to helmet and reflective stripe, normal child clothing, no fire or risky action.. Keep other station visitors in background only; no additional main family. Child in ordinary emerald shirt/navy shorts/yellow shoes, never firefighter costume, never blue overalls. Father navy polo/beige long trousers/white shoes, no glasses. Liu unchanged tan suit/yellow helmet. New illustration without title or caption, strict 3:4 portrait. Keep important faces/props above bottom caption space. Preserve full physical scene rather than copying the reference cover.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-99793e27-b631-45b4-9148-e6abb06b4edd.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 5,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/05.webp",
+      "assetName": "05-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/05.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET for interior page5; image2 is the EXACT UPDATED CHARACTER reference. Keep image1's scene, viewpoint, action, composition, fire engine, equipment, Chinese city setting and adult firefighter Liu. Replace ONLY the old yellow-shirt/blue-overalls boy with Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Replace ONLY his pink-shirt mother with Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the boy and father's faces, side-parted hair, body proportions and clothes exactly to image2. The father occupies the previous mother's place beside the boy, actively accompanies him; the mother's feminine face/hair/pink shirt must be completely absent. Page action: Close-up demonstration: Liu displays a pair of large black protective gloves and sturdy black boots on a low table, Xiao Yu and dad lean forward looking curiously without wearing them. Clean dry equipment, warm shaded station visitor area.. Keep other station visitors in background only; no additional main family. Child in ordinary emerald shirt/navy shorts/yellow shoes, never firefighter costume, never blue overalls. Father navy polo/beige long trousers/white shoes, no glasses. Liu unchanged tan suit/yellow helmet. New illustration without title or caption, strict 3:4 portrait. Keep important faces/props above bottom caption space. Preserve full physical scene rather than copying the reference cover.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-965adb87-17fa-431f-a0d6-f8e6b628ba3b.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 6,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/06.webp",
+      "assetName": "06-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/06.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET for page6; input2 is the exact NEW child/father identity reference. Preserve input1's actual station scene, equipment, barrier positions, training actions and viewpoint. Replace the old yellow-shirt/blue-overalls boy by Xiao Yu and replace his pink-shirt mother by Xiao Yu's FATHER. Keep adult firefighter Liu exactly as original. Foreground supporting identities: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the child and father's face/hair/clothes to input2; adult father in navy polo/beige long trousers/white sneakers, no glasses; child in emerald shirt/navy shorts/yellow sneakers. Completely remove the old mother's feminine face/pink shirt and old boy's yellow shirt/overalls.    Story action unchanged: Liu demonstrates an adult-sized breathing apparatus resting securely on a display stand: compressed-air cylinder with harness and a face mask beside it. Xiao Yu keeps distance beside dad, no child touching valve, wearing mask or carrying equipment. Friendly museum-like station display, no smoke.. The child only observes safely behind the barrier at training scenes, never holds active hose or wears professional equipment. No story text, no title, 3:4 portrait. Preserve cheerful softly shaded picture-book style and clear lower area for captions.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-280536e1-e2b1-4179-97b5-0e67eaff4459.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 7,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/07.webp",
+      "assetName": "07-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/07.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET for page7; input2 is the exact NEW child/father identity reference. Preserve input1's actual station scene, equipment, barrier positions, training actions and viewpoint. Replace the old yellow-shirt/blue-overalls boy by Xiao Yu and replace his pink-shirt mother by Xiao Yu's FATHER. Keep adult firefighter Liu exactly as original. Foreground supporting identities: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Firefighter Zhang: adult Chinese man age30, black buzz cut, yellow helmet, tan-beige turnout suit with yellow/silver reflective bands, black boots. Match the child and father's face/hair/clothes to input2; adult father in navy polo/beige long trousers/white sneakers, no glasses; child in emerald shirt/navy shorts/yellow sneakers. Completely remove the old mother's feminine face/pink shirt and old boy's yellow shirt/overalls. The adult teammate with clipboard is Firefighter Zhang, adult Chinese man with buzz cut, tan turnout suit and yellow helmet.   Story action unchanged: Liu checks the open equipment compartment of the parked fire engine, neatly rolled hoses and secure racks, an adult teammate records checks on unlettered clipboard. Xiao Yu and dad behind a visitor barrier. Focus on preparedness and careful work, no vehicle moving.. The child only observes safely behind the barrier at training scenes, never holds active hose or wears professional equipment. No story text, no title, 3:4 portrait. Preserve cheerful softly shaded picture-book style and clear lower area for captions.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-276c6a98-6271-4f6f-808e-d7217a8c4e0d.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 8,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/08.webp",
+      "assetName": "08-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/08.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET for page8; input2 is the exact NEW child/father identity reference. Preserve input1's actual station scene, equipment, barrier positions, training actions and viewpoint. Replace the old yellow-shirt/blue-overalls boy by Xiao Yu and replace his pink-shirt mother by Xiao Yu's FATHER. Keep adult firefighter Liu exactly as original. Foreground supporting identities: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Firefighter Zhou: adult Chinese woman age28, black LOW PONYTAIL, yellow helmet, tan-beige turnout suit with yellow/silver reflective bands, black boots. Match the child and father's face/hair/clothes to input2; adult father in navy polo/beige long trousers/white sneakers, no glasses; child in emerald shirt/navy shorts/yellow sneakers. Completely remove the old mother's feminine face/pink shirt and old boy's yellow shirt/overalls. Liu's training partner is the same Firefighter Zhou: adult Chinese WOMAN with black low ponytail under yellow helmet and matching tan turnout gear, black boots. There are exactly two training firefighters, Liu and Zhou; do not add a third trainer.   Story action unchanged: Two adult Chinese firefighters, Liu and a female colleague in matching tan-beige turnout gear, carry a rolled hose together across a dry station drill yard. Xiao Yu and dad watch behind a waist-high visitor barrier, clear distance. No child holding hose or active fire.. The child only observes safely behind the barrier at training scenes, never holds active hose or wears professional equipment. No story text, no title, 3:4 portrait. Preserve cheerful softly shaded picture-book style and clear lower area for captions.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-ffc033de-7668-4f62-b1ad-19c4351aba74.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 9,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/09.webp",
+      "assetName": "09-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/09.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET for page9; input2 is the exact NEW child/father identity reference. Preserve input1's actual station scene, equipment, barrier positions, training actions and viewpoint. Replace the old yellow-shirt/blue-overalls boy by Xiao Yu and replace his pink-shirt mother by Xiao Yu's FATHER. Keep adult firefighter Liu exactly as original. Foreground supporting identities: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Firefighter Zhou: adult Chinese woman age28, black LOW PONYTAIL, yellow helmet, tan-beige turnout suit with yellow/silver reflective bands, black boots. Match the child and father's face/hair/clothes to input2; adult father in navy polo/beige long trousers/white sneakers, no glasses; child in emerald shirt/navy shorts/yellow sneakers. Completely remove the old mother's feminine face/pink shirt and old boy's yellow shirt/overalls. Liu's training partner is the same Firefighter Zhou: adult Chinese WOMAN with black low ponytail under yellow helmet and matching tan turnout gear, black boots. There are exactly two training firefighters, Liu and Zhou; do not add a third trainer.   Story action unchanged: Two adult firefighters practice a controlled water stream toward an empty training target well away from visitors. Liu holds hose with teammate supporting him, appropriate boots and helmets. Xiao Yu and dad behind a barrier at least eight meters away, side-on wide composition, no water aimed at people, no fire.. The child only observes safely behind the barrier at training scenes, never holds active hose or wears professional equipment. No story text, no title, 3:4 portrait. Preserve cheerful softly shaded picture-book style and clear lower area for captions.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-ac869c59-2cce-447a-bbda-2b4ddaba5603.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 10,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/10-v2.webp",
+      "assetName": "10-v3.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/10-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET for page10; input2 is the exact NEW child/father identity reference. Preserve input1's actual station scene, equipment, barrier positions, training actions and viewpoint. Replace the old yellow-shirt/blue-overalls boy by Xiao Yu and replace his pink-shirt mother by Xiao Yu's FATHER. Keep adult firefighter Liu exactly as original. Foreground supporting identities: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the child and father's face/hair/clothes to input2; adult father in navy polo/beige long trousers/white sneakers, no glasses; child in emerald shirt/navy shorts/yellow sneakers. Completely remove the old mother's feminine face/pink shirt and old boy's yellow shirt/overalls.  Preserve the CORRECT GREEN safety exit sign exactly: WHITE running figure, WHITE arrow pointing toward WHITE exit door. NO FLAME or fire anywhere in this sign.  Story action unchanged: Liu calmly teaches Xiao Yu and dad in the station visitor education corner using a simple picture-only safety display showing an adult and child moving away from a tiny stylized warning flame pictogram. No real fire, dangerous room, smoke, stairwell action or fear. Adult explains, child listens.. The child only observes safely behind the barrier at training scenes, never holds active hose or wears professional equipment. No story text, no title, 3:4 portrait. Preserve cheerful softly shaded picture-book style and clear lower area for captions.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-c41f9cec-6f5c-456f-ae26-d5ba293ab522.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 11,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/11.webp",
+      "assetName": "11-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/11.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Input1 is the EDIT TARGET for page11; input2 is the exact NEW child/father identity reference. Preserve input1's actual station scene, equipment, barrier positions, training actions and viewpoint. Replace the old yellow-shirt/blue-overalls boy by Xiao Yu and replace his pink-shirt mother by Xiao Yu's FATHER. Keep adult firefighter Liu exactly as original. Foreground supporting identities: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Match the child and father's face/hair/clothes to input2; adult father in navy polo/beige long trousers/white sneakers, no glasses; child in emerald shirt/navy shorts/yellow sneakers. Completely remove the old mother's feminine face/pink shirt and old boy's yellow shirt/overalls.   Keep the OBVIOUS DISCONNECTED RED TOY PHONE with large rounded buttons and the exact digits “119” on its small card. No live mobile phone or real emergency call. Story action unchanged: Xiao Yu holds an OBVIOUS red toy telephone with large rounded plastic keys, completely disconnected, practicing beside Liu and dad in a supervised education area. A small simple card shows ONLY the exact digits 119. The toy must not resemble a real connected mobile phone; no actual emergency call, no other text.. The child only observes safely behind the barrier at training scenes, never holds active hose or wears professional equipment. No story text, no title, except exact card digits119, 3:4 portrait. Preserve cheerful softly shaded picture-book style and clear lower area for captions.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-4ba18471-6dff-49ce-a8e2-baba75a3318b.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 12,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/12.webp",
+      "assetName": "12-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/12.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page12; image2 is updated identity reference, not a scene to copy. Preserve original viewpoint, action, physical environment and preschool glossy rounded cartoon art. Community worker: shoulder-length brown hair/teal vest/white blouse/navy pants.\nOnly these named cast members may appear as foreground characters: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Community staff woman: Chinese adult, shoulder-length brown hair, teal vest over white shirt, navy trousers. Firefighter Liu: friendly Chinese man age28 with short black hair, tan-beige contemporary Chinese firefighting turnout jacket and trousers with fluorescent yellow/silver horizontal reflective strips, yellow rescue helmet, black boots. No American fire-service emblems..\nRequired scene: Liu and an adult community staff member inspect a clear Chinese apartment-building fire access walkway, parked bicycles neatly in a separate rack, buildings and landscaping modern. Xiao Yu and dad on a public sidewalk nearby. Clear open route, no alarm, flames, unsafe clutter or readable signage.. Story context, do not write: 消防员还会走进社区，检查通道。让危险少一些，也很重要。. Remove old yellow-shirt/bib-overalls main boy and old pink-shirt mother entirely. Replace them with specified child and the specified family only if listed. Fixed hair, clothes, faces match references exactly. No extra family imported from cover. 3:4 portrait, full coherent scene, no title/caption/page number/English/brand/watermark. Calm bottom12% for player caption. Contemporary Chinese city; child only supervised visitor or obvious toy role-play.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-a72767c0-655a-499e-8e65-40e8b93756c4.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 13,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/13.webp",
+      "assetName": "13-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/13.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page13; image2 is updated identity reference, not a scene to copy. Preserve original viewpoint, action, physical environment and preschool glossy rounded cartoon art. Exactly three adult firefighters: Liu, female Zhou with low ponytail, male Zhang with buzz-cut. Clear orange TRAINING DUMMY, not injured person. Boy/dad on visitor side of barrier.\nOnly these named cast members may appear as foreground characters: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Firefighter Zhou: adult Chinese woman age28, black LOW PONYTAIL, yellow helmet, tan-beige turnout suit with yellow/silver reflective bands, black boots. Firefighter Zhang: adult Chinese man age30, black buzz cut, yellow helmet, tan-beige turnout suit with yellow/silver reflective bands, black boots. Firefighter Liu: friendly Chinese man age28 with short black hair, tan-beige contemporary Chinese firefighting turnout jacket and trousers with fluorescent yellow/silver horizontal reflective strips, yellow rescue helmet, black boots. No American fire-service emblems..\nRequired scene: Liu and two adult firefighter teammates rehearse rescue teamwork in the station drill yard with a clearly artificial orange training mannequin on a mat and a folded rescue stretcher. No injured person, crisis or flames. Xiao Yu and dad observe from visitor area at a safe distance.. Story context, do not write: 遇到紧急情况，消防员会和伙伴一起行动。帮助别人，需要很多本领。. Remove old yellow-shirt/bib-overalls main boy and old pink-shirt mother entirely. Replace them with specified child and the specified family only if listed. Fixed hair, clothes, faces match references exactly. No extra family imported from cover. 3:4 portrait, full coherent scene, no title/caption/page number/English/brand/watermark. Calm bottom12% for player caption. Contemporary Chinese city; child only supervised visitor or obvious toy role-play.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-a0e90c30-4885-4771-8bc4-bbacd505d084.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 15,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/15.webp",
+      "assetName": "15-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/15.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page15; image2 is updated identity reference, not a scene to copy. Preserve original viewpoint, action, physical environment and preschool glossy rounded cartoon art. Kindergarten scene: NO father or mother, NO firefighter Liu. Third reference fixes adult Chen (round glasses/mint polo/beige trousers), Mimi (black pigtails/coral dress/white collar) and Haohao (blue-white striped shirt/blue shorts). Child Xiao Yu keeps green T-shirt/navy shorts/yellow sneakers.\nOnly these named cast members may appear as foreground characters: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Teacher Chen: Chinese man age30, short black hair, round glasses, mint-green polo shirt, beige trousers, grey flat sneakers. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. .\nRequired scene: Xiao Yu and two Chinese preschool classmates build a red block fire station and toy fire engine at a low table in a modern urban kindergarten, teacher supervising in background. Ordinary child clothes, toy construction only, apartment buildings through window, no real firefighting.. Story context, do not write: 回到幼儿园，小宇用积木搭消防站。他和朋友一起商量、一起完成。. Remove old yellow-shirt/bib-overalls main boy and old pink-shirt mother entirely. Replace them with specified child and the specified family only if listed. Fixed hair, clothes, faces match references exactly. No extra family imported from cover. 3:4 portrait, full coherent scene, no title/caption/page number/English/brand/watermark. Calm bottom12% for player caption. Contemporary Chinese city; child only supervised visitor or obvious toy role-play.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-4038e3aa-a733-4641-b47e-ce5cceeb51e9.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 14,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/14.webp",
+      "assetName": "14-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/14.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page14; image2 is updated identity reference, not a scene to copy. Preserve original viewpoint, action, physical environment and preschool glossy rounded cartoon art. Liu without helmet, navy undershirt, tan turnout pants, same face. Father beside boy, never mother.\nOnly these named cast members may appear as foreground characters: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Firefighter Liu: friendly Chinese man age28 with short black hair, tan-beige contemporary Chinese firefighting turnout jacket and trousers with fluorescent yellow/silver horizontal reflective strips, yellow rescue helmet, black boots. No American fire-service emblems..\nRequired scene: Liu rests in the station shaded break area, helmet removed and placed on bench, turnout jacket opened over a plain navy undershirt, drinking water from his own bottle. Xiao Yu and dad nearby thanking him, restful friendly mood, gear carefully stowed.. Story context, do not write: 练习结束，刘叔叔喝了口水。消防员也需要休息，照顾好自己。. Remove old yellow-shirt/bib-overalls main boy and old pink-shirt mother entirely. Replace them with specified child and the specified family only if listed. Fixed hair, clothes, faces match references exactly. No extra family imported from cover. 3:4 portrait, full coherent scene, no title/caption/page number/English/brand/watermark. Calm bottom12% for player caption. Contemporary Chinese city; child only supervised visitor or obvious toy role-play.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-6d1cb693-3196-4e6d-af7b-ae847ff88a64.png"
+    },
+    {
+      "slug": "firefighter",
+      "position": 16,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/16.webp",
+      "assetName": "16-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/16.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page16; image2 is updated identity reference, not a scene to copy. Preserve original viewpoint, action, physical environment and preschool glossy rounded cartoon art. One female firefighter Zhou with black low ponytail plus male Liu wave farewell; keep their faces and uniforms consistent.\nOnly these named cast members may appear as foreground characters: Xiao Yu: Chinese boy age5, short black SIDE-PARTED hair, emerald-green plain T-shirt, navy-blue SHORTS, yellow sneakers; never bib overalls. Xiao Yu's father: Chinese man age34, short black hair, clean-shaven, no glasses, navy-blue polo shirt, beige full-length chinos, white sneakers. Firefighter Zhou: adult Chinese woman age28, black LOW PONYTAIL, yellow helmet, tan-beige turnout suit with yellow/silver reflective bands, black boots. Firefighter Liu: friendly Chinese man age28 with short black hair, tan-beige contemporary Chinese firefighting turnout jacket and trousers with fluorescent yellow/silver horizontal reflective strips, yellow rescue helmet, black boots. No American fire-service emblems..\nRequired scene: Hopeful real-world closing scene: Xiao Yu and dad leave the fire station along its visitor sidewalk while Liu and female teammate wave goodbye beside the safely parked red fire engine. Sunset over modern Chinese urban apartments, ordinary child clothes, all calm and safe.. Story context, do not write: “我想成为消防员！”小宇说，“学好本领，和伙伴一起守护大家。”. Remove old yellow-shirt/bib-overalls main boy and old pink-shirt mother entirely. Replace them with specified child and the specified family only if listed. Fixed hair, clothes, faces match references exactly. No extra family imported from cover. 3:4 portrait, full coherent scene, no title/caption/page number/English/brand/watermark. Calm bottom12% for player caption. Contemporary Chinese city; child only supervised visitor or obvious toy role-play.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-6145065e-1d6a-47a0-a732-f6bfdb2b1e15.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 2,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/02.webp",
+      "assetName": "02-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/02.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page2; image2 is updated identity reference, not a scene to copy. Preserve original viewpoint, action, physical environment and preschool glossy rounded cartoon art. Replace old boy with girl Duoduo; same Chen, same two classmates, NO parents in classroom. Single star clip and lavender dress with WHITE round collar.\nOnly these named cast members may appear as foreground characters: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts..\nRequired scene: Teacher Chen seated on a child-height chair reading an open picture-only book to Duoduo, coral-dress pigtail girl and striped-blue-shirt boy on a comfortable rug. Modern bright kindergarten reading corner, low bookshelves, no written letters or teaching blackboard.. Story context, do not write: 故事时间到了。老师打开绘本，小朋友们围过来，听得津津有味。. Remove old yellow-shirt/bib-overalls main boy and old pink-shirt mother entirely. Replace them with specified child and the specified family only if listed. Fixed hair, clothes, faces match references exactly. No extra family imported from cover. 3:4 portrait, full coherent scene, no title/caption/page number/English/brand/watermark. Calm bottom12% for player caption. Contemporary Chinese city; child only supervised visitor or obvious toy role-play.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-16b5bb10-ed74-4dbd-bd4b-949707c3a48e.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 4,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/04.webp",
+      "assetName": "04-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/04.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page4; image2 fixes the new girl protagonist Duoduo and recurring Chen/Mimi/Haohao. Keep image1 scene/action/viewpoint/props/Chinese-city kindergarten and rounded glossy preschool cartoon style. Replace only old yellow-shirt bib-overalls boy with Duoduo: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Match her face, star clip position, bob, lavender WHITE-COLLAR dress and white shoes exactly to image2. Recurring other characters: Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers.. Preserve their exact identities and reference clothes, including Mimi's double pigtails/coral white-collar dress and Haohao's blue-white striped shirt/blue shorts. Only named cast and adult Chen; NO parents, NO old yellow-overalls boy. Scene: Duoduo and the two classmates build a broad block road and bridge on a low kindergarten play table. Teacher Chen sits nearby listening to their plans, hands relaxed instead of doing construction for them. No worksheets or row desks, child-led play..  Story context, do not write: 搭积木时，老师没有替大家搭好。他让小朋友说说自己的办法。. 3:4 full portrait, no captions/title/page numbers/English/brand/watermark. Important faces/props above calm bottom12% for player captions. No change of room or montage, contemporary Chinese urban preschool.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-0b24e455-5a97-4dca-b3a1-a24b3669c63f.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 3,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/03.webp",
+      "assetName": "03-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/03.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page3; image2 fixes the new girl protagonist Duoduo and recurring Chen/Mimi/Haohao. Keep image1 scene/action/viewpoint/props/Chinese-city kindergarten and rounded glossy preschool cartoon style. Replace only old yellow-shirt bib-overalls boy with Duoduo: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Match her face, star clip position, bob, lavender WHITE-COLLAR dress and white shoes exactly to image2. Recurring other characters: Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts. . Preserve their exact identities and reference clothes, including Mimi's double pigtails/coral white-collar dress and Haohao's blue-white striped shirt/blue shorts. Only named cast and adult Chen; NO parents, NO old yellow-overalls boy. Scene: Duoduo holds one yellow leaf from the kindergarten courtyard and asks Teacher Chen, who crouches at eye level listening attentively. Close two-character scene by a bright window with trees and Chinese apartment blocks visible, classmates out of frame.. Only Duoduo and Chen foreground; no extra children in this intimate greeting. Story context, do not write: “为什么叶子会变黄？”朵朵问。陈老师蹲下来，认真听。. 3:4 full portrait, no captions/title/page numbers/English/brand/watermark. Important faces/props above calm bottom12% for player captions. No change of room or montage, contemporary Chinese urban preschool.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-14187e70-ae24-4696-95bf-ea67a6285bb0.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 5,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/05.webp",
+      "assetName": "05-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/05.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page5; image2 fixes the new girl protagonist Duoduo and recurring Chen/Mimi/Haohao. Keep image1 scene/action/viewpoint/props/Chinese-city kindergarten and rounded glossy preschool cartoon style. Replace only old yellow-shirt bib-overalls boy with Duoduo: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Match her face, star clip position, bob, lavender WHITE-COLLAR dress and white shoes exactly to image2. Recurring other characters: Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers.. Preserve their exact identities and reference clothes, including Mimi's double pigtails/coral white-collar dress and Haohao's blue-white striped shirt/blue shorts. Only named cast and adult Chen; NO parents, NO old yellow-overalls boy. Scene: A small wooden block tower has gently fallen onto the play mat. Duoduo looks mildly disappointed, Teacher Chen crouches beside him with encouraging open hand, suggesting another try. Safe large blocks, no dramatic crash or injury..  Story context, do not write: 朵朵的高塔倒了。陈老师说：“没关系，我们再想想怎么让它站稳。”. 3:4 full portrait, no captions/title/page numbers/English/brand/watermark. Important faces/props above calm bottom12% for player captions. No change of room or montage, contemporary Chinese urban preschool.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-3aba435c-ea61-41e1-a16f-7db177833c25.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 6,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/06.webp",
+      "assetName": "06-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/06.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page6; image2 fixes the new girl protagonist Duoduo and recurring Chen/Mimi/Haohao. Keep image1 scene/action/viewpoint/props/Chinese-city kindergarten and rounded glossy preschool cartoon style. Replace only old yellow-shirt bib-overalls boy with Duoduo: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Match her face, star clip position, bob, lavender WHITE-COLLAR dress and white shoes exactly to image2. Recurring other characters: Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers.. Preserve their exact identities and reference clothes, including Mimi's double pigtails/coral white-collar dress and Haohao's blue-white striped shirt/blue shorts. Only named cast and adult Chen; NO parents, NO old yellow-overalls boy. Scene: Duoduo and coral-dress girl paint different imaginative pictures at a rounded low table: child's colorful tree and girl's large flower. Teacher Chen watches encouragingly without correcting colors. Big washable crayons, simple Chinese kindergarten art area, no words on artwork..  Story context, do not write: 画画时，每个人都有不同的想法。老师鼓励大家，把喜欢的画出来。. 3:4 full portrait, no captions/title/page numbers/English/brand/watermark. Important faces/props above calm bottom12% for player captions. No change of room or montage, contemporary Chinese urban preschool.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-762457a2-1ce8-4b53-a027-d2d6aa3f96b4.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 7,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/07.webp",
+      "assetName": "07-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/07.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page7; image2 fixes the new girl protagonist Duoduo and recurring Chen/Mimi/Haohao. Keep image1 scene/action/viewpoint/props/Chinese-city kindergarten and rounded glossy preschool cartoon style. Replace only old yellow-shirt bib-overalls boy with Duoduo: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Match her face, star clip position, bob, lavender WHITE-COLLAR dress and white shoes exactly to image2. Recurring other characters: Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers.. Preserve their exact identities and reference clothes, including Mimi's double pigtails/coral white-collar dress and Haohao's blue-white striped shirt/blue shorts. Only named cast and adult Chen; NO parents, NO old yellow-overalls boy. Scene: Teacher Chen and three familiar classmates crouch comfortably beside a planter in a safe fenced urban kindergarten courtyard to watch a tiny line of ants on the ground. Sunny trees, modern Chinese residential buildings beyond fence, no insects on bodies or eating plants..  Story context, do not write: 来到院子里，老师和小朋友蹲下来，看看小蚂蚁怎样走路。. 3:4 full portrait, no captions/title/page numbers/English/brand/watermark. Important faces/props above calm bottom12% for player captions. No change of room or montage, contemporary Chinese urban preschool.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-02a7a918-4fe9-482b-9d25-9d0031d7f3bd.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 8,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/08.webp",
+      "assetName": "08-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/08.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET interior page8; image2 fixes the new girl protagonist Duoduo and recurring Chen/Mimi/Haohao. Keep image1 scene/action/viewpoint/props/Chinese-city kindergarten and rounded glossy preschool cartoon style. Replace only old yellow-shirt bib-overalls boy with Duoduo: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Match her face, star clip position, bob, lavender WHITE-COLLAR dress and white shoes exactly to image2. Recurring other characters: Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers.. Preserve their exact identities and reference clothes, including Mimi's double pigtails/coral white-collar dress and Haohao's blue-white striped shirt/blue shorts. Only named cast and adult Chen; NO parents, NO old yellow-overalls boy. Scene: Duoduo and striped-shirt boy wash their hands at child-height kindergarten sinks with water and soap. Teacher Chen supervises nearby, clear uncluttered safe floor and rounded fixtures, no crowded bathing scene or toilet detail..  Story context, do not write: 玩过以后，大家一起洗手。老师陪着我们，把小事情做好。. 3:4 full portrait, no captions/title/page numbers/English/brand/watermark. Important faces/props above calm bottom12% for player captions. No change of room or montage, contemporary Chinese urban preschool.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-d4613ee2-4b26-4e79-8717-6fd71d7015bb.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 9,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/09.webp",
+      "assetName": "09-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/09.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is original EDIT TARGET interior page9; image2 fixes Duoduo/Chen/Mimi/Haohao;  Preserve scene, viewpoint, action, room and glossy rounded preschool cartoon style, change cast only. Replace old yellow-overalls main boy with girl Duoduo, white-collar lavender dress, straight bob/bangs, same single yellow STAR clip, white shoes. Strict visible cast: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Caregiver Liu: Chinese woman age35, brown hair in a neat bun, pale-peach work smock with white collar, cream trousers, white flat shoes. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. No parents or old main boy in classroom. Scene:Three familiar children eat a normal warm Chinese kindergarten lunch at low tables: rice, green vegetables and small cooked egg pieces in clean bowls, using child spoons. Teacher Chen and Chinese female caregiver in pale-peach work smock supervise without force-feeding, no fast-food boxes or giant portions.. Story context, do not write:吃午饭了。老师和保育老师一起，照顾大家好好吃饭。. Do not import unrelated characters from cover references. Preserve recurring classmate clothes and faces; Haohao blue-white striped T-shirt/blue shorts/blue-white sneakers, Mimi coral-red WHITE-collar dress/black pigtails/white flat shoes with pink trim. 3:4 portrait. No title/caption/numbers/English/brand/watermark. Important action above calm bottom12% caption area; contemporary Chinese urban preschool, no formal school lesson.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-72a288d2-b937-416e-b708-a4a4ad735861.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 10,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/10.webp",
+      "assetName": "10-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/10.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is original EDIT TARGET interior page10; image2 fixes Duoduo/Chen/Mimi/Haohao;  Preserve scene, viewpoint, action, room and glossy rounded preschool cartoon style, change cast only. Replace old yellow-overalls main boy with girl Duoduo, white-collar lavender dress, straight bob/bangs, same single yellow STAR clip, white shoes. Strict visible cast: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. No parents or old main boy in classroom. Scene:Quiet Chinese kindergarten nap room, Duoduo and two classmates sleeping fully covered by light blankets on separate low child cots with sensible gaps. Teacher Chen walks gently checking comfort, soft curtains and warm filtered light. Calm wide scene, no cramped shared beds.. Story context, do not write:午睡时，教室安静下来。老师轻轻走过，看看大家睡得舒不舒服。. Do not import unrelated characters from cover references. Preserve recurring classmate clothes and faces; Haohao blue-white striped T-shirt/blue shorts/blue-white sneakers, Mimi coral-red WHITE-collar dress/black pigtails/white flat shoes with pink trim. 3:4 portrait. No title/caption/numbers/English/brand/watermark. Important action above calm bottom12% caption area; contemporary Chinese urban preschool, no formal school lesson.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-060e96ab-f6bf-4c24-b5b4-bfeaa64bee48.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 11,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/11.webp",
+      "assetName": "11-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/11.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is original EDIT TARGET interior page11; image2 fixes Duoduo/Chen/Mimi/Haohao;  Preserve scene, viewpoint, action, room and glossy rounded preschool cartoon style, change cast only. Replace old yellow-overalls main boy with girl Duoduo, white-collar lavender dress, straight bob/bangs, same single yellow STAR clip, white shoes. Strict visible cast: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. No parents or old main boy in classroom. Scene:Coral-dress little girl feels slightly homesick on a classroom cozy seat. Teacher Chen sits at her eye level nearby, offering patient company without forced hugging. Duoduo watches kindly from the book corner, peaceful warm room, no intense crying.. Story context, do not write:有小朋友想妈妈了。老师坐在旁边：“我陪你等一会儿。”. Do not import unrelated characters from cover references. Preserve recurring classmate clothes and faces; Haohao blue-white striped T-shirt/blue shorts/blue-white sneakers, Mimi coral-red WHITE-collar dress/black pigtails/white flat shoes with pink trim. 3:4 portrait. No title/caption/numbers/English/brand/watermark. Important action above calm bottom12% caption area; contemporary Chinese urban preschool, no formal school lesson.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-3a2391bf-70cd-42b7-8d36-7281109dfe12.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 12,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/12.webp",
+      "assetName": "12-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/12.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is original EDIT TARGET interior page12; image2 fixes Duoduo/Chen/Mimi/Haohao;  Preserve scene, viewpoint, action, room and glossy rounded preschool cartoon style, change cast only. Replace old yellow-overalls main boy with girl Duoduo, white-collar lavender dress, straight bob/bangs, same single yellow STAR clip, white shoes. Strict visible cast: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. No parents or old main boy in classroom. Scene:Duoduo and striped-shirt boy discuss taking turns with one large red toy car on a play mat. Teacher Chen kneels nearby and listens to both, hands off the toy. Gentle disagreement resolving through conversation, no grabbing, scolding or rewards chart.. Story context, do not write:朵朵和浩浩都想玩同一辆小车。老师请他们说说，再一起想办法。. Do not import unrelated characters from cover references. Preserve recurring classmate clothes and faces; Haohao blue-white striped T-shirt/blue shorts/blue-white sneakers, Mimi coral-red WHITE-collar dress/black pigtails/white flat shoes with pink trim. 3:4 portrait. No title/caption/numbers/English/brand/watermark. Important action above calm bottom12% caption area; contemporary Chinese urban preschool, no formal school lesson.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-1edbc29d-91ad-48df-b1b5-ced71dfea790.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 13,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/13.webp",
+      "assetName": "13-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/13.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/01-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is original EDIT TARGET interior page13; image2 fixes Duoduo/Chen/Mimi/Haohao; image3 fixes BOTH PARENTS exactly, including distinct glasses, hair, clothing. Preserve scene, viewpoint, action, room and glossy rounded preschool cartoon style, change cast only. Replace old yellow-overalls main boy with girl Duoduo, white-collar lavender dress, straight bob/bangs, same single yellow STAR clip, white shoes. Strict visible cast: Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Duoduo's father: Chinese man age34, short black hair, dark rectangular glasses, TEAL polo shirt, charcoal-grey full-length trousers, white sneakers; distinct from round-glasses Teacher Chen. Duoduo's mother: Chinese woman age32, long dark-brown hair tied in LOW PONYTAIL, cream short-sleeved blouse, sage-green full-length trousers, white flats; never pink T-shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. Both parents MUST be present; replace old pink-shirt mama with these two distinct adults. Father teal polo/rectangular glasses; Chen mint polo/ROUND glasses. Scene:Teacher Chen talks warmly to BOTH Duoduo's father (teal polo, rectangular glasses, charcoal trousers) AND mother (cream blouse, dark-brown LOW ponytail, sage-green trousers) at kindergarten pickup doorway, showing an unlettered drawing while Duoduo stands proudly between them. Safe orderly pickup, city sidewalk visible.. Story context, do not write:放学时，老师和爸爸妈妈聊起朵朵的一天。那些小小的进步，都被看见了。. Do not import unrelated characters from cover references. Preserve recurring classmate clothes and faces; Haohao blue-white striped T-shirt/blue shorts/blue-white sneakers, Mimi coral-red WHITE-collar dress/black pigtails/white flat shoes with pink trim. 3:4 portrait. No title/caption/numbers/English/brand/watermark. Important action above calm bottom12% caption area; contemporary Chinese urban preschool, no formal school lesson.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-7674921d-8a79-4f26-aa70-0649559f57b8.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 14,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/14.webp",
+      "assetName": "14-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/14.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is original EDIT TARGET interior page14; image2 fixes Duoduo/Chen/Mimi/Haohao;  Preserve scene, viewpoint, action, room and glossy rounded preschool cartoon style, change cast only. Replace old lavender-shirt colleague with fixed peach-smock caregiver; keep Chen unchanged. Strict visible cast: Caregiver Liu: Chinese woman age35, brown hair in a neat bun, pale-peach work smock with white collar, cream trousers, white flat shoes. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. Only Chen and caregiver, no child/family. Scene:After children leave, Teacher Chen and SAME Caregiver Liu as lunchtime page9 prepare next day's play activities at low table with picture cards, blocks and blank notebook. Caregiver has brown neat BUN, PALE-PEACH work smock/white collar, cream trousers, white flat shoes; NO lavender top. Only TWO adults: Chen and Caregiver Liu. NO Duoduo, children or parents.. Story context, do not write:小朋友离园后，老师还要准备明天的活动。陪伴，也需要认真学习。. Do not import unrelated characters from cover references. Preserve recurring classmate clothes and faces; Haohao blue-white striped T-shirt/blue shorts/blue-white sneakers, Mimi coral-red WHITE-collar dress/black pigtails/white flat shoes with pink trim. 3:4 portrait. No title/caption/numbers/English/brand/watermark. Important action above calm bottom12% caption area; contemporary Chinese urban preschool, no formal school lesson.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-c6f83284-fe2f-4971-a87d-210de243f031.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 16,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/16.webp",
+      "assetName": "16-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/16.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 EDIT TARGET; image2 new girl/classmate/teacher identity reference;  Preserve target scene/view/action/props/preschool glossy rounded style. Replace yellow-overalls boy with Duoduo. Cast:Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Mimi: Chinese girl age5, two black pigtails, coral-red dress with white rounded collar, pink flat shoes. Haohao: Chinese boy age5, short black hair with side fringe, blue-and-white striped T-shirt, blue shorts, white sneakers. Teacher Chen: friendly Chinese man age30, short black hair, small round glasses, mint-green polo shirt, beige trousers, flat grey sneakers. Classmates: girl with black pigtails in coral dress, boy with short black hair in blue-and-white striped T-shirt and blue shorts.. Required scene:Warm hopeful finale in the kindergarten courtyard: Duoduo smiles beside Teacher Chen and the two familiar classmates, all admire a small flowering planter and wave to one another. Chinese city apartment blocks behind the safe courtyard fence, afternoon golden light, ordinary child clothes, no graduation costume.. No old pink-shirt mama or yellow-overalls boy. Faces, clothes, hair and star clip exactly match references; no extra people. Mimi coral-white collar dress/black double pigtails/pink-white shoes; Haohao blue-white striped shirt/blue shorts/blue-white sneakers; Chen round glasses/mint polo/beige pants/grey sneakers. NO parents. 3:4 portrait, no text/title/caption/watermark. Calm bottom12% caption strip, important faces above. Story, do not write:“我想成为老师！”朵朵说，“陪小朋友发现世界，也陪他们一点点长大。”.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-fe1c48b3-e305-453b-bfda-f655c03ed05f.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 14,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/14-v2.webp",
+      "assetName": "14-v3.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/14-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/09-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 is EDIT TARGET. Preserve ALL viewpoint, pose, classroom, objects, Teacher Chen, blank notebook and cards. Adjust ONLY Caregiver Liu on the RIGHT to EXACTLY MATCH the same woman on the RIGHT in image2 lunch scene: dark-brown side-parted hair gathered in a LOW neat bun behind her head, PALE-PEACH SHORT-SLEEVED work smock with WHITE round collar and small brown BEAR emblem on chest pocket, cream full-length trousers, white flats. The target caregiver currently has high bun and long sleeves: change to the low bun and short sleeves of image2. Exact same face and body identity as reference. TWO ADULTS only, Chen and caregiver. NO children/parents from lunch ref. No caption/title/English/brand. Strict3:4 portrait, same glossy cute Chinese-city preschool art. Keep entire scene otherwise unchanged.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-9ddb2ed2-4343-4c86-af0d-e427d92404a8.png"
+    },
+    {
+      "slug": "teacher",
+      "position": 15,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/15.webp",
+      "assetName": "15-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/15.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/01-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 EDIT TARGET; image2 new girl/classmate/teacher identity reference; image3 exact father AND mother reference; add father beside mother, both actively listen. Preserve target scene/view/action/props/preschool glossy rounded style. Replace yellow-overalls boy with Duoduo. Cast:Duoduo: Chinese girl age5, neat chin-length straight black BOB with straight bangs, one small yellow STAR hair clip at exactly the same side of her bangs as the reference, lavender short-sleeved dress with white rounded collar, white ankle socks, white velcro shoes; never overalls, never yellow shirt. Duoduo's father: Chinese man age34, short black hair, dark rectangular glasses, TEAL polo shirt, charcoal-grey full-length trousers, white sneakers; distinct from round-glasses Teacher Chen. Duoduo's mother: Chinese woman age32, long dark-brown hair tied in LOW PONYTAIL, cream short-sleeved blouse, sage-green full-length trousers, white flats; never pink T-shirt. Teddy: brown stuffed toy bear with beige belly and paw pads, red bow tie; an inanimate toy. . Required scene:Duoduo in lavender white-collar dress and yellow STAR hairclip reads a picture-only book to the brown teddy with beige belly/pawpads and red bow tie. BOTH her parents sit nearby listening at her eye level in contemporary Chinese apartment: father teal polo/rectangular glasses/charcoal trousers/white sneakers, mother cream short-sleeved blouse/dark-brown LOW ponytail/sage trousers/white flats. NO Chen, caregiver, classmates.. No old pink-shirt mama or yellow-overalls boy. Faces, clothes, hair and star clip exactly match references; no extra people.  3:4 portrait, no text/title/caption/watermark. Calm bottom12% caption strip, important faces above. Story, do not write:回家后，朵朵给小熊讲故事。爸爸妈妈坐在旁边听。“你慢慢说，我会认真听。”.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-f39bf2bb-e888-4cc0-9346-65a8f5fa894f.png"
+    },
+    {
+      "slug": "resource",
+      "position": null,
+      "target": "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/series-cover.webp",
+      "assetName": "series-cover-v2.webp",
+      "refs": [
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/series-cover.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/doctor/cover.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/firefighter/cover-v2.webp",
+        "/Users/ericword/abei/apps/web/public/picture-book-demos/careers/teacher/cover-v2.webp"
+      ],
+      "prompt": "Use case: precise-object-edit. Image1 landscape SERIES COVER EDIT TARGET, preserve EXACT title 我想成为 and subtitle 职业启蒙绘本 typography, sky, urban careers open day, Doctor Lin left (black bob/whitecoat/bluescrubs), Firefighter Liu middle (tan/yellowhelmet), Teacher Chen right(roundglasses/mintpolo/beigepants). Images2/3/4 are exact DIFFERENT child identity references. Foreground must now contain THREE different children equally prominent: Xiao An from image2 (rounded black hair, yellow T-shirt, turquoise BIB OVERALLS, white sneakers) near Doctor Lin; Xiao Yu from image3 (SIDE-PART black hair, EMERALD plain T-SHIRT, NAVY SHORTS, yellow sneakers) near Firefighter Liu; Duoduo from image4 (black straight BOB/bangs, yellow STAR clip on same side, LAVENDER white-collar dress, white socks/white shoes) near Teacher Chen. Three children have DIFFERENT hair/clothes/sex; never duplicate Xiao An. Add space by moving adult figures slightly higher and children aligned below them in lower center. Everyone smiles in SAME coherent scene, not three panels. Maintain bright cyan/navy/red/yellow glossy rounded preschool cartoon style and China-city buildings, no parents needed. Preserve generous title space. Strict16:9 landscape, no new text/English/brand/watermark; all faces below typography; no professional costumes on children.",
+      "source": "/Users/ericword/.codex/generated_images/01a115a8-a071-78f2-b741-2ab38b1fae2a/exec-5e074aa5-05bd-46df-ab87-3057f3f34c94.png"
+    }
+  ],
+  "checks": [
+    {
+      "check": "逐页核对两本修订绘本的封面与16页正文",
+      "result": "通过：小宇绿上衣深蓝短裤，爸爸深蓝翻领短袖米色长裤；朵朵紫色白领裙与黄色星形发夹，双亲固定服装发型。"
+    },
+    {
+      "check": "重复配角及家庭情境",
+      "result": "通过：陈老师、米米、浩浩跨页与跨书一致；保育老师午餐及备课均为低盘发、白领桃色短袖；家庭场景没有职业人物混入。"
+    },
+    {
+      "check": "单页及系列封面",
+      "result": "36张选定修订图，三本各16页正文与封面，正文均3:4；系列封面三个不同孩子。"
+    }
+  ]
+}

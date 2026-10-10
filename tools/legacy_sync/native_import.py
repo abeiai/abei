@@ -1,5 +1,6 @@
 """Offline additive native import; connects exclusively to guarded local PostgreSQL."""
 import argparse
+import datetime as dt
 from collections import Counter, defaultdict
 import hashlib
 import json
@@ -14,6 +15,8 @@ from .export import validate_package
 from .package import load_manifest, read_chunk, write_chunk
 from .native_mapping import SOURCE_SYSTEM, LOG_KINDS, native_id, identity_values, user_identity, log_row, book_row, json_value, text, timestamp
 from .object_transfer import env_values
+from .incremental import user_is_new
+from .book_styles import resolve_book_styles
 
 NATIVE_TABLES=frozenset({'users','legacy_ai_sessions','legacy_ai_logs','legacy_ai_session_items','legacy_ai_log_assets','media_assets','picture_books'})
 JSON_FIELDS=frozenset({'metadata','parameters','messages','characters','pages'})
@@ -24,8 +27,10 @@ def verify_mp_namespace(values,context):
 
 
 class BulkInsert:
-    def __init__(self,connection,table,columns,progress=None):
+    def __init__(self,connection,table,columns,progress=None,refresh=False):
         if table not in NATIVE_TABLES: raise ValueError('No importer exists for this target table')
+        if refresh and (table!='legacy_ai_logs' or 'importedAt' not in columns): raise ValueError('Only timestamped source logs can refresh')
+        self.refresh=refresh
         self.connection=connection; self.table=table; self.columns=list(columns); self.pending=[]; self.pending_bytes=0; self.rows=0; self.progress=progress
         self.projection=sql.SQL(',').join(map(sql.Identifier,self.columns))
         connection.execute('DROP TABLE IF EXISTS pg_temp.legacy_migration_stage')
@@ -41,17 +46,21 @@ class BulkInsert:
         with self.connection.cursor() as cursor:
             with cursor.copy(sql.SQL('COPY legacy_migration_stage ({}) FROM STDIN').format(self.projection)) as copy:
                 for row in self.pending: copy.write_row(row)
-            cursor.execute(sql.SQL('INSERT INTO {} ({}) SELECT {} FROM legacy_migration_stage ON CONFLICT (id) DO NOTHING').format(sql.Identifier(self.table),self.projection,self.projection))
+            conflict=sql.SQL('DO NOTHING')
+            if self.refresh:
+                fields=sql.SQL(',').join(sql.SQL('{}=EXCLUDED.{}').format(sql.Identifier(c),sql.Identifier(c)) for c in self.columns if c!='id')
+                conflict=sql.SQL('DO UPDATE SET {} WHERE legacy_ai_logs."sourceSystem"=EXCLUDED."sourceSystem" AND legacy_ai_logs."sourceTable"=EXCLUDED."sourceTable" AND legacy_ai_logs."sourcePk"=EXCLUDED."sourcePk" AND legacy_ai_logs."importedAt"<=EXCLUDED."importedAt"').format(fields)
+            cursor.execute(sql.SQL('INSERT INTO {} ({}) SELECT {} FROM legacy_migration_stage ON CONFLICT (id) {}').format(sql.Identifier(self.table),self.projection,self.projection,conflict))
             cursor.execute('TRUNCATE legacy_migration_stage')
         self.connection.commit()
         self.rows+=len(self.pending); self.pending.clear();self.pending_bytes=0
         if self.progress: self.progress({'phase':'native-import','table':self.table,'processed':self.rows})
 
 
-def bulk_rows(conn,table,rows,progress=None):
+def bulk_rows(conn,table,rows,progress=None,refresh=False):
     iterator=iter(rows); first=next(iterator,None)
     if first is None: return 0
-    writer=BulkInsert(conn,table,first,progress)
+    writer=BulkInsert(conn,table,first,progress,refresh)
     writer.add(first)
     for row in iterator: writer.add(row)
     writer.flush()
@@ -91,6 +100,27 @@ def version_labels(root,manifest,key):
             v=row['values']; model=models.get(v.get('model_id'),{})
             labels[(kind,row['sourcePk'])]={'providerName':text(model.get('title')) or text(model.get('class_name')),'modelName':text(v.get('model_name')),'versionName':text(v.get('title')) or text(v.get('key')),'voiceName':text(v.get('role_name')) if kind=='AUDIO' else None}
     return labels
+
+
+def add_existing_tts_candidates(conn,lookup,subjects):
+    needed=set()
+    for row in subjects:
+        v=row['values'];body=json_value(v.get('body'),[])
+        if not isinstance(body,list) or not v.get('user_id'):continue
+        for item in body:
+            if not isinstance(item,dict):continue
+            msg=str(item.get('msg_id') or '').replace('-','');version=str(item.get('version_id') or '')
+            digest=hashlib.md5((str(item.get('user_content') or '')+'_'+version).encode(),usedforsecurity=False).hexdigest()
+            if msg and digest==item.get('hash_str'):needed.add((msg,v['user_id'],version,digest))
+    if not needed:return
+    messages=sorted({v[0] for v in needed});owners=sorted({v[1] for v in needed})
+    for start in range(0,len(messages),500):
+        query="""SELECT id,"sourcePk","sourceMsgId","sourceUserId",parameters->>'sourceVersionId',"inputText" FROM legacy_ai_logs WHERE "sourceSystem"=%s AND "sourceTable"=%s AND replace("sourceMsgId",'-','')=ANY(%s) AND "sourceUserId"=ANY(%s)"""
+        for log_id,pk,msg,owner,version,content in conn.execute(query,(SOURCE_SYSTEM,'app_ai_ttsmessage',messages[start:start+500],owners)):
+            if log_id!=native_id('app_ai_ttsmessage',pk):raise ValueError('Untrusted legacy TTS candidate identity')
+            if not content or version is None:continue
+            digest=hashlib.md5((content+'_'+str(version)).encode(),usedforsecurity=False).hexdigest();identity=(msg.replace('-',''),owner,str(version),digest)
+            if identity in needed:lookup.execute('INSERT OR IGNORE INTO tts_lookup VALUES (?,?,?,?,?)',(*identity,log_id))
 
 
 def preflight_package(root,key,target_url,mp_identity_verified=False,allow_unindexed=False):
@@ -133,8 +163,11 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
     if selection_id is not None and phase!='assets': raise ValueError('Selection can only backfill assets')
     if selection_id is None and not allow_pending and not manifest.get('assetTransferFinished'): raise ValueError('Asset transfers must finish before final import')
     if phase not in {'all','records','assets','core'}: raise ValueError('Unknown import phase')
+    incremental=manifest.get('incremental') is not None
+    capture_time=dt.datetime.fromisoformat(manifest['startedAt'].replace('Z','+00:00')) if incremental else None
     report={'sourceSystem':SOURCE_SYSTEM,'runId':manifest['runId'],'phase':phase,'assetTransferFinished':manifest.get('assetTransferFinished',False),'sourceUserRows':manifest['tables']['app_user_user']['count'],'sourceLogRows':sum(manifest['tables'][table]['count'] for table in LOG_KINDS),'identityConflicts':Counter(),'booksArchived':Counter(),'ttsLinksUnresolved':0}
     with psycopg.connect(target_url.split('?')[0],connect_timeout=10) as conn:
+        conn.execute("SET TIME ZONE 'UTC'")
         target=conn.execute('SELECT current_database(),inet_server_port()').fetchone()
         if target!=(('abei_wechat_test',3606) if testing else ('abei',3604)): raise ValueError('Target server identity mismatch')
         # Exclusive migration session lock; target application remains usable.
@@ -150,6 +183,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 report.update({'assetSelectionId':selection_id,'assetCoverage':'DIRECT_USER_OR_CHAT_SESSION','cohortAllAssetsRestored':False,'eligibleUserCount':len(selected_users),'windowStart':descriptor['windowStart'],'windowEnd':descriptor['windowEnd']})
             elif db is not None: validate_index(db,manifest,key)
             users_source=list(table_rows(root,manifest,key,'app_user_user',False))
+            if incremental:report['sourceNewUserRows']=sum(user_is_new(manifest,row['sourcePk']) for row in users_source)
             imported_ids={native_id('user',row['sourcePk']) for row in users_source}
             existing={field:set() for field in ['email','phone','wechatMpOpenId','wechatUnionId']}
             users={}
@@ -165,6 +199,7 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
             if phase in {'all','records','core'}:
                 def user_rows():
                     for row in users_source:
+                        if incremental and not user_is_new(manifest,row['sourcePk']):continue
                         v=row['values']; pk=row['sourcePk']; identity,conflicts=user_identity(v,counts,existing,namespace_verified=mp_identity_verified)
                         report['identityConflicts'].update(conflicts)
                         if not mp_identity_verified:
@@ -188,24 +223,42 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                 bulk_rows(conn,'legacy_ai_sessions',session_rows(),progress)
                 versions=version_labels(root,manifest,key)
                 for table in LOG_KINDS:
-                    bulk_rows(conn,'legacy_ai_logs',(log_row(row,users,subjects,versions) for row in table_rows(root,manifest,key,table,False)),progress)
+                    def logs():
+                        for row in table_rows(root,manifest,key,table,False):
+                            value=log_row(row,users,subjects,versions)
+                            if incremental:value['importedAt']=capture_time
+                            yield value
+                    bulk_rows(conn,'legacy_ai_logs',logs(),progress,refresh=incremental)
                 def chat_links():
-                    positions=defaultdict(int)
+                    positions=defaultdict(int);existing_links={}
+                    if incremental:
+                        for log_id,session_id,position in conn.execute('SELECT i."logId",i."sessionId",i.position FROM legacy_ai_session_items i JOIN legacy_ai_sessions s ON s.id=i."sessionId" WHERE s."sourceSystem"=%s AND s."sourceTable"=%s',(SOURCE_SYSTEM,'app_ai_chatsubject')):
+                            if log_id:existing_links[log_id]=(session_id,position)
+                            positions[session_id]=max(positions[session_id],position+1)
                     for row in table_rows(root,manifest,key,'app_ai_chatmessage',False):
                         v=row['values']; subject=v.get('subject_id')
                         if subject not in subjects: continue
-                        position=positions[subject];positions[subject]+=1
+                        session_id=native_id('session:app_ai_chatsubject',subject);log_id=native_id('app_ai_chatmessage',row['sourcePk'])
+                        if incremental and log_id in existing_links:
+                            if existing_links[log_id][0]!=session_id:raise ValueError('Existing chat link ownership changed')
+                            position=existing_links[log_id][1]
+                        else:
+                            cursor=session_id if incremental else subject
+                            position=positions[cursor];positions[cursor]+=1
                         yield {'id':native_id('chat-link',row['sourcePk']),'sessionId':native_id('session:app_ai_chatsubject',subject),'logId':native_id('app_ai_chatmessage',row['sourcePk']),'position':position,'sourceMsgId':v.get('msg_id'),'sourceVersionId':subjects[subject].get('version_id'),'sourceHash':None}
                 bulk_rows(conn,'legacy_ai_session_items',chat_links(),progress)
                 # Local temporary lookup supports millions of reused TTS messages without a target schema migration.
                 lookup=db if db is not None else sqlite3.connect(':memory:')
                 lookup.execute('CREATE TEMP TABLE tts_lookup (msg TEXT, owner TEXT, version TEXT, hash TEXT, log_id TEXT)')
                 lookup.execute('CREATE INDEX temp.tts_lookup_identity ON tts_lookup(msg,owner,version,hash)')
+                lookup.execute('CREATE UNIQUE INDEX temp.tts_lookup_log ON tts_lookup(log_id)')
                 for row in table_rows(root,manifest,key,'app_ai_ttsmessage',False):
                     v=row['values']; content=text(v.get('user_content'))
                     if content and v.get('user_id') and v.get('msg_id'):
                         digest=hashlib.md5((content+'_'+str(v.get('version_id'))).encode(),usedforsecurity=False).hexdigest()
                         lookup.execute('INSERT INTO tts_lookup VALUES (?,?,?,?,?)',(v['msg_id'].replace('-',''),v['user_id'],v.get('version_id'),digest,native_id('app_ai_ttsmessage',row['sourcePk'])))
+                if incremental:add_existing_tts_candidates(conn,lookup,table_rows(root,manifest,key,'app_ai_ttssubject',False))
+                heals=[]
                 def tts_links():
                     for row in table_rows(root,manifest,key,'app_ai_ttssubject',False):
                         v=row['values']; body=json_value(v.get('body'),[])
@@ -217,11 +270,16 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                             matches=lookup.execute('SELECT log_id FROM tts_lookup WHERE msg=? AND owner=? AND version=? AND hash=? LIMIT 2',(msg,v.get('user_id'),version,digest)).fetchall() if digest==expected and v.get('user_id') else []
                             log=matches[0][0] if len(matches)==1 else None
                             if not log: report['ttsLinksUnresolved']+=1
+                            elif incremental:heals.append((log,native_id('tts-link',row['sourcePk']+':'+str(position)),native_id('session:app_ai_ttssubject',row['sourcePk']),msg,version,digest))
                             yield {'id':native_id('tts-link',row['sourcePk']+':'+str(position)),'sessionId':native_id('session:app_ai_ttssubject',row['sourcePk']),'logId':log,'position':position,'sourceMsgId':msg or None,'sourceVersionId':version or None,'sourceHash':digest}
                 bulk_rows(conn,'legacy_ai_session_items',tts_links(),progress)
+                if heals:
+                    conn.cursor().executemany('UPDATE legacy_ai_session_items SET "logId"=%s WHERE id=%s AND "sessionId"=%s AND "sourceMsgId"=%s AND "sourceVersionId"=%s AND "sourceHash"=%s AND "logId" IS NULL',heals)
+                    conn.commit()
+                styles=resolve_book_styles(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 def books():
                     for row in table_rows(root,manifest,key,'app_ai_product',False):
-                        book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']))
+                        book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']),styles)
                         if reason: report['booksArchived'][reason]+=1
                         else: yield book
                 report['compatibleBooksProcessed']=bulk_rows(conn,'picture_books',books(),progress)
@@ -248,10 +306,11 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                     if selected_users is not None and row['sourcePk'] not in selected_users:continue
                     urls=replacement_urls(db,key,'app_user_user',row['sourcePk'],selection_id); avatar=urls.get(row['values'].get('avatar'))
                     if avatar: conn.execute('UPDATE users SET "avatarUrl"=%s WHERE id=%s AND "avatarUrl" IS NULL',(avatar,users.get(row['sourcePk'])))
+                styles=resolve_book_styles(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 for row in table_rows(root,manifest,key,'app_ai_product',False):
                     if selected_users is not None and row['values'].get('user_id') not in selected_users:continue
-                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id))
-                    if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
+                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id),styles)
+                    if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s::timestamp(3)',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
                 conn.commit()
                 updates=[]
                 for table in LOG_KINDS:
@@ -262,6 +321,11 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                                 conn.cursor().executemany('UPDATE legacy_ai_log_assets SET status=%s,"mimeType"=%s,"storageKey"=%s,sha256=%s,filename=%s WHERE id=%s',updates);conn.commit();updates=[]
                 if updates: conn.cursor().executemany('UPDATE legacy_ai_log_assets SET status=%s,"mimeType"=%s,"storageKey"=%s,sha256=%s,filename=%s WHERE id=%s',updates);conn.commit()
             report['nativeLogRows']=conn.execute('SELECT COUNT(*) FROM legacy_ai_logs WHERE "sourceSystem"=%s',(SOURCE_SYSTEM,)).fetchone()[0]
+            if incremental:
+                report['nativeLogTotalRows']=report['nativeLogRows']
+                ids=[native_id(table,row['sourcePk']) for table in LOG_KINDS for row in table_rows(root,manifest,key,table,False)]
+                report['nativeLogRows']=conn.execute('SELECT COUNT(*) FROM legacy_ai_logs WHERE id=ANY(%s)',(ids,)).fetchone()[0]
+                report['incrementalParentRunId']=manifest['incremental']['parentRunId']
             if selection_id is not None:validate_selection(db,root,manifest,key,selection_id)
             report['nativeUserRows']=len(users)
             report['identityConflicts']=dict(report['identityConflicts']);report['booksArchived']=dict(report['booksArchived'])

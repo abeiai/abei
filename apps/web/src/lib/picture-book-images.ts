@@ -1,7 +1,7 @@
-export function pictureBookPageImageSource(bookId: string, position: number, imageUrl: string) {
-  if (imageUrl.startsWith("/")) return imageUrl;
+export function pictureBookPageImageSource(bookId: string, position: number, imageUrl: string, scope: "private" | "public" = "private") {
+  if (scope === "private" && imageUrl.startsWith("/")) return imageUrl;
   const version = imageUrl.split("?")[0]!.split("/").at(-1) ?? "";
-  return `/api/picture-books/${encodeURIComponent(bookId)}/pages/${position}/image?v=${encodeURIComponent(version)}`;
+  return `/api/${scope === "public" ? "public/" : ""}picture-books/${encodeURIComponent(bookId)}/pages/${position}/image?v=${encodeURIComponent(version)}`;
 }
 
 export function waitForPictureBookImage(src: string): Promise<void> {

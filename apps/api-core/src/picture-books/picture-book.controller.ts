@@ -195,7 +195,7 @@ export class PictureBookController {
   }
 }
 
-function audioByteRange(range: string, size: number) {
+export function audioByteRange(range: string, size: number) {
   const match = /^bytes=(\d*)-(\d*)$/.exec(range);
   if (!match || (!match[1] && !match[2])) return null;
   const start = match[1] ? Number(match[1]) : Math.max(0, size - Number(match[2]));

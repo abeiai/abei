@@ -378,6 +378,7 @@ function hideToolApplicationItems(items: NavMenuItem[]): NavMenuItem[] {
     .filter((item) => !isToolApplicationHref(item.href))
     .map((item) => ({
       ...item,
+      href: item.label === "绘本馆" && item.href === "/center" ? "/library" : item.href,
       children: hideToolApplicationItems(item.children)
     }));
 }

@@ -10,6 +10,7 @@ import { PictureBookAudio } from "./picture-book-audio";
 import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, type PictureBookPageDraft } from "@/lib/picture-book-background";
 import { loadPictureBookStyles, selectedPictureBookStyle, type PictureBookStyle } from "@/lib/picture-book-styles";
 import { PictureBookStylePicker } from "./picture-book-style-picker";
+import { PictureBookRatioPicker, type PictureBookAspectRatio } from "./picture-book-ratio-picker";
 import { PictureBookCharacterPicker, type StoryCharacter } from "./picture-book-character-picker";
 import { VoicePicker } from "@/components/audio/voice-picker";
 import { usePictureBookGenerationConfirmation } from "./picture-book-generation-confirmation";
@@ -18,10 +19,11 @@ import type { VoicePickerOption } from "@/lib/voice-picker";
 
 type Page = { position: number; caption: string; imagePrompt: string; narration: string; imageUrl: string | null; audioUrl: string | null };
 type Character = StoryCharacter;
-const aspectRatios = ["16:9", "4:3", "3:2", "1:1", "3:4", "2:3", "9:16"] as const;
-type AspectRatio = typeof aspectRatios[number];
-type Book = { id: string; title: string; brief: string; theme: string; audience: string; plot: string; style: string; aspectRatio: AspectRatio; pageCount: number; status: string; messages: Array<{ role: "user" | "assistant"; content: string }>; characters: Character[]; pages: Page[]; updatedAt: string };
-type BookSummary = Pick<Book, "id" | "title" | "theme" | "pageCount" | "status" | "updatedAt"> & { coverUrl: string | null };
+type AspectRatio = PictureBookAspectRatio;
+type Submission = { status: "PENDING" | "APPROVED" | "REJECTED"; reviewNote: string | null };
+function submissionLabel(submission?: Submission | null) { return submission?.status === "PENDING" ? "投稿审核中" : submission?.status === "APPROVED" ? "投稿已通过" : submission?.status === "REJECTED" ? "投稿未通过" : ""; }
+type Book = { submission?: Submission | null; id: string; title: string; brief: string; theme: string; audience: string; plot: string; style: string; aspectRatio: AspectRatio; pageCount: number; status: string; messages: Array<{ role: "user" | "assistant"; content: string }>; characters: Character[]; pages: Page[]; updatedAt: string };
+type BookSummary = Pick<Book, "id" | "title" | "theme" | "pageCount" | "status" | "updatedAt" | "submission"> & { coverUrl: string | null };
 type ChatModel = { isMock: boolean; aliases: Array<{ aliasKey: string }> };
 type Voice = VoiceAsset;
 type VoiceList = { systemVoices: Voice[]; platformVoices: Voice[]; customVoices: Voice[]; defaultVoice?: { voiceAssetId: string | null; systemVoiceId: string | null } };
@@ -202,7 +204,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   async function saveBook(patch: Record<string, unknown>) {
     if (!book) return;
     const updated = await api<Book>(`/${book.id}`, "PATCH", patch);
-    setBook(current => current?.id === updated.id ? { ...updated, pages: current.pages } : current);
+    setBook(current => current?.id === updated.id ? { ...updated, pages: current.pages, submission: current.submission } : current);
     await refreshList();
   }
 
@@ -242,7 +244,21 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
 
   async function completeBook() {
     if (!book) return;
-    await run("complete", async () => { await savePage(); const updated = await api<Book>(`/${book.id}/complete`, "POST"); setBook(current => current?.id === updated.id ? { ...updated, pages: current.pages } : current); await refreshList(); setNotice("作品已保存，可以预览和继续编辑。"); });
+    await run("complete", async () => { await savePage(); const updated = await api<Book>(`/${book.id}/complete`, "POST"); setBook(current => current?.id === updated.id ? { ...updated, pages: current.pages, submission: current.submission } : current); await refreshList(); setNotice("作品已保存，可以预览和继续编辑。"); });
+  }
+
+  async function submitBook() {
+    if (!book || busy || book.submission?.status === "PENDING") return;
+    if (!window.confirm("投稿审核通过后，绘本图文和语音将在绘本馆公开展示。请确认你有权发布这些内容。")) return;
+    await run("submit", async () => {
+      await savePage();
+      await api<Book>(`/${book.id}/complete`, "POST");
+      const submission = await api<Submission>(`/${book.id}/submit`, "POST");
+      const updated = await api<Book>(`/${book.id}`);
+      setBook({ ...updated, submission });
+      await refreshList();
+      setNotice(submission.status === "APPROVED" ? "这版绘本已通过审核，可在绘本馆阅读。" : "单本绘本已投稿，正在等待后台审核。");
+    });
   }
 
   async function leaveBook(destination: "library" | "tools") {
@@ -337,8 +353,10 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
       {book ? <button onClick={() => void leaveBook("tools")} className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</button> : <Link href="/tools" className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</Link>}
       <span className="flex size-9 items-center justify-center rounded-xl bg-[#ff7b3b] text-white"><BookOpen className="size-5" /></span>
       <span className="text-lg font-semibold">绘本创作</span>
-      {book ? <><span className="hidden text-gray-300 md:inline">/</span><input aria-label="作品名称" value={book.title} onChange={(event) => setBook({ ...book, title: event.target.value })} onBlur={() => void run("title", () => saveBook({ title: book.title }))} className="min-w-0 max-w-48 rounded-md px-2 py-1 text-sm outline-none hover:bg-gray-50 focus:bg-gray-50" /><span className="ml-auto hidden text-xs text-gray-400 md:block">{book.pages.length ? `${book.pages[0]?.position === 0 ? "封面 + " : ""}${book.pageCount} 页 · 逐页保存` : "构思故事"}</span><Button kind="quiet" disabled={Boolean(busy)} onClick={() => void leaveBook("library")}><LibraryBig className="size-4" />作品库</Button>{book.pages.length ? <><Button disabled={Boolean(busy)} onClick={() => void openPreview()}><BookOpen className="size-4" />预览</Button><Link href={`/picture-books/${encodeURIComponent(book.id)}/play`} className="inline-flex items-center gap-1 rounded-lg border border-[#e9e7e4] px-3 py-2 text-sm hover:bg-gray-50"><Play className="size-4" />观看播放</Link><Button kind="primary" disabled={Boolean(busy)} onClick={() => void completeBook()}><Save className="size-4" />保存为作品</Button></> : null}</> : null}
+      {book ? <><span className="hidden text-gray-300 md:inline">/</span><input aria-label="作品名称" value={book.title} onChange={(event) => setBook({ ...book, title: event.target.value })} onBlur={() => void run("title", () => saveBook({ title: book.title }))} className="min-w-0 max-w-48 rounded-md px-2 py-1 text-sm outline-none hover:bg-gray-50 focus:bg-gray-50" /><span className="ml-auto hidden text-xs text-gray-400 md:block">{book.pages.length ? `${book.pages[0]?.position === 0 ? "封面 + " : ""}${book.pageCount} 页 · 逐页保存` : "构思故事"}</span><Button kind="quiet" disabled={Boolean(busy)} onClick={() => void leaveBook("library")}><LibraryBig className="size-4" />作品库</Button>{book.pages.length ? <><Button disabled={Boolean(busy)} onClick={() => void openPreview()}><BookOpen className="size-4" />预览</Button><Link href={`/picture-books/${encodeURIComponent(book.id)}/play`} className="inline-flex items-center gap-1 rounded-lg border border-[#e9e7e4] px-3 py-2 text-sm hover:bg-gray-50"><Play className="size-4" />观看播放</Link><Button kind="primary" disabled={Boolean(busy)} onClick={() => void completeBook()}><Save className="size-4" />保存为作品</Button><Button disabled={Boolean(busy) || book.submission?.status === "PENDING" || generationKeys.some(key => key.startsWith(`${book.id}:`))} onClick={() => void submitBook()}><Send className="size-4" />{book.submission?.status === "PENDING" ? "审核中" : book.submission?.status === "APPROVED" ? "更新投稿" : "投稿绘本"}</Button></> : null}</> : null}
     </header> : null}
+
+    {book?.submission ? <div className="mx-auto mt-3 flex max-w-[1600px] flex-wrap items-center gap-3 px-5 text-sm"><span className="text-muted-foreground">{submissionLabel(book.submission)}</span>{book.submission.status === "REJECTED" && book.submission.reviewNote ? <span className="text-destructive">未通过原因：{book.submission.reviewNote}</span> : null}{book.submission.status === "APPROVED" ? <Link className="underline" href={`/library/${encodeURIComponent(book.id)}`}>查看公开绘本</Link> : null}</div> : null}
 
     {book?.pages.length && (error || notice) ? <div role={error ? "alert" : "status"} className={`mx-auto mt-4 flex max-w-[1600px] items-center justify-between rounded-xl px-4 py-3 text-sm ${error ? "border border-red-200 bg-red-50 text-red-700" : "border border-[#ffddc8] bg-[#fff8f3] text-[#a34e1d]"}`}><span>{error || notice}</span><button aria-label="关闭提示" onClick={() => { setError(""); setNotice(""); }}><X className="size-4" /></button></div> : null}
 
@@ -350,7 +368,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
           <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" /><span>绘本创作历史</span><span className="ml-auto">{books.length} 本</span></div>
           {books.length ? <div className="space-y-2">{books.map(item => <button key={item.id} disabled={Boolean(busy)} onClick={() => void run("open", () => openBook(item.id))} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition hover:bg-secondary disabled:opacity-50 ${book?.id === item.id ? "border-foreground/20 bg-secondary" : "border-transparent"}`}>
             <span className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary">{item.coverUrl ? <PictureBookImage src={pictureBookPageImageSource(item.id, 0, item.coverUrl)} alt="" compact className="size-full object-cover" /> : <BookOpen className="size-6 text-muted-foreground" />}</span>
-            <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{item.title}</span><span className="mt-1 block text-xs text-muted-foreground">{item.pageCount} 页 · {item.status === "COMPLETED" ? "已保存" : item.status === "EDITING" ? "制作中" : "构思中"}</span></span>
+            <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{item.title}</span><span className="mt-1 block text-xs text-muted-foreground">{item.pageCount} 页 · {submissionLabel(item.submission) || (item.status === "COMPLETED" ? "已保存" : item.status === "EDITING" ? "制作中" : "构思中")}</span></span>
           </button>)}</div> : <p className="rounded-xl border border-dashed border-border px-3 py-5 text-sm leading-6 text-muted-foreground">还没有绘本，写下第一个故事吧。</p>}
         </div>
       </aside>
@@ -377,7 +395,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
               <label className="block space-y-2 text-sm font-semibold">适合人群<select value={book?.audience ?? audience} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ audience: event.target.value })) : setAudience(event.target.value)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{audiences.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
               <PictureBookStylePicker value={book?.style ?? style} styles={styleChoices} onStylesChange={setStyleChoices} disabled={Boolean(busy)} onChange={value => book ? void run("settings", () => saveBook({ style: value })) : setStyle(value)} />
               <label className="block space-y-2 text-sm font-semibold">页数<select value={book?.pageCount ?? count} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ pageCount: Number(event.target.value) })) : setCount(Number(event.target.value))} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{pageCounts.map(item => <option key={item} value={item}>{item} 页</option>)}</select></label>
-              <label className="block space-y-2 text-sm font-semibold">画面比例<select value={book?.aspectRatio ?? ratio} disabled={Boolean(busy)} onChange={event => book ? void run("settings", () => saveBook({ aspectRatio: event.target.value })) : setRatio(event.target.value as typeof ratio)} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm font-normal">{aspectRatios.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
+              <PictureBookRatioPicker value={book?.aspectRatio ?? ratio} disabled={Boolean(busy)} onChange={value => book ? void run("settings", () => saveBook({ aspectRatio: value })) : setRatio(value)} />
             </section>
             <section className="rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="mb-4 text-base font-semibold">故事信息</h2><dl className="space-y-3 text-sm leading-6"><div><dt className="font-semibold">主题</dt><dd className="mt-1 whitespace-pre-wrap break-words text-muted-foreground">{book?.theme || "待确定"}</dd></div><div><dt className="font-semibold">主要情节</dt><dd className="mt-1 whitespace-pre-wrap break-words text-muted-foreground">{book?.plot || book?.brief || "待讨论"}</dd></div></dl><div className="mt-4 border-t border-border pt-4"><PictureBookCharacterPicker value={book?.characters ?? draftCharacters} style={book?.style ?? style} styleName={selectedPictureBookStyle(book?.style ?? style, styleChoices)?.name ?? "当前风格"} disabled={Boolean(busy)} onChange={changeCharacters} /></div></section>
             <section className="space-y-3 rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="text-base font-semibold">分镜制作</h2><Button kind="primary" className="w-full !border-primary !bg-primary !text-primary-foreground hover:!bg-primary/90" disabled={!book || !storyModelReady || Boolean(busy)} onClick={() => void makeOutline()}>{busy === "outline" ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}生成分镜</Button><Button className="w-full" disabled={!book || Boolean(busy)} onClick={() => void makeBlank()}><Plus className="size-4" />先建空白分镜</Button></section>

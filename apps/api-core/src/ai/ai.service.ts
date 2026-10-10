@@ -984,14 +984,14 @@ export class AiService {
     throw new AppException(40001, "暂无可用证照模型，请稍后再试", HttpStatus.BAD_REQUEST);
   }
 
-  async generatePictureBookImage(subject: ProfileSubject, dto: Omit<CreateImageGenerationDto, "modelInstanceId"> & { modelInstanceId?: string }): Promise<ImageGenerationResult> {
+  async generatePictureBookImage(subject: ProfileSubject, dto: Omit<CreateImageGenerationDto, "modelInstanceId"> & { modelInstanceId?: string }, options?: { fixedCredits: 0 }): Promise<ImageGenerationResult> {
     const { primary, fallback } = await this.pictureBookImageModels(dto.referenceImages?.length ? 1 : 0);
     const inputFor = (model: typeof primary) => ({ ...dto, modelInstanceId: model.id, referenceImages: dto.referenceImages?.slice(0, model.maxReferenceImages) });
     try {
-      return await this.generateImage(subject, inputFor(primary), { pictureBookR2: true });
+      return await this.generateImage(subject, inputFor(primary), { pictureBookR2: true, ...options });
     } catch (error) {
       if (!(error instanceof AbeiaiImageConnectionError) || !fallback) throw error;
-      return this.generateImage(subject, inputFor(fallback), { pictureBookR2: true });
+      return this.generateImage(subject, inputFor(fallback), { pictureBookR2: true, ...options });
     }
   }
 
@@ -1044,7 +1044,7 @@ export class AiService {
     }
 
     const estimatedCredits = options?.fixedCredits ?? imageGenerationCreditsFromModel(model, count, referenceImages.length, width, height);
-    if (model.providerModelName === "Qwen-Image-2.1" && estimatedCredits <= 0) {
+    if (model.providerModelName === "Qwen-Image-2.1" && estimatedCredits <= 0 && !(options?.pictureBookR2 && options.fixedCredits === 0)) {
       throw new AppException(40001, "请先为阿贝智能图片模型配置有效的点数价格。", HttpStatus.BAD_REQUEST);
     }
     const reservedTask = await this.reserveCredits(
