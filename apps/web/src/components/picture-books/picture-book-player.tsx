@@ -5,12 +5,13 @@ import { ArrowLeft, Captions, ChevronLeft, ChevronRight, LoaderCircle, Maximize,
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
+import { pictureBookPageRatio, pictureBookPlaybackLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null };
-type Book = { id: string; title: string; style: string; aspectRatio: string; pages: Page[] };
+type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; pages: Page[] };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
   { value: "side", label: "左文右图", icon: PanelLeft },
@@ -66,8 +67,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const page = pages[index];
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
-  const [ratioWidth, ratioHeight] = (book?.aspectRatio || "1:1").split(":").map(Number);
-  const imageRatio = ratioWidth > 0 && ratioHeight > 0 ? ratioWidth / ratioHeight : 1;
+  const imageRatio = pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
+  const activeLayout = pictureBookPlaybackLayout(layout, book?.isSpread);
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);
@@ -148,7 +149,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       {page ? (
         <>
           <div className={styles.stage}>
-            <article className={styles.sheet} data-layout={layout} data-cover={cover} aria-label={pageLabel(index)}>
+            <article className={styles.sheet} data-layout={activeLayout} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
                 {preloadPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(bookId, item.position, item.imageUrl, publicMode ? "public" : "private")} /> : null)}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
@@ -189,7 +190,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       <dialog ref={settingsRef} aria-labelledby="reader-settings-title" className={styles.settings} onCancel={() => setSettingsOpen(false)} onClose={() => setSettingsOpen(false)} onClick={event => { if (event.target === event.currentTarget) setSettingsOpen(false); }}>
         <div className="mb-5 flex items-center justify-between"><h2 id="reader-settings-title" className="text-lg font-semibold">播放设置</h2><button aria-label="关闭播放设置" className="flex size-9 items-center justify-center rounded-full hover:bg-black/5" onClick={() => setSettingsOpen(false)} type="button"><X className="size-5" /></button></div>
         <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式</p><div className="grid grid-cols-3 gap-2">
-          {layouts.map(item => <button key={item.value} aria-pressed={layout === item.value} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm ${layout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(item.value)} type="button"><item.icon className="size-7" />{item.label}</button>)}
+          {layouts.map(item => <button key={item.value} aria-pressed={activeLayout === item.value} disabled={Boolean(book?.isSpread && item.value === "side")} title={book?.isSpread && item.value === "side" ? "跨页绘本不支持左文右图" : undefined} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-40 ${activeLayout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(pictureBookPlaybackLayout(item.value, book?.isSpread))} type="button"><item.icon className="size-7" />{item.label}</button>)}
         </div></fieldset>
         <div className="mt-4 flex items-center justify-between rounded-2xl bg-background p-5"><span id="reader-auto-turn-label" className="text-sm font-semibold">自动翻页</span><button role="switch" aria-labelledby="reader-auto-turn-label" aria-checked={autoTurn} className={`h-6 w-11 rounded-full p-0.5 transition-colors ${autoTurn ? "bg-primary" : "bg-black/20"}`} onClick={() => setAutoTurn(!autoTurn)} type="button"><span className={`block size-5 rounded-full bg-white transition-transform ${autoTurn ? "translate-x-5" : "translate-x-0"}`} /></button></div>
       </dialog>

@@ -40,6 +40,7 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
     title: string(source.title),
     style: string(source.style),
     aspectRatio: string(source.aspectRatio) || "1:1",
+    isSpread: source.isSpread === true,
     pages
   };
 }

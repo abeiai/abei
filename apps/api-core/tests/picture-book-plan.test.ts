@@ -152,3 +152,11 @@ test("picture book narration selects the user's default or an available voice", 
   assert.deepEqual(selectPictureBookVoice({ voice: "chosen" }, voices), { voice: "chosen" });
   assert.deepEqual(selectPictureBookVoice({}, { ...voices, defaultVoice: { voiceAssetId: null, systemVoiceId: null } }), { voice: "first" });
 });
+
+
+test("跨页分镜按双宽构图，封面仍由系统创建单页封面", () => {
+  const prompt = buildOutlinePrompt({ brief: "森林朋友", audience: "幼儿园", aspectRatio: "3:2", isSpread: true, pageCount: 8, characters: [], messages: [] });
+  assert.match(prompt, /跨页/);
+  assert.match(prompt, /6:2/);
+  assert.match(prompt, /中央.*装订/);
+});

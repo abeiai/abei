@@ -145,3 +145,55 @@ test("新环境的官方风格也从随项目提供的参考图读取", async ()
   assert.ok(reference.size > 1000);
   assert.ok(reference.dataUrl.startsWith("data:image/webp;base64,"));
 });
+
+
+test("跨页内页生成和费用预估采用相同双宽尺寸，封面保留单页尺寸", async () => {
+  const { service, book, requests } = setup();
+  Object.assign(book, { isSpread: true });
+  book.pages.push({ position: 0, imagePrompt: "封面", imageUrl: null });
+  Object.assign(service, { aiService: {
+    generatePictureBookImage: async (_subject: unknown, dto: Record<string, unknown>) => { requests.push(dto); return { id: "task", images: [{ url: "https://cdn.abei.example/result.webp" }] }; },
+    quotePictureBookImage: async (input: Record<string, unknown>) => input
+  } });
+  await service.generateImage(subject, "book", 1, {});
+  assert.equal(requests[0].width, 3072);
+  assert.equal(requests[0].height, 1024);
+  assert.match(String(requests[0].prompt), /横向.*左右两页.*宽度.*两倍/);
+  assert.deepEqual(await service.generationCost(userId, "book", { kind: "image", position: 1 }), { width: 3072, height: 1024, referenceImageCount: 1 });
+  await service.generateImage(subject, "book", 0, {});
+  assert.equal(requests[1].width, 1536);
+  assert.equal(requests[1].height, 1024);
+  assert.deepEqual(await service.generationCost(userId, "book", { kind: "image", position: 0 }), { width: 1536, height: 1024, referenceImageCount: 1 });
+});
+
+test("图片生成期间调整比例或跨页设置时，不写回旧尺寸结果", async () => {
+  for (const patch of [{ aspectRatio: "1:1" }, { isSpread: true }]) {
+    const { service, book } = setup();
+    Object.assign(service, { mutate: async (_user: string, _id: string, change: (current: typeof book) => unknown) => change({ ...book, ...patch }) });
+    await assert.rejects(service.generateImage(subject, "book", 1, {}), /比例|跨页/);
+  }
+});
+
+test("新建作品默认不跨页，并可保存跨页开关", async () => {
+  const { service } = setup();
+  Object.assign(service, { resolveCharacters: async () => [], prisma: { pictureBook: { create: async (input: { data: unknown }) => input.data } } });
+  const dto = { brief: "森林冒险", style: "watercolor", pageCount: 8 };
+  assert.equal((await service.create(userId, dto)).isSpread, false);
+  assert.equal((await service.create(userId, { ...dto, isSpread: true })).isSpread, true);
+  assert.equal((await service.update(userId, "book", { isSpread: true })).isSpread, true);
+  assert.equal((await service.update(userId, "book", { isSpread: false })).isSpread, false);
+});
+
+test("分镜生成期间调整比例或跨页设置时，不保存旧构图分镜", async () => {
+  for (const patch of [{ aspectRatio: "1:1" }, { isSpread: true }]) {
+    const { service, book } = setup();
+    Object.assign(book, { brief: "森林冒险", audience: "幼儿园", pageCount: 1, messages: [], isSpread: false });
+    Object.assign(service, {
+      runTextTask: async (_subject: unknown, kind: string) => kind === "picture-book-outline"
+        ? JSON.stringify({ title: "森林冒险", theme: "友情", plot: "阿禾走进森林", pages: [{ caption: "阿禾走进森林。", imagePrompt: "阿禾走进森林" }] })
+        : JSON.stringify({ ageAppropriate: true, healthy: true, issues: [] }),
+      mutate: async (_user: string, _id: string, change: (current: typeof book) => unknown) => change({ ...book, ...patch })
+    });
+    await assert.rejects(service.outline(subject, "book"), /比例|跨页/);
+  }
+});

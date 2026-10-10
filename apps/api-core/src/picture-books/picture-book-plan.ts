@@ -1,3 +1,4 @@
+import { pictureBookPageAspectRatio } from "./picture-book-ratio.js";
 import { normalizePictureBookAudience, pictureBookAudienceGuide, pictureBookHealthyContentRules } from "./picture-book-audience.js";
 
 export interface PictureBookPage {
@@ -129,6 +130,7 @@ export function buildOutlinePrompt(input: {
   brief: string;
   audience: string;
   aspectRatio: string;
+  isSpread?: boolean;
   theme?: string;
   plot?: string;
   pageCount: number;
@@ -160,7 +162,8 @@ export function buildOutlinePrompt(input: {
     "【创作输入】",
     `最初需求：${input.brief}`,
     `适合人群：${normalizePictureBookAudience(input.audience)}`,
-    `画面比例：${input.aspectRatio}`,
+    `单页及封面比例：${input.aspectRatio}` ,
+    input.isSpread ? `【跨页构图】每条正文分镜对应一张横向跨越左右两页的连续插画，正文画面比例：${pictureBookPageAspectRatio(input.aspectRatio, true)}；宽度为单页两倍、高度不变，左右自然衔接，不分格。中央装订线附近不放角色面部或关键道具。封面保持单页比例。` : `画面比例：${input.aspectRatio}`,
     `已有主题：${input.theme || "从需求和讨论中提取"}`,
     `已有情节：${input.plot || "从需求和讨论中提取"}`,
     `固定角色：${characters}`,

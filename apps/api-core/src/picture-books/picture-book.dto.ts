@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsIn, IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
 import { pictureBookAspectRatios, type PictureBookAspectRatio } from "./picture-book-ratio.js";
 
 export class CreatePictureBookDto {
@@ -20,6 +20,9 @@ export class CreatePictureBookDto {
 
   @IsOptional() @IsIn(pictureBookAspectRatios)
   aspectRatio?: PictureBookAspectRatio;
+
+  @IsOptional() @IsBoolean()
+  isSpread?: boolean;
 
   @IsOptional() @IsArray() @ValidateNested({ each: true }) @Type(() => PictureBookCharacterSelectionDto)
   characters?: PictureBookCharacterSelectionDto[];
@@ -51,6 +54,9 @@ export class UpdatePictureBookDto {
 
   @IsOptional() @IsIn(pictureBookAspectRatios)
   aspectRatio?: PictureBookAspectRatio;
+
+  @IsOptional() @IsBoolean()
+  isSpread?: boolean;
 
   @IsOptional() @Type(() => Number) @IsInt() @Min(4) @Max(24)
   pageCount?: number;

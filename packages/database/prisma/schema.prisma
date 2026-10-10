@@ -829,6 +829,7 @@ model PictureBook {
   plot         String   @default("") @db.Text
   style        String
   aspectRatio  String   @default("1:1")
+  isSpread     Boolean  @default(false)
   pageCount    Int
   status       String   @default("PLANNING")
   messages     Json

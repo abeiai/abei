@@ -307,6 +307,7 @@ export function snapshotCourseMaterial(
       title: source.title,
       style: source.style,
       aspectRatio: source.aspectRatio,
+      ...(source.isSpread === true ? { isSpread: true } : {}),
       pages: arrayOfRecords(source.pages)
         .map((page) => ({
           position: page.position,

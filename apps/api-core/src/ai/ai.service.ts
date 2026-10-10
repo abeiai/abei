@@ -1242,7 +1242,10 @@ export class AiService {
       throw new AppException(40001, "阿贝智能图片模型最多支持十张有效参考图", HttpStatus.BAD_REQUEST);
     }
     const endpoint = `${new URL(input.baseUrl).origin}/v1/images/${images.length ? "edits" : "generations"}`;
-    const size = (value: number) => Math.round(Math.max(512, Math.min(value, 2048)) / 16) * 16;
+    const width = Math.max(512, Math.min(input.width, 4096));
+    const height = Math.max(512, Math.min(input.height, 4096));
+    const scale = Math.min(1, 2048 / Math.sqrt(width * height));
+    const size = (value: number) => Math.max(512, Math.floor(value * scale / 16) * 16);
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), input.timeoutMs ?? Math.max(aiImageTimeoutMs(), 420_000));
     try {
@@ -1251,7 +1254,8 @@ export class AiService {
         headers: { Authorization: `Bearer ${decryptSecret(input.apiKeyEncrypted)}`, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: input.modelName, prompt: input.prompt, n: Math.min(input.count, 4), response_format: "url",
-          ...(images.length ? { image: images.length === 1 ? images[0] : images } : { size: `${size(input.width)}x${size(input.height)}` })
+          size: `${size(width)}x${size(height)}`,
+          ...(images.length ? { image: images.length === 1 ? images[0] : images } : {})
         }),
         signal: controller.signal
       });

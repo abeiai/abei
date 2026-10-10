@@ -38,6 +38,12 @@ test("阿贝智能图片按有无参考图分别调用生成与编辑接口", as
     });
     assert.equal(requests[1]?.url, "https://dmx04.sdts.net.cn/v1/images/edits");
     assert.equal(requests[1]?.body.image, "data:image/png;base64,AAAA");
+    assert.equal(requests[1]?.body.size, "1024x1024");
+    await service.callAbeiaiImageGeneration({
+      ...common, width: 3072, height: 1024,
+      referenceImages: [{ name: "style.png", type: "image", mimeType: "image/png", size: 3, dataUrl: "data:image/png;base64,AAAA" }]
+    });
+    assert.equal(requests[2]?.body.size, "3072x1024");
   } finally {
     globalThis.fetch = originalFetch;
   }

@@ -30,3 +30,28 @@ test("generation dimensions preserve the requested ratio within both providers' 
   assert.deepEqual(pictureBookImageSize("1:1"), { width: 1024, height: 1024 });
   assert.deepEqual(pictureBookImageSize("unknown"), pictureBookImageSize("1:1"));
 });
+
+
+test("跨页只将内页宽度加倍，封面和普通页面保持原比例", () => {
+  for (const ratio of pictureBookAspectRatios) {
+    const ordinary = pictureBookImageSize(ratio);
+    assert.deepEqual(pictureBookImageSize(ratio, true, 0), ordinary, `封面 ${ratio}`);
+    assert.deepEqual(pictureBookImageSize(ratio, false, 1), ordinary, `普通内页 ${ratio}`);
+    const spread = pictureBookImageSize(ratio, true, 1);
+    assert.equal(spread.width, ordinary.width * 2, ratio);
+    assert.equal(spread.height, ordinary.height, ratio);
+    assert.ok(spread.width * spread.height <= 2048 * 2048, ratio);
+    assert.ok(spread.width <= 4096, ratio);
+  }
+  assert.deepEqual(pictureBookImageSize("1:1", true, 1), { width: 2048, height: 1024 });
+});
+
+test("是否跨页只接受布尔值，不能将字符串否转换为真", () => {
+  for (const isSpread of [true, false, undefined]) {
+    assert.equal(validateSync(Object.assign(new CreatePictureBookDto(), { brief: "森林冒险", style: "水彩", pageCount: 8, isSpread })).length, 0);
+    assert.equal(validateSync(Object.assign(new UpdatePictureBookDto(), { isSpread })).length, 0);
+  }
+  for (const isSpread of ["false", "true", 0, 1]) {
+    assert.ok(validateSync(Object.assign(new UpdatePictureBookDto(), { isSpread })).some(error => error.property === "isSpread"));
+  }
+});

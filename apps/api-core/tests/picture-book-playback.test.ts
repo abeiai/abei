@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { playbackFromSnapshot } from "../src/picture-books/picture-book-playback.js";
+import { snapshotCourseMaterial, hashCourseSnapshot } from "../src/courses/course-domain.js";
 import { PictureBookService } from "../src/picture-books/picture-book.service.js";
 
 test("绘本播放数据只包含已审核的页面字段", () => {
@@ -13,7 +14,7 @@ test("绘本播放数据只包含已审核的页面字段", () => {
     ]
   });
   assert.deepEqual(playback, {
-    id: "book-1", title: "森林冒险", style: "水彩", aspectRatio: "3:2",
+    id: "book-1", title: "森林冒险", style: "水彩", aspectRatio: "3:2", isSpread: false,
     pages: [
       { position: 0, caption: "封面", narration: "封面", imageUrl: null, audioUrl: "/api/audio/files/cover.mp3" },
       { position: 1, caption: "第一幕", narration: "旁白", imageUrl: "https://r.example/1.png", audioUrl: "https://r.example/1.mp3" }
@@ -66,4 +67,16 @@ test("绘本图片读取遵守作品权限且只读取审核快照中的本页�
   approved = true;
   await assert.rejects(service.pageImage(subject, "book", 1), /图片不存在/);
   assert.deepEqual(await service.pageImage(subject, "book", 2), image);
+});
+
+
+test("跨页设置进入审核快照并传到播放器，旧版默认不跨页且快照哈希不变", () => {
+  const source = { title: "森林冒险", style: "水彩", aspectRatio: "1:1", pages: [] };
+  const oldSnapshot = snapshotCourseMaterial("PICTURE_BOOK", source);
+  const normalSnapshot = snapshotCourseMaterial("PICTURE_BOOK", { ...source, isSpread: false });
+  assert.equal(hashCourseSnapshot(normalSnapshot), hashCourseSnapshot(oldSnapshot));
+  assert.equal(playbackFromSnapshot("old", oldSnapshot).isSpread, false);
+  const spreadSnapshot = snapshotCourseMaterial("PICTURE_BOOK", { ...source, isSpread: true });
+  assert.equal(playbackFromSnapshot("spread", spreadSnapshot).isSpread, true);
+  assert.notEqual(hashCourseSnapshot(spreadSnapshot), hashCourseSnapshot(oldSnapshot));
 });

@@ -14,6 +14,14 @@ const imageSizes: Record<PictureBookAspectRatio, { width: number; height: number
   "9:16": { width: 864, height: 1536 }
 };
 
-export function pictureBookImageSize(aspectRatio: string) {
-  return Object.hasOwn(imageSizes, aspectRatio) ? imageSizes[aspectRatio as PictureBookAspectRatio] : imageSizes["1:1"];
+export function pictureBookPageAspectRatio(aspectRatio: string, isSpread = false, position = 1) {
+  const ratio = Object.hasOwn(imageSizes, aspectRatio) ? aspectRatio : "1:1";
+  if (!isSpread || position === 0) return ratio;
+  const [width, height] = ratio.split(":").map(Number);
+  return `${width * 2}:${height}`;
+}
+
+export function pictureBookImageSize(aspectRatio: string, isSpread = false, position = 1) {
+  const size = Object.hasOwn(imageSizes, aspectRatio) ? imageSizes[aspectRatio as PictureBookAspectRatio] : imageSizes["1:1"];
+  return isSpread && position > 0 ? { width: size.width * 2, height: size.height } : size;
 }

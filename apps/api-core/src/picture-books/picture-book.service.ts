@@ -10,7 +10,7 @@ import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
 import { assertPictureBookContentReview, buildPictureBookContentReviewPrompt, normalizePictureBookAudience, pictureBookAudienceGuide, pictureBookHealthyContentRules } from "./picture-book-audience.js";
-import { pictureBookImageSize } from "./picture-book-ratio.js";
+import { pictureBookImageSize, pictureBookPageAspectRatio } from "./picture-book-ratio.js";
 import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./picture-book-styles.js";
 import { SystemConfigService } from "../system-config/system-config.service.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
@@ -51,6 +51,7 @@ export class PictureBookService {
       style: dto.style.trim(),
       pageCount: dto.pageCount,
       aspectRatio: dto.aspectRatio ?? "1:1",
+      isSpread: dto.isSpread ?? false,
       messages: [], characters: characters as unknown as Prisma.InputJsonValue, pages: []
     } });
   }
@@ -124,6 +125,7 @@ export class PictureBookService {
         ...(dto.audience !== undefined ? { audience: normalizePictureBookAudience(dto.audience) } : {}),
         ...(dto.style !== undefined ? { style: dto.style.trim() } : {}),
         ...(dto.aspectRatio !== undefined ? { aspectRatio: dto.aspectRatio } : {}),
+        ...(dto.isSpread !== undefined ? { isSpread: dto.isSpread } : {}),
         ...(dto.pageCount !== undefined ? { pageCount: dto.pageCount } : {}),
         ...(characters !== undefined ? { characters: characters as unknown as Prisma.InputJsonValue } : {})
       };
@@ -180,7 +182,7 @@ export class PictureBookService {
       const ids = characters.flatMap(item => item.id && !item.id.startsWith("preset:") ? [item.id] : []);
       const owned = ids.length ? await this.prisma.pictureBookCharacter.findMany({ where: { id: { in: ids }, userId }, select: { id: true } }) : [];
       const referenceImageCount = 1 + characters.filter(item => item.id && (officialCharacter(item.id, book.style) || owned.some(role => role.id === item.id))).length;
-      return this.aiService.quotePictureBookImage({ ...pictureBookImageSize(book.aspectRatio), referenceImageCount });
+      return this.aiService.quotePictureBookImage({ ...pictureBookImageSize(book.aspectRatio, book.isSpread, page.position), referenceImageCount });
     }
     const selection = selectPictureBookVoice(dto, await this.audioService.listVoiceAssets(userId));
     if (!selection) throw new AppException(40001, "暂无可用讲解音色，请先配置语音模型", HttpStatus.BAD_REQUEST);
@@ -197,7 +199,7 @@ export class PictureBookService {
   async outline(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string) {
     const book = await this.get(subject.userId, id);
     const prompt = buildOutlinePrompt({
-      brief: book.brief, audience: book.audience, aspectRatio: book.aspectRatio,
+      brief: book.brief, audience: book.audience, aspectRatio: book.aspectRatio, isSpread: book.isSpread,
       theme: book.theme, plot: book.plot, pageCount: book.pageCount,
       characters: charactersOf(book.characters), messages: messagesOf(book.messages)
     });
@@ -216,6 +218,7 @@ export class PictureBookService {
     }
     return this.mutate(subject.userId, id, current => {
       if (current.audience !== book.audience) throw new AppException(40901, "适合人群已修改，请重新生成分镜", HttpStatus.CONFLICT);
+      if (current.aspectRatio !== book.aspectRatio || Boolean(current.isSpread) !== Boolean(book.isSpread)) throw new AppException(40901, "画面比例或跨页设置已修改，请重新生成分镜", HttpStatus.CONFLICT);
       return { title: outline.title, theme: outline.theme, audience: outline.audience, plot: outline.plot,
         pages: outline.pages as unknown as Prisma.InputJsonValue, status: "EDITING" };
     });
@@ -257,12 +260,13 @@ export class PictureBookService {
     const isCover = position === 0;
     const prompt = [
       "创作儿童绘本插画。第1张图片仅作为绘画风格参考，沿用其笔触、材质、配色和表现方式，不复制参考图中的人物、动物或场景。第2张及后续图片作为角色外观参考。保持整本绘本角色外观一致。",
-      `目标画面比例：${book.aspectRatio}。`,
+      `目标画面比例：${pictureBookPageAspectRatio(book.aspectRatio, book.isSpread, position)}。`,
+      book.isSpread && !isCover ? "这是一张横向跨越左右两页的连续绘本插画，宽度为单页的两倍，高度不变；左右画面自然衔接，不分格、不拼接两幅画，中央装订线附近避免放置角色面部或关键道具。" : "",
       isCover ? buildCoverImagePrompt(book.title, book.theme || book.brief) : "画面中不要出现文字、字幕、水印或边框。",
       characterDescription ? `角色：${characterDescription}` : "",
       isCover ? page.imagePrompt.replace("留出标题空间，画面中不要生成文字。", "标题与插画协调融合。") : page.imagePrompt
     ].filter(Boolean).join("\n").slice(0, 2000);
-    const size = pictureBookImageSize(book.aspectRatio);
+    const size = pictureBookImageSize(book.aspectRatio, book.isSpread, position);
     const referenceImages = [{ name: `风格参考图.${styleImage.mimetype === "image/webp" ? "webp" : styleImage.mimetype === "image/png" ? "png" : "jpg"}`, type: "image" as const, mimeType: styleImage.mimetype, size: styleImage.buffer.length, dataUrl: `data:${styleImage.mimetype};base64,${styleImage.buffer.toString("base64")}` }, ...await this.localCharacterReferences(subject.userId, charactersOf(book.characters), book.style)];
     const result = await this.aiService.generatePictureBookImage(subject, {
       prompt, modelInstanceId: dto.modelInstanceId, count: 1, referenceImages, ...size
@@ -273,6 +277,7 @@ export class PictureBookService {
       const pages = pagesOf(current.pages);
       const index = pageIndex(pages, position);
       if (isCover && current.title !== book.title) throw new AppException(40901, "绘本标题已修改，请重新生成封面", HttpStatus.CONFLICT);
+      if (current.aspectRatio !== book.aspectRatio || (!isCover && Boolean(current.isSpread) !== Boolean(book.isSpread))) throw new AppException(40901, "画面比例或跨页设置已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (current.style !== book.style) throw new AppException(40901, "画风已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (JSON.stringify(current.characters) !== JSON.stringify(book.characters)) throw new AppException(40901, "角色形象已修改，请重新生成图片", HttpStatus.CONFLICT);
       if (pages[index]!.imagePrompt !== page.imagePrompt) throw new AppException(40901, "画面提示词已修改，请重新生成", HttpStatus.CONFLICT);
