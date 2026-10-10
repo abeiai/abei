@@ -1,4 +1,4 @@
-export type PictureBookPlaybackLayout = "subtitle" | "side" | "below";
+export type PictureBookPlaybackLayout = "subtitle" | "side" | "below" | "hidden";
 
 export function pictureBookPageRatio(aspectRatio: string, isSpread = false, position = 1) {
   const [width, height] = aspectRatio.split(":").map(Number);

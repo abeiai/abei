@@ -16,4 +16,6 @@ test("跨页模式回退左文右图选择，普通绘本保留所有版式", ()
   assert.equal(pictureBookPlaybackLayout("side", false), "side");
   assert.equal(pictureBookPlaybackLayout("subtitle", true), "subtitle");
   assert.equal(pictureBookPlaybackLayout("below", true), "below");
+  assert.equal(pictureBookPlaybackLayout("hidden", false), "hidden");
+  assert.equal(pictureBookPlaybackLayout("hidden", true), "hidden");
 });
