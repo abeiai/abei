@@ -1,6 +1,7 @@
 import type { PublicCourseItem } from "./course-types";
 
 export type PictureBookLoopMode = "none" | "book" | "album";
+export const PICTURE_BOOK_COVER_PAUSE_MS = 1000;
 export interface PictureBookAlbumEntry { bookId: string; revisionItemId: string; href: string }
 
 export function pictureBookAlbumLaunchHref(href: string, courseId: string) {
@@ -33,6 +34,6 @@ export function pictureBookFullscreenZones(x: number, y: number, width: number, 
   return { controls, close, previous: !controls && !close && x <= width / 4, next: !controls && !close && x >= width * 3 / 4 };
 }
 
-export function pictureBookSilentPageDuration(caption: string) {
-  return Math.min(12000, Math.max(5000, Array.from(caption).length * 250));
+export function pictureBookSilentPageDuration(caption: string, isCover = false) {
+  return Math.min(12000, Math.max(5000, Array.from(caption).length * 250)) + (isCover ? PICTURE_BOOK_COVER_PAUSE_MS : 0);
 }

@@ -48,6 +48,9 @@ test("全屏仅在底部、右上角和左右四分之一区域显示对应控�
 
 test("无语音页面留出阅读时间，使封面和静音绘本也能自动完成循环", () => {
   assert.equal(pictureBookSilentPageDuration(""), 5000);
+  assert.equal(pictureBookSilentPageDuration("", true), 6000);
   assert.equal(pictureBookSilentPageDuration("字".repeat(30)), 7500);
+  assert.equal(pictureBookSilentPageDuration("字".repeat(30), true), 8500);
   assert.equal(pictureBookSilentPageDuration("字".repeat(100)), 12000);
+  assert.equal(pictureBookSilentPageDuration("字".repeat(100), true), 13000);
 });

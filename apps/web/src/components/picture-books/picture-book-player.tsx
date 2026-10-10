@@ -9,7 +9,7 @@ import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { pictureBookPageRatio, pictureBookPlaybackLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
-import { pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
+import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
@@ -33,6 +33,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [running, setRunning] = useState(true);
+  const [coverNarrationEnded, setCoverNarrationEnded] = useState(false);
   const [playbackVersion, setPlaybackVersion] = useState(0);
   const [autoTurn, setAutoTurn] = useState(true);
   const [volume, setVolume] = useState(1);
@@ -132,6 +133,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     if (audioRef.current) audioRef.current.currentTime = 0;
     setPlaying(false);
     setRunning(autoTurn && running);
+    setCoverNarrationEnded(false);
     setPlaybackVersion(value => value + 1);
     setAudioError("");
     setAudioRetry(0);
@@ -141,6 +143,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const finishPage = useCallback(() => {
     const next = pictureBookAfterPage({ autoTurn, mode: loopMode, pageIndex: index, pageCount: pages.length, albumIndex, albumCount: album.length });
     setPlaying(false);
+    setCoverNarrationEnded(false);
     if (next && "page" in next) { goTo(next.page); return; }
     if (next && "album" in next) {
       const selected = album[next.album]!;
@@ -155,9 +158,15 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   useEffect(() => {
     if (!page || page.audioUrl || !running || !autoTurn) return;
-    const timer = window.setTimeout(finishPage, pictureBookSilentPageDuration(page.caption));
+    const timer = window.setTimeout(finishPage, pictureBookSilentPageDuration(page.caption, cover));
     return () => window.clearTimeout(timer);
-  }, [page, running, autoTurn, finishPage]);
+  }, [page, cover, running, autoTurn, finishPage]);
+
+  useEffect(() => {
+    if (!cover || !coverNarrationEnded || !running || !autoTurn) return;
+    const timer = window.setTimeout(finishPage, PICTURE_BOOK_COVER_PAUSE_MS);
+    return () => window.clearTimeout(timer);
+  }, [cover, coverNarrationEnded, running, autoTurn, finishPage]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -175,15 +184,16 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     const audio = audioRef.current;
     if (!audio) return;
     if (!running) { audio.pause(); return; }
-    if (!page?.audioUrl) return;
+    if (!page?.audioUrl || (cover && coverNarrationEnded)) return;
     if (audio.error) { setAudioError("语音加载失败"); setRunning(false); return; }
     let cancelled = false;
     audio.play().catch(() => { if (!cancelled) { setPlaying(false); setRunning(false); } });
     return () => { cancelled = true; audio.pause(); };
-  }, [running, page?.audioUrl, activeBookId, index, audioRetry, playbackVersion]);
+  }, [running, page?.audioUrl, cover, coverNarrationEnded, activeBookId, index, audioRetry, playbackVersion]);
 
   async function toggleAudio() {
     const audio = audioRef.current;
+    if (cover && coverNarrationEnded) { setRunning(!running); return; }
     if (!page?.audioUrl) { setRunning(!running); return; }
     if (!audio) return;
     if (!running || audio.paused) {
@@ -243,7 +253,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
             const retry = current ? audioRetry : 0;
             return <audio key={`${activeBookId}-${item.position}-${retry}`} hidden={!current} muted={volume === 0} preload="auto"
               onError={current ? () => { setPlaying(false); setRunning(false); setAudioError("语音加载失败"); } : undefined}
-              onEnded={current ? finishPage : undefined}
+              onEnded={current ? () => { if (cover && autoTurn) { setPlaying(false); setCoverNarrationEnded(true); } else finishPage(); } : undefined}
               onPause={current ? () => setPlaying(false) : undefined}
               onPlay={current ? () => { setPlaying(true); setAudioError(""); } : undefined}
               ref={audio => { if (audio) audio.volume = volume; if (current) audioRef.current = audio; }}
