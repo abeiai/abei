@@ -5,6 +5,7 @@ import json
 import re
 from .book_styles import book_style
 from .book_ratios import book_ratio
+from .book_prompts import prompt_text
 from urllib.parse import urlparse, unquote
 
 SOURCE_SYSTEM='abeiai-v1'
@@ -94,7 +95,7 @@ def log_row(row,users,subjects,versions):
     }
 
 
-def book_row(row,users,replacements,styles=None,ratios=None):
+def book_row(row,users,replacements,styles=None,ratios=None,prompts=None):
     v=row['values']; owner=users.get(v.get('user_id'))
     if str(v.get('is_delete'))=='1': return None,'DELETED'
     if not owner: return None,'OWNER_UNRESOLVED'
@@ -102,10 +103,10 @@ def book_row(row,users,replacements,styles=None,ratios=None):
     if not isinstance(result,list) or len(result)!=1 or not isinstance(result[0],dict) or not isinstance(result[0].get('rn_case_pages'),list): return None,'UNSUPPORTED_FORMAT'
     case=result[0]; pages=[]
     if case.get('img_cover'):
-        pages.append({'position':1,'caption':text(case.get('title_zh')) or text(v.get('title')) or '', 'imagePrompt':'','narration':text(case.get('title_zh')) or '', 'imageUrl':replacements.get(case.get('img_cover'),''),'audioUrl':replacements.get(case.get('audio_zh'),'')})
+        pages.append({'position':1,'caption':text(case.get('title_zh')) or text(v.get('title')) or '', 'imagePrompt':(prompts or {}).get(row['sourcePk'],{}).get(1,''),'narration':text(case.get('title_zh')) or '', 'imageUrl':replacements.get(case.get('img_cover'),''),'audioUrl':replacements.get(case.get('audio_zh'),'')})
     for page in case['rn_case_pages']:
         if not isinstance(page,dict): return None,'UNSUPPORTED_PAGE'
-        pages.append({'position':len(pages)+1,'caption':text(page.get('body_zh')) or '', 'imagePrompt':text(page.get('prompt')) or '', 'narration':text(page.get('body_zh')) or '', 'imageUrl':replacements.get(page.get('img'),''),'audioUrl':replacements.get(page.get('audio_zh'),'')})
+        pages.append({'position':len(pages)+1,'caption':text(page.get('body_zh')) or '', 'imagePrompt':prompt_text(page.get('prompt')) or (prompts or {}).get(row['sourcePk'],{}).get(len(pages)+1,''), 'narration':text(page.get('body_zh')) or '', 'imageUrl':replacements.get(page.get('img'),''),'audioUrl':replacements.get(page.get('audio_zh'),'')})
     if not pages: return None,'EMPTY_BOOK'
     complete=str(v.get('building'))=='0' and all(page['imageUrl'] and page['caption'] for page in pages)
     return {'id':native_id('picture-book',row['sourcePk']),'userId':owner,'title':text(v.get('title')) or text(case.get('title_zh')) or '旧版作品 '+row['sourcePk'],'brief':'','style':book_style(v,case,(styles or {}).get(row['sourcePk'])),'aspectRatio':book_ratio(case,(ratios or {}).get(row['sourcePk'])),'pageCount':len(pages),'status':'COMPLETED' if complete else 'EDITING','messages':[],'characters':[],'pages':pages,'createdAt':timestamp(v['create_time']),'updatedAt':timestamp(v['update_time'])},None

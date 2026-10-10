@@ -18,6 +18,7 @@ from .object_transfer import env_values
 from .incremental import user_is_new
 from .book_styles import resolve_book_styles
 from .book_ratios import resolve_book_ratios
+from .book_prompts import resolve_book_prompts
 
 NATIVE_TABLES=frozenset({'users','legacy_ai_sessions','legacy_ai_logs','legacy_ai_session_items','legacy_ai_log_assets','media_assets','picture_books'})
 JSON_FIELDS=frozenset({'metadata','parameters','messages','characters','pages'})
@@ -86,6 +87,23 @@ def refs_for(db,key,table,pk,selection_id=None):
 
 def replacement_urls(db,key,table,pk,selection_id=None):
     return {ref['originalUrl']:value['publicUrl'] for ref,value in refs_for(db,key,table,pk,selection_id) if value['status']=='AVAILABLE'}
+
+
+def fill_book_assets(conn,book):
+    current=conn.execute('SELECT pages,status FROM picture_books WHERE id=%s AND "userId"=%s AND "createdAt"=%s::timestamp(3) AND version=0 AND "updatedAt"=%s::timestamp(3) FOR UPDATE',
+        (book['id'],book['userId'],book['createdAt'],book['updatedAt'])).fetchone()
+    if not current or not isinstance(current[0],list) or len(current[0])!=len(book['pages']):return
+    pages=[]
+    for before,after in zip(current[0],book['pages']):
+        if not isinstance(before,dict) or any(before.get(k)!=after.get(k) for k in ('position','caption','narration')):return
+        page=dict(before)
+        for field in ('imageUrl','audioUrl','imagePrompt'):
+            if page.get(field) in (None,'') and after.get(field):page[field]=after[field]
+        pages.append(page)
+    status='COMPLETED' if book['status']=='COMPLETED' and all(p.get('imageUrl') and p.get('caption') for p in pages) else current[1]
+    if (pages,status)!=current:
+        conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND pages=%s AND status=%s',
+            (Jsonb(pages),status,book['id'],Jsonb(current[0]),current[1]))
 
 
 def reference_source_pks(db,table,selection_id=None):
@@ -279,9 +297,10 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                     conn.commit()
                 styles=resolve_book_styles(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 ratios=resolve_book_ratios(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
+                prompts=resolve_book_prompts(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 def books():
                     for row in table_rows(root,manifest,key,'app_ai_product',False):
-                        book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']),styles,ratios)
+                        book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk']),styles,ratios,prompts)
                         if reason: report['booksArchived'][reason]+=1
                         else: yield book
                 report['compatibleBooksProcessed']=bulk_rows(conn,'picture_books',books(),progress)
@@ -310,10 +329,11 @@ def import_package(root,key,target_url,testing=False,phase='all',allow_pending=F
                     if avatar: conn.execute('UPDATE users SET "avatarUrl"=%s WHERE id=%s AND "avatarUrl" IS NULL',(avatar,users.get(row['sourcePk'])))
                 styles=resolve_book_styles(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 ratios=resolve_book_ratios(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
+                prompts=resolve_book_prompts(conn,table_rows(root,manifest,key,'app_ai_product',False),table_rows(root,manifest,key,'app_ai_onetaketask',False))
                 for row in table_rows(root,manifest,key,'app_ai_product',False):
                     if selected_users is not None and row['values'].get('user_id') not in selected_users:continue
-                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id),styles,ratios)
-                    if book: conn.execute('UPDATE picture_books SET pages=%s,status=%s WHERE id=%s AND version=0 AND "updatedAt"=%s::timestamp(3)',(Jsonb(book['pages']),book['status'],book['id'],book['updatedAt']))
+                    book,reason=book_row(row,users,replacement_urls(db,key,'app_ai_product',row['sourcePk'],selection_id),styles,ratios,prompts)
+                    if book:fill_book_assets(conn,book)
                 conn.commit()
                 updates=[]
                 for table in LOG_KINDS:
