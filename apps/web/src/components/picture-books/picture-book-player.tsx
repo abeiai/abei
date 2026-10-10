@@ -24,7 +24,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [error, setError] = useState("");
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [autoTurn, setAutoTurn] = useState(false);
+  const [autoTurn, setAutoTurn] = useState(true);
   const [muted, setMuted] = useState(false);
   const [audioError, setAudioError] = useState("");
   const [audioRetry, setAudioRetry] = useState(0);
