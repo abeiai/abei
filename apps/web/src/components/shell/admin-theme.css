@@ -1,0 +1,87 @@
+.abei-admin-theme {
+  --background: #f7f8fa;
+  --foreground: #313b48;
+  --card: #ffffff;
+  --card-foreground: #313b48;
+  --primary: #3598db;
+  --primary-foreground: #ffffff;
+  --secondary: #eef6fc;
+  --secondary-foreground: #287eb7;
+  --muted: #f4f6f8;
+  --muted-foreground: #717d8c;
+  --accent: #eef6fc;
+  --accent-foreground: #287eb7;
+  --border: #e9edf2;
+  --input: #dfe5ec;
+  --ring: #3598db;
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.abei-admin-frame { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100dvh; }
+.abei-admin-sidebar { position: sticky; top: 0; display: flex; height: 100dvh; min-width: 0; flex-direction: column; border-right: 1px solid var(--border); background: #fff; }
+.abei-admin-brand { display: flex; height: 72px; flex-shrink: 0; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0 24px; }
+.abei-admin-brand-mark { display: grid; width: 32px; height: 32px; flex-shrink: 0; place-items: center; border: 1px solid #89c6ef; border-radius: 50%; background: #3598db; color: #fff; font-size: 20px; font-weight: 600; box-shadow: inset 0 0 0 3px #fff; }
+.abei-admin-sidebar-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.abei-admin-nav-caption { padding: 0 12px 8px; color: #96a0ae; font-size: 11px; font-weight: 600; }
+.abei-admin-theme .abei-admin-nav-link { gap: 12px; font-weight: 500; }
+.abei-admin-theme .abei-admin-nav-link[aria-current="page"] { background: #eaf5fd; color: #2789cb; }
+.abei-admin-sidebar-footer { display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border); padding: 18px 28px; color: var(--muted-foreground); font-size: 12px; }
+.abei-admin-main { display: flex; min-width: 0; flex-direction: column; }
+.abei-admin-topbar { position: sticky; top: 0; z-index: 20; display: flex; min-height: 72px; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); background: #fff; padding: 12px 24px; }
+.abei-admin-account { display: flex; align-items: center; gap: 10px; border-left: 1px solid var(--border); padding-left: 14px; }
+.abei-admin-content { flex: 1; min-width: 0; padding: 24px; }
+.abei-admin-page-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.abei-admin-footer { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--border); padding: 18px 24px; color: var(--muted-foreground); font-size: 12px; }
+.abei-admin-backdrop { display: none; }
+.abei-admin-frame[data-sidebar-collapsed="true"] { grid-template-columns: minmax(0, 1fr); }
+.abei-admin-frame[data-sidebar-collapsed="true"] .abei-admin-sidebar { display: none; }
+
+.abei-admin-theme .xueleai-card { border-color: var(--border); border-radius: 8px; box-shadow: 0 1px 3px rgb(39 54 75 / 3%); }
+.abei-admin-theme .xueleai-card:hover { border-color: var(--border); box-shadow: 0 1px 3px rgb(39 54 75 / 3%); transform: none; }
+.abei-admin-theme .xueleai-card > :first-child { border-bottom: 1px solid var(--border); padding: 18px 20px; }
+.abei-admin-theme .xueleai-card > :nth-child(2) { padding: 20px; }
+.abei-admin-theme .xueleai-card .text-xl { font-size: 16px; font-weight: 600; }
+.abei-admin-theme .xueleai-button { border-radius: 5px; font-weight: 500; }
+.abei-admin-theme .xueleai-button:hover { transform: none; }
+.abei-admin-theme .xueleai-button:active { transform: none; }
+.abei-admin-theme :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) { border-radius: 5px; }
+.abei-admin-theme .xueleai-badge { border-radius: 4px; padding: 3px 7px; font-weight: 500; }
+.abei-admin-theme table { min-width: 560px; }
+.abei-admin-theme .abei-admin-provider-table { min-width: 960px; table-layout: fixed; }
+.abei-admin-theme th { height: 44px; background: #f8fafc; color: #7b8696; font-size: 12px; font-weight: 600; }
+.abei-admin-theme td { padding-top: 15px; padding-bottom: 15px; }
+.abei-admin-theme tbody tr:hover { background: #f8fbfe; }
+.abei-admin-content :is(.overflow-hidden, .overflow-x-auto):has(> table) { overflow-x: auto; border-radius: 6px; }
+.abei-admin-theme .xueleai-brand-mark { border-color: #3598db; border-radius: 50%; background: #3598db; }
+
+.abei-admin-stat { --stat-color: #3598db; --stat-bg: #eef7fd; display: flex; min-width: 0; flex-direction: column; gap: 16px; border: 1px solid var(--border); border-radius: 8px; background: #fff; padding: 20px; box-shadow: 0 1px 3px rgb(39 54 75 / 3%); transition: border-color 160ms ease; }
+.abei-admin-stat[data-tone="pink"] { --stat-color: #dc6494; --stat-bg: #fdf0f5; }
+.abei-admin-stat[data-tone="amber"] { --stat-color: #d9a741; --stat-bg: #fdf7e9; }
+.abei-admin-stat[data-tone="green"] { --stat-color: #46a68e; --stat-bg: #edf9f5; }
+.abei-admin-stat:hover { border-color: color-mix(in srgb, var(--stat-color) 45%, white); }
+.abei-admin-stat-icon { display: flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: 6px; background: var(--stat-bg); color: var(--stat-color); }
+.abei-admin-stat-rule { height: 3px; border-radius: 3px; background: var(--stat-color); opacity: 0.7; }
+.abei-admin-module-link { display: flex; min-width: 0; align-items: center; gap: 12px; border: 1px solid var(--border); border-radius: 6px; padding: 14px; transition: background-color 160ms ease; }
+.abei-admin-module-link:hover { background: #f8fbfe; }
+.abei-admin-theme .abei-admin-alert { border-color: #f1dfb1; background: #fffcf4; }
+
+@media (max-width: 1023px) {
+  .abei-admin-frame { grid-template-columns: minmax(0, 1fr); }
+  .abei-admin-sidebar, .abei-admin-frame[data-sidebar-collapsed="true"] .abei-admin-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 50; display: none; width: 248px; }
+  .abei-admin-frame[data-mobile-nav-open="true"] .abei-admin-sidebar { display: flex; }
+  .abei-admin-backdrop { position: fixed; inset: 0; z-index: 40; display: block; width: 100%; height: 100%; background: rgb(30 41 59 / 35%); }
+}
+
+@media (max-width: 639px) {
+  .abei-admin-topbar { min-height: 64px; gap: 8px; padding: 10px 16px; }
+  .abei-admin-account { border: 0; padding: 0; }
+  .abei-admin-content { padding: 20px 16px; }
+  .abei-admin-page-heading { align-items: flex-start; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .abei-admin-footer { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abei-admin-theme *, .abei-admin-theme *::before, .abei-admin-theme *::after { animation: none !important; transition: none !important; }
+}

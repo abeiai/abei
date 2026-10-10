@@ -20,7 +20,7 @@ export async function AuthPanel({ title, description, children, footer, variant 
   const { siteLogo, siteName } = await getSiteIdentity();
 
   return (
-    <main className="xueleai-auth-shell min-h-screen bg-background text-foreground" data-public-theme={variant === "public" ? "default" : undefined}>
+    <main className={`xueleai-auth-shell ${variant === "admin" ? "abei-admin-theme" : ""} min-h-screen bg-background text-foreground`} data-public-theme={variant === "public" ? "default" : undefined}>
       <div className="mx-auto flex min-h-screen w-full max-w-[460px] flex-col justify-center px-5 py-10">
         <section className="flex flex-col items-center gap-6">
           <Link className="flex min-h-10 items-center justify-center gap-3 font-display text-3xl font-semibold" href="/">
@@ -28,7 +28,7 @@ export async function AuthPanel({ title, description, children, footer, variant 
               <img alt={siteName} className="max-h-12 w-auto object-contain" src={siteLogo} />
             ) : (
               <>
-                <span className="xueleai-brand-mark">学</span>
+                <span className={variant === "admin" ? "abei-admin-brand-mark" : "xueleai-brand-mark"}>{variant === "admin" ? "A" : "学"}</span>
                 <span>{siteName}</span>
               </>
             )}

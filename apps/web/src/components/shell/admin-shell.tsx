@@ -1,11 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Globe2, LogOut } from "lucide-react";
+import { Globe2, LogOut, UserRound } from "lucide-react";
 
 import { AdminSidebar } from "@/components/shell/admin-sidebar";
+import { AdminWorkspace } from "@/components/shell/admin-workspace";
 import { Button } from "@/components/ui/button";
 import { adminLogoutAction, getCurrentAdmin } from "@/lib/auth-actions";
-import { adminNavItems } from "@/lib/mock-data";
+import { adminNavGroups, adminNavItems } from "@/lib/mock-data";
+import { getPublicSystemConfigs } from "@/lib/settings-api";
 
 interface AdminShellProps {
   active: string;
@@ -16,55 +18,36 @@ interface AdminShellProps {
 }
 
 export async function AdminShell({ active, title, description, forceTitle = false, children }: AdminShellProps) {
-  const admin = await getCurrentAdmin();
+  const [admin, configs] = await Promise.all([getCurrentAdmin(), getPublicSystemConfigs().catch(() => [])]);
+  const configuredName = configs.find((config) => config.key === "siteName")?.value.trim();
+  const brand = configuredName && configuredName !== "AI SaaS" ? configuredName : "阿贝智能";
   const activeNavItem = adminNavItems.find(
     (item) => active === item.href || (item.href !== "/" && item.href !== "/admin" && active.startsWith(`${item.href}/`))
   );
   const displayTitle = forceTitle ? title : activeNavItem?.label ?? title;
   const displayDescription = forceTitle ? description : activeNavItem ? "" : description;
+  const group = adminNavGroups.find((item) => item.items.some((nav) => active === nav.href || active.startsWith(`${nav.href}/`)));
 
   return (
-    <main className="xueleai-admin-shell min-h-screen bg-background text-foreground">
-      <div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
-        <aside className="xueleai-sidebar-surface border-b border-border bg-card lg:border-b-0 lg:border-r">
-          <div className="flex h-16 items-center justify-between border-b border-border px-5">
-            <Link className="flex items-center gap-3 font-display text-xl font-semibold" href="/admin">
-              <span className="xueleai-brand-mark size-8 text-base">学</span>
-              学乐 AI
-            </Link>
-            <span className="rounded-full border border-border bg-secondary px-2.5 py-1 text-xs font-semibold">
-              管理端
-            </span>
-          </div>
-          <AdminSidebar active={active} />
-        </aside>
-        <section className="flex min-w-0 flex-col">
-          <header className="flex min-h-16 flex-col gap-4 border-b border-border bg-card/70 px-5 py-4 backdrop-blur md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-medium tracking-normal">{displayTitle}</h1>
-              {displayDescription ? <p className="text-sm text-muted-foreground">{displayDescription}</p> : null}
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
+    <AdminWorkspace brand={brand} title={displayTitle} description={displayDescription} group={group?.label} sidebar={<AdminSidebar active={active} />} account={
+      <>
               <Button asChild size="sm" variant="outline">
-                <Link href="/">
+                <Link aria-label="查看前台" href="/">
                   <Globe2 data-icon="inline-start" />
-                  查看前台
+                  <span className="hidden xl:inline">查看前台</span>
                 </Link>
               </Button>
-              <div className="rounded-full border border-border bg-card px-4 py-2 text-sm">
-                {admin.name || "超级管理员"} · {admin.email}
+              <div className="abei-admin-account" title={admin.email}>
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-primary"><UserRound className="size-4" /></span>
+                <div className="hidden max-w-40 sm:block"><p className="truncate text-sm font-semibold">{admin.name || "超级管理员"}</p><p className="truncate text-[11px] text-muted-foreground">{admin.email}</p></div>
               </div>
               <form action={adminLogoutAction}>
-                <Button variant="outline" size="sm" type="submit">
+                <Button aria-label="退出登录" variant="ghost" size="sm" type="submit">
                   <LogOut data-icon="inline-start" />
-                  退出登录
+                  <span className="hidden xl:inline">退出登录</span>
                 </Button>
               </form>
-            </div>
-          </header>
-          <div className="p-5 md:p-8">{children}</div>
-        </section>
-      </div>
-    </main>
+      </>
+    }>{children}</AdminWorkspace>
   );
 }

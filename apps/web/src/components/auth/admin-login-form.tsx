@@ -5,7 +5,7 @@ import { useActionState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { adminLoginAction, type AuthActionState } from "@/lib/auth-actions";
 
@@ -24,7 +24,6 @@ export function AdminLoginForm() {
         <Field>
           <FieldLabel htmlFor="admin-password">管理员密码</FieldLabel>
           <Input id="admin-password" name="password" placeholder="请输入管理员密码" type="password" />
-          <FieldDescription>管理员账号由 seed 从环境变量创建。</FieldDescription>
         </Field>
       </FieldGroup>
       {state.error ? <p className="text-sm text-destructive">{state.error}</p> : null}

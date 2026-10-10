@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Minus, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import {
@@ -37,13 +37,13 @@ function AdminSidebarLink({ active, item, nested = false }: { active: string; it
     <Button
       asChild
       className={cn(
-        "min-h-11 w-full justify-start rounded-lg px-3 text-muted-foreground",
-        nested && "min-h-10 text-[13px]",
-        isActive && "border border-primary/15 bg-secondary text-foreground shadow-sm"
+        "abei-admin-nav-link min-h-10 w-full justify-start rounded-md px-3 font-medium text-muted-foreground",
+        nested && "min-h-9 text-[13px]",
+        isActive && "bg-secondary text-primary"
       )}
       variant="ghost"
     >
-      <Link href={item.href}>
+      <Link aria-current={isActive ? "page" : undefined} href={item.href}>
         <item.icon data-icon="inline-start" />
         <span className="truncate">{item.label}</span>
       </Link>
@@ -69,8 +69,10 @@ export function AdminSidebar({ active }: AdminSidebarProps) {
   };
 
   return (
-    <nav className="flex flex-col gap-1 p-4">
+    <nav aria-label="后台导航" className="flex flex-col gap-1 px-4 py-5">
+      <p className="abei-admin-nav-caption">工作空间</p>
       <AdminSidebarLink active={active} item={adminHomeNavItem} />
+      <p className="abei-admin-nav-caption mt-5">管理应用</p>
 
       {adminNavGroups.map((group) => {
         const isOpen = openGroupKeys.includes(group.key);
@@ -83,8 +85,8 @@ export function AdminSidebar({ active }: AdminSidebarProps) {
               aria-controls={contentId}
               aria-expanded={isOpen}
               className={cn(
-                "min-h-11 w-full justify-between rounded-lg px-3 text-muted-foreground",
-                isActive && "border border-primary/15 bg-secondary text-foreground shadow-sm"
+                "abei-admin-nav-link min-h-11 w-full justify-between rounded-md px-3 font-medium text-muted-foreground",
+                isActive && "text-primary"
               )}
               onClick={() => toggleGroup(group.key)}
               type="button"
@@ -94,11 +96,11 @@ export function AdminSidebar({ active }: AdminSidebarProps) {
                 <group.icon data-icon="inline-start" />
                 <span className="truncate">{group.label}</span>
               </span>
-              {isOpen ? <Minus aria-hidden="true" data-icon="inline-end" /> : <Plus aria-hidden="true" data-icon="inline-end" />}
+              {isOpen ? <ChevronDown aria-hidden="true" className="size-3.5" /> : <ChevronRight aria-hidden="true" className="size-3.5" />}
             </Button>
 
             {isOpen ? (
-              <div className="ml-3 flex flex-col gap-1 border-l border-border pl-3" id={contentId}>
+              <div className="ml-5 flex flex-col gap-1 border-l border-border pl-3" id={contentId}>
                 {group.items.map((item) => (
                   <AdminSidebarLink active={active} item={item} key={item.href} nested />
                 ))}
