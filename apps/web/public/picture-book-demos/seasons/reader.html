@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>阿禾的四季 · 绘本预览</title>
+  <style>
+    :root { color-scheme: light; --ink: #17383c; --muted: #587073; --paper: #f6f4ed; --line: #d8dfd8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Source Han Sans CN", "PingFang SC", "Microsoft YaHei", sans-serif; }
+    button { font: inherit; }
+    header { max-width: 1500px; margin: auto; padding: 20px clamp(20px, 4vw, 60px) 14px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .brand img { width: clamp(170px, 22vw, 280px); height: auto; display: block; }
+    .brand small { border-left: 1px solid #b7c6be; padding-left: 14px; color: var(--muted); font-size: 12px; letter-spacing: .12em; white-space: nowrap; }
+    .count { font-size: 12px; color: var(--muted); letter-spacing: .12em; white-space: nowrap; }
+    .books { max-width: 1500px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 60px) 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .book { border: 1px solid var(--line); border-radius: 10px; background: #fffdf8; color: var(--ink); padding: 10px 13px; text-align: left; cursor: pointer; min-width: 0; transition: background .15s, border-color .15s, transform .15s; }
+    .book:hover { transform: translateY(-2px); }
+    .book[aria-pressed="true"] { background: #e3efe7; border-color: #78a68b; }
+    .book b { display: block; font-size: 17px; letter-spacing: -.035em; }
+    .book span { display: block; margin-top: 3px; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    main { max-width: 1500px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 60px) 32px; }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 0 14px; gap: 15px; border-top: 1px solid var(--line); }
+    .chapter { min-width: 0; }
+    .chapter h1 { margin: 0; font-size: clamp(17px, 1.7vw, 24px); font-weight: 760; letter-spacing: -.04em; }
+    .chapter p { margin: 3px 0 0; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
+    .actions { display: flex; align-items: center; gap: 8px; flex: none; }
+    .actions button { min-width: 44px; height: 38px; border: 1px solid #b9c9c1; border-radius: 7px; background: #fffdf8; color: var(--ink); cursor: pointer; }
+    .actions button:hover:not(:disabled) { background: #e7eee8; }
+    .actions button:disabled { opacity: .35; cursor: default; }
+    .actions .play { min-width: 78px; padding: 0 10px; background: #17383c; border-color: #17383c; color: #fff; }
+    .actions .play:hover:not(:disabled) { background: #24565b; }
+    .actions output { min-width: 70px; text-align: center; font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .stage { min-height: 300px; display: grid; place-items: center; }
+    .picture { width: 100%; position: relative; margin: 0; overflow: hidden; box-shadow: 0 18px 55px #163e3930; background: #dce7e6; }
+    .picture.cover { width: min(100%, 65vh, 750px); aspect-ratio: 1; }
+    .picture.spread { aspect-ratio: 2; }
+    .picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .picture.spread::after { content: ""; position: absolute; inset: 0 auto 0 calc(50% - 1px); width: 2px; background: linear-gradient(90deg, #272b2633, #fff9); box-shadow: 0 0 12px #152b2b46; pointer-events: none; }
+    .caption { max-width: 900px; margin: 0 auto; min-height: 110px; padding: 24px 12px 0; text-align: center; color: var(--ink); }
+    .caption p { margin: 0; font-size: clamp(17px, 2vw, 25px); font-weight: 520; line-height: 1.7; letter-spacing: .025em; }
+    .caption.opening { padding-top: 30px; }
+    .caption.opening p { font-size: clamp(23px, 2.7vw, 36px); font-weight: 760; line-height: 1.48; letter-spacing: -.035em; }
+    .caption.opening p::first-line { color: #17646b; }
+    .caption .hint { display: block; margin-top: 9px; color: var(--muted); font-size: 11px; letter-spacing: .2em; }
+    .thumbs { display: grid; grid-template-columns: repeat(9, 1fr); gap: 8px; margin-top: 16px; }
+    .thumbs button { padding: 0; border: 2px solid transparent; border-radius: 4px; overflow: hidden; background: #fff; cursor: pointer; aspect-ratio: 1; }
+    .thumbs button[aria-current="page"] { border-color: #167784; }
+    .thumbs img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .thumbs button:not(:first-child) img { object-position: center; }
+    .footnote { color: var(--muted); text-align: center; font-size: 11px; margin: 22px 0 0; }
+    @media (max-width: 760px) { .brand small, .count { display: none; } .books { grid-template-columns: repeat(2, 1fr); } .book b { font-size: 15px; } .thumbs { gap: 4px; } .toolbar { align-items: end; } .chapter p { display: none; } .caption { min-height: 95px; padding-top: 18px; } .caption.opening { padding-top: 22px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="series-emblem.png" alt="阿禾的四季"><small>四本 · 每本八个跨页</small></div>
+    <span class="count">本地绘本成品预览</span>
+  </header>
+  <nav class="books" id="books" aria-label="选择季节绘本"></nav>
+  <main>
+    <div class="toolbar">
+      <div class="chapter"><h1 id="title"></h1><p id="stage-label"></p></div>
+      <div class="actions"><button id="play" class="play" aria-label="播放本页配音">▶ 朗读</button><button id="previous" aria-label="上一跨页">←</button><output id="page-count"></output><button id="next" aria-label="下一跨页">→</button></div>
+    </div>
+    <div class="stage"><figure id="picture" class="picture"><img id="art" alt=""></figure></div>
+    <div id="caption" class="caption" aria-live="polite"></div>
+    <nav class="thumbs" id="thumbs" aria-label="选择封面或跨页"></nav>
+    <audio id="narration" preload="none"></audio>
+    <p class="footnote">键盘 ← → 翻页 · 点击朗读播放本页配音 · 每个横幅画面为连续跨页，左右各是一张 1:1 页面</p>
+  </main>
+  <script src="books.js"></script>
+  <script>
+    const books = window.SEASONS_BOOKS.books;
+    const names = { spring: "春", summer: "夏", autumn: "秋", winter: "冬" };
+    const state = { book: 0, page: 0 };
+    const $ = (id) => document.getElementById(id);
+    const narration = $("narration");
+    function render() {
+      const book = books[state.book];
+      const onCover = state.page === 0;
+      const spread = onCover ? null : book.spreads[state.page - 1];
+      narration.pause();
+      const audioSource = onCover ? book.coverAudio : spread.audio;
+      if (audioSource) narration.src = audioSource;
+      else narration.removeAttribute("src");
+      $("play").disabled = !audioSource;
+      $("play").textContent = "▶ 朗读";
+      $("books").innerHTML = books.map((item, index) => `<button class="book" data-book="${index}" aria-pressed="${index === state.book}"><b>${names[item.slug]} · ${item.title}</b><span>封面 + 8 个跨页</span></button>`).join("");
+      $("title").textContent = book.title;
+      $("stage-label").textContent = onCover ? "封面" : `第 ${state.page} 个跨页 · 第 ${state.page * 2 - 1}—${state.page * 2} 页`;
+      $("page-count").textContent = `${state.page} / 8`;
+      $("previous").disabled = state.page === 0;
+      $("next").disabled = state.page === 8;
+      $("picture").className = `picture ${onCover ? "cover" : "spread"}`;
+      $("art").src = onCover ? book.cover : spread.image;
+      $("art").alt = onCover ? `${book.title}封面` : `${book.title}第${state.page}个跨页`;
+      $("caption").className = `caption${state.page === 1 ? " opening" : ""}`;
+      $("caption").innerHTML = onCover ? `<span class="hint">打开封面，和阿禾一起走进${names[book.slug]}天</span>` : `<p>${spread.caption.split("\n").map(line => line.replaceAll("&", "&amp;").replaceAll("<", "&lt;")).join("<br>")}</p>${state.page === 1 ? '<span class="hint">第一跨页 · 开篇诗句</span>' : ""}`;
+      $("thumbs").innerHTML = [book.cover, ...book.spreads.map(s => s.image)].map((src, index) => `<button data-page="${index}" aria-label="${index ? `第${index}跨页` : "封面"}" ${index === state.page ? 'aria-current="page"' : ""}><img src="${src}" alt=""></button>`).join("");
+    }
+    $("books").addEventListener("click", event => { const button = event.target.closest("[data-book]"); if (button) { state.book = Number(button.dataset.book); state.page = 0; render(); } });
+    $("thumbs").addEventListener("click", event => { const button = event.target.closest("[data-page]"); if (button) { state.page = Number(button.dataset.page); render(); } });
+    $("previous").addEventListener("click", () => { if (state.page > 0) { state.page--; render(); } });
+    $("next").addEventListener("click", () => { if (state.page < 8) { state.page++; render(); } });
+    $("play").addEventListener("click", async () => {
+      if (narration.paused) {
+        try { await narration.play(); $("play").textContent = "Ⅱ 暂停"; }
+        catch { $("play").textContent = "播放失败"; }
+      } else { narration.pause(); $("play").textContent = "▶ 朗读"; }
+    });
+    narration.addEventListener("ended", () => { $("play").textContent = "▶ 朗读"; });
+    document.addEventListener("keydown", event => { if (event.key === "ArrowLeft" && state.page > 0) { state.page--; render(); } if (event.key === "ArrowRight" && state.page < 8) { state.page++; render(); } });
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+{
+  "method": "local whisper.cpp large-v3-q5_0",
+  "purpose": "检查整句漏读或截断；同音字与声调仍须人工听审",
+  "entries": [
+    {
+      "key": "spring:cover",
+      "expected": "阿禾的四季。春天，把门轻轻打开。",
+      "transcript": "阿和的四季,春天,把门轻轻打开",
+      "audioSha256": "6f4858e278bd4b5ff38b52a7c5a8541a88fd464fb3587bc10e5abffb781236ea"
+    },
+    {
+      "key": "spring:01",
+      "expected": "春天从一滴水里醒来。\n阿禾推开窗，听见柳芽说：早安。",
+      "transcript": "春天从一滴水里醒来,阿和推开窗,听见柳牙说,早安。",
+      "audioSha256": "ced0f1bc4acfb788e10225a660340abdcbd99f4e357a6783933d2c50e2fb9d49"
+    },
+    {
+      "key": "spring:02",
+      "expected": "桃花把粉红的信，\n轻轻放进风的手心。",
+      "transcript": "桃花把粉红的杏轻轻放进风的手心",
+      "audioSha256": "aefc76163e0bfbdcd9f97d5d3c0906ae331d1267c9d8971a248277e053c410b5"
+    },
+    {
+      "key": "spring:03",
+      "expected": "细雨一针一线，\n给青瓦缝出亮亮的边。",
+      "transcript": "细雨一针一线,给青瓦缝出亮亮的边。",
+      "audioSha256": "bb1d6669e4a654df99213000cdf2e29fdeebbb1bad0f77d57ebf6f7fa55e04a1"
+    },
+    {
+      "key": "spring:04",
+      "expected": "菜花把田野点亮，\n小路弯着腰，领我们走向远方。",
+      "transcript": "菜花把田野点亮,小鹿弯着腰,领我们走向远方。",
+      "audioSha256": "e706f007dbe2dd04cad9ac3f9892a3bb8ecc065375ebdb5ddc45cd0489eade22"
+    },
+    {
+      "key": "spring:05",
+      "expected": "燕子掠过屋檐，\n把蓝天剪成会飞的诗。",
+      "transcript": "燕子略过屋檐,把蓝天剪成会飞的诗。",
+      "audioSha256": "2cba76455a6993f77562355d14f21e5e7a58ce1deba744db43796162c54c7a39"
+    },
+    {
+      "key": "spring:06",
+      "expected": "风捧着纸鸢上天，\n阿禾的笑声也飞得好高。",
+      "transcript": "风捧着纸鸢上天 阿和的笑声也飞得好高",
+      "audioSha256": "7a0e32b3b5101910505129136ad2f29f470f5ea209ab1f873254508e253d8d8e"
+    },
+    {
+      "key": "spring:07",
+      "expected": "小小的秧苗排成行，\n等太阳写满绿色的篇章。",
+      "transcript": "小小的秧苗排成行 等太阳写满绿色的篇章",
+      "audioSha256": "a7f22c8409e0483a963433447163c3df0612ac49d8127dda3cd17a0e9c78197f"
+    },
+    {
+      "key": "spring:08",
+      "expected": "春天没有关门。\n它把一片新绿，留给下一季。",
+      "transcript": "春天没有关门,他把一片心绿留给下一季。",
+      "audioSha256": "ff3c35fb0d749b14f0d0789bda683b73f941880deeff4320d54396733f5b92da"
+    },
+    {
+      "key": "summer:cover",
+      "expected": "阿禾的四季。夏天，把太阳装进口袋。",
+      "transcript": "安和的四季,夏天把太阳装进口袋,",
+      "audioSha256": "f3af0059e54a6a3c1daacf97898833d8a3b0834d7785f981ca68e1f14bb1155e"
+    },
+    {
+      "key": "summer:01",
+      "expected": "清晨，荷叶举起露珠，\n像举起一颗透明的太阳。",
+      "transcript": "清晨,河叶举起绿珠,像举起一颗透明的太阳。",
+      "audioSha256": "933c8e6c15b77474786e0f8880e3df8dd2151aa02148aeb8b41d70bd5272eb48"
+    },
+    {
+      "key": "summer:02",
+      "expected": "蝉声一层一层，\n把高高的树荫织得更密。",
+      "transcript": "缠生一层一层 把高高的树荫织得更密",
+      "audioSha256": "c7070d9dab5da9356000d42f31243940d54ae01fe03238b6d98b9123e0966075"
+    },
+    {
+      "key": "summer:03",
+      "expected": "江水拍着鼓点，\n彩色的龙舟划过夏天。",
+      "transcript": "江水拍着古典 彩色的龙舟划过夏天",
+      "audioSha256": "1a3558b1b71dbd9d702dedc004c85315cdf0df0e4739d01034b9b7cdd38c0b3d"
+    },
+    {
+      "key": "summer:04",
+      "expected": "乌云走近，雨点忽然唱起歌。\n阿禾隔着窗，看云朵敲响玻璃。",
+      "transcript": "乌云走近,雨点忽然唱起歌,阿和隔着窗,看云朵敲响玻璃。",
+      "audioSha256": "061b83b2e94889efae83cbb0e737597140c0a1453c9a96908234aab56d896ec2"
+    },
+    {
+      "key": "summer:05",
+      "expected": "雨停了，街道亮晶晶。\n每个水洼都藏着半片天空。",
+      "transcript": "雨停了,街道亮晶晶,每个水洼都藏着半片天空。",
+      "audioSha256": "08565f3a25d707950060ee4367e3dba96e22fdbcae6f24e5377b08061fcb789e"
+    },
+    {
+      "key": "summer:06",
+      "expected": "切开的西瓜，红得像晚霞。\n一口甜，凉到脚尖。",
+      "transcript": "切开的西瓜红得像晚霞,一口甜凉到脚尖。",
+      "audioSha256": "c35407e9e030aaf7a19bbe0885f042718833b4862bf96efeb100554fec8524de"
+    },
+    {
+      "key": "summer:07",
+      "expected": "傍晚的萤火一闪一闪，\n为归家的小路点灯。",
+      "transcript": "傍晚的萤火一闪一闪,为归家的小鹿点灯。",
+      "audioSha256": "bc3ab1cc1aa9665e4647616f15a0bdf0e6eaf1d17d2cefafbc0793ee3ab10158"
+    },
+    {
+      "key": "summer:08",
+      "expected": "夜风吹过窗台。\n夏天把长长的白昼，折进星光。",
+      "transcript": "夜风吹过窗台,夏天把长长的白昼折进星光。",
+      "audioSha256": "457e0194dea3399a3cd9fe483beec6d177fb0598b1ce52798b3431701bc62825"
+    },
+    {
+      "key": "autumn:cover",
+      "expected": "阿禾的四季。秋天，写一封金色的信。",
+      "transcript": "阿和的四季 秋天写一封金色的信",
+      "audioSha256": "8b0342fe0084d70e82910c518621c474db232795e832aa0a35516e6977035c3e"
+    },
+    {
+      "key": "autumn:01",
+      "expected": "风翻开田野，\n稻穗把金色写满大地。",
+      "transcript": "风翻开田野 倒碎把金色写满大地",
+      "audioSha256": "7c0fd2e6e9cfcdbac9514f59a13bc810e34f3d496ec49a2faf35d3d3ae18f1d0"
+    },
+    {
+      "key": "autumn:02",
+      "expected": "柿子红了，挂在枝头，\n像一盏盏不肯熄灭的小灯。",
+      "transcript": "柿子红了,挂在枝头,像一盏盏不肯熄灭的小灯。",
+      "audioSha256": "6e78b9baf583009dea2ccb64f67686b1ed602824f1aa7afde668ebabdf096425"
+    },
+    {
+      "key": "autumn:03",
+      "expected": "桂花小得像星星，\n香气却走遍整条街。",
+      "transcript": "桂花小得像星星,香气却走遍整条街。",
+      "audioSha256": "a2d6c0df1a8a778dcfb09e40ec6d88a424fdfe0cbabcc26eef813f9258512a04"
+    },
+    {
+      "key": "autumn:04",
+      "expected": "一阵风，让银杏叶旋转。\n阿禾拾起一枚金色的小扇子。",
+      "transcript": "一阵风让银星叶旋转 阿和拾起一枚金色的小扇子",
+      "audioSha256": "23a77bb476d0c3b2e410a07b978d1f63c8a778bf65de0d325c43b87132ab8e68"
+    },
+    {
+      "key": "autumn:05",
+      "expected": "雁阵从天空写过，\n留下一个会移动的人字。",
+      "transcript": "验证从天空写过 留下一个会移动的人字",
+      "audioSha256": "2d4517b4f11948b735581006f13a094957794e8f897b4c053a8b4b3a291f3021"
+    },
+    {
+      "key": "autumn:06",
+      "expected": "圆月升上屋檐，\n一家人的影子，也靠得更近。",
+      "transcript": "圆月升上屋檐,一家人的影子也靠得更近。",
+      "audioSha256": "10a9e9ae280048f888afee2519667d07572933c9aa869a775c85003caf29b925"
+    },
+    {
+      "key": "autumn:07",
+      "expected": "山把枫叶举得很高，\n让远处也看见它们的红。",
+      "transcript": "山把枫叶举得很高 让远处也看见它们的红",
+      "audioSha256": "92a01f48d7c5efebfd2bf39ac1569daa4eac8a084575bcc679fde499c25fb788"
+    },
+    {
+      "key": "autumn:08",
+      "expected": "阿禾拾起一片叶子，\n把秋天的信，夹进明年的书。",
+      "transcript": "阿和拾起一片叶子,把秋天的信夹进明年的书。",
+      "audioSha256": "e370325d3c774d804b1fc9e3d6341f2d434ee3b1215f744197bf71d481b906bd"
+    },
+    {
+      "key": "winter:cover",
+      "expected": "阿禾的四季。冬天，听雪慢慢说话。",
+      "transcript": "阿和的四季 冬天听雪慢慢说话",
+      "audioSha256": "ebaf32dc3e6170de6aa9971b86827c6d7e3053907245745dc9232883e9ac0dd7"
+    },
+    {
+      "key": "winter:01",
+      "expected": "清晨，霜在窗上画花。\n世界轻轻屏住了呼吸。",
+      "transcript": "清晨,双在窗上画画,世界轻轻屏住了呼吸。",
+      "audioSha256": "9ce6cba3e14c0946a98c9307a8c9b20a07939674c55b7b0a675f6539bb18f11e"
+    },
+    {
+      "key": "winter:02",
+      "expected": "第一片雪落下，\n落在屋檐，也落在阿禾的掌心。",
+      "transcript": "第一片雪落下,落在屋檐,也落在阿和的掌心。",
+      "audioSha256": "d09721b68a82bcb75616311e452a0c6f407260dc4d65a8e91002792807c44dd3"
+    },
+    {
+      "key": "winter:03",
+      "expected": "雪慢慢落，\n把喧闹的公园，变成安静的白纸。",
+      "transcript": "雪慢慢落,把喧闹的公园变成安静的白纸。",
+      "audioSha256": "b358e14a606ddc49358c41aa619bdd18cbc8bdd3b453f2936d44b8c292643559"
+    },
+    {
+      "key": "winter:04",
+      "expected": "脚印一前一后，\n把安静的小路，写成有趣的故事。",
+      "transcript": "脚印一前一后 把安静的小路 写成有趣的故事",
+      "audioSha256": "f12973fe72c2cf22eb4c74728ce41859caecb148411e3849ea9393771021cd15"
+    },
+    {
+      "key": "winter:05",
+      "expected": "阿禾把雪团成小小的球，\n给雪人安上一颗圆圆的鼻子。",
+      "transcript": "阿和把雪团成小小的球,给雪人安上一颗圆圆的鼻子。",
+      "audioSha256": "ed35c4f7ae34f12652f5b0f595f24c99bbcef2d6f7a5214a002386bd4a28b4ed"
+    },
+    {
+      "key": "winter:06",
+      "expected": "窗花贴上玻璃，\n屋里慢慢亮起团圆的光。",
+      "transcript": "窗花贴上玻璃,屋里慢慢亮起团圆的光。",
+      "audioSha256": "1df5a7b3e176f8ad311f334e09b7eb91fef952825d8a4d1538d18c3fea3d7b6b"
+    },
+    {
+      "key": "winter:07",
+      "expected": "一碗热腾腾的饺子，\n把冻红的手心，也暖成春天。",
+      "transcript": "一碗热腾腾的饺子,把冬红的手心也暖成春天。",
+      "audioSha256": "a24a3cc651124ae0b294c9d75ef53fafd8ccd8a7ddf37ae6d060c865325eb004"
+    },
+    {
+      "key": "winter:08",
+      "expected": "雪下的泥土，藏着新芽。\n阿禾听见春天，正轻轻走来。",
+      "transcript": "雪下的泥土藏着心牙 阿和听见春天正轻轻走来",
+      "audioSha256": "e89308bbe537757531dcc70a1048a8c249e379bf028b234e4f831b3548282359"
+    }
+  ]
+}

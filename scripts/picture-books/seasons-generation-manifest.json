@@ -1,0 +1,1074 @@
+{
+  "seriesTitle": "阿禾的四季",
+  "seriesAudience": "4—8岁亲子共读",
+  "status": "local draft; not published",
+  "format": "square cover + eight continuous 2:1 double-page spreads per book",
+  "artDirection": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.",
+  "typography": {
+    "logo": "左上角独立图标：四季油画色环与禾苗，字标为设计感现代几何黑体；四册同一尺寸和安全边距。",
+    "cover": "主书名为逐字定制的厚涂油画展示字；与黑体标识保留鲜明笔触和位置对比。",
+    "opening": "首个跨页的诗句放在画面外的留白区，用稳重的黑体较大字号排两行；首行提亮、行距疏朗，之后七页收为统一的阅读字号。"
+  },
+  "entries": [
+    {
+      "key": "spring-cover",
+      "book": "spring",
+      "position": 0,
+      "caption": null,
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 春天，把门轻轻打开. Palette: fresh jade, light yellow-green, peach pink, clear blue. Scene: In a contemporary Chinese riverside park in spring, 阿禾 kneels beside a tiny new shoot. Fresh willows, peach blossoms, clean walking path and a modern neighborhood across water. Three-quarter view; no umbrella, rain or old stone lane. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 春天， open wide and rise slightly; let 把门轻轻打开 follow a subtly widening rhythm like a doorway admitting light. Leave the inside of 门 airy. The letterforms are individually drawn, not mechanically repeated. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “春天，把门轻轻打开”. No subtitle, author or page number.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d405d1bd-5bbb-4b2f-8a11-ea20587d6fd8.png",
+          "role": "approved logo identity"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "92bc2b84b97ca25ff92e0c6e4c2637230ce5d02eabc035e0ed7c539bf26c8c8b",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/cover.webp",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sha256": "5f8a5e00c0883997566500a1a79ab04569bddc81bdd224345a8ceff48e75edff"
+    },
+    {
+      "key": "spring-01",
+      "book": "spring",
+      "position": 1,
+      "caption": "春天从一滴水里醒来。\n阿禾推开窗，听见柳芽说：早安。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 1 of 8. Scene: Morning in a contemporary Jiangnan apartment neighborhood. Balcony plants with dew at left; 阿禾 in mint windbreaker opens a window toward a riverside park with budding willows at right. Narration is CONTEXT ONLY and must NOT be printed: 春天从一滴水里醒来。 阿禾推开窗，听见柳芽说：早安。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-13a0318f-0206-4f2f-8fbf-6f534ae17d58.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "a4af3c3452a5ec97fdaac77fd0467d0b60a8446b2f70af089c3f4161fef4ab4c",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/01.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "fdd2f6ff477e61a67c216ae8b02fc847cd95976238c658ed3d27870046882914"
+    },
+    {
+      "key": "spring-02",
+      "book": "spring",
+      "position": 2,
+      "caption": "桃花把粉红的信，\n轻轻放进风的手心。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 2 of 8. Scene: Flowering peach grove in a Chinese public park, petals drifting in sunlight. 阿禾 looks up from a path, face in profile, wearing mint jacket and jeans. Narration is CONTEXT ONLY and must NOT be printed: 桃花把粉红的信， 轻轻放进风的手心。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-0af27694-538b-4210-9822-e9b4fc78f8c6.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "7906a85c52a92769d8c8ea037af9e4e933e94a59c1ce9b76d843bb6cee893bb8",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/02.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "de0f02ea54fd244056739b9845107b70260e87e654d9413ec71aa77d9f0cd859"
+    },
+    {
+      "key": "spring-03",
+      "book": "spring",
+      "position": 3,
+      "caption": "细雨一针一线，\n给青瓦缝出亮亮的边。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 3 of 8. Scene: View from a covered modern park pavilion during brief spring rain; droplets bead on new leaves and run past its tiled eaves. 阿禾 watches while staying dry beneath the roof. No umbrella. Narration is CONTEXT ONLY and must NOT be printed: 细雨一针一线， 给青瓦缝出亮亮的边。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d09e5fea-6dfb-48e6-977f-3902b1864dd3.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "58660c18c3465ce2acedc743f512603053456e189fa46c548f8ddc68686d0469",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/03.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "6db8dd67a41d05d1a9e4ec59fdd98b1f92dbb33b62418ae60f9e29a79946943a"
+    },
+    {
+      "key": "spring-04",
+      "book": "spring",
+      "position": 4,
+      "caption": "菜花把田野点亮，\n小路弯着腰，领我们走向远方。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 4 of 8. Scene: Wide yellow rapeseed fields in the Chinese countryside with a safe curving path. 阿禾 walks toward camera in mint jacket, small within landscape; distant contemporary farm building. Narration is CONTEXT ONLY and must NOT be printed: 菜花把田野点亮， 小路弯着腰，领我们走向远方。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-ffd75f9b-26e4-4dc9-840c-e2f1d2ff678a.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "feee9802b2dafd420f162ea3bcda9a07a22403e51669b2414069a0ded8f136f6",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/04.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "40257961162b341e0f2834729ad134679e00f365dfae9f66634b75e68b54e3fe"
+    },
+    {
+      "key": "spring-05",
+      "book": "spring",
+      "position": 5,
+      "caption": "燕子掠过屋檐，\n把蓝天剪成会飞的诗。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 5 of 8. Scene: Accurate fork-tailed Chinese barn swallows swoop above a present-day community garden and low pavilion. 阿禾 watches from a bench under bright sky. Narration is CONTEXT ONLY and must NOT be printed: 燕子掠过屋檐， 把蓝天剪成会飞的诗。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d8a524da-0211-4a1b-a844-b3e674d9a522.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "618cffc87a4b2723e6c83a5a8b0d2253c2c4fd5579e711d8f42e61505c1a10db",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/05.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "e90610afebd94116eccd045ce6a4224725e72c7d177cdeffaea72afabe834573"
+    },
+    {
+      "key": "spring-06",
+      "book": "spring",
+      "position": 6,
+      "caption": "风捧着纸鸢上天，\n阿禾的笑声也飞得好高。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 6 of 8. Scene: Open public lawn by a Chinese city river. 阿禾 runs with one swallow-shaped kite on a visible string, one parent far behind. No wires or crowd. Narration is CONTEXT ONLY and must NOT be printed: 风捧着纸鸢上天， 阿禾的笑声也飞得好高。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1c268d77-d037-4f1b-9474-ab1222065e1c.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "12e48a31d7b8fe393f479476837a671d2b1a05d34e598111ba04d203a957ba7b",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/06.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "7538bfe1f7989a05c47a8d20f62ddca4abe105090bb73ba7d4f6c93241f232f8"
+    },
+    {
+      "key": "spring-07",
+      "book": "spring",
+      "position": 7,
+      "caption": "小小的秧苗排成行，\n等太阳写满绿色的篇章。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 7 of 8. Scene: Late-spring rice field in southern China, shallow water and neat seedlings. 阿禾 observes from a safe raised edge beside a farmer in contemporary work clothes. Narration is CONTEXT ONLY and must NOT be printed: 小小的秧苗排成行， 等太阳写满绿色的篇章。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-390da553-4419-4369-b227-9b3d04fec1dd.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "7d57b73a689de962c771c0d6ed39ca6c148afc54af0a91ced1b59ccc7e0e5159",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/07.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "b090d5cb434bfe4058bb0177a30aa57190463fb7e3ee71142426ba722357dc4a"
+    },
+    {
+      "key": "spring-08",
+      "book": "spring",
+      "position": 8,
+      "caption": "春天没有关门。\n它把一片新绿，留给下一季。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 江南的现代社区、公园与近郊田野. Palette: fresh jade, light yellow-green, peach pink, clear blue. Child costume: mint-green lightweight windbreaker, blue jeans, white sneakers. Spread 8 of 8. Scene: Late-spring Chinese urban-park lake, deeper willow canopy and first round lotus leaves. 阿禾 pauses on a path in side profile; warm light hints at summer. Narration is CONTEXT ONLY and must NOT be printed: 春天没有关门。 它把一片新绿，留给下一季。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-496907a3-8264-47b4-b7ad-d1c3efefd3c0.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "de48aa6f1b4f5386a92ed861ba667933409621e450c53a9d015948481a3951ae",
+      "output": "apps/web/public/picture-book-demos/seasons/spring/08.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "12784d38622dd2c31932caed9d2587dd2fb17d6d735011b174d55945a4bbd428"
+    },
+    {
+      "key": "summer-cover",
+      "book": "summer",
+      "position": 0,
+      "caption": null,
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 夏天，把太阳装进口袋. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Scene: Bright lotus pond beside a contemporary Chinese riverside park. 阿禾 in striped T-shirt, shorts and light sunhat safely admires flowers from a railing; broad summer sky and modern greenery. No umbrella. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 夏天， feel broad and sun-warmed; the following characters move in a buoyant rhythm, with controlled golden highlights in the paint, never a cartoon sun pasted onto a glyph. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “夏天，把太阳装进口袋”. No subtitle, author or page number.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d405d1bd-5bbb-4b2f-8a11-ea20587d6fd8.png",
+          "role": "approved logo identity"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "819591cf4191aa8dab307698b07c70ef7ccbdfdbab0a1687e403402184f567dc",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/cover.webp",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sha256": "f31ab83afad6c6518c2fe127a15b36641482e55f5d7dbb7ec34c6f3a551bc30a"
+    },
+    {
+      "key": "summer-01",
+      "book": "summer",
+      "position": 1,
+      "caption": "清晨，荷叶举起露珠，\n像举起一颗透明的太阳。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 1 of 8. Scene: Dawn lotus pond with emerald leaves and accurate pink blossoms. 阿禾 in striped tee watches from a boardwalk at far right; continuous water and golden mist. Narration is CONTEXT ONLY and must NOT be printed: 清晨，荷叶举起露珠， 像举起一颗透明的太阳。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-10eef9df-16ca-451b-bf8a-fd4348829bd9.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "667ad86d2361016c370da08e588b31bdfcfc4fa2b043e259c4b98eb18caeee35",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/01.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "0572a27dc6b59d44b70b15d82dcb5309d91e76a1411cf7107853d35e1e78079c"
+    },
+    {
+      "key": "summer-02",
+      "book": "summer",
+      "position": 2,
+      "caption": "蝉声一层一层，\n把高高的树荫织得更密。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 2 of 8. Scene: Hot midday in a modern Chinese park. A small realistic cicada on tree bark; 阿禾 in striped tee and sunhat rests on shaded bench with water bottle. Narration is CONTEXT ONLY and must NOT be printed: 蝉声一层一层， 把高高的树荫织得更密。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-3613eed6-f1f9-4ec1-8f7d-3b343047c650.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "c017eb4bccf0c652292252a9f2e9400af927221c626eccfd3d55b7f2cd0a451a",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/02.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "e1ea2cef08b06b98b88aca53793ebc56e71890301d184e5635c98131a0ceef13"
+    },
+    {
+      "key": "summer-03",
+      "book": "summer",
+      "position": 3,
+      "caption": "江水拍着鼓点，\n彩色的龙舟划过夏天。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 3 of 8. Scene: One dragon boat on a Chinese city river, paddlers in modern sport clothes. 阿禾 and family safely watch from public promenade; dynamic spray and sunlight. Narration is CONTEXT ONLY and must NOT be printed: 江水拍着鼓点， 彩色的龙舟划过夏天。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d0397bbc-cf28-40d9-9ce4-7176d4b85540.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "e1fbc145585a37a9a0c33e3434e26e882b4a885f2fd6890109dc8ec9992901f2",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/03.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "f108ea2b53405c615330e7e14f196f183ff37f064d86f67e4c1a80a9de8eddd8"
+    },
+    {
+      "key": "summer-04",
+      "book": "summer",
+      "position": 4,
+      "caption": "乌云走近，雨点忽然唱起歌。\n阿禾隔着窗，看云朵敲响玻璃。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 4 of 8. Scene: Sudden summer thunderstorm seen from INSIDE a contemporary Chinese home. 阿禾 stands away from closed window and watches rain on glass and green trees beyond. Narration is CONTEXT ONLY and must NOT be printed: 乌云走近，雨点忽然唱起歌。 阿禾隔着窗，看云朵敲响玻璃。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9cb43d5c-8769-4d57-8839-30008652b776.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "3aabebe9e6f1016396a51b660f6d16940daae0e2b8191839509af7fd2ee7b14b",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/04.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "4102dbd8a7091aa07da77e2c166e6936415767921ce3af1154a5456bd3b5ae6a"
+    },
+    {
+      "key": "summer-05",
+      "book": "summer",
+      "position": 5,
+      "caption": "雨停了，街道亮晶晶。\n每个水洼都藏着半片天空。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 5 of 8. Scene: After-rain path through a modern Chinese neighborhood park, puddles reflect opening blue sky. 阿禾 steps carefully on dry paving stones, face partly visible. Narration is CONTEXT ONLY and must NOT be printed: 雨停了，街道亮晶晶。 每个水洼都藏着半片天空。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-07c5cdc1-216b-41fd-b84f-af7cbc759c6d.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "cd479aa34c709607f6444140f23821ed66f056f680382202642611a8d4021d26",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/05.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "c3efc256f4d21fbc5286c34211584db1acddb33b604b0532efb31c3faf6f557e"
+    },
+    {
+      "key": "summer-06",
+      "book": "summer",
+      "position": 6,
+      "caption": "切开的西瓜，红得像晚霞。\n一口甜，凉到脚尖。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 6 of 8. Scene: Summer afternoon at Chinese family garden table. Cut watermelon in a simple bowl; 阿禾 enjoys one slice in shade, a family member nearby. Contemporary casual home. Narration is CONTEXT ONLY and must NOT be printed: 切开的西瓜，红得像晚霞。 一口甜，凉到脚尖。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d2d0dbdd-9c9a-4246-b125-41e8679676d1.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "c1711f463c4ef9c90ce5373d511cbf7070c22aa16c3e66a225f1c672d8ea5d87",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/06.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "d549ef9564d0cfb1b7a9f18311247d3a860c36b17cb3ab92345544eb05234001"
+    },
+    {
+      "key": "summer-07",
+      "book": "summer",
+      "position": 7,
+      "caption": "傍晚的萤火一闪一闪，\n为归家的小路点灯。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 7 of 8. Scene: Humid summer dusk on a managed nature trail near Chinese wetland reeds. A few believable fireflies glow; 阿禾 and one parent walk home together. Narration is CONTEXT ONLY and must NOT be printed: 傍晚的萤火一闪一闪， 为归家的小路点灯。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-c9742eb7-eb7b-4b57-aed7-1217475438e7.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "9660f237ff1439be38ef94c03dd8da9ae060e5aa9634ba2871c2ac488016a413",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/07.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "926fc8b39d54f4e72d611ba530601b637a5f2faf8772744ff6b49db8fe06e377"
+    },
+    {
+      "key": "summer-08",
+      "book": "summer",
+      "position": 8,
+      "caption": "夜风吹过窗台。\n夏天把长长的白昼，折进星光。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 长江流域的现代城镇与荷塘. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Child costume: white and coral striped T-shirt, denim shorts, breathable sneakers; a light sunhat only at midday. Spread 8 of 8. Scene: Modern Chinese apartment balcony at summer night. 阿禾 in light pajamas sits with family under modest starry sky, warm interior light and dark treetops. Narration is CONTEXT ONLY and must NOT be printed: 夜风吹过窗台。 夏天把长长的白昼，折进星光。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-3a29fd03-bd04-43b8-9f93-e6d624130aaf.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "9611ebc8dabfc430f8a44664656bd2be50bffebb03f6ea81e21668bec067b874",
+      "output": "apps/web/public/picture-book-demos/seasons/summer/08.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "7f95ae79539c1a468d5ec598d965b6f57ee6df81363c3ca6078e8bb1a1f4edc1"
+    },
+    {
+      "key": "autumn-cover",
+      "book": "autumn",
+      "position": 0,
+      "caption": null,
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 秋天，写一封金色的信. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Scene: Clear sunny autumn afternoon in a contemporary Chinese park. 阿禾 in terracotta hoodie holds one golden ginkgo leaf up to light; curved park lake and modern walking path beneath trees, distant families. No rain, umbrella or lone rear view. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 秋天， sit firmly and let 写一封金色的信 flow with a gentle falling-leaf cadence; edge highlights borrow restrained amber from the landscape, without leaf-shaped clip art. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “秋天，写一封金色的信”. No subtitle, author or page number.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d405d1bd-5bbb-4b2f-8a11-ea20587d6fd8.png",
+          "role": "approved logo identity"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "fd7dcd5fc09ae840081b0eb43f2672a83ea11f5e2c93b42de734d0a1714e170f",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/cover.webp",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sha256": "359321f31f23c648b00237905c8af57e6059f7eaab52b8c541d742c17566b01a"
+    },
+    {
+      "key": "autumn-01",
+      "book": "autumn",
+      "position": 1,
+      "caption": "风翻开田野，\n稻穗把金色写满大地。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 1 of 8. Scene: Open northern Chinese autumn grain field with mature heads and distant modern farm structures. 阿禾 and parent walk on safe field-edge path. Narration is CONTEXT ONLY and must NOT be printed: 风翻开田野， 稻穗把金色写满大地。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-08fc70aa-5cea-4de3-8021-1556967c4d5c.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "d81138e7ae7b79d3e05b7179cfd5188e143c5b24ea6854f6d7a75d9b7a85d16b",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/01.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "4ac6fd1901a30900a7554a041e349fc1cfa9c97b9f87be149f2d2889486cb558"
+    },
+    {
+      "key": "autumn-02",
+      "book": "autumn",
+      "position": 2,
+      "caption": "柿子红了，挂在枝头，\n像一盏盏不肯熄灭的小灯。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 2 of 8. Scene: Persimmon tree full of ripe orange fruit in a contemporary Chinese community garden. 阿禾 looks up from a clean path, face in profile. Narration is CONTEXT ONLY and must NOT be printed: 柿子红了，挂在枝头， 像一盏盏不肯熄灭的小灯。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-b9fff7fd-40fe-4a5a-8b60-9ae5dbabcb61.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "7cf9e5adc36cac246c4aa494e4c0c18fa3f1c9ccd874ccde661d830ef7aecbe4",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/02.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "bbd7e9c0d1890e5edd7e74820207d9eb54448fbea52df2c182d5ee90be2967e1"
+    },
+    {
+      "key": "autumn-03",
+      "book": "autumn",
+      "position": 3,
+      "caption": "桂花小得像星星，\n香气却走遍整条街。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 3 of 8. Scene: Osmanthus tree with tiny cream flowers beside a modern Chinese pedestrian street. 阿禾 gently smells blossoms; bicycles and balconies subtle in distance. Narration is CONTEXT ONLY and must NOT be printed: 桂花小得像星星， 香气却走遍整条街。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-314f6d15-9599-4993-ba84-35d7f1851aa4.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "ee696f669d37d34a26507c3e3106bbae328bd409770b8166f3426f393e14fdc7",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/03.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "9a8122764f4366c14045b7a274f807828b5bde3b7e21d0b247d08e06e79fce66"
+    },
+    {
+      "key": "autumn-04",
+      "book": "autumn",
+      "position": 4,
+      "caption": "一阵风，让银杏叶旋转。\n阿禾拾起一枚金色的小扇子。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 4 of 8. Scene: Sunny ginkgo grove in a contemporary Chinese park, leaves spiraling in wind. 阿禾 in terracotta hoodie bends to pick up one fan-shaped leaf. No rainy alley. Narration is CONTEXT ONLY and must NOT be printed: 一阵风，让银杏叶旋转。 阿禾拾起一枚金色的小扇子。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-25c3e74c-2696-4531-8992-8ff5ed01da93.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "ab0822f76d00358e818375e258b788148a48b627426c444739701074b5283024",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/04.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "9d0e31786e4ba8e220ba9baeb928456c82cebed3473f4ad71f398e9d2bc222c2"
+    },
+    {
+      "key": "autumn-05",
+      "book": "autumn",
+      "position": 5,
+      "caption": "雁阵从天空写过，\n留下一个会移动的人字。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 5 of 8. Scene: Open northern Chinese sky above reed-fringed lake, a small V formation of geese high overhead. 阿禾 and parent observe from marked lakeside boardwalk. Narration is CONTEXT ONLY and must NOT be printed: 雁阵从天空写过， 留下一个会移动的人字。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-7d8a0c8d-d113-4df7-bbfd-073efd0b8fdd.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "82605fa8b84019954ac23ac048bb1801210f120680015eea3b258e07bf341a74",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3"
+    },
+    {
+      "key": "autumn-06",
+      "book": "autumn",
+      "position": 6,
+      "caption": "圆月升上屋檐，\n一家人的影子，也靠得更近。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 6 of 8. Scene: Mid-Autumn evening on contemporary Chinese family balcony. 阿禾 and family share mooncakes at a small table beneath full moon; apartment rooftops and city lights. Narration is CONTEXT ONLY and must NOT be printed: 圆月升上屋檐， 一家人的影子，也靠得更近。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-4e98ad82-e252-4eb1-84fd-512cef42877b.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "153ccffe4c38cd3816c9274e605fd43f391ecb3fb1469d65a8d73c88a772db0b",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/06.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "fa19f30d30fce72fec170e137fdb3169d955c712f3bc2eb11b045945d08b1a28"
+    },
+    {
+      "key": "autumn-07",
+      "book": "autumn",
+      "position": 7,
+      "caption": "山把枫叶举得很高，\n让远处也看见它们的红。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 7 of 8. Scene: Chinese mountain park in autumn, red maples, broad maintained trail, layered hills. 阿禾 in terracotta hoodie hikes with family; panoramic trees. Narration is CONTEXT ONLY and must NOT be printed: 山把枫叶举得很高， 让远处也看见它们的红。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-55f9c21b-e1d0-4bb2-82c9-740391e6882c.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "ee25988653b4601e3bcfafb849e664254b6608c2b66c00ab05d9df39c575d6f1",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/07.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "d0c5e7d23168813ee956fc1eb2a3659ca0798ce0ad58767bf02da932a0aa58fe"
+    },
+    {
+      "key": "autumn-08",
+      "book": "autumn",
+      "position": 8,
+      "caption": "阿禾拾起一片叶子，\n把秋天的信，夹进明年的书。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 8 of 8. Scene: Late-autumn contemporary Chinese home at sunlit desk. 阿禾 places one golden ginkgo leaf inside a plain notebook, bare branches beyond window. Narration is CONTEXT ONLY and must NOT be printed: 阿禾拾起一片叶子， 把秋天的信，夹进明年的书。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-96ddd2e2-b2eb-4b24-aa59-904ec06ee3c8.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "fbbbb3e0b0d9724d3f1a145775ad85e696db7726d976d8e89d67abef7d527e86",
+      "output": "apps/web/public/picture-book-demos/seasons/autumn/08.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "93ce56c021aeab5c73341fd9d25f136405016497e9d1c0f294f3d3e588072c1a"
+    },
+    {
+      "key": "winter-cover",
+      "book": "winter",
+      "position": 0,
+      "caption": null,
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 冬天，听雪慢慢说话. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Scene: Snowy contemporary northern Chinese city park at late afternoon. 阿禾 wears blue puffer, cream knit hat, snow trousers and boots, holds a small snowball; pines, playground and warm apartment windows. Three-quarter view, no umbrella or old village lane. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Give 冬天， spacious strokes and crisp edges softened by snow; 听雪慢慢说话 has an unhurried rhythm and warm ivory contrast against the blue sky, without snowflake ornaments. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “冬天，听雪慢慢说话”. No subtitle, author or page number.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d405d1bd-5bbb-4b2f-8a11-ea20587d6fd8.png",
+          "role": "approved logo identity"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "5cabb90916b2821bb3fcd7b6a4aa1a9adc516f03cdf7335ee8247f907393b408",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/cover.webp",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sha256": "6f93ee36d94d05ad4b2a4b7fcf6041c2c466fb876164f4d4d5caf08c21e240f3"
+    },
+    {
+      "key": "winter-01",
+      "book": "winter",
+      "position": 1,
+      "caption": "清晨，霜在窗上画花。\n世界轻轻屏住了呼吸。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 1 of 8. Scene: Inside a contemporary northern Chinese apartment at dawn. Frost at window edges; 阿禾 in cream sweater peers at snowy park and apartment buildings. Cool outdoors, warm interior. Narration is CONTEXT ONLY and must NOT be printed: 清晨，霜在窗上画花。 世界轻轻屏住了呼吸。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-eef2c833-1c40-4369-9e87-ceee32e21a12.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "6435f52ace01f7af07d372335a5a0d8223b6b05812c580e3d286095e26bd3275",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/01.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "3a577b9bf3896c6e51f8e4c7c91054cf541ff5139a42fd0f81c66da537e981e2"
+    },
+    {
+      "key": "winter-02",
+      "book": "winter",
+      "position": 2,
+      "caption": "第一片雪落下，\n落在屋檐，也落在阿禾的掌心。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 2 of 8. Scene: First snow in Chinese city community park. 阿禾 in blue puffer, cream hat and mittens catches a snowflake on glove; apartment roofs and pines in distance. Narration is CONTEXT ONLY and must NOT be printed: 第一片雪落下， 落在屋檐，也落在阿禾的掌心。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-ec308608-895b-4174-95e0-752a6d1df22d.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "0391a77054d32a6d2571845b65948c832c80dfa28cecb92a0a138e112735e993",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/02.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "fb1590fcc986e47ccaf04cea02fefb93ff8cee54e2fc2b10f7de69394ba91afd"
+    },
+    {
+      "key": "winter-03",
+      "book": "winter",
+      "position": 3,
+      "caption": "雪慢慢落，\n把喧闹的公园，变成安静的白纸。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 3 of 8. Scene: Modern Chinese urban park during gentle snowfall, snow softens paths, benches and pines. 阿禾 and parent walk on cleared path, small in broad view. Narration is CONTEXT ONLY and must NOT be printed: 雪慢慢落， 把喧闹的公园，变成安静的白纸。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-aa737c08-b4d3-42a5-95fa-f4cc08898369.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "cd7b1cbea538e76ffc73bcd87a431b0ea0e8185dbbc3b126545d61130475cd5b",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/03.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "e90d4147959b74808f87e557cc9cfda4bdbbe37a31a3f012a3d8e40a2fbd7326"
+    },
+    {
+      "key": "winter-04",
+      "book": "winter",
+      "position": 4,
+      "caption": "脚印一前一后，\n把安静的小路，写成有趣的故事。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 4 of 8. Scene: Curving safe snowy trail in northern Chinese park; paired child and adult boot prints lead toward 阿禾 and parent at far right, blue shadows and low sun. Narration is CONTEXT ONLY and must NOT be printed: 脚印一前一后， 把安静的小路，写成有趣的故事。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-20925051-4572-46ca-87fd-6329368105c1.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "879836845cfd2753700ba8b45905baf22885e0575e600f9a9d5ffcd0b5904799",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/04.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "47a84ad64979a13e3f2348f96ae2a47d7c7f0d86eaba8bc3341139c5ee7364a9"
+    },
+    {
+      "key": "winter-05",
+      "book": "winter",
+      "position": 5,
+      "caption": "阿禾把雪团成小小的球，\n给雪人安上一颗圆圆的鼻子。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 5 of 8. Scene: Sunny afternoon in Chinese community playground. 阿禾 in puffer and parent make a simple snowman, gloved hands attach a small carrot nose. Narration is CONTEXT ONLY and must NOT be printed: 阿禾把雪团成小小的球， 给雪人安上一颗圆圆的鼻子。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e8d7468b-c054-490f-bae2-6f138b855e7b.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "56c35cc3df9318a2ab21818672750c24d57cc351c714406771e1860285391c86",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/05.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "07a99347bde10a36d6697539d3ffdb79adcc214970a193e20b66180d1e2428c5"
+    },
+    {
+      "key": "winter-06",
+      "book": "winter",
+      "position": 6,
+      "caption": "窗花贴上玻璃，\n屋里慢慢亮起团圆的光。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 6 of 8. Scene: Winter contemporary Chinese home interior. 阿禾 in cream sweater and elder place red paper-cut on window, no legible characters; snow outside. Narration is CONTEXT ONLY and must NOT be printed: 窗花贴上玻璃， 屋里慢慢亮起团圆的光。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-624b5b8b-2223-4d7d-b0cc-af018615d423.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "f78cac5bf9daa25316fbe8d222bc97d3b8f4e02ca68c911ad6ac40b021727d77",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/06.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "c97217aed6e1ee6b6c297294bb09ae3c231195a1c2374a6c8664066a1aed0995"
+    },
+    {
+      "key": "winter-07",
+      "book": "winter",
+      "position": 7,
+      "caption": "一碗热腾腾的饺子，\n把冻红的手心，也暖成春天。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 7 of 8. Scene: Contemporary Chinese family table with steaming dumplings. 阿禾 in cream sweater and family share meal; warm light, winter coats by entrance. Narration is CONTEXT ONLY and must NOT be printed: 一碗热腾腾的饺子， 把冻红的手心，也暖成春天。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-735db46b-35c8-4747-add9-16328126f7e4.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "c6070d90d6728e67156f5dc07de605ac40edebfddd37566e5742ad80e809d28d",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/07.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "78ffe03fba3c28be2f6a74497cb161f2469f3db3e143a4f375ddfa9195493166"
+    },
+    {
+      "key": "winter-08",
+      "book": "winter",
+      "position": 8,
+      "caption": "雪下的泥土，藏着新芽。\n阿禾听见春天，正轻轻走来。",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 中国北方雪城与冬日家庭. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Child costume: cobalt-blue puffer, cream knit hat, charcoal snow trousers, boots and mittens; indoors cream sweater. Spread 8 of 8. Scene: Late-winter thaw in northern Chinese community garden. Melting snow along path, tiny green shoots in sheltered planter. 阿禾 in puffer kneels to see them at sunrise. Narration is CONTEXT ONLY and must NOT be printed: 雪下的泥土，藏着新芽。 阿禾听见春天，正轻轻走来。 No typography of any kind in illustration.",
+      "references": [
+        {
+          "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+          "role": "painting style only"
+        },
+        {
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "role": "character identity and seasonal clothing only"
+        }
+      ],
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-b44f3ab7-8027-4934-9152-d25dfdc64c99.png",
+      "sourceDimensions": [
+        1774,
+        887
+      ],
+      "sourceSha256": "c18d05f09944f31592879905794c77cdddcdef04fa7c6eefdbc07304043b04ce",
+      "output": "apps/web/public/picture-book-demos/seasons/winter/08.webp",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "85f8637ad517d8b7d721067e45649a914af805b6f0a1716353051f2ff8fbad8b"
+    },
+    {
+      "key": "series-emblem",
+      "role": "shared upper-left series logo; painted seasonal ring and custom geometric Chinese Heiti wordmark",
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d405d1bd-5bbb-4b2f-8a11-ea20587d6fd8.png",
+      "sourceDimensions": [
+        2172,
+        724
+      ],
+      "sourceSha256": "1a59ced625ac4523d254c21bdfcedbaa59e4ea8b83bac31410a338f1acc7994e",
+      "output": "apps/web/public/picture-book-demos/seasons/series-emblem.png",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "sha256": "1a59ced625ac4523d254c21bdfcedbaa59e4ea8b83bac31410a338f1acc7994e"
+    }
+  ]
+}
