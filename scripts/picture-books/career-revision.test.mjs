@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as revision from './career-revision.mjs';
+import * as importing from './career-import.mjs';
 
 test('人物修订仅替换已冻结原稿，恢复时拒绝人工修改或作者变更',()=>{
  assert.equal(typeof revision.planCareerReplacement,'function');
@@ -56,4 +57,30 @@ test('系列修订保留地址和目录，只接受原版或本次目标工作�
  assert.throws(()=>revision.planCareerCourseRevision({...edited,workingRevision:version({...next,summary:'人工修改'},'DRAFT')},old,next),/修改|授权/);
  assert.throws(()=>revision.planCareerCourseRevision({...edited,workingRevision:version(next,'REJECTED')},old,next),/拒绝/);
  const done={...course,approvedRevision:version(next,'APPROVED'),workingRevision:version(next,'APPROVED')};assert.equal(revision.planCareerCourseRevision(done,old,next),'PUBLISHED');
+});
+
+test('扩展目录提审前在课程行锁内复核目标，避免把并发人工草稿送审',async()=>{
+ assert.equal(typeof revision.submitCareerCourseSafely,'function');
+ const previous={name:'我想成为',summary:'3本',coverMediaId:'old',tags:[],items:[]},target={...previous,summary:'16本',coverMediaId:'new'};
+ const row={id:'course',userId:'studio',reviewState:'PUBLISHED',approvedRevisionId:'old',workingRevisionId:'draft',approvedRevision:{...previous,status:'APPROVED'},workingRevision:{...target,status:'DRAFT'}};
+ let current=row,locked=false,submits=0;
+ const tx={$queryRaw:async()=>{locked=true;},course:{findUnique:async()=>{assert.equal(locked,true);return current;}}},client={$transaction:async callback=>callback(tx)};
+ const service={prisma:client,submitCourse:async()=>service.prisma.$transaction(async received=>{assert.equal(received,tx);submits++;return 'review';})};
+ current={...row,workingRevision:{...target,status:'DRAFT',summary:'人工修改'}};
+ await assert.rejects(()=>revision.submitCareerCourseSafely(service,'studio','course',previous,target),/修改|核对/);assert.equal(submits,0);assert.equal(service.prisma,client);
+ current=row;locked=false;assert.equal(await revision.submitCareerCourseSafely(service,'studio','course',previous,target),'review');assert.equal(submits,1);assert.equal(service.prisma,client);
+});
+
+test('最终批准也在同一事务里复核课件，阻止外部检查后公开快照被更改',async()=>{
+ assert.equal(typeof revision.approveCareerCourseSafely,'function');
+ const previous={name:'我想成为',summary:'3本',coverMediaId:'old',tags:[],items:[]},target={...previous,summary:'16本',coverMediaId:'new'},row={id:'course',userId:'studio',reviewState:'PENDING_REVIEW',approvedRevisionId:'old',workingRevisionId:'draft',approvedRevision:{...previous,status:'APPROVED'},workingRevision:{...target,status:'PENDING'}};
+ const record={id:'book',userId:'studio',pages:[{caption:'原稿'}]},material={hash:'target',snapshot:{pages:record.pages}};
+ let publication={status:'APPROVED',approvedHash:'target',approvedSnapshot:material.snapshot,currentHash:'target',currentSnapshot:material.snapshot},locked=false,approvals=0;
+ const tx={$queryRaw:async()=>{locked=true;},course:{findUnique:async()=>row}},client={$transaction:async callback=>callback(tx)};
+ const service={prisma:client,approve:async()=>service.prisma.$transaction(async()=>{approvals++;return 'approved';})};
+ const guard=async received=>{assert.equal(locked,true);assert.equal(received,tx);importing.assertCareerExpansionMaterialState(record,publication,null,record,material,true);};
+ publication={...publication,approvedSnapshot:{pages:[{caption:'并发另稿'}]}};
+ await assert.rejects(()=>revision.approveCareerCourseSafely(service,'studio','admin','course',previous,target,'review','version',guard),/快照|改变/);assert.equal(approvals,0);assert.equal(service.prisma,client);
+ publication={...publication,approvedSnapshot:material.snapshot};locked=false;
+ assert.equal(await revision.approveCareerCourseSafely(service,'studio','admin','course',previous,target,'review','version',guard),'approved');assert.equal(approvals,1);assert.equal(service.prisma,client);
 });

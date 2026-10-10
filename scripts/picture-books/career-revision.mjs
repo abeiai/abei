@@ -5,19 +5,32 @@ import {assertLeleDraftMatches} from './lele-import.mjs';
 export const careerCourseInclude={approvedRevision:{include:{items:{orderBy:{sortOrder:'asc'}}}},workingRevision:{include:{items:{orderBy:{sortOrder:'asc'}}}}};
 
 // 此独立运营实例复用 saveCourse，行锁后的复核与保存共享同一事务，避免覆盖新人工草稿。
-export async function saveCareerCourseSafely(service,owner,courseId,previous,target) {
+async function careerCourseOperationSafely(service,owner,courseId,previous,target,state,operation,verifyMaterials) {
  const original=service.prisma;
  service.prisma=new Proxy(original,{get(client,key){
   if(key==='$transaction')return (callback,options)=>client.$transaction(async tx=>{
    await tx.$queryRaw`SELECT "id" FROM "courses" WHERE "id" = ${courseId} FOR UPDATE`;
    const fresh=await tx.course.findUnique({where:{id:courseId},include:careerCourseInclude});
    if(fresh?.userId!==owner)throw new Error('资源归属已修改');
-   if(planCareerCourseRevision(fresh,previous,target)!=='SAVE')throw new Error('资源版本已修改，请核对后恢复');
+   if(planCareerCourseRevision(fresh,previous,target)!==state)throw new Error('资源版本已修改，请核对后恢复');
+   if(verifyMaterials)await verifyMaterials(tx);
    return callback(tx);
   },options);
   const value=Reflect.get(client,key,client);return typeof value==='function'?value.bind(client):value;
  }});
- try{return await service.saveCourse(owner,courseId,target);}finally{service.prisma=original;}
+ try{return await operation();}finally{service.prisma=original;}
+}
+
+export function saveCareerCourseSafely(service,owner,courseId,previous,target,verifyMaterials){
+ return careerCourseOperationSafely(service,owner,courseId,previous,target,'SAVE',()=>service.saveCourse(owner,courseId,target),verifyMaterials);
+}
+
+export function submitCareerCourseSafely(service,owner,courseId,previous,target,verifyMaterials){
+ return careerCourseOperationSafely(service,owner,courseId,previous,target,'DRAFT',()=>service.submitCourse(owner,courseId),verifyMaterials);
+}
+
+export function approveCareerCourseSafely(service,owner,adminId,courseId,previous,target,reviewId,expectedVersion,verifyMaterials){
+ return careerCourseOperationSafely(service,owner,courseId,previous,target,'PENDING',()=>service.approve(adminId,reviewId,expectedVersion),verifyMaterials);
 }
 
 export function planCareerReplacement(current,previous,target) {
