@@ -45,13 +45,13 @@ export function ProviderPresetList({ providers }: { providers: AiProviderPreset[
       {message ? <div className="rounded-md border border-border bg-card px-4 py-3 text-sm text-muted-foreground">{message}</div> : null}
 
       <div className="overflow-x-auto rounded-lg border border-border bg-card">
-        <Table>
+        <Table className="abei-admin-provider-table">
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-[260px]">厂商</TableHead>
-              <TableHead className="min-w-[160px]">区域</TableHead>
-              <TableHead className="min-w-[420px]">可用模型</TableHead>
-              <TableHead className="w-[170px] text-right">操作</TableHead>
+              <TableHead className="w-[30%]">厂商</TableHead>
+              <TableHead className="w-[12%]">区域</TableHead>
+              <TableHead className="w-[40%]">可用模型</TableHead>
+              <TableHead className="w-[18%] text-right">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -4,9 +4,11 @@ import {
   ArrowRight,
   Bot,
   BrainCircuit,
+  ChevronRight,
   FileText,
   FolderTree,
   Newspaper,
+  Plus,
   ReceiptText,
   ScrollText,
   Settings,
@@ -18,7 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getAdminAiProviders, getAdminAiTasks } from "@/lib/ai-admin-api";
+import { getAdminAiProviderPresets, getAdminAiTasks } from "@/lib/ai-admin-api";
 import { getSystemAlerts } from "@/lib/ai-usage-api";
 import { getAdminUsers } from "@/lib/admin-users-api";
 import { getAdminArticles, getAdminCategories, getAdminPages } from "@/lib/cms-api";
@@ -47,106 +49,70 @@ export default async function AdminHomePage() {
     getAdminSystemConfigs(),
     getAdminPaymentOrders(),
     getAdminAiTasks(),
-    getAdminAiProviders(),
+    getAdminAiProviderPresets(),
     getAdminUsers(),
     getAdminOperationLogs(),
     getSystemAlerts("OPEN")
   ]);
   const stats = [
-    {
-      label: "文章分类",
-      value: categories.length,
-      description: "已建立内容分组",
-      icon: FolderTree,
-      href: "/admin/categories"
-    },
+    { label: "近期注册用户", value: users.length, description: "最近注册账号", icon: Users, href: "/admin/users", tone: "blue" },
     {
       label: "文章",
       value: articles.length,
       description: "包含已发布和草稿",
       icon: Newspaper,
-      href: "/admin/articles"
-    },
-    {
-      label: "单页",
-      value: pages.length,
-      description: "用于关于、条款等页面",
-      icon: FileText,
-      href: "/admin/pages"
-    },
-    {
-      label: "用户",
-      value: users.length,
-      description: "注册用户账号",
-      icon: Users,
-      href: "/admin/users"
+      href: "/admin/articles",
+      tone: "pink"
     },
     {
       label: "支付订单",
       value: paymentOrders.length,
-      description: "点数充值订单",
+      description: "近期充值订单",
       icon: ReceiptText,
-      href: "/admin/payments"
+      href: "/admin/payments",
+      tone: "amber"
     },
     {
       label: "任务清单",
       value: aiTasks.length,
-      description: "生成任务记录",
+      description: "近期生成任务",
       icon: BrainCircuit,
-      href: "/admin/ai-tasks"
-    },
-    {
-      label: "模型配置",
-      value: aiProviders.length,
-      description: "预置模型接入",
-      icon: Bot,
-      href: "/admin/ai/providers"
-    },
-    {
-      label: "操作日志",
-      value: operationLogs.length,
-      description: "后台关键操作",
-      icon: ScrollText,
-      href: "/admin/operation-logs"
-    },
-    {
-      label: "系统配置",
-      value: systemConfigs.length,
-      description: "基础站点配置",
-      icon: Settings,
-      href: "/admin/settings"
+      href: "/admin/ai-tasks",
+      tone: "green"
     }
+  ];
+  const modules = [
+    { label: "模型配置", value: aiProviders.length, icon: Bot, href: "/admin/ai/providers" },
+    { label: "文章分类", value: categories.length, icon: FolderTree, href: "/admin/categories" },
+    { label: "单页管理", value: pages.length, icon: FileText, href: "/admin/pages" },
+    { label: "操作日志", value: operationLogs.length, icon: ScrollText, href: "/admin/operation-logs" },
+    { label: "系统设置", value: systemConfigs.length, icon: Settings, href: "/admin/settings" }
+  ];
+  const contentStatuses = [
+    { label: "已发布", count: articles.filter((article) => article.status === "PUBLISHED").length, color: "#46a68e" },
+    { label: "草稿", count: articles.filter((article) => article.status === "DRAFT").length, color: "#d9a741" },
+    { label: "已归档", count: articles.filter((article) => article.status === "ARCHIVED").length, color: "#a4b0c0" }
   ];
 
   return (
     <AdminShell
       active="/admin"
-      title="管理后台首页"
-      description="查看学习内容运营概览和后台模块入口。"
+      title="后台首页"
     >
       <div className="flex flex-col gap-6">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => (
-            <Card key={stat.label}>
-              <CardHeader>
-                <div className="xueleai-icon-tile flex size-10 items-center justify-center rounded-md">
-                  <stat.icon />
-                </div>
-                <CardDescription>{stat.label}</CardDescription>
-                <CardTitle className="text-3xl">{stat.value}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex items-center justify-between gap-3">
-                <p className="text-sm text-muted-foreground">{stat.description}</p>
-                <Link className="text-sm font-medium" href={stat.href}>
-                  进入
-                </Link>
-              </CardContent>
-            </Card>
+            <Link className="abei-admin-stat" data-tone={stat.tone} href={stat.href} key={stat.label}>
+              <div className="flex items-center justify-between gap-3"><span className="text-sm font-medium">{stat.label}</span><span className="abei-admin-stat-icon"><stat.icon className="size-4" /></span></div>
+              <span className="text-3xl font-semibold tabular-nums">{stat.value.toLocaleString("zh-CN")}</span>
+              <div className="flex items-center justify-between text-xs text-muted-foreground"><span>{stat.description}</span><ArrowRight className="size-3.5" /></div>
+              <div aria-hidden="true" className="abei-admin-stat-rule" />
+            </Link>
           ))}
         </div>
 
         {systemAlerts.length > 0 ? (
-          <Card>
+          <Card className="abei-admin-alert">
             <CardHeader className="gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex flex-col gap-2">
                 <CardTitle>系统告警</CardTitle>
@@ -176,11 +142,26 @@ export default async function AdminHomePage() {
           </Card>
         ) : null}
 
+        <div className="grid gap-6 xl:grid-cols-2">
+          <Card>
+            <CardHeader className="flex-row items-center justify-between"><CardTitle>内容概览</CardTitle><Button asChild size="sm" variant="outline"><Link href="/admin/articles/new"><Plus />新建文章</Link></Button></CardHeader>
+            <CardContent className="flex flex-col gap-6">
+              <div className="flex items-end gap-2"><span className="text-3xl font-semibold tabular-nums">{articles.length}</span><span className="pb-1 text-sm text-muted-foreground">篇文章</span></div>
+              <div aria-hidden="true" className="flex h-2 overflow-hidden rounded-full bg-muted">{contentStatuses.map((status) => <div key={status.label} style={{ width: `${articles.length ? status.count / articles.length * 100 : 0}%`, backgroundColor: status.color }} />)}</div>
+              <div className="grid grid-cols-3 gap-4">{contentStatuses.map((status) => <div key={status.label}><div className="flex items-center gap-2 text-xs text-muted-foreground"><span className="size-2 rounded-full" style={{ backgroundColor: status.color }} />{status.label}</div><p className="mt-2 text-xl font-semibold tabular-nums">{status.count}</p></div>)}</div>
+              <div className="flex justify-between border-t border-border pt-4 text-sm"><span className="text-muted-foreground">文章分类 {categories.length} · 单页 {pages.length}</span><Link className="font-medium text-primary" href="/admin/articles">管理内容 <ArrowRight className="ml-1 inline size-3.5" /></Link></div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader><CardTitle>常用管理</CardTitle></CardHeader>
+            <CardContent className="grid gap-3 sm:grid-cols-2">{modules.map((item) => <Link className="abei-admin-module-link" href={item.href} key={item.href}><span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-secondary text-primary"><item.icon className="size-4" /></span><div className="min-w-0 flex-1"><p className="text-sm font-medium">{item.label}</p><p className="mt-1 text-xs text-muted-foreground">{item.value} 项</p></div><ChevronRight className="size-3.5 text-muted-foreground" /></Link>)}</CardContent>
+          </Card>
+        </div>
+
         <Card>
           <CardHeader className="gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-2">
               <CardTitle>最近文章</CardTitle>
-              <CardDescription>文章数据来自真实 CMS API。</CardDescription>
             </div>
             <Button asChild variant="outline">
               <Link href="/admin/articles">
@@ -201,9 +182,9 @@ export default async function AdminHomePage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {articles.map((article) => (
+                  {[...articles].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()).slice(0, 6).map((article) => (
                     <TableRow key={article.slug}>
-                      <TableCell className="font-medium">{article.title}</TableCell>
+                      <TableCell className="font-medium"><Link className="hover:text-primary" href={`/admin/articles/${article.id}/edit`}>{article.title}</Link></TableCell>
                       <TableCell>
                         <div className="flex flex-wrap gap-1">
                           {(article.categories && article.categories.length > 0 ? article.categories : article.category ? [article.category] : []).map(
@@ -228,12 +209,11 @@ export default async function AdminHomePage() {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        {article.publishedAt
-                          ? new Date(article.publishedAt).toLocaleDateString("zh-CN")
-                          : "未发布"}
+                        {new Date(article.updatedAt).toLocaleDateString("zh-CN")}
                       </TableCell>
                     </TableRow>
                   ))}
+                  {articles.length === 0 ? <TableRow><TableCell className="py-10 text-center text-muted-foreground" colSpan={4}>暂无文章<Button asChild className="ml-3" size="sm" variant="outline"><Link href="/admin/articles/new">新建文章</Link></Button></TableCell></TableRow> : null}
                 </TableBody>
               </Table>
             </div>
