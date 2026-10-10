@@ -1,6 +1,8 @@
 import { AdminLoginForm } from "@/components/auth/admin-login-form";
 import { AuthPanel } from "@/components/shell/auth-panel";
 
+import "@/components/shell/admin-theme.css";
+
 export default function AdminLoginPage() {
   return (
     <AuthPanel
