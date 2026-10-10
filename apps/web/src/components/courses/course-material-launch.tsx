@@ -5,6 +5,7 @@ import { Play } from "lucide-react";
 import { useId, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
+import { pictureBookAlbumLaunchHref } from "@/lib/picture-book-player-controls";
 
 type CourseMaterialLaunchProps = {
   canOpenDirectly: boolean;
@@ -32,7 +33,7 @@ export function CourseMaterialLaunch({
         size="sm"
         title={`播放${itemName}`}
       >
-        <Link href={href}>
+        <Link href={pictureBookAlbumLaunchHref(href, courseId)}>
           <Play className="ml-0.5 size-4 fill-current" />
         </Link>
       </Button>
