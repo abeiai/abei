@@ -693,18 +693,58 @@
           "role": "character identity and seasonal clothing only"
         }
       ],
-      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-7d8a0c8d-d113-4df7-bbfd-073efd0b8fdd.png",
+      "source": "scripts/picture-books/assets/seasons-autumn-05-repaired-source.png",
       "sourceDimensions": [
         1774,
         887
       ],
-      "sourceSha256": "82605fa8b84019954ac23ac048bb1801210f120680015eea3b258e07bf341a74",
+      "sourceSha256": "df24ce9b4283abb085eb727b17209218cfb913b037374effd901fcdc282a0069",
       "output": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
       "dimensions": [
         2048,
         1024
       ],
-      "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3"
+      "sha256": "3855064e461006542a541d42ee0d2bacab8d05ba1576b20553fb04d47843c093",
+      "revisions": [
+        {
+          "reason": "按用户截图修复妈妈身体缺失",
+          "key": "autumn-05",
+          "book": "autumn",
+          "position": 5,
+          "caption": "雁阵从天空写过，\n留下一个会移动的人字。",
+          "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 5 of 8. Scene: Open northern Chinese sky above reed-fringed lake, a small V formation of geese high overhead. 阿禾 and parent observe from marked lakeside boardwalk. Narration is CONTEXT ONLY and must NOT be printed: 雁阵从天空写过， 留下一个会移动的人字。 No typography of any kind in illustration.",
+          "references": [
+            {
+              "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+              "role": "painting style only"
+            },
+            {
+              "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
+              "role": "character identity and seasonal clothing only"
+            }
+          ],
+          "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-7d8a0c8d-d113-4df7-bbfd-073efd0b8fdd.png",
+          "sourceDimensions": [
+            1774,
+            887
+          ],
+          "sourceSha256": "82605fa8b84019954ac23ac048bb1801210f120680015eea3b258e07bf341a74",
+          "output": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
+          "dimensions": [
+            2048,
+            1024
+          ],
+          "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3"
+        }
+      ],
+      "editTool": "image_gen.imagegen",
+      "editPrompt": "Use case: precise-object-edit.\nAsset type: a single original Chinese children's picture book 2:1 double-page illustration.\nInput image 1: EDIT TARGET, the approved autumn lakeside spread. Preserve the exact composition, impasto palette-knife oil painting style, colors and objects.\nPrimary request: repair ONLY the mother on the far LEFT whose lower torso, hips and legs are mistakenly missing under her cream jacket. She must be a complete anatomically coherent adult standing on the wooden boardwalk slightly behind the little girl. Continue the cream jacket naturally to the hips. Add her lower body in simple contemporary charcoal/taupe straight trousers, two connected believable legs, and practical light sneakers resting on the boardwalk. Her body must be opaque and continuous, not dissolve into the railing or background. Where railing slats and the child occlude her, show only the plausible visible parts of her trousers and shoes through the gaps, with correct foreground occlusion, perspective and grounded shadows. The existing railing remains in front of her body; preserve its posts and rails. The mother stays at the SAME scale, place and standing pose.\nConstraints: preserve her existing black ponytail, face, cream jacket upper body and dark green backpack. Preserve the little girl EXACTLY (face, yellow star hair clip, orange hoodie, blue jeans, white sneakers, pose and position). Preserve the lake, geese formation, sky, autumn trees, reeds, distant modern Chinese apartment buildings, all right-side scenery and the overall framing. Do not rearrange the illustration to make room; make a small localized repair in the lower-left mother area. No additional people, no extra limbs, no floating body, no cropping out the repair. No text, captions, logos or watermark. Same continuous full-bleed 2:1 landscape, target 2048×1024.",
+      "editTarget": {
+        "file": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
+        "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3",
+        "role": "局部修复目标；保留人物、构图、场景与笔触"
+      },
+      "visualVerification": "妈妈腰腿与上身连续，裤腿与鞋落在栈道，栏杆遮挡自然，无新增人物与额外肢体。"
     },
     {
       "key": "autumn-06",

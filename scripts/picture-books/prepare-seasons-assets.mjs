@@ -11,6 +11,9 @@ const manifestPath = path.join(import.meta.dirname, "seasons-generation-manifest
 const reference = "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png";
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const entries = [];
+let repairs = {};
+try { repairs = JSON.parse(await readFile(path.join(import.meta.dirname, "seasons-image-repairs.json"), "utf8")); }
+catch (error) { if (error.code !== "ENOENT") throw error; }
 let narration = null;
 try { narration = JSON.parse(await readFile(path.join(import.meta.dirname, "seasons-narration-manifest.json"), "utf8")); }
 catch (error) { if (error.code !== "ENOENT") throw error; }
@@ -25,14 +28,14 @@ for (const book of seasonsBooks) {
     const key = `${book.slug}-${name}`;
     const source = selectedSources[key];
     if (!source) throw new Error(`缺少已选定图片：${key}`);
-    const sourceBytes = await readFile(source);
+    const sourceBytes = await readFile(path.resolve(root, source));
     const sourceMeta = await sharp(sourceBytes).metadata();
     const width = position === 0 ? 1024 : 2048;
     const height = 1024;
     const output = path.join(bookDir, `${name}.webp`);
     const bytes = await sharp(sourceBytes).resize(width, height, { fit: "fill" }).webp({ quality: 90, effort: 5 }).toBuffer();
     await writeFile(output, bytes);
-    entries.push({
+    const entry = {
       key, book: book.slug, position, caption: position === 0 ? null : book.spreads[position - 1][0],
       prompt: position === 0 ? coverPrompt(book) : spreadPrompt(book, position),
       references: position === 0 ? [
@@ -44,7 +47,10 @@ for (const book of seasonsBooks) {
       ],
       source, sourceDimensions: [sourceMeta.width, sourceMeta.height], sourceSha256: digest(sourceBytes),
       output: path.relative(root, output), dimensions: [width, height], sha256: digest(bytes),
-    });
+    };
+    const repair = repairs[key];
+    if (repair && (repair.sourceSha256 !== entry.sourceSha256 || repair.sha256 !== entry.sha256)) throw new Error(`修补图与选定版本不符：${key}`);
+    entries.push(repair ? { ...entry, ...repair } : entry);
   }
 }
 
