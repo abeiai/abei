@@ -95,6 +95,22 @@ test("caption edits sync default narration while preserving a manually edited sc
   assert.equal(edited.narration, customized.narration);
 });
 
+test("译文按语种保存，修改译文仅清除对应语种语音", () => {
+  const original = { ...createBlankPages(1)[1]!, translations: [
+    { language: "en", caption: "Hello", audioUrl: "https://example.com/en.mp3", audioTaskId: "en-task" },
+    { language: "ja", caption: "こんにちは", audioUrl: "https://example.com/ja.mp3", audioTaskId: "ja-task" }
+  ] };
+  const changed = updatePictureBookPage(original, { translations: [
+    { language: "en", caption: "Hello, world" }, { language: "ja", caption: "こんにちは" }
+  ], expectedTranslations: original.translations });
+  assert.equal(changed.translations?.[0]?.audioUrl, null);
+  assert.equal(changed.translations?.[1]?.audioUrl, "https://example.com/ja.mp3");
+  assert.equal(changed.narration, original.narration);
+  assert.deepEqual(updatePictureBookPage(original, { imagePrompt: "更新画面" }).translations, original.translations);
+  assert.throws(() => updatePictureBookPage(original, { translations: [{ language: "en", caption: "Hello" }, { language: "en", caption: "Again" }], expectedTranslations: original.translations }), /重复/);
+  assert.throws(() => updatePictureBookPage(original, { translations: [{ language: "en", caption: "Hello again" }], expectedTranslations: [] }), /其他页面/);
+});
+
 test("outline prompt uses current settings and keeps the existing Chinese JSON contract", () => {
   const prompt = buildOutlinePrompt({
     brief: "孩子学会分享",

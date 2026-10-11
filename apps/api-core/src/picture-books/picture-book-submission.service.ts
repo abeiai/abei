@@ -115,7 +115,7 @@ export class PictureBookSubmissionService {
       this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ reviewedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, snapshot: true } }),
       this.prisma.pictureBookSubmission.count({ where })
     ]);
-    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.snapshot); return { id: book.id, title: book.title, coverUrl: `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
+    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.snapshot); return { id: book.id, title: book.title, coverUrl: `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl)), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
   }
 
   async albums() {
@@ -148,9 +148,18 @@ export class PictureBookSubmissionService {
     return this.readImage(url);
   }
 
-  async audio(pictureBookId: string, position: number) {
+  async reviewAudio(id: string, position: number, language?: string) {
+    const row = await this.review(id);
+    const page = row.book.pages.find(item => item.position === position);
+    const url = language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
+    if (!url) throw new AppException(40401, "本页语音不存在", 404);
+    return this.media.readPictureBookStoredAudio(url);
+  }
+
+  async audio(pictureBookId: string, position: number, language?: string) {
     const book = await this.publicBook(pictureBookId);
-    const url = book.pages.find(page => page.position === position)?.audioUrl;
+    const page = book.pages.find(item => item.position === position);
+    const url = language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
     if (!url) throw new AppException(40401, "本页语音不存在", 404);
     return this.media.readPictureBookStoredAudio(url);
   }

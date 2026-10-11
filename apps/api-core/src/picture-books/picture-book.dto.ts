@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, Matches, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
 import { pictureBookAspectRatios, type PictureBookAspectRatio } from "./picture-book-ratio.js";
 
 export class CreatePictureBookDto {
@@ -79,6 +79,25 @@ export class UpdatePictureBookPageDto {
 
   @IsOptional() @IsString() @MinLength(1) @MaxLength(1000)
   narration?: string;
+
+  @IsOptional() @IsArray() @ValidateNested({ each: true }) @Type(() => PictureBookTranslationDto)
+  translations?: PictureBookTranslationDto[];
+
+  @IsOptional() @IsArray() @ValidateNested({ each: true }) @Type(() => PictureBookExpectedTranslationDto)
+  expectedTranslations?: PictureBookExpectedTranslationDto[];
+}
+
+export class PictureBookTranslationDto {
+  @IsString() @Matches(/^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/)
+  language!: string;
+
+  @IsString() @MinLength(1) @MaxLength(1000)
+  caption!: string;
+}
+
+export class PictureBookExpectedTranslationDto extends PictureBookTranslationDto {
+  @IsOptional() @IsString() @MaxLength(2048)
+  audioUrl?: string | null;
 }
 
 export class GeneratePictureBookImageDto {
@@ -87,6 +106,8 @@ export class GeneratePictureBookImageDto {
 }
 
 export class GeneratePictureBookAudioDto {
+  @IsOptional() @IsString() @Matches(/^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/)
+  language?: string;
   @IsOptional() @IsString() @MaxLength(80)
   voiceAssetId?: string;
 
