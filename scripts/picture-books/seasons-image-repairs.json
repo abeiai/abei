@@ -1,13 +1,13 @@
 {
   "autumn-05": {
     "editTool": "image_gen.imagegen",
-    "editPrompt": "Use case: precise-object-edit.\nAsset type: a single original Chinese children's picture book 2:1 double-page illustration.\nInput image 1: EDIT TARGET, the approved autumn lakeside spread. Preserve the exact composition, impasto palette-knife oil painting style, colors and objects.\nPrimary request: repair ONLY the mother on the far LEFT whose lower torso, hips and legs are mistakenly missing under her cream jacket. She must be a complete anatomically coherent adult standing on the wooden boardwalk slightly behind the little girl. Continue the cream jacket naturally to the hips. Add her lower body in simple contemporary charcoal/taupe straight trousers, two connected believable legs, and practical light sneakers resting on the boardwalk. Her body must be opaque and continuous, not dissolve into the railing or background. Where railing slats and the child occlude her, show only the plausible visible parts of her trousers and shoes through the gaps, with correct foreground occlusion, perspective and grounded shadows. The existing railing remains in front of her body; preserve its posts and rails. The mother stays at the SAME scale, place and standing pose.\nConstraints: preserve her existing black ponytail, face, cream jacket upper body and dark green backpack. Preserve the little girl EXACTLY (face, yellow star hair clip, orange hoodie, blue jeans, white sneakers, pose and position). Preserve the lake, geese formation, sky, autumn trees, reeds, distant modern Chinese apartment buildings, all right-side scenery and the overall framing. Do not rearrange the illustration to make room; make a small localized repair in the lower-left mother area. No additional people, no extra limbs, no floating body, no cropping out the repair. No text, captions, logos or watermark. Same continuous full-bleed 2:1 landscape, target 2048×1024.",
+    "editPrompt": "Use case: precise-object-edit.\nAsset type: original children's picture book, continuous full-bleed 2:1 autumn double-page illustration.\nInput image 1 is the EDIT TARGET. The previous mother repair still has incorrect proportions: her head and upper body are too large/long relative to her short legs.\nPrimary request: REDRAW ONLY THE MOTHER ON THE FAR LEFT with convincing adult proportions in this same stylized impasto oil painting. Keep her identity, black ponytail, profile looking up at geese, cream casual jacket, charcoal/taupe straight trousers, dark green backpack, and practical light sneakers.\nSpecific anatomical correction: mother is a healthy ordinary adult woman, roughly 1.45–1.5 times the six-year-old girl's height at this shared ground plane, about 5.8–6 head lengths tall in this illustration style. Make her head approximately 20% smaller while retaining the same facial features and hairstyle identity. Raise her shoulder line and waist/hip line, shorten the overlong jacket/torso, and give her naturally LONGER adult legs: waist-to-ground approximately half of her full height, with coherent hips, thighs, knees, calves, ankles and feet. Position the jacket hem at the upper hip, visibly above the girl's waist. Her neck and shoulders should join naturally; arms have believable length and elbows. The backpack is adult sized and lies against her back, not a giant shapeless object. Both feet belong to the same body and rest on the boardwalk with believable perspective and shadows. Pose: relaxed upright adult standing slightly behind and left of the child, not leaning, not stretched, not floating. Correct foreground occlusion: keep all wooden rails and posts in front of the appropriate parts of her trousers, and the child in front of her nearer arm/leg. The visible trouser shapes through railing gaps must read as one complete adult body.\nComposition constraints: her overall placement remains in the leftmost fifth of the panorama; her crown stays near the original vertical region, roughly 15–18% below the top edge, and shoes stay on the same boardwalk. Her smaller head and higher waist must make the proportion correction CLEARLY VISIBLE. Do not simply redraw the same long torso and short legs.\nPreserve the little girl EXACTLY: face, head size, star hair clip, orange hoodie, blue jeans, white sneakers, pose, scale, position. Preserve every other part of the image: sky, geese, lake, reeds, autumn foliage, distant apartments, and boardwalk/railing structure. Match existing rich short palette-knife impasto strokes, golden-orange/blue light, colors and illustration detail. No new people, no extra limbs, no text, no watermark. Keep 2:1 landscape, target 2048×1024.",
     "editTarget": {
       "file": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
-      "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3",
-      "role": "局部修复目标；保留人物、构图、场景与笔触"
+      "sha256": "3855064e461006542a541d42ee0d2bacab8d05ba1576b20553fb04d47843c093",
+      "role": "再次局部修订妈妈成人比例；保留阿禾与场景"
     },
-    "visualVerification": "妈妈腰腿与上身连续，裤腿与鞋落在栈道，栏杆遮挡自然，无新增人物与额外肢体。",
+    "visualVerification": "妈妈约六个头身，头部缩小、腰线提高、腿长约占身高一半；脚踏栈道，栏杆与阿禾遮挡自然，成人与儿童比例有区分。",
     "revisions": [
       {
         "reason": "按用户截图修复妈妈身体缺失",
@@ -38,9 +38,47 @@
           1024
         ],
         "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3"
+      },
+      {
+        "reason": "用户反馈成人身体比例不正确，继续修正头身、腰线与腿长",
+        "key": "autumn-05",
+        "book": "autumn",
+        "position": 5,
+        "caption": "雁阵从天空写过，\n留下一个会移动的人字。",
+        "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished 2:1 landscape DOUBLE-PAGE spread, target 2048x1024. Season/place: 华北的现代城市公园与郊外农田. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Child costume: terracotta zip-up hoodie, dark blue jeans, white sneakers. Spread 5 of 8. Scene: Open northern Chinese sky above reed-fringed lake, a small V formation of geese high overhead. 阿禾 and parent observe from marked lakeside boardwalk. Narration is CONTEXT ONLY and must NOT be printed: 雁阵从天空写过， 留下一个会移动的人字。 No typography of any kind in illustration.",
+        "references": [
+          {
+            "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
+            "role": "painting style only"
+          },
+          {
+            "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
+            "role": "character identity and seasonal clothing only"
+          }
+        ],
+        "source": "scripts/picture-books/assets/seasons-autumn-05-repaired-source.png",
+        "sourceDimensions": [
+          1774,
+          887
+        ],
+        "sourceSha256": "df24ce9b4283abb085eb727b17209218cfb913b037374effd901fcdc282a0069",
+        "output": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
+        "dimensions": [
+          2048,
+          1024
+        ],
+        "sha256": "3855064e461006542a541d42ee0d2bacab8d05ba1576b20553fb04d47843c093",
+        "editTool": "image_gen.imagegen",
+        "editPrompt": "Use case: precise-object-edit.\nAsset type: a single original Chinese children's picture book 2:1 double-page illustration.\nInput image 1: EDIT TARGET, the approved autumn lakeside spread. Preserve the exact composition, impasto palette-knife oil painting style, colors and objects.\nPrimary request: repair ONLY the mother on the far LEFT whose lower torso, hips and legs are mistakenly missing under her cream jacket. She must be a complete anatomically coherent adult standing on the wooden boardwalk slightly behind the little girl. Continue the cream jacket naturally to the hips. Add her lower body in simple contemporary charcoal/taupe straight trousers, two connected believable legs, and practical light sneakers resting on the boardwalk. Her body must be opaque and continuous, not dissolve into the railing or background. Where railing slats and the child occlude her, show only the plausible visible parts of her trousers and shoes through the gaps, with correct foreground occlusion, perspective and grounded shadows. The existing railing remains in front of her body; preserve its posts and rails. The mother stays at the SAME scale, place and standing pose.\nConstraints: preserve her existing black ponytail, face, cream jacket upper body and dark green backpack. Preserve the little girl EXACTLY (face, yellow star hair clip, orange hoodie, blue jeans, white sneakers, pose and position). Preserve the lake, geese formation, sky, autumn trees, reeds, distant modern Chinese apartment buildings, all right-side scenery and the overall framing. Do not rearrange the illustration to make room; make a small localized repair in the lower-left mother area. No additional people, no extra limbs, no floating body, no cropping out the repair. No text, captions, logos or watermark. Same continuous full-bleed 2:1 landscape, target 2048×1024.",
+        "editTarget": {
+          "file": "apps/web/public/picture-book-demos/seasons/autumn/05.webp",
+          "sha256": "1f3e1e95a6216f934476e769d183825f033b4e2e5efd87b83f10aba02a1450f3",
+          "role": "局部修复目标；保留人物、构图、场景与笔触"
+        },
+        "visualVerification": "妈妈腰腿与上身连续，裤腿与鞋落在栈道，栏杆遮挡自然，无新增人物与额外肢体。"
       }
     ],
-    "sourceSha256": "df24ce9b4283abb085eb727b17209218cfb913b037374effd901fcdc282a0069",
-    "sha256": "3855064e461006542a541d42ee0d2bacab8d05ba1576b20553fb04d47843c093"
+    "sourceSha256": "081e0b2b94c8ef6624e34b82dbe81f35aa86c7412cc11331e5660d7aaf4986a7",
+    "sha256": "c4238822bc1bf33197546046fbc17612d821046212e44277b56e7bc597b08e97"
   }
 }
