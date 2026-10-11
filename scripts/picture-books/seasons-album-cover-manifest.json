@@ -1,11 +1,11 @@
 {
   "series": "阿禾的四季",
-  "revision": "custom-geometric-heiti-wordmark",
+  "revision": "soft-humanist-heiti-wordmark",
   "tool": "image_gen.imagegen",
   "generatedAt": "2026-10-12",
   "source": {
-    "file": "scripts/picture-books/assets/seasons-album-cover-typography-source.png",
-    "sha256": "3fd64e611e54050b0d79f0e06e2177fbdc272073165dedaa062c4bd7c21b7419",
+    "file": "scripts/picture-books/assets/seasons-album-cover-soft-wordmark-source.png",
+    "sha256": "dfa03a44dd7bb0cfa84ee1710cb3d4c547a7e6f4bae9b208bbc08af2be2d4c42",
     "dimensions": [
       1672,
       941
@@ -13,7 +13,7 @@
   },
   "output": {
     "file": "apps/web/public/picture-book-demos/seasons/series-cover.webp",
-    "sha256": "fda4d3de5b886415a530e207faefd7f05cb27167ba426462d2d5f8dc2bcc7acc",
+    "sha256": "4cccdb94a8cb98acdb99eebefd39f090c5059a6b60b2e1280d310e1e41a7cbc8",
     "dimensions": [
       1280,
       720
@@ -25,13 +25,13 @@
   "references": [
     {
       "file": "apps/web/public/picture-book-demos/seasons/series-cover.webp",
-      "sha256": "10c54daacf8a6317e995cbe0a6cb0d11105d5c380198e0196b996e8be5c4b7ad",
-      "role": "标题局部编辑目标；保留四季满幅插画、人物、服装与右下角图标"
+      "sha256": "fda4d3de5b886415a530e207faefd7f05cb27167ba426462d2d5f8dc2bcc7acc",
+      "role": "仅柔化标题字标的编辑目标；保留四季插画与右下图标"
     }
   ],
-  "prompt": "Use case: precise-object-edit.\nAsset type: 16:9 album cover of an original Chinese picture book series.\nInput image 1: EDIT TARGET. Change ONLY the title lettering “阿禾的四季” in the upper-left. Preserve the complete painted panorama, all four girls, their faces/clothes/poses, the four seasons, palette-knife oil textures and the lower-right ring/sprout emblem.\nPrimary request: replace the ordinary uniformly heavy rounded title with a sophisticated CUSTOM CHINESE GEOMETRIC HEITI WORDMARK, designed with the care of an outstanding children's publishing cover. It must be recognizably bespoke typography, clean modern black-sans construction, never brush calligraphy.\nLetterform concept: “禾” quietly evokes a growing plant and the cycle of seasons through its branching geometric strokes; “四” has a distinctive open window-like counter; “季” has a carefully balanced central stem and a lively but fully correct 子 structure. Construct all letters from a common geometric system: moderately condensed square proportions, large generous counters, precise straight strokes, purposeful 45-degree clipped terminals/corners and a few elegantly extended horizontal strokes. Keep every Chinese stroke correct and instantly readable. Avoid default font shapes, oversized soft rounded corners and mechanical identical glyph widths.\nComposition and hierarchy: keep the WORDMARK in the UPPER-LEFT over the existing painting, away from faces. A SINGLE HORIZONTAL expressive composition reading left to right “阿禾的四季”: “阿禾” are the main anchor with strong upright geometric strokes; make “的” approximately 55–60% of the other glyph height, delicately positioned as a connecting word with deliberate airy spacing; “四季” use the same glyph family at about 90% of 阿禾's height with a subtly lifted baseline and an elegant optical rhythm. The group should occupy approximately the existing title's width and height, with 4–5% safe edge margins. Use precise spacing that makes 阿禾 and 四季 read as two related groups, all five characters forming one coherent designed title.\nColors: deep ink-teal dominant, a restrained muted jade accent on one small inner segment of 禾 and a very small warm ochre accent at a cut terminal of 季; no rainbow letters. Fine warm ivory keyline only where needed for contrast, much slimmer than the current thick cream outline. Flat ink-like typography against tactile oil painting, no 3D, no shadows, no sticker bubble, no giant white plate. The wordmark's negative space should reveal the painting naturally.\nText (verbatim, only once): “阿禾的四季”. Five characters exactly: 阿 / 禾 / 的 / 四 / 季. No extra writing, no slogan, author, subtitle or page number. No extra floating decorative icons.\nConstraints: absolutely preserve the existing girls, scene composition and FULL-BLEED 16:9 image with no large blank areas. Preserve the lower-right emblem exactly. This is a typography redesign only. Final intended 1280×720.",
+  "prompt": "Use case: precise-object-edit.\nAsset type: 16:9 Chinese children's picture book album cover.\nInput image 1 is the EDIT TARGET. Edit ONLY the upper-left title “阿禾的四季”. Preserve the full-bleed painted four-season panorama, all four girls, their faces/poses/clothes, all foliage, colors and impasto textures, and the lower-right ring/sprout emblem.\nPrimary request: the current sharply cut, rigid lettering feels too stern. Make it noticeably SOFTER, WARMER and FRIENDLIER while remaining a bespoke, carefully designed modern Chinese HEITI / humanist sans wordmark.\nTypography: replace sharp 45-degree cuts and rigid square joints with smoothly eased, gently rounded corners and organic transitions. Reduce the stroke weight around 10–15% to give the counters more air. Stroke ends should have soft curved finishes with subtle asymmetry, like carefully shaped smooth wooden pieces; neither hard chopped ends nor swollen capsule/bubble letters. The common structure remains coherent and readable, with open counters and modest natural variation of stroke width. No brush calligraphy, no calligraphic serifs, no generic default rounded font, no cheap cute cartoon type.\nPreserve the designed hierarchy: 阿禾 form the larger anchor, 的 is around 60% of the main glyph height, 四季 are slightly smaller than 阿禾 with a subtly lifted baseline. Preserve the gentle visual rhythm, optical spacing and the overall upper-left wordmark width/position, with safe edges and no face overlap. Retain 禾's leaf-green accent as a smooth gently curved leaf-like LEFT diagonal stroke that is part of the correct character; soften the shapes of 四's inner window and 季's 子 curve. Keep every essential Chinese stroke intact.\nColor: slightly warmer deep forest-teal ink rather than harsh near-black; subdued leaf green accent only in 禾. A fine warm ivory contrast edge may remain, without a thick white sticker outline, glow, shadow or large background plate. The illustration remains visible in the letter spacing.\nExact text once only: “阿禾的四季”. Five characters exactly 阿 / 禾 / 的 / 四 / 季. No extra writing, no decorations, no extra icons.\nThe finished title should feel like a refined, welcoming storybook logotype: rounded and alive, with enough distinctive glyph shaping and hierarchy to remain designed. It must be CLEARLY softer than the input. Keep the original 16:9 frame, target 1280×720.",
   "visualVerification": {
-    "title": "阿 禾 的 四 季 逐字核对；切角几何黑体，的约六成字号，阿禾与四季有分组与基线节奏；深青字色，禾的左撇使用叶片绿。原图与缩略图可读，不遮挡面部。",
+    "title": "五字 阿禾的四季 逐字可读；柔和圆角黑体、曲线端点，保留小的、大小与基线节奏、禾的叶片绿；不遮挡人物。",
     "emblem": "四季圆环与幼苗，右下角",
     "layout": "画面铺满四边，无空白页眉与大幅纸色边框",
     "characters": "同一阿禾四种季节服装，无重复打伞"
@@ -93,6 +93,46 @@
       "prompt": "Use case: compositing.\nAsset type: final 16:9 landscape album cover for the Chinese original picture book series “阿禾的四季”, a polished illustrated children's publishing cover.\nInput images: Image 1 is the old album cover to redesign and the reference for the existing dark teal geometric series wordmark and four-color impasto ring/sprout emblem. Its excessive blank cream margins and small inset book thumbnails are the problem. Images 2–5 are approved spring/summer/autumn/winter single-book illustrations, references for the girl, contemporary Chinese clothes, impasto oil palette and scenes.\nCompletely redesign the layout into a FULL-BLEED panoramic four-season painted montage. Paint fills 100% of the canvas to every edge. No cream header, no empty outer margins, no inset thumbnails, no card frames, no book mockups. Keep the lively thick oil impasto and palette knife textures of images 2–5.\nAcross the panorama, the scene moves from spring on the left, through summer, autumn, to winter on the right. Four close portrait scenes of the SAME six-year-old contemporary Chinese girl 阿禾 (black bob, yellow star hair clip), one in each seasonal zone: mint jacket gently looking at spring flowers; blue-white striped tee and straw hat beside lotus; orange hoodie holding a golden ginkgo leaf; blue winter puffer with cream knit hat/scarf enjoying snow. Girls fill the lower and middle frame; their faces must remain clearly separate and not merged. Crop each at waist/shoulders to make a dense, emotionally engaging cover. Seasonal foliage, lotus, ginkgo and snow extend naturally off the edges. Boundaries flow together as organic paint strokes, not rigid panel borders. Contemporary Chinese lakeside park and apartment silhouettes behind them.\nText (verbatim and only once): “阿禾的四季”. Use a distinctive GEOMETRIC HEITI / modern Chinese black sans display wordmark with strong structured strokes, characteristic cut corners and rhythmic spacing inspired closely by image 1's series logo. Dark deep teal with a narrow warm ivory contrast edge, large and extremely legible. Place the title at the upper LEFT directly over the painting, occupying roughly the top-left 60% width, keeping safe edge padding only 4–5%. All five characters exactly correct: 阿 禾 的 四 季. The painting must remain visible around and behind the text; do not create a large blank plate. Do not reproduce the four single-book titles or additional writing.\nPlace the existing four-color impasto ring with small dark teal sprout emblem at the lower RIGHT, compact but clear, with only a subtle ivory painted halo, no large badge or blank area.\nOverall hierarchy: full-bleed seasonal oil illustration with bold series title upper-left and compact icon lower-right. Saturated spring pink/green, summer emerald/lotus pink, autumn gold/orange, winter ultramarine/lavender/white, harmonious editorial art direction. Landscape 16:9, intended 1280×720. No watermark, no extra text.",
       "visualVerification": {
         "title": "逐字核对 阿禾的四季，几何黑体，左上角；不遮挡面部",
+        "emblem": "四季圆环与幼苗，右下角",
+        "layout": "画面铺满四边，无空白页眉与大幅纸色边框",
+        "characters": "同一阿禾四种季节服装，无重复打伞"
+      }
+    },
+    {
+      "reason": "用户认为切角字体太硬朗，柔化字标并保留设计感",
+      "series": "阿禾的四季",
+      "revision": "custom-geometric-heiti-wordmark",
+      "tool": "image_gen.imagegen",
+      "generatedAt": "2026-10-12",
+      "source": {
+        "file": "scripts/picture-books/assets/seasons-album-cover-typography-source.png",
+        "sha256": "3fd64e611e54050b0d79f0e06e2177fbdc272073165dedaa062c4bd7c21b7419",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "output": {
+        "file": "apps/web/public/picture-book-demos/seasons/series-cover.webp",
+        "sha256": "fda4d3de5b886415a530e207faefd7f05cb27167ba426462d2d5f8dc2bcc7acc",
+        "dimensions": [
+          1280,
+          720
+        ],
+        "format": "webp",
+        "quality": 92,
+        "effort": 5
+      },
+      "references": [
+        {
+          "file": "apps/web/public/picture-book-demos/seasons/series-cover.webp",
+          "sha256": "10c54daacf8a6317e995cbe0a6cb0d11105d5c380198e0196b996e8be5c4b7ad",
+          "role": "标题局部编辑目标；保留四季满幅插画、人物、服装与右下角图标"
+        }
+      ],
+      "prompt": "Use case: precise-object-edit.\nAsset type: 16:9 album cover of an original Chinese picture book series.\nInput image 1: EDIT TARGET. Change ONLY the title lettering “阿禾的四季” in the upper-left. Preserve the complete painted panorama, all four girls, their faces/clothes/poses, the four seasons, palette-knife oil textures and the lower-right ring/sprout emblem.\nPrimary request: replace the ordinary uniformly heavy rounded title with a sophisticated CUSTOM CHINESE GEOMETRIC HEITI WORDMARK, designed with the care of an outstanding children's publishing cover. It must be recognizably bespoke typography, clean modern black-sans construction, never brush calligraphy.\nLetterform concept: “禾” quietly evokes a growing plant and the cycle of seasons through its branching geometric strokes; “四” has a distinctive open window-like counter; “季” has a carefully balanced central stem and a lively but fully correct 子 structure. Construct all letters from a common geometric system: moderately condensed square proportions, large generous counters, precise straight strokes, purposeful 45-degree clipped terminals/corners and a few elegantly extended horizontal strokes. Keep every Chinese stroke correct and instantly readable. Avoid default font shapes, oversized soft rounded corners and mechanical identical glyph widths.\nComposition and hierarchy: keep the WORDMARK in the UPPER-LEFT over the existing painting, away from faces. A SINGLE HORIZONTAL expressive composition reading left to right “阿禾的四季”: “阿禾” are the main anchor with strong upright geometric strokes; make “的” approximately 55–60% of the other glyph height, delicately positioned as a connecting word with deliberate airy spacing; “四季” use the same glyph family at about 90% of 阿禾's height with a subtly lifted baseline and an elegant optical rhythm. The group should occupy approximately the existing title's width and height, with 4–5% safe edge margins. Use precise spacing that makes 阿禾 and 四季 read as two related groups, all five characters forming one coherent designed title.\nColors: deep ink-teal dominant, a restrained muted jade accent on one small inner segment of 禾 and a very small warm ochre accent at a cut terminal of 季; no rainbow letters. Fine warm ivory keyline only where needed for contrast, much slimmer than the current thick cream outline. Flat ink-like typography against tactile oil painting, no 3D, no shadows, no sticker bubble, no giant white plate. The wordmark's negative space should reveal the painting naturally.\nText (verbatim, only once): “阿禾的四季”. Five characters exactly: 阿 / 禾 / 的 / 四 / 季. No extra writing, no slogan, author, subtitle or page number. No extra floating decorative icons.\nConstraints: absolutely preserve the existing girls, scene composition and FULL-BLEED 16:9 image with no large blank areas. Preserve the lower-right emblem exactly. This is a typography redesign only. Final intended 1280×720.",
+      "visualVerification": {
+        "title": "阿 禾 的 四 季 逐字核对；切角几何黑体，的约六成字号，阿禾与四季有分组与基线节奏；深青字色，禾的左撇使用叶片绿。原图与缩略图可读，不遮挡面部。",
         "emblem": "四季圆环与幼苗，右下角",
         "layout": "画面铺满四边，无空白页眉与大幅纸色边框",
         "characters": "同一阿禾四种季节服装，无重复打伞"
