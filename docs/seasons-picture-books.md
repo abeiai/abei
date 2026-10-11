@@ -14,6 +14,8 @@
 
 ## 文件与复现
 
+- **专辑封面**：1280×720 满幅四季长卷，季节画面通过油画笔触衔接；深青几何黑体系列名在左上角，四季图标在右下角。没有纸色页眉、外围大留白或小封面卡片。母版已纳入仓库，运行 `node scripts/picture-books/prepare-seasons-series-cover.mjs` 可复现选定 WebP。
+- [专辑封面修订记录](../scripts/picture-books/seasons-album-cover-manifest.json)：完整编辑提示词、参考图用途、母版与成品的尺寸和哈希。
 - [本地阅读预览](../apps/web/public/picture-book-demos/seasons/reader.html)：可切换四册、封面和八个跨页，也可用方向键翻页。直接打开 HTML 文件即可阅读。
 - [四册封面并排图](assets/seasons-cover-overview.webp)：仅供核对系列字标与封面层级，正式封面使用各册 `cover.webp`。
 - [系列文稿与分镜](../scripts/picture-books/seasons-series-data.mjs)：逐页诗句、画面设定、角色服装和生成提示词。
