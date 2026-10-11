@@ -54,7 +54,7 @@ const logoMeta = await sharp(logoBytes).metadata();
 const logoOutput = path.join(publicDir, "series-emblem.png");
 await writeFile(logoOutput, logoBytes);
 entries.push({
-  key: "series-emblem", role: "shared upper-left series logo; painted seasonal ring and custom geometric Chinese Heiti wordmark",
+  key: "series-emblem", role: "shared series identity source; cover wordmark upper-left and painted seasonal ring lower-right",
   source: logoSource, sourceDimensions: [logoMeta.width, logoMeta.height], sourceSha256: digest(logoBytes),
   output: path.relative(root, logoOutput), dimensions: [logoMeta.width, logoMeta.height], sha256: digest(logoBytes),
 });
@@ -70,7 +70,7 @@ await writeFile(path.join(publicDir, "books.js"), `window.SEASONS_BOOKS = ${JSON
 await writeFile(manifestPath, JSON.stringify({
   seriesTitle, seriesAudience, status: "local draft; not published", format: "square cover + eight continuous 2:1 double-page spreads per book",
   artDirection, typography: {
-    logo: "左上角独立图标：四季油画色环与禾苗，字标为设计感现代几何黑体；四册同一尺寸和安全边距。",
+    logo: "设计感现代几何黑体字标独立放在左上角，四季油画色环与禾苗图标单独放在右下角；四册保持统一位置、尺度与安全边距。",
     cover: "主书名为逐字定制的厚涂油画展示字；与黑体标识保留鲜明笔触和位置对比。",
     opening: "首个跨页的诗句放在画面外的留白区，用稳重的黑体较大字号排两行；首行提亮、行距疏朗，之后七页收为统一的阅读字号。",
   }, entries,

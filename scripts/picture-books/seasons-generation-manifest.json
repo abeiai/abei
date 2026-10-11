@@ -5,7 +5,7 @@
   "format": "square cover + eight continuous 2:1 double-page spreads per book",
   "artDirection": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.",
   "typography": {
-    "logo": "左上角独立图标：四季油画色环与禾苗，字标为设计感现代几何黑体；四册同一尺寸和安全边距。",
+    "logo": "设计感现代几何黑体字标独立放在左上角，四季油画色环与禾苗图标单独放在右下角；四册保持统一位置、尺度与安全边距。",
     "cover": "主书名为逐字定制的厚涂油画展示字；与黑体标识保留鲜明笔触和位置对比。",
     "opening": "首个跨页的诗句放在画面外的留白区，用稳重的黑体较大字号排两行；首行提亮、行距疏朗，之后七页收为统一的阅读字号。"
   },
@@ -15,7 +15,7 @@
       "book": "spring",
       "position": 0,
       "caption": null,
-      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 春天，把门轻轻打开. Palette: fresh jade, light yellow-green, peach pink, clear blue. Scene: In a contemporary Chinese riverside park in spring, 阿禾 kneels beside a tiny new shoot. Fresh willows, peach blossoms, clean walking path and a modern neighborhood across water. Three-quarter view; no umbrella, rain or old stone lane. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 春天， open wide and rise slightly; let 把门轻轻打开 follow a subtly widening rhythm like a doorway admitting light. Leave the inside of 门 airy. The letterforms are individually drawn, not mechanically repeated. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “春天，把门轻轻打开”. No subtitle, author or page number.",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 春天，把门轻轻打开. Palette: fresh jade, light yellow-green, peach pink, clear blue. Scene: In a contemporary Chinese riverside park in spring, 阿禾 kneels beside a tiny new shoot. Fresh willows, peach blossoms, clean walking path and a modern neighborhood across water. Three-quarter view; no umbrella, rain or old stone lane. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 春天， open wide and rise slightly; let 把门轻轻打开 follow a subtly widening rhythm like a doorway admitting light. Leave the inside of 门 airy. The letterforms are individually drawn, not mechanically repeated. Series name: exact “阿禾的四季”, set as a standalone CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark in the UPPER-LEFT CORNER, far from the main title: clean consistent strokes and deliberate spacing, not brush calligraphy. Place the approved four-color painted ring with seedling by itself in the LOWER-RIGHT CORNER, without text. Keep wordmark and icon positions and scales consistent across four covers, with safe margins. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “春天，把门轻轻打开”. No subtitle, author or page number.",
       "references": [
         {
           "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
@@ -26,18 +26,18 @@
           "role": "approved logo identity"
         }
       ],
-      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
       "sourceDimensions": [
         1254,
         1254
       ],
-      "sourceSha256": "92bc2b84b97ca25ff92e0c6e4c2637230ce5d02eabc035e0ed7c539bf26c8c8b",
+      "sourceSha256": "1b5dd7b2e68d33043b725ad5bfbd3b80dd794eab2e544f694ef2027f7c2f0577",
       "output": "apps/web/public/picture-book-demos/seasons/spring/cover.webp",
       "dimensions": [
         1024,
         1024
       ],
-      "sha256": "5f8a5e00c0883997566500a1a79ab04569bddc81bdd224345a8ceff48e75edff"
+      "sha256": "9829f46a2c74b67952608496a4bb03be2dbe072f0e6eecc554b8a09163369bc2"
     },
     {
       "key": "spring-01",
@@ -51,7 +51,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -80,7 +80,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -109,7 +109,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -138,7 +138,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -167,7 +167,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -196,7 +196,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -225,7 +225,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -254,7 +254,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-f0e53ead-874a-4969-9e2b-5ea8f16e54a1.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-6af28a64-a6b8-417d-bfcb-d42114b2c21a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -276,7 +276,7 @@
       "book": "summer",
       "position": 0,
       "caption": null,
-      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 夏天，把太阳装进口袋. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Scene: Bright lotus pond beside a contemporary Chinese riverside park. 阿禾 in striped T-shirt, shorts and light sunhat safely admires flowers from a railing; broad summer sky and modern greenery. No umbrella. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 夏天， feel broad and sun-warmed; the following characters move in a buoyant rhythm, with controlled golden highlights in the paint, never a cartoon sun pasted onto a glyph. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “夏天，把太阳装进口袋”. No subtitle, author or page number.",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 夏天，把太阳装进口袋. Palette: deep emerald, lotus pink, brilliant gold, storm blue. Scene: Bright lotus pond beside a contemporary Chinese riverside park. 阿禾 in striped T-shirt, shorts and light sunhat safely admires flowers from a railing; broad summer sky and modern greenery. No umbrella. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 夏天， feel broad and sun-warmed; the following characters move in a buoyant rhythm, with controlled golden highlights in the paint, never a cartoon sun pasted onto a glyph. Series name: exact “阿禾的四季”, set as a standalone CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark in the UPPER-LEFT CORNER, far from the main title: clean consistent strokes and deliberate spacing, not brush calligraphy. Place the approved four-color painted ring with seedling by itself in the LOWER-RIGHT CORNER, without text. Keep wordmark and icon positions and scales consistent across four covers, with safe margins. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “夏天，把太阳装进口袋”. No subtitle, author or page number.",
       "references": [
         {
           "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
@@ -287,18 +287,18 @@
           "role": "approved logo identity"
         }
       ],
-      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
       "sourceDimensions": [
         1254,
         1254
       ],
-      "sourceSha256": "819591cf4191aa8dab307698b07c70ef7ccbdfdbab0a1687e403402184f567dc",
+      "sourceSha256": "90ef229dda7c9f0dbece8408ee098bf18716ae0a9291721ed85a0285d3cc2baa",
       "output": "apps/web/public/picture-book-demos/seasons/summer/cover.webp",
       "dimensions": [
         1024,
         1024
       ],
-      "sha256": "f31ab83afad6c6518c2fe127a15b36641482e55f5d7dbb7ec34c6f3a551bc30a"
+      "sha256": "b58a8db8289309e9b474d5c95a1638fa9f23fa6fc9a8b879379dfec4fb0b40ac"
     },
     {
       "key": "summer-01",
@@ -312,7 +312,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -341,7 +341,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -370,7 +370,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -399,7 +399,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -428,7 +428,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -457,7 +457,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -486,7 +486,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -515,7 +515,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-9460bd1e-76b1-43eb-a08b-214fe1fba57d.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-cd6c9f2b-9958-4c69-ad2b-f12854e170f9.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -537,7 +537,7 @@
       "book": "autumn",
       "position": 0,
       "caption": null,
-      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 秋天，写一封金色的信. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Scene: Clear sunny autumn afternoon in a contemporary Chinese park. 阿禾 in terracotta hoodie holds one golden ginkgo leaf up to light; curved park lake and modern walking path beneath trees, distant families. No rain, umbrella or lone rear view. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 秋天， sit firmly and let 写一封金色的信 flow with a gentle falling-leaf cadence; edge highlights borrow restrained amber from the landscape, without leaf-shaped clip art. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “秋天，写一封金色的信”. No subtitle, author or page number.",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 秋天，写一封金色的信. Palette: ginkgo gold, persimmon orange, rust red, clear blue. Scene: Clear sunny autumn afternoon in a contemporary Chinese park. 阿禾 in terracotta hoodie holds one golden ginkgo leaf up to light; curved park lake and modern walking path beneath trees, distant families. No rain, umbrella or lone rear view. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Let 秋天， sit firmly and let 写一封金色的信 flow with a gentle falling-leaf cadence; edge highlights borrow restrained amber from the landscape, without leaf-shaped clip art. Series name: exact “阿禾的四季”, set as a standalone CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark in the UPPER-LEFT CORNER, far from the main title: clean consistent strokes and deliberate spacing, not brush calligraphy. Place the approved four-color painted ring with seedling by itself in the LOWER-RIGHT CORNER, without text. Keep wordmark and icon positions and scales consistent across four covers, with safe margins. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “秋天，写一封金色的信”. No subtitle, author or page number.",
       "references": [
         {
           "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
@@ -548,18 +548,18 @@
           "role": "approved logo identity"
         }
       ],
-      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
       "sourceDimensions": [
         1254,
         1254
       ],
-      "sourceSha256": "fd7dcd5fc09ae840081b0eb43f2672a83ea11f5e2c93b42de734d0a1714e170f",
+      "sourceSha256": "b7858fe2497487d9ea6f9d2c38c03f52682cdf1dc068c59696861abba522e6f0",
       "output": "apps/web/public/picture-book-demos/seasons/autumn/cover.webp",
       "dimensions": [
         1024,
         1024
       ],
-      "sha256": "359321f31f23c648b00237905c8af57e6059f7eaab52b8c541d742c17566b01a"
+      "sha256": "5d0df86466b93b17f211114957adf807c5dac459228088540bf465a30b4ee375"
     },
     {
       "key": "autumn-01",
@@ -573,7 +573,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -602,7 +602,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -631,7 +631,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -660,7 +660,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -689,7 +689,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -718,7 +718,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -747,7 +747,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -776,7 +776,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-2cf83a3e-a7c4-4fae-b05d-4cfbf04d6554.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-04ac54e0-aeed-403c-b43b-da15eee20a37.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -798,7 +798,7 @@
       "book": "winter",
       "position": 0,
       "caption": null,
-      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 冬天，听雪慢慢说话. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Scene: Snowy contemporary northern Chinese city park at late afternoon. 阿禾 wears blue puffer, cream knit hat, snow trousers and boots, holds a small snowball; pines, playground and warm apartment windows. Three-quarter view, no umbrella or old village lane. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Give 冬天， spacious strokes and crisp edges softened by snow; 听雪慢慢说话 has an unhurried rhythm and warm ivory contrast against the blue sky, without snowflake ornaments. Series name: exact “阿禾的四季”, use the separate approved logo asset in the UPPER-LEFT CORNER, far from the main title. Its four-color painted ring contrasts with CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark: clean consistent strokes and deliberate spacing, not brush calligraphy. Keep logo position and scale consistent across four covers, at least 7% safety margin. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “冬天，听雪慢慢说话”. No subtitle, author or page number.",
+      "prompt": "Use case: illustration-story. Original Chinese children's picture book. The supplied painting is a STYLE reference ONLY: thick palette-knife oil impasto, short raised rectangular strokes, saturated layered color and flickering light. Do not copy its umbrella, lone rear-view pedestrian, rainy path, autumn trees or composition. The subject and setting come ONLY from this book's storyboard. 阿禾 is a contemporary six-year-old Chinese girl with a neat chin-length black bob and a small yellow star hair clip when visible; use varied viewpoints and make nature the main subject. Clothing must suit the specified season and current Chinese everyday life. No photorealism, 3D, decorative writing, logo, watermark, comic panels or border. Interior: ONE continuous 2:1 double-page image for two square pages, central 12% gutter clear of faces and essential objects. Cover: 1:1 square.\nFinished square 1:1 FRONT COVER, full bleed. Book: 冬天，听雪慢慢说话. Palette: cobalt blue, violet snow shadow, warm ivory, small coral accents. Scene: Snowy contemporary northern Chinese city park at late afternoon. 阿禾 wears blue puffer, cream knit hat, snow trousers and boots, holds a small snowball; pines, playground and warm apartment windows. Three-quarter view, no umbrella or old village lane. Typography is designed as part of the artwork. Main title: bespoke hand-painted simplified Chinese display glyphs using broad palette-knife strokes, tactile edges, generous internal whitespace and rhythmic variation of size, tilt and baseline; never a generic centered title. Book-specific concept: Give 冬天， spacious strokes and crisp edges softened by snow; 听雪慢慢说话 has an unhurried rhythm and warm ivory contrast against the blue sky, without snowflake ornaments. Series name: exact “阿禾的四季”, set as a standalone CUSTOM MODERN CHINESE HEITI / GEOMETRIC SANS wordmark in the UPPER-LEFT CORNER, far from the main title: clean consistent strokes and deliberate spacing, not brush calligraphy. Place the approved four-color painted ring with seedling by itself in the LOWER-RIGHT CORNER, without text. Keep wordmark and icon positions and scales consistent across four covers, with safe margins. No centered eyebrow line or extra icon. All text exact and legible at thumbnail/full size, no overlap with girl's face. When supplied, use reference covers for series identity only, not scenery or clothing. Exact main title “冬天，听雪慢慢说话”. No subtitle, author or page number.",
       "references": [
         {
           "path": "/var/folders/d0/dy67b1hd0_ldk7b5gzp8y8qh0000gn/T/codex-clipboard-3830c26b-8dbf-4b81-b864-02d1d6d102d5.png",
@@ -809,18 +809,18 @@
           "role": "approved logo identity"
         }
       ],
-      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+      "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
       "sourceDimensions": [
         1254,
         1254
       ],
-      "sourceSha256": "5cabb90916b2821bb3fcd7b6a4aa1a9adc516f03cdf7335ee8247f907393b408",
+      "sourceSha256": "8c1d1299143b1bf02a5bbd6642f39c650ac8e2b7fb4a5e863a58b98d02d36bef",
       "output": "apps/web/public/picture-book-demos/seasons/winter/cover.webp",
       "dimensions": [
         1024,
         1024
       ],
-      "sha256": "6f93ee36d94d05ad4b2a4b7fcf6041c2c466fb876164f4d4d5caf08c21e240f3"
+      "sha256": "507199506211e4ef8dc40323df924096367d24a090e890d6e64e4e2878b09ab6"
     },
     {
       "key": "winter-01",
@@ -834,7 +834,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -863,7 +863,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -892,7 +892,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -921,7 +921,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -950,7 +950,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -979,7 +979,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -1008,7 +1008,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -1037,7 +1037,7 @@
           "role": "painting style only"
         },
         {
-          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-1dbe9039-35e3-4846-9497-0aab27a49604.png",
+          "path": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-e46cdbd5-5cec-48af-9c77-3e75e32ecb2a.png",
           "role": "character identity and seasonal clothing only"
         }
       ],
@@ -1056,7 +1056,7 @@
     },
     {
       "key": "series-emblem",
-      "role": "shared upper-left series logo; painted seasonal ring and custom geometric Chinese Heiti wordmark",
+      "role": "shared series identity source; cover wordmark upper-left and painted seasonal ring lower-right",
       "source": "/Users/ericword/.codex/generated_images/01a1264a-a423-7212-bcd1-dcb5cf0ecb73/exec-d405d1bd-5bbb-4b2f-8a11-ea20587d6fd8.png",
       "sourceDimensions": [
         2172,
