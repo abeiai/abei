@@ -1,11 +1,11 @@
-export function pictureBookPageAudioSource(bookId: string, position: number, audioUrl: string, scope: "private" | "public" = "private") {
-  if (scope === "private" && audioUrl.startsWith("/")) return audioUrl;
+export function pictureBookPageAudioSource(bookId: string, position: number, audioUrl: string, scope: "private" | "public" = "private", language?: string) {
+  if (!language && scope === "private" && audioUrl.startsWith("/")) return audioUrl;
   try {
     const legacy = new URL(audioUrl);
-    if (scope === "private" && /^\/api\/audio\/files\/[a-zA-Z0-9._-]+$/.test(legacy.pathname)) return legacy.pathname;
+    if (!language && scope === "private" && /^\/api\/audio\/files\/[a-zA-Z0-9._-]+$/.test(legacy.pathname)) return legacy.pathname;
   } catch { /* 无效地址由站内接口返回错误。 */ }
   const version = audioUrl.split("?")[0]!.split("/").at(-1) ?? "";
-  return `/api/${scope === "public" ? "public/" : ""}picture-books/${encodeURIComponent(bookId)}/pages/${position}/audio?v=${encodeURIComponent(version)}`;
+  return `/api/${scope === "public" ? "public/" : ""}picture-books/${encodeURIComponent(bookId)}/pages/${position}/audio?${language ? `language=${encodeURIComponent(language)}&` : ""}v=${encodeURIComponent(version)}`;
 }
 
 export function waitForPictureBookAudio(src: string): Promise<void> {

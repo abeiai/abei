@@ -9,6 +9,11 @@ test("绘本语音使用站内播放地址并在重新生成后更换版本", ()
   assert.equal(pictureBookPageAudioSource("book", 2, "http://localhost:3600/api/audio/files/local.mp3"), "/api/audio/files/local.mp3");
 });
 
+test("多语种语音地址带语种参数并使用站内鉴权接口", () => {
+  assert.equal(pictureBookPageAudioSource("book", 2, "https://r.example/en.mp3", "private", "en"), "/api/picture-books/book/pages/2/audio?language=en&v=en.mp3");
+  assert.equal(pictureBookPageAudioSource("book", 2, "/api/audio/files/en.mp3", "public", "en"), "/api/public/picture-books/book/pages/2/audio?language=en&v=en.mp3");
+});
+
 test("语音能够播放后才完成生成反馈，加载失败则报告错误", async () => {
   const previousAudio = globalThis.Audio;
   class FakeAudio {
