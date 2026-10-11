@@ -66,7 +66,7 @@ const books = seasonsBooks.map((book) => ({
     return { image: `${book.slug}/${name}.webp`, audio: audioFor(book.slug, name), caption };
   }),
 }));
-await writeFile(path.join(publicDir, "books.js"), `window.SEASONS_BOOKS = ${JSON.stringify({ seriesTitle, seriesAudience, books }, null, 2)};\n`);
+await writeFile(path.join(publicDir, "books.js"), `/* global window */\nwindow.SEASONS_BOOKS = ${JSON.stringify({ seriesTitle, seriesAudience, books }, null, 2)};\n`);
 await writeFile(manifestPath, JSON.stringify({
   seriesTitle, seriesAudience, status: "local draft; not published", format: "square cover + eight continuous 2:1 double-page spreads per book",
   artDirection, typography: {

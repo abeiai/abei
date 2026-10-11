@@ -1,3 +1,4 @@
+/* global window */
 window.SEASONS_BOOKS = {
   "seriesTitle": "阿禾的四季",
   "seriesAudience": "4—8岁亲子共读",
