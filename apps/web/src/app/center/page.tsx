@@ -14,7 +14,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "资源中心",
+  title: "绘本馆",
   description: "浏览已发布课程和学习课件。"
 };
 
@@ -39,7 +39,7 @@ export default async function ResourceCenterPage({
         <TextbookBreadcrumbs
           items={[
             { href: "/", label: "首页" },
-            { href: "/center", label: "资源中心" }
+            { href: "/center", label: "绘本馆" }
           ]}
         />
 

@@ -237,7 +237,7 @@ test("资源中心提供中文错误边界和重试入口", () => {
 
   assert.equal(existsSync(errorPath), true);
   const source = readFileSync(errorPath, "utf8");
-  assert.match(source, /资源中心加载失败/u);
+  assert.match(source, /绘本馆加载失败/u);
   assert.match(source, /重新加载/u);
   assert.match(source, /reset\(\)/u);
 });
@@ -440,7 +440,7 @@ test("公开课程详情使用正确的标题层级", () => {
   assert.ok(html.indexOf("公开课程</h1>") < html.indexOf("课程作者头像"));
   assert.ok(html.indexOf("课程作者头像") < html.indexOf("2026年07月18日更新 共3个课件"));
   assert.match(html, /aria-label="面包屑"/u);
-  assert.match(html, />首页<\/a>.*».*>资源中心<\/a>.*».*>公开课程<\/a>/u);
+  assert.match(html, />首页<\/a>.*».*>绘本馆<\/a>.*».*>公开课程<\/a>/u);
   assert.match(html, /class="grid gap-8 lg:grid-cols-\[minmax\(0,440px\)_1fr\]"/u);
   assert.doesNotMatch(html, /bg-\[#f7f7f6\]|rounded-2xl bg-|p-5 sm:p-6 lg:grid-cols/u);
 });
@@ -586,7 +586,7 @@ test("创作者预览未提审草稿时明确说明资源中心仍展示已发�
   }
 
   assert.match(html, /当前显示未提交的修改版本/u);
-  assert.match(html, /资源中心仍展示已发布版本/u);
+  assert.match(html, /绘本馆仍展示已发布版本/u);
   assert.match(html, /href="\/dashboard\/courses\/507f1f77bcf86cd799439011"/u);
   assert.match(html, />编辑并申请发布</u);
 });

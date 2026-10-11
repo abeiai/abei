@@ -211,7 +211,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
             <div className="mt-5 flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-secondary/20 p-4 text-center">
               <BookOpenText className="mb-4 size-12 text-muted-foreground" />
               <p className="text-base font-medium">选择本站绘本</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">资源中心 · 我的绘本</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">绘本馆 · 我的绘本</p>
               {signedIn ? <Button className="mt-6" disabled={disabled} onClick={() => setBookPickerOpen(true)}><BookOpenText className="size-4" />选择绘本</Button> : <Button className="mt-6" asChild><Link href={loginHref}>登录后选择绘本</Link></Button>}
             </div>
           </section>
