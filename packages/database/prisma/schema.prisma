@@ -621,6 +621,8 @@ enum VoiceConsentType {
 }
 
 model User {
+  creatorWorks CreatorWork[]
+  creatorAssets CreatorAsset[]
   creatorGrants CreatorGrant[]
   referralHandles ReferralHandle[]
   referralVisits ReferralVisit[]
@@ -849,12 +851,18 @@ model PictureBook {
 }
 
 model PictureBookSubmission {
+  submittedVersion Int?
   id                String @id @default(cuid())
   pictureBookId     String @unique
   status            CourseReviewRequestStatus @default(PENDING)
   snapshot          Json
   snapshotHash      String
   coverUrl          String?
+  publishedSnapshot Json?
+  publishedHash String?
+  publishedCoverUrl String?
+  publishedAt DateTime?
+  publishedVersion Int @default(0)
   coverTaskId       String?
   coverToken        String?
   coverExpiresAt    DateTime?
@@ -2963,6 +2971,9 @@ model CourseRevisionItem {
   englishGuidedStudyMaterialId String?
   learningFlashcardDeckId      String?
   pictureBookId                String?
+  pinnedSnapshot               Json?
+  pinnedHash                   String?
+  pinnedVersion                Int?
   displayName                  String
   sortOrder                    Int                @default(0)
   createdAt                    DateTime           @default(now())
@@ -3006,6 +3017,7 @@ model CourseMaterialPublication {
 }
 
 model CourseReviewRequest {
+  submittedVersion Int?
   id                    String                    @id @default(cuid())
   scope                 CourseReviewScope
   status                CourseReviewRequestStatus @default(PENDING)
@@ -3645,4 +3657,44 @@ model CreatorRateBucket {
   count     Int
   expiresAt DateTime
   @@index([expiresAt])
+}
+
+// Immutable private content; incomplete rows reserve quota until expiry.
+model CreatorAsset {
+  id             String   @id @default(cuid())
+  userId         String
+  externalId     String
+  grantId        String
+  kind           String
+  mimeType       String
+  size           Int
+  sha256         String
+  requestHash    String
+  status         String   @default("UPLOADING")
+  offset         Int      @default(0)
+  capabilityHash String?
+  capabilityExpiresAt DateTime?
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, externalId])
+  @@index([userId, status])
+  @@map("creator_assets")
+}
+
+model CreatorWork {
+  id String @id @default(cuid())
+  userId String
+  kind String
+  externalId String
+  resourceId String @unique
+  version Int @default(1)
+  requestHash String
+  input Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, kind, externalId])
+  @@map("creator_works")
 }
