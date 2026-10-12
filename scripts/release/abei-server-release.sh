@@ -44,8 +44,9 @@ touch deploy/data/state/maintenance.enabled
 "${compose[@]}" exec -T postgres pg_dump -U abei -p 3604 -d abei -Fc > "$backup/database.dump"
 [[ -s "$backup/database.dump" ]]
 # Only release source roots are replaced; preserve runtime env/data/certs and all volumes.
+# Uploads live at cwd/workspace roots; nested Next src/app/uploads routes are source.
 for directory in apps packages scripts; do
-  rsync -a --delete --exclude='.env*' --exclude='uploads/' --exclude='logs/' --exclude='private-*/' --exclude='private-data/' --exclude='backups/' --exclude='node_modules/' --exclude='.next/' --exclude='dist/' --exclude='/database/generated/' --exclude='vendor/' "$stage/$directory/" "/opt/abei/$directory/"
+  rsync -a --delete --exclude='.env*' --exclude='/uploads/' --exclude='/*/uploads/' --exclude='logs/' --exclude='private-*/' --exclude='private-data/' --exclude='backups/' --exclude='node_modules/' --exclude='.next/' --exclude='dist/' --exclude='/database/generated/' --exclude='vendor/' "$stage/$directory/" "/opt/abei/$directory/"
 done
 rsync -a --delete "$stage/deploy/abei/" /opt/abei/deploy/abei/
 for file in package.json pnpm-lock.yaml pnpm-workspace.yaml .dockerignore docker-compose.abei-prod.yml RELEASE_COMMIT; do cp "$stage/$file" "/opt/abei/$file"; done
