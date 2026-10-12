@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { getPrismaClient, type Prisma } from '@xueleai/database';
 import type { CreatorPrincipal } from '../creator-auth/creator-auth.service.js';
 import { createCourseId, hashCourseSnapshot, snapshotCourseMaterial, diffCourseRevision } from '../courses/course-domain.js';
+import { hasCompletePictureBookPlayback } from '../picture-books/picture-book-playback.js';
 import { pictureBookAspectRatios } from '../picture-books/picture-book-ratio.js';
 import { CreatorAssetsService, creatorAssetUrl } from './creator-assets.service.js';
 import { exact, fail, integer, lock, object, requirePrincipal, str, versioned, type Tx } from './creator-common.js';
@@ -101,7 +102,7 @@ export class CreatorService {
                 const audio = page.audioAssetId ? await this.ownedAsset(tx, p, page.audioAssetId, 'AUDIO') : null;
                 stored.push({ position: page.position, caption: page.caption, narration: page.narration, imagePrompt: page.imagePrompt, textInImage: page.textInImage, imageUrl: image ? creatorAssetUrl(image.id) : null, audioUrl: audio ? creatorAssetUrl(audio.id) : null, imageTaskId: null, audioTaskId: null, status: image ? 'READY' : 'DRAFT' });
             }
-            const complete = !!cover && stored.length === pageCount + 1 && stored.every(page => page.caption && page.imageUrl);
+            const complete = hasCompletePictureBookPlayback({ title, pageCount, pages: stored }, { requireDirectoryCover: true, directoryCoverUrl: cover ? creatorAssetUrl(cover.id) : null });
             const data = { title, brief, audience, style, aspectRatio, isSpread: b.isSpread === true, pageCount, pages: json(stored), status: complete ? 'COMPLETED' : 'EDITING', version: (live?.version ?? 0) + 1 };
             let bookId = live?.id;
             if (live) {
@@ -119,7 +120,10 @@ export class CreatorService {
         await requirePrincipal(p, 'creator:read');
         const w = await this.work(this.db, p, 'BOOK', id);
         const book = await this.db.pictureBook.findUniqueOrThrow({ where: { id: w.resourceId } });
-        return { id, version: book.version, valid: book.status === 'COMPLETED', issues: book.status === 'COMPLETED' ? [] : ['请补全封面与全部页面图文'] };
+        const coverId = object(w.input).coverAssetId;
+        const cover = typeof coverId === 'string' ? await this.db.creatorAsset.findFirst({ where: { id: coverId, userId: p.userId, kind: 'IMAGE', status: 'COMPLETED' } }) : null;
+        const valid = book.status === 'COMPLETED' && hasCompletePictureBookPlayback(book, { requireDirectoryCover: true, directoryCoverUrl: cover ? creatorAssetUrl(cover.id) : null });
+        return { id, version: book.version, valid, issues: valid ? [] : ['请补全封面与全部页面图文'] };
     }
     async submitBook(p: CreatorPrincipal, id: string, input: unknown) {
         const version = expected(input);
@@ -135,8 +139,8 @@ export class CreatorService {
             const book = await tx.pictureBook.findUniqueOrThrow({ where: { id } });
             if (book.version !== version)
                 fail('作品版本已变化', 409);
-            if (book.status !== 'COMPLETED')
-                fail('请补全绘本后再投稿');
+            if (book.status !== 'COMPLETED' || !hasCompletePictureBookPlayback(book))
+                fail('请补全封面与全部页面图文后再投稿');
             const manifest = object(work.input), cover = await this.ownedAsset(tx, p, manifest.coverAssetId), snapshot = { ...snapshotCourseMaterial('PICTURE_BOOK', book), libraryCoverUrl: creatorAssetUrl(cover.id) }, snapshotHash = hashCourseSnapshot(snapshot);
             if (existing?.status === 'PENDING') {
                 if (existing.snapshotHash !== snapshotHash)
@@ -195,7 +199,7 @@ export class CreatorService {
                     fail('绘本作品不存在', 404);
                 if (book.version !== item.version)
                     fail('成员绘本版本已变化', 409);
-                if (book.status !== 'COMPLETED')
+                if (book.status !== 'COMPLETED' || !hasCompletePictureBookPlayback(book))
                     fail('专辑成员须为完整绘本');
                 const snapshot = snapshotCourseMaterial('PICTURE_BOOK', book), hash = hashCourseSnapshot(snapshot);
                 const publication = await tx.courseMaterialPublication.upsert({ where: { pictureBookId: book.id }, create: { materialType: 'PICTURE_BOOK', pictureBookId: book.id, currentHash: hash, currentSnapshot: json(snapshot) }, update: {} });
@@ -220,8 +224,10 @@ export class CreatorService {
                 if (!item.pinnedSnapshot || hashCourseSnapshot(item.pinnedSnapshot) !== item.pinnedHash)
                     issues.push('成员绘本快照已变化');
             }
-            else if (!await this.db.pictureBook.count({ where: { id: item.pictureBookId!, userId: p.userId, status: 'COMPLETED' } }))
-                issues.push('成员绘本尚未完整');
+            else {
+                const book = await this.db.pictureBook.findFirst({ where: { id: item.pictureBookId!, userId: p.userId, status: 'COMPLETED' } });
+                if (!book || !hasCompletePictureBookPlayback(book)) issues.push('成员绘本尚未完整');
+            }
         }
         return { id, version: album.version, valid: !issues.length, issues: [...new Set(issues)] };
     }
@@ -257,7 +263,7 @@ export class CreatorService {
                 if (!item.pinnedHash) {
                     await tx.$queryRaw `SELECT id FROM picture_books WHERE id=${item.pictureBookId!} FOR SHARE`;
                     const book = await tx.pictureBook.findFirst({ where: { id: item.pictureBookId!, userId: p.userId, status: 'COMPLETED' } });
-                    if (!book)
+                    if (!book || !hasCompletePictureBookPlayback(book))
                         fail('绘本尚未完整');
                     const snapshot = snapshotCourseMaterial('PICTURE_BOOK', book);
                     item.pinnedSnapshot = json(snapshot) as Prisma.JsonValue;

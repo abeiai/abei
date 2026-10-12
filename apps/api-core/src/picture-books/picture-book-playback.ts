@@ -46,3 +46,15 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
     pages
   };
 }
+
+/** Publication requires a complete reader, independently of the studio's save status. */
+export function hasCompletePictureBookPlayback(value: unknown, options: { requireDirectoryCover?: boolean; directoryCoverUrl?: string | null } = {}) {
+  const source = object(value);
+  const book = playbackFromSnapshot("", source);
+  return Number.isInteger(source.pageCount) && Number(source.pageCount) > 0
+    && Boolean(book.title.trim())
+    && Array.isArray(source.pages) && source.pages.length === Number(source.pageCount) + 1
+    && book.pages.length === source.pages.length
+    && book.pages.every((page, index) => page.position === index && Boolean(page.caption.trim()) && Boolean(page.imageUrl))
+    && (!options.requireDirectoryCover || Boolean(url(options.directoryCoverUrl)));
+}

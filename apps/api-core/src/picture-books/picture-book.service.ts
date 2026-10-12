@@ -14,6 +14,7 @@ import { assertPictureBookContentReview, buildPictureBookContentReviewPrompt, no
 import { pictureBookImageSize, pictureBookPageAspectRatio } from "./picture-book-ratio.js";
 import { customPictureBookStyleAssetId, selectedPictureBookStyle } from "./picture-book-styles.js";
 import { SystemConfigService } from "../system-config/system-config.service.js";
+import { readPictureBookDemoImage } from "./picture-book-demo-image.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { characterImageForStyle, characterStyleKey, mergeDiscussedCharacters, officialCharacter, officialCharacters, parseCharacterDiscussion } from "./picture-book-characters.js";
 import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, preservesPictureBookOriginalText, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
@@ -97,6 +98,7 @@ export class PictureBookService {
     const book = await this.playback(subject, id);
     const imageUrl = book.pages.find((page) => page.position === position)?.imageUrl;
     if (!imageUrl) throw new AppException(40401, "本页图片不存在", HttpStatus.NOT_FOUND);
+    if (imageUrl.startsWith("/picture-book-demos/")) return readPictureBookDemoImage(imageUrl);
     return creatorAssetId(imageUrl) ? readCreatorAssetReference(imageUrl) : this.mediaService.readPictureBookStoredImage(imageUrl);
   }
 
@@ -104,6 +106,14 @@ export class PictureBookService {
     const book = await this.playback(subject, id);
     const audioUrl = book.pages.find((page) => page.position === position)?.audioUrl;
     if (!audioUrl) throw new AppException(40401, "本页语音不存在", HttpStatus.NOT_FOUND);
+    // Legacy browser playback mapped this exact route to the local audio store, including absolute old-origin URLs.
+    // Resolve the filename locally after book authorization; never fetch the supplied origin.
+    let legacyFilename: string | undefined;
+    try { legacyFilename = /^\/api\/audio\/files\/([a-zA-Z0-9._-]+)$/.exec(new URL(audioUrl, "http://local.invalid").pathname)?.[1]; } catch { /* Stored-media validation below rejects malformed URLs. */ }
+    if (legacyFilename) {
+      const file = await this.audioService.getLocalAudioFile(legacyFilename);
+      return { buffer: await readFile(file.filepath), mimetype: file.mimeType };
+    }
     return creatorAssetId(audioUrl) ? readCreatorAssetReference(audioUrl) : this.mediaService.readPictureBookStoredAudio(audioUrl);
   }
 

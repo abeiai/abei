@@ -2,11 +2,14 @@ import 'reflect-metadata';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createHash, randomUUID } from 'node:crypto';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import sharp from 'sharp';
 import { getPrismaClient } from '@xueleai/database';
 import { CreatorAssetsService } from '../src/creator/creator-assets.service.js';
+import { AudioService } from '../src/audio/audio.service.js';
+import { MediaService } from '../src/media/media.service.js';
+import { PictureBookService } from '../src/picture-books/picture-book.service.js';
 import { PictureBookSubmissionService } from '../src/picture-books/picture-book-submission.service.js';
 import { CreatorMediaService } from '../src/creator/creator-media.service.js';
 import { CoursesService } from '../src/courses/courses.service.js';
@@ -40,6 +43,59 @@ test('Creator works and immutable publication: real database',async t=>{
       book=await service.getBook(a,book.id);assert.equal(book.version,2);
       const record=await db.pictureBook.findUniqueOrThrow({where:{id:book.id}});assert.equal(record.status,'COMPLETED'); assert.equal((record.pages as unknown[]).length,5);
       await assert.rejects(service.saveBook(a,{...manifest(),externalId:'url',pages:[{position:0,imageUrl:'https://evil.test/image'}]}),status(400));
+    });
+    await t.test('website completion cannot bypass creator playback integrity or freeze incomplete album members',async()=>{
+      const website=new PictureBookService(undefined as never,undefined as never,undefined as never,reviews,undefined as never);
+      for (const variant of ['missing-images','body-only']) {
+        const draft=await service.saveBook(a,{...manifest(),externalId:variant});
+        if (variant==='missing-images') await website.startBlank(a.userId,draft.id);
+        else {
+          const current=await db.pictureBook.findUniqueOrThrow({where:{id:draft.id}});
+          await db.pictureBook.update({where:{id:draft.id},data:{pages:(current.pages as Array<Record<string,never>>).slice(1)}});
+        }
+        const current=await db.pictureBook.findUniqueOrThrow({where:{id:draft.id}});
+        for (const page of current.pages as Array<{position:number}>) await website.updatePage(a.userId,draft.id,page.position,{caption:'网页文字',imagePrompt:'网页画面'});
+        const completed=await website.complete(a.userId,draft.id);
+        assert.equal(completed.status,'COMPLETED');
+        assert.equal((await service.validateBook(a,draft.id)).valid,false);
+        await assert.rejects(service.submitBook(a,draft.id,{expectedVersion:completed.version}),status(400));
+        assert.equal(await db.pictureBookSubmission.count({where:{pictureBookId:draft.id}}),0);
+        await assert.rejects(service.saveAlbum(a,{schemaVersion:1,externalId:`bad-${variant}`,expectedVersion:0,title:'专辑',summary:'测试',coverAssetId:upload.id,items:[{bookId:draft.id,expectedVersion:completed.version,displayName:'绘本'}]}),status(400));
+        const valid=await service.saveAlbum(a,{schemaVersion:1,externalId:`web-${variant}`,expectedVersion:0,title:'专辑',summary:'测试',coverAssetId:upload.id,items:[{bookId:book.id,expectedVersion:2,displayName:'绘本'}]});
+        const course=await db.course.findUniqueOrThrow({where:{id:valid.id},include:{workingRevision:true}});
+        await new CoursesService().saveCourse(a.userId,valid.id,{name:'网页专辑',summary:'网页',coverMediaId:course.workingRevision!.coverMediaId,tags:[],items:[{materialType:'PICTURE_BOOK',materialId:draft.id,displayName:'不完整'}]});
+        assert.equal((await service.validateAlbum(a,valid.id)).valid,false);
+        await assert.rejects(service.submitAlbum(a,valid.id,{expectedVersion:2}),status(400));
+        assert.equal(await db.courseReviewRequest.count({where:{courseId:valid.id}}),0);
+      }
+      const withoutDirectory=await service.saveBook(a,{...manifest(),externalId:'no-directory',coverAssetId:undefined});
+      const complete=await website.complete(a.userId,withoutDirectory.id);
+      assert.equal((await service.validateBook(a,complete.id)).valid,false);
+      await assert.rejects(service.submitBook(a,complete.id,{expectedVersion:complete.version}),status(400));
+      assert.equal(await db.pictureBookSubmission.count({where:{pictureBookId:complete.id}}),0);
+      const album=await service.saveAlbum(a,{schemaVersion:1,externalId:'reader-only',expectedVersion:0,title:'专辑',summary:'不要求成员目录封面',coverAssetId:upload.id,items:[{bookId:complete.id,expectedVersion:complete.version,displayName:'绘本'}]});
+      assert.equal((await service.validateAlbum(a,album.id)).valid,true);
+    });
+    await t.test('authorized account reader serves persisted demo images and legacy local audio',async()=>{
+      const filename=`legacy-${randomUUID()}.wav`,audioBytes=Buffer.from('local audio fixture');
+      const oldUploadDir=process.env.UPLOAD_DIR;process.env.UPLOAD_DIR=`${dir}/legacy`;
+      await mkdir(`${dir}/legacy/audio`,{recursive:true});await writeFile(`${dir}/legacy/audio/${filename}`,audioBytes);
+      const url=`/api/audio/files/${filename}`;
+      await db.audioAsset.create({data:{userId:a.userId,type:'TTS_OUTPUT',storageProvider:'LOCAL',url,objectKey:filename,mimeType:'audio/wav',sizeBytes:audioBytes.length}});
+      const demo=await db.pictureBook.create({data:{userId:a.userId,title:'乐乐',brief:'示范',style:'watercolor',pageCount:4,status:'COMPLETED',pages:[{position:0,caption:'封面',imageUrl:'/picture-book-demos/lele-courage/01.webp',audioUrl:url}],characters:[],messages:[]}});
+      const audio=Object.create(AudioService.prototype) as AudioService;Object.assign(audio,{prisma:db});
+      const reader=new PictureBookService(undefined as never,audio,new MediaService(),reviews,undefined as never);
+      const originalFetch=globalThis.fetch;let fetches=0;
+      globalThis.fetch=async input=>{fetches++;assert.equal(new URL(String(input)).pathname,'/picture-book-demos/lele-courage/01.webp');return new Response(image,{headers:{'content-type':'image/png'}});};
+      try {
+        await assert.rejects(reader.pageImage({userId:b.userId,mode:'ACCOUNT'},demo.id,0),status(404));assert.equal(fetches,0);
+        assert.ok((await reader.pageImage({userId:a.userId,mode:'ACCOUNT'},demo.id,0)).buffer.equals(image));
+        assert.ok((await reader.pageAudio({userId:a.userId,mode:'ACCOUNT'},demo.id,0)).buffer.equals(audioBytes));
+        await db.pictureBook.update({where:{id:demo.id},data:{pages:[{position:0,caption:'封面',imageUrl:'/picture-book-demos/../secret.png',audioUrl:`https://legacy.invalid${url}`}]}});
+        await assert.rejects(reader.pageImage({userId:a.userId,mode:'ACCOUNT'},demo.id,0),status(400));
+        assert.ok((await reader.pageAudio({userId:a.userId,mode:'ACCOUNT'},demo.id,0)).buffer.equals(audioBytes));
+        assert.equal(fetches,1); // Legacy audio is a local lookup, never a URL fetch.
+      } finally {globalThis.fetch=originalFetch;if(oldUploadDir===undefined)delete process.env.UPLOAD_DIR;else process.env.UPLOAD_DIR=oldUploadDir;}
     });
     await t.test('approved book survives edit, resubmit and reject; races; public JSON has no private refs or prompts',async()=>{
       const review=await service.submitBook(a,book.id,{expectedVersion:2});
