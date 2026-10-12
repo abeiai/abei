@@ -1,11 +1,13 @@
+import { assertCreatorTestDatabase } from "./helpers/abei-test-environment.js";
 import assert from "node:assert/strict";
 import { createHmac, randomUUID } from "node:crypto";
 import test from "node:test";
 import { getPrismaClient } from "@xueleai/database";
 
 test("本地真实HTTP邮箱注册完成双向500点奖励", { skip: process.env.RUN_REFERRAL_HTTP !== "1" }, async () => {
-  const url = new URL(process.env.DATABASE_URL!);
-  assert.equal(url.hostname, "localhost"); assert.equal(url.port, "3324"); assert.equal(url.pathname, "/xueleai");
+  assertCreatorTestDatabase();
+  const origin = process.env.ABEI_TEST_API_BASE_URL;
+  assert.equal(origin, 'http://127.0.0.1:3665/api', '需显式指定隔离测试 API');
   const prisma = getPrismaClient();
   const nonce = randomUUID();
   const email = `referral-http-${nonce}@example.invalid`;
@@ -13,13 +15,13 @@ test("本地真实HTTP邮箱注册完成双向500点奖励", { skip: process.env
   try {
     const inviter = await prisma.user.create({ data: { email: `referrer-http-${nonce}@example.invalid`, nickname: "推荐HTTP测试", passwordHash: "unusable", wallet: { create: {} } } }); ids.push(inviter.id);
     const code = await prisma.referralHandle.findUniqueOrThrow({ where: { userId_kind: { userId: inviter.id, kind: "RANDOM" } } });
-    const capture = await fetch(`http://localhost:3322/api/referrals/visit/${code.handle}`, { method: "POST" });
+    const capture = await fetch(`${origin}/referrals/visit/${code.handle}`, { method: "POST" });
     assert.equal(capture.status, 201);
     const visit = await capture.json() as { data: { token: string } };
     const emailCode = "438721";
     const codeHash = createHmac("sha256", process.env.JWT_REFRESH_SECRET!).update(`${email}:REGISTER:${emailCode}`).digest("hex");
     await prisma.emailVerificationCode.create({ data: { email, purpose: "REGISTER", codeHash, expiresAt: new Date(Date.now() + 60000) } });
-    const response = await fetch("http://localhost:3322/api/auth/register", {
+    const response = await fetch(`${origin}/auth/register`, {
       method: "POST", headers: { "Content-Type": "application/json", Cookie: `xueleai_referral=${visit.data.token}` },
       body: JSON.stringify({ email, emailCode, nickname: "推荐HTTP新用户", password: `Test-${nonce}` })
     });

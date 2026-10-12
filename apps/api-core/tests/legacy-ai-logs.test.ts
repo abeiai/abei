@@ -1,3 +1,5 @@
+import { creatorTestHttpPort } from "./helpers/abei-test-environment.js";
+import { assertCreatorTestDatabase } from "./helpers/abei-test-environment.js";
 import "reflect-metadata";
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
@@ -12,8 +14,10 @@ import { mkdtemp, writeFile, rm, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+const testPort = creatorTestHttpPort();
+
 let app: INestApplication;
-const base = "http://127.0.0.1:3608/api/admin/legacy-ai-logs";
+const base = `http://127.0.0.1:${testPort}/api/admin/legacy-ai-logs`;
 const prisma = getPrismaClient();
 const suffix = randomUUID();
 let adminId: string;
@@ -56,10 +60,7 @@ async function request(query = "", cookie = adminCookie) {
 }
 
 before(async () => {
-  const url = new URL(process.env.DATABASE_URL!);
-  assert.equal(url.hostname, "127.0.0.1");
-  assert.equal(url.port, "3606");
-  assert.equal(url.pathname, "/abei_wechat_test");
+  assertCreatorTestDatabase();
   assetDir = await mkdtemp(join(tmpdir(), "abei-private-log-assets-"));
   outsideDir = await mkdtemp(join(tmpdir(), "abei-private-log-outside-"));
   process.env.LEGACY_AI_LOG_ASSET_DIR = assetDir;
@@ -69,7 +70,7 @@ before(async () => {
   app = await NestFactory.create(OperationsModule, { logger: false });
   app.setGlobalPrefix("api");
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(3608, "127.0.0.1");
+  await app.listen(testPort, "127.0.0.1");
 });
 after(async () => {
   await app?.close();

@@ -1,3 +1,4 @@
+import { assertCreatorTestDatabase } from "./helpers/abei-test-environment.js";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import test from "node:test";
@@ -7,10 +8,7 @@ import { referralRules } from "../src/referrals/referral-rules.js";
 import { referralRecordQuery } from "../src/referrals/admin-referral.controller.js";
 
 test("推荐地址、首次归因、双向奖励的并发幂等与事务回滚", { skip: process.env.RUN_REFERRAL_INTEGRATION !== "1" }, async () => {
-  const url = new URL(process.env.DATABASE_URL!);
-  assert.ok(["localhost", "127.0.0.1"].includes(url.hostname));
-  assert.equal(url.port, "3324");
-  assert.equal(url.pathname, "/xueleai");
+  assertCreatorTestDatabase();
   const prisma = getPrismaClient();
   const key = randomUUID();
   const ids: string[] = [];

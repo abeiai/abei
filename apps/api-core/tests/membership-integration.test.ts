@@ -1,3 +1,4 @@
+import { assertCreatorTestDatabase } from "./helpers/abei-test-environment.js";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import test from "node:test";
@@ -9,10 +10,7 @@ import type { VerifiedPaymentResult } from "../src/payment/payment-channel.types
 test("PostgreSQL serializes membership payments, reservations, expiry and duplicate settlement", {
   skip: process.env.RUN_MEMBERSHIP_INTEGRATION !== "1"
 }, async () => {
-  const url = new URL(process.env.DATABASE_URL ?? "postgresql://invalid");
-  assert.ok(["localhost", "127.0.0.1", "[::1]"].includes(url.hostname), "Integration tests require a local database");
-  assert.equal(url.port, "3324", "Integration tests require the dedicated local xueleai port");
-  assert.equal(url.pathname, "/xueleai", "Integration tests require the local xueleai database");
+  assertCreatorTestDatabase();
   const prisma = getPrismaClient();
   const token = randomUUID();
   let userId: string | undefined;

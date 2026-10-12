@@ -1,3 +1,4 @@
+import { creatorTestHttpPort } from "./helpers/abei-test-environment.js";
 import "reflect-metadata";
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -9,6 +10,8 @@ import { AuthService } from "../src/auth/auth.service.js";
 import { AuthController } from "../src/auth/auth.controller.js";
 import { AppException } from "../src/common/app-exception.js";
 import { HttpExceptionFilter } from "../src/common/http-exception.filter.js";
+
+const testPort = creatorTestHttpPort();
 
 test("登录前端点提供不可缓存的 CSRF 上下文，旧 OAuth 路由已移除", async () => {
   @Module({
@@ -33,17 +36,17 @@ test("登录前端点提供不可缓存的 CSRF 上下文，旧 OAuth 路由已�
     ],
   })
   class HarnessModule {}
-  process.env.APP_BASE_URL = "http://127.0.0.1:3608";
+  process.env.APP_BASE_URL = `http://127.0.0.1:${testPort}`;
   const app = await NestFactory.create(HarnessModule, { logger: false });
   app.setGlobalPrefix("api");
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(3608, "127.0.0.1");
+  await app.listen(testPort, "127.0.0.1");
   try {
     const response = await fetch(
-      "http://127.0.0.1:3608/api/auth/wechat/mp/bootstrap",
+      `http://127.0.0.1:${testPort}/api/auth/wechat/mp/bootstrap`,
       {
         headers: {
-          Origin: "http://127.0.0.1:3608",
+          Origin: `http://127.0.0.1:${testPort}`,
           "Sec-Fetch-Site": "same-origin",
         },
       },
@@ -53,12 +56,12 @@ test("登录前端点提供不可缓存的 CSRF 上下文，旧 OAuth 路由已�
     assert.match(response.headers.get("set-cookie") ?? "", /HttpOnly/i);
     assert.equal((await response.json()).data.csrfToken, "test-csrf");
     const obsolete = await fetch(
-      "http://127.0.0.1:3608/api/auth/wechat/authorize",
+      `http://127.0.0.1:${testPort}/api/auth/wechat/authorize`,
       { redirect: "manual" },
     );
     assert.equal(obsolete.status, 404);
     const obsoleteCallback = await fetch(
-      "http://127.0.0.1:3608/api/auth/wechat/callback",
+      `http://127.0.0.1:${testPort}/api/auth/wechat/callback`,
     );
     assert.equal(obsoleteCallback.status, 404);
   } finally {

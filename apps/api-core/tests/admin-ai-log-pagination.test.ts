@@ -1,3 +1,4 @@
+import { assertCreatorTestDatabase } from "./helpers/abei-test-environment.js";
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
 import { randomUUID } from "node:crypto";
@@ -12,8 +13,7 @@ const email = `native-log-${suffix}@test.abei.local`;
 const service = new AiService({} as never, {} as never);
 
 before(async () => {
-  const url = new URL(process.env.DATABASE_URL!);
-  assert.equal(url.hostname, "127.0.0.1"); assert.equal(url.port, "3606"); assert.equal(url.pathname, "/abei_wechat_test");
+  assertCreatorTestDatabase();
   const user = await prisma.user.create({ data: { email, nickname: "日志分页测试", passwordHash: await hashPassword(randomUUID()) } });
   userId = user.id;
   for (const [name, requiredCapabilities] of [["image", ["image_generation"]], ["text", ["TEXT"]], ["video", ["IMAGE_GENERATION", "VIDEO_GENERATION"]]] as const) {

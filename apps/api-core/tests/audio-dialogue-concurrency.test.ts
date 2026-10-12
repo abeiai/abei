@@ -1,3 +1,4 @@
+import { assertCreatorTestDatabase } from "./helpers/abei-test-environment.js";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import test, { after } from "node:test";
@@ -8,8 +9,7 @@ import { OrganizationsService } from "../src/organizations/organizations.service
 import { AppException } from "../src/common/app-exception.js";
 import type { DialogueInput, DialoguePlan, PreparedDialogueTts } from "../src/audio/audio-dialogue.types.js";
 
-const target = new URL(process.env.DATABASE_URL ?? "");
-assert.ok(["localhost", "127.0.0.1", "[::1]"].includes(target.hostname) && target.port === "3324" && target.pathname === "/xueleai", "并发回归仅允许本项目本地数据库 localhost:3324/xueleai");
+assertCreatorTestDatabase();
 const db = getPrismaClient();
 after(async () => db.$disconnect());
 const draft: DialogueInput = {
