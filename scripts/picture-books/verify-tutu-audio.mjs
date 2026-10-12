@@ -2,6 +2,7 @@ import {readFile,writeFile,rename} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {setTimeout as delay} from 'node:timers/promises';
 import {assertProductionTarget,audioKey} from './tutu-publication.mjs';
 import {acquireNarrationLock} from './tutu-narration.mjs';
 const root=resolve(import.meta.dirname,'../..');
@@ -12,7 +13,6 @@ const {AudioService}=await import(pathToFileURL(resolve(root,'apps/api-core/dist
 const {getPrismaClient}=await import(pathToFileURL(resolve(root,'packages/database/dist/index.js')));
 const audio=new AudioService();
 const source=JSON.parse(await readFile(resolve(args['--root'],'production/narration-manifest.json')));
-const uploaded=JSON.parse(await readFile(args['--checkpoint']));
 const out=args['--output'];
 const releaseLock=await acquireNarrationLock(out+'.lock');
 let report;
@@ -23,7 +23,14 @@ try{
  for(const entry of Object.values(source.entries)){
   const key=entry.key,old=report.entries[key];
   if(old){if(old.status!=='READY'||old.audioHash!==entry.sha256)throw Error('识别结果未知或音频变化：'+key);continue;}
-  const asset=uploaded.assets[`audio:${String(entry.book).padStart(2,'0')}:${entry.position}`];
+  let asset;
+  for(let attempt=0;attempt<120;attempt++){
+   const uploaded=JSON.parse(await readFile(args['--checkpoint']));
+   asset=uploaded.assets[`audio:${String(entry.book).padStart(2,'0')}:${entry.position}`];
+   if(asset?.status==='READY')break;
+   if(args['--wait-for-upload']!=='true')break;
+   await delay(5000);
+  }
   if(asset?.status!=='READY'||asset.sha256!==entry.sha256)throw Error('已上传音频不匹配');
   report.entries[key]={status:'REQUESTING',audioHash:entry.sha256,expected:entry.text};await save();
   const result=await audio.generateSrtFromMediaUrl({mediaUrl:asset.url,mediaMimeType:'audio/mpeg',mediaName:'tutu-'+audioKey(String(entry.book).padStart(2,'0'),entry.position),language:'zh'});
