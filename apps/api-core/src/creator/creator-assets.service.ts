@@ -165,7 +165,12 @@ export class CreatorAssetsService {
                     fail('上传偏移冲突', 409);
                 const file = await open(filePath(id), row.offset === 0 ? 'w' : 'r+', 0o600);
                 try {
-                    await file.write(bytes, 0, bytes.length, offset);
+                    let written = 0;
+                    while (written < bytes.length) {
+                        const { bytesWritten } = await file.write(bytes, written, bytes.length - written, offset + written);
+                        if (bytesWritten <= 0) fail('素材写入暂时失败，请从当前进度重试', 503);
+                        written += bytesWritten;
+                    }
                     await file.truncate(offset + bytes.length);
                     await file.sync();
                 }

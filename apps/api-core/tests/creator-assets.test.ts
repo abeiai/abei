@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createHash, randomUUID } from 'node:crypto';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, open, readFile, type FileHandle } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import sharp from 'sharp';
 import { getPrismaClient } from '@xueleai/database';
@@ -43,6 +43,32 @@ test('Creator private uploads: real DB, resumability, isolation, content validat
       await assert.rejects(service.readOwn(b,u.id),status(404));
       assert.equal((await service.createUpload(a,input('image'))).id,u.id);
       await assert.rejects(service.createUpload(a,{...input('image'),sha256:'0'.repeat(64)}),status(409));
+    });
+    await t.test('short successful writes persist every byte before advancing offset', async st => {
+      const probe=await open(`${dir}/probe`,'w');const prototype=Object.getPrototypeOf(probe);const original=prototype.write;await probe.close();
+      let writes=0;
+      st.mock.method(prototype,'write',async function(this:FileHandle,buffer:Buffer,offset:number,length:number,position:number){writes++;return original.call(this,buffer,offset,Math.min(length,7),position);});
+      const u=await service.createUpload(a,input('short-writes'));
+      await service.chunk(a,u.id,0,bytes);
+      assert.ok(writes>1);
+      assert.deepEqual(await readFile(`${dir}/${u.id}.data`),bytes);
+      const resumed=new module.CreatorAssetsService();
+      assert.equal((await resumed.uploadStatus(a,u.id)).offset,bytes.length);
+      await resumed.chunk(a,u.id,0,bytes); // Retry verifies exact committed bytes.
+      await resumed.complete(a,u.id);assert.deepEqual((await resumed.readOwn(a,u.id)).buffer,bytes);
+    });
+    await t.test('zero progress after a partial write rolls back offset and can resume', async st => {
+      const u=await service.createUpload(a,input('zero-write')),half=Math.floor(bytes.length/2);
+      await service.chunk(a,u.id,0,bytes.subarray(0,half));
+      const probe=await open(`${dir}/probe`,'w');const prototype=Object.getPrototypeOf(probe);const original=prototype.write;await probe.close();
+      let writes=0;
+      const mocked=st.mock.method(prototype,'write',async function(this:FileHandle,buffer:Buffer,offset:number,length:number,position:number){writes++;return writes===1?original.call(this,buffer,offset,Math.min(length,3),position):{bytesWritten:0,buffer};});
+      await assert.rejects(service.chunk(a,u.id,half,bytes.subarray(half)),status(503));
+      assert.equal((await service.uploadStatus(a,u.id)).offset,half);
+      mocked.mock.restore();
+      const resumed=new module.CreatorAssetsService();
+      await resumed.chunk(a,u.id,half,bytes.subarray(half));await resumed.complete(a,u.id);
+      assert.deepEqual((await resumed.readOwn(a,u.id)).buffer,bytes);
     });
     await t.test('hash, actual MIME and malformed media rejected before completion', async () => {
       const bad = await service.createUpload(a,{...input('wronghash'),sha256:'0'.repeat(64)});
