@@ -49,7 +49,7 @@ test("原文模式校验逐字分页，拒绝改写、漏句和替换用户提�
   const plan = normalizeOutline(JSON.stringify(value), 2, "婴儿期0-1岁", true, [`保持原文\n原文：${source}`]);
   assert.equal(plan.pages.slice(1).map(page => page.caption).join(""), source);
   assert.ok(plan.pages.every(page => page.narration === page.caption));
-  const { originalText: _source, ...withoutRepeatedSource } = value;
+  const withoutRepeatedSource = { ...value, originalText: undefined };
   assert.equal(normalizeOutline(JSON.stringify(withoutRepeatedSource), 2, "婴儿期0-1岁", true, [`保持原文\n原文：${source}`]).pages.slice(1).map(page => page.caption).join(""), source);
   for (const caption of ["太阳落山啦，黄河流向大海。", "白日依山尽。", "白日依山尽，黄河入海流。听，小河在唱歌！"]) {
     assert.throws(() => normalizeOutline(JSON.stringify({ ...value, pages: [{ ...value.pages[0], caption }, value.pages[1]] }), 2, "婴儿期0-1岁", true), /保留原文/);
