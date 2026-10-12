@@ -124,8 +124,8 @@ try {
       const libraryCover = await normalizePictureBookLibraryCover(source);
       await persist(`library:${book.slug}`, libraryCover, "image", "image/png", [1536, 1152]);
     }
-    const seriesCover = await readFile(resolve(assetRoot, "series-cover.png"));
-    await persist("resource", seriesCover, "resource", "image/png", [1672, 941]);
+    const seriesCover = await readFile(resolve(assetRoot, "series-cover-publication.png"));
+    await persist("resource", seriesCover, "resource", "image/png", [1600, 900]);
   }
   if (Object.values(checkpoint.assets).filter((item) => item.status === "READY").length !== 229) throw Error("229 份封面、跨页与配音素材尚未齐全");
   if (args["--mode"] === "verify") {
