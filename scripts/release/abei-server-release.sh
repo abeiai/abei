@@ -7,6 +7,7 @@ sha="${1:?需要完整提交 SHA}"
 archive="${2:?需要私有传输的代码 tar 路径}"
 [[ "$sha" =~ ^[0-9a-f]{40}$ && -f "$archive" && -f .env.production ]] || { echo '发布参数或生产配置缺失' >&2; exit 1; }
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+probe_script=/opt/abei/scripts/release/abei-ingress-probe.mjs
 for command in docker python3 rsync openssl; do command -v "$command" >/dev/null; done
 for host in new.abeiai.com mcp.abeiai.com; do
   cert="/etc/letsencrypt/live/$host"
@@ -44,19 +45,28 @@ touch deploy/data/state/maintenance.enabled
 [[ -s "$backup/database.dump" ]]
 # Only release source roots are replaced; preserve runtime env/data/certs and all volumes.
 for directory in apps packages scripts; do
-  rsync -a --delete --exclude='.env*' --exclude='uploads/' --exclude='logs/' --exclude='private-*/' --exclude='private-data/' --exclude='backups/' --exclude='node_modules/' --exclude='.next/' --exclude='dist/' --exclude='generated/' --exclude='vendor/' "$stage/$directory/" "/opt/abei/$directory/"
+  rsync -a --delete --exclude='.env*' --exclude='uploads/' --exclude='logs/' --exclude='private-*/' --exclude='private-data/' --exclude='backups/' --exclude='node_modules/' --exclude='.next/' --exclude='dist/' --exclude='/database/generated/' --exclude='vendor/' "$stage/$directory/" "/opt/abei/$directory/"
 done
 rsync -a --delete "$stage/deploy/abei/" /opt/abei/deploy/abei/
 for file in package.json pnpm-lock.yaml pnpm-workspace.yaml .dockerignore docker-compose.abei-prod.yml RELEASE_COMMIT; do cp "$stage/$file" "/opt/abei/$file"; done
 "${compose[@]}" run --rm migrate
 "${compose[@]}" up -d --no-deps api-core web ai-gateway
 for attempt in $(seq 1 60); do
-  if "${compose[@]}" exec -T api-core node -e 'Promise.all(["health","health/db","health/redis"].map(p=>fetch("http://127.0.0.1:3602/api/"+p).then(r=>{if(!r.ok)throw Error()}))).catch(()=>process.exit(1))'; then break; fi
-  [[ "$attempt" -lt 60 ]] || { echo "健康检查失败；维护保留，私有备份：$backup" >&2; exit 1; }
+  if "${compose[@]}" exec -T api-core node -e 'if(process.env.APP_RELEASE_SHA!==process.argv[1])process.exit(1); Promise.all(["health","health/db","health/redis"].map(p=>fetch("http://127.0.0.1:3602/api/"+p,{signal:AbortSignal.timeout(5000)}).then(r=>{if(!r.ok)throw Error()}))).catch(()=>process.exit(1))' "$sha" \
+    && "${compose[@]}" exec -T web node -e 'if(process.env.APP_RELEASE_SHA!==process.argv[1])process.exit(1); fetch("http://127.0.0.1:3601/creator",{signal:AbortSignal.timeout(5000)}).then(async r=>{if(!r.ok||!(await r.text()).includes("阿贝绘本创作助手"))throw Error()}).catch(()=>process.exit(1))' "$sha" \
+    && "${compose[@]}" exec -T ai-gateway python -c 'import urllib.request; urllib.request.urlopen("http://127.0.0.1:3603/health", timeout=5).read()'; then break; fi
+  [[ "$attempt" -lt 60 ]] || { echo "服务就绪检查失败；维护保留，私有备份：$backup" >&2; exit 1; }
   sleep 2
 done
-# Start/recreate ingress only after successful validation; it still serves maintenance.
-"${compose[@]}" up -d --no-deps abei
+# Bind-mounted config may have a new inode; force replacement, not just nginx -t.
+"${compose[@]}" up -d --no-deps --force-recreate abei
 "${compose[@]}" exec -T abei nginx -t
+[[ -f deploy/data/state/maintenance.enabled ]]
+ingress="$("${compose[@]}" ps -q abei)"
+[[ -n "$ingress" && -f "$probe_script" ]]
+# Share only the ingress network namespace; normal TLS verification is mandatory.
+docker run --rm --read-only --network "container:$ingress" --entrypoint node \
+  -v "$probe_script:/abei-ingress-probe.mjs:ro" \
+  "abei-api-core:$sha" /abei-ingress-probe.mjs
 rm deploy/data/state/maintenance.enabled
 printf '服务器切换完成；必须继续执行线上 API/页面/协议验收。回滚备份：%s\n' "$backup"

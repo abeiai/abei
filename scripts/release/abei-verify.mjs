@@ -33,6 +33,6 @@ for (const [dir,subdir] of [['packages/database','prisma'],['apps/api-core','tes
   run('pnpm',['exec','node','--import','tsx','--test','--test-concurrency=1',...files],resolve(root,dir));
 }
 run('pnpm',['--filter','@xueleai/ai-gateway','test']);
-run('node',['--test','scripts/release/abei-production.test.mjs','scripts/release/abei-nginx.test.mjs','scripts/release/abei-release.test.mjs']);
+run('node',['--test','scripts/release/abei-production.test.mjs','scripts/release/abei-nginx.test.mjs','scripts/release/abei-release.test.mjs','scripts/release/abei-activation.test.mjs']);
 run('pnpm',['--filter','@xueleai/database','exec','prisma','migrate','status','--schema','prisma/schema.prisma']);
 console.log('阿贝隔离全量检查通过；线上发布和客户端验收仍需独立完成。');

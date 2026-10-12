@@ -40,7 +40,7 @@ node scripts/release/abei-verify.mjs --preflight-only
 node scripts/release/abei-verify.mjs
 ```
 
-全量入口直接调用数据库/API/Web 测试，不经过会读取根 `.env` 的旧 API test wrapper。默认保留可选集成测试的开关；若启用推荐注册 HTTP 测试，需单独启动3665隔离 API 并显式设置 `ABEI_TEST_API_BASE_URL=http://127.0.0.1:3665/api`。普通测试监听默认3664，可用 `ABEI_TEST_HTTP_PORT` 指定3600–3680内非数据库端口，不终止其他程序。
+全量入口直接调用数据库/API/Web 测试，不经过会读取根 `.env` 的旧 API test wrapper。归档保留站点有意维护的 public/yinbiao/generated 图片，仅排除 packages/database/generated 的生成代码。默认保留可选集成测试的开关；若启用推荐注册 HTTP 测试，需单独启动3665隔离 API 并显式设置 `ABEI_TEST_API_BASE_URL=http://127.0.0.1:3665/api`。普通测试监听默认3664，可用 `ABEI_TEST_HTTP_PORT` 指定3600–3680内非数据库端口，不终止其他程序。
 
 ## 发布顺序
 
@@ -49,7 +49,7 @@ node scripts/release/abei-verify.mjs
 3. 从完整提交生成不可变代码包：`python3 scripts/release/abei-archive.py pack <40位SHA> <私有暂存目录>/abei.tar`。同步包、脚本及包的 SHA256，通过独立私有通道送到服务器。不得使用旧 xueleai 发布脚本。
 4. 在服务器 `/opt/abei` 非 Git 目录执行 `bash <脚本目录>/abei-server-release.sh <40位SHA> <私有包路径>`。脚本使用 `abei-prod` 和 `docker-compose.abei-prod.yml`，先校验证书与新 Nginx 配置并构建镜像，保存旧镜像标签/配置；启用维护后停止旧 API，随后备份数据库，替换代码、迁移并启动新进程。禁止旧 API 在快照回填与切换窗口继续写入。
 5. 脚本不执行 seed/reset，不删除数据卷，不复制真实 env。保留 `.env.production`、`deploy/data/`、`deploy/certs/`、uploads/logs/旧私有素材卷；新增 `abei-prod_creator_assets` 仅挂载 API。Issuer `https://mcp.abeiai.com` 与两个 audience 在协议源文件中固定，主站通过 `CREATOR_MAIN_ORIGIN` 显式设置。公网仍只有80/443进入3600/3610。
-6. 成功启动、内部健康检查和 Nginx 校验后解除维护。控制端继续运行 `node scripts/release/abei-verify-live.mjs --artifacts`，再按网页矩阵完成真实浏览器和客户端验收。脚本输出服务器切换不等于完整线上发布成功。
+6. 新 API 与 Web 的运行版本需匹配发布 SHA；API 三项健康、Web 创作助手页面和 AI Gateway 均就绪后，强制重建 Nginx 入口，更新 bind mount 与上游地址。在维护仍开启时，用一次性 API 镜像共享入口网络命名空间，从127.0.0.1正常校验 TLS 并检查主站页面、MCP 元数据/鉴权/私有路径；只有这些检查通过后才解除维护。维护仅放行入口容器自身127.0.0.1，公网与伪造转发头无法绕过。控制端继续运行 `node scripts/release/abei-verify-live.mjs --artifacts`，再按网页矩阵完成真实浏览器和客户端验收。脚本输出服务器切换不等于完整线上发布成功。
 
 ## 回滚与中断
 
