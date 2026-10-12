@@ -31,6 +31,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
       args:
+        API_BASE_URL: http://127.0.0.1:3602/api
         APP_VERSION: ${APP_VERSION:-0.0.16}
         APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
     restart: unless-stopped
@@ -76,6 +77,8 @@ services:
       PUBLIC_API_BASE_URL: /api
       UPLOAD_DRIVER: local
       UPLOAD_DIR: /app/uploads
+      CREATOR_ASSET_DIR: /app/private-creator-assets
+      CREATOR_MAIN_ORIGIN: https://new.abeiai.com
       LEGACY_AI_LOG_ASSET_DIR: /app/private-legacy-ai-log-assets
       VIDEO_GUIDE_MEDIA_UPLOAD_DRIVER: local
     volumes:
@@ -83,6 +86,7 @@ services:
       - logs:/app/logs
       - legacy_ai_log_assets:/app/private-legacy-ai-log-assets:ro
       - picture_book_guides:/app/private-picture-book-guides
+      - creator_assets:/app/private-creator-assets
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -167,3 +171,4 @@ volumes:
   logs:
   legacy_ai_log_assets:
   picture_book_guides:
+  creator_assets:

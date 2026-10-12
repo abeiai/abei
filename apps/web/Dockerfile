@@ -11,6 +11,8 @@ COPY packages/config/package.json packages/config/package.json
 RUN pnpm install --frozen-lockfile --filter @xueleai/web...
 
 FROM deps AS builder
+ARG API_BASE_URL=http://127.0.0.1:3602/api
+ENV API_BASE_URL="${API_BASE_URL}"
 ARG APP_VERSION=0.0.0
 ARG APP_RELEASE_SHA=unknown
 ENV APP_VERSION="${APP_VERSION}"

@@ -53,3 +53,7 @@ aisaas-*.png
 /textbook-markdown-assets
 /deploy/certs
 /deploy/data
+
+# Private Creator uploads must never enter Git or image build contexts.
+**/private-data/creator-assets/
+**/private-creator-assets/
