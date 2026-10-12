@@ -621,6 +621,7 @@ enum VoiceConsentType {
 }
 
 model User {
+  creatorGrants CreatorGrant[]
   referralHandles ReferralHandle[]
   referralVisits ReferralVisit[]
   referralsSent ReferralReward[] @relation("ReferrerRewards")
@@ -3575,4 +3576,73 @@ model MembershipCreditAllocation {
   createdAt DateTime @default(now())
   @@index([userId])
   @@map("membership_credit_allocations")
+}
+
+// Delegated Creator access is independent of login/admin/learner sessions.
+model CreatorClient {
+  id           String @id @default(cuid())
+  name         String
+  redirectUris String[]
+  createdAt    DateTime @default(now())
+  requests     CreatorAuthRequest[]
+  grants       CreatorGrant[]
+}
+
+model CreatorAuthRequest {
+  id             String @id @default(cuid())
+  kind           String
+  clientId       String
+  client         CreatorClient @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  audience       String
+  scopes         String[]
+  redirectUri    String?
+  state          String?
+  challenge      String?
+  codeHash       String? @unique
+  userCodeHash   String? @unique
+  status         String @default("PENDING")
+  grantId        String? @unique
+  grant          CreatorGrant? @relation(fields: [grantId], references: [id], onDelete: Cascade)
+  expiresAt      DateTime
+  nextPollAt     DateTime?
+  pollInterval   Int @default(5)
+  createdAt      DateTime @default(now())
+  @@index([expiresAt])
+}
+
+model CreatorGrant {
+  id         String @id @default(cuid())
+  userId     String
+  user       User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientId   String
+  client     CreatorClient @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  audience   String
+  scopes     String[]
+  revokedAt  DateTime?
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  request    CreatorAuthRequest?
+  tokens     CreatorToken[]
+  @@index([userId, revokedAt])
+}
+
+model CreatorToken {
+  id         String @id @default(cuid())
+  hash       String @unique
+  kind       String
+  grantId    String
+  grant      CreatorGrant @relation(fields: [grantId], references: [id], onDelete: Cascade)
+  scopes     String[]
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime @default(now())
+  @@index([grantId])
+  @@index([expiresAt])
+}
+
+model CreatorRateBucket {
+  key       String @id
+  count     Int
+  expiresAt DateTime
+  @@index([expiresAt])
 }

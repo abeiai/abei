@@ -27,7 +27,7 @@ export class RequestLoggingInterceptor implements NestInterceptor {
     const startedAt = Date.now();
     const requestId = request.requestId ?? randomUUID();
     const method = request.method ?? "UNKNOWN";
-    const path = getRequestPath(request);
+    const path = getRequestPath(request).replace(/^(\/api\/creator-auth\/(?:requests|connections))\/[^/]+/, "$1/:id");
 
     request.requestId = requestId;
     response.setHeader?.("x-request-id", requestId);
@@ -72,7 +72,7 @@ export class RequestLoggingInterceptor implements NestInterceptor {
         method,
         path,
         errorName: error instanceof Error ? error.name : "UnknownError",
-        errorMessage: error instanceof Error ? error.message : String(error)
+        errorMessage: path.startsWith("/api/creator-auth/") ? "授权请求失败" : error instanceof Error ? error.message : String(error)
       };
 
       this.errorLogger.error(JSON.stringify(errorPayload));
