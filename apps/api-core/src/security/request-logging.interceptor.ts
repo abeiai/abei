@@ -72,7 +72,7 @@ export class RequestLoggingInterceptor implements NestInterceptor {
         method,
         path,
         errorName: error instanceof Error ? error.name : "UnknownError",
-        errorMessage: path.startsWith("/api/creator-auth/") ? "授权请求失败" : error instanceof Error ? error.message : String(error)
+        errorMessage: (path.startsWith("/api/creator-auth/") || path.startsWith("/api/creator-mcp")) ? "授权请求失败" : error instanceof Error ? error.message : String(error)
       };
 
       this.errorLogger.error(JSON.stringify(errorPayload));

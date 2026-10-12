@@ -45,6 +45,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
       return;
     }
 
+    if (/^\/api\/creator-mcp(?:\/|$)/.test(path)) {
+      const status = exception instanceof HttpException ? exception.getStatus() : 500;
+      response.setHeader?.("Cache-Control", "private, no-store");
+      response.status(status).json({jsonrpc:"2.0",id:null,error:{code:-32600,message:status >= 500 ? "创作服务暂不可用" : "请求无效"}});
+      return;
+    }
+
     if (exception instanceof AppException) {
       response.status(exception.getStatus()).json(failureResponse(exception.code, exception.message));
       return;

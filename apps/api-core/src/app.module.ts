@@ -1,3 +1,4 @@
+import { CreatorMcpModule } from "./creator-mcp/creator-mcp.module.js";
 import { CreatorModule } from "./creator/creator.module.js";
 import { CreatorAuthModule } from "./creator-auth/creator-auth.module.js";
 import { MembershipModule } from "./membership/membership.module.js";
@@ -47,6 +48,7 @@ import { WalletModule } from "./wallet/wallet.module.js";
     AuthModule,
     CreatorAuthModule,
     CreatorModule,
+    CreatorMcpModule,
     AdminAuthModule,
     AudioModule,
     AiModule,
