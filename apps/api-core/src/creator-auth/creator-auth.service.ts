@@ -118,7 +118,7 @@ export class CreatorAuthService {
     const user = await this.auth.me(request);
     const session = await this.auth.requireUserRefreshSession(request, user.id);
     if (session.profileMode === 'LEARNER') throw new AppException(40301, '请切换到主账号后授权', 403);
-    return { userId: user.id, sessionId: session.id };
+    return { userId: user.id, sessionId: session.id, account: { accountId: user.accountId, nickname: user.nickname } };
   }
   private origin(request: HeaderRequestLike) {
     if (request.headers.origin !== creatorMainOrigin() || request.headers['sec-fetch-site'] === 'cross-site') throw new AppException(40301, '请求来源无效', 403);
@@ -141,7 +141,7 @@ export class CreatorAuthService {
     const identity = await this.account(request);
     const row = await this.db.creatorAuthRequest.findUnique({ where: { id }, include: { client: true } });
     if (!row || row.kind !== kind || row.status !== 'PENDING' || row.expiresAt <= new Date()) throw new AppException(40001, '授权请求已失效', 400);
-    return { id: row.id, clientName: row.client.name, scopes: row.scopes, audience: row.audience, expiresAt: row.expiresAt, csrfToken: this.csrf(identity, id) };
+    return { id: row.id, clientName: row.client.name, account: identity.account, scopes: row.scopes, audience: row.audience, expiresAt: row.expiresAt, csrfToken: this.csrf(identity, id) };
   }
   readRequest(request: HeaderRequestLike, id: string) { return this.view(request, id, 'CODE'); }
   async lookupDevice(request: HeaderRequestLike, body: unknown) {
@@ -252,7 +252,7 @@ export class CreatorAuthService {
   async authenticateBearer(request: HeaderRequestLike, audience: string, requiredScopes: readonly string[]): Promise<CreatorPrincipal> {
     target(audience);
     const bearer = request.headers.authorization;
-    if (typeof bearer !== 'string' || !/^Bearer [A-Za-z0-9_-]{43}$/.test(bearer)) throw new CreatorOAuthError('invalid_token', '请先授权登录', 401);
+    if (typeof bearer !== 'string' || !/^Bearer [A-Za-z0-9_-]{43}$/i.test(bearer)) throw new CreatorOAuthError('invalid_token', '请先授权登录', 401);
     const token = await this.db.creatorToken.findUnique({ where: { hash: hash(bearer.slice(7)) }, include: { grant: { include: { user: true } } } });
     if (!token || token.kind !== 'ACCESS' || token.expiresAt <= new Date() || token.grant.revokedAt || token.grant.expiresAt <= new Date() || token.grant.audience !== audience || token.grant.user.status !== 'ACTIVE') throw new CreatorOAuthError('invalid_token', '授权已失效，请重新授权', 401);
     if (requiredScopes.some(s => !token.scopes.includes(s) || !token.grant.scopes.includes(s))) throw new CreatorOAuthError('insufficient_scope', '当前授权范围不足', 403);

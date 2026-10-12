@@ -9,8 +9,8 @@ const labels: Record<string, string> = {
   'creator:write': '创建和修改我的草稿',
   'creator:submit': '提交我的作品审核'
 };
-type Consent = { id: string; clientName: string; scopes: string[]; audience: string; csrfToken: string };
-type Connection = Omit<Consent, 'csrfToken'> & { createdAt: string; expiresAt: string };
+type Consent = { id: string; clientName: string; account: { accountId: string; nickname: string }; scopes: string[]; audience: string; csrfToken: string };
+type Connection = Omit<Consent, 'csrfToken' | 'account'> & { createdAt: string; expiresAt: string };
 class BrowserRequestError extends Error { constructor(message: string, readonly status: number) { super(message); } }
 async function api<T>(path: string, method = 'GET', body?: unknown, csrf?: string): Promise<T> {
   const response = await fetch(`/api/creator-auth${path}`, {
@@ -22,10 +22,11 @@ async function api<T>(path: string, method = 'GET', body?: unknown, csrf?: strin
   if (!response.ok || result.code !== 0) throw new BrowserRequestError(result.message || '操作失败，请稍后重试', response.status);
   return result.data;
 }
-export function ConsentDetails({ clientName, scopes, audience }: Pick<Consent, 'clientName' | 'scopes' | 'audience'>) {
+export function ConsentDetails({ clientName, account, scopes, audience }: Pick<Consent, 'clientName' | 'account' | 'scopes' | 'audience'>) {
   return <div className="space-y-4">
     <div><p className="text-sm text-muted-foreground">外部客户端</p><p className="mt-1 break-all text-lg font-semibold">{clientName}</p></div>
     <p className="text-sm leading-6 text-muted-foreground">客户端名称由第三方提供，请确认来源后授权。</p>
+    <div><p className="text-sm font-semibold">授权账号</p><p className="mt-1 break-all text-sm">{account.nickname}</p><p className="mt-1 text-sm text-muted-foreground">主账号 ID：{account.accountId}</p></div>
     <div><p className="text-sm font-semibold">请求以下权限</p><ul className="mt-2 list-disc space-y-2 pl-5 text-sm">{scopes.map(scope => <li key={scope}>{labels[scope] ?? '未知权限'}</li>)}</ul></div>
     <p className="text-sm text-muted-foreground">连接方式：{audience.endsWith('/mcp') ? 'MCP 客户端' : '创作助手'}</p>
   </div>;

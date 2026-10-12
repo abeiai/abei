@@ -54,6 +54,29 @@ test('Creator delegated authorization: real database lifecycle and security boun
       const denied = await consent(id, false);
       assert.equal(new URL(denied.redirectUri).searchParams.get('error'), 'access_denied');
     });
+    await t.test('OAuth and device consent identify only the authenticated main account', async () => {
+      const expected = { accountId: String(user.accountNumber), nickname: user.nickname };
+      const oauthView = await service.readRequest(browser, await request());
+      assert.deepEqual(oauthView.account, expected);
+      const d = await service.device({ client_id: client.client_id, resource: API, scope: 'creator:read' }, `identity:${user.id}`);
+      const deviceView = await service.lookupDevice(browser, { user_code: d.user_code, accountId: 'forged', nickname: '其他账号' });
+      assert.deepEqual(deviceView.account, expected);
+      for (const view of [oauthView, deviceView]) {
+        assert.deepEqual(Object.keys(view.account).sort(), ['accountId', 'nickname']);
+        assert.ok(!JSON.stringify(view).includes(user.email));
+        assert.ok(!JSON.stringify(view).includes(user.id));
+      }
+    });
+    await t.test('Bearer scheme is case-insensitive while credential bytes and shape remain strict', async () => {
+      const tokens = await exchange(await code());
+      const principals = await Promise.all(['Bearer', 'bearer', 'BEARER'].map(scheme => service.authenticateBearer({ headers: { authorization: `${scheme} ${tokens.access_token}` } }, MCP, ['creator:read'])));
+      assert.equal(principals[0].userId, user.id);
+      for (const principal of principals) assert.deepEqual(principal, principals[0]);
+      const altered = `${tokens.access_token[0] === 'A' ? 'a' : 'A'}${tokens.access_token.slice(1)}`;
+      for (const header of [`Basic ${tokens.access_token}`, `Bearer  ${tokens.access_token}`, `Bearer\t${tokens.access_token}`, ` Bearer ${tokens.access_token}`, `Bearer ${tokens.access_token} `, 'Bearer', 'Bearer ', `Bearer ${tokens.access_token.slice(1)}`, `Bearer ${altered}`]) {
+        await assert.rejects(service.authenticateBearer({ headers: { authorization: header } }, MCP, []), error('invalid_token'));
+      }
+    });
     await t.test('authorization codes bind client, redirect, verifier and audience; consume once atomically', async () => {
       const c = await code();
       for (const extra of [{ client_id: foreign.client_id }, { redirect_uri: 'https://evil.test' }, { code_verifier: 'x'.repeat(64) }, { resource: API }]) await assert.rejects(exchange(c, extra));
