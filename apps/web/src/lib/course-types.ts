@@ -163,6 +163,7 @@ export interface CourseRevision {
 }
 
 export interface CourseSummary {
+  creatorSync?: { source: string; version: number } | null;
   id: string;
   userId: string;
   approvedRevisionId: string | null;

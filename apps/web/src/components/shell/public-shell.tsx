@@ -116,6 +116,9 @@ export async function PublicShell({
   const navItems = profile.mode === "LEARNER"
     ? learnerNavigationItems.map((item) => toNavMenuItem(item))
     : primaryNavigation?.map((item) => toNavMenuItem(item)) ?? publicNavItems;
+  if (profile.mode !== "LEARNER" && !navItems.some(item => item.href === "/creator")) {
+    navItems.push(toNavMenuItem({ href: "/creator", label: "创作助手" }));
+  }
   const footerLinks = profile.mode === "LEARNER"
     ? []
     : hasManagedMenus

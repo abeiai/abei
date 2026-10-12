@@ -1,0 +1,1 @@
+ALTER TABLE "CreatorGrant" ADD COLUMN "lastUsedAt" TIMESTAMP(3);

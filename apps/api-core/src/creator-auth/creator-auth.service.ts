@@ -256,6 +256,14 @@ export class CreatorAuthService {
     const token = await this.db.creatorToken.findUnique({ where: { hash: hash(bearer.slice(7)) }, include: { grant: { include: { user: true } } } });
     if (!token || token.kind !== 'ACCESS' || token.expiresAt <= new Date() || token.grant.revokedAt || token.grant.expiresAt <= new Date() || token.grant.audience !== audience || token.grant.user.status !== 'ACTIVE') throw new CreatorOAuthError('invalid_token', '授权已失效，请重新授权', 401);
     if (requiredScopes.some(s => !token.scopes.includes(s) || !token.grant.scopes.includes(s))) throw new CreatorOAuthError('insufficient_scope', '当前授权范围不足', 403);
+    const now = new Date();
+    // Conditional update bounds writes across workers and concurrent requests.
+    if (!token.grant.lastUsedAt || now.getTime() - token.grant.lastUsedAt.getTime() >= 300_000) {
+      await this.db.creatorGrant.updateMany({
+        where: { id: token.grantId, revokedAt: null, expiresAt: { gt: now }, user: { status: 'ACTIVE' }, OR: [{ lastUsedAt: null }, { lastUsedAt: { lte: new Date(now.getTime() - 300_000) } }] },
+        data: { lastUsedAt: now }
+      });
+    }
     return { userId: token.grant.userId, grantId: token.grantId, clientId: token.grant.clientId, scopes: token.scopes as CreatorScope[], audience };
   }
   async revoke(body: unknown) {
@@ -271,7 +279,7 @@ export class CreatorAuthService {
   async connections(request: HeaderRequestLike) {
     const identity = await this.account(request);
     const grants = await this.db.creatorGrant.findMany({ where: { userId: identity.userId, revokedAt: null, expiresAt: { gt: new Date() } }, include: { client: true }, orderBy: { createdAt: 'desc' }, take: 100 });
-    return { connections: grants.map(g => ({ id: g.id, clientName: g.client.name, audience: g.audience, scopes: g.scopes, createdAt: g.createdAt, expiresAt: g.expiresAt })), csrfToken: this.csrf(identity, 'connections') };
+    return { connections: grants.map(g => ({ id: g.id, clientName: g.client.name, audience: g.audience, scopes: g.scopes, createdAt: g.createdAt, lastUsedAt: g.lastUsedAt, expiresAt: g.expiresAt })), csrfToken: this.csrf(identity, 'connections') };
   }
   async revokeConnection(request: HeaderRequestLike, id: string) {
     const identity = await this.account(request);

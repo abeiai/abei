@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CreatorWorkMetadata } from "@/components/creator/work-metadata";
 import { BookOpen, Clock3, Plus, Send } from "lucide-react";
 
 import { DashboardShell } from "@/components/shell/dashboard-shell";
@@ -143,6 +144,7 @@ export default async function DashboardCoursesPage() {
                     ) : null}
                   </div>
                   <CardHeader>
+                    <CreatorWorkMetadata sync={course.creatorSync} />
                     <div className="flex items-start justify-between gap-3">
                       <CardTitle className="line-clamp-2">{revision?.name ?? "未命名课程"}</CardTitle>
                       <Badge variant={rereviewRejected ? "muted" : statusVariant(course.reviewState)}>

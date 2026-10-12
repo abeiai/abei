@@ -35,10 +35,13 @@ export class PictureBookService {
 
   async list(userId: string) {
     const rows = await this.prisma.pictureBook.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 50, include: { submission: { select: { status: true, reviewNote: true } } } });
+    const synced = await this.prisma.creatorWork.findMany({ where: { userId, kind: "BOOK", resourceId: { in: rows.map(row => row.id) } }, select: { resourceId: true } });
+    const syncedIds = new Set(synced.map(row => row.resourceId));
     return rows.map((row) => ({
       id: row.id, title: row.title, theme: row.theme, audience: row.audience, style: row.style,
       status: row.status, pageCount: row.pageCount, coverUrl: pagesOf(row.pages)[0]?.imageUrl ?? null,
-      createdAt: row.createdAt, updatedAt: row.updatedAt, submission: row.submission
+      createdAt: row.createdAt, updatedAt: row.updatedAt, submission: row.submission,
+      creatorSync: syncedIds.has(row.id) ? { source: "EXTERNAL_CLIENT", version: row.version } : null
     }));
   }
 
@@ -62,7 +65,8 @@ export class PictureBookService {
     const row = await this.prisma.pictureBook.findFirst({ where: { id, userId }, include: { submission: { select: { status: true, reviewNote: true } } } });
     if (!row) throw new AppException(40401, "绘本作品不存在", HttpStatus.NOT_FOUND);
     const characters = await this.resolveCharacters(userId, charactersOf(row.characters), row.style);
-    return { ...row, audience: normalizePictureBookAudience(row.audience), characters: characters as unknown as Prisma.JsonValue };
+    const synced = await this.prisma.creatorWork.findFirst({ where: { userId, kind: "BOOK", resourceId: id }, select: { id: true } });
+    return { ...row, creatorSync: synced ? { source: "EXTERNAL_CLIENT", version: row.version } : null, audience: normalizePictureBookAudience(row.audience), characters: characters as unknown as Prisma.JsonValue };
   }
 
   async playback(subject: ProfileSubject, id: string) {

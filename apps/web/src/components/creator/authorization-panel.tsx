@@ -10,7 +10,7 @@ const labels: Record<string, string> = {
   'creator:submit': '提交我的作品审核'
 };
 type Consent = { id: string; clientName: string; account: { accountId: string; nickname: string }; scopes: string[]; audience: string; csrfToken: string };
-type Connection = Omit<Consent, 'csrfToken' | 'account'> & { createdAt: string; expiresAt: string };
+type Connection = Omit<Consent, 'csrfToken' | 'account'> & { createdAt: string; lastUsedAt: string | null; expiresAt: string };
 class BrowserRequestError extends Error { constructor(message: string, readonly status: number) { super(message); } }
 async function api<T>(path: string, method = 'GET', body?: unknown, csrf?: string): Promise<T> {
   const response = await fetch(`/api/creator-auth${path}`, {
@@ -32,7 +32,7 @@ export function ConsentDetails({ clientName, account, scopes, audience }: Pick<C
   </div>;
 }
 function Frame({ title, children }: { title: string; children: React.ReactNode }) {
-  return <main className="min-h-screen bg-[#f6f6f5] px-5 py-12"><section className="mx-auto max-w-lg space-y-6 rounded-2xl border border-border bg-background p-6 shadow-sm"><Link href="/dashboard" className="text-sm text-muted-foreground">返回用户中心</Link><h1 className="text-2xl font-semibold tracking-normal">{title}</h1>{children}</section></main>;
+  return <main className="min-h-screen bg-[#f6f6f5] px-5 py-12"><section className="mx-auto max-w-lg space-y-6 rounded-2xl border border-border bg-background p-6 shadow-sm"><nav className="flex gap-4 text-sm text-muted-foreground"><Link href="/dashboard">用户中心</Link><Link href="/creator">创作助手</Link></nav><h1 className="text-2xl font-semibold tracking-normal">{title}</h1>{children}</section></main>;
 }
 function ErrorNotice({ error, next }: { error: BrowserRequestError | null; next: string }) {
   if (!error) return null;
@@ -71,6 +71,10 @@ export function AuthorizationPanel({ transaction, device = false }: { transactio
     {done ? <p role="status" className="text-sm leading-6">{done}</p> : consent ? <><ConsentDetails {...consent} /><div className="flex gap-3"><Button disabled={busy} onClick={() => void decide(true)}>同意授权</Button><Button variant="outline" disabled={busy} onClick={() => void decide(false)}>拒绝</Button></div><Link href="/account/connections" className="block text-sm underline">管理已连接客户端</Link></> : device ? <form onSubmit={lookup} className="space-y-4"><label className="block text-sm font-semibold" htmlFor="device-code">输入创作助手显示的设备码</label><input className="h-11 w-full rounded-md border border-input px-3 text-base uppercase" id="device-code" autoComplete="off" autoCapitalize="characters" maxLength={11} required value={code} onChange={e => setCode(e.target.value)} placeholder="ABCDE-12345" /><Button type="submit" disabled={busy}>查看授权请求</Button></form> : !error && <p role="status" className="text-sm text-muted-foreground">正在读取授权请求…</p>}
   </Frame>;
 }
+export function ConnectionTimes({ createdAt, lastUsedAt, expiresAt }: Pick<Connection, 'createdAt' | 'lastUsedAt' | 'expiresAt'>) {
+  const format = (value: string) => new Date(value).toLocaleString('zh-CN');
+  return <dl className="space-y-1 text-xs text-muted-foreground"><div><dt className="inline">授权时间：</dt><dd className="inline"><time dateTime={createdAt}>{format(createdAt)}</time></dd></div><div><dt className="inline">最近使用：</dt><dd className="inline">{lastUsedAt ? <time dateTime={lastUsedAt}>{format(lastUsedAt)}</time> : '尚未使用'}</dd></div><div><dt className="inline">到期时间：</dt><dd className="inline"><time dateTime={expiresAt}>{format(expiresAt)}</time></dd></div></dl>;
+}
 export function ConnectionsPanel() {
   const [data, setData] = useState<{ connections: Connection[]; csrfToken: string } | null>(null);
   const [error, setError] = useState<BrowserRequestError | null>(null);
@@ -81,5 +85,5 @@ export function ConnectionsPanel() {
     setBusy(connection.id); setError(null);
     try { await api(`/connections/${encodeURIComponent(connection.id)}`, 'DELETE', undefined, data.csrfToken); setData({ ...data, connections: data.connections.filter(item => item.id !== connection.id) }); } catch (e) { setError(asError(e)); } finally { setBusy(null); }
   }
-  return <Frame title="已连接客户端"><ErrorNotice error={error} next="/account/connections" />{data ? data.connections.length ? <ul className="space-y-5">{data.connections.map(connection => <li key={connection.id} className="space-y-3 rounded-xl border border-border p-4"><p className="break-all font-semibold">{connection.clientName}</p><p className="text-sm leading-6 text-muted-foreground">{connection.scopes.map(scope => labels[scope] ?? '未知权限').join('、')}</p><p className="text-xs text-muted-foreground">到期时间：{new Date(connection.expiresAt).toLocaleDateString('zh-CN')}</p><Button variant="outline" disabled={busy !== null} onClick={() => void revoke(connection)}>{busy === connection.id ? '正在撤销…' : '撤销授权'}</Button></li>)}</ul> : <p className="text-sm text-muted-foreground">暂无已连接客户端</p> : !error && <p role="status" className="text-sm text-muted-foreground">正在读取…</p>}</Frame>;
+  return <Frame title="已连接客户端"><ErrorNotice error={error} next="/account/connections" />{data ? data.connections.length ? <ul className="space-y-5">{data.connections.map(connection => <li key={connection.id} className="space-y-3 rounded-xl border border-border p-4"><p className="break-all font-semibold">{connection.clientName}</p><p className="text-sm leading-6 text-muted-foreground">{connection.scopes.map(scope => labels[scope] ?? '未知权限').join('、')}</p><ConnectionTimes {...connection} /><Button variant="outline" disabled={busy !== null} onClick={() => void revoke(connection)}>{busy === connection.id ? '正在撤销…' : '撤销授权'}</Button></li>)}</ul> : <p className="text-sm text-muted-foreground">暂无已连接客户端</p> : !error && <p role="status" className="text-sm text-muted-foreground">正在读取…</p>}</Frame>;
 }

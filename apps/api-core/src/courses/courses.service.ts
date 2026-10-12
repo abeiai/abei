@@ -509,7 +509,9 @@ export class CoursesService {
       orderBy: { updatedAt: "desc" }
     });
 
-    return courses.map(normalizeCourseRecordCoverUrls);
+    const synced = await this.prisma.creatorWork.findMany({ where: { userId, kind: "ALBUM", resourceId: { in: courses.map(course => course.id) } }, select: { resourceId: true, version: true } });
+    const versions = new Map(synced.map(work => [work.resourceId, work.version]));
+    return courses.map(course => ({ ...normalizeCourseRecordCoverUrls(course), creatorSync: versions.has(course.id) ? { source: "EXTERNAL_CLIENT", version: versions.get(course.id)! } : null }));
   }
 
   async listEnrolledCourses(
@@ -678,7 +680,8 @@ export class CoursesService {
       throw new AppException(40401, "课程不存在", HttpStatus.NOT_FOUND);
     }
 
-    return normalizeCourseRecordCoverUrls(course);
+    const synced = await this.prisma.creatorWork.findFirst({ where: { userId, kind: "ALBUM", resourceId: id }, select: { version: true } });
+    return { ...normalizeCourseRecordCoverUrls(course), creatorSync: synced ? { source: "EXTERNAL_CLIENT", version: synced.version } : null };
   }
 
   async listMaterialOptions(userId: string) {

@@ -1,5 +1,7 @@
 "use client";
 
+import { CreatorWorkMetadata } from "@/components/creator/work-metadata";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
@@ -321,6 +323,7 @@ export function CourseEditor({
         ) : null}
       </div>
 
+      <CreatorWorkMetadata sync={course?.creatorSync} />
       {isReadOnly ? (
         <div className="rounded-xl border border-border bg-secondary p-4 text-sm" role="status">
           课程正在审核中，当前内容暂不能修改。

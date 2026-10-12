@@ -44,6 +44,18 @@ test('Creator works and immutable publication: real database',async t=>{
       const record=await db.pictureBook.findUniqueOrThrow({where:{id:book.id}});assert.equal(record.status,'COMPLETED'); assert.equal((record.pages as unknown[]).length,5);
       await assert.rejects(service.saveBook(a,{...manifest(),externalId:'url',pages:[{position:0,imageUrl:'https://evil.test/image'}]}),status(400));
     });
+    await t.test('own website views identify external sync and live version without exposing other accounts',async()=>{
+      const website=new PictureBookService(undefined as never,undefined as never,undefined as never,reviews,undefined as never);
+      const own=await website.get(a.userId,book.id);
+      assert.deepEqual(own.creatorSync,{source:'EXTERNAL_CLIENT',version:2});
+      assert.deepEqual((await website.list(a.userId)).find(row=>row.id===book.id)?.creatorSync,own.creatorSync);
+      await assert.rejects(website.get(b.userId,book.id),status(404));
+      const album=await service.saveAlbum(a,{schemaVersion:1,externalId:'website-metadata',expectedVersion:0,title:'专辑',summary:'测试',coverAssetId:upload.id,items:[{bookId:book.id,expectedVersion:2,displayName:'绘本'}]});
+      const courses=new CoursesService();
+      assert.deepEqual((await courses.getUserCourse(a.userId,album.id)).creatorSync,{source:'EXTERNAL_CLIENT',version:1});
+      assert.deepEqual((await courses.listUserCourses(a.userId)).find(row=>row.id===album.id)?.creatorSync,{source:'EXTERNAL_CLIENT',version:1});
+      await assert.rejects(courses.getUserCourse(b.userId,album.id),status(404));
+    });
     await t.test('website completion cannot bypass creator playback integrity or freeze incomplete album members',async()=>{
       const website=new PictureBookService(undefined as never,undefined as never,undefined as never,reviews,undefined as never);
       for (const variant of ['missing-images','body-only']) {

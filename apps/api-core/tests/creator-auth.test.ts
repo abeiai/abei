@@ -77,6 +77,29 @@ test('Creator delegated authorization: real database lifecycle and security boun
         await assert.rejects(service.authenticateBearer({ headers: { authorization: header } }, MCP, []), error('invalid_token'));
       }
     });
+    await t.test('connection usage starts empty, records only successful auth and is throttled', async () => {
+      const token = await exchange(await code());
+      const stored = await db.creatorToken.findUniqueOrThrow({ where: { hash: hash(token.access_token) } });
+      const connection = async () => (await service.connections(browser)).connections.find(g => g.id === stored.grantId)!;
+      assert.equal((await connection()).lastUsedAt, null);
+      const bearer = { headers: { authorization: `Bearer ${token.access_token}` } };
+      await assert.rejects(service.authenticateBearer(bearer, API, []));
+      await assert.rejects(service.authenticateBearer(bearer, MCP, ['creator:delete']));
+      assert.equal((await connection()).lastUsedAt, null);
+      const before = Date.now();
+      await service.authenticateBearer(bearer, MCP, ['creator:read']);
+      const first = (await connection()).lastUsedAt!;
+      assert.ok(first.getTime() >= before);
+      await Promise.all(Array.from({ length: 8 }, () => service.authenticateBearer(bearer, MCP, [])));
+      assert.equal((await connection()).lastUsedAt!.getTime(), first.getTime());
+      await db.creatorGrant.update({ where: { id: stored.grantId }, data: { lastUsedAt: new Date(Date.now() - 301_000) } });
+      await service.authenticateBearer(bearer, MCP, []);
+      const renewed = (await connection()).lastUsedAt!;
+      assert.ok(renewed.getTime() >= first.getTime());
+      await service.revoke({ client_id: client.client_id, token: token.access_token });
+      await assert.rejects(service.authenticateBearer(bearer, MCP, []));
+      assert.equal((await db.creatorGrant.findUniqueOrThrow({ where: { id: stored.grantId } })).lastUsedAt!.getTime(), renewed.getTime());
+    });
     await t.test('authorization codes bind client, redirect, verifier and audience; consume once atomically', async () => {
       const c = await code();
       for (const extra of [{ client_id: foreign.client_id }, { redirect_uri: 'https://evil.test' }, { code_verifier: 'x'.repeat(64) }, { resource: API }]) await assert.rejects(exchange(c, extra));

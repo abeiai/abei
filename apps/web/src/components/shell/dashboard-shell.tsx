@@ -66,6 +66,7 @@ export const dashboardNavItems: DashboardNavItem[] = [
     label: "个人资料",
     children: [
       { href: "/dashboard/profile", label: "个人资料" },
+      { href: "/creator", label: "绘本创作助手" },
       { href: "/account/connections", label: "已连接客户端" }
     ]
   }
