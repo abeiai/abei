@@ -77,7 +77,14 @@ async function uploadBytes(
   if (!session) {
     const state = await client.store.read();
     session = state.uploads?.[key];
-    if (!session || Date.parse(session.capabilityExpiresAt) <= Date.now())
+    // A stored capability must not bypass immutable metadata checks when an
+    // explicit identity is reused with a different media declaration.
+    if (
+      !session ||
+      Date.parse(session.capabilityExpiresAt) <= Date.now() ||
+      (kind && session.kind !== kind) ||
+      (mimeType && session.mimeType !== mimeType)
+    )
       session = await client.api(
         "/assets",
         "POST",
@@ -186,16 +193,28 @@ export async function syncManifest(client, projectRoot, manifestPath, signal) {
   }
   const uploaded = {};
   for (const [name, asset] of Object.entries(selected)) {
-    uploaded[name] = await uploadBytes(
-      client,
-      await selectedFile(asset.path, 26214400, root),
-      {
-        externalId: asset.externalId ?? `${work.externalId}:${name}`,
-        kind: asset.kind,
-        mimeType: asset.mimeType,
-        signal,
-      },
-    );
+    const bytes = await selectedFile(asset.path, 26214400, root);
+    // Asset identities are immutable on the server. Version generated identities
+    // by content and immutable metadata; keep the work identity stable on edits.
+    const externalId =
+      asset.externalId ??
+      `asset-v1-${hash(
+        JSON.stringify([
+          parsed.kind,
+          work.externalId.trim(),
+          name,
+          asset.kind,
+          asset.mimeType,
+          bytes.length,
+          hash(bytes),
+        ]),
+      )}`;
+    uploaded[name] = await uploadBytes(client, bytes, {
+      externalId,
+      kind: asset.kind,
+      mimeType: asset.mimeType,
+      signal,
+    });
   }
   for (const [field, name] of Object.entries(parsed.bindings ?? {})) {
     if (!uploaded[name]) throw Error("素材绑定名称不存在");

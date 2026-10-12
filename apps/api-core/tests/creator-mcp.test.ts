@@ -255,11 +255,57 @@ test("MCP SDK transport authenticates every request, validates schemas and prese
       schemaVersion: 1,
       kind: "BOOK",
       work: { ...draft, externalId: "helper-book", coverAssetId: uploaded.id },
+      assets: {
+        cover: { path: "image.png", kind: "IMAGE", mimeType: "image/png" },
+      },
+      bindings: { coverAssetId: "cover" },
     };
     await writeFile(join(helperDir, "book.json"), JSON.stringify(manifest));
     const synced = await syncManifest(helper, helperDir, "book.json");
     assert.equal(synced.result.version, 1);
     assert.equal(synced.submitted, false);
+    const firstSaved = await helper.api(`/books/${synced.result.id}`);
+    const originalCover = firstSaved.manifest.coverAssetId;
+    const replayed = await syncManifest(helper, helperDir, "book.json");
+    assert.equal(replayed.result.id, synced.result.id);
+    assert.equal(replayed.result.version, 1);
+    assert.equal(
+      (await helper.api(`/books/${synced.result.id}`)).manifest.coverAssetId,
+      originalCover,
+    );
+    await writeFile(
+      imagePath,
+      await sharp({
+        create: { width: 8, height: 8, channels: 3, background: "red" },
+      })
+        .png()
+        .toBuffer(),
+    );
+    manifest.work.expectedVersion = 1;
+    await writeFile(join(helperDir, "book.json"), JSON.stringify(manifest));
+    const revised = await syncManifest(helper, helperDir, "book.json");
+    assert.equal(revised.result.id, synced.result.id);
+    assert.equal(revised.result.externalId, "helper-book");
+    assert.equal(revised.result.version, 2);
+    const revisedCover = (await helper.api(`/books/${synced.result.id}`))
+      .manifest.coverAssetId;
+    assert.notEqual(revisedCover, originalCover);
+    const originalAsset = await db.creatorAsset.findUniqueOrThrow({
+      where: { id: originalCover },
+    });
+    const revisedAsset = await db.creatorAsset.findUniqueOrThrow({
+      where: { id: revisedCover },
+    });
+    assert.notEqual(originalAsset.sha256, revisedAsset.sha256);
+    assert.notEqual(originalAsset.externalId, revisedAsset.externalId);
+    assert.ok(revisedAsset.externalId.length <= 120);
+    manifest.work.externalId = "w".repeat(120);
+    manifest.work.expectedVersion = 0;
+    await writeFile(join(helperDir, "book.json"), JSON.stringify(manifest));
+    const longIdWork = await syncManifest(helper, helperDir, "book.json");
+    assert.equal(longIdWork.result.version, 1);
+    assert.equal(longIdWork.result.externalId, manifest.work.externalId);
+
     await db.creatorGrant.update({
       where: { id: api.g.id },
       data: { revokedAt: new Date() },

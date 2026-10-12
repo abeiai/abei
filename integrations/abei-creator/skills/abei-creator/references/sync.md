@@ -8,7 +8,7 @@
 {"schemaVersion":1,"kind":"BOOK","work":{"schemaVersion":1,"externalId":"my-story-01","expectedVersion":0,"title":"小树的一天","style":"水彩","pageCount":4,"pages":[]},"assets":{"cover":{"path":"art/cover.png","kind":"IMAGE","mimeType":"image/png"}},"bindings":{"coverAssetId":"cover"}}
 ```
 
-assets只列出实际选择的本地文件，相对于用户选定项目根目录，拒绝../、绝对路径和越界符号链接。bindings允许coverAssetId或pages.0.imageAssetId/pages.0.audioAssetId等字段。成功返回nextExpectedVersion；用户核对后更新本地work.expectedVersion，保持externalId不变。哈希相同可重试，409则先读取并核对。
+assets只列出实际选择的本地文件，相对于用户选定项目根目录，拒绝../、绝对路径和越界符号链接。bindings允许coverAssetId或pages.0.imageAssetId/pages.0.audioAssetId等字段。成功返回nextExpectedVersion；用户核对后更新本地work.expectedVersion，保持externalId不变。相同素材与清单可重试，409则先读取并核对。未填写素材externalId时，助手根据作品类型/标识、素材键、内容SHA256、大小、kind与MIME生成固定长度的素材版本标识；替换同名文件后会新建素材并更新作品绑定，作品externalId保持不变。显式填写的素材externalId仍是不可变标识，内容或格式变化须使用新的素材标识。首次从旧助手升级同步可能为原素材建立新标识，不会覆盖原素材。
 
 ```sh
 abei-creator auth login --wait --profile cli

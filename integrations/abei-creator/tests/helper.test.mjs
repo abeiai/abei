@@ -579,3 +579,164 @@ test("ordinary cross-process contention serializes critical sections and release
     await s.clean();
   }
 });
+
+async function mediaFixture() {
+  const s = await setup();
+  const root = join(s.home, "project");
+  await mkdir(root);
+  const assets = new Map(),
+    attempted = [],
+    saved = [];
+  const c = s.client({
+    fetch: async (url, init) => {
+      if (url.endsWith("/assets")) {
+        const body = JSON.parse(init.body);
+        attempted.push(body);
+        if (body.externalId.length > 120) return response({ code: 40001 }, 400);
+        const existing = assets.get(body.externalId);
+        if (
+          existing &&
+          ["sha256", "size", "kind", "mimeType"].some(
+            (k) => existing[k] !== body[k],
+          )
+        )
+          return response({ code: 40901 }, 409);
+        const asset = existing ?? {
+          ...body,
+          id: `asset-${assets.size + 1}`,
+          uploadCapability: "p".repeat(43),
+          capabilityExpiresAt: new Date(Date.now() + 60000).toISOString(),
+        };
+        assets.set(body.externalId, asset);
+        return response({ code: 0, data: asset });
+      }
+      if (url.includes("/assets/")) {
+        const asset = [...assets.values()].find((a) =>
+          url.endsWith("/" + a.id),
+        );
+        assert.ok(asset);
+        return response({
+          code: 0,
+          data: { ...asset, offset: asset.size, status: "COMPLETED" },
+        });
+      }
+      assert.ok(url.endsWith("/books"));
+      const body = JSON.parse(init.body);
+      saved.push(body);
+      return response({
+        code: 0,
+        data: {
+          id: "book-stable",
+          version: body.expectedVersion + 1,
+          coverAssetId: body.coverAssetId,
+        },
+      });
+    },
+  });
+  await c.store.write({
+    version: 1,
+    origin: c.origin,
+    clientId: "test-client",
+    tokens: {
+      access_token: "access",
+      refresh_token: "refresh",
+      scope: "creator:write",
+      expiresAt: Date.now() + 900000,
+    },
+  });
+  const manifest = {
+    schemaVersion: 1,
+    kind: "BOOK",
+    work: {
+      schemaVersion: 1,
+      externalId: "story",
+      expectedVersion: 0,
+      title: "测试",
+      style: "水彩",
+      pageCount: 4,
+      pages: [],
+    },
+    assets: {
+      cover: { path: "cover.png", kind: "IMAGE", mimeType: "image/png" },
+    },
+    bindings: { coverAssetId: "cover" },
+  };
+  await writeFile(join(root, "cover.png"), "first-image");
+  return {
+    ...s,
+    root,
+    c,
+    assets,
+    attempted,
+    saved,
+    manifest,
+    sync: async () => {
+      await writeFile(join(root, "book.json"), JSON.stringify(manifest));
+      return syncManifest(c, root, "book.json");
+    },
+  };
+}
+for (const workId of ["story", "w".repeat(120)])
+  test(`generated media identities retry and revise with stable work identity (${workId.length} chars)`, async () => {
+    const f = await mediaFixture();
+    f.manifest.work.externalId = workId;
+    try {
+      const first = await f.sync();
+      const retry = await f.sync();
+      assert.deepEqual(retry, first);
+      assert.equal(f.attempted[0].externalId, f.attempted[1].externalId);
+      assert.equal(f.assets.size, 1);
+      await writeFile(join(f.root, "cover.png"), "changed-image");
+      f.manifest.work.expectedVersion = 1;
+      const revised = await f.sync();
+      assert.equal(revised.result.id, first.result.id);
+      assert.equal(revised.result.version, 2);
+      assert.notEqual(revised.result.coverAssetId, first.result.coverAssetId);
+      assert.notEqual(f.attempted[2].sha256, f.attempted[0].sha256);
+      assert.notEqual(f.attempted[2].externalId, f.attempted[0].externalId);
+      // Immutable MIME metadata also versions an automatically assigned asset ID.
+      f.manifest.assets.cover.mimeType = "image/jpeg";
+      f.manifest.work.expectedVersion = 2;
+      await f.sync();
+      assert.notEqual(f.attempted[3].externalId, f.attempted[2].externalId);
+      assert.ok(f.attempted.every((a) => a.externalId.length <= 120));
+      assert.ok(f.saved.every((w) => w.externalId === workId));
+      assert.equal(f.saved.length, 4);
+    } finally {
+      await f.clean();
+    }
+  });
+test("explicit immutable asset identities still reject conflicting content", async () => {
+  const f = await mediaFixture();
+  f.manifest.assets.cover.externalId = "explicit-cover";
+  try {
+    await f.sync();
+    await f.sync();
+    await writeFile(join(f.root, "cover.png"), "changed-image");
+    f.manifest.work.expectedVersion = 1;
+    await assert.rejects(f.sync(), (e) => e.status === 409);
+    assert.ok(f.attempted.every((a) => a.externalId === "explicit-cover"));
+    assert.equal(f.saved.length, 2);
+  } finally {
+    await f.clean();
+  }
+});
+
+test("private recovery cannot bypass explicit asset metadata conflicts", async () => {
+  const f = await mediaFixture();
+  f.manifest.assets.cover.externalId = "explicit-cover";
+  const capability = f.c.capability.bind(f.c);
+  f.c.capability = async () => {
+    throw Error("test interruption before status");
+  };
+  try {
+    await assert.rejects(f.sync(), /test interruption/);
+    assert.equal(Object.keys((await f.c.store.read()).uploads).length, 1);
+    f.c.capability = capability;
+    f.manifest.assets.cover.mimeType = "image/jpeg";
+    await assert.rejects(f.sync(), (e) => e.status === 409);
+    assert.equal(f.saved.length, 0);
+  } finally {
+    await f.clean();
+  }
+});
