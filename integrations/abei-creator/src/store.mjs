@@ -1,4 +1,15 @@
-import { mkdir, open, readFile, rename, rm, lstat } from "node:fs/promises";
+import {
+  mkdir,
+  mkdtemp,
+  open,
+  readFile,
+  readdir,
+  rename,
+  rm,
+  rmdir,
+  unlink,
+  lstat,
+} from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
@@ -88,49 +99,98 @@ export class PrivateStore {
   async lock(fn, signal) {
     await this.prepare();
     const lock = join(this.dir, "lock");
-    for (let i = 0; i < 200; i++) {
-      signal?.throwIfAborted();
-      let acquired = false;
-      try {
-        await mkdir(lock, { mode: 0o700 });
-        acquired = true;
-      } catch (e) {
-        if (e.code !== "EEXIST") throw e;
-      }
-      if (acquired) {
+    // Prepare a NONEMPTY directory before publishing it. An atomic rename cannot
+    // replace another nonempty lock, including while a stale observer is paused.
+    const candidate = await mkdtemp(join(this.dir, ".lock-"));
+    const marker = `owner-${randomUUID()}.json`;
+    try {
+      await writeOwner(candidate, marker);
+      for (let i = 0; i < 200; i++) {
+        signal?.throwIfAborted();
+        let acquired = false;
         try {
-          await writeOwner(lock);
-          return await fn();
-        } finally {
-          await rm(lock, { recursive: true, force: true });
+          await rename(candidate, lock);
+          acquired = true;
+        } catch (e) {
+          if (!["EEXIST", "ENOTEMPTY", "EPERM", "EACCES"].includes(e.code))
+            throw e;
+          // Windows reports EPERM/EACCES for an occupied target directory. Do
+          // not hide a real permission failure if there is no target lock.
+          if (["EPERM", "EACCES"].includes(e.code)) await lstat(lock);
         }
-      }
-      try {
-        const owner = JSON.parse(await readFile(join(lock, "owner"), "utf8"));
-        try {
-          process.kill(owner.pid, 0);
-        } catch (dead) {
-          if (dead.code === "ESRCH")
-            await rm(lock, { recursive: true, force: true });
-        }
-      } catch (e) {
-        if (e.code === "ENOENT") {
+        if (acquired) {
           try {
-            if (Date.now() - (await lstat(lock)).mtimeMs > 30000)
-              await rm(lock, { recursive: true, force: true });
-          } catch {}
+            return await fn();
+          } finally {
+            await removeOwnedMarker(lock, marker);
+          }
         }
+        await reapDeadOwner(lock);
+        await delay(25, undefined, { signal });
       }
-      await delay(25, undefined, { signal });
+      throw Error("授权状态正在由另一进程更新，请稍后重试");
+    } finally {
+      // This unpublished, invocation-unique path is never the shared lock.
+      await rm(candidate, { recursive: true, force: true });
     }
-    throw Error("授权状态正在由另一进程更新，请稍后重试");
   }
 }
-async function writeOwner(lock) {
-  const f = await open(join(lock, "owner"), "wx", 0o600);
+async function writeOwner(directory, marker) {
+  const f = await open(join(directory, marker), "wx", 0o600);
   try {
     await f.writeFile(JSON.stringify({ pid: process.pid }));
   } finally {
     await f.close();
+  }
+}
+async function removeEmptyLock(lock) {
+  try {
+    await rmdir(lock);
+  } catch (e) {
+    // A successor is published with its marker already present, so rmdir
+    // cannot remove it. Never recursively remove a shared lock directory.
+    if (!["ENOENT", "ENOTEMPTY", "EEXIST"].includes(e.code)) throw e;
+  }
+}
+async function removeOwnedMarker(lock, marker) {
+  try {
+    await unlink(join(lock, marker));
+  } catch (e) {
+    if (e.code === "ENOENT") return;
+    throw e;
+  }
+  await removeEmptyLock(lock);
+}
+async function reapDeadOwner(lock) {
+  let entries;
+  try {
+    entries = await readdir(lock);
+  } catch (e) {
+    if (e.code === "ENOENT") return;
+    throw e;
+  }
+  if (!entries.length) {
+    await removeEmptyLock(lock);
+    return;
+  }
+  // The legacy name is only for recovery after older helpers have stopped.
+  if (
+    entries.length !== 1 ||
+    !/^(owner|owner-[a-f0-9-]{36}\.json)$/.test(entries[0])
+  )
+    return;
+  const marker = entries[0];
+  let owner;
+  try {
+    owner = JSON.parse(await readFile(join(lock, marker), "utf8"));
+  } catch (e) {
+    if (e.code === "ENOENT" || e instanceof SyntaxError) return;
+    throw e;
+  }
+  if (!Number.isSafeInteger(owner.pid) || owner.pid <= 0) return;
+  try {
+    process.kill(owner.pid, 0);
+  } catch (e) {
+    if (e.code === "ESRCH") await removeOwnedMarker(lock, marker);
   }
 }

@@ -468,3 +468,114 @@ test("changing configured origin never forwards stored refresh or device credent
     await s.clean();
   }
 });
+
+test("orphan contenders cannot remove a successor lock during delayed stale cleanup", async () => {
+  const { default: fs } = await import("node:fs/promises");
+  const { syncBuiltinESMExports } = await import("node:module");
+  const { PrivateStore } = await import("../src/store.mjs");
+  const { setTimeout: delay } = await import("node:timers/promises");
+  const s = await setup();
+  const store = new PrivateStore(s.home, "test");
+  await store.prepare();
+  const lock = join(store.dir, "lock");
+  await mkdir(lock);
+  await writeFile(join(lock, "owner"), JSON.stringify({ pid: 2147483647 }));
+  const realRm = fs.rm,
+    realUnlink = fs.unlink,
+    realKill = process.kill;
+  let observed = 0,
+    removals = 0,
+    active = 0,
+    maximum = 0,
+    entered = 0;
+  let sawBoth, firstEntered, secondRemoved;
+  const both = new Promise((r) => (sawBoth = r)),
+    first = new Promise((r) => (firstEntered = r)),
+    second = new Promise((r) => (secondRemoved = r));
+  process.kill = function (pid, signal) {
+    if (pid === 2147483647) {
+      if (++observed === 2) sawBoth();
+      throw Object.assign(Error("dead"), { code: "ESRCH" });
+    }
+    return realKill.call(process, pid, signal);
+  };
+  async function scheduledRemove(original, path, options) {
+    // Original implementation removes shared directory; corrected implementation removes only observed owner.
+    if (String(path) === lock || String(path) === join(lock, "owner")) {
+      const index = ++removals;
+      if (index === 1) await both;
+      if (index === 2) await first;
+      try {
+        return await original(path, options);
+      } finally {
+        if (index === 2) secondRemoved();
+      }
+    }
+    return original(path, options);
+  }
+  fs.rm = (path, options) => scheduledRemove(realRm, path, options);
+  fs.unlink = (path) => scheduledRemove(realUnlink, path);
+  syncBuiltinESMExports();
+  const critical = async () => {
+    active++;
+    maximum = Math.max(maximum, active);
+    if (++entered === 1) {
+      firstEntered();
+      await second;
+      await delay(100);
+    }
+    active--;
+  };
+  try {
+    await Promise.all([
+      store.lock(critical),
+      new PrivateStore(s.home, "test").lock(critical),
+    ]);
+    assert.equal(observed, 2);
+    assert.equal(maximum, 1);
+    assert.equal(entered, 2);
+  } finally {
+    fs.rm = realRm;
+    fs.unlink = realUnlink;
+    process.kill = realKill;
+    syncBuiltinESMExports();
+    await s.clean();
+  }
+});
+
+test("ordinary cross-process contention serializes critical sections and releases only owned locks", async () => {
+  const { spawn } = await import("node:child_process");
+  const { pathToFileURL } = await import("node:url");
+  const { resolve } = await import("node:path");
+  const s = await setup();
+  const code = `import {PrivateStore} from ${JSON.stringify(pathToFileURL(resolve("src/store.mjs")).href)};import {open,rm} from 'node:fs/promises';import {join} from 'node:path';import {setTimeout as delay} from 'node:timers/promises';const store=new PrivateStore(process.argv[1],'test');for(let i=0;i<4;i++)await store.lock(async()=>{const marker=join(store.dir,'critical');const f=await open(marker,'wx');try{const state=await store.read();await delay(10);await store.write({...state,count:(state.count??0)+1});}finally{await f.close();await rm(marker);}});`;
+  try {
+    await Promise.all(
+      Array.from(
+        { length: 3 },
+        () =>
+          new Promise((done, fail) => {
+            const child = spawn(process.execPath, [
+              "--input-type=module",
+              "--eval",
+              code,
+              s.home,
+            ]);
+            let errors = "";
+            child.stderr.on("data", (b) => (errors += b));
+            child.on("error", fail);
+            child.on("exit", (status) =>
+              status === 0 ? done() : fail(Error(errors)),
+            );
+          }),
+      ),
+    );
+    assert.equal(
+      JSON.parse(await readFile(join(s.home, "test", "state.json"), "utf8"))
+        .count,
+      12,
+    );
+  } finally {
+    await s.clean();
+  }
+});
