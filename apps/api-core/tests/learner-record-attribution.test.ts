@@ -171,6 +171,11 @@ test("视频轮询在读取模型或 Provider 前按本地任务、当前学习�
     userId: "user-1",
     learnerId: "learner-1",
     scenario: { slug: "experience-video-generation" }
+  }, {
+    input: { path: ["providerTaskId"], equals: "local-task-1" },
+    userId: "user-1",
+    learnerId: "learner-1",
+    scenario: { slug: "experience-video-generation" }
   }]);
 });
 

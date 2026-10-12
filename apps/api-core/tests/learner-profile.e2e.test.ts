@@ -24,7 +24,7 @@ process.env.PROFILE_CONTEXT_SECRET = `task11-profile-${randomUUID()}`;
 process.env.SECRET_ENCRYPTION_KEY = `task11-encryption-${randomUUID()}`;
 process.env.REDIS_URL = redisUrl;
 process.env.CMS_SCHEDULED_PUBLISHER_ENABLED = "0";
-process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:3322/api";
+process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:3664/api";
 
 interface ApiPayload<T> {
   code: number;
@@ -135,14 +135,14 @@ async function prepareIsolatedSchema(isolatedDatabaseUrl: string) {
 
 async function startApp() {
   const { NestFactory } = await import("@nestjs/core");
-  const { AppModule } = await import("../src/app.module.js");
-  const { HttpExceptionFilter } = await import("../src/common/http-exception.filter.js");
-  const { createValidationPipe } = await import("../src/common/validation.js");
-  const app = await NestFactory.create(AppModule, { logger: false, rawBody: true });
+  const { AppModule } = await import("../dist/app.module.js");
+  const { HttpExceptionFilter } = await import("../dist/common/http-exception.filter.js");
+  const { createValidationPipe } = await import("../dist/common/validation.js");
+  const app = await NestFactory.create(AppModule, { logger: ["error"], abortOnError: false, rawBody: true });
   app.setGlobalPrefix("api");
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(createValidationPipe());
-  await app.listen(0, "127.0.0.1");
+  await app.listen(3664, "127.0.0.1");
   return { app, baseUrl: `${await app.getUrl()}/api` };
 }
 

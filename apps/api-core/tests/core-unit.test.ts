@@ -72,6 +72,15 @@ function createTinyVideoBuffer(label: string) {
   }
 }
 
+function fixtureAudio() {
+  const wav = Buffer.alloc(1644);
+  wav.write('RIFF'); wav.writeUInt32LE(wav.length - 8, 4); wav.write('WAVEfmt ', 8);
+  wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22);
+  wav.writeUInt32LE(8000, 24); wav.writeUInt32LE(16000, 28); wav.writeUInt16LE(2, 32); wav.writeUInt16LE(16, 34);
+  wav.write('data', 36); wav.writeUInt32LE(1600, 40);
+  return wav;
+}
+
 function responseMock() {
   return {
     cookie() {},
@@ -1765,7 +1774,13 @@ test("核心业务单元测试", { timeout: 120_000 }, async (t) => {
     assert.equal(terminalLedgers.length, 1);
   });
 
-  await t.test("视频导学生成需要确认点数并写入钱包流水", async () => {
+  await t.test("视频导学生成需要确认点数并写入钱包流水", async (subtest) => {
+    const scenario = await prisma.aiScenario.findUnique({ where: { slug: "video-guide-narration" } });
+    if (!scenario) {
+      const created = await prisma.aiScenario.create({ data: { slug: "video-guide-narration", name: "视频导学测试", promptTemplate: "{{input}}", isEnabled: true, costCredits: 0 } });
+      subtest.after(async () => { await prisma.aiScenario.delete({ where: { id: created.id } }); });
+    }
+
     const initialCredits = 5000;
     const user = await prisma.user.create({
       data: {
@@ -3036,13 +3051,18 @@ test("核心业务单元测试", { timeout: 120_000 }, async (t) => {
       callAudioGateway: (path: string, model: unknown, body: Record<string, unknown>) => Promise<Record<string, unknown>>;
     };
     const originalCallAudioGateway = testAudioService.callAudioGateway;
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async input => {
+      assert.equal(String(input), "https://dashscope-result-sh.oss-cn-shanghai.aliyuncs.com/unit-voice-preview.wav");
+      return new Response(fixtureAudio(), { headers: { "content-type": "application/octet-stream", "content-length": String(fixtureAudio().length) } });
+    };
     testAudioService.callAudioGateway = async (_path, model: unknown) => {
       const modelName = (model as { modelName: string }).modelName;
 
       return {
         providerVoiceId: `${modelName}-unit-voice`,
         voice_id: `${modelName}-unit-voice`,
-        audioBase64: "UklGRg==",
+        audioUrl: "https://dashscope-result-sh.oss-cn-shanghai.aliyuncs.com/unit-voice-preview.wav",
         audioMimeType: "audio/wav",
         latencyMs: 1
       };
@@ -3094,6 +3114,7 @@ test("核心业务单元测试", { timeout: 120_000 }, async (t) => {
       assert.equal(wallet.availableCredits, 820);
       assert.equal(wallet.totalConsumedCredits, 1180);
     } finally {
+      globalThis.fetch = originalFetch;
       testAudioService.callAudioGateway = originalCallAudioGateway;
     }
   });
@@ -3608,7 +3629,8 @@ test("核心业务单元测试", { timeout: 120_000 }, async (t) => {
       }>;
     };
     const settledTask = await audioTaskSettler.settleSuccessfulAudioTask(task.id, {
-      audioUrl: "https://example.com/unit-audio.mp3",
+      audioBase64: fixtureAudio().toString("base64"),
+      audioMimeType: "audio/wav",
       requestId: `audio-request-${unique}`,
       latencyMs: 321,
       audioDurationMs: 1500,
@@ -3656,7 +3678,8 @@ test("核心业务单元测试", { timeout: 120_000 }, async (t) => {
     assert.equal(consumeLedgers[0]?.operationType, "TTS");
 
     await audioTaskSettler.settleSuccessfulAudioTask(task.id, {
-      audioUrl: "https://example.com/unit-audio-again.mp3",
+      audioBase64: fixtureAudio().toString("base64"),
+      audioMimeType: "audio/wav",
       requestId: `audio-request-again-${unique}`
     });
 
@@ -3824,7 +3847,8 @@ test("核心业务单元测试", { timeout: 120_000 }, async (t) => {
         }>;
       };
       const settledTask = await audioTaskSettler.settleSuccessfulAudioTask(task.id, {
-        audioUrl: "https://example.com/unit-enterprise-audio.mp3",
+        audioBase64: fixtureAudio().toString("base64"),
+      audioMimeType: "audio/wav",
         requestId: `audio-enterprise-request-${unique}`,
         usage: {
           providerUsage: {

@@ -16,6 +16,7 @@ import { PictureBookGuideModule } from "../src/picture-book-guide/picture-book-g
 
 test("本站绘本仅列出本人作品和已发布审核版本，选择后私有保存页序及配文", { timeout: 60000 }, async () => {
   const prisma = getPrismaClient();
+  const fixtureTag = `library-${randomUUID()}`;
   const directory = await mkdtemp(join(tmpdir(), "abei-guide-library-"));
   const oldDirectory = process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR;
   const oldWebBase = process.env.PICTURE_BOOK_GUIDE_WEB_BASE_URL;
@@ -50,7 +51,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     return prisma.pictureBook.create({ data: { userId: owner, title, brief: "私密创作沟通", audience: "一二年级", style: "watercolor", status, pageCount: 1, messages: [], characters: [], pages: pages(caption) } });
   }
   async function published(source: Awaited<ReturnType<typeof book>>, status: "APPROVED" | "PENDING" | "REJECTED", isPublished = true) {
-    const snapshot = { type: "PICTURE_BOOK", title: `审核版${source.title}`, aspectRatio: "1:1", pages: pages("已审核配文") };
+    const snapshot = { type: "PICTURE_BOOK", title: `审核版${source.title} ${fixtureTag}`, aspectRatio: "1:1", pages: pages("已审核配文") };
     const publication = await prisma.courseMaterialPublication.create({ data: { materialType: "PICTURE_BOOK", pictureBookId: source.id, status, approvedHash: "approved-fixture", currentHash: "new-private-version", approvedSnapshot: snapshot, currentSnapshot: { ...snapshot, title: "待审核私密版本" } } }); publications.push(publication.id);
     const course = await prisma.course.create({ data: { id: randomUUID(), userId: source.userId, reviewState: "PUBLISHED", publishedAt: isPublished ? new Date() : null } }); courses.push(course.id);
     const revision = await prisma.courseRevision.create({ data: { courseId: course.id, coverMediaId: coverId, name: "测试课程", summary: "测试", status: "APPROVED" } });
@@ -75,8 +76,8 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     const mineData = (await mine.json()).data;
     assert.equal(mineData.total, 1); assert.equal(mineData.items[0].title, "我的未投稿作品");
     assert.equal("brief" in mineData.items[0], false); assert.equal("pages" in mineData.items[0], false);
-    const publicData = (await (await get("/books?scope=PUBLIC")).json()).data;
-    assert.equal(publicData.total, 1); assert.deepEqual(publicData.items.map((item: { title: string }) => item.title), ["审核版公开绘本"]);
+    const publicData = (await (await get(`/books?scope=PUBLIC&search=${fixtureTag}`)).json()).data;
+    assert.equal(publicData.total, 1); assert.deepEqual(publicData.items.map((item: { title: string }) => item.title), [`审核版公开绘本 ${fixtureTag}`]);
     assert.equal((await (await get("/books?scope=PUBLIC&search=不存在")).json()).data.total, 0);
     assert.equal((await get("/books?scope=PUBLIC&page=0")).status, 400);
     assert.equal((await get("/books?scope=OTHER")).status, 400);
@@ -93,7 +94,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     assert.match(multilineGuide.pages[1].sourceText, /第10段配文需要完整保留/);
     const importedPublic = await importBook(approved.id, "PUBLIC"); assert.equal(importedPublic.status, 201);
     const publicGuide = (await importedPublic.json()).data;
-    assert.equal(publicGuide.title, "审核版公开绘本"); assert.match(publicGuide.pages[1].sourceText, /已审核配文/);
+    assert.equal(publicGuide.title, `审核版公开绘本 ${fixtureTag}`); assert.match(publicGuide.pages[1].sourceText, /已审核配文/);
     assert.doesNotMatch(JSON.stringify(publicGuide), /未审核的当前配文|待审核私密版本|私密创作沟通/);
     const preview = await get(`/${publicGuide.id}/pages/2/image`); assert.equal(preview.status, 200); assert.equal(preview.headers.get("content-type"), "image/png");
     assert.ok((await preview.arrayBuffer()).byteLength > 1000);

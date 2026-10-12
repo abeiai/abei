@@ -3,7 +3,10 @@ import test from "node:test";
 
 import { AudioService } from "../src/audio/audio.service.js";
 
-test("Base64 语音合成结果保存为可播放的 R2 音频资源", async () => {
+test("Base64 语音合成结果保存为可播放的 R2 音频资源", async (t) => {
+  const driver = process.env.UPLOAD_DRIVER;
+  process.env.UPLOAD_DRIVER = "s3";
+  t.after(() => { if (driver === undefined) delete process.env.UPLOAD_DRIVER; else process.env.UPLOAD_DRIVER = driver; });
   let assetData: Record<string, unknown> | null = null;
   let uploadedFile: { mimetype: string; size: number; buffer: Buffer } | null = null;
 

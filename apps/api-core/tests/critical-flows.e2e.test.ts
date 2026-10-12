@@ -13,7 +13,7 @@ process.env.ENABLE_MOCK_PAYMENT_NOTIFY ??= "1";
 const unique = `e2e-${Date.now()}`;
 const uploadDir = join(tmpdir(), `xueleai-uploads-${unique}`);
 process.env.UPLOAD_DIR = uploadDir;
-process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:3322/api";
+process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:3664/api";
 process.env.CMS_SCHEDULED_PUBLISHER_ENABLED = "0";
 
 interface ApiPayload<TData> {
@@ -48,11 +48,11 @@ function cookieHeader(jar: CookieJar) {
 
 async function startApp() {
   const { NestFactory } = await import("@nestjs/core");
-  const { AppModule } = await import("../src/app.module.js");
-  const { HttpExceptionFilter } = await import("../src/common/http-exception.filter.js");
-  const { createValidationPipe } = await import("../src/common/validation.js");
+  const { AppModule } = await import("../dist/app.module.js");
+  const { HttpExceptionFilter } = await import("../dist/common/http-exception.filter.js");
+  const { createValidationPipe } = await import("../dist/common/validation.js");
   const app = await NestFactory.create(AppModule, {
-    logger: false,
+    logger: ["error"], abortOnError: false,
     rawBody: true
   });
 
@@ -60,7 +60,7 @@ async function startApp() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(createValidationPipe());
 
-  await app.listen(0, "127.0.0.1");
+  await app.listen(3664, "127.0.0.1");
 
   return {
     app,
@@ -682,7 +682,7 @@ test("关键业务 e2e 链路", { timeout: 180_000 }, async (t) => {
     body: {
       siteName: `链路站点 ${unique}`,
       siteDescription: "链路初始化测试站点",
-      siteUrl: "http://localhost:3321"
+      siteUrl: "http://localhost:3601"
     }
   });
   assert.equal(setupSite.data.summary.hasSiteName, true);
@@ -922,7 +922,7 @@ test("关键业务 e2e 链路", { timeout: 180_000 }, async (t) => {
       providerKey: `test-provider-${unique}`,
       displayName: `链路测试 Provider ${unique}`,
       adapterType: "OPENAI_COMPATIBLE",
-      defaultBaseUrl: "http://127.0.0.1:3329/v1",
+      defaultBaseUrl: "http://127.0.0.1:3667/v1",
       apiKeyEnvName: "TEST_AI_API_KEY",
       isBuiltIn: false,
       isEnabledByDefault: false,
@@ -972,7 +972,7 @@ test("关键业务 e2e 链路", { timeout: 180_000 }, async (t) => {
     jar: adminJar,
     body: {
       name: `链路 Provider 实例 ${unique}`,
-      baseUrl: "http://127.0.0.1:3329/v1",
+      baseUrl: "http://127.0.0.1:3667/v1",
       apiKey: `sk-test-${unique}`,
       status: "ENABLED"
     }
