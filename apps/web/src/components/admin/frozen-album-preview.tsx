@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import type { CourseReviewRequest, JsonValue } from "@/lib/course-types";
@@ -32,11 +33,18 @@ export function FrozenAlbumPreview({ review }: { review: CourseReviewRequest }) 
   if (!hasFrozenAlbum(review)) return null;
   const snapshot = record(review.afterSnapshot);
   const submitted = Array.isArray(snapshot.items) ? snapshot.items.map(record) : [];
+  const courseId = review.courseId ?? review.course?.id;
   return <section className="space-y-4">
     <h3 className="text-base font-semibold">{String(snapshot.name ?? review.courseRevision!.name)} · 投稿版本</h3>
     {snapshot.summary ? <p className="whitespace-pre-wrap text-sm leading-6">{String(snapshot.summary)}</p> : null}
     <img className="max-h-64 rounded-lg object-contain" src={`/api/creator-media/revisions/${review.courseRevision!.id}/cover`} alt="投稿专辑封面" />
-    {review.courseRevision!.items.filter(item => item.materialType === "PICTURE_BOOK" && item.pinnedSnapshot).map(item => {
+    {review.courseRevision!.items.map(item => {
+      if (item.materialType !== "PICTURE_BOOK" || !item.pinnedSnapshot) {
+        return <div key={item.id} className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <span className="text-sm font-semibold">{item.displayName}</span>
+          {courseId ? <Button asChild size="sm" variant="outline"><Link aria-label={`${item.displayName}：打开课程预览`} href={`/c/${courseId}`} rel="noreferrer" target="_blank">打开课程预览</Link></Button> : <span className="text-sm text-muted-foreground">暂无可预览课程</span>}
+        </div>;
+      }
       const frozen = submitted.find(value => value.publicationId === item.publicationId);
       const book = record(frozen?.materialSnapshot ?? item.pinnedSnapshot);
       const pages = Array.isArray(book.pages) ? book.pages.map(record) : [];
