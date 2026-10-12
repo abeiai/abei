@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, statSync, chmodSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, resolve, dirname } from 'node:path';
 import test from 'node:test';
 const root=resolve(import.meta.dirname,'../..');
 const applicationSources = [
@@ -76,5 +76,31 @@ test('server source synchronization retains named source routes and preserves ru
     assert.equal(result.status,0,result.stderr);
     for(const file of applicationSources) assert.equal(readFileSync(join(target,file),'utf8'),'new source',file);
     for(const file of preserved) assert.equal(readFileSync(join(target,file),'utf8'),'existing private runtime',file);
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
+test('private stage extraction under umask 077 keeps source directories traversable and file modes intact', () => {
+  const dir=mkdtempSync(join(tmpdir(),'abei-extract-modes-'));
+  try {
+    const git=(args)=>execFileSync('git',args,{cwd:dir,encoding:'utf8'}).trim();
+    git(['init','-q']); git(['config','user.email','fixture@example.test']); git(['config','user.name','Fixture']);
+    const files=[
+      ['apps/ai-gateway/app/audio_gateway/providers/__init__.py',0o644],
+      ['apps/web/src/app/uploads/typing-content/route.ts',0o644],
+      ['scripts/release/abei-fixture.sh',0o755]
+    ];
+    for(const [file,mode] of files) {mkdirSync(dirname(join(dir,file)),{recursive:true});writeFileSync(join(dir,file),'fixture source');chmodSync(join(dir,file),mode);}
+    git(['add','.']);git(['commit','-qm','fixture']);const sha=git(['rev-parse','HEAD']);
+    const archive=join(dir,'release.tar');
+    execFileSync('python3',[join(root,'scripts/release/abei-archive.py'),'pack',sha,archive],{cwd:dir});
+    const target=join(dir,'private-stage');mkdirSync(target,{mode:0o700});chmodSync(target,0o700);
+    execFileSync('bash',['-c','umask 077; exec python3 "$@"','--',join(root,'scripts/release/abei-archive.py'),'extract',sha,archive,target]);
+    assert.equal(statSync(target).mode & 0o777,0o700,'stage root must remain private');
+    for(const [file,mode] of files) {
+      const path=join(target,file);
+      assert.equal(readFileSync(path,'utf8'),'fixture source');
+      assert.equal(statSync(path).mode & 0o777,mode,'regular/executable file mode preserved');
+      for(let parent=dirname(path);parent!==target;parent=dirname(parent)) assert.equal(statSync(parent).mode & 0o777,0o755,`source directory must be traversable: ${parent}`);
+    }
   } finally {rmSync(dir,{recursive:true,force:true});}
 });

@@ -81,6 +81,12 @@ def main():
                 for member in members:
                     dest = target / member.name
                     dest.parent.mkdir(parents=True, exist_ok=True)
+                    # The empty stage root stays private. Only validated source
+                    # directories inside it must survive COPY to non-root images.
+                    parent = dest.parent
+                    while parent != target:
+                        parent.chmod(0o755)
+                        parent = parent.parent
                     with dest.open('xb') as output:
                         output.write(archive.extractfile(member).read())
                     dest.chmod(member.mode & 0o755)
