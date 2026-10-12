@@ -1,10 +1,15 @@
 import { Body, Controller, Get, Inject, Param, Post, Query, Req } from "@nestjs/common";
-import { IsDateString, MaxLength, MinLength } from "class-validator";
+import { IsDateString, IsString, MaxLength, MinLength } from "class-validator";
 import { AdminAuthService } from "../admin-auth/admin-auth.service.js";
 import { successResponse } from "../common/api-response.js";
 import { writeAdminOperationLog } from "../security/admin-operation-log.js";
 import type { HeaderRequestLike } from "../security/request-types.js";
 import { CourseReviewService } from "./course-review.service.js";
+
+export class UnpublishCourseDto {
+  @IsString() @MinLength(1) @MaxLength(80)
+  expectedRevisionId!: string;
+}
 
 export class ApproveCourseReviewDto {
   @IsDateString({}, { message: "审核版本参数格式错误" })
@@ -59,6 +64,12 @@ export class AdminCourseReviewsController {
     });
 
     return successResponse(review);
+  }
+
+  @Post("courses/:id/unpublish")
+  async unpublish(@Req() request: unknown, @Param("id") id: string, @Body() dto: UnpublishCourseDto) {
+    const admin = await this.adminAuthService.me(request as never);
+    return successResponse(await this.courseReviewService.unpublish(admin.id, id, dto.expectedRevisionId));
   }
 
   @Post(":id/approve")

@@ -1,3 +1,4 @@
+import { CreatorModule } from "./creator/creator.module.js";
 import { CreatorAuthModule } from "./creator-auth/creator-auth.module.js";
 import { MembershipModule } from "./membership/membership.module.js";
 import { Module } from "@nestjs/common";
@@ -45,6 +46,7 @@ import { WalletModule } from "./wallet/wallet.module.js";
     }),
     AuthModule,
     CreatorAuthModule,
+    CreatorModule,
     AdminAuthModule,
     AudioModule,
     AiModule,

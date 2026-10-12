@@ -5,8 +5,8 @@ import { ChevronLeft, ChevronRight, LoaderCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-type ReviewRow = { id: string; title: string; author: string; status: string; submittedAt: string; updatedAt: string; coverUrl: string | null; reviewNote: string | null };
-type Review = Omit<ReviewRow, "title"> & { coverGenerating: boolean; book: { title: string; pages: Array<{ position: number; caption: string; narration: string; imageUrl: string | null }> } };
+type ReviewRow = { published?: boolean; publishedVersion?: number; id: string; title: string; author: string; status: string; submittedAt: string; updatedAt: string; coverUrl: string | null; reviewNote: string | null };
+type Review = Omit<ReviewRow, "title"> & { coverGenerating: boolean; book: { title: string; pages: Array<{ position: number; caption: string; narration: string; imageUrl: string | null; audioUrl?: string | null }> } };
 const labels: Record<string, string> = { PENDING: "待审核", APPROVED: "已通过", REJECTED: "已拒绝" };
 async function request<T>(path: string, method = "GET", body?: unknown, signal?: AbortSignal): Promise<T> {
   const response = await fetch(`/api/admin/picture-book-submissions${path}`, { method, credentials: "include", cache: "no-store", signal, headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined });
@@ -65,6 +65,13 @@ export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; 
       try { setReview(await request<Review>(`/${review.id}`)); } catch { /* 保留操作错误。 */ }
     } finally { setDeciding(false); }
   }
+  async function unpublish() {
+    if (!review || deciding) return;
+    setDeciding(true); setError("");
+    try { await request(`/${review.id}/unpublish`, "POST", { expectedVersion: review.publishedVersion }); setSelected(null); setNotice("绘本已下架。"); router.refresh(); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "下架失败"); }
+    finally { setDeciding(false); }
+  }
   const page = review?.book.pages[index];
   return <div className="space-y-5">
     <form method="get" className="flex items-end gap-3"><label className="text-sm font-semibold">审核状态<select name="status" defaultValue={status} className="ml-3 rounded-lg border px-3 py-2 font-normal">{Object.entries(labels).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label><Button variant="outline" type="submit">筛选</Button></form>
@@ -74,9 +81,10 @@ export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; 
       <div className="mb-5 flex items-start justify-between gap-4"><div><h2 id="book-review-title" className="text-xl font-semibold">{review?.book.title ?? "单本绘本审核"}</h2>{review ? <p className="mt-1 text-sm text-muted-foreground">{review.author} · {labels[review.status]}</p> : null}</div><button aria-label="关闭审核窗口" disabled={deciding} onClick={()=>setSelected(null)}><X className="size-5" /></button></div>
       {error ? <p role="alert" className="mb-4 rounded-lg bg-destructive/5 p-3 text-sm text-destructive">{error}</p> : null}
       {review ? <div className="grid gap-6 md:grid-cols-2">
-        <section><h3 className="mb-3 text-base font-semibold">绘本内容</h3>{page ? <><img className="aspect-square w-full rounded-xl border object-contain" src={`/api/admin/picture-book-submissions/${review.id}/pages/${page.position}/image`} alt={`${review.book.title}${page.position === 0 ? "封面" : `第 ${page.position} 页`}`} /><div className="mt-3 flex items-center justify-between"><Button size="sm" variant="outline" disabled={index===0} onClick={()=>setIndex(index-1)} aria-label="上一页"><ChevronLeft /></Button><span className="text-sm">{page.position===0 ? "原始封面" : `第 ${page.position} 页`} / {review.book.pages.length-1} 页</span><Button size="sm" variant="outline" disabled={index===review.book.pages.length-1} onClick={()=>setIndex(index+1)} aria-label="下一页"><ChevronRight /></Button></div><p className="mt-3 whitespace-pre-wrap text-sm leading-6">{page.caption}</p>{page.narration && page.narration!==page.caption ? <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground">讲解：{page.narration}</p> : null}</> : null}</section>
+        <section><h3 className="mb-3 text-base font-semibold">绘本内容</h3>{page ? <><img className="aspect-square w-full rounded-xl border object-contain" src={`/api/admin/picture-book-submissions/${review.id}/pages/${page.position}/image`} alt={`${review.book.title}${page.position === 0 ? "封面" : `第 ${page.position} 页`}`} /><div className="mt-3 flex items-center justify-between"><Button size="sm" variant="outline" disabled={index===0} onClick={()=>setIndex(index-1)} aria-label="上一页"><ChevronLeft /></Button><span className="text-sm">{page.position===0 ? "原始封面" : `第 ${page.position} 页`} / {review.book.pages.length-1} 页</span><Button size="sm" variant="outline" disabled={index===review.book.pages.length-1} onClick={()=>setIndex(index+1)} aria-label="下一页"><ChevronRight /></Button></div><p className="mt-3 whitespace-pre-wrap text-sm leading-6">{page.caption}</p>{page.audioUrl ? <audio controls preload="none" className="mt-3 w-full" src={`/api/admin/picture-book-submissions/${review.id}/pages/${page.position}/audio`} /> : null}{page.narration && page.narration!==page.caption ? <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground">讲解：{page.narration}</p> : null}</> : null}</section>
         <section><h3 className="mb-3 text-base font-semibold">绘本馆封面 · 4:3</h3>{review.coverUrl ? <img className="aspect-[4/3] w-full rounded-xl border object-cover" src={`/api/admin/picture-book-submissions/${review.id}/cover/image?v=${encodeURIComponent(review.updatedAt)}`} alt={`${review.book.title}绘本馆封面`} /> : <div className="flex aspect-[4/3] items-center justify-center rounded-xl border bg-secondary text-sm text-muted-foreground">{busy ? <><LoaderCircle className="mr-2 size-4 animate-spin" />正在生成封面…</> : "封面尚未生成"}</div>}
           {review.status === "PENDING" ? <div className="mt-5 space-y-4">{!review.coverUrl && !busy ? <Button variant="outline" onClick={()=>setRetry(retry+1)}>重试生成封面</Button> : null}<label className="block text-sm font-semibold">拒绝原因<Textarea className="mt-2 font-normal" value={reason} maxLength={500} onChange={event=>setReason(event.target.value)} placeholder="拒绝投稿时必填" disabled={deciding} /></label><div className="flex gap-3"><Button disabled={busy||deciding||!review.coverUrl} onClick={()=>void decide("approve")}>通过审核</Button><Button variant="outline" disabled={busy||deciding} onClick={()=>void decide("reject")}>拒绝投稿</Button></div></div> : review.reviewNote ? <p className="mt-4 text-sm text-destructive">拒绝原因：{review.reviewNote}</p> : null}
+          {review.published ? <Button className="mt-4" variant="outline" disabled={deciding} onClick={() => void unpublish()}>下架已发布绘本</Button> : null}
         </section>
       </div> : <p className="py-12 text-center text-sm text-muted-foreground">{busy ? "正在加载绘本…" : "绘本加载失败"}</p>}
     </dialog>

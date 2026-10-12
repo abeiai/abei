@@ -94,7 +94,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`/api/${publicMode ? "public/" : ""}picture-books/${encodeURIComponent(activeBookId)}/play`, { credentials: "include", signal: controller.signal, cache: "no-store" })
+    fetch(activeRevisionItemId && !publicMode ? `/api/creator-media/items/${encodeURIComponent(activeRevisionItemId)}/play` : `/api/${publicMode ? "public/" : ""}picture-books/${encodeURIComponent(activeBookId)}/play`, { credentials: "include", signal: controller.signal, cache: "no-store" })
       .then(async (response) => {
         const result = await response.json() as { code?: number; message?: string; data?: Book };
         if (!response.ok || result.code !== 0 || !result.data) throw new Error(result.message || "绘本加载失败");

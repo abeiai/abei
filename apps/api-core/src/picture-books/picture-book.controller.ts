@@ -86,7 +86,8 @@ export class PictureBookController {
   async playback(@Req() request: unknown, @Param("id") id: string) {
     const user = await this.auth.me(request as never);
     const subject = await this.profiles.requireSelected(request as never, user.id);
-    return successResponse(await this.books.playback(subject, id));
+    const book = await this.books.playback(subject, id);
+    return successResponse({ ...book, pages: book.pages.map(page => ({ ...page, imageUrl: page.imageUrl ? `/api/picture-books/${id}/pages/${page.position}/image` : null, audioUrl: page.audioUrl ? `/api/picture-books/${id}/pages/${page.position}/audio` : null })) });
   }
 
   @Get(":id/pages/:position/image")

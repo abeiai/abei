@@ -24,6 +24,10 @@ export class DecisionDto {
   @IsDateString({}, { message: "审核版本参数格式错误" })
   expectedUpdatedAt!: string;
 }
+export class UnpublishBookDto {
+  @IsInt() @Min(1)
+  expectedVersion!: number;
+}
 export class RejectDto extends DecisionDto {
   @IsString() @MinLength(2) @MaxLength(500)
   reason!: string;
@@ -90,6 +94,10 @@ export class AdminPictureBookSubmissionsController {
   async coverImage(@Req() request: unknown, @Param("id") id: string, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id)); }
   @Get(":id/pages/:position/image")
   async image(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id, Number(position))); }
+  @Get(":id/pages/:position/audio")
+  async audio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewAudio(id, Number(position)), range); }
+  @Post(":id/unpublish")
+  async unpublish(@Req() request: unknown, @Param("id") id: string, @Body() dto: UnpublishBookDto) { const admin = await this.auth.me(request as never); return successResponse(await this.submissions.unpublish(admin.id, id, dto.expectedVersion)); }
   @Post(":id/approve")
   async approve(@Req() request: unknown, @Param("id") id: string, @Body() dto: DecisionDto) { return this.decide(request, id, dto, "APPROVED"); }
   @Post(":id/reject")
