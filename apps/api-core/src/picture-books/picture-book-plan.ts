@@ -10,6 +10,24 @@ export interface PictureBookPage {
   imageTaskId: string | null;
   audioUrl: string | null;
   audioTaskId: string | null;
+  translations?: PictureBookTranslation[];
+}
+
+export interface PictureBookTranslation {
+  language: string;
+  caption: string;
+  audioUrl: string | null;
+  audioTaskId: string | null;
+}
+
+export class PictureBookTranslationConflictError extends Error {}
+
+export function validPictureBookLanguage(language: string): boolean {
+  return /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(language) && language !== "zh" && language !== "zh-CN";
+}
+
+export function pictureBookTranslation(page: PictureBookPage, language?: string): PictureBookTranslation | undefined {
+  return language ? page.translations?.find(item => item.language === language) : undefined;
 }
 
 export interface PictureBookCharacter {
@@ -105,7 +123,14 @@ export function updatePictureBookPage(page: PictureBookPage, patch: {
   caption?: string;
   imagePrompt?: string;
   narration?: string;
+  translations?: Array<{ language: string; caption: string }>;
+  expectedTranslations?: Array<{ language: string; caption: string; audioUrl?: string | null }>;
 }): PictureBookPage {
+  if (patch.translations !== undefined) {
+    const current = (page.translations ?? []).map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl ?? null }));
+    const expected = patch.expectedTranslations?.map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl ?? null }));
+    if (!expected || JSON.stringify(current) !== JSON.stringify(expected)) throw new PictureBookTranslationConflictError("译文已在其他页面修改，请刷新后重试");
+  }
   const caption = patch.caption === undefined ? page.caption : requiredString(patch.caption, "画面展示文字", 500);
   const imagePrompt = patch.imagePrompt === undefined
     ? page.imagePrompt : requiredString(patch.imagePrompt, "画面提示词", 2000);
@@ -114,6 +139,13 @@ export function updatePictureBookPage(page: PictureBookPage, patch: {
     : requiredString(patch.narration, "讲解语音文稿", 1000);
   const imageChanged = imagePrompt !== page.imagePrompt;
   const audioChanged = narration !== page.narration;
+  const translations = patch.translations === undefined ? page.translations : patch.translations.map(item => {
+    if (!validPictureBookLanguage(item.language)) throw new Error("译文语种无效");
+    const caption = requiredString(item.caption, "译文展示文字", 1000);
+    const old = pictureBookTranslation(page, item.language);
+    return { language: item.language, caption, audioUrl: old?.caption === caption ? old.audioUrl : null, audioTaskId: old?.caption === caption ? old.audioTaskId : null };
+  });
+  if (translations && (translations.length > 20 || new Set(translations.map(item => item.language)).size !== translations.length)) throw new Error("译文语种重复或数量过多");
   return {
     ...page,
     caption,
@@ -122,7 +154,8 @@ export function updatePictureBookPage(page: PictureBookPage, patch: {
     imageUrl: imageChanged ? null : page.imageUrl,
     imageTaskId: imageChanged ? null : page.imageTaskId,
     audioUrl: audioChanged ? null : page.audioUrl,
-    audioTaskId: audioChanged ? null : page.audioTaskId
+    audioTaskId: audioChanged ? null : page.audioTaskId,
+    ...(translations !== undefined ? { translations } : {})
   };
 }
 

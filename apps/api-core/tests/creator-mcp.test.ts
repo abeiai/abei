@@ -139,7 +139,7 @@ test("MCP SDK transport authenticates every request, validates schemas and prese
       arguments: draft,
     });
     assert.equal(saved.isError, undefined);
-    const book = (saved.structuredContent as any).result;
+    const book = (saved.structuredContent as { result: { id: string; version: number } }).result;
     assert.equal(book.version, 1);
     const conflict = await client.callTool({
       name: "creator_book_save",
@@ -239,7 +239,7 @@ test("MCP SDK transport authenticates every request, validates schemas and prese
         sha256: createHash("sha256").update(imageBytes).digest("hex"),
       },
     });
-    const session = (created.structuredContent as any).result;
+    const session = (created.structuredContent as { result: { id: string; uploadCapability: string; uploadUrl: string; completeUrl: string } }).result;
     const narrowUploaded = await uploadFile(narrowHelper, imagePath, {
       session,
     });

@@ -8,7 +8,7 @@ export function CourseReviewingState({ courseId }: { courseId: string }) {
       <TextbookBreadcrumbs
         items={[
           { href: "/", label: "首页" },
-          { href: "/center", label: "资源中心" },
+          { href: "/library", label: "绘本馆" },
           { href: `/c/${courseId}`, label: "资源审核中" }
         ]}
       />

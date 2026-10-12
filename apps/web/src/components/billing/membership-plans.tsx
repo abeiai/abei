@@ -18,7 +18,7 @@ export function MembershipPlans({ plans, isLoggedIn }: { plans: MembershipPlan[]
         <h3 className="text-xl font-semibold">{plan.name}</h3>
         <div className="flex flex-wrap items-baseline gap-1"><span className="text-lg font-semibold">¥</span><span className="text-4xl font-semibold">{price.amountCny.replace(/\.00$/, "")}</span><span className="ml-1 text-sm text-muted-foreground">每{membershipPeriods[period]}</span>{Number(price.originalPriceCny) > Number(price.amountCny) && <del className="ml-3 text-sm text-muted-foreground">¥{price.originalPriceCny}</del>}</div>
         <p className="font-semibold">赠送 {price.credits.toLocaleString("zh-CN")} 点{price.pricePer100Credits !== null && <span className="ml-2 text-sm font-normal text-muted-foreground">¥{price.pricePer100Credits} / 百点</span>}</p>
-        <ul className="flex-1 space-y-2 text-sm"><li>免费获取资源中心全部资源</li><li>{plan.storageGb} GB 存储额度</li><li>最多 {plan.learnerLimit} 位学习者</li>{plan.benefits.map((benefit) => <li key={benefit.code}>{benefit.name}：{String(benefit.value)}</li>)}</ul>
+        <ul className="flex-1 space-y-2 text-sm"><li>免费获取绘本馆全部资源</li><li>{plan.storageGb} GB 存储额度</li><li>最多 {plan.learnerLimit} 位学习者</li>{plan.benefits.map((benefit) => <li key={benefit.code}>{benefit.name}：{String(benefit.value)}</li>)}</ul>
         <Button asChild><Link href={isLoggedIn ? href : `/login?next=${encodeURIComponent(href)}`}>开通 {plan.name}</Link></Button>
       </article>;
     })}</div>

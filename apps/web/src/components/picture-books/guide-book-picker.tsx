@@ -45,7 +45,7 @@ export function GuideBookPicker({ onClose, onSelect }: { onClose: () => void; on
     <div ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="guide-library-title" className="flex max-h-[85vh] w-full max-w-2xl flex-col rounded-2xl border border-border bg-background p-5 shadow-xl">
       <div className="mb-4 flex items-center justify-between gap-3"><h2 id="guide-library-title" className="text-base font-semibold">选择本站绘本</h2><Button size="sm" variant="ghost" aria-label="关闭绘本选择" onClick={onClose}><X className="size-4" /></Button></div>
       <div className="mb-4 flex gap-2">
-        <Button variant={scope === "PUBLIC" ? "default" : "outline"} aria-pressed={scope === "PUBLIC"} onClick={() => { setScope("PUBLIC"); setPage(1); }}>资源中心</Button>
+        <Button variant={scope === "PUBLIC" ? "default" : "outline"} aria-pressed={scope === "PUBLIC"} onClick={() => { setScope("PUBLIC"); setPage(1); }}>绘本馆</Button>
         <Button variant={scope === "MINE" ? "default" : "outline"} aria-pressed={scope === "MINE"} onClick={() => { setScope("MINE"); setPage(1); }}>我的绘本</Button>
       </div>
       <div className="relative mb-4"><Search className="pointer-events-none absolute left-3 top-3.5 size-4 text-muted-foreground" /><Input ref={searchRef} aria-label="搜索绘本" placeholder="搜索绘本名称" maxLength={80} className="pl-9" value={search} onChange={event => { setSearch(event.target.value); setPage(1); }} /></div>

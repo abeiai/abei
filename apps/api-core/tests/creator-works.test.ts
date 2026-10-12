@@ -56,6 +56,77 @@ test('Creator works and immutable publication: real database',async t=>{
       assert.deepEqual((await courses.listUserCourses(a.userId)).find(row=>row.id===album.id)?.creatorSync,{source:'EXTERNAL_CLIENT',version:1});
       await assert.rejects(courses.getUserCourse(b.userId,album.id),status(404));
     });
+    await t.test('account submission and metadata-only saves retain pinned member versions after later edits',async()=>{
+      for (const alreadyApproved of [false,true]) {
+        const externalId=`account-member-${alreadyApproved}`;
+        const member=await service.saveBook(a,{...manifest('所选第一版'),externalId});
+        const input={schemaVersion:1,externalId:`account-album-${alreadyApproved}`,expectedVersion:0,title:'专辑第一版',summary:'测试',coverAssetId:upload.id,items:[{bookId:member.id,expectedVersion:1,displayName:'成员'}]};
+        const album=await service.saveAlbum(a,input);
+        if(alreadyApproved){
+          const first=await service.submitAlbum(a,album.id,{expectedVersion:1});
+          await reviews.approve(admin.id,first.id,first.updatedAt.toISOString());
+          await service.saveAlbum(a,{...input,expectedVersion:1,title:'专辑第二版'});
+        }
+        await service.saveBook(a,{...manifest('未选择的第二版'),externalId,expectedVersion:1});
+        const before=await db.course.findUniqueOrThrow({where:{id:album.id},include:{workingRevision:{include:{items:true}}}});
+        await new CoursesService().saveCourse(a.userId,album.id,{name:'只修改专辑标题',summary:'新简介',tags:[],coverMediaId:before.workingRevision!.coverMediaId,items:[{materialType:'PICTURE_BOOK',materialId:member.id,displayName:'成员'}]});
+        const after=await db.course.findUniqueOrThrow({where:{id:album.id},include:{workingRevision:{include:{items:true}}}});
+        assert.equal(after.workingRevision!.items[0].pinnedHash,before.workingRevision!.items[0].pinnedHash);
+        assert.equal(after.workingRevision!.items[0].pinnedVersion,1);
+        const pending=await reviews.submitCourse(a.userId,album.id);
+        assert.equal((pending.afterSnapshot as {items:Array<{materialVersion:number}>}).items[0].materialVersion,1);
+        assert.equal(((pending.afterSnapshot as {items:Array<{materialSnapshot:{title:string}}>}).items[0].materialSnapshot).title,'所选第一版');
+        await service.saveAlbum(a,{...input,expectedVersion:alreadyApproved?3:2,title:'未投稿专辑版本B',items:[{bookId:member.id,expectedVersion:2,displayName:'新的成员版本'}]});
+        const approved=await reviews.approve(admin.id,pending.id,pending.updatedAt.toISOString());
+        assert.equal(approved.status,'APPROVED');
+        const current=await db.course.findUniqueOrThrow({where:{id:album.id},include:{workingRevision:true}});
+        assert.equal(current.workingRevision!.name,'未投稿专辑版本B');
+        assert.equal(current.workingRevision!.status,'DRAFT');
+        assert.equal((await new CreatorMediaService(undefined as never).play(after.workingRevision!.items[0].id,{})).title,'所选第一版');
+      }
+    });
+    await t.test('private submitted cover reaches AI precheck internally and remains anonymous-inaccessible',async()=>{
+      const album=await service.saveAlbum(a,{schemaVersion:1,externalId:'precheck-private',expectedVersion:0,title:'私有封面',summary:'测试',coverAssetId:upload.id,items:[{bookId:book.id,expectedVersion:2,displayName:'成员'}]});
+      const pending=await service.submitAlbum(a,album.id,{expectedVersion:1});
+      const review=await reviews.getReview(pending.id);
+      const media=new CreatorMediaService(undefined as never);
+      await assert.rejects(media.cover(review.courseRevisionId!,{}),status(404));
+      const approvedBytes=await media.cover(review.courseRevisionId!,{admin:true});
+      let providerCalls=0;
+      const ai={generateScenarioTextForExternalBilling:async(input:{attachments:Array<{dataUrl:string}>})=>{
+        providerCalls++;assert.equal(input.attachments[0].dataUrl,`data:${approvedBytes.mimetype};base64,${approvedBytes.buffer.toString('base64')}`);
+        return {taskId:null,text:JSON.stringify({verdict:'PASS',summary:'通过',reasons:[]})};
+      }};
+      const precheck=new CourseReviewService(ai as never);
+      const base=process.env.PUBLIC_API_BASE_URL,fetch=globalThis.fetch;
+      process.env.PUBLIC_API_BASE_URL='/api';globalThis.fetch=async()=>{throw Error('private cover must not use anonymous fetch');};
+      try {assert.equal((await precheck.runAiPrecheck(pending.id)).aiPrecheckStatus,'PASSED');assert.equal(providerCalls,1);}
+      finally {globalThis.fetch=fetch;if(base===undefined)delete process.env.PUBLIC_API_BASE_URL;else process.env.PUBLIC_API_BASE_URL=base;}
+      await assert.rejects(media.cover(review.courseRevisionId!,{}),status(404));
+    });
+    await t.test('multilingual public and album playback project frozen audio routes across later drafts',async()=>{
+      const originalUrl='https://example.test/frozen-english.wav';
+      const pages=manifest().pages.map(page=>({...page,audioUrl:null,imageUrl:`/api/creator-assets/${upload.id}`,translations:[{language:'en',caption:'Frozen English',audioUrl:originalUrl}]}));
+      const native=await db.pictureBook.create({data:{userId:a.userId,title:'多语绘本',brief:'测试',style:'watercolor',pageCount:4,status:'COMPLETED',pages,characters:[],messages:[]}});
+      const mediaStub={readPictureBookStoredAudio:async(url:string)=>{assert.equal(url,originalUrl);return {buffer:Buffer.from('frozen audio'),mimetype:'audio/wav'};}};
+      const books=new PictureBookSubmissionService(undefined as never,mediaStub as never);
+      const first=await books.submit(a.userId,native.id);
+      await db.pictureBookSubmission.update({where:{id:first.id},data:{coverUrl:`/api/creator-assets/${upload.id}`}});
+      const review=await books.review(first.id);await books.decide(admin.id,first.id,review.updatedAt.toISOString(),'APPROVED');
+      const album=await service.saveAlbum(a,{schemaVersion:1,externalId:'multilingual-album',expectedVersion:0,title:'多语专辑',summary:'测试',coverAssetId:upload.id,items:[{bookId:native.id,expectedVersion:native.version,displayName:'多语成员'}]});
+      const pending=await service.submitAlbum(a,album.id,{expectedVersion:1});await reviews.approve(admin.id,pending.id,pending.updatedAt.toISOString());
+      const item=await db.courseRevisionItem.findFirstOrThrow({where:{revision:{courseId:album.id}}});
+      await db.pictureBook.update({where:{id:native.id},data:{pages:pages.map(page=>({...page,translations:[{language:'en',caption:'Unsent English',audioUrl:'https://example.test/unsent.wav'}]}))}});
+      const publicBook=await books.publicBook(native.id);
+      assert.equal(publicBook.pages[1].translations![0].caption,'Frozen English');
+      assert.equal(publicBook.pages[1].translations![0].audioUrl,`/api/public/picture-books/${native.id}/pages/1/audio?language=en`);
+      assert.equal((await books.audio(native.id,1,'en')).buffer.toString(),'frozen audio');
+      const albumMedia=new CreatorMediaService(mediaStub as never);
+      const playback=await albumMedia.play(item.id,{});
+      assert.equal(playback.pages[1].translations![0].caption,'Frozen English');
+      assert.equal(playback.pages[1].translations![0].audioUrl,`/api/creator-media/items/${item.id}/pages/1/audio?language=en`);
+      assert.equal((await albumMedia.page(item.id,1,'audio',{},'en')).buffer.toString(),'frozen audio');
+    });
     await t.test('website completion cannot bypass creator playback integrity or freeze incomplete album members',async()=>{
       const website=new PictureBookService(undefined as never,undefined as never,undefined as never,reviews,undefined as never);
       for (const variant of ['missing-images','body-only']) {
@@ -162,7 +233,7 @@ test('Creator works and immutable publication: real database',async t=>{
       assert.equal((await db.course.findUniqueOrThrow({where:{id:album.id}})).workingRevisionId,beforeWeb.workingRevisionId);
       assert.equal((await service.getAlbum(a,album.id)).version,3);
       await db.pictureBook.update({where:{id:book.id},data:{status:'EDITING'}});
-      assert.equal((await service.validateAlbum(a,album.id)).valid,false);
+      assert.equal((await service.validateAlbum(a,album.id)).valid,true); // frozen member remains complete despite live draft edits
       await db.pictureBook.update({where:{id:book.id},data:{status:'COMPLETED'}});
       assert.equal((await service.validateAlbum(a,album.id)).valid,true);
       await assert.rejects(service.saveAlbum(a,{...albumInput,expectedVersion:2}),status(409));

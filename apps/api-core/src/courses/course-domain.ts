@@ -315,7 +315,8 @@ export function snapshotCourseMaterial(
           narration: page.narration,
           ...(page.textInImage === true ? { textInImage: true } : {}),
           imageUrl: page.imageUrl,
-          audioUrl: page.audioUrl
+          audioUrl: page.audioUrl,
+          ...(Array.isArray(page.translations) && page.translations.length ? { translations: arrayOfRecords(page.translations).map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl })) } : {})
         }))
         .sort((left, right) => Number(left.position) - Number(right.position))
     };

@@ -56,7 +56,7 @@ export function membershipProduct(plan: MembershipPlan, price: MembershipPrice):
     amountCny: price.amountCny, credits: price.credits, sortOrder: plan.rank, isEnabled: plan.isEnabled && price.isEnabled,
     createdAt: "", updatedAt: "",
     description: "赠点在会员周期开始时一次性发放，优先消耗，周期结束清零。续费或换等级在已有周期结束后生效。",
-    benefitsMarkdown: ["- 免费获取资源中心全部资源", `- ${plan.storageGb} GB 存储额度`, `- 最多 ${plan.learnerLimit} 位学习者`,
+    benefitsMarkdown: ["- 免费获取绘本馆全部资源", `- ${plan.storageGb} GB 存储额度`, `- 最多 ${plan.learnerLimit} 位学习者`,
       ...plan.benefits.map((benefit) => `- ${benefit.name}：${benefit.value}`)].join("\n")
   };
 }

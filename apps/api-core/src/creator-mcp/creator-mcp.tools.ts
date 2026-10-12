@@ -84,16 +84,16 @@ export function creatorMcpServer(service: CreatorService, p: CreatorPrincipal) {
     { name: "abei-creator", version: "0.1.0" },
     { capabilities: { tools: {} } },
   );
-  function register(
+  function register<Shape extends z.ZodRawShape>(
     name: string,
     description: string,
     scope: CreatorScope,
-    schema: z.ZodObject<any>,
-    run: (a: any) => Promise<unknown>,
+    schema: z.ZodObject<Shape>,
+    run: (a: z.output<z.ZodObject<Shape>>) => Promise<unknown>,
   ) {
     if (!p.scopes.includes(scope)) return;
     const read = scope === "creator:read";
-    server.registerTool(
+    server.registerTool<z.ZodRawShape, z.ZodObject<Shape>>(
       name,
       {
         description,
@@ -107,7 +107,7 @@ export function creatorMcpServer(service: CreatorService, p: CreatorPrincipal) {
       },
       async (args) => {
         try {
-          const result = JSON.parse(JSON.stringify(await run(args)));
+          const result = JSON.parse(JSON.stringify(await run(schema.parse(args))));
           return {
             content: [{ type: "text" as const, text: JSON.stringify(result) }],
             structuredContent: { result },

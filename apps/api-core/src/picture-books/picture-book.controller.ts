@@ -109,10 +109,10 @@ export class PictureBookController {
   }
 
   @Get(":id/pages/:position/audio")
-  async pageAudio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: { setHeader(name: string, value: string | number): void; status(code: number): void; send(body: Buffer): void }) {
+  async pageAudio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: { setHeader(name: string, value: string | number): void; status(code: number): void; send(body: Buffer): void }, @Query("language") language?: string) {
     const user = await this.auth.me(request as never);
     const subject = await this.profiles.requireSelected(request as never, user.id);
-    const audio = await this.books.pageAudio(subject, id, Number(position));
+    const audio = await this.books.pageAudio(subject, id, Number(position), language);
     const size = audio.buffer.length;
     response.setHeader("Content-Type", audio.mimetype);
     response.setHeader("Cache-Control", "private, no-store");

@@ -3,6 +3,8 @@ import test from "node:test";
 import { playbackFromSnapshot } from "../src/picture-books/picture-book-playback.js";
 import { snapshotCourseMaterial, hashCourseSnapshot } from "../src/courses/course-domain.js";
 import { PictureBookService } from "../src/picture-books/picture-book.service.js";
+import { PictureBookSubmissionService } from "../src/picture-books/picture-book-submission.service.js";
+import { AdminPictureBookSubmissionsController } from "../src/picture-books/picture-book-submission.controller.js";
 
 test("绘本播放数据只包含已审核的页面字段", () => {
   const playback = playbackFromSnapshot("book-1", {
@@ -20,6 +22,51 @@ test("绘本播放数据只包含已审核的页面字段", () => {
       { position: 1, caption: "第一幕", narration: "旁白", imageUrl: "https://r.example/1.png", audioUrl: "https://r.example/1.mp3" }
     ]
   });
+});
+
+test("审核快照只公开有效译文与对应语音地址", () => {
+  const playback = playbackFromSnapshot("book", { title: "书", pages: [{ position: 1, caption: "你好", audioUrl: null,
+    translations: [{ language: "en", caption: "Hello", audioUrl: "https://r.example/en.mp3", audioTaskId: "private" }, { language: "bad/../../", caption: "无效", audioUrl: "https://r.example/bad.mp3" }] }] });
+  assert.deepEqual(playback.pages[0]?.translations, [{ language: "en", caption: "Hello", audioUrl: "https://r.example/en.mp3" }]);
+});
+
+test("绘本发布快照保存译文和语音，但不包含生成任务信息", () => {
+  const snapshot = snapshotCourseMaterial("PICTURE_BOOK", { title: "书", pages: [{ position: 1, caption: "你好", translations: [{ language: "en", caption: "Hello", audioUrl: "https://r.example/en.mp3", audioTaskId: "private" }] }] });
+  const page = playbackFromSnapshot("book", snapshot).pages[0];
+  assert.deepEqual(page.translations, [{ language: "en", caption: "Hello", audioUrl: "https://r.example/en.mp3" }]);
+  assert.equal(JSON.stringify(snapshot).includes("private"), false);
+});
+
+test("私有播放按译文语种读取对应音频，缺失时不回退原文音频", async () => {
+  const service = Object.create(PictureBookService.prototype) as PictureBookService;
+  Object.assign(service, {
+    playback: async () => playbackFromSnapshot("book", { pages: [{ position: 1, caption: "你好", audioUrl: "https://r.example/original.mp3", translations: [{ language: "en", caption: "Hello", audioUrl: "https://r.example/en.mp3" }] }] }),
+    mediaService: { readPictureBookStoredAudio: async (url: string) => url }
+  });
+  assert.equal(await service.pageAudio({ userId: "owner", mode: "ACCOUNT" }, "book", 1, "en"), "https://r.example/en.mp3");
+  await assert.rejects(service.pageAudio({ userId: "owner", mode: "ACCOUNT" }, "book", 1, "ja"), /语音不存在/);
+});
+
+test("管理员听审从待审核冻结快照读取译文语音", async () => {
+  const service = Object.create(PictureBookSubmissionService.prototype) as PictureBookSubmissionService;
+  Object.assign(service, {
+    review: async () => ({ book: playbackFromSnapshot("book", { pages: [{ position: 1, caption: "你好", audioUrl: "https://r.example/original.mp3", translations: [{ language: "en", caption: "Hello", audioUrl: "https://r.example/en.mp3" }] }] }) }),
+    media: { readPictureBookStoredAudio: async (url: string) => url }
+  });
+  assert.equal(await service.reviewAudio("submission", 1, "en"), "https://r.example/en.mp3");
+  await assert.rejects(service.reviewAudio("submission", 1, "fr"), /语音不存在/);
+});
+
+test("待审译文语音接口先校验管理员身份", async () => {
+  let read = false;
+  const submissions = { reviewAudio: async () => { read = true; return { buffer: Buffer.from("voice"), mimetype: "audio/mpeg" }; } };
+  const response = { setHeader: () => undefined, status: () => undefined, send: () => undefined };
+  const denied = new AdminPictureBookSubmissionsController(submissions as never, { me: async () => { throw new Error("请先登录管理后台"); } } as never);
+  await assert.rejects(denied.audio({}, "submission", "1", "en", undefined, response), /登录管理后台/);
+  assert.equal(read, false);
+  const allowed = new AdminPictureBookSubmissionsController(submissions as never, { me: async () => ({ id: "admin" }) } as never);
+  await allowed.audio({}, "submission", "1", "en", undefined, response);
+  assert.equal(read, true);
 });
 
 test("非作者只能读取已发布课程审核通过的绘本快照", async () => {

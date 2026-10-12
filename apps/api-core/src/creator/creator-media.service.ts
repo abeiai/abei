@@ -48,10 +48,10 @@ export class CreatorMediaService {
     }
     async play(id: string, v: CreatorMediaViewer) {
         const book = await this.item(id, v);
-        return { ...book, pages: book.pages.map(page => ({ ...page, imageUrl: page.imageUrl ? `/api/creator-media/items/${id}/pages/${page.position}/image` : null, audioUrl: page.audioUrl ? `/api/creator-media/items/${id}/pages/${page.position}/audio` : null })) };
+        return { ...book, pages: book.pages.map(page => ({ ...page, imageUrl: page.imageUrl ? `/api/creator-media/items/${id}/pages/${page.position}/image` : null, audioUrl: page.audioUrl ? `/api/creator-media/items/${id}/pages/${page.position}/audio` : null, ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? `/api/creator-media/items/${id}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {}) })) };
     }
-    async page(id: string, position: number, kind: 'image' | 'audio', v: CreatorMediaViewer) {
-        const book = await this.item(id, v), page = book.pages.find(p => p.position === position), url = kind === 'image' ? page?.imageUrl : page?.audioUrl;
+    async page(id: string, position: number, kind: 'image' | 'audio', v: CreatorMediaViewer, language?: string) {
+        const book = await this.item(id, v), page = book.pages.find(p => p.position === position), url = kind === 'image' ? page?.imageUrl : language ? page?.translations?.find(translation => translation.language === language)?.audioUrl : page?.audioUrl;
         if (!url)
             fail('页面素材不存在', 404);
         if (kind === 'image' && url.startsWith('/picture-book-demos/'))

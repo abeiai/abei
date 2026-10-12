@@ -17,7 +17,7 @@ import { SystemConfigService } from "../system-config/system-config.service.js";
 import { readPictureBookDemoImage } from "./picture-book-demo-image.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { characterImageForStyle, characterStyleKey, mergeDiscussedCharacters, officialCharacter, officialCharacters, parseCharacterDiscussion } from "./picture-book-characters.js";
-import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, preservesPictureBookOriginalText, selectPictureBookVoice, storyTaskText, updatePictureBookPage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
+import { buildCoverImagePrompt, buildOutlinePrompt, createBlankPages, normalizeOutline, pictureBookTranslation, PictureBookTranslationConflictError, preservesPictureBookOriginalText, selectPictureBookVoice, storyTaskText, updatePictureBookPage, validPictureBookLanguage, type PictureBookCharacter, type PictureBookMessage, type PictureBookPage } from "./picture-book-plan.js";
 import type { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, PictureBookGenerationCostDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
 const presets = [
@@ -106,9 +106,11 @@ export class PictureBookService {
     return creatorAssetId(imageUrl) ? readCreatorAssetReference(imageUrl) : this.mediaService.readPictureBookStoredImage(imageUrl);
   }
 
-  async pageAudio(subject: ProfileSubject, id: string, position: number) {
+  async pageAudio(subject: ProfileSubject, id: string, position: number, language?: string) {
     const book = await this.playback(subject, id);
-    const audioUrl = book.pages.find((page) => page.position === position)?.audioUrl;
+    if (language && !validPictureBookLanguage(language)) throw new AppException(40001, "语种无效", HttpStatus.BAD_REQUEST);
+    const page = book.pages.find((item) => item.position === position);
+    const audioUrl = language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
     if (!audioUrl) throw new AppException(40401, "本页语音不存在", HttpStatus.NOT_FOUND);
     // Legacy browser playback mapped this exact route to the local audio store, including absolute old-origin URLs.
     // Resolve the filename locally after book authorization; never fetch the supplied origin.
@@ -201,7 +203,8 @@ export class PictureBookService {
     }
     const selection = selectPictureBookVoice(dto, await this.audioService.listVoiceAssets(userId));
     if (!selection) throw new AppException(40001, "暂无可用讲解音色，请先配置语音模型", HttpStatus.BAD_REQUEST);
-    const text = (dto.narration ?? page.narration).trim();
+    if (dto.language && !validPictureBookLanguage(dto.language)) throw new AppException(40001, "语种无效", HttpStatus.BAD_REQUEST);
+    const text = (dto.narration ?? (dto.language ? pictureBookTranslation(page, dto.language)?.caption : page.narration) ?? "").trim();
     if (!text) throw new AppException(40001, "请先填写讲解语音文稿", HttpStatus.BAD_REQUEST);
     const prepared = await this.audioService.prepareDialogueTts({ userId, learnerId: null }, { text, voiceValue: "voiceAssetId" in selection ? `voice:${selection.voiceAssetId}` : `system:${selection.voice}`, speed: 1 });
     return { credits: prepared.credits };
@@ -261,7 +264,11 @@ export class PictureBookService {
     return this.mutate(userId, id, (book) => {
       const pages = pagesOf(book.pages);
       const index = pageIndex(pages, position);
-      pages[index] = updatePictureBookPage(pages[index]!, dto);
+      try { pages[index] = updatePictureBookPage(pages[index]!, dto); }
+      catch (error) {
+        if (error instanceof PictureBookTranslationConflictError) throw new AppException(40901, error.message, HttpStatus.CONFLICT);
+        throw error;
+      }
       return { pages: pages as unknown as Prisma.InputJsonValue, status: "EDITING" };
     });
   }
@@ -353,12 +360,15 @@ export class PictureBookService {
   async generateAudio(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, position: number, dto: GeneratePictureBookAudioDto) {
     const book = await this.get(subject.userId, id);
     const page = pageOf(book.pages, position);
+    if (dto.language && !validPictureBookLanguage(dto.language)) throw new AppException(40001, "语种无效", HttpStatus.BAD_REQUEST);
+    const translation = pictureBookTranslation(page, dto.language);
+    if (dto.language && !translation) throw new AppException(40001, "请先保存该语种的展示文字", HttpStatus.BAD_REQUEST);
     this.mediaService.assertPictureBookR2Ready();
     const availableVoices = await this.audioService.listVoiceAssets(subject.userId);
     const selection = selectPictureBookVoice(dto, availableVoices);
     if (!selection) throw new AppException(40001, "暂无可用讲解音色，请先配置语音模型", HttpStatus.BAD_REQUEST);
     const task = await this.audioService.createTtsTask({ userId: subject.userId, learnerId: null }, {
-      text: page.narration, ...selection,
+      text: translation?.caption ?? page.narration, ...selection,
       source: "TOOL", execute: true
     }, { forceS3Storage: true });
     const audioUrl = task.outputAudioAsset?.url;
@@ -368,8 +378,14 @@ export class PictureBookService {
     return this.mutate(subject.userId, id, (current) => {
       const pages = pagesOf(current.pages);
       const index = pageIndex(pages, position);
-      if (pages[index]!.narration !== page.narration) throw new AppException(40901, "讲解文稿已修改，请重新生成", HttpStatus.CONFLICT);
-      pages[index] = { ...pages[index]!, audioUrl, audioTaskId: task.id };
+      if (dto.language) {
+        const currentTranslation = pictureBookTranslation(pages[index]!, dto.language);
+        if (!currentTranslation || currentTranslation.caption !== translation?.caption) throw new AppException(40901, "译文已修改，请重新生成语音", HttpStatus.CONFLICT);
+        pages[index] = { ...pages[index]!, translations: pages[index]!.translations!.map(item => item.language === dto.language ? { ...item, audioUrl, audioTaskId: task.id } : item) };
+      } else {
+        if (pages[index]!.narration !== page.narration) throw new AppException(40901, "讲解文稿已修改，请重新生成", HttpStatus.CONFLICT);
+        pages[index] = { ...pages[index]!, audioUrl, audioTaskId: task.id };
+      }
       return { pages: pages as unknown as Prisma.InputJsonValue };
     });
   }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Inject, Param, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Inject, Param, Post, Query, Req, Res } from '@nestjs/common';
 type Response = {
     setHeader(name: string, value: string | number): void;
     status(code: number): void;
@@ -331,9 +331,10 @@ export class CreatorMediaController {
     @Param('kind')
     kind: string, 
     @Headers('range')
-    range?: string) {
+    range?: string,
+    @Query('language') language?: string) {
         if (kind !== 'image' && kind !== 'audio')
             fail('素材类型不存在', 404);
-        send(res, await this.media.page(id, Number(position), kind, await this.viewer(req)), range);
+        send(res, await this.media.page(id, Number(position), kind, await this.viewer(req), language), range);
     }
 }

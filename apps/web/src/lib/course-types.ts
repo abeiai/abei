@@ -123,6 +123,9 @@ export interface CourseLearningFlashcardDeck {
 }
 
 export interface CourseRevisionItem {
+  pinnedSnapshot?: JsonValue | null;
+  pinnedHash?: string | null;
+  pinnedVersion?: number | null;
   id: string;
   revisionId: string;
   publicationId: string;

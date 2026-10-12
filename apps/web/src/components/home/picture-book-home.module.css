@@ -200,5 +200,6 @@
 @media (max-width: 480px) { .hero { padding-bottom: 80px; } .heroWaves { height: 65px; } .bookCard { padding: 7px 7px 11px; } .heroDoodles svg:nth-child(4) { display: none; } }
 
 .albumGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.home .albumGrid .bookCover { aspect-ratio: 16 / 9; }
 .shelfHeading > a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
 @media (max-width: 700px) { .albumGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; } }

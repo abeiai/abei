@@ -38,7 +38,7 @@ export function PublicCourseDetail({
       <TextbookBreadcrumbs
         items={[
           { href: "/", label: "首页" },
-          { href: "/center", label: "资源中心" },
+          { href: "/library", label: "绘本馆" },
           { href: `/c/${course.id}`, label: course.name }
         ]}
       />
@@ -166,8 +166,8 @@ function coursePreviewNotice(
     return {
       canEdit: previewMode === "CREATOR",
       message: hasPublishedRevision
-        ? `${roleLabel}当前显示未提交的修改版本，资源中心仍展示已发布版本。`
-        : `${roleLabel}当前显示未提交的草稿，尚未出现在资源中心。`
+        ? `${roleLabel}当前显示未提交的修改版本，绘本馆仍展示已发布版本。`
+        : `${roleLabel}当前显示未提交的草稿，尚未出现在绘本馆。`
     };
   }
 
@@ -175,7 +175,7 @@ function coursePreviewNotice(
     return {
       canEdit: previewMode === "CREATOR",
       message: hasPublishedRevision
-        ? `${roleLabel}当前显示审核未通过的修改版本，资源中心仍展示已发布版本。`
+        ? `${roleLabel}当前显示审核未通过的修改版本，绘本馆仍展示已发布版本。`
         : `${roleLabel}当前版本审核未通过，修改后可重新申请发布。`
     };
   }
@@ -183,8 +183,8 @@ function coursePreviewNotice(
   return {
     canEdit: false,
     message: hasPublishedRevision
-      ? `${roleLabel}当前显示审核中的修改版本，资源中心仍展示已发布版本。`
-      : `${roleLabel}当前版本正在审核，通过后将出现在资源中心。`
+      ? `${roleLabel}当前显示审核中的修改版本，绘本馆仍展示已发布版本。`
+      : `${roleLabel}当前版本正在审核，通过后将出现在绘本馆。`
   };
 }
 

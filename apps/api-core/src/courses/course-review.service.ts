@@ -1,3 +1,4 @@
+import { creatorAssetId, readCreatorAssetReference } from "../creator/creator-assets.service.js";
 import { HttpStatus, Inject, Injectable, Logger, Optional } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AiService } from "../ai/ai.service.js";
@@ -116,6 +117,7 @@ type MaterialRecord = {
 };
 
 type SubmittedMaterialSnapshot = {
+  materialVersion?: number | null;
   firstPublication: boolean;
   materialHash: string;
   materialType: CourseMaterialType;
@@ -216,6 +218,21 @@ export class CourseReviewService {
       const submittedMaterials = new Map<string, SubmittedMaterialSnapshot>();
 
       for (const reference of materialReferences) {
+        const pinned = revision.items.find(item => item.publicationId === reference.publicationId);
+        if (pinned?.pinnedHash && pinned.pinnedSnapshot) {
+          const owner = await this.readMaterial(transaction, reference.materialType, reference.materialId);
+          if (reference.materialType !== "PICTURE_BOOK" || owner?.userId !== userId || hashCourseSnapshot(pinned.pinnedSnapshot) !== pinned.pinnedHash) {
+            throw new AppException(40901, "成员绘本快照已变化，请刷新后重试", HttpStatus.CONFLICT);
+          }
+          submittedMaterials.set(reference.publicationId, {
+            firstPublication: pinned.publication.approvedHash === null,
+            materialType: reference.materialType,
+            materialHash: pinned.pinnedHash,
+            materialVersion: pinned.pinnedVersion,
+            materialSnapshot: toJson(pinned.pinnedSnapshot)
+          });
+          continue;
+        }
         const material = this.requireLearnableMaterial(
           userId,
           reference.materialType,
@@ -570,7 +587,7 @@ export class CourseReviewService {
         });
         const textChunks = chunkCourseAiPrecheckText(payload.textSections);
         const coverAttachment = payload.resourceType === "COURSE_REVISION"
-          ? await this.courseCoverAttachment(payload.coverUrl)
+          ? await this.courseCoverAttachment(payload.coverUrl, review.courseRevision)
           : null;
         const batchResults: CourseAiPrecheckResult[] = [];
         const taskIds: string[] = [];
@@ -1081,11 +1098,17 @@ export class CourseReviewService {
     return {
       name: revision.name,
       coverMediaId: revision.coverMediaId,
-      coverUrl: revision.coverMedia.url,
+      coverUrl: creatorAssetId(revision.coverMedia.url) ? `/api/creator-media/revisions/${revision.id}/cover` : revision.coverMedia.url,
       summary: revision.summary,
       tags: revision.tags,
       items: revision.items.map((item) => {
-        const submitted = submittedMaterials?.get(item.publicationId);
+        const submitted = submittedMaterials?.get(item.publicationId) ?? (item.pinnedHash && item.pinnedSnapshot ? {
+          firstPublication: item.publication.approvedHash === null,
+          materialType: item.materialType,
+          materialHash: item.pinnedHash,
+          materialSnapshot: item.pinnedSnapshot,
+          materialVersion: item.pinnedVersion
+        } : undefined);
 
         return {
           publicationId: item.publicationId,
@@ -1241,10 +1264,20 @@ export class CourseReviewService {
   }
 
   private async courseCoverAttachment(
-    coverUrl: string | null
+    coverUrl: string | null,
+    revision?: RevisionRecord | null
   ): Promise<ProviderTextAttachment> {
     if (!coverUrl) {
       throw new AppException(40001, "课程封面缺失，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
+    }
+
+    // The authenticated review owns this exact revision; never fetch its protected URL anonymously.
+    if (revision && creatorAssetId(revision.coverMedia.url)) {
+      if (coverUrl !== `/api/creator-media/revisions/${revision.id}/cover` && coverUrl !== revision.coverMedia.url) {
+        throw new AppException(40901, "审核封面已变化，请刷新后重试", HttpStatus.CONFLICT);
+      }
+      const file = await readCreatorAssetReference(revision.coverMedia.url, true);
+      return { name: "课程封面", type: "image", mimeType: file.mimetype, size: file.buffer.length, dataUrl: `data:${file.mimetype};base64,${file.buffer.toString("base64")}` };
     }
 
     const baseUrl = process.env.S3_PUBLIC_BASE_URL

@@ -12,6 +12,7 @@ import {
   XCircle
 } from "lucide-react";
 import Link from "next/link";
+import { FrozenAlbumPreview, hasFrozenAlbum, UnpublishAlbum } from "./frozen-album-preview";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -272,7 +273,9 @@ export function ResourceReviewManager({
                     </TableCell>
                     <TableCell className="text-muted-foreground">{formatDateTime(review.submittedAt)}</TableCell>
                     <TableCell>
-                      {previewCourses.length === 1 ? (
+                      {hasFrozenAlbum(review) ? (
+                        <Button size="sm" variant="outline" onClick={() => openModal("preview", review)}><Eye />预览投稿版本</Button>
+                      ) : previewCourses.length === 1 ? (
                         <Button asChild size="sm" variant="outline">
                           <Link href={previewCourses[0]!.href} rel="noreferrer" target="_blank">
                             <Eye />预览
@@ -301,6 +304,7 @@ export function ResourceReviewManager({
                       <Button onClick={() => openModal("human", review)} size="sm" type="button">
                         <UserCheck />{review.status === "PENDING" ? "审核" : "查看"}
                       </Button>
+                      {review.course?.publishedAt && review.course.approvedRevisionId ? <div className="mt-2"><UnpublishAlbum key={review.course.approvedRevisionId} courseId={review.course.id} revisionId={review.course.approvedRevisionId} /></div> : null}
                     </TableCell>
                   </TableRow>
                 );
@@ -321,9 +325,9 @@ export function ResourceReviewManager({
           onClose={() => {
             if (!humanRunning) setModal(null);
           }}
-          title={modal.kind === "preview" ? "选择预览课程" : modal.kind === "ai" ? "AI 预审" : "人工审核"}
+          title={modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? "投稿版本预览" : "选择预览课程") : modal.kind === "ai" ? "AI 预审" : "人工审核"}
         >
-          {modal.kind === "preview" ? <CoursePreviewLinks review={activeReview} /> : null}
+          {modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? <FrozenAlbumPreview review={activeReview} /> : <CoursePreviewLinks review={activeReview} />) : null}
           {modal.kind === "ai" ? (
             <AiPrecheckPanel
               error={error}

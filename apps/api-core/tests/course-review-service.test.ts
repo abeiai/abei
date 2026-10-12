@@ -1044,3 +1044,21 @@ test("管理员审核端点先校验身份并写固定操作日志", async () =>
   assert.equal(logs[2]?.action, "RUN_RESOURCE_AI_PRECHECK");
   assert.equal(logs[2]?.description, "手动执行资源 AI 预审：已启动");
 });
+
+
+test("legacy public course cover still supplies image bytes to AI review", async () => {
+  const service = Object.create(CourseReviewService.prototype) as { courseCoverAttachment(url: string): Promise<{ dataUrl: string; mimeType: string; size: number }> };
+  const originalFetch = globalThis.fetch;
+  const bytes = Buffer.from("legacy image boundary fixture");
+  globalThis.fetch = async (input, init) => {
+    assert.equal(String(input), "https://images.example.test/legacy-cover.png");
+    assert.equal(init?.headers, undefined);
+    return new Response(bytes, { headers: { "content-type": "image/png" } });
+  };
+  try {
+    const image = await service.courseCoverAttachment("https://images.example.test/legacy-cover.png");
+    assert.equal(image.dataUrl, `data:image/png;base64,${bytes.toString("base64")}`);
+    assert.equal(image.mimeType, "image/png");
+    assert.equal(image.size, bytes.length);
+  } finally { globalThis.fetch = originalFetch; }
+});

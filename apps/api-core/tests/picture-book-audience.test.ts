@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- These tests mock private service methods. */
 import assert from "node:assert/strict";
 import test from "node:test";
 import { assertPictureBookContentReview, buildPictureBookContentReviewPrompt, normalizePictureBookAudience, pictureBookAudienceGuide } from "../src/picture-books/picture-book-audience.js";

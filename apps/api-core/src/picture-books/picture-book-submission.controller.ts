@@ -78,7 +78,7 @@ export class PublicPictureBooksController {
   @Get(":id/pages/:position/image")
   async image(@Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse) { sendMedia(response, await this.submissions.image(id, Number(position))); }
   @Get(":id/pages/:position/audio")
-  async audio(@Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: MediaResponse) { sendMedia(response, await this.submissions.audio(id, Number(position)), range); }
+  async audio(@Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: MediaResponse, @Query("language") language?: string) { sendMedia(response, await this.submissions.audio(id, Number(position), language), range); }
 }
 
 @Controller("admin/picture-book-submissions")
@@ -95,7 +95,7 @@ export class AdminPictureBookSubmissionsController {
   @Get(":id/pages/:position/image")
   async image(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id, Number(position))); }
   @Get(":id/pages/:position/audio")
-  async audio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewAudio(id, Number(position)), range); }
+  async audio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Query("language") language: string | undefined, @Headers("range") range: string | undefined, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewAudio(id, Number(position), language), range); }
   @Post(":id/unpublish")
   async unpublish(@Req() request: unknown, @Param("id") id: string, @Body() dto: UnpublishBookDto) { const admin = await this.auth.me(request as never); return successResponse(await this.submissions.unpublish(admin.id, id, dto.expectedVersion)); }
   @Post(":id/approve")

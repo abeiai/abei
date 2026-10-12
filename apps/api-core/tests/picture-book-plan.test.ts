@@ -49,7 +49,7 @@ test("原文模式校验逐字分页，拒绝改写、漏句和替换用户提�
   const plan = normalizeOutline(JSON.stringify(value), 2, "婴儿期0-1岁", true, [`保持原文\n原文：${source}`]);
   assert.equal(plan.pages.slice(1).map(page => page.caption).join(""), source);
   assert.ok(plan.pages.every(page => page.narration === page.caption));
-  const { originalText: _source, ...withoutRepeatedSource } = value;
+  const withoutRepeatedSource = { ...value, originalText: undefined };
   assert.equal(normalizeOutline(JSON.stringify(withoutRepeatedSource), 2, "婴儿期0-1岁", true, [`保持原文\n原文：${source}`]).pages.slice(1).map(page => page.caption).join(""), source);
   for (const caption of ["太阳落山啦，黄河流向大海。", "白日依山尽。", "白日依山尽，黄河入海流。听，小河在唱歌！"]) {
     assert.throws(() => normalizeOutline(JSON.stringify({ ...value, pages: [{ ...value.pages[0], caption }, value.pages[1]] }), 2, "婴儿期0-1岁", true), /保留原文/);
@@ -93,6 +93,22 @@ test("caption edits sync default narration while preserving a manually edited sc
   const customized = updatePictureBookPage(original, { narration: "小兔终于送到了，月亮笑了。" });
   const edited = updatePictureBookPage(customized, { caption: "月亮收到了信。" });
   assert.equal(edited.narration, customized.narration);
+});
+
+test("译文按语种保存，修改译文仅清除对应语种语音", () => {
+  const original = { ...createBlankPages(1)[1]!, translations: [
+    { language: "en", caption: "Hello", audioUrl: "https://example.com/en.mp3", audioTaskId: "en-task" },
+    { language: "ja", caption: "こんにちは", audioUrl: "https://example.com/ja.mp3", audioTaskId: "ja-task" }
+  ] };
+  const changed = updatePictureBookPage(original, { translations: [
+    { language: "en", caption: "Hello, world" }, { language: "ja", caption: "こんにちは" }
+  ], expectedTranslations: original.translations });
+  assert.equal(changed.translations?.[0]?.audioUrl, null);
+  assert.equal(changed.translations?.[1]?.audioUrl, "https://example.com/ja.mp3");
+  assert.equal(changed.narration, original.narration);
+  assert.deepEqual(updatePictureBookPage(original, { imagePrompt: "更新画面" }).translations, original.translations);
+  assert.throws(() => updatePictureBookPage(original, { translations: [{ language: "en", caption: "Hello" }, { language: "en", caption: "Again" }], expectedTranslations: original.translations }), /重复/);
+  assert.throws(() => updatePictureBookPage(original, { translations: [{ language: "en", caption: "Hello again" }], expectedTranslations: [] }), /其他页面/);
 });
 
 test("outline prompt uses current settings and keeps the existing Chinese JSON contract", () => {

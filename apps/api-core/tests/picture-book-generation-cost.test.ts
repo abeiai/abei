@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- These tests mock private service methods. */
 import assert from "node:assert/strict";
 import test from "node:test";
 import { AiService } from "../src/ai/ai.service.js";
@@ -45,6 +46,16 @@ test("没有实际参考图的旧版角色与已删除角色不会增加图片�
 
 test("语音预估使用未保存的最新文稿与用户选定音色，不创建或扣费", async () => {
   assert.deepEqual(await books().generationCost("owner", "book", { kind: "audio", position: 1, narration: "新的讲解文稿", voiceAssetId: "selected" }), { credits: 5 });
+});
+
+test("译文语音预估使用对应语种文稿，缺失语种不回退原文", async () => {
+  const service = books();
+  service.get = async () => ({ pages: [{ position: 1, narration: "原文", translations: [{ language: "en", caption: "New story" }] }] });
+  service.audioService.prepareDialogueTts = async (_context: unknown, input: { text: string }) => {
+    assert.equal(input.text, "New story"); return { credits: 2 };
+  };
+  assert.deepEqual(await service.generationCost("owner", "book", { kind: "audio", position: 1, language: "en" }), { credits: 2 });
+  await assert.rejects(service.generationCost("owner", "book", { kind: "audio", position: 1, language: "ja" }), /填写讲解语音文稿/);
 });
 
 test("作品不可访问或页面不存在时不会读取费用", async () => {

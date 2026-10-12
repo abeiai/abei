@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 
 const defaultNavItems = [
   { href: "/", label: "首页" },
-  { href: "/center", label: "资源中心" },
+  { href: "/library", label: "绘本馆" },
   { href: "/tools", label: "场景应用" },
   { href: "/textbook", label: "教材" },
   { href: "/dict", label: "词典" },
@@ -379,11 +379,15 @@ function toNavMenuItem(item: { href: string; label: string }): NavMenuItem {
 function hideToolApplicationItems(items: NavMenuItem[]): NavMenuItem[] {
   return items
     .filter((item) => !isToolApplicationHref(item.href))
-    .map((item) => ({
-      ...item,
-      href: item.label === "绘本馆" && item.href === "/center" ? "/library" : item.href,
-      children: hideToolApplicationItems(item.children)
-    }));
+    .map((item) => {
+      const isLibraryLink = item.href === "/center" && (item.label === "资源中心" || item.label === "绘本馆");
+      return {
+        ...item,
+        label: isLibraryLink ? "绘本馆" : item.label,
+        href: isLibraryLink ? "/library" : item.href,
+        children: hideToolApplicationItems(item.children)
+      };
+    });
 }
 
 function isToolApplicationHref(href: string) {

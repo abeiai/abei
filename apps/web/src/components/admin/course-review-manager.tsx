@@ -1,5 +1,6 @@
 "use client";
 
+import { FrozenAlbumPreview, UnpublishAlbum } from "./frozen-album-preview";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useTransition } from "react";
 
@@ -789,33 +790,4 @@ function formatDateTime(value: string) {
     hour12: false,
     timeZone: "Asia/Shanghai"
   }).format(date);
-}
-
-function UnpublishAlbum({ courseId, revisionId }: { courseId: string; revisionId: string }) {
-  const router = useRouter();
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-  async function unpublish() {
-    setBusy(true); setError("");
-    try {
-      const response = await fetch(`/api/admin/course-reviews/courses/${courseId}/unpublish`, { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ expectedRevisionId: revisionId }) });
-      const result = await response.json();
-      if (!response.ok || result.code !== 0) throw new Error(result.message || "下架失败");
-      router.refresh();
-    } catch (cause) { setError(cause instanceof Error ? cause.message : "下架失败"); }
-    finally { setBusy(false); }
-  }
-  return <div className="space-y-2"><Button variant="outline" disabled={busy} onClick={() => void unpublish()}>下架已发布专辑</Button>{error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}</div>;
-}
-
-function FrozenAlbumPreview({ review }: { review: CourseReviewRequest }) {
-  const items = review.courseRevision?.items.filter(item => item.materialType === "PICTURE_BOOK" && (item as typeof item & { pinnedSnapshot?: unknown }).pinnedSnapshot) ?? [];
-  if (!items.length) return null;
-  return <Card><CardHeader><CardTitle className="text-base">绘本内容预览</CardTitle></CardHeader><CardContent className="space-y-4">
-    <img className="max-h-64 rounded-lg object-contain" src={`/api/creator-media/revisions/${review.courseRevision!.id}/cover`} alt="专辑封面" />
-    {items.map(item => {
-      const snapshot = (item as typeof item & { pinnedSnapshot?: { pages?: Array<{ position: number; caption: string; audioUrl?: string }> } }).pinnedSnapshot;
-      return <details key={item.id} className="rounded-lg border p-4"><summary className="cursor-pointer font-semibold">{item.displayName}</summary><div className="mt-4 grid gap-4 sm:grid-cols-2">{snapshot?.pages?.map(page => <div key={page.position}><img className="w-full rounded-lg object-contain" src={`/api/creator-media/items/${item.id}/pages/${page.position}/image`} alt={page.position === 0 ? "绘本封面" : `第 ${page.position} 页`} /><p className="mt-2 whitespace-pre-wrap text-sm leading-6">{page.caption}</p>{page.audioUrl ? <audio controls preload="none" className="mt-2 w-full" src={`/api/creator-media/items/${item.id}/pages/${page.position}/audio`} /> : null}</div>)}</div></details>;
-    })}
-  </CardContent></Card>;
 }

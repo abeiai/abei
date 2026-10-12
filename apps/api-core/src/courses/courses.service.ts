@@ -424,10 +424,12 @@ export class CoursesService {
       const course = await transaction.course.findFirst({
         where: { id, userId },
         include: {
+          approvedRevision: { select: { items: true } },
           workingRevision: {
             select: {
               id: true,
-              status: true
+              status: true,
+              items: true
             }
           }
         }
@@ -440,6 +442,17 @@ export class CoursesService {
       this.assertCourseEditable(course);
       const input = await this.validateCourseInput(transaction, userId, courseInput);
       const revisionItems = await this.upsertMaterialPublications(transaction, input.items);
+      // Existing selections retain their frozen member version, including reorders and label edits.
+      // Adding a different member is an explicit selection; Creator can explicitly rebind a version.
+      const priorItems = course.workingRevision?.items ?? course.approvedRevision?.items ?? [];
+      for (const item of revisionItems) {
+        const prior = priorItems.find(previous => previous.publicationId === item.publicationId);
+        if (prior?.pinnedHash && prior.pinnedSnapshot) Object.assign(item, {
+          pinnedHash: prior.pinnedHash, pinnedVersion: prior.pinnedVersion,
+          pinnedSnapshot: prior.pinnedSnapshot as Prisma.InputJsonValue
+        });
+      }
+
       const revisionData = {
         coverMediaId: courseInput.coverMediaId,
         name: courseInput.name,
