@@ -92,11 +92,23 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
     const approved=await adminPost("approve",{expectedUpdatedAt:ready.updatedAt}); assert.equal(approved.status,201);
     assert.equal((await approved.json()).data.status,"APPROVED");
     assert.equal((await adminPost("reject",{expectedUpdatedAt:ready.updatedAt,reason:"内容不符规范"})).status,409);
-    const publicPlay=await fetch(`${base}/public/picture-books/${book.id}/play`); assert.equal(publicPlay.status,200);
-    const publicBook=(await publicPlay.json()).data; assert.equal(publicBook.title,"小熊的雨天"); assert.equal(publicBook.pages.length,2);
-    assert.doesNotMatch(JSON.stringify(publicBook),/私密新页|未审核的新标题|私密创作对话/);
-    const publicListing=(await (await fetch(`${base}/public/picture-books?pageSize=20`)).json()).data;
-    assert.ok(publicListing.items.some((item:{id:string;title:string})=>item.id===book.id&&item.title==="小熊的雨天"));
+    const previousMediaBase=process.env.S3_PUBLIC_BASE_URL;
+    process.env.S3_PUBLIC_BASE_URL="https://r.abeiai.com";
+    try {
+      const publicPlay=await fetch(`${base}/public/picture-books/${book.id}/play`); assert.equal(publicPlay.status,200);
+      const publicBook=(await publicPlay.json()).data; assert.equal(publicBook.title,"小熊的雨天"); assert.equal(publicBook.pages.length,2);
+      assert.equal(publicBook.publicMediaBaseUrl,"https://r.abeiai.com");
+      assert.equal(publicBook.pages[1].imageUrl,"https://r.abeiai.com/picture-books/test-page.webp");
+      assert.doesNotMatch(JSON.stringify(publicBook),/私密新页|未审核的新标题|私密创作对话/);
+      const publicListing=(await (await fetch(`${base}/public/picture-books?pageSize=20`)).json()).data;
+      assert.ok(publicListing.items.some((item:{id:string;title:string})=>item.id===book.id&&item.title==="小熊的雨天"));
+      assert.equal(publicListing.items.find((item:{id:string})=>item.id===book.id).coverUrl,"https://r.abeiai.com/picture-books/library-cover.png");
+      await prisma.pictureBookSubmission.update({where:{pictureBookId:book.id},data:{coverUrl:"https://r.abeiai.com/uploads/library-cover.png"}});
+      const uploadsListing=(await (await fetch(`${base}/public/picture-books?pageSize=20`)).json()).data;
+      assert.equal(uploadsListing.items.find((item:{id:string})=>item.id===book.id).coverUrl,"https://r.abeiai.com/picture-books/library-cover.png");
+    } finally {
+      if(previousMediaBase===undefined) delete process.env.S3_PUBLIC_BASE_URL; else process.env.S3_PUBLIC_BASE_URL=previousMediaBase;
+    }
     assert.equal((await fetch(`${base}/public/picture-books?pageSize=1000`)).status,400);
     assert.equal((await fetch(`${base}/public/picture-books/${book.id}/pages/1/image`)).status,200);
     const log=await prisma.adminOperationLog.findFirst({where:{adminUserId:admin.id,action:"APPROVE_PICTURE_BOOK_SUBMISSION"}}); assert.ok(log);

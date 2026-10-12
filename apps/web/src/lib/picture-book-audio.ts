@@ -1,5 +1,11 @@
-export function pictureBookPageAudioSource(bookId: string, position: number, audioUrl: string, scope: "private" | "public" = "private", language?: string) {
+import { publicPictureBookMediaUrl } from "./picture-book-public-media";
+
+export function pictureBookPageAudioSource(bookId: string, position: number, audioUrl: string, scope: "private" | "public" = "private", language?: string, publicBaseUrl?: string) {
   if (scope === "private" && audioUrl.startsWith("/") && (!language || audioUrl.startsWith("/api/creator-media/items/"))) return audioUrl;
+  if (scope === "public") {
+    const directUrl = publicPictureBookMediaUrl(audioUrl, publicBaseUrl);
+    if (directUrl) return directUrl;
+  }
   try {
     const legacy = new URL(audioUrl);
     if (!language && scope === "private" && /^\/api\/audio\/files\/[a-zA-Z0-9._-]+$/.test(legacy.pathname)) return legacy.pathname;

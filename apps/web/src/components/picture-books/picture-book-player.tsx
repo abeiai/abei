@@ -15,7 +15,7 @@ import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; translations?: PictureBookTranslation[]; textInImage?: boolean };
-type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; pages: Page[] };
+type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
@@ -45,6 +45,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const volumeRef = useRef<HTMLDivElement | null>(null);
   const [audioError, setAudioError] = useState("");
   const [audioRetry, setAudioRetry] = useState(0);
+  const [audioFallbackKey, setAudioFallbackKey] = useState<string | null>(null);
   const [layout, setLayout] = useState<typeof layouts[number]["value"] | null>(null);
   const [language, setLanguage] = useState("original");
   const [bilingualSubtitles, setBilingualSubtitles] = useState(false);
@@ -124,7 +125,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const preloadPages = pages.slice(index, index + 2);
   const imagePages = pages.slice(Math.max(0, index - 1), index + 2);
   const turningPage = pageTurn ? pages[pageTurn.to] : null;
-  const imageSource = (item: Page) => pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, publicMode ? "public" : "private");
+  const imageSource = (item: Page) => pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, publicMode ? "public" : "private", book?.publicMediaBaseUrl);
+  const imageFallbackSource = (item: Page) => publicMode ? pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, "public") : undefined;
 
   useEffect(() => {
     if (!book || !learnerMode || !courseId || !activeRevisionItemId) return;
@@ -222,9 +224,9 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     if (!activeAudioUrl || (cover && coverNarrationEnded)) return;
     if (audio.error) { setAudioError("语音加载失败"); setRunning(false); return; }
     let cancelled = false;
-    audio.play().catch(() => { if (!cancelled) { setPlaying(false); setRunning(false); } });
+    audio.play().catch(() => { if (!cancelled && !audio.error) { setPlaying(false); setRunning(false); } });
     return () => { cancelled = true; audio.pause(); };
-  }, [running, activeAudioUrl, cover, coverNarrationEnded, activeBookId, index, audioRetry, playbackVersion]);
+  }, [running, activeAudioUrl, cover, coverNarrationEnded, activeBookId, index, audioRetry, audioFallbackKey, playbackVersion]);
 
   async function toggleAudio() {
     const audio = audioRef.current;
@@ -274,15 +276,15 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           <div className={styles.stage}>
             <article className={styles.sheet} data-layout={activeLayout} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
-                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={pictureBookPageImageSource(activeBookId, item.position, item.imageUrl, publicMode ? "public" : "private")} /> : null)}
+                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
                 {pageTurn && turningPage && page.imageUrl && turningPage.imageUrl ? (
                   <div className={styles.pageTurn} data-direction={pageTurn.direction} aria-hidden="true">
-                    <PictureBookImage src={imageSource(turningPage)} alt="" compact className={styles.turnUnderlay} />
-                    <div className={styles.turnStatic}><PictureBookImage src={imageSource(page)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "backward" ? styles.turnRightImage : ""}`} /></div>
+                    <PictureBookImage src={imageSource(turningPage)} fallbackSrc={imageFallbackSource(turningPage)} alt="" compact className={styles.turnUnderlay} />
+                    <div className={styles.turnStatic}><PictureBookImage src={imageSource(page)} fallbackSrc={imageFallbackSource(page)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "backward" ? styles.turnRightImage : ""}`} /></div>
                     <div className={styles.turnLeaf} onAnimationEnd={completePageTurn}>
-                      <div className={styles.turnFront}><PictureBookImage src={imageSource(page)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "forward" ? styles.turnRightImage : ""}`} /></div>
-                      <div className={styles.turnBack}><PictureBookImage src={imageSource(turningPage)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "backward" ? styles.turnRightImage : ""}`} /></div>
+                      <div className={styles.turnFront}><PictureBookImage src={imageSource(page)} fallbackSrc={imageFallbackSource(page)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "forward" ? styles.turnRightImage : ""}`} /></div>
+                      <div className={styles.turnBack}><PictureBookImage src={imageSource(turningPage)} fallbackSrc={imageFallbackSource(turningPage)} alt="" compact className={`${styles.turnHalfImage} ${pageTurn.direction === "backward" ? styles.turnRightImage : ""}`} /></div>
                     </div>
                   </div>
                 ) : null}
@@ -295,10 +297,13 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           {preloadPages.map(item => {
             const current = item.position === page.position;
             const content = pictureBookPageContent(item, language);
-            const source = content.audioUrl ? pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language) : undefined;
+            const directSource = content.audioUrl ? pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language, book?.publicMediaBaseUrl) : undefined;
+            const proxySource = content.audioUrl ? pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language) : undefined;
+            const audioKey = `${activeBookId}-${item.position}-${language}`;
+            const source = audioFallbackKey === audioKey ? proxySource : directSource;
             const retry = current ? audioRetry : 0;
-            return <audio key={`${activeBookId}-${item.position}-${language}-${retry}`} hidden={!current} muted={volume === 0} preload="auto"
-              onError={current ? () => { setPlaying(false); setRunning(false); setAudioError("语音加载失败"); } : undefined}
+            return <audio key={`${audioKey}-${retry}-${audioFallbackKey === audioKey}`} hidden={!current} muted={volume === 0} preload="auto"
+              onError={() => { if (source !== proxySource) setAudioFallbackKey(audioKey); else if (current) { setPlaying(false); setRunning(false); setAudioError("语音加载失败"); } }}
               onEnded={current ? () => { if (cover && autoTurn) { setPlaying(false); setCoverNarrationEnded(true); } else finishPage(); } : undefined}
               onPause={current ? () => setPlaying(false) : undefined}
               onPlay={current ? () => { setPlaying(true); setAudioError(""); } : undefined}

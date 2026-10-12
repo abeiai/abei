@@ -1,5 +1,11 @@
-export function pictureBookPageImageSource(bookId: string, position: number, imageUrl: string, scope: "private" | "public" = "private") {
+import { publicPictureBookMediaUrl } from "./picture-book-public-media";
+
+export function pictureBookPageImageSource(bookId: string, position: number, imageUrl: string, scope: "private" | "public" = "private", publicBaseUrl?: string) {
   if (scope === "private" && imageUrl.startsWith("/")) return imageUrl;
+  if (scope === "public") {
+    const directUrl = publicPictureBookMediaUrl(imageUrl, publicBaseUrl);
+    if (directUrl) return directUrl;
+  }
   const version = imageUrl.split("?")[0]!.split("/").at(-1) ?? "";
   return `/api/${scope === "public" ? "public/" : ""}picture-books/${encodeURIComponent(bookId)}/pages/${position}/image?v=${encodeURIComponent(version)}`;
 }

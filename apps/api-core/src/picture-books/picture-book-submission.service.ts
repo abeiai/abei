@@ -122,11 +122,12 @@ export class PictureBookSubmissionService {
 
   async publicList(page = 1, pageSize = 20) {
     const where = { publishedAt: { not: null }, publishedCoverUrl: { not: null } };
+    const publicMediaBaseUrl = this.publicMediaBaseUrl();
     const [rows, total] = await Promise.all([
-      this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true } }),
+      this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true, publishedCoverUrl: true } }),
       this.prisma.pictureBookSubmission.count({ where })
     ]);
-    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl)), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
+    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl)), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
   }
 
   async albums() {
@@ -137,7 +138,25 @@ export class PictureBookSubmissionService {
   async publicBook(pictureBookId: string) {
     const row = await this.published(pictureBookId);
     const book = playbackFromSnapshot(pictureBookId, row.publishedSnapshot);
-    return { ...book, pages: book.pages.map(page => ({ ...page, imageUrl: page.imageUrl ? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/image` : null, audioUrl: page.audioUrl ? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio` : null, ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {}) })) };
+    const publicMediaBaseUrl = this.publicMediaBaseUrl();
+    return { ...book, ...(publicMediaBaseUrl ? { publicMediaBaseUrl } : {}), pages: book.pages.map(page => ({
+      ...page,
+      imageUrl: page.imageUrl ? this.publicMediaUrl(page.imageUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/image` : null,
+      audioUrl: page.audioUrl ? this.publicMediaUrl(page.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio` : null,
+      ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? this.publicMediaUrl(translation.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {})
+    })) };
+  }
+
+  private publicMediaBaseUrl() {
+    const base = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+    return base && /^https:\/\//.test(base) ? base : "";
+  }
+
+  private publicMediaUrl(sourceUrl: string | null, base: string, audio = false) {
+    if (!base || !sourceUrl?.startsWith(`${base}/`)) return null;
+    const key = sourceUrl.slice(base.length + 1);
+    const pattern = audio ? /^[a-zA-Z0-9/_-]+\.(?:mp3|wav|ogg|aac|m4a|webm)$/ : /^[a-zA-Z0-9/_-]+\.(?:png|jpe?g|webp)$/;
+    return pattern.test(key) ? sourceUrl : null;
   }
 
   private async published(pictureBookId: string) {
