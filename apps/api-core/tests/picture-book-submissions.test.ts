@@ -104,7 +104,7 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
     for(let index=0;index<23;index++) {
       const title=`独立绘本${index}`;
       const extra=await prisma.pictureBook.create({data:{...data,title,userId:user.id,status:"COMPLETED"}});
-      await prisma.pictureBookSubmission.create({data:{pictureBookId:extra.id,status:index===22?"PENDING":"APPROVED",snapshot:{type:"PICTURE_BOOK",title,style:"watercolor",aspectRatio:"1:1",pages:data.pages},snapshotHash:`fixture-${index}`,coverUrl:"https://r.abeiai.com/picture-books/library-cover.png",reviewedAt:new Date(2000000000000+index*1000)}});
+      await prisma.pictureBookSubmission.create({data:{pictureBookId:extra.id,status:index===22?"PENDING":"APPROVED",snapshot:{type:"PICTURE_BOOK",title,style:"watercolor",aspectRatio:"1:1",pages:data.pages},publishedSnapshot:index===22?undefined:{type:"PICTURE_BOOK",title,style:"watercolor",aspectRatio:"1:1",pages:data.pages},publishedHash:index===22?null:`fixture-${index}`,publishedCoverUrl:index===22?null:"https://r.abeiai.com/picture-books/library-cover.png",publishedAt:index===22?null:new Date(2000000000000+index*1000),publishedVersion:index===22?0:1,snapshotHash:`fixture-${index}`,coverUrl:"https://r.abeiai.com/picture-books/library-cover.png",reviewedAt:new Date(2000000000000+index*1000)}});
     }
     const capped=(await (await fetch(`${base}/public/picture-books?pageSize=20`)).json()).data;
     assert.equal(capped.items.length,20); assert.equal(capped.items[0].title,"独立绘本21"); assert.equal(capped.items[19].title,"独立绘本2");

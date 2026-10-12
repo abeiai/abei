@@ -46,7 +46,7 @@ export async function readCreatorAssetReference(url: string, cover = false) {
 export class CreatorAssetsService {
     private readonly db = getPrismaClient();
     limits() {
-        return { imageBytes: 10 * 1024 * 1024, audioBytes: 25 * 1024 * 1024, quotaBytes: this.quota(), assetCount: 1000, chunkBytes: 1024 * 1024, uploadExpiresSeconds: 86400, capabilityExpiresSeconds: 900 };
+        return { imageMimeTypes: ['image/png', 'image/jpeg', 'image/webp'], audioMimeTypes: ['audio/mpeg', 'audio/wav', 'audio/mp4', 'audio/ogg'], imageMaxPixels: 40000000, imageBytes: 10 * 1024 * 1024, audioBytes: 25 * 1024 * 1024, quotaBytes: this.quota(), assetCount: 1000, chunkBytes: 1024 * 1024, uploadExpiresSeconds: 86400, capabilityExpiresSeconds: 900 };
     }
     private quota() {
         const value = Number(process.env.CREATOR_ASSET_QUOTA_BYTES ?? 1073741824);

@@ -1,3 +1,4 @@
+import { creatorAssetId } from "../creator/creator-assets.service.js";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AppException } from "../common/app-exception.js";
@@ -229,6 +230,7 @@ const courseListSelect = {
   },
   approvedRevision: {
     select: {
+      id: true,
       name: true,
       summary: true,
       tags: true,
@@ -290,7 +292,7 @@ function toCourseListItem(record: CourseListRecord): CourseListItem | null {
   return revision && record.publishedAt ? {
     id: record.id,
     name: revision.name,
-    coverUrl: mediaAssetPublicUrl(revision.coverMedia),
+    coverUrl: creatorAssetId(revision.coverMedia.url) ? `/api/creator-media/revisions/${revision.id}/cover` : mediaAssetPublicUrl(revision.coverMedia),
     summary: revision.summary,
     tags: revision.tags,
     author: record.user,
@@ -487,6 +489,7 @@ export class CoursesService {
           reviewState: course.approvedRevisionId ? "PUBLISHED" : "DRAFT"
         }
       });
+      await transaction.creatorWork.updateMany({ where: { resourceId: id, userId, kind: "ALBUM" }, data: { version: { increment: 1 }, requestHash: "" } });
 
       return normalizeCourseRecordCoverUrls(this.requireCourse(
         await transaction.course.findUnique({
@@ -1032,7 +1035,7 @@ export class CoursesService {
     return {
       id: course.id,
       name: revision.name,
-      coverUrl: mediaAssetPublicUrl(revision.coverMedia),
+      coverUrl: creatorAssetId(revision.coverMedia.url) ? `/api/creator-media/revisions/${revision.id}/cover` : mediaAssetPublicUrl(revision.coverMedia),
       summary: revision.summary,
       tags: revision.tags,
       author: course.user,
@@ -1044,7 +1047,8 @@ export class CoursesService {
         const currentHash = record
           ? hashCourseSnapshot(snapshotCourseMaterial(item.materialType, record))
           : null;
-        const ready = Boolean(
+        const frozen = item.materialType === "PICTURE_BOOK" && Boolean(item.pinnedHash && item.pinnedSnapshot);
+        const ready = frozen || Boolean(
           item.publication.approvedHash
           && currentHash === item.publication.approvedHash
           && record
@@ -1063,7 +1067,7 @@ export class CoursesService {
           sortOrder: item.sortOrder,
           reviewState,
           launchHref: ready && record
-            ? materialLaunchHref(item.materialType, record)
+            ? frozen ? `/picture-books/${encodeURIComponent(record.id)}/play?courseId=${course.id}&courseRevisionItemId=${item.id}` : materialLaunchHref(item.materialType, record)
             : null
         };
       })

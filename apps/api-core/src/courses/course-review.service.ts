@@ -423,7 +423,7 @@ export class CourseReviewService {
         courseRevision: {
           is: {
             items: {
-              some: { publicationId }
+              some: { publicationId, pinnedHash: null }
             }
           }
         }
@@ -762,6 +762,16 @@ export class CourseReviewService {
     return approval.result;
   }
 
+  async unpublish(adminId: string, courseId: string, expectedRevisionId: string) {
+    return this.prisma.$transaction(async tx => {
+      await this.lockCourse(tx, courseId);
+      const changed = await tx.course.updateMany({ where: { id: courseId, approvedRevisionId: expectedRevisionId, publishedAt: { not: null } }, data: { publishedAt: null } });
+      if (!changed.count) throw new AppException(40901, "发布版本已变化，请刷新", HttpStatus.CONFLICT);
+      await tx.adminOperationLog.create({ data: { adminUserId: adminId, action: "UNPUBLISH_COURSE", resourceType: "COURSE", resourceId: courseId, description: "下架已发布专辑，保留待审稿" } });
+      return { unpublished: true };
+    });
+  }
+
   async reject(adminId: string, id: string, reason: string, expectedUpdatedAt: string) {
     const reviewNote = reason.trim();
     const expectedVersion = this.parseExpectedUpdatedAt(expectedUpdatedAt);
@@ -868,7 +878,8 @@ export class CourseReviewService {
         rejectionReason: null
       }
     });
-    await transaction.courseRevision.updateMany({
+    const frozenAlbum = request.courseRevision.items.some(item => item.materialType === "PICTURE_BOOK");
+    if (!frozenAlbum) await transaction.courseRevision.updateMany({
       where: {
         courseId: request.courseId,
         coverMediaId: { not: approvedCoverMediaId }
@@ -881,7 +892,7 @@ export class CourseReviewService {
       where: { id: request.courseId },
       data: {
         approvedRevisionId: request.courseRevisionId,
-        workingRevisionId: null,
+        workingRevisionId: request.course.workingRevisionId === request.courseRevisionId ? null : request.course.workingRevisionId,
         reviewState: "PUBLISHED",
         publishedAt: request.course?.publishedAt ?? reviewedAt
       }
@@ -889,6 +900,11 @@ export class CourseReviewService {
 
     for (const item of request.courseRevision.items) {
       const submitted = submittedMaterials.get(item.publicationId);
+      if (item.materialType === "PICTURE_BOOK" && !item.pinnedHash) {
+        const snapshot = submitted?.materialSnapshot ?? item.publication.approvedSnapshot;
+        const hash = submitted?.materialHash ?? item.publication.approvedHash;
+        if (snapshot && hash) await transaction.courseRevisionItem.update({ where: { id: item.id }, data: { pinnedSnapshot: snapshot as Prisma.InputJsonValue, pinnedHash: hash } });
+      }
 
       if (submitted?.firstPublication && item.publication.approvedHash === null) {
         await transaction.courseMaterialPublication.update({
@@ -905,7 +921,7 @@ export class CourseReviewService {
     }
 
     return {
-      assetIds: [...new Set(supersededCovers.map((item) => item.coverMediaId))],
+      assetIds: frozenAlbum ? [] : [...new Set(supersededCovers.map((item) => item.coverMediaId))],
       userId: request.course.userId
     };
   }
@@ -948,6 +964,14 @@ export class CourseReviewService {
     for (const reference of this.materialReferences(request.courseRevision.items)) {
       const revisionItem = itemsByPublication.get(reference.publicationId);
 
+      if (revisionItem?.pinnedHash && revisionItem.pinnedSnapshot) {
+        const frozen = snapshotItems.get(reference.publicationId);
+        if (reference.materialType !== "PICTURE_BOOK" || !frozen || frozen.materialHash !== revisionItem.pinnedHash || hashCourseSnapshot(revisionItem.pinnedSnapshot) !== revisionItem.pinnedHash || hashCourseSnapshot(frozen.materialSnapshot) !== revisionItem.pinnedHash) {
+          throw new AppException(40901, "审核快照已变化，请刷新后重试", HttpStatus.CONFLICT);
+        }
+        submitted.set(reference.publicationId, frozen);
+        continue;
+      }
       if (revisionItem?.publication.approvedHash !== null) {
         continue;
       }

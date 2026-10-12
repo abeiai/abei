@@ -1,3 +1,4 @@
+import { creatorAssetId, creatorAssetUrl, readCreatorAssetReference } from "../creator/creator-assets.service.js";
 import { randomUUID } from "node:crypto";
 import { Inject, Injectable } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
@@ -6,7 +7,7 @@ import { MediaService } from "../media/media.service.js";
 import { mediaAssetPublicUrl } from "../media/media-object-url.js";
 import { normalizePictureBookLibraryCover } from "./picture-book-library-cover.js";
 import { inspectImage } from "../media/image-inspection.js";
-import { inspectPictureBookImage } from "./picture-book-image.js";
+import { readPictureBookDemoImage } from "./picture-book-demo-image.js";
 import { AppException } from "../common/app-exception.js";
 import { hashCourseSnapshot, snapshotCourseMaterial } from "../courses/course-domain.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
@@ -22,7 +23,10 @@ export class PictureBookSubmissionService {
       await transaction.$queryRaw`SELECT 1 FROM pg_advisory_xact_lock(hashtext(${`picture-book-submission:${pictureBookId}`}))`;
       const book = await transaction.pictureBook.findFirst({ where: { id: pictureBookId, userId } });
       if (!book) throw new AppException(40401, "绘本作品不存在", 404);
-      const snapshot = snapshotCourseMaterial("PICTURE_BOOK", book);
+      const imported = await transaction.creatorWork.findFirst({ where: { resourceId: pictureBookId, userId, kind: "BOOK" } });
+      const coverId = imported && typeof imported.input === "object" && imported.input && !Array.isArray(imported.input) ? imported.input.coverAssetId : null;
+      const cover = typeof coverId === "string" ? await transaction.creatorAsset.findFirst({ where: { id: coverId, userId, kind: "IMAGE", status: "COMPLETED" } }) : null;
+      const snapshot = { ...snapshotCourseMaterial("PICTURE_BOOK", book), ...(cover ? { libraryCoverUrl: creatorAssetUrl(cover.id) } : {}) };
       const playback = playbackFromSnapshot(book.id, snapshot);
       if (book.status !== "COMPLETED" || !book.title.trim() || playback.pages[0]?.position !== 0 || playback.pages.length !== book.pageCount + 1 || playback.pages.some((page, index) => page.position !== index || !page.imageUrl || !page.caption.trim())) {
         throw new AppException(40001, "请先保存为作品，并完成封面和每页图文后再投稿", 400);
@@ -36,8 +40,8 @@ export class PictureBookSubmissionService {
       if (existing?.status === "APPROVED" && existing.snapshotHash === snapshotHash) return this.summary(existing);
       const row = await transaction.pictureBookSubmission.upsert({
         where: { pictureBookId },
-        create: { pictureBookId, snapshot: snapshot as Prisma.InputJsonValue, snapshotHash },
-        update: { snapshot: snapshot as Prisma.InputJsonValue, snapshotHash, status: "PENDING", coverUrl: null, coverTaskId: null, coverToken: null, coverExpiresAt: null, reviewedByAdminId: null, reviewNote: null, reviewedAt: null, submittedAt: new Date() }
+        create: { pictureBookId, submittedVersion: book.version, coverUrl: cover ? creatorAssetUrl(cover.id) : null, snapshot: snapshot as Prisma.InputJsonValue, snapshotHash },
+        update: { submittedVersion: book.version, snapshot: snapshot as Prisma.InputJsonValue, snapshotHash, status: "PENDING", coverUrl: cover ? creatorAssetUrl(cover.id) : null, coverTaskId: null, coverToken: null, coverExpiresAt: null, reviewedByAdminId: null, reviewNote: null, reviewedAt: null, submittedAt: new Date() }
       });
       return this.summary(row);
     });
@@ -104,70 +108,94 @@ export class PictureBookSubmissionService {
     const date = new Date(expectedUpdatedAt);
     if (!Number.isFinite(date.getTime())) throw new AppException(40001, "审核版本参数格式错误", 400);
     if (status === "REJECTED" && (!reason || reason.trim().length < 2 || reason.trim().length > 500)) throw new AppException(40001, "请输入 2 到 500 个字符的拒绝原因", 400);
-    const changed = await this.prisma.pictureBookSubmission.updateMany({ where: { id, status: "PENDING", updatedAt: date, ...(status === "APPROVED" ? { coverUrl: { not: null }, coverToken: null } : {}) }, data: { status, reviewedByAdminId: adminId, reviewedAt: new Date(), reviewNote: status === "REJECTED" ? reason!.trim() : null, coverToken: null, coverExpiresAt: null } });
-    if (!changed.count) throw new AppException(40901, "投稿状态已变化或封面尚未生成，请刷新后重试", 409);
+    await this.prisma.$transaction(async tx => {
+      const row = await tx.pictureBookSubmission.findUnique({ where: { id } });
+      if (!row) throw new AppException(40401, "绘本投稿不存在", 404);
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${`picture-book-submission:${row.pictureBookId}`}))`;
+      if (hashCourseSnapshot(row.snapshot) !== row.snapshotHash) throw new AppException(40901, "审核快照校验失败，请重新投稿", 409);
+      const changed = await tx.pictureBookSubmission.updateMany({ where: { id, status: "PENDING", snapshotHash: row.snapshotHash, updatedAt: date, ...(status === "APPROVED" ? { coverUrl: { not: null }, coverToken: null } : {}) }, data: { status, reviewedByAdminId: adminId, reviewedAt: new Date(), reviewNote: status === "REJECTED" ? reason!.trim() : null, coverToken: null, coverExpiresAt: null,
+        ...(status === "APPROVED" ? { publishedSnapshot: row.snapshot as Prisma.InputJsonValue, publishedHash: row.snapshotHash, publishedCoverUrl: row.coverUrl, publishedAt: new Date(), publishedVersion: { increment: 1 } } : {}) } });
+      if (!changed.count) throw new AppException(40901, "投稿状态已变化或封面尚未生成，请刷新后重试", 409);
+    });
     return this.review(id);
   }
 
   async publicList(page = 1, pageSize = 20) {
-    const where = { status: "APPROVED" as const, coverUrl: { not: null } };
+    const where = { publishedAt: { not: null }, publishedCoverUrl: { not: null } };
     const [rows, total] = await Promise.all([
-      this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ reviewedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, snapshot: true } }),
+      this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true } }),
       this.prisma.pictureBookSubmission.count({ where })
     ]);
-    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.snapshot); return { id: book.id, title: book.title, coverUrl: `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
+    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
   }
 
   async albums() {
-    const rows = await this.prisma.course.findMany({ where: { publishedAt: { not: null }, approvedRevision: { is: { status: "APPROVED", items: { some: { materialType: "PICTURE_BOOK" } } } } }, take: 8, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], select: { id: true, approvedRevision: { select: { name: true, coverMedia: { select: { url: true, filename: true, storageProvider: true } }, _count: { select: { items: { where: { materialType: "PICTURE_BOOK" } } } } } } } });
-    return rows.flatMap(row => row.approvedRevision ? [{ id: row.id, title: row.approvedRevision.name, coverUrl: mediaAssetPublicUrl(row.approvedRevision.coverMedia), bookCount: row.approvedRevision._count.items, href: `/c/${encodeURIComponent(row.id)}` }] : []);
+    const rows = await this.prisma.course.findMany({ where: { publishedAt: { not: null }, approvedRevision: { is: { status: "APPROVED", items: { some: { materialType: "PICTURE_BOOK" } } } } }, take: 8, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], select: { id: true, approvedRevision: { select: { id: true, name: true, coverMedia: { select: { url: true, filename: true, storageProvider: true } }, _count: { select: { items: { where: { materialType: "PICTURE_BOOK" } } } } } } } });
+    return rows.flatMap(row => row.approvedRevision ? [{ id: row.id, title: row.approvedRevision.name, coverUrl: creatorAssetId(row.approvedRevision.coverMedia.url) ? `/api/creator-media/revisions/${row.approvedRevision.id}/cover` : mediaAssetPublicUrl(row.approvedRevision.coverMedia), bookCount: row.approvedRevision._count.items, href: `/c/${encodeURIComponent(row.id)}` }] : []);
   }
 
   async publicBook(pictureBookId: string) {
     const row = await this.published(pictureBookId);
-    return playbackFromSnapshot(pictureBookId, row.snapshot);
+    const book = playbackFromSnapshot(pictureBookId, row.publishedSnapshot);
+    return { ...book, pages: book.pages.map(page => ({ ...page, imageUrl: page.imageUrl ? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/image` : null, audioUrl: page.audioUrl ? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio` : null })) };
   }
 
   private async published(pictureBookId: string) {
-    const row = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId, status: "APPROVED", coverUrl: { not: null } } });
+    const row = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId, publishedAt: { not: null }, publishedCoverUrl: { not: null } } });
     if (!row) throw new AppException(40401, "绘本不存在或尚未审核发布", 404);
     return row;
   }
 
   async image(pictureBookId: string, position?: number) {
     const row = await this.published(pictureBookId);
-    const url = position === undefined ? row.coverUrl : playbackFromSnapshot(pictureBookId, row.snapshot).pages.find(page => page.position === position)?.imageUrl;
+    const url = position === undefined ? row.publishedCoverUrl : playbackFromSnapshot(pictureBookId, row.publishedSnapshot).pages.find(page => page.position === position)?.imageUrl;
     if (!url) throw new AppException(40401, "绘本图片不存在", 404);
-    return this.readImage(url);
+    return creatorAssetId(url) ? readCreatorAssetReference(url, position === undefined) : this.readImage(url);
   }
 
   async reviewImage(id: string, position?: number) {
     const row = await this.review(id);
     const url = position === undefined ? row.coverUrl : row.book.pages.find(page => page.position === position)?.imageUrl;
     if (!url) throw new AppException(40401, "绘本图片不存在", 404);
-    return this.readImage(url);
+    return creatorAssetId(url) ? readCreatorAssetReference(url, position === undefined) : this.readImage(url);
   }
 
   async audio(pictureBookId: string, position: number) {
-    const book = await this.publicBook(pictureBookId);
+    const row = await this.published(pictureBookId);
+    const book = playbackFromSnapshot(pictureBookId, row.publishedSnapshot);
     const url = book.pages.find(page => page.position === position)?.audioUrl;
     if (!url) throw new AppException(40401, "本页语音不存在", 404);
-    return this.media.readPictureBookStoredAudio(url);
+    return creatorAssetId(url) ? readCreatorAssetReference(url) : this.media.readPictureBookStoredAudio(url);
+  }
+
+  async reviewAudio(id: string, position: number) {
+    const row = await this.review(id);
+    const url = row.book.pages.find(page => page.position === position)?.audioUrl;
+    if (!url) throw new AppException(40401, "本页语音不存在", 404);
+    return creatorAssetId(url) ? readCreatorAssetReference(url) : this.media.readPictureBookStoredAudio(url);
   }
 
   private async readImage(url: string) {
+    if (creatorAssetId(url)) return readCreatorAssetReference(url);
     if (!url.startsWith("/")) return this.media.readPictureBookStoredImage(url);
-    if (!/^\/picture-book-demos\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:png|jpe?g|webp)$/.test(url)) throw new AppException(40001, "绘本图片地址无效", 400);
-    const base = process.env.PICTURE_BOOK_GUIDE_WEB_BASE_URL || (process.env.NODE_ENV === "production" ? "http://web:3601" : "http://localhost:3601");
-    const response = await fetch(new URL(url, base), { redirect: "manual", signal: AbortSignal.timeout(30000) });
-    if (!response.ok || !response.body) throw new AppException(50201, "绘本图片读取失败，请重试", 502);
-    const chunks: Buffer[] = []; let size = 0;
-    for await (const chunk of response.body) { size += chunk.length; if (size > 10 * 1024 * 1024) throw new AppException(50201, "绘本图片超过 10MB", 502); chunks.push(Buffer.from(chunk)); }
-    const mimetype = response.headers.get("content-type")?.split(";")[0] ?? "";
-    return { buffer: inspectPictureBookImage({ originalname: url, mimetype, size, buffer: Buffer.concat(chunks) }).buffer, mimetype };
+    return readPictureBookDemoImage(url);
   }
 
-  private summary(row: { id: string; status: string; reviewNote: string | null; submittedAt: Date; updatedAt: Date }) {
-    return { id: row.id, status: row.status, reviewNote: row.reviewNote, submittedAt: row.submittedAt, updatedAt: row.updatedAt };
+  async unpublish(adminId: string, id: string, expectedVersion: number) {
+    if (!Number.isSafeInteger(expectedVersion)) throw new AppException(40001, "发布版本参数错误", 400);
+    return this.prisma.$transaction(async tx => {
+      const row = await tx.pictureBookSubmission.findUnique({ where: { id } });
+      if (!row) throw new AppException(40401, "绘本投稿不存在", 404);
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${`picture-book-submission:${row.pictureBookId}`}))`;
+      const current = await tx.pictureBookSubmission.findUniqueOrThrow({ where: { id } });
+      const changed = await tx.pictureBookSubmission.updateMany({ where: { id, publishedVersion: expectedVersion, publishedAt: { not: null } }, data: { publishedAt: null, publishedVersion: { increment: 1 }, updatedAt: current.updatedAt } });
+      if (!changed.count) throw new AppException(40901, "发布版本已变化，请刷新", 409);
+      await tx.adminOperationLog.create({ data: { adminUserId: adminId, action: "UNPUBLISH_PICTURE_BOOK", resourceType: "PICTURE_BOOK_SUBMISSION", resourceId: id, description: "下架已发布绘本，保留待审稿" } });
+      return { unpublished: true };
+    });
+  }
+
+  private summary(row: { id: string; status: string; reviewNote: string | null; submittedAt: Date; updatedAt: Date; publishedVersion?: number; publishedAt?: Date | null }) {
+    return { id: row.id, status: row.status, reviewNote: row.reviewNote, submittedAt: row.submittedAt, updatedAt: row.updatedAt, publishedVersion: row.publishedVersion ?? 0, published: !!row.publishedAt };
   }
 }

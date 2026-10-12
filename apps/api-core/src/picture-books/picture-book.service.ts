@@ -1,3 +1,4 @@
+import { creatorAssetId, readCreatorAssetReference } from "../creator/creator-assets.service.js";
 import { HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { readFile } from "node:fs/promises";
 import { getPrismaClient, type Prisma, type PrismaClient } from "@xueleai/database";
@@ -84,26 +85,26 @@ export class PictureBookService {
         } } },
         publication: { approvedHash: { not: null }, status: "APPROVED" }
       },
-      select: { publication: { select: { approvedHash: true, approvedSnapshot: true } } }
+      select: { pinnedSnapshot: true, pinnedHash: true, publication: { select: { approvedHash: true, approvedSnapshot: true } } }
     });
     if (!item?.publication.approvedHash || !item.publication.approvedSnapshot) {
       throw new AppException(40401, "绘本作品不存在或尚未发布", HttpStatus.NOT_FOUND);
     }
-    return playbackFromSnapshot(id, item.publication.approvedSnapshot);
+    return playbackFromSnapshot(id, item.pinnedSnapshot ?? item.publication.approvedSnapshot);
   }
 
   async pageImage(subject: ProfileSubject, id: string, position: number) {
     const book = await this.playback(subject, id);
     const imageUrl = book.pages.find((page) => page.position === position)?.imageUrl;
     if (!imageUrl) throw new AppException(40401, "本页图片不存在", HttpStatus.NOT_FOUND);
-    return this.mediaService.readPictureBookStoredImage(imageUrl);
+    return creatorAssetId(imageUrl) ? readCreatorAssetReference(imageUrl) : this.mediaService.readPictureBookStoredImage(imageUrl);
   }
 
   async pageAudio(subject: ProfileSubject, id: string, position: number) {
     const book = await this.playback(subject, id);
     const audioUrl = book.pages.find((page) => page.position === position)?.audioUrl;
     if (!audioUrl) throw new AppException(40401, "本页语音不存在", HttpStatus.NOT_FOUND);
-    return this.mediaService.readPictureBookStoredAudio(audioUrl);
+    return creatorAssetId(audioUrl) ? readCreatorAssetReference(audioUrl) : this.mediaService.readPictureBookStoredAudio(audioUrl);
   }
 
   async update(userId: string, id: string, dto: UpdatePictureBookDto) {

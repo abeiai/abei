@@ -921,6 +921,7 @@ test("保存课程在同一事务替换草稿条目并刷新课件快照指纹",
       transactionCalls += 1;
       const transaction = {
         $queryRaw: async () => [],
+        creatorWork: { updateMany: async () => ({ count: 0 }) },
         videoGuideLesson: base.videoGuideLesson,
         englishGuidedStudyMaterial: base.englishGuidedStudyMaterial,
         learningFlashcardDeck: base.learningFlashcardDeck,
@@ -987,6 +988,7 @@ test("工作版本指向已审核版本时创建新草稿且绝不修改已审�
     },
     $transaction: async (callback: (transaction: object) => Promise<unknown>) => callback({
       $queryRaw: async () => [],
+        creatorWork: { updateMany: async () => ({ count: 0 }) },
       videoGuideLesson: base.videoGuideLesson,
       englishGuidedStudyMaterial: base.englishGuidedStudyMaterial,
       learningFlashcardDeck: base.learningFlashcardDeck,
