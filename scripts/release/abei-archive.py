@@ -9,7 +9,7 @@ import tarfile
 
 ROOT_FILES = {'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', '.dockerignore',
               'docker-compose.abei-prod.yml', 'RELEASE_COMMIT'}
-PRIVATE_PARTS = {'node_modules', '.git', '.superpowers', '.next', 'dist', 'generated',
+PRIVATE_PARTS = {'node_modules', '.git', '.superpowers', '.next', 'dist',
                  'private-data', 'private-creator-assets', 'private-picture-book-guides',
                  'private-legacy-ai-log-assets', 'uploads', 'logs', 'backups', 'tmp',
                  'textbook', 'textbook-markdown-assets', 'vendor', 'coverage', '__pycache__'}
@@ -19,6 +19,8 @@ def allowed(name):
     if p.is_absolute() or '..' in p.parts or str(p) != name or not p.parts:
         return False
     if any(part in PRIVATE_PARTS or part.startswith('.env') for part in p.parts):
+        return False
+    if name.startswith('packages/database/generated/'):
         return False
     if p.suffix.lower() in {'.pem', '.key', '.p12', '.pfx', '.dump', '.backup', '.pdf', '.log', '.zip', '.tgz', '.gz'}:
         return False

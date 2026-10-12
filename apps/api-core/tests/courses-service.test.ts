@@ -783,6 +783,7 @@ test("添加课程目录按当前用户排除已加入课程并返回轻量分�
 test("用户课程查询只读取课件最近一次拒绝原因", async () => {
   let capturedQuery: Record<string, unknown> | null = null;
   const service = serviceWithPrisma({
+    creatorWork: { findMany: async () => [] },
     course: {
       findMany: async (query: Record<string, unknown>) => {
         capturedQuery = query;
