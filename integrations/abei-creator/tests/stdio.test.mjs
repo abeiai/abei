@@ -31,6 +31,15 @@ test("official SDK initializes stdio helper; stdout is only protocol, status and
       arguments: { projectRoot: 4 },
     });
     assert.equal(invalid.isError, true);
+    const missing = await client.callTool({name: "creator_local_sync", arguments: {projectRoot: dir, manifestPath: "missing-private-manifest.json"}});
+    assert.equal(missing.isError, true);
+    assert.match(missing.content[0].text, /文件不存在/);
+    assert.doesNotMatch(JSON.stringify(missing), /ENOENT|missing-private-manifest|abei-stdio-|stack/);
+    const unauthenticated = await client.callTool({name: "creator_books_list", arguments: {}});
+    assert.equal(unauthenticated.isError, true);
+    assert.equal(unauthenticated.structuredContent.error.status, 401);
+    assert.equal(unauthenticated.structuredContent.error.code, "request_failed");
+    assert.match(unauthenticated.content[0].text, /请先授权登录/);
     assert.equal(errors, "");
   } finally {
     await client.close();
