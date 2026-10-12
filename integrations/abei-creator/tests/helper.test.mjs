@@ -1,0 +1,470 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {
+  mkdtemp,
+  readFile,
+  writeFile,
+  stat,
+  symlink,
+  mkdir,
+  rm,
+} from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { CreatorClient } from "../src/client.mjs";
+import { syncManifest, uploadFile } from "../src/media.mjs";
+const response = (data, status = 200) =>
+  new Response(JSON.stringify(data), {
+    status,
+    headers: { "content-type": "application/json" },
+  });
+async function setup() {
+  const home = await mkdtemp(join(tmpdir(), "abei-helper-"));
+  return {
+    home,
+    client: (options = {}) =>
+      new CreatorClient({ profile: "test", stateDir: home, ...options }),
+    clean: () => rm(home, { force: true, recursive: true }),
+  };
+}
+test("device restart, private credentials, refresh persisted before API, profile isolation, revoke", async () => {
+  const s = await setup();
+  let refreshes = 0;
+  const requests = [];
+  const fetch = async (url, init) => {
+    requests.push([url, init]);
+    if (url.endsWith("/register"))
+      return response({ client_id: "client-test" });
+    if (url.endsWith("/device"))
+      return response({
+        device_code: "private-device",
+        user_code: "PUBLIC",
+        verification_uri: "https://new.abeiai.com/creator/device",
+        expires_in: 600,
+        interval: 5,
+      });
+    if (url.endsWith("/token")) {
+      const body = JSON.parse(init.body);
+      if (body.grant_type === "refresh_token") refreshes++;
+      return response({
+        access_token: refreshes ? "new-access" : "old-access",
+        refresh_token: refreshes ? "new-refresh" : "old-refresh",
+        expires_in: refreshes ? 900 : 0,
+        scope: "creator:read creator:write",
+        resource: "https://mcp.abeiai.com/api/creator/v1",
+      });
+    }
+    if (url.endsWith("/revoke")) return response({});
+    assert.equal(
+      JSON.parse(await readFile(join(s.home, "test", "state.json"), "utf8"))
+        .tokens.refresh_token,
+      "new-refresh",
+    );
+    return response({ code: 0, data: { ok: true } });
+  };
+  try {
+    let c = s.client({ fetch });
+    const device = await c.loginStart(["creator:read", "creator:write"]);
+    assert.equal(device.device_code, undefined);
+    assert.equal(device.user_code, "PUBLIC");
+    c = s.client({ fetch });
+    await c.loginPoll();
+    assert.equal(
+      (await stat(join(s.home, "test", "state.json"))).mode & 0o777,
+      0o600,
+    );
+    await Promise.all([c.api("/account"), c.api("/account")]);
+    assert.equal(refreshes, 1);
+    assert.equal(
+      (
+        await new CreatorClient({
+          profile: "another",
+          stateDir: s.home,
+          fetch,
+        }).status()
+      ).authenticated,
+      false,
+    );
+    await c.logout();
+    assert.equal((await c.status()).authenticated, false);
+    assert.ok(requests.some(([u]) => u.endsWith("/revoke")));
+  } finally {
+    await s.clean();
+  }
+});
+test("network origin and redirects cannot leak credentials; scope expansion needs consent", async () => {
+  const s = await setup();
+  try {
+    assert.throws(() => s.client({ origin: "http://evil.test" }));
+    assert.throws(() => s.client({ origin: "https://evil.test/path" }));
+    const c = s.client({
+      fetch: async (u, i) => {
+        assert.equal(i.redirect, "error");
+        return response({ error: "invalid_grant" }, 400);
+      },
+    });
+    await assert.rejects(c.request("https://evil.test", "POST", {}));
+    await assert.rejects(c.api("/account"), /授权/);
+  } finally {
+    await s.clean();
+  }
+});
+test("capability-only transfer recovers committed offset after lost reply without login and hides secret", async () => {
+  const s = await setup();
+  const file = join(s.home, "image.png");
+  await writeFile(file, Buffer.from("abcdef"));
+  let offset = 0,
+    first = true;
+  const caps = [];
+  const c = s.client({
+    fetch: async (url, init) => {
+      assert.equal(init.headers.authorization, undefined);
+      caps.push(init.headers["x-creator-upload-capability"]);
+      if (url.endsWith("/chunks")) {
+        const b = JSON.parse(init.body);
+        if (first) {
+          first = false;
+          offset = b.offset + Buffer.from(b.data, "base64").length;
+          throw new Error("lost");
+        }
+        offset = b.offset + Buffer.from(b.data, "base64").length;
+      }
+      return response({
+        code: 0,
+        data: {
+          id: "asset1",
+          offset,
+          size: 6,
+          sha256:
+            "bef57ec7f53a6d40beb640a780a639c83bc29ac8a9816f1fc6c5c6dcd93c4721",
+          status: url.endsWith("/complete") ? "COMPLETED" : "UPLOADING",
+        },
+      });
+    },
+  });
+  try {
+    const result = await uploadFile(c, file, {
+      session: {
+        id: "asset1",
+        uploadCapability: "x".repeat(43),
+        sha256:
+          "bef57ec7f53a6d40beb640a780a639c83bc29ac8a9816f1fc6c5c6dcd93c4721",
+        size: 6,
+      },
+    });
+    assert.equal(result.status, "COMPLETED");
+    assert.ok(caps.every((x) => x === "x".repeat(43)));
+    assert.ok(!JSON.stringify(result).includes("x".repeat(43)));
+  } finally {
+    await s.clean();
+  }
+});
+test("sync rejects traversal and symlink outside chosen root before network, and never auto-submits", async () => {
+  const s = await setup();
+  const root = join(s.home, "project");
+  await mkdir(root);
+  await writeFile(join(s.home, "secret.png"), "secret");
+  await symlink(join(s.home, "secret.png"), join(root, "link.png"));
+  let calls = 0;
+  const c = s.client({
+    fetch: async () => {
+      calls++;
+      throw Error("unexpected");
+    },
+  });
+  try {
+    for (const path of ["../secret.png", "link.png"]) {
+      await writeFile(
+        join(root, "book.json"),
+        JSON.stringify({
+          schemaVersion: 1,
+          kind: "BOOK",
+          work: {
+            schemaVersion: 1,
+            externalId: "b",
+            expectedVersion: 0,
+            title: "测试",
+            style: "水彩",
+            pageCount: 4,
+            pages: [],
+          },
+          assets: { cover: { path, kind: "IMAGE", mimeType: "image/png" } },
+          bindings: { coverAssetId: "cover" },
+        }),
+      );
+      await assert.rejects(syncManifest(c, root, "book.json"), /目录/);
+    }
+    assert.equal(calls, 0);
+  } finally {
+    await s.clean();
+  }
+});
+test("save retries preserve identity; 409 does not auto-update version or submit; expanded scope is denied", async () => {
+  const s = await setup();
+  const root = join(s.home, "project");
+  await mkdir(root);
+  const work = {
+    schemaVersion: 1,
+    externalId: "stable",
+    expectedVersion: 0,
+    title: "测试",
+    style: "水彩",
+    pageCount: 4,
+    pages: [],
+  };
+  await writeFile(
+    join(root, "book.json"),
+    JSON.stringify({ schemaVersion: 1, kind: "BOOK", work }),
+  );
+  let bodies = [];
+  const c = s.client({
+    fetch: async (url, init) => {
+      assert.ok(url.endsWith("/books"));
+      bodies.push(JSON.parse(init.body));
+      return bodies.length < 3
+        ? response({
+            code: 0,
+            data: {
+              id: "book1",
+              version: 1,
+              previewHref: "/picture-books/book1/play",
+            },
+          })
+        : response({ code: 40901, message: "conflict" }, 409);
+    },
+  });
+  try {
+    await c.store.write({
+      version: 1,
+      origin: c.origin,
+      clientId: "client",
+      tokens: {
+        access_token: "access",
+        refresh_token: "refresh",
+        scope: "creator:read creator:write",
+        expiresAt: Date.now() + 900000,
+      },
+    });
+    const one = await syncManifest(c, root, "book.json");
+    assert.equal(one.submitted, false);
+    assert.equal(one.nextExpectedVersion, 1);
+    await syncManifest(c, root, "book.json");
+    assert.deepEqual(bodies[0], bodies[1]);
+    await assert.rejects(syncManifest(c, root, "book.json"), /冲突/);
+    assert.equal(bodies.length, 3);
+    await assert.rejects(
+      c.api(
+        "/books/book1/submit",
+        "POST",
+        { expectedVersion: 1 },
+        "creator:submit",
+      ),
+      /重新授权/,
+    );
+    assert.equal(bodies.length, 3);
+  } finally {
+    await s.clean();
+  }
+});
+test("invalid grant clears refresh state, denied revoke keeps state for retry, device polling respects interval", async () => {
+  const s = await setup();
+  const c = s.client({
+    fetch: async (url) =>
+      response(
+        { error: url.endsWith("/revoke") ? "server_error" : "invalid_grant" },
+        url.endsWith("/revoke") ? 503 : 400,
+      ),
+  });
+  try {
+    const state = {
+      version: 1,
+      origin: c.origin,
+      clientId: "client",
+      tokens: {
+        access_token: "old",
+        refresh_token: "refresh",
+        scope: "creator:read",
+        expiresAt: 0,
+      },
+    };
+    await c.store.write(state);
+    await assert.rejects(c.api("/account"), /重新授权/);
+    assert.equal((await c.status()).authenticated, false);
+    await c.store.write(state);
+    await assert.rejects(c.logout());
+    assert.equal((await c.status()).authenticated, true);
+    state.device = {
+      nextPollAt: Date.now() + 5000,
+      expiresAt: Date.now() + 600000,
+      interval: 5,
+    };
+    await c.store.write(state);
+    assert.equal((await c.loginPoll()).pending, true);
+  } finally {
+    await s.clean();
+  }
+});
+test("upload retries 503 zero progress, recovers finalize lost reply, and restart keeps private session", async () => {
+  const s = await setup();
+  const file = join(s.home, "file.png");
+  await writeFile(file, "abcdef");
+  const session = {
+    id: "asset1",
+    size: 6,
+    sha256: "bef57ec7f53a6d40beb640a780a639c83bc29ac8a9816f1fc6c5c6dcd93c4721",
+    uploadCapability: "y".repeat(43),
+    capabilityExpiresAt: new Date(Date.now() + 900000).toISOString(),
+  };
+  let offset = 0,
+    attempts = 0,
+    completed = false;
+  const c = s.client({
+    fetch: async (url, init) => {
+      if (url.endsWith("/chunks")) {
+        if (++attempts === 1) return response({ code: 50301 }, 503);
+        offset = 6;
+      }
+      if (url.endsWith("/complete")) {
+        completed = true;
+        throw Error("lost finalize");
+      }
+      return response({
+        code: 0,
+        data: {
+          id: "asset1",
+          size: 6,
+          sha256: session.sha256,
+          offset,
+          status: completed ? "COMPLETED" : "UPLOADING",
+        },
+      });
+    },
+  });
+  try {
+    const result = await uploadFile(c, file, { session });
+    assert.equal(result.status, "COMPLETED");
+    assert.equal(attempts, 2);
+    assert.deepEqual((await c.store.read()).uploads, {});
+  } finally {
+    await s.clean();
+  }
+});
+test("credentials reject symlink and broad permissions; revoked capabilities do not trigger broad login", async () => {
+  const s = await setup();
+  try {
+    const c = s.client();
+    await c.store.write({ version: 1 });
+    await import("node:fs/promises").then((fs) =>
+      fs.chmod(join(s.home, "test", "state.json"), 0o644),
+    );
+    await assert.rejects(c.status(), /0600/);
+    const f = join(s.home, "file.png");
+    await writeFile(f, "abcdef");
+    let urls = [];
+    const denied = s.client({
+      fetch: async (u) => {
+        urls.push(u);
+        return response({ code: 40101 }, 401);
+      },
+    });
+    await import("node:fs/promises").then((fs) =>
+      fs.chmod(join(s.home, "test", "state.json"), 0o600),
+    );
+    await assert.rejects(
+      uploadFile(denied, f, {
+        session: {
+          id: "a",
+          size: 6,
+          sha256:
+            "bef57ec7f53a6d40beb640a780a639c83bc29ac8a9816f1fc6c5c6dcd93c4721",
+          uploadCapability: "z".repeat(43),
+        },
+      }),
+      /重新授权/,
+    );
+    assert.equal(urls.length, 1);
+    assert.ok(!urls[0].includes("/oauth/"));
+  } finally {
+    await s.clean();
+  }
+});
+test("interrupted upload restarts from private stored capability without an API login", async () => {
+  const s = await setup();
+  const file = join(s.home, "retry.png");
+  await writeFile(file, "abcdef");
+  const session = {
+    id: "resume1",
+    size: 6,
+    sha256: "bef57ec7f53a6d40beb640a780a639c83bc29ac8a9816f1fc6c5c6dcd93c4721",
+    uploadCapability: "r".repeat(43),
+    capabilityExpiresAt: new Date(Date.now() + 900000).toISOString(),
+  };
+  try {
+    const first = s.client({
+      fetch: async () => response({ code: 50301 }, 503),
+    });
+    await assert.rejects(
+      uploadFile(first, file, { session, externalId: "restart" }),
+    );
+    assert.equal(Object.values((await first.store.read()).uploads).length, 1);
+    let offset = 0;
+    const second = s.client({
+      fetch: async (url, init) => {
+        assert.equal(init.headers.authorization, undefined);
+        assert.ok(url.includes("/assets/resume1"));
+        if (url.endsWith("/chunks")) offset = 6;
+        return response({
+          code: 0,
+          data: {
+            id: "resume1",
+            offset,
+            status: url.endsWith("/complete") ? "COMPLETED" : "UPLOADING",
+          },
+        });
+      },
+    });
+    assert.equal(
+      (await uploadFile(second, file, { externalId: "restart" })).status,
+      "COMPLETED",
+    );
+    assert.equal((await second.status()).authenticated, false);
+  } finally {
+    await s.clean();
+  }
+});
+test("changing configured origin never forwards stored refresh or device credentials", async () => {
+  const s = await setup();
+  let requests = 0;
+  try {
+    const original = s.client();
+    await original.store.write({
+      version: 1,
+      origin: original.origin,
+      clientId: "c",
+      tokens: {
+        access_token: "private",
+        refresh_token: "private-refresh",
+        scope: "creator:read",
+        expiresAt: 0,
+      },
+      device: {
+        device_code: "private-device",
+        expiresAt: Date.now() + 60000,
+        nextPollAt: 0,
+        interval: 5,
+      },
+    });
+    const other = s.client({
+      origin: "https://other.example",
+      fetch: async () => {
+        requests++;
+        return response({});
+      },
+    });
+    await assert.rejects(other.logout(), /服务器/);
+    await assert.rejects(other.loginPoll(), /服务器/);
+    assert.equal(requests, 0);
+  } finally {
+    await s.clean();
+  }
+});
