@@ -15,6 +15,8 @@ export class PublicBookQuery {
   page = 1;
   @Type(() => Number) @IsInt() @Min(1) @Max(20)
   pageSize = 20;
+  @IsOptional() @IsString() @MaxLength(100)
+  q?: string;
 }
 export class ReviewQuery {
   @IsOptional() @IsIn(["PENDING", "APPROVED", "REJECTED"])
@@ -68,7 +70,9 @@ export class PictureBookSubmissionController {
 export class PublicPictureBooksController {
   constructor(@Inject(PictureBookSubmissionService) private readonly submissions: PictureBookSubmissionService) {}
   @Get()
-  async list(@Query() query: PublicBookQuery) { return successResponse(await this.submissions.publicList(query.page, query.pageSize)); }
+  async list(@Query() query: PublicBookQuery) { return successResponse(await this.submissions.publicList(query.page, query.pageSize, query.q)); }
+  @Get("albums/catalog")
+  async albumCatalog(@Query() query: PublicBookQuery) { return successResponse(await this.submissions.publicAlbumList(query.page, query.pageSize, query.q)); }
   @Get("albums")
   async albums() { return successResponse(await this.submissions.albums()); }
   @Get(":id/play")

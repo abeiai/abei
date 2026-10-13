@@ -22,6 +22,7 @@ import { PictureBookModule } from "../src/picture-books/picture-book.module.js";
 Reflect.defineMetadata("design:paramtypes", [AiService, AudioService, MediaService, CourseReviewService, SystemConfigService], PictureBookService);
 
 Reflect.defineMetadata("design:paramtypes", [PublicBookQuery], PublicPictureBooksController.prototype, "list");
+Reflect.defineMetadata("design:paramtypes", [PublicBookQuery], PublicPictureBooksController.prototype, "albumCatalog");
 Reflect.defineMetadata("design:paramtypes", [Object, ReviewQuery], AdminPictureBookSubmissionsController.prototype, "list");
 Reflect.defineMetadata("design:paramtypes", [Object, String, DecisionDto], AdminPictureBookSubmissionsController.prototype, "approve");
 Reflect.defineMetadata("design:paramtypes", [Object, String, RejectDto], AdminPictureBookSubmissionsController.prototype, "reject");
@@ -110,6 +111,7 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
       if(previousMediaBase===undefined) delete process.env.S3_PUBLIC_BASE_URL; else process.env.S3_PUBLIC_BASE_URL=previousMediaBase;
     }
     assert.equal((await fetch(`${base}/public/picture-books?pageSize=1000`)).status,400);
+    assert.equal((await fetch(`${base}/public/picture-books?q=${"a".repeat(101)}`)).status,400);
     assert.equal((await fetch(`${base}/public/picture-books/${book.id}/pages/1/image`)).status,200);
     const log=await prisma.adminOperationLog.findFirst({where:{adminUserId:admin.id,action:"APPROVE_PICTURE_BOOK_SUBMISSION"}}); assert.ok(log);
     // Listing limits are enforced by the real database query, with unpublished items excluded.
@@ -123,6 +125,10 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
     assert.ok(!capped.items.some((item:{title:string})=>item.title==="独立绘本22"));
     const next=(await (await fetch(`${base}/public/picture-books?page=2&pageSize=20`)).json()).data;
     assert.ok(next.items.some((item:{title:string})=>item.title==="独立绘本0"));
+    const searchedBooks=(await (await fetch(`${base}/public/picture-books?q=${encodeURIComponent("独立绘本")}&pageSize=10&page=2`)).json()).data;
+    assert.equal(searchedBooks.total,22); assert.equal(searchedBooks.items.length,10); assert.equal(searchedBooks.page,2);
+    assert.equal((await (await fetch(`${base}/public/picture-books?q=${encodeURIComponent("独立绘本22")}`)).json()).data.total,0);
+    assert.equal((await (await fetch(`${base}/public/picture-books?q=${encodeURIComponent("未审核的新标题")}`)).json()).data.total,0);
     albumCoverId=(await prisma.mediaAsset.create({data:{filename:"legacy-cover.png",originalName:"封面.png",mimeType:"image/png",size:1,storageProvider:"S3",url:"https://account.r2.cloudflarestorage.com/private/legacy-cover.png"}})).id;
     publicationId=(await prisma.courseMaterialPublication.create({data:{materialType:"PICTURE_BOOK",pictureBookId:book.id,status:"APPROVED",currentHash:"fixture",approvedHash:"fixture",currentSnapshot:{},approvedSnapshot:{type:"PICTURE_BOOK",title:data.title,pages:data.pages}}})).id;
     for(let index=0;index<11;index++) {
@@ -137,6 +143,11 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
       const albums=(await (await fetch(`${base}/public/picture-books/albums`)).json()).data;
       assert.equal(albums.length,8); assert.equal(albums[0].title,"专辑9"); assert.equal(albums[7].title,"专辑2");
       assert.equal(albums[0].coverUrl,"https://covers.test.invalid/albums/legacy-cover.png"); assert.equal(albums[0].bookCount,1);
+      const albumPage=(await (await fetch(`${base}/public/picture-books/albums/catalog?page=2&pageSize=4`)).json()).data;
+      assert.ok(albumPage.total>=10); assert.equal(albumPage.items.length,4); assert.equal(albumPage.items[0].title,"专辑5");
+      const searchedAlbums=(await (await fetch(`${base}/public/picture-books/albums/catalog?q=${encodeURIComponent("专辑1")}`)).json()).data;
+      assert.equal(searchedAlbums.total,1); assert.equal(searchedAlbums.items[0].title,"专辑1");
+      assert.equal((await (await fetch(`${base}/public/picture-books/albums/catalog?q=${encodeURIComponent("专辑10")}`)).json()).data.total,0);
     } finally {
       if(originalPublicBase===undefined) delete process.env.S3_PUBLIC_BASE_URL; else process.env.S3_PUBLIC_BASE_URL=originalPublicBase;
       if(originalPrefix===undefined) delete process.env.S3_KEY_PREFIX; else process.env.S3_KEY_PREFIX=originalPrefix;

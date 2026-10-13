@@ -121,8 +121,9 @@ export class PictureBookSubmissionService {
     return this.review(id);
   }
 
-  async publicList(page = 1, pageSize = 20) {
-    const where = { publishedAt: { not: null }, publishedCoverUrl: { not: null } };
+  async publicList(page = 1, pageSize = 20, q = "") {
+    const search = q.trim();
+    const where: Prisma.PictureBookSubmissionWhereInput = { publishedAt: { not: null }, publishedCoverUrl: { not: null }, ...(search ? { publishedSnapshot: { path: ["title"], string_contains: search } } : {}) };
     const publicMediaBaseUrl = this.publicMediaBaseUrl();
     const [rows, total] = await Promise.all([
       this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true, publishedCoverUrl: true } }),
@@ -132,8 +133,17 @@ export class PictureBookSubmissionService {
   }
 
   async albums() {
-    const rows = await this.prisma.course.findMany({ where: { publishedAt: { not: null }, approvedRevision: { is: { status: "APPROVED", items: { some: { materialType: "PICTURE_BOOK" } } } } }, take: 8, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], select: { id: true, approvedRevision: { select: { id: true, name: true, coverMedia: { select: { url: true, filename: true, storageProvider: true } }, _count: { select: { items: { where: { materialType: "PICTURE_BOOK" } } } } } } } });
-    return rows.flatMap(row => row.approvedRevision ? [{ id: row.id, title: row.approvedRevision.name, coverUrl: creatorAssetId(row.approvedRevision.coverMedia.url) ? `/api/creator-media/revisions/${row.approvedRevision.id}/cover` : mediaAssetPublicUrl(row.approvedRevision.coverMedia), bookCount: row.approvedRevision._count.items, href: `/c/${encodeURIComponent(row.id)}` }] : []);
+    return (await this.publicAlbumList(1, 8)).items;
+  }
+
+  async publicAlbumList(page = 1, pageSize = 20, q = "") {
+    const search = q.trim();
+    const where: Prisma.CourseWhereInput = { publishedAt: { not: null }, approvedRevision: { is: { status: "APPROVED", items: { some: { materialType: "PICTURE_BOOK" } }, ...(search ? { name: { contains: search, mode: "insensitive" } } : {}) } } };
+    const [rows, total] = await Promise.all([
+      this.prisma.course.findMany({ where, skip: (page - 1) * pageSize, take: pageSize, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], select: { id: true, approvedRevision: { select: { id: true, name: true, coverMedia: { select: { url: true, filename: true, storageProvider: true } }, _count: { select: { items: { where: { materialType: "PICTURE_BOOK" } } } } } } } }),
+      this.prisma.course.count({ where })
+    ]);
+    return { items: rows.flatMap(row => row.approvedRevision ? [{ id: row.id, title: row.approvedRevision.name, coverUrl: creatorAssetId(row.approvedRevision.coverMedia.url) ? `/api/creator-media/revisions/${row.approvedRevision.id}/cover` : mediaAssetPublicUrl(row.approvedRevision.coverMedia), bookCount: row.approvedRevision._count.items, href: `/c/${encodeURIComponent(row.id)}` }] : []), total, page, pageSize };
   }
 
   async publicBook(pictureBookId: string) {
