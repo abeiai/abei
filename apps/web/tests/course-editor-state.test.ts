@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   centerCropRect,
+  learningLaunchHref,
   courseGuidedStudyScene,
   courseMaterialDirectoryLabel,
   courseStatusLabel,
@@ -184,4 +185,11 @@ test("课程编辑器使用申请发布动作避免把保存草稿误认为已�
   assert.match(editorSource, /申请发布/u);
   assert.doesNotMatch(editorSource, />提交审核</u);
   assert.match(actionSource, /发布申请已提交，正在等待审核/u);
+});
+
+
+test("已包含专辑版本的阅读链接保持参数唯一并保留其他参数与锚点", () => {
+  const href = learningLaunchHref("/picture-books/book/play?lang=zh&courseId=old&courseId=duplicate&courseRevisionItemId=old-item#page-1", "album", "item");
+  assert.equal(href, "/picture-books/book/play?lang=zh&courseId=album&courseRevisionItemId=item#page-1");
+  assert.equal(learningLaunchHref(href, "album", "item"), href);
 });

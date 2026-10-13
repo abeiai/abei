@@ -158,7 +158,10 @@ export function learningLaunchHref(
   courseRevisionItemId: string
 ) {
   const [pathAndQuery, hash] = href.split("#", 2);
-  const separator = pathAndQuery!.includes("?") ? "&" : "?";
-  const query = new URLSearchParams({ courseId, courseRevisionItemId });
-  return `${pathAndQuery}${separator}${query.toString()}${hash ? `#${hash}` : ""}`;
+  const separator = pathAndQuery!.indexOf("?");
+  const path = separator < 0 ? pathAndQuery! : pathAndQuery!.slice(0, separator);
+  const query = new URLSearchParams(separator < 0 ? "" : pathAndQuery!.slice(separator + 1));
+  query.set("courseId", courseId);
+  query.set("courseRevisionItemId", courseRevisionItemId);
+  return `${path}?${query.toString()}${hash ? `#${hash}` : ""}`;
 }
