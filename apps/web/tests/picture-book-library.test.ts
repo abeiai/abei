@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { homepageLibrary } from "../src/lib/picture-book-library.js";
+import { homepageLibrary, libraryCatalogHref } from "../src/lib/picture-book-library.js";
 import { pictureBookPageImageSource } from "../src/lib/picture-book-images.js";
 import { pictureBookPageAudioSource } from "../src/lib/picture-book-audio.js";
 
@@ -12,6 +12,11 @@ test("首页先显示8个专辑，再显示20本独立绘本，数量不足时�
   assert.deepEqual(display.books.map(item=>item.id),["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"]);
   assert.deepEqual(homepageLibrary([],[]),{albums:[],books:[]});
   assert.equal(homepageLibrary(albums.slice(0,1),books.slice(0,2)).books.length,2);
+});
+
+test("绘本馆分页保留搜索词，空搜索不生成无用参数", () => {
+  assert.equal(libraryCatalogHref("books", 3, "小熊"), "/library/books?q=%E5%B0%8F%E7%86%8A&page=3");
+  assert.equal(libraryCatalogHref("albums", 1, "  "), "/library/albums");
 });
 
 test("公开阅读的图片和音频始终走审核快照接口，包括原始相对路径", () => {

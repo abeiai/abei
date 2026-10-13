@@ -42,7 +42,7 @@ export function PictureBookHome({ albums, books, libraryFailed = false }: { albu
         <div className={styles.libraryDetails}><p>看绘本、听故事，也可以下载收藏。</p><div><span><BookOpen size={16} />在线看</span><span><Headphones size={16} />随时听</span><span><Download size={16} />下载读</span></div></div>
         {libraryFailed ? <p className="py-4 text-sm text-destructive" role="alert">绘本馆暂时无法加载，请稍后重试。</p> : null}
         <PictureBookShelves albums={library.albums} books={library.books} />
-        <div className={styles.libraryBottom}><span>下一本喜欢的故事，就在这里。</span><a href="/library">发现更多绘本<ArrowRight size={17} /></a></div>
+        <div className={styles.libraryBottom}><span>下一本喜欢的故事，就在这里。</span><a href="/library/books">发现更多绘本<ArrowRight size={17} /></a></div>
       </section>
 
       <section className={styles.guideSection} id="guide" aria-labelledby="guide-title">
