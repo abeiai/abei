@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { libraryCatalogHref, type LibraryAlbum, type LibraryBook } from "@/lib/picture-book-library";
+import { yiweiLegacyBookId } from "@/lib/picture-book-public-slug";
 import { PictureBookImage } from "@/components/picture-books/picture-book-image";
 import styles from "./picture-book-home.module.css";
 
@@ -13,9 +14,16 @@ export function PictureBookAlbumGrid({ albums, libraryPage = false, emptyText = 
 
 export function PictureBookBookGrid({ books, emptyText = "暂无已审核的单本绘本" }: { books: LibraryBook[]; emptyText?: string }) {
   return books.length ? <div className={styles.bookGrid}>{books.map(book => <Link className={styles.singleBookCard} href={book.href} key={book.id} aria-label={`阅读《${book.title}》`}>
-      <div className={styles.singleBookCover}><PictureBookImage src={book.coverUrl} fallbackSrc={`/api/public/picture-books/${encodeURIComponent(book.id)}/cover`} alt={`${book.title}绘本封面`} compact /></div>
+      <div className={`${styles.singleBookCover} ${bookCoverCropClass(book.id)}`}><PictureBookImage src={book.coverUrl} fallbackSrc={`/api/public/picture-books/${encodeURIComponent(book.id)}/cover`} alt={`${book.title}绘本封面`} compact /></div>
       <h4 className={styles.singleBookTitle}>{book.title}</h4>
     </Link>)}</div> : <p className="py-8 text-center text-sm text-muted-foreground">{emptyText}</p>;
+}
+
+function bookCoverCropClass(id: string) {
+  if (id === yiweiLegacyBookId || id.startsWith("abei-tutu-")) return styles.bookCoverFourFive;
+  if (id.startsWith("abei-dental-") || id === "abei-archi-rainy-plan") return styles.bookCoverEightNine;
+  if (id.startsWith("abei-archi-") || id.startsWith("abei-seasons-")) return styles.bookCoverSquare;
+  return "";
 }
 
 export function PictureBookShelves({ albums, books, libraryPage = false, search = "" }: { albums: LibraryAlbum[]; books: LibraryBook[]; libraryPage?: boolean; search?: string }) {

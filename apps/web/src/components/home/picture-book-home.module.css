@@ -63,8 +63,11 @@
 .albumCount svg { color: #7b68ee; }
 .bookTitle, .singleBookTitle { display: -webkit-box; width: 100%; min-height: 2.8em; margin: 18px 0 7px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 14px; font-weight: 700; line-height: 1.4; }
 .singleBookCard:focus-visible { outline: 3px solid #7b68ee; outline-offset: 5px; }
-.singleBookCover { display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #fff; }
-.singleBookCover img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.singleBookCover { display: grid; place-items: center; width: 100%; aspect-ratio: 1; overflow: hidden; background: #fff; }
+.singleBookCover img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.bookCoverFourFive { aspect-ratio: 4 / 5; }
+.bookCoverEightNine { aspect-ratio: 8 / 9; }
+.bookCoverFourFive img, .bookCoverEightNine img, .bookCoverSquare img { object-fit: cover; object-position: center; }
 .singleBookTitle { margin-bottom: 0; }
 .shelfMore { margin-left: auto; color: #7b68ee; font-weight: 600; }
 .shelfActions { display: flex; align-items: center; gap: 20px; margin-left: auto; color: #74717f; font-size: 13px; }
