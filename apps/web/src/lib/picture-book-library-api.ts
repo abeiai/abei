@@ -8,9 +8,14 @@ async function api<T>(path: string, authenticated = false): Promise<T> {
   if (!response.ok || result.code !== 0) throw new Error("绘本馆加载失败，请稍后重试");
   return result.data as T;
 }
-export async function getPictureBookLibrary(page = 1) {
-  const [albums, books] = await Promise.allSettled([api<LibraryAlbum[]>("/public/picture-books/albums"), api<LibraryPage>(`/public/picture-books?page=${page}&pageSize=20`)]);
-  return { albums: albums.status === "fulfilled" ? albums.value : [], books: books.status === "fulfilled" ? books.value : { items: [], total: 0, page, pageSize: 20 }, failed: albums.status === "rejected" || books.status === "rejected" };
+export async function getPictureBookLibrary(page = 1, q = "") {
+  const search = q.trim();
+  const bookParams = new URLSearchParams({ page: String(page), pageSize: "20" });
+  if (search) bookParams.set("q", search);
+  const albumPath = search ? `/public/picture-books/albums/catalog?page=1&pageSize=6&q=${encodeURIComponent(search)}` : "/public/picture-books/albums";
+  const [albums, books] = await Promise.allSettled([api<LibraryAlbum[] | LibraryAlbumPage>(albumPath), api<LibraryPage>(`/public/picture-books?${bookParams}`)]);
+  const albumItems = albums.status === "fulfilled" ? Array.isArray(albums.value) ? albums.value : albums.value.items : [];
+  return { albums: albumItems, books: books.status === "fulfilled" ? books.value : { items: [], total: 0, page, pageSize: 20 }, failed: albums.status === "rejected" || books.status === "rejected" };
 }
 export async function getPictureBookCatalog(kind: "albums" | "books", page = 1, q = "") {
   const path = kind === "albums" ? "/public/picture-books/albums/catalog" : "/public/picture-books";
