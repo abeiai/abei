@@ -123,7 +123,7 @@ export class PictureBookSubmissionService {
 
   async publicList(page = 1, pageSize = 20, q = "") {
     const search = q.trim();
-    const where: Prisma.PictureBookSubmissionWhereInput = { publishedAt: { not: null }, publishedCoverUrl: { not: null }, ...(search ? { publishedSnapshot: { path: ["title"], string_contains: search } } : {}) };
+    const where: Prisma.PictureBookSubmissionWhereInput = { publishedAt: { not: null }, publishedCoverUrl: { not: null }, ...(search ? { publishedSnapshot: { path: ["title"], string_contains: search, mode: "insensitive" } } : {}) };
     const publicMediaBaseUrl = this.publicMediaBaseUrl();
     const [rows, total] = await Promise.all([
       this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true, publishedCoverUrl: true } }),

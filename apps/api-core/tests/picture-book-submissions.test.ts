@@ -116,7 +116,7 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
     const log=await prisma.adminOperationLog.findFirst({where:{adminUserId:admin.id,action:"APPROVE_PICTURE_BOOK_SUBMISSION"}}); assert.ok(log);
     // Listing limits are enforced by the real database query, with unpublished items excluded.
     for(let index=0;index<23;index++) {
-      const title=`独立绘本${index}`;
+      const title=index===0 ? "独立绘本0 Alpha" : `独立绘本${index}`;
       const extra=await prisma.pictureBook.create({data:{...data,title,userId:user.id,status:"COMPLETED"}});
       await prisma.pictureBookSubmission.create({data:{pictureBookId:extra.id,status:index===22?"PENDING":"APPROVED",snapshot:{type:"PICTURE_BOOK",title,style:"watercolor",aspectRatio:"1:1",pages:data.pages},publishedSnapshot:index===22?undefined:{type:"PICTURE_BOOK",title,style:"watercolor",aspectRatio:"1:1",pages:data.pages},publishedHash:index===22?null:`fixture-${index}`,publishedCoverUrl:index===22?null:"https://r.abeiai.com/picture-books/library-cover.png",publishedAt:index===22?null:new Date(2000000000000+index*1000),publishedVersion:index===22?0:1,snapshotHash:`fixture-${index}`,coverUrl:"https://r.abeiai.com/picture-books/library-cover.png",reviewedAt:new Date(2000000000000+index*1000)}});
     }
@@ -124,9 +124,10 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
     assert.equal(capped.items.length,20); assert.equal(capped.items[0].title,"独立绘本21"); assert.equal(capped.items[19].title,"独立绘本2");
     assert.ok(!capped.items.some((item:{title:string})=>item.title==="独立绘本22"));
     const next=(await (await fetch(`${base}/public/picture-books?page=2&pageSize=20`)).json()).data;
-    assert.ok(next.items.some((item:{title:string})=>item.title==="独立绘本0"));
+    assert.ok(next.items.some((item:{title:string})=>item.title==="独立绘本0 Alpha"));
     const searchedBooks=(await (await fetch(`${base}/public/picture-books?q=${encodeURIComponent("独立绘本")}&pageSize=10&page=2`)).json()).data;
     assert.equal(searchedBooks.total,22); assert.equal(searchedBooks.items.length,10); assert.equal(searchedBooks.page,2);
+    assert.equal((await (await fetch(`${base}/public/picture-books?q=alpha`)).json()).data.items[0].title,"独立绘本0 Alpha");
     assert.equal((await (await fetch(`${base}/public/picture-books?q=${encodeURIComponent("独立绘本22")}`)).json()).data.total,0);
     assert.equal((await (await fetch(`${base}/public/picture-books?q=${encodeURIComponent("未审核的新标题")}`)).json()).data.total,0);
     albumCoverId=(await prisma.mediaAsset.create({data:{filename:"legacy-cover.png",originalName:"封面.png",mimeType:"image/png",size:1,storageProvider:"S3",url:"https://account.r2.cloudflarestorage.com/private/legacy-cover.png"}})).id;
