@@ -50,6 +50,10 @@ test('server deployment rejects a different destination before invoking Docker',
   assert.match(result.stderr,/必须在 \/opt\/abei/);
   const source=readFileSync(join(root,'scripts/release/abei-server-release.sh'),'utf8');
   assert.ok(source.indexOf('touch deploy/data/state/maintenance.enabled') < source.indexOf('stop api-core'));
+  assert.ok(source.includes('docker buildx build --allow network.host --network host --load'));
+  assert.ok(source.includes('--tag "abei-api-core:$sha" "$stage"'));
+  assert.ok(source.includes('build web ai-gateway'));
+  assert.ok(source.indexOf('docker buildx build --allow network.host --network host --load') < source.indexOf('touch deploy/data/state/maintenance.enabled'));
   assert.ok(source.indexOf('stop api-core') < source.indexOf('pg_dump'));
   assert.ok(source.indexOf('pg_dump') < source.indexOf('run --rm migrate'));
   assert.ok(source.indexOf('run --rm migrate') < source.indexOf('rm deploy/data/state/maintenance.enabled'));

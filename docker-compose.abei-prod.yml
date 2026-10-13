@@ -58,7 +58,6 @@ services:
     build:
       context: .
       dockerfile: apps/api-core/Dockerfile
-      network: host
       args:
         APP_VERSION: ${APP_VERSION:-0.0.16}
         APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
@@ -104,7 +103,6 @@ services:
     build:
       context: .
       dockerfile: apps/api-core/Dockerfile
-      network: host
       args:
         APP_VERSION: ${APP_VERSION:-0.0.16}
         APP_RELEASE_SHA: ${APP_RELEASE_SHA:-unknown}
