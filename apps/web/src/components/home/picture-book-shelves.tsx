@@ -6,8 +6,8 @@ import styles from "./picture-book-home.module.css";
 
 export function PictureBookAlbumGrid({ albums }: { albums: LibraryAlbum[] }) {
   return albums.length ? <div className={styles.albumGrid}>{albums.map(album => <Link className={styles.bookCard} href={album.href} key={album.id}>
-      <div className={`${styles.bookCover} ${styles.albumCover}`}><img src={album.coverUrl} alt={`${album.title}专辑封面`} width={400} height={225} loading="lazy" /><span className={styles.readOverlay}><BookOpen size={19} />查看专辑</span></div>
-      <div className={styles.bookTitle}><h4>{album.title}</h4><ArrowUpRight size={17} aria-hidden="true" /></div><span className={styles.bookMeta}>{album.bookCount} 本绘本</span>
+      <div className={styles.albumCover}><img src={album.coverUrl} alt={`${album.title}专辑封面`} width={400} height={225} loading="lazy" /></div>
+      <h4 className={styles.bookTitle}>{album.title}</h4><span className={styles.bookMeta}>{album.bookCount} 本绘本</span>
     </Link>)}</div> : <p className="py-8 text-center text-sm text-muted-foreground">暂无推荐专辑</p>;
 }
 
