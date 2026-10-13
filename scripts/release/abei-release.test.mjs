@@ -60,6 +60,12 @@ test('server deployment rejects a different destination before invoking Docker',
   assert.doesNotMatch(source,/migrate reset|db:seed|down -v/);
 });
 
+test('API image uses the reachable mirror before installing CA certificates', () => {
+  const source=readFileSync(join(root,'apps/api-core/Dockerfile'),'utf8');
+  assert.ok(source.indexOf('http://mirrors.aliyun.com') < source.indexOf('RUN apt-get update'));
+  assert.ok(source.indexOf('install -y --no-install-recommends ca-certificates') < source.indexOf('https://mirrors.aliyun.com'));
+});
+
 test('server source synchronization retains named source routes and preserves runtime uploads', () => {
   const dir=mkdtempSync(join(tmpdir(),'abei-source-sync-'));
   try {
