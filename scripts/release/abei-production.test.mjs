@@ -17,6 +17,8 @@ test('abei 生产部署隔离数据库和私有素材，只开放网站入口', 
   for (const service of ['web', 'api-core', 'ai-gateway', 'redis']) assert.equal(config.services[service].ports, undefined);
   assert.equal(config.services.postgres.ports[0].host_ip, '127.0.0.1');
   assert.equal(config.services['api-core'].environment.APP_BASE_URL, 'https://new.abeiai.com');
+  assert.equal(config.services['api-core'].build.network, 'host');
+  assert.equal(config.services.migrate.build.network, 'host');
   const publicVolumes = config.services.abei.volumes.map(v => v.source);
   assert.ok(!publicVolumes.includes('picture_book_guides'));
   assert.ok(!publicVolumes.includes('creator_assets'));
