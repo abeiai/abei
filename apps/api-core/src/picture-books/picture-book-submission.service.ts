@@ -11,6 +11,7 @@ import { readPictureBookDemoImage } from "./picture-book-demo-image.js";
 import { AppException } from "../common/app-exception.js";
 import { hashCourseSnapshot, snapshotCourseMaterial } from "../courses/course-domain.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
+import { publicPictureBookHref, resolvePublicPictureBookId } from "./picture-book-public-slug.js";
 
 @Injectable()
 export class PictureBookSubmissionService {
@@ -127,7 +128,7 @@ export class PictureBookSubmissionService {
       this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true, publishedCoverUrl: true } }),
       this.prisma.pictureBookSubmission.count({ where })
     ]);
-    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl)), href: `/library/${encodeURIComponent(book.id)}` }; }), total, page, pageSize };
+    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl)), href: publicPictureBookHref(book.id) }; }), total, page, pageSize };
   }
 
   async albums() {
@@ -137,13 +138,13 @@ export class PictureBookSubmissionService {
 
   async publicBook(pictureBookId: string) {
     const row = await this.published(pictureBookId);
-    const book = playbackFromSnapshot(pictureBookId, row.publishedSnapshot);
+    const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot);
     const publicMediaBaseUrl = this.publicMediaBaseUrl();
     return { ...book, ...(publicMediaBaseUrl ? { publicMediaBaseUrl } : {}), pages: book.pages.map(page => ({
       ...page,
-      imageUrl: page.imageUrl ? this.publicMediaUrl(page.imageUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/image` : null,
-      audioUrl: page.audioUrl ? this.publicMediaUrl(page.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio` : null,
-      ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? this.publicMediaUrl(translation.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${pictureBookId}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {})
+      imageUrl: page.imageUrl ? this.publicMediaUrl(page.imageUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/image` : null,
+      audioUrl: page.audioUrl ? this.publicMediaUrl(page.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio` : null,
+      ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? this.publicMediaUrl(translation.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {})
     })) };
   }
 
@@ -160,14 +161,14 @@ export class PictureBookSubmissionService {
   }
 
   private async published(pictureBookId: string) {
-    const row = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId, publishedAt: { not: null }, publishedCoverUrl: { not: null } } });
+    const row = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId: resolvePublicPictureBookId(pictureBookId), publishedAt: { not: null }, publishedCoverUrl: { not: null } } });
     if (!row) throw new AppException(40401, "绘本不存在或尚未审核发布", 404);
     return row;
   }
 
   async image(pictureBookId: string, position?: number) {
     const row = await this.published(pictureBookId);
-    const url = position === undefined ? row.publishedCoverUrl : playbackFromSnapshot(pictureBookId, row.publishedSnapshot).pages.find(page => page.position === position)?.imageUrl;
+    const url = position === undefined ? row.publishedCoverUrl : playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot).pages.find(page => page.position === position)?.imageUrl;
     if (!url) throw new AppException(40401, "绘本图片不存在", 404);
     return creatorAssetId(url) ? readCreatorAssetReference(url, position === undefined) : this.readImage(url);
   }
@@ -181,7 +182,7 @@ export class PictureBookSubmissionService {
 
   async audio(pictureBookId: string, position: number, language?: string) {
     const row = await this.published(pictureBookId);
-    const book = playbackFromSnapshot(pictureBookId, row.publishedSnapshot);
+    const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot);
     const page = book.pages.find(item => item.position === position);
     const url = language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
     if (!url) throw new AppException(40401, "本页语音不存在", 404);

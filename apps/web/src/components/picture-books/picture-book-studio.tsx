@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, ChevronLeft, ChevronRight, History, ImagePlus, LibraryBig, LoaderCircle, MessageCircle, Mic2, Plus, Play, Save, Send, Sparkles, Volume2, WandSparkles, X } from "lucide-react";
 import { pictureBookPageImageSource, waitForPictureBookImage } from "@/lib/picture-book-images";
+import { publicPictureBookHref } from "@/lib/picture-book-public-slug";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
 import { PictureBookAudio } from "./picture-book-audio";
@@ -402,7 +403,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
     </header> : null}
 
     {book?.creatorSync ? <div className="mx-auto mt-3 max-w-[1600px] px-5"><CreatorWorkMetadata sync={book.creatorSync} /></div> : null}
-    {book?.submission ? <div className="mx-auto mt-3 flex max-w-[1600px] flex-wrap items-center gap-3 px-5 text-sm"><span className="text-muted-foreground">{submissionLabel(book.submission)}</span>{book.submission.status === "REJECTED" && book.submission.reviewNote ? <span className="text-destructive">未通过原因：{book.submission.reviewNote}</span> : null}{book.submission.status === "APPROVED" ? <Link className="underline" href={`/library/${encodeURIComponent(book.id)}`}>查看公开绘本</Link> : null}</div> : null}
+    {book?.submission ? <div className="mx-auto mt-3 flex max-w-[1600px] flex-wrap items-center gap-3 px-5 text-sm"><span className="text-muted-foreground">{submissionLabel(book.submission)}</span>{book.submission.status === "REJECTED" && book.submission.reviewNote ? <span className="text-destructive">未通过原因：{book.submission.reviewNote}</span> : null}{book.submission.status === "APPROVED" ? <Link className="underline" href={publicPictureBookHref(book.id)}>查看公开绘本</Link> : null}</div> : null}
 
     {book?.pages.length && (error || notice) ? <div role={error ? "alert" : "status"} className={`mx-auto mt-4 flex max-w-[1600px] items-center justify-between rounded-xl px-4 py-3 text-sm ${error ? "border border-red-200 bg-red-50 text-red-700" : "border border-[#ffddc8] bg-[#fff8f3] text-[#a34e1d]"}`}><span>{error || notice}</span><button aria-label="关闭提示" onClick={() => { setError(""); setNotice(""); }}><X className="size-4" /></button></div> : null}
 
