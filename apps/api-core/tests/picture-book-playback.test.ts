@@ -128,6 +128,23 @@ test("跨页设置进入审核快照并传到播放器，旧版默认不跨页�
   assert.notEqual(hashCourseSnapshot(spreadSnapshot), hashCourseSnapshot(oldSnapshot));
 });
 
+test("默认隐藏设置经过审核快照传给播放器，保留无字插画的叙事与旧快照哈希", () => {
+  const page = { position: 1, caption: "火种照亮山谷。", narration: "火种照亮山谷。", imageUrl: "/fire.webp", audioUrl: null };
+  const source = { title: "希腊神话", style: "gouache", aspectRatio: "5:4", pages: [page] };
+  const original = snapshotCourseMaterial("PICTURE_BOOK", source);
+  const hidden = snapshotCourseMaterial("PICTURE_BOOK", { ...source, pages: [{ ...page, playbackLayout: "hidden" }] });
+  const played = playbackFromSnapshot("greek", hidden).pages[0];
+  assert.equal(played.playbackLayout, "hidden");
+  assert.equal(played.caption, page.caption);
+  assert.equal(Object.hasOwn(played, "textInImage"), false);
+  assert.notEqual(hashCourseSnapshot(hidden), hashCourseSnapshot(original));
+  for (const value of [null, false, "subtitle", "invalid"]) {
+    const ignored = snapshotCourseMaterial("PICTURE_BOOK", { ...source, pages: [{ ...page, playbackLayout: value }] });
+    assert.equal(hashCourseSnapshot(ignored), hashCourseSnapshot(original));
+    assert.equal(Object.hasOwn(playbackFromSnapshot("old", ignored).pages[0], "playbackLayout"), false);
+  }
+});
+
 test("图片内文字标记经过审核快照传给播放器，同时保留可访问配文", () => {
   const source = { title: "长大以后", style: "watercolor", aspectRatio: "5:4", pages: [
     { position: 1, caption: "原来我是蝉！", narration: "原来我是蝉！", imageUrl: "/cicada.webp", audioUrl: null, textInImage: true }

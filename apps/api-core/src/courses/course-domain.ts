@@ -314,6 +314,7 @@ export function snapshotCourseMaterial(
           caption: page.caption,
           narration: page.narration,
           ...(page.textInImage === true ? { textInImage: true } : {}),
+          ...(page.playbackLayout === "hidden" ? { playbackLayout: "hidden" } : {}),
           imageUrl: page.imageUrl,
           audioUrl: page.audioUrl,
           ...(Array.isArray(page.translations) && page.translations.length ? { translations: arrayOfRecords(page.translations).map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl })) } : {})

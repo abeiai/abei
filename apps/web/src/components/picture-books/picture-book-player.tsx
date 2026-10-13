@@ -6,7 +6,7 @@ import { ArrowLeft, Captions, ChevronLeft, ChevronRight, EyeOff, LoaderCircle, M
 import { type CSSProperties, useCallback, useEffect, useId, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
-import { pictureBookPageRatio, pictureBookPlaybackLayout } from "@/lib/picture-book-layout";
+import { pictureBookPageRatio, pictureBookPlaybackLayout, pictureBookInitialLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookPageContent, type PictureBookTranslation } from "@/lib/picture-book-languages";
@@ -14,7 +14,7 @@ import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntr
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
-type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; translations?: PictureBookTranslation[]; textInImage?: boolean };
+type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden" };
 type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
@@ -119,7 +119,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
   const imageRatio = pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
-  const activeLayout = pictureBookPlaybackLayout(layout ?? "subtitle", book?.isSpread, layout === null && page?.textInImage === true);
+  const activeLayout = pictureBookPlaybackLayout(pictureBookInitialLayout(layout, page?.playbackLayout, page?.textInImage), book?.isSpread);
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);

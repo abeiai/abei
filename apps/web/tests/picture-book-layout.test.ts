@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { pictureBookPageRatio, pictureBookPlaybackLayout } from "../src/lib/picture-book-layout.js";
+import { pictureBookPageRatio, pictureBookPlaybackLayout, pictureBookInitialLayout } from "../src/lib/picture-book-layout.js";
+
+test("无字插画默认隐藏文稿，读者选择优先，旧绘本默认不变", () => {
+  assert.equal(pictureBookInitialLayout(null, "hidden", false), "hidden");
+  assert.equal(pictureBookInitialLayout("subtitle", "hidden", false), "subtitle");
+  assert.equal(pictureBookInitialLayout("below", "hidden", true), "below");
+  assert.equal(pictureBookInitialLayout(null, undefined, false), "subtitle");
+  assert.equal(pictureBookInitialLayout(null, undefined, true), "hidden");
+});
 
 test("跨页播放器只对内页使用两倍宽度，包含没有封面的旧绘本", () => {
   assert.equal(pictureBookPageRatio("1:1", true, 0), 1);
