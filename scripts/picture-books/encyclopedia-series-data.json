@@ -1,0 +1,6362 @@
+[
+  {
+    "slug": "01",
+    "title": "小小百科翻翻书·水果",
+    "topic": "水果",
+    "englishTitle": "Fruits",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "苹果",
+        "english": "Apple",
+        "caption": "苹果\nApple",
+        "scene": "一只完整饱满的红苹果，短棕果梗与一片连在果梗上的绿叶，红黄自然过渡果皮"
+      },
+      {
+        "position": 2,
+        "chinese": "香蕉",
+        "english": "Banana",
+        "caption": "香蕉\nBanana",
+        "scene": "一根完整弯弯的黄色香蕉，不剥皮"
+      },
+      {
+        "position": 3,
+        "chinese": "草莓",
+        "english": "Strawberry",
+        "caption": "草莓\nStrawberry",
+        "scene": "一颗鲜红草莓，绿色萼片，表面浅黄色瘦果"
+      },
+      {
+        "position": 4,
+        "chinese": "西瓜",
+        "english": "Watermelon",
+        "caption": "西瓜\nWatermelon",
+        "scene": "一块厚实三角西瓜切块，绿色条纹果皮、红瓤、黑籽"
+      },
+      {
+        "position": 5,
+        "chinese": "橙子",
+        "english": "Orange",
+        "caption": "橙子\nOrange",
+        "scene": "一个完整橙子，表皮细小孔点"
+      },
+      {
+        "position": 6,
+        "chinese": "葡萄",
+        "english": "Grape",
+        "caption": "葡萄\nGrape",
+        "scene": "一串紫葡萄，各颗粒清楚，只有短果梗"
+      },
+      {
+        "position": 7,
+        "chinese": "菠萝",
+        "english": "Pineapple",
+        "caption": "菠萝\nPineapple",
+        "scene": "一个完整菠萝，金黄菱格果皮与冠芽"
+      },
+      {
+        "position": 8,
+        "chinese": "桃子",
+        "english": "Peach",
+        "caption": "桃子\nPeach",
+        "scene": "一只粉色桃子，柔细绒毛与自然中缝"
+      },
+      {
+        "position": 9,
+        "chinese": "梨",
+        "english": "Pear",
+        "caption": "梨\nPear",
+        "scene": "一只绿色梨，上细下圆、棕色短梗"
+      },
+      {
+        "position": 10,
+        "chinese": "哈密瓜",
+        "english": "Melon",
+        "caption": "哈密瓜\nMelon",
+        "scene": "一块带网纹果皮的哈密瓜切块，橙色果肉"
+      },
+      {
+        "position": 11,
+        "chinese": "樱桃",
+        "english": "Cherry",
+        "caption": "樱桃\nCherry",
+        "scene": "一颗带梗红樱桃，不用两颗代替单数"
+      },
+      {
+        "position": 12,
+        "chinese": "蓝莓",
+        "english": "Blueberry",
+        "caption": "蓝莓\nBlueberry",
+        "scene": "一颗蓝莓，果粉与星状萼口清楚"
+      },
+      {
+        "position": 13,
+        "chinese": "猕猴桃",
+        "english": "Kiwi",
+        "caption": "猕猴桃\nKiwi",
+        "scene": "半颗猕猴桃，棕色薄绒皮、绿肉、黑籽环"
+      },
+      {
+        "position": 14,
+        "chinese": "柠檬",
+        "english": "Lemon",
+        "caption": "柠檬\nLemon",
+        "scene": "一个完整黄色柠檬，两端稍尖"
+      },
+      {
+        "position": 15,
+        "chinese": "芒果",
+        "english": "Mango",
+        "caption": "芒果\nMango",
+        "scene": "一只橙黄渐红的完整芒果"
+      },
+      {
+        "position": 16,
+        "chinese": "椰子",
+        "english": "Coconut",
+        "caption": "椰子\nCoconut",
+        "scene": "半个椰子，棕色纤维壳、白肉和空腔"
+      },
+      {
+        "position": 17,
+        "chinese": "牛油果",
+        "english": "Avocado",
+        "caption": "牛油果\nAvocado",
+        "scene": "半个牛油果，深绿皮、浅绿果肉、一颗棕色果核"
+      },
+      {
+        "position": 18,
+        "chinese": "火龙果",
+        "english": "Dragon Fruit",
+        "caption": "火龙果\nDragon Fruit",
+        "scene": "半个红皮火龙果，绿色苞片、白肉黑籽"
+      },
+      {
+        "position": 19,
+        "chinese": "石榴",
+        "english": "Pomegranate",
+        "caption": "石榴\nPomegranate",
+        "scene": "一个剖开局部的石榴，露出排列紧密的红籽"
+      },
+      {
+        "position": 20,
+        "chinese": "荔枝",
+        "english": "Lychee",
+        "caption": "荔枝\nLychee",
+        "scene": "一颗剥开部分红壳的荔枝，露出白色果肉"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/01/images/cover.png",
+        "sha256": "81ceb5a628cb879c19b5bdea39e6e68bbfb4435e4227cefb4e41d0d5294cd11d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-01.png",
+        "sha256": "25d22fe86f7b1872a926773ba7ab31adad9d890326767b8de037d7a006c4577f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-02.png",
+        "sha256": "8cce76d91a5cc31f51e30cce9a36b55efa5e8b8e86b6bfb913d5abd3a8cfcbfa",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-03.png",
+        "sha256": "6ba42d1accaeb0930ca7aa33b0ee6acaacd45922c34ab59239efbef53e3dbefb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-04.png",
+        "sha256": "5c6a9e68e5fe051694ab5f082ca0c70a09325be67e152ad1dee56f324b885a20",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-05.png",
+        "sha256": "181ba9e1dff03df03fb22e722fd91a1bbeb9cc5ac186e2e306f9578f0e2fb50b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-06.png",
+        "sha256": "9fbe98a7162490cade0874f87989fc03a4d18171db2d1be2a43e4b17363447d7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-07.png",
+        "sha256": "0f590caa5a2ed189a18efd12c8a7cb9f6d756e2cc667d9dc3817ae115c884f2b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-08.png",
+        "sha256": "840d0bbea0a8857e0424197cee92ede22144c528cd51e436013ea8b067dee3a9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-09.png",
+        "sha256": "d2e851d613980058424cd087942a862d06aef8e4b4c6cbdfbf177d1f428f8e14",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-10.png",
+        "sha256": "3743122cedf483e7ba11ba7c6d8ce930c54fdd8a07a6137db329e8c1806d1891",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-11.png",
+        "sha256": "1671bbb04a499bb4ec9ec5a1d0ef7523c8f9fa416b8dfacbb55d69609612e270",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-12.png",
+        "sha256": "012467f760791d63f471cceaa0bbb08ff50cbe59f56ca80ef2462909c2caac4f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-13.png",
+        "sha256": "b7b1dac4b03a11e9cfc1ba7f3acef9eb9a9c999dd07c03b6e4d318804ce3f18a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-14.png",
+        "sha256": "81cb5dce77ca3fbe04c34591a590788281add415c4474bb2854a4b6bcca94f4a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-15.png",
+        "sha256": "c4184112673dd34544ba6f0cbb1bca9d441ffd33c0195816c5446fa9ec9d2d0a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-16.png",
+        "sha256": "c6106e391edc18712706c5eb097e92da1a5a65fb697156cce3eb0bd277e993e3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-17.png",
+        "sha256": "098fb59592a0ee3521d77a48fb1c22292ebed42db6c22edb680e0b8d2f78cfda",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-18.png",
+        "sha256": "ea0d441f8e105c6089d47ba37aca141e08180c608d84809f506f98946cd8566c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-19.png",
+        "sha256": "36a684de1f2caf7049174ba187c0b84575970f2f7be6691932fb55db57c430ae",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/01/images/page-20.png",
+        "sha256": "627ec69d5fd51b25b0473f72771024523c628b20e80709ce6fc9a28ada2e8782",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "02",
+    "title": "小小百科翻翻书·蔬菜",
+    "topic": "蔬菜",
+    "englishTitle": "Vegetables",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "胡萝卜",
+        "english": "Carrot",
+        "caption": "胡萝卜\nCarrot",
+        "scene": "一根橙色胡萝卜，少量连体绿叶"
+      },
+      {
+        "position": 2,
+        "chinese": "番茄",
+        "english": "Tomato",
+        "caption": "番茄\nTomato",
+        "scene": "一个红番茄，绿色星状萼片"
+      },
+      {
+        "position": 3,
+        "chinese": "西兰花",
+        "english": "Broccoli",
+        "caption": "西兰花\nBroccoli",
+        "scene": "一朵完整西兰花，深绿色花球与短粗茎"
+      },
+      {
+        "position": 4,
+        "chinese": "玉米",
+        "english": "Corn",
+        "caption": "玉米\nCorn",
+        "scene": "一根金黄色玉米棒，少量绿色苞叶向下翻"
+      },
+      {
+        "position": 5,
+        "chinese": "南瓜",
+        "english": "Pumpkin",
+        "caption": "南瓜\nPumpkin",
+        "scene": "一个橙色南瓜，清晰纵棱、短粗梗"
+      },
+      {
+        "position": 6,
+        "chinese": "黄瓜",
+        "english": "Cucumber",
+        "caption": "黄瓜\nCucumber",
+        "scene": "一根绿色黄瓜，细小凸点"
+      },
+      {
+        "position": 7,
+        "chinese": "茄子",
+        "english": "Eggplant",
+        "caption": "茄子\nEggplant",
+        "scene": "一只紫色长茄子，绿色萼"
+      },
+      {
+        "position": 8,
+        "chinese": "土豆",
+        "english": "Potato",
+        "caption": "土豆\nPotato",
+        "scene": "一个椭圆土豆，浅棕皮与少量芽眼"
+      },
+      {
+        "position": 9,
+        "chinese": "甜椒",
+        "english": "Bell Pepper",
+        "caption": "甜椒\nBell Pepper",
+        "scene": "一个黄色甜椒，饱满分瓣轮廓"
+      },
+      {
+        "position": 10,
+        "chinese": "辣椒",
+        "english": "Chili",
+        "caption": "辣椒\nChili",
+        "scene": "一根弯曲红辣椒，绿色梗"
+      },
+      {
+        "position": 11,
+        "chinese": "豌豆",
+        "english": "Pea",
+        "caption": "豌豆\nPea",
+        "scene": "一个打开的绿色豌豆荚，露出整齐的连体豌豆"
+      },
+      {
+        "position": 12,
+        "chinese": "白菜",
+        "english": "Cabbage",
+        "caption": "白菜\nCabbage",
+        "scene": "一棵大白菜，浅绿外叶、白色叶帮，避免圆包菜"
+      },
+      {
+        "position": 13,
+        "chinese": "蘑菇",
+        "english": "Mushroom",
+        "caption": "蘑菇\nMushroom",
+        "scene": "一朵食用双孢菇，圆菌盖、短菌柄"
+      },
+      {
+        "position": 14,
+        "chinese": "洋葱",
+        "english": "Onion",
+        "caption": "洋葱\nOnion",
+        "scene": "一个紫洋葱，外皮清楚"
+      },
+      {
+        "position": 15,
+        "chinese": "大蒜",
+        "english": "Garlic",
+        "caption": "大蒜\nGarlic",
+        "scene": "一头白蒜，完整蒜瓣球而非散瓣"
+      },
+      {
+        "position": 16,
+        "chinese": "萝卜",
+        "english": "Radish",
+        "caption": "萝卜\nRadish",
+        "scene": "一根白萝卜，少量连体绿叶"
+      },
+      {
+        "position": 17,
+        "chinese": "莲藕",
+        "english": "Lotus Root",
+        "caption": "莲藕\nLotus Root",
+        "scene": "一段切面的莲藕，中央孔洞清楚"
+      },
+      {
+        "position": 18,
+        "chinese": "芹菜",
+        "english": "Celery",
+        "caption": "芹菜\nCelery",
+        "scene": "一小棵完整芹菜，清楚的叶柄与少量叶片"
+      },
+      {
+        "position": 19,
+        "chinese": "芦笋",
+        "english": "Asparagus",
+        "caption": "芦笋\nAsparagus",
+        "scene": "一根芦笋，尖端鳞片清楚"
+      },
+      {
+        "position": 20,
+        "chinese": "菠菜",
+        "english": "Spinach",
+        "caption": "菠菜\nSpinach",
+        "scene": "一小棵菠菜，深绿叶片与根部"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/02/images/cover.png",
+        "sha256": "a07058c73aa64e486291c7876b909a5e89c71ee9f4555691542c0c7195ba7975",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-01.png",
+        "sha256": "b52215ca2411a7b7d329f24750abbbb52133a4779c5a9092a56e0d85d43532e4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-02.png",
+        "sha256": "271a5d3f4b7eed255ef81b687193cc9346b20108b80a1511f842c3370bdc29c0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-03.png",
+        "sha256": "1defa9c9aea86e5c926e9730c12b056f7eae4cf8bbe99aa95d2cfef52227c14f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-04.png",
+        "sha256": "027e2812ce7de99bca9e3440c0d6e594aed204ea6806f294281042277e3307aa",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-05.png",
+        "sha256": "a34f27e5b154478db74c1ff0efcef430b335c284402cf18aa4749e05f8fe4ab1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-06.png",
+        "sha256": "1f6c4701b963cb8cd5aef9ca93a2d498f0066732985fae55707d48dbdf024b39",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-07.png",
+        "sha256": "8761e6984d916e7c3e7cd94dbdcf16d61c5c239a988903768ca1869033cb04db",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-08.png",
+        "sha256": "b44997af617cf8fb29abc9c868bc0ae486f3a9fe3dc939190bc36f28fd23278d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-09.png",
+        "sha256": "6c29af94a5b912f087cedc588496f198c870d882e14ed7b44d9db69f3f0cfee4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-10.png",
+        "sha256": "664b974d27846429dd61de2a9ce4771242b4b8117056f98ac9fa1ec1a5aea689",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-11.png",
+        "sha256": "4f91f6404395352336e84b7ec45f604a8f2e88dceab7eb16e35367115868c1e5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-12.png",
+        "sha256": "0a396c23b354aa3776894ee33ad430c922681ee8083d2d3a2b805b17d38690c1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-13.png",
+        "sha256": "7bc947ff590249a9ca8b89ddfd42560041ed7617c275d6ff28c9c5cc8060b129",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-14.png",
+        "sha256": "95d6a7ae7e90de5d71d058b25ea33fc91f37bde7afacd8ba75dbdaa625832ec1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-15.png",
+        "sha256": "ced26800e448715262b7594516487a4fc23e57925363a17567ad72778092ef9e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-16.png",
+        "sha256": "bdf2176420c6fa0eefd77187c14c38d919b36738f72bbcd205cc642a68254253",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-17.png",
+        "sha256": "1b663d337c8506fbcd9f8b9d30bf8eb20c1032c06ff5aaa59caa78e87e4a719e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-18.png",
+        "sha256": "618298f7407f3024e7f5eeaf75d67b2bc75b1b6db6381c7b629c5f46759bba2d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-19.png",
+        "sha256": "418ffc2052a87b8c6dec18226213b9fc587187341139ae021c4fd8d7d77a039d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/02/images/page-20.png",
+        "sha256": "e851bf34ecbfb35d4c6c15c0c67b2c61c9f9fbc8afda789271e9cd65b8c26f47",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "03",
+    "title": "小小百科翻翻书·美味食物",
+    "topic": "美味食物",
+    "englishTitle": "Yummy Food",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "米饭",
+        "english": "Rice",
+        "caption": "米饭\nRice",
+        "scene": "一碗白米饭，仅保留必要的无纹小白碗"
+      },
+      {
+        "position": 2,
+        "chinese": "面条",
+        "english": "Noodles",
+        "caption": "面条\nNoodles",
+        "scene": "一碗面条，只用面与必要的无纹白碗，不添筷子和配菜"
+      },
+      {
+        "position": 3,
+        "chinese": "包子",
+        "english": "Bun",
+        "caption": "包子\nBun",
+        "scene": "一个白色褶纹包子"
+      },
+      {
+        "position": 4,
+        "chinese": "饺子",
+        "english": "Dumpling",
+        "caption": "饺子\nDumpling",
+        "scene": "一只弯月形褶边饺子"
+      },
+      {
+        "position": 5,
+        "chinese": "粽子",
+        "english": "Zongzi",
+        "caption": "粽子\nZongzi",
+        "scene": "一个三角粽子，粽叶局部剥开露糯米"
+      },
+      {
+        "position": 6,
+        "chinese": "煎蛋",
+        "english": "Fried Egg",
+        "caption": "煎蛋\nFried Egg",
+        "scene": "一个煎蛋，金黄蛋黄与白色蛋白"
+      },
+      {
+        "position": 7,
+        "chinese": "面包",
+        "english": "Bread",
+        "caption": "面包\nBread",
+        "scene": "一条小型烤面包，有自然裂纹"
+      },
+      {
+        "position": 8,
+        "chinese": "羊角包",
+        "english": "Croissant",
+        "caption": "羊角包\nCroissant",
+        "scene": "一只金黄弯月羊角包"
+      },
+      {
+        "position": 9,
+        "chinese": "华夫饼",
+        "english": "Waffle",
+        "caption": "华夫饼\nWaffle",
+        "scene": "一块方形格纹华夫饼"
+      },
+      {
+        "position": 10,
+        "chinese": "汉堡",
+        "english": "Burger",
+        "caption": "汉堡\nBurger",
+        "scene": "一个汉堡，面包、肉饼、生菜等属于汉堡自身，不另摆配料"
+      },
+      {
+        "position": 11,
+        "chinese": "披萨",
+        "english": "Pizza",
+        "caption": "披萨\nPizza",
+        "scene": "一块三角披萨，奶酪与少量自然配料"
+      },
+      {
+        "position": 12,
+        "chinese": "三明治",
+        "english": "Sandwich",
+        "caption": "三明治\nSandwich",
+        "scene": "一个三角三明治，露出夹层"
+      },
+      {
+        "position": 13,
+        "chinese": "热狗",
+        "english": "Hot Dog",
+        "caption": "热狗\nHot Dog",
+        "scene": "一个热狗，香肠夹在长面包中"
+      },
+      {
+        "position": 14,
+        "chinese": "薯条",
+        "english": "French Fries",
+        "caption": "薯条\nFrench Fries",
+        "scene": "一份薯条，简洁无字纸盒为必要容器"
+      },
+      {
+        "position": 15,
+        "chinese": "炸鸡腿",
+        "english": "Fried Chicken",
+        "caption": "炸鸡腿\nFried Chicken",
+        "scene": "一只金黄炸鸡腿"
+      },
+      {
+        "position": 16,
+        "chinese": "牛排",
+        "english": "Steak",
+        "caption": "牛排\nSteak",
+        "scene": "一块熟牛排，表面烤纹"
+      },
+      {
+        "position": 17,
+        "chinese": "寿司",
+        "english": "Sushi",
+        "caption": "寿司\nSushi",
+        "scene": "一个三文鱼握寿司，白饭与橙色鱼片"
+      },
+      {
+        "position": 18,
+        "chinese": "饭团",
+        "english": "Rice Ball",
+        "caption": "饭团\nRice Ball",
+        "scene": "一个三角饭团，海苔包住底部"
+      },
+      {
+        "position": 19,
+        "chinese": "奶酪",
+        "english": "Cheese",
+        "caption": "奶酪\nCheese",
+        "scene": "一块带孔的黄色奶酪楔块"
+      },
+      {
+        "position": 20,
+        "chinese": "浓汤",
+        "english": "Soup",
+        "caption": "浓汤\nSoup",
+        "scene": "一碗橙色浓汤，仅必要白碗，不放勺子"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/03/images/cover.png",
+        "sha256": "8e0a157b39b54d26c88a01eba6c158bac1a392c78aa5b30c98cc3b42e9dc4fa1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-01.png",
+        "sha256": "68d540cda8fc742b2b9ad979ebe1c494678975bf6fd88b2c89a06d146117d057",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-02.png",
+        "sha256": "98443be0b845e50278b554ef16a004109d9ef5d4187b9f9d2841c20b675b4782",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-03.png",
+        "sha256": "d9ca5d2085ae6059920b401c784a18ef7318eff9d5ff4f20ae5453ca342773d1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-04.png",
+        "sha256": "060c62dc52766831cdcb9df79c805df73f174c09e0bf29203adc56fc736a5bc5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-05.png",
+        "sha256": "37c0a13dff0e6dcadab98d322c057e8ab594e0ffa10a2caeae3ea5924db42b2e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-06.png",
+        "sha256": "f3e5df0b9e918657fa6c81e9366e93c0f9d751726dbd58eed69bb2ae932ad973",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-07.png",
+        "sha256": "dc26b0a9a8bf2770abe88735209354d90ee1de7f2f4a7af6a2a1cc92cc43ead4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-08.png",
+        "sha256": "b8a29c9a9a594c0c54f86a2725e213ae9a7283d8a71711beb4dd59e8b6d72171",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-09.png",
+        "sha256": "21317badb8ef69b53ac96a3bddc5fb14c1b01f4c46a39ad491887f8f69294db8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-10.png",
+        "sha256": "a81df3d309c18f6bcd09efe3445550551180bc8abeccf8c6bce3f7ae21e16681",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-11.png",
+        "sha256": "439ae341a16757f960fcc3922b1613abbe2e860a4f419ddee14fb240aa880918",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-12.png",
+        "sha256": "8d67907cf2d27346a1b68a861912a4eb492d35f2de523f9bc2720292a6b1fcf4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-13.png",
+        "sha256": "a1cb0ee6fc0cfc6c285dacb9aa081747f44ea486e64d4d53b5f5ac93cf0608a3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-14.png",
+        "sha256": "d0676935c460d37605a8f76222f09902cf05aae53c1451233f02fbf2b9f5c8d6",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-15.png",
+        "sha256": "108edd3126c76d9831772fb21987accbe10ced72cd61add529f8b210caec252e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-16.png",
+        "sha256": "95f4ea456c5761b6303a3d65571b0f885df5564dbeebfc1651bf9fe74e90e208",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-17.png",
+        "sha256": "6deb23dd6432cd5f8bd037a5e52be52489320b82cb987782e8678b19ff8b4dcc",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-18.png",
+        "sha256": "073d3157d473a0013e33c96a07bbc8ab2f61cb7bd6e7d449ad6d773343d66dad",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-19.png",
+        "sha256": "c0aa4a512f8bb4ad2e3beafbde868571b50bbc91ba7dc63ce782fd3bb48a8af9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/03/images/page-20.png",
+        "sha256": "f35a28783edad6fc1acd431797926dd36d29580df135ef15f05d7b7e2b367933",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "04",
+    "title": "小小百科翻翻书·甜点与饮品",
+    "topic": "甜点与饮品",
+    "englishTitle": "Sweets & Drinks",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "冰淇淋",
+        "english": "Ice Cream",
+        "caption": "冰淇淋\nIce Cream",
+        "scene": "一个蛋筒冰淇淋，单个圆润奶油球"
+      },
+      {
+        "position": 2,
+        "chinese": "冰棒",
+        "english": "Popsicle",
+        "caption": "冰棒\nPopsicle",
+        "scene": "一支果色冰棒，木棒完整"
+      },
+      {
+        "position": 3,
+        "chinese": "甜甜圈",
+        "english": "Donut",
+        "caption": "甜甜圈\nDonut",
+        "scene": "一个环形甜甜圈，柔和糖霜"
+      },
+      {
+        "position": 4,
+        "chinese": "纸杯蛋糕",
+        "english": "Cupcake",
+        "caption": "纸杯蛋糕\nCupcake",
+        "scene": "一个纸杯蛋糕，单层奶油顶"
+      },
+      {
+        "position": 5,
+        "chinese": "生日蛋糕",
+        "english": "Birthday Cake",
+        "caption": "生日蛋糕\nBirthday Cake",
+        "scene": "一个小圆生日蛋糕，三支未点燃蜡烛"
+      },
+      {
+        "position": 6,
+        "chinese": "马卡龙",
+        "english": "Macaron",
+        "caption": "马卡龙\nMacaron",
+        "scene": "一个完整粉色马卡龙，夹心清楚"
+      },
+      {
+        "position": 7,
+        "chinese": "泡芙",
+        "english": "Cream Puff",
+        "caption": "泡芙\nCream Puff",
+        "scene": "一个金色奶油泡芙"
+      },
+      {
+        "position": 8,
+        "chinese": "蛋挞",
+        "english": "Egg Tart",
+        "caption": "蛋挞\nEgg Tart",
+        "scene": "一个蛋挞，金色蛋液与酥皮"
+      },
+      {
+        "position": 9,
+        "chinese": "巧克力",
+        "english": "Chocolate",
+        "caption": "巧克力\nChocolate",
+        "scene": "一小板分格巧克力"
+      },
+      {
+        "position": 10,
+        "chinese": "棒棒糖",
+        "english": "Lollipop",
+        "caption": "棒棒糖\nLollipop",
+        "scene": "一支圆形棒棒糖，短纸棒"
+      },
+      {
+        "position": 11,
+        "chinese": "软糖",
+        "english": "Gummy Candy",
+        "caption": "软糖\nGummy Candy",
+        "scene": "一颗熊形软糖，通透果冻材质"
+      },
+      {
+        "position": 12,
+        "chinese": "曲奇饼干",
+        "english": "Cookie",
+        "caption": "曲奇饼干\nCookie",
+        "scene": "一块巧克力豆曲奇"
+      },
+      {
+        "position": 13,
+        "chinese": "果冻",
+        "english": "Jelly",
+        "caption": "果冻\nJelly",
+        "scene": "一份脱模果冻，完整小山形"
+      },
+      {
+        "position": 14,
+        "chinese": "布丁",
+        "english": "Pudding",
+        "caption": "布丁\nPudding",
+        "scene": "一个焦糖布丁，无托盘"
+      },
+      {
+        "position": 15,
+        "chinese": "爆米花",
+        "english": "Popcorn",
+        "caption": "爆米花\nPopcorn",
+        "scene": "一份爆米花，用最简无字纸杯装盛"
+      },
+      {
+        "position": 16,
+        "chinese": "牛奶",
+        "english": "Milk",
+        "caption": "牛奶\nMilk",
+        "scene": "一杯牛奶，透明直筒玻璃杯"
+      },
+      {
+        "position": 17,
+        "chinese": "橙汁",
+        "english": "Orange Juice",
+        "caption": "橙汁\nOrange Juice",
+        "scene": "一杯橙汁，透明杯，不另加橙片"
+      },
+      {
+        "position": 18,
+        "chinese": "柠檬水",
+        "english": "Lemonade",
+        "caption": "柠檬水\nLemonade",
+        "scene": "一杯淡黄色柠檬水，透明杯"
+      },
+      {
+        "position": 19,
+        "chinese": "奶昔",
+        "english": "Milkshake",
+        "caption": "奶昔\nMilkshake",
+        "scene": "一杯粉色奶昔，透明高杯"
+      },
+      {
+        "position": 20,
+        "chinese": "热可可",
+        "english": "Hot Cocoa",
+        "caption": "热可可\nHot Cocoa",
+        "scene": "一杯热可可，奶白陶瓷杯"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/04/images/cover.png",
+        "sha256": "add371b7f2438960d225f0f0e5c7ec91cf098727fceb2a6a0d5d60029c33883b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-01.png",
+        "sha256": "69334585afebfc7f35bba218985441508a8e24681376ed6cf99f73167c92e243",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-02.png",
+        "sha256": "9f1ac7fa586883e3c6fb9475fd1b64c11131af83b242fde154e706a5499a30b7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-03.png",
+        "sha256": "f7c9c3cc9b788ab1905fb8da2ebcf7a93366ddf6960c2ee38eb1b8a09d799d10",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-04.png",
+        "sha256": "53e67e02e151c5e2ddd6cbaf0684e58976643da8d95233ec9683ce35cf387dce",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-05.png",
+        "sha256": "37801480022509e7d5fad12152a1011992bf2689ae23d5d495d1a805268fa874",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-06.png",
+        "sha256": "d0a25cc95c5f14422064fd7423ebeacf3092c057b5c05231495d9ee0639399d4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-07.png",
+        "sha256": "1cb856a872817632a9a26445204a96c550b039df2b26e019950bb5f922c1a8a6",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-08.png",
+        "sha256": "8fdccb87b96781c6798e3c8338ab41671d55bfdf119e853e01ae104e912d6b73",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-09.png",
+        "sha256": "a8f67bd6007936b2d68f3ad3c8cbf04cb5dad51223e2208146ad73b7bd417a69",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-10.png",
+        "sha256": "bf633933e4a80402f16fe5fd62e0a3e9ec96538c4e9afda2cf31f0c2e89824ab",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-11.png",
+        "sha256": "af1895ca369fc6c2a4f996bd2431147887eee77a208925496a822e1db0510bfb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-12.png",
+        "sha256": "e464fc940cdc4284ca42825fb754dc2a404bb09f54d1f917c7c81e0a83ca7d69",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-13.png",
+        "sha256": "f658489f705a6915b8e46c63d930ddd16a6bf6d3fa019f8095fb126bdd9afc7e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-14.png",
+        "sha256": "7cea607d197bfa92abdbb77664bacb28f8fc3758db2b653f5aa49eba67ffc39c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-15.png",
+        "sha256": "aa0c423d4ce298dfeee9b0cc7035c93318fd05d1d65a8f4c44e1048707c21525",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-16.png",
+        "sha256": "02c0717fbd2addb15c457d16617ef45f97b2a2d999e0097f193b2912fc6cb391",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-17.png",
+        "sha256": "3ea4958c3a903bc54be8ae36a4ddab67d859401cd4385c850ddcab59623feaba",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-18.png",
+        "sha256": "1ebd3cf240aab0ed61bd473390ed369df2fddc0996c5efaba0ade10f0aa15667",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-19.png",
+        "sha256": "8c09a6a81ddbd5644e2ef0f5098c1062ef51163e313acab0e24dce426d7445f0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/04/images/page-20.png",
+        "sha256": "f055cbee2662b5d120453322e1495cc067fd5182c85cb031ddd8e85ab30aaf87",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "05",
+    "title": "小小百科翻翻书·农场与萌宠",
+    "topic": "农场与萌宠",
+    "englishTitle": "Farm & Pets",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "小狗",
+        "english": "Dog",
+        "caption": "小狗\nDog",
+        "scene": "一只金色幼犬，坐姿，正常四肢和鼻口比例"
+      },
+      {
+        "position": 2,
+        "chinese": "猫咪",
+        "english": "Cat",
+        "caption": "猫咪\nCat",
+        "scene": "一只橘白猫咪，坐姿，尾巴完整"
+      },
+      {
+        "position": 3,
+        "chinese": "兔子",
+        "english": "Rabbit",
+        "caption": "兔子\nRabbit",
+        "scene": "一只白兔，长耳、四足，坐姿"
+      },
+      {
+        "position": 4,
+        "chinese": "仓鼠",
+        "english": "Hamster",
+        "caption": "仓鼠\nHamster",
+        "scene": "一只金色仓鼠，圆耳与短尾"
+      },
+      {
+        "position": 5,
+        "chinese": "金鱼",
+        "english": "Goldfish",
+        "caption": "金鱼\nGoldfish",
+        "scene": "一条橙色金鱼，完整尾鳍，不加鱼缸和水"
+      },
+      {
+        "position": 6,
+        "chinese": "乌龟",
+        "english": "Turtle",
+        "caption": "乌龟\nTurtle",
+        "scene": "一只淡水龟，背甲、四条有爪的腿，不画海龟鳍肢"
+      },
+      {
+        "position": 7,
+        "chinese": "豚鼠",
+        "english": "Guinea Pig",
+        "caption": "豚鼠\nGuinea Pig",
+        "scene": "一只豚鼠，短腿、圆耳，无长尾"
+      },
+      {
+        "position": 8,
+        "chinese": "刺猬",
+        "english": "Hedgehog",
+        "caption": "刺猬\nHedgehog",
+        "scene": "一只刺猬，细短棘刺、尖鼻与小耳"
+      },
+      {
+        "position": 9,
+        "chinese": "变色龙",
+        "english": "Chameleon",
+        "caption": "变色龙\nChameleon",
+        "scene": "一只变色龙，卷尾与对握足，不加树枝"
+      },
+      {
+        "position": 10,
+        "chinese": "奶牛",
+        "english": "Cow",
+        "caption": "奶牛\nCow",
+        "scene": "一头黑白花奶牛，四足站立"
+      },
+      {
+        "position": 11,
+        "chinese": "骏马",
+        "english": "Horse",
+        "caption": "骏马\nHorse",
+        "scene": "一匹栗色马，四蹄、鬃毛和长尾"
+      },
+      {
+        "position": 12,
+        "chinese": "绵羊",
+        "english": "Sheep",
+        "caption": "绵羊\nSheep",
+        "scene": "一只绵羊，卷曲白毛"
+      },
+      {
+        "position": 13,
+        "chinese": "山羊",
+        "english": "Goat",
+        "caption": "山羊\nGoat",
+        "scene": "一只山羊，小胡须和向后弯角"
+      },
+      {
+        "position": 14,
+        "chinese": "小猪",
+        "english": "Pig",
+        "caption": "小猪\nPig",
+        "scene": "一只粉红小猪，猪鼻与卷尾"
+      },
+      {
+        "position": 15,
+        "chinese": "小毛驴",
+        "english": "Donkey",
+        "caption": "小毛驴\nDonkey",
+        "scene": "一头灰色小驴，长耳与鬃毛"
+      },
+      {
+        "position": 16,
+        "chinese": "公鸡",
+        "english": "Rooster",
+        "caption": "公鸡\nRooster",
+        "scene": "一只公鸡，红鸡冠与弯曲长尾羽"
+      },
+      {
+        "position": 17,
+        "chinese": "母鸡",
+        "english": "Hen",
+        "caption": "母鸡\nHen",
+        "scene": "一只棕色母鸡，较小鸡冠和短尾"
+      },
+      {
+        "position": 18,
+        "chinese": "小鸡",
+        "english": "Chick",
+        "caption": "小鸡\nChick",
+        "scene": "一只黄色绒毛小鸡，两腿两翼"
+      },
+      {
+        "position": 19,
+        "chinese": "鸭子",
+        "english": "Duck",
+        "caption": "鸭子\nDuck",
+        "scene": "一只鸭子，扁喙与蹼足"
+      },
+      {
+        "position": 20,
+        "chinese": "大白鹅",
+        "english": "Goose",
+        "caption": "大白鹅\nGoose",
+        "scene": "一只白鹅，长颈、橙喙与蹼足"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/05/images/cover.png",
+        "sha256": "f682d8b3d646df80bddb1b7a5b2b75442d5848fcf4d918d836387945cd9396be",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-01.png",
+        "sha256": "0557cb5b7bc1fe88922aae7277709235c7c3a2832824d5efd8a247c649b6189f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-02.png",
+        "sha256": "01705a85e5dbc557a901c2eea04aaf048e18f8e056d4b13f9c0cc0e0fcd96ac1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-03.png",
+        "sha256": "29c4385108b61d1026494334b30098c08ace65e2675b4fca280af9bc9e4b7830",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-04.png",
+        "sha256": "fb2b937a233e069b02f5f0b3d2679eaf41bc2311f7c8e4e37d3849439053f940",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-05.png",
+        "sha256": "45f8f19aeb44a92e07e098e0eb7e3c8d82b6077bd3d3c5dc2c60041dc6d39872",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-06.png",
+        "sha256": "de4ae0722c67419d8dca2dc5b8349dfe3a05791dd9a6ae735c30e6be2b622935",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-07.png",
+        "sha256": "4f4f0b1a92cadf089c671ab3f37ce558070aa1c8fcd6d548de66977ec88fd68a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-08.png",
+        "sha256": "3cdbf106a26d4a8f87dce19c71cc753ed4c2f8fbab7408ec5e9e55ea957c65c1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-09.png",
+        "sha256": "30ea18baec79281c42720fb5d5de30a358e7ba82b8d54182dcb0b743aa4ae6e8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-10.png",
+        "sha256": "c9d961e6f09ecc18367c086b1f06b1f48cc8dad633f860226a23c7663b29e59c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-11.png",
+        "sha256": "fcd9cdb12b8f59843ae6bb37110285dc8740664ede933162d37d94db7edf05aa",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-12.png",
+        "sha256": "b545288fc06966f838dda7d62d2ecfef72970337371921a20d6163346d482300",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-13.png",
+        "sha256": "13947d8fa25fb79115891e9084769adcfdb09a9a59c16f987f00b263407b359f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-14.png",
+        "sha256": "7c09099b68277608043950620f8ecdbd371129ea54a7695fd0b39fe2f54ff64b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-15.png",
+        "sha256": "541233196126e2f3e5e2c763d3a6c15e097de689a33e409bc2f9a6d86ea8dd42",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-16.png",
+        "sha256": "31f8c6daddff459064b136850a12a6d29107c8aa7f1cbc7bd41c8dc2e0aa1527",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-17.png",
+        "sha256": "208f7d8059a1507a32b8ec6d57ad767656ee14fcfef14fc30430512d6a224f95",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-18.png",
+        "sha256": "1f6ab54df79dfd15190e78806bc0b3e9649b0214e67bd20c3f4d8549264e8063",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-19.png",
+        "sha256": "2ced1697ebdb58bd9bb6314f122865e0b8113fa19d9f7a5f78adf67f7f957e94",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/05/images/page-20.png",
+        "sha256": "985f5227cb5486151526ad42e89caf9b4dde3c74a00407cb0964b3eeb2d39f77",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "06",
+    "title": "小小百科翻翻书·森林与草原动物",
+    "topic": "森林与草原动物",
+    "englishTitle": "Wild Animals",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "狮子",
+        "english": "Lion",
+        "caption": "狮子\nLion",
+        "scene": "一头雄狮，棕色鬃毛、四足站立"
+      },
+      {
+        "position": 2,
+        "chinese": "老虎",
+        "english": "Tiger",
+        "caption": "老虎\nTiger",
+        "scene": "一只老虎，橙毛黑条纹、四足站立"
+      },
+      {
+        "position": 3,
+        "chinese": "大象",
+        "english": "Elephant",
+        "caption": "大象\nElephant",
+        "scene": "一头灰象，大耳、长鼻，四肢完整"
+      },
+      {
+        "position": 4,
+        "chinese": "长颈鹿",
+        "english": "Giraffe",
+        "caption": "长颈鹿\nGiraffe",
+        "scene": "一头长颈鹿，长颈、斑块、两只骨角"
+      },
+      {
+        "position": 5,
+        "chinese": "斑马",
+        "english": "Zebra",
+        "caption": "斑马\nZebra",
+        "scene": "一匹斑马，黑白条纹，四蹄完整"
+      },
+      {
+        "position": 6,
+        "chinese": "猴子",
+        "english": "Monkey",
+        "caption": "猴子\nMonkey",
+        "scene": "一只棕色长尾猴，自然坐姿"
+      },
+      {
+        "position": 7,
+        "chinese": "大猩猩",
+        "english": "Gorilla",
+        "caption": "大猩猩\nGorilla",
+        "scene": "一只大猩猩，宽胸长臂，无尾"
+      },
+      {
+        "position": 8,
+        "chinese": "河马",
+        "english": "Hippo",
+        "caption": "河马\nHippo",
+        "scene": "一头河马，宽嘴、小耳、短腿"
+      },
+      {
+        "position": 9,
+        "chinese": "犀牛",
+        "english": "Rhino",
+        "caption": "犀牛\nRhino",
+        "scene": "一头犀牛，鼻角、厚皮、四足"
+      },
+      {
+        "position": 10,
+        "chinese": "猎豹",
+        "english": "Cheetah",
+        "caption": "猎豹\nCheetah",
+        "scene": "一只猎豹，实心黑点、眼下黑泪痕，不画豹的玫瑰斑"
+      },
+      {
+        "position": 11,
+        "chinese": "大熊猫",
+        "english": "Panda",
+        "caption": "大熊猫\nPanda",
+        "scene": "一只大熊猫，黑白毛色与圆耳"
+      },
+      {
+        "position": 12,
+        "chinese": "考拉",
+        "english": "Koala",
+        "caption": "考拉\nKoala",
+        "scene": "一只考拉，大圆毛耳、深色鼻，无长尾"
+      },
+      {
+        "position": 13,
+        "chinese": "袋鼠",
+        "english": "Kangaroo",
+        "caption": "袋鼠\nKangaroo",
+        "scene": "一只袋鼠，强后腿、长尾、短前肢"
+      },
+      {
+        "position": 14,
+        "chinese": "棕熊",
+        "english": "Bear",
+        "caption": "棕熊\nBear",
+        "scene": "一头棕熊，棕毛与圆耳"
+      },
+      {
+        "position": 15,
+        "chinese": "北极熊",
+        "english": "Polar Bear",
+        "caption": "北极熊\nPolar Bear",
+        "scene": "一头北极熊，奶白毛、黑鼻、长颈"
+      },
+      {
+        "position": 16,
+        "chinese": "狐狸",
+        "english": "Fox",
+        "caption": "狐狸\nFox",
+        "scene": "一只红狐狸，尖耳与白尾尖"
+      },
+      {
+        "position": 17,
+        "chinese": "狼",
+        "english": "Wolf",
+        "caption": "狼\nWolf",
+        "scene": "一匹灰狼，长口鼻与下垂长尾"
+      },
+      {
+        "position": 18,
+        "chinese": "梅花鹿",
+        "english": "Deer",
+        "caption": "梅花鹿\nDeer",
+        "scene": "一只梅花鹿，棕色白斑，完整腿部"
+      },
+      {
+        "position": 19,
+        "chinese": "松鼠",
+        "english": "Squirrel",
+        "caption": "松鼠\nSquirrel",
+        "scene": "一只松鼠，蓬松大尾巴"
+      },
+      {
+        "position": 20,
+        "chinese": "鳄鱼",
+        "english": "Crocodile",
+        "caption": "鳄鱼\nCrocodile",
+        "scene": "一条鳄鱼，长吻、甲片与粗尾"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/06/images/cover.png",
+        "sha256": "3731fb7ab821237095d1d84d898d1e53c7270f226e4d978efd52e698e7046cf0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-01.png",
+        "sha256": "88c8f3c45065eacf278d0c36e7cb7a1bec49548f2dd79792954582a281eb3de1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-02.png",
+        "sha256": "fe70c1d703daf3141e1678e8eaf8d42e1036b723790cc6b3c0da350c3de615fa",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-03.png",
+        "sha256": "a1c01fad6f7559b3ac9f70596774b46375f814b4d10c5e7a6bf2a40b64192b11",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-04.png",
+        "sha256": "29db313a1edc4ab6dac53b631c08c039a911676c076ca969aed9c1f7425c0e30",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-05.png",
+        "sha256": "96f94c58dd8ee0e7a79edd3541ba30de52473b310a8336fbcb3ae7875801e6c1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-06.png",
+        "sha256": "daa6c7a2753ae610bfa95398dd1f975b3da9e0261ab324a24d891392c465477b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-07.png",
+        "sha256": "eb048b1bc007319b6ee66c6220348f30e0488be204ee3b60914857c98b90f49e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-08.png",
+        "sha256": "2ae91ad000c850f1d4239fe8337cf40ffc0a7028cd489e27588782b7ad02c18f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-09.png",
+        "sha256": "2293ca5aea9cc66ab90a4d0dc4d71a0441125c8b9e460275f6bc9dd7bc541f93",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-10.png",
+        "sha256": "2004665bdb6a842332634f0e5a9901acc51e785f98a20d217e737a86a0ed7deb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-11.png",
+        "sha256": "2ef1b962711a9ec0df66a21b07837420535e14a4f6d1825bdbbb14f7900ce18b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-12.png",
+        "sha256": "8155dcd948633d2061a28cf6435fd432727eacaf814872084db401c73090b85a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-13.png",
+        "sha256": "d16b82c41b250e3b4567c576a8b4727c04024157cf127ea0e8cf8876e7869cc3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-14.png",
+        "sha256": "2daba90e1dbdc53d99b3d2f53de2550b406064f70780bd746d465892d2229a8d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-15.png",
+        "sha256": "c64baa7133b5723e8f62f3417dd870e1895fb6d9d46a79b91bda1a82ac97d2e9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-16.png",
+        "sha256": "889fa05e0b0bc2dc948fcbf61b67fc34b20c31db8fdebc2d8fc7f7117fb81ade",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-17.png",
+        "sha256": "70ede59d2a2855b2a4d855365a32bdafb952db4a48363388d6300e02ccc1306b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-18.png",
+        "sha256": "cadbcdc12ecb2d8f41b2ec8c3fb4d94a7b82169e69c2779498a81317dc27faa9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-19.png",
+        "sha256": "2989907e6986610a1b85fce88ce73fc46b3c66db3d8fbec6c0a4e35635c4dd0f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/06/images/page-20.png",
+        "sha256": "f7f67b6b981a05d7dcf94d737b56f87c8dcaa1e7353bcc6f388ecfbd09f10b66",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "07",
+    "title": "小小百科翻翻书·飞鸟世界",
+    "topic": "飞鸟世界",
+    "englishTitle": "Birds",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "孔雀",
+        "english": "Peacock",
+        "caption": "孔雀\nPeacock",
+        "scene": "一只开屏孔雀，尾羽眼斑清楚"
+      },
+      {
+        "position": 2,
+        "chinese": "火烈鸟",
+        "english": "Flamingo",
+        "caption": "火烈鸟\nFlamingo",
+        "scene": "一只火烈鸟，粉羽、弯颈、长腿、曲喙"
+      },
+      {
+        "position": 3,
+        "chinese": "猫头鹰",
+        "english": "Owl",
+        "caption": "猫头鹰\nOwl",
+        "scene": "一只猫头鹰，正面站立，大眼面盘"
+      },
+      {
+        "position": 4,
+        "chinese": "老鹰",
+        "english": "Eagle",
+        "caption": "老鹰\nEagle",
+        "scene": "一只老鹰，自然立姿、钩喙和利爪"
+      },
+      {
+        "position": 5,
+        "chinese": "企鹅",
+        "english": "Penguin",
+        "caption": "企鹅\nPenguin",
+        "scene": "一只企鹅，直立，黑背白腹与短鳍翼"
+      },
+      {
+        "position": 6,
+        "chinese": "天鹅",
+        "english": "Swan",
+        "caption": "天鹅\nSwan",
+        "scene": "一只白天鹅，弯曲长颈，蹼足"
+      },
+      {
+        "position": 7,
+        "chinese": "鹦鹉",
+        "english": "Parrot",
+        "caption": "鹦鹉\nParrot",
+        "scene": "一只红蓝金刚鹦鹉，钩喙、长尾"
+      },
+      {
+        "position": 8,
+        "chinese": "巨嘴鸟",
+        "english": "Toucan",
+        "caption": "巨嘴鸟\nToucan",
+        "scene": "一只巨嘴鸟，大彩色喙"
+      },
+      {
+        "position": 9,
+        "chinese": "啄木鸟",
+        "english": "Woodpecker",
+        "caption": "啄木鸟\nWoodpecker",
+        "scene": "一只啄木鸟，直尖喙、红顶，不加树干"
+      },
+      {
+        "position": 10,
+        "chinese": "鸵鸟",
+        "english": "Ostrich",
+        "caption": "鸵鸟\nOstrich",
+        "scene": "一只鸵鸟，长颈长腿，两趾，蓬松身体"
+      },
+      {
+        "position": 11,
+        "chinese": "蜂鸟",
+        "english": "Hummingbird",
+        "caption": "蜂鸟\nHummingbird",
+        "scene": "一只悬停蜂鸟，长细喙、两翼，清楚轮廓"
+      },
+      {
+        "position": 12,
+        "chinese": "翠鸟",
+        "english": "Kingfisher",
+        "caption": "翠鸟\nKingfisher",
+        "scene": "一只翠鸟，蓝背橙腹、长尖喙"
+      },
+      {
+        "position": 13,
+        "chinese": "喜鹊",
+        "english": "Magpie",
+        "caption": "喜鹊\nMagpie",
+        "scene": "一只喜鹊，黑白身体与长尾"
+      },
+      {
+        "position": 14,
+        "chinese": "燕子",
+        "english": "Swallow",
+        "caption": "燕子\nSwallow",
+        "scene": "一只燕子，飞姿、叉尾、两翼"
+      },
+      {
+        "position": 15,
+        "chinese": "麻雀",
+        "english": "Sparrow",
+        "caption": "麻雀\nSparrow",
+        "scene": "一只麻雀，褐色小鸟，短锥喙"
+      },
+      {
+        "position": 16,
+        "chinese": "鸽子",
+        "english": "Pigeon",
+        "caption": "鸽子\nPigeon",
+        "scene": "一只灰鸽，颈部微虹彩"
+      },
+      {
+        "position": 17,
+        "chinese": "海鸥",
+        "english": "Seagull",
+        "caption": "海鸥\nSeagull",
+        "scene": "一只海鸥，白身灰翼、黄色喙"
+      },
+      {
+        "position": 18,
+        "chinese": "鹈鹕",
+        "english": "Pelican",
+        "caption": "鹈鹕\nPelican",
+        "scene": "一只鹈鹕，长喙和明显喉囊"
+      },
+      {
+        "position": 19,
+        "chinese": "仙鹤",
+        "english": "Crane",
+        "caption": "仙鹤\nCrane",
+        "scene": "一只丹顶鹤，白身黑颈、红顶、长腿"
+      },
+      {
+        "position": 20,
+        "chinese": "乌鸦",
+        "english": "Crow",
+        "caption": "乌鸦\nCrow",
+        "scene": "一只乌鸦，黑色羽毛和粗直喙"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/07/images/cover.png",
+        "sha256": "94199eaba4dfac913897895cdddb8c2eb1b2459d061e565b32a0f264282471e6",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-01.png",
+        "sha256": "461409e58e42e20714d86290455d25a6b86410af9b3b77b3bbb82c104960151e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-02.png",
+        "sha256": "5c42ed5b70aed12243372dc900c41ae3e02329323024596d4691ac004a3c4782",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-03.png",
+        "sha256": "e2c02217adbba71ed8147a02d2b9b20ec5b78cd788ea823469e95f14eb6d2cbb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-04.png",
+        "sha256": "598d4cbb01f8a194dae89cc0b7cfaa1a0d627a1a2e48a35141409f6cb3c302b1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-05.png",
+        "sha256": "63b4d38b858986725edfb216b5ecc068c6c984ec1ae2ae4c8d5ded57b0863400",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-06.png",
+        "sha256": "b3c40a0bbc633e0d6bd655446837641a05999d86a116cd00b5600f70dad65e77",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-07.png",
+        "sha256": "725b9f17b1cad9fa59671d0908a200e4688483372e9b06c1e35efc0e923a298d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-08.png",
+        "sha256": "b918d75b3662e6524a1e6a987ad0b8c275832ab48f6bb0fd123afdba452ec8b7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-09.png",
+        "sha256": "b85bbc01a423a8c79474d003ce15777a4e2d0813ff591bbd10cc3ee0683f7373",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-10.png",
+        "sha256": "d2f5693f83af9bcc9af9cd37e32e716837feac9c500a54b41afc13267209a642",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-11.png",
+        "sha256": "66a9948376500d9df3505aa3707ff31c13498ef66210e8a5fb485cb99859d4e0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-12.png",
+        "sha256": "37738e6f5a91691d2a81d1066d5076e8f8be4bded9eca39a15de61526b9570dd",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-13.png",
+        "sha256": "921ea9e39abbbaddae7b643699cbdf393b5d3a214ab38885080f732b797c52d2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-14.png",
+        "sha256": "b5052a44d424988f3f014e06ea22ffea9d52322974bdca36e93e5f38395b7512",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-15.png",
+        "sha256": "62ebeefe64c6a3de1bed5d05eca31a6a35fc8f9fc5c34ced2aa5f4da6113accc",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-16.png",
+        "sha256": "4207b11b23e8301118f0f7b38d41e6fb9e1a9ab3decf883d9c2e7e62d2a23ac8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-17.png",
+        "sha256": "fb645219633e6ede0288563e3bcc51cb07f4b620468faee54e76e12f5a3e17e3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-18.png",
+        "sha256": "411fd19be1bbb31dae5a2cdcc68674ec5e702ee4ab2ce1b90a990f3165a8ac79",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-19.png",
+        "sha256": "a495bc019f9e45ad8b4798ea97b28ed7289908fd9b30addfbb95e8c4a62496ef",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/07/images/page-20.png",
+        "sha256": "e4e989c58375df71a70a5dee59314114b0a127251cd8133a7c60ab23488bda02",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "08",
+    "title": "小小百科翻翻书·海洋生物",
+    "topic": "海洋生物",
+    "englishTitle": "Sea Animals",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "蓝鲸",
+        "english": "Whale",
+        "caption": "蓝鲸\nWhale",
+        "scene": "一头蓝鲸，蓝灰身体、腹部褶沟、水平尾鳍"
+      },
+      {
+        "position": 2,
+        "chinese": "海豚",
+        "english": "Dolphin",
+        "caption": "海豚\nDolphin",
+        "scene": "一只海豚，流线身体、喙吻、水平尾鳍"
+      },
+      {
+        "position": 3,
+        "chinese": "鲨鱼",
+        "english": "Shark",
+        "caption": "鲨鱼\nShark",
+        "scene": "一条鲨鱼，鳃裂、背鳍与垂直尾鳍"
+      },
+      {
+        "position": 4,
+        "chinese": "虎鲸",
+        "english": "Orca",
+        "caption": "虎鲸\nOrca",
+        "scene": "一头虎鲸，黑白体色、白眼斑与水平尾鳍"
+      },
+      {
+        "position": 5,
+        "chinese": "章鱼",
+        "english": "Octopus",
+        "caption": "章鱼\nOctopus",
+        "scene": "一只章鱼，圆头与恰好八条腕"
+      },
+      {
+        "position": 6,
+        "chinese": "鱿鱼",
+        "english": "Squid",
+        "caption": "鱿鱼\nSquid",
+        "scene": "一只鱿鱼，长胴体、八条腕加两条较长触腕"
+      },
+      {
+        "position": 7,
+        "chinese": "水母",
+        "english": "Jellyfish",
+        "caption": "水母\nJellyfish",
+        "scene": "一只半透明水母，伞状体与自然触手"
+      },
+      {
+        "position": 8,
+        "chinese": "海星",
+        "english": "Starfish",
+        "caption": "海星\nStarfish",
+        "scene": "一只五腕海星，结构清楚"
+      },
+      {
+        "position": 9,
+        "chinese": "海龟",
+        "english": "Sea Turtle",
+        "caption": "海龟\nSea Turtle",
+        "scene": "一只海龟，背甲、四片鳍肢"
+      },
+      {
+        "position": 10,
+        "chinese": "小丑鱼",
+        "english": "Clownfish",
+        "caption": "小丑鱼\nClownfish",
+        "scene": "一条橙白黑小丑鱼"
+      },
+      {
+        "position": 11,
+        "chinese": "海马",
+        "english": "Seahorse",
+        "caption": "海马\nSeahorse",
+        "scene": "一只海马，弯颈、马头和卷尾"
+      },
+      {
+        "position": 12,
+        "chinese": "河豚",
+        "english": "Pufferfish",
+        "caption": "河豚\nPufferfish",
+        "scene": "一条膨起河豚，圆身体、小鳍、细短刺"
+      },
+      {
+        "position": 13,
+        "chinese": "魔鬼鱼",
+        "english": "Manta Ray",
+        "caption": "魔鬼鱼\nManta Ray",
+        "scene": "一只蝠鲼，宽三角胸鳍、两片头鳍、长细尾"
+      },
+      {
+        "position": 14,
+        "chinese": "飞鱼",
+        "english": "Flying Fish",
+        "caption": "飞鱼\nFlying Fish",
+        "scene": "一条飞鱼，扩大胸鳍展开，不画成鸟翅"
+      },
+      {
+        "position": 15,
+        "chinese": "螃蟹",
+        "english": "Crab",
+        "caption": "螃蟹\nCrab",
+        "scene": "一只螃蟹，两螯加八条步足"
+      },
+      {
+        "position": 16,
+        "chinese": "龙虾",
+        "english": "Lobster",
+        "caption": "龙虾\nLobster",
+        "scene": "一只龙虾，两只大螯、八条步足和长触角"
+      },
+      {
+        "position": 17,
+        "chinese": "寄居蟹",
+        "english": "Hermit Crab",
+        "caption": "寄居蟹\nHermit Crab",
+        "scene": "一只寄居蟹，身体部分藏在单个螺壳里"
+      },
+      {
+        "position": 18,
+        "chinese": "海豹",
+        "english": "Seal",
+        "caption": "海豹\nSeal",
+        "scene": "一只海豹，短前鳍、无明显外耳廓"
+      },
+      {
+        "position": 19,
+        "chinese": "海象",
+        "english": "Walrus",
+        "caption": "海象\nWalrus",
+        "scene": "一只海象，两根长獠牙、胡须与鳍肢"
+      },
+      {
+        "position": 20,
+        "chinese": "珊瑚",
+        "english": "Coral",
+        "caption": "珊瑚\nCoral",
+        "scene": "一枝完整树枝形珊瑚群体，不加鱼或海床"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/08/images/cover.png",
+        "sha256": "46e8c50685de1a84faecdc5608a918a51250e4260215f05d7f36454778c3c324",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-01.png",
+        "sha256": "b66f68e7462aa8d659cf0ce26e6cb90cdcd9844413761becab990e752924f971",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-02.png",
+        "sha256": "077a1bb737b8075d6cc7e593f08e0e9b2c49f83e8ed0ea1f30f771d6a6a2ef0e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-03.png",
+        "sha256": "a6122ff7af83dbf7aacb74f7fd39b4539aca78f57292eb5408eb73dca6ad24fa",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-04.png",
+        "sha256": "f4687258e633510869fda4f28afbcb67561a28fa473f934e6b82f6c7f5c9df1f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-05.png",
+        "sha256": "fb4e8a8c9f437fc910d8bef6091448dc6cf0985c68912c6320b28a556fd28588",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-06.png",
+        "sha256": "a56ef3769c543acf076c2cb6ca8fd6439729f9929f6be0d2e09ba0489810c0c6",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-07.png",
+        "sha256": "0756e0f9f70cf5a35d084ef9184209a53d600a29e63af91d52d15c31fadf9557",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-08.png",
+        "sha256": "827a3a23147b17b20605c66180bf71af73b4daaa48654ce077b2bbcfd7a44094",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-09.png",
+        "sha256": "aaeb7ad8b6a01f7fac38e4dc7b0f24cc5a9db4b6d0a458eb8d7709563ce6f071",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-10.png",
+        "sha256": "06851b1edd2ee29b4a14eaffaed9ce7a47983193981e42297861cded8bdad0ab",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-11.png",
+        "sha256": "744508c30f5104ca193fa039696f4e477dbb40d517b8e2cb523f89bcacc424f8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-12.png",
+        "sha256": "c32a72fd01d6cd553db8118b2102eb5badd5e76912ef96331a5bccc872fc364b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-13.png",
+        "sha256": "dee248f054561908eaccf09423ddc48b9bce93765e55019992546e96209a0b4e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-14.png",
+        "sha256": "74ddc26ea38b51b13b7cf1a20ff09b76bc9cced8130778034212dab9a5267b05",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-15.png",
+        "sha256": "204c2b4d014585626f11bf70d21eef0a4202569c8f53256cca0e4913e965d7ec",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-16.png",
+        "sha256": "d72174c33bd429f9635b1152c7e8e5725f0e0ac1111eef2e98d1d23f5fe37aba",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-17.png",
+        "sha256": "a28b26cad7683546298fb3631bf5660efc261aa274d42d1348cc354d71c2799f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-18.png",
+        "sha256": "90b8018002a65bcbae63dd5a733a292f59445b513163da2fd3ac756967b0e14b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-19.png",
+        "sha256": "25c793adc25ae92856558521c6d620cf4f4d2723197ded1cfcd028afe6671606",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/08/images/page-20.png",
+        "sha256": "ed373f1826705d7c0d466be241a61878fb7f8df829337afa02f8890f8249ec28",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "09",
+    "title": "小小百科翻翻书·昆虫与小生物",
+    "topic": "昆虫与小生物",
+    "englishTitle": "Bugs & Insects",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "蝴蝶",
+        "english": "Butterfly",
+        "caption": "蝴蝶\nButterfly",
+        "scene": "一只蝴蝶，四翅六足、两根触角"
+      },
+      {
+        "position": 2,
+        "chinese": "蜜蜂",
+        "english": "Bee",
+        "caption": "蜜蜂\nBee",
+        "scene": "一只蜜蜂，六足、两对翅与两根触角"
+      },
+      {
+        "position": 3,
+        "chinese": "七星瓢虫",
+        "english": "Ladybug",
+        "caption": "七星瓢虫\nLadybug",
+        "scene": "一只七星瓢虫，两鞘翅合计七个黑点，六足"
+      },
+      {
+        "position": 4,
+        "chinese": "蜻蜓",
+        "english": "Dragonfly",
+        "caption": "蜻蜓\nDragonfly",
+        "scene": "一只蜻蜓，四翅六足、细长腹部"
+      },
+      {
+        "position": 5,
+        "chinese": "独角仙",
+        "english": "Beetle",
+        "caption": "独角仙\nBeetle",
+        "scene": "一只雄性独角仙，额角与胸角辨识、六足"
+      },
+      {
+        "position": 6,
+        "chinese": "萤火虫",
+        "english": "Firefly",
+        "caption": "萤火虫\nFirefly",
+        "scene": "一只萤火虫，六足、末端温和发光，纯白底"
+      },
+      {
+        "position": 7,
+        "chinese": "蚂蚁",
+        "english": "Ant",
+        "caption": "蚂蚁\nAnt",
+        "scene": "一只蚂蚁，头胸腹三部分、六足两触角"
+      },
+      {
+        "position": 8,
+        "chinese": "螳螂",
+        "english": "Mantis",
+        "caption": "螳螂\nMantis",
+        "scene": "一只螳螂，两只捕捉前足加四足"
+      },
+      {
+        "position": 9,
+        "chinese": "毛毛虫",
+        "english": "Caterpillar",
+        "caption": "毛毛虫\nCaterpillar",
+        "scene": "一条绿色毛毛虫，分节身体、三对胸足与腹足"
+      },
+      {
+        "position": 10,
+        "chinese": "飞蛾",
+        "english": "Moth",
+        "caption": "飞蛾\nMoth",
+        "scene": "一只飞蛾，毛绒身体、四翅与羽状触角"
+      },
+      {
+        "position": 11,
+        "chinese": "蚂蚱",
+        "english": "Grasshopper",
+        "caption": "蚂蚱\nGrasshopper",
+        "scene": "一只蚂蚱，六足，粗壮长后腿"
+      },
+      {
+        "position": 12,
+        "chinese": "蟋蟀",
+        "english": "Cricket",
+        "caption": "蟋蟀\nCricket",
+        "scene": "一只蟋蟀，六足，长触角与粗后腿"
+      },
+      {
+        "position": 13,
+        "chinese": "蝉",
+        "english": "Cicada",
+        "caption": "蝉\nCicada",
+        "scene": "一只蝉，六足，透明两对翅"
+      },
+      {
+        "position": 14,
+        "chinese": "竹节虫",
+        "english": "Stick Insect",
+        "caption": "竹节虫\nStick Insect",
+        "scene": "一只竹节虫，细长躯干、六足"
+      },
+      {
+        "position": 15,
+        "chinese": "锹形虫",
+        "english": "Stag Beetle",
+        "caption": "锹形虫\nStag Beetle",
+        "scene": "一只锹形虫，锹状上颚、六足"
+      },
+      {
+        "position": 16,
+        "chinese": "蜗牛",
+        "english": "Snail",
+        "caption": "蜗牛\nSnail",
+        "scene": "一只蜗牛，螺旋壳与两对触角"
+      },
+      {
+        "position": 17,
+        "chinese": "蜘蛛",
+        "english": "Spider",
+        "caption": "蜘蛛\nSpider",
+        "scene": "一只蜘蛛，恰好八条腿、无触角"
+      },
+      {
+        "position": 18,
+        "chinese": "蚯蚓",
+        "english": "Earthworm",
+        "caption": "蚯蚓\nEarthworm",
+        "scene": "一条蚯蚓，柔和分节与环带，无腿"
+      },
+      {
+        "position": 19,
+        "chinese": "蝎子",
+        "english": "Scorpion",
+        "caption": "蝎子\nScorpion",
+        "scene": "一只蝎子，八条步足、两螯、分节弯尾"
+      },
+      {
+        "position": 20,
+        "chinese": "青蛙",
+        "english": "Frog",
+        "caption": "青蛙\nFrog",
+        "scene": "一只绿色青蛙，四肢、长后腿，坐姿"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/09/images/cover.png",
+        "sha256": "9e27b599b5aac3102a5906809bf1844e729ed930438b640830a10ec762ca6301",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-01.png",
+        "sha256": "19e137edeaae63f9338b507117826919a4cae12d7e0d38a2ead5d521579fbb33",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-02.png",
+        "sha256": "9b71a0248fa2afa538dd4de61952e0a767b4459965c461dd7f4c3168b1facae3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-03.png",
+        "sha256": "8c43e7995fc3010b0317b38a84b74b80fc507ec51d4a0732f92c7c88a6d30426",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-04.png",
+        "sha256": "d7258712445dcafc546b78cbac74b7c351484d81c9d4420c435067cf619ac1fe",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-05.png",
+        "sha256": "40c4d40ba2129b7339596b2fb8c5f736ac3cf639582b04374c99ac43de89d8b8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-06.png",
+        "sha256": "4007e9c6c34d4a862745ff6d1a115b87f5bcb2d37f64c32cb7d589e201b3b53d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-07.png",
+        "sha256": "622672ebe70fba6020894ff00b2c49742947f3e8f25711d31bc760f32a99397b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-08.png",
+        "sha256": "ecd87cf3c6e51179fd7e0278854509d283d537bee710970520c37b9ed645624d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-09.png",
+        "sha256": "6b3ede897f6782357b5ba7c1857266c0cc55c106895be73df6713241aeee859e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-10.png",
+        "sha256": "68839c6a6fdf1a9a5e977bdf6b2abd12613913a9fcb42a5beef7370a41da0af5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-11.png",
+        "sha256": "0e75aeeefc4c8614974376f6d2930f5fad8bed6a833d2f880595daebcb8397c8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-12.png",
+        "sha256": "274aec3f6ed508b7aa06203cbd2bd1834398bf19eb4b9bc9d50a4ee96b8d95ed",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-13.png",
+        "sha256": "cfbe9c662fd5cf87141dc55fe758d379f27df9833f542bbb286ce6102f283b2c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-14.png",
+        "sha256": "e07b8fd8ba143dda54ac003ff36c6f7a8b53ed4eec27db4c6d08dfb85cdd09d2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-15.png",
+        "sha256": "787feae130bbcd811a5c0e16bc94e0eae08516f414e1dbb1a8abd51b81798d97",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-16.png",
+        "sha256": "3a0f30557302e43fd9cdf0759b5ee2265ff1e04980471418dc289f652e402fff",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-17.png",
+        "sha256": "8b9a1a00eb7eff7cf694734e910d6c63f410b5f3a2b380bb94592da0b48e6544",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-18.png",
+        "sha256": "8acb815958200ef76a3f1138bbc80e0a224b4bc1a73c8022cb551810c2212d32",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-19.png",
+        "sha256": "ce4c9bdab04081e2c064cb380e74b9b05c3acc268d2000112f8100e86391fe4c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/09/images/page-20.png",
+        "sha256": "b0bb8143818b45c6a131fcfe6d576093fd632cd2055c9f3d7931ad3e36902039",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "10",
+    "title": "小小百科翻翻书·我的身体",
+    "topic": "我的身体",
+    "englishTitle": "My Body",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "眼睛",
+        "english": "Eye",
+        "caption": "眼睛\nEye",
+        "scene": "眼部局部教学模型，保留眼睑和少量周围皮肤，不出现游离眼球"
+      },
+      {
+        "position": 2,
+        "chinese": "耳朵",
+        "english": "Ear",
+        "caption": "耳朵\nEar",
+        "scene": "一只外耳教学模型，耳廓、耳垂清楚"
+      },
+      {
+        "position": 3,
+        "chinese": "鼻子",
+        "english": "Nose",
+        "caption": "鼻子\nNose",
+        "scene": "鼻部局部教学模型，鼻梁和鼻翼清楚"
+      },
+      {
+        "position": 4,
+        "chinese": "嘴巴",
+        "english": "Mouth",
+        "caption": "嘴巴\nMouth",
+        "scene": "微笑闭合嘴唇的局部教学模型"
+      },
+      {
+        "position": 5,
+        "chinese": "牙齿",
+        "english": "Tooth",
+        "caption": "牙齿\nTooth",
+        "scene": "一颗白色完整臼齿教学模型，牙冠与牙根"
+      },
+      {
+        "position": 6,
+        "chinese": "舌头",
+        "english": "Tongue",
+        "caption": "舌头\nTongue",
+        "scene": "嘴部局部教学模型，伸出舌头，舌头为视觉重点"
+      },
+      {
+        "position": 7,
+        "chinese": "头发",
+        "english": "Hair",
+        "caption": "头发\nHair",
+        "scene": "同一儿童头模，短发为重点，脸部细节弱化"
+      },
+      {
+        "position": 8,
+        "chinese": "眉毛",
+        "english": "Eyebrow",
+        "caption": "眉毛\nEyebrow",
+        "scene": "同一头模眼眉局部，眉毛清楚"
+      },
+      {
+        "position": 9,
+        "chinese": "脸颊",
+        "english": "Cheek",
+        "caption": "脸颊\nCheek",
+        "scene": "同一儿童脸侧局部，圆润脸颊为重点"
+      },
+      {
+        "position": 10,
+        "chinese": "脖子",
+        "english": "Neck",
+        "caption": "脖子\nNeck",
+        "scene": "同一头模颈部局部，保留肩头帮助辨认"
+      },
+      {
+        "position": 11,
+        "chinese": "手",
+        "english": "Hand",
+        "caption": "手\nHand",
+        "scene": "一只开放手掌教学模型，恰好五指"
+      },
+      {
+        "position": 12,
+        "chinese": "手指",
+        "english": "Finger",
+        "caption": "手指\nFinger",
+        "scene": "手部教学模型，食指伸直、其余四指自然弯曲"
+      },
+      {
+        "position": 13,
+        "chinese": "手臂",
+        "english": "Arm",
+        "caption": "手臂\nArm",
+        "scene": "一只完整手臂教学模型，从肩至手腕，端部圆润"
+      },
+      {
+        "position": 14,
+        "chinese": "肩膀",
+        "english": "Shoulder",
+        "caption": "肩膀\nShoulder",
+        "scene": "同一儿童上半身教学模型，肩膀突出，穿无图案背心"
+      },
+      {
+        "position": 15,
+        "chinese": "肚子",
+        "english": "Belly",
+        "caption": "肚子\nBelly",
+        "scene": "穿蓝色T恤和长裤的成人教学人偶前躯干，双手轻放腹部，提示肚子位置"
+      },
+      {
+        "position": 16,
+        "chinese": "后背",
+        "english": "Back",
+        "caption": "后背\nBack",
+        "scene": "穿蓝色T恤和长裤的成人教学人偶后躯干，清楚展示肩膀与后背轮廓"
+      },
+      {
+        "position": 17,
+        "chinese": "腿",
+        "english": "Leg",
+        "caption": "腿\nLeg",
+        "scene": "一条完整腿部教学模型，连着脚"
+      },
+      {
+        "position": 18,
+        "chinese": "膝盖",
+        "english": "Knee",
+        "caption": "膝盖\nKnee",
+        "scene": "腿部教学模型，轻弯膝盖，膝部为重点"
+      },
+      {
+        "position": 19,
+        "chinese": "脚",
+        "english": "Foot",
+        "caption": "脚\nFoot",
+        "scene": "一只脚部教学模型，恰好五趾"
+      },
+      {
+        "position": 20,
+        "chinese": "心脏",
+        "english": "Heart",
+        "caption": "心脏\nHeart",
+        "scene": "一个简化解剖心脏教学模型，保留上下腔静脉和大血管结构，不画爱心图案、不血腥"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/10/images/cover.png",
+        "sha256": "abe4c4eb5f32b60d208186cdba9b709adb8d37d9835eaa6071344de9eb853ee1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-01.png",
+        "sha256": "56dc49ce4ee268ed91cd042892d3aaf31719486476de44edc3f41064a0932c98",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-02.png",
+        "sha256": "aa2a8ef64add1efe49182c92018b08dec468632bc278a5dad843db21bf84bae5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-03.png",
+        "sha256": "691c3c7494b5c53916d0050962b4b66d22696d5ac592956d02d91616f32f1f8a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-04.png",
+        "sha256": "e75929b8f1cbf9afe344dc665181b33abc0b52b93ff6a388792a9e27b4b05f77",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-05.png",
+        "sha256": "eb31f9e0138f423761bc54fffee2615c8e58c54860b357a4b27e7b2235cbe509",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-06.png",
+        "sha256": "86d9b58e93dc07a6f4a76e806ef48a0f5efe008f8275c75a7e7f754b90754413",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-07.png",
+        "sha256": "4b7a59c6224e010b5e2131702ff10c27f3471d7070a128c25d37dc2db7e7f9cd",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-08.png",
+        "sha256": "bfdee454df39fd0ef2617fdf799ca99941d2e36ebdb29e19f66f94480e5811d5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-09.png",
+        "sha256": "c2bd4de575f972bb840a340394124d271c350bc27ab8019216f5c1196eff582f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-10.png",
+        "sha256": "31453700b8969dde326f8d160d0f204a2b9b315afe0f9882ce39e19d05448d09",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-11.png",
+        "sha256": "1a78ae4bd67d1a8306d95bece1cad8887c6c833b349b6050bb559440c2a16608",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-12.png",
+        "sha256": "f0912ae41273c6d54998e0e67d6b31086fc5639435453b342b0b257f82e92abe",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-13.png",
+        "sha256": "086cf4190bf9467cbccb2507317689740b5e8d73c36b01646b5d906c938aae70",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-14.png",
+        "sha256": "4328729692dbd12470245d5c8b3198f7e6cc9d97b672ef666ee0ef2970ac58b8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-15.png",
+        "sha256": "b07a83a1944ca51366bb5f8515654557bbf3352b9c3fc6505f304b2bf1806ac1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-16.png",
+        "sha256": "b4c2cd788ae639cc590c69132cba46e064bec123d6fd662895b9fa264efb94ce",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-17.png",
+        "sha256": "00098ea6734ff08b2ea5e867e37d049ef805c1d193c9380ed55d264cde5568ff",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-18.png",
+        "sha256": "5814dc6330f8581ff8621367891d7c6973a88cc2c1fefc870051a72ec76f83a3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-19.png",
+        "sha256": "0d8483095c99d94b824940a728067b3b36c0d0dac42182da61e495d71d4e2014",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/10/images/page-20.png",
+        "sha256": "f013221cb32c808afbc63dff523e749635bfa8ba97529446adedff38bdc733e0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "11",
+    "title": "小小百科翻翻书·衣物与配饰",
+    "topic": "衣物与配饰",
+    "englishTitle": "Clothes & Wear",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "T恤",
+        "english": "T-shirt",
+        "caption": "T恤\nT-shirt",
+        "scene": "一件单色短袖T恤，正面平整自然体积"
+      },
+      {
+        "position": 2,
+        "chinese": "衬衫",
+        "english": "Shirt",
+        "caption": "衬衫\nShirt",
+        "scene": "一件浅蓝衬衫，领口和纽扣"
+      },
+      {
+        "position": 3,
+        "chinese": "毛衣",
+        "english": "Sweater",
+        "caption": "毛衣\nSweater",
+        "scene": "一件奶黄色针织毛衣，织纹细腻"
+      },
+      {
+        "position": 4,
+        "chinese": "外套",
+        "english": "Jacket",
+        "caption": "外套\nJacket",
+        "scene": "一件绿色短外套，拉链闭合"
+      },
+      {
+        "position": 5,
+        "chinese": "连衣裙",
+        "english": "Dress",
+        "caption": "连衣裙\nDress",
+        "scene": "一件粉色连衣裙，完整裙摆"
+      },
+      {
+        "position": 6,
+        "chinese": "半身裙",
+        "english": "Skirt",
+        "caption": "半身裙\nSkirt",
+        "scene": "一条蓝色半身裙"
+      },
+      {
+        "position": 7,
+        "chinese": "长裤",
+        "english": "Pants",
+        "caption": "长裤\nPants",
+        "scene": "一条长裤，两个完整裤管"
+      },
+      {
+        "position": 8,
+        "chinese": "短裤",
+        "english": "Shorts",
+        "caption": "短裤\nShorts",
+        "scene": "一条短裤，两个完整裤管"
+      },
+      {
+        "position": 9,
+        "chinese": "袜子",
+        "english": "Socks",
+        "caption": "袜子\nSocks",
+        "scene": "一双袜子，自然并列，配套算同一主体"
+      },
+      {
+        "position": 10,
+        "chinese": "运动鞋",
+        "english": "Sneakers",
+        "caption": "运动鞋\nSneakers",
+        "scene": "一双运动鞋，鞋带与橡胶底"
+      },
+      {
+        "position": 11,
+        "chinese": "雨靴",
+        "english": "Rain Boots",
+        "caption": "雨靴\nRain Boots",
+        "scene": "一双黄色雨靴"
+      },
+      {
+        "position": 12,
+        "chinese": "拖鞋",
+        "english": "Slippers",
+        "caption": "拖鞋\nSlippers",
+        "scene": "一双柔软家居拖鞋"
+      },
+      {
+        "position": 13,
+        "chinese": "帽子",
+        "english": "Hat",
+        "caption": "帽子\nHat",
+        "scene": "一顶帽子，完整帽檐"
+      },
+      {
+        "position": 14,
+        "chinese": "围巾",
+        "english": "Scarf",
+        "caption": "围巾\nScarf",
+        "scene": "一条松卷的围巾"
+      },
+      {
+        "position": 15,
+        "chinese": "手套",
+        "english": "Gloves",
+        "caption": "手套\nGloves",
+        "scene": "一双保暖手套，指头数正确"
+      },
+      {
+        "position": 16,
+        "chinese": "领带",
+        "english": "Tie",
+        "caption": "领带\nTie",
+        "scene": "一条完整打结领带"
+      },
+      {
+        "position": 17,
+        "chinese": "眼镜",
+        "english": "Glasses",
+        "caption": "眼镜\nGlasses",
+        "scene": "一副透明镜片眼镜，镜腿完整"
+      },
+      {
+        "position": 18,
+        "chinese": "太阳镜",
+        "english": "Sunglasses",
+        "caption": "太阳镜\nSunglasses",
+        "scene": "一副太阳镜，深色镜片"
+      },
+      {
+        "position": 19,
+        "chinese": "手表",
+        "english": "Watch",
+        "caption": "手表\nWatch",
+        "scene": "一只手表，完整表带，无品牌或数字字样"
+      },
+      {
+        "position": 20,
+        "chinese": "双肩包",
+        "english": "Backpack",
+        "caption": "双肩包\nBackpack",
+        "scene": "一个双肩包，拉链和肩带"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/11/images/cover.png",
+        "sha256": "df724d9e3092f6f5115187f6cf5e01f86cd1f5fe3e33f2f60722db2a693df5b8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-01.png",
+        "sha256": "d4499d1015cd227deea86ec8b736586fb4a0755a4e9a7e6c6e14e14efa395a72",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-02.png",
+        "sha256": "86a669274e156d84b06e5237ea296501c972b6e6c53b10ab73ddf639717b83ad",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-03.png",
+        "sha256": "4aa2ce8360d361192e99b877b08fc55b618f441abf25c01a4bcd334056a1862d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-04.png",
+        "sha256": "18fb3014442749b9ff592d46d886966858c62c1f3e222cec7c4c642a9d92991a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-05.png",
+        "sha256": "74d871d5d32d3fde2f9606d42f3584194862a0e43ace7f6b552e16e93eecdfb5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-06.png",
+        "sha256": "356a794a2df53c622fcafb855bfbe03e1bc4e6e497485f2f16693537387d83ae",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-07.png",
+        "sha256": "814ac8c83f6c20d4adc6e75b5253938eaf2247d8110338b75a230a95df690296",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-08.png",
+        "sha256": "38392d46776af7d62c975701fe94893596b4ef84137580c6f581bfda5f1b70cf",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-09.png",
+        "sha256": "4f15eac110939ef054ee5539f263952a5bdfbe85fc6fc7f5e00dffafd2df78cc",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-10.png",
+        "sha256": "6c49592afea23b74d720194d7e6fc76cfa60800a953420dff82923aacbf4149b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-11.png",
+        "sha256": "02773aeaa9d4fcd0a2ecd705b19b4b666bbd7dc0911bbd1bf02c8fe5112adb87",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-12.png",
+        "sha256": "b8a7428dcdfd388439b4dca1fdde2c91540d2e20d944475ba20b65675ea5308e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-13.png",
+        "sha256": "d1da1caea734dc2f176d3da634e746acb19d4268745d173f519e562c7b8a9602",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-14.png",
+        "sha256": "12cd946bf1b2e1d0dec5fb216346e2d6cde25ab8b1770a169895b0732920d802",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-15.png",
+        "sha256": "b8504a50ae274f018c2d455c22aa3a75d1f13e09f6d82b51e3cebe9d5d116e0f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-16.png",
+        "sha256": "97a3d71d7cee28c5d70754cb822f7fecf60aa3ce1b231a8707a2a2374e94d24b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-17.png",
+        "sha256": "a2679619a9d9cf325b6d916e68487da5f361da9e0447f1f226c3d156d125666e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-18.png",
+        "sha256": "d1d1c54fc8c7bb8b95d4ccdbbe97ba77da8970b95c1d4127a8db65c4b240de22",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-19.png",
+        "sha256": "7032dccbc97403d2055c2bd8330d68d30a24fa319ab3518eddfe1de53f03b7e5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/11/images/page-20.png",
+        "sha256": "303914ba9667764f85275d4f878743ebf90d052c3e8794645b32f229278b8c28",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "12",
+    "title": "小小百科翻翻书·温馨的家",
+    "topic": "温馨的家",
+    "englishTitle": "At Home",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "沙发",
+        "english": "Sofa",
+        "caption": "沙发\nSofa",
+        "scene": "一张简洁双人沙发，无靠垫装饰"
+      },
+      {
+        "position": 2,
+        "chinese": "床",
+        "english": "Bed",
+        "caption": "床\nBed",
+        "scene": "一张整洁单人床，床架、床垫和简洁床品"
+      },
+      {
+        "position": 3,
+        "chinese": "枕头",
+        "english": "Pillow",
+        "caption": "枕头\nPillow",
+        "scene": "一个白色枕头"
+      },
+      {
+        "position": 4,
+        "chinese": "桌子",
+        "english": "Table",
+        "caption": "桌子\nTable",
+        "scene": "一张四脚木桌"
+      },
+      {
+        "position": 5,
+        "chinese": "椅子",
+        "english": "Chair",
+        "caption": "椅子\nChair",
+        "scene": "一把木椅"
+      },
+      {
+        "position": 6,
+        "chinese": "台灯",
+        "english": "Lamp",
+        "caption": "台灯\nLamp",
+        "scene": "一盏桌面台灯，灯座、灯杆和灯罩"
+      },
+      {
+        "position": 7,
+        "chinese": "闹钟",
+        "english": "Clock",
+        "caption": "闹钟\nClock",
+        "scene": "一个双铃闹钟，保留指针、不加文字数字"
+      },
+      {
+        "position": 8,
+        "chinese": "镜子",
+        "english": "Mirror",
+        "caption": "镜子\nMirror",
+        "scene": "一面圆形独立镜子，不倒映房间"
+      },
+      {
+        "position": 9,
+        "chinese": "电视",
+        "english": "TV",
+        "caption": "电视\nTV",
+        "scene": "一台平板电视，空白屏幕"
+      },
+      {
+        "position": 10,
+        "chinese": "冰箱",
+        "english": "Fridge",
+        "caption": "冰箱\nFridge",
+        "scene": "一台双门冰箱，门闭合"
+      },
+      {
+        "position": 11,
+        "chinese": "洗衣机",
+        "english": "Washing Machine",
+        "caption": "洗衣机\nWashing Machine",
+        "scene": "一台滚筒洗衣机，圆门清楚"
+      },
+      {
+        "position": 12,
+        "chinese": "浴缸",
+        "english": "Bathtub",
+        "caption": "浴缸\nBathtub",
+        "scene": "一个白色浴缸，轮廓完整"
+      },
+      {
+        "position": 13,
+        "chinese": "马桶",
+        "english": "Toilet",
+        "caption": "马桶\nToilet",
+        "scene": "一个白色马桶，结构清楚"
+      },
+      {
+        "position": 14,
+        "chinese": "牙刷",
+        "english": "Toothbrush",
+        "caption": "牙刷\nToothbrush",
+        "scene": "一支牙刷，刷毛清楚"
+      },
+      {
+        "position": 15,
+        "chinese": "毛巾",
+        "english": "Towel",
+        "caption": "毛巾\nTowel",
+        "scene": "一条整齐折叠毛巾"
+      },
+      {
+        "position": 16,
+        "chinese": "水杯",
+        "english": "Cup",
+        "caption": "水杯\nCup",
+        "scene": "一个单独水杯"
+      },
+      {
+        "position": 17,
+        "chinese": "碗",
+        "english": "Bowl",
+        "caption": "碗\nBowl",
+        "scene": "一只圆碗"
+      },
+      {
+        "position": 18,
+        "chinese": "勺子",
+        "english": "Spoon",
+        "caption": "勺子\nSpoon",
+        "scene": "一把勺子"
+      },
+      {
+        "position": 19,
+        "chinese": "钥匙",
+        "english": "Key",
+        "caption": "钥匙\nKey",
+        "scene": "一把黄铜钥匙"
+      },
+      {
+        "position": 20,
+        "chinese": "雨伞",
+        "english": "Umbrella",
+        "caption": "雨伞\nUmbrella",
+        "scene": "一把撑开的雨伞，弯柄完整"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/12/images/cover.png",
+        "sha256": "12f98d3f0ac2a71ec6c349f779be4e6438cbc24cf5870621d08ac362c42dde1c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-01.png",
+        "sha256": "34d76bd077d745c5ea37faec3149c15f560deda884578fbe9abc8adeda53d341",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-02.png",
+        "sha256": "6ee009a0122ebe01f8769021128438e2bde7e776c57b5952d2736c0635f407d3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-03.png",
+        "sha256": "6ac5fa35e1c57dd35a65d8f20c9a37689cfbba661413354e5e2f5216270ca91e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-04.png",
+        "sha256": "e513cc7f4fce8ee8c70c12cc4e08223be0f2f22d16e40bba13d5d94459fdae38",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-05.png",
+        "sha256": "8bcc08d1e6348c8adbaba52061f5484faaff480344796e98fdb72eab84657e84",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-06.png",
+        "sha256": "2f874926cf490953ca200725d251a0b4952b26dd55b80042f54f73666f5356d2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-07.png",
+        "sha256": "1cb1a12c23a0bf7a2d1476d786e29de7a53167d5f6f9940fe252564abb526602",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-08.png",
+        "sha256": "84c819d6a258fe411311f72677600b9bb55df04bb09e554bde7b2a62690df25d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-09.png",
+        "sha256": "607585b9ee4073d6070a5d79ac03721bc410a4c1f767c2961fe6fba4233876f9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-10.png",
+        "sha256": "675f464482415b27c13bdc4932876800c1389efbf8c2ac3aa041b01c9a655cf0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-11.png",
+        "sha256": "6ce6be67e4f689035a239908aa574e4967a062dfbbcbaaae5ab2eff673a5dac0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-12.png",
+        "sha256": "de237aaa991932ba7e880f250fb3537bf4caeef160bbab387d563d104139e4c0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-13.png",
+        "sha256": "e1b140788c5be312c8a4eb87c467dede689bf61b6fad6a9785d99dde4c0a5be3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-14.png",
+        "sha256": "0d27294a2a218fb054644e032924909ef0e60e8601101e9f6ef5bb4f2856eb7d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-15.png",
+        "sha256": "c142e4f0075983708e9dc241b8c884c9c9166f667fe863a42c7065c0e21a2cb7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-16.png",
+        "sha256": "ccdad3b42e1b9928dbca77cd7310f86bbfe255bf70a0585a66f52806ad2c1516",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-17.png",
+        "sha256": "a1d31b2e0ff03366aa465a6a2756d92d37f5c769c37b3abe654e2ad1a865dcc5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-18.png",
+        "sha256": "424307d196fbab2c7ec36d0b4452a5ea028bcbc1880e5521bef53feb07dab957",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-19.png",
+        "sha256": "b598018e8b0b8c78f32de369cf6ae10e3ddad6c62c7deb05643b7fa9898c4a3a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/12/images/page-20.png",
+        "sha256": "68a5cfebf21d8398e7b96ee658654c5a76f23c56df3f2aaa9edce63eff4365a0",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "13",
+    "title": "小小百科翻翻书·好玩玩具",
+    "topic": "好玩玩具",
+    "englishTitle": "Fun Toys",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "泰迪熊",
+        "english": "Teddy Bear",
+        "caption": "泰迪熊\nTeddy Bear",
+        "scene": "一只泰迪熊玩偶，毛绒质感，无服装"
+      },
+      {
+        "position": 2,
+        "chinese": "积木",
+        "english": "Blocks",
+        "caption": "积木\nBlocks",
+        "scene": "三块不同形状木积木组成一小组"
+      },
+      {
+        "position": 3,
+        "chinese": "玩具小火车",
+        "english": "Toy Train",
+        "caption": "玩具小火车\nToy Train",
+        "scene": "一辆玩具小火车，车头与两节简洁车厢相连"
+      },
+      {
+        "position": 4,
+        "chinese": "魔方",
+        "english": "Rubik's Cube",
+        "caption": "魔方\nRubik's Cube",
+        "scene": "一个三阶魔方，方格规整、无品牌"
+      },
+      {
+        "position": 5,
+        "chinese": "拼图",
+        "english": "Puzzle",
+        "caption": "拼图\nPuzzle",
+        "scene": "一小块未完成的彩色拼图，仅三片相连和一片待拼"
+      },
+      {
+        "position": 6,
+        "chinese": "摇摇木马",
+        "english": "Rocking Horse",
+        "caption": "摇摇木马\nRocking Horse",
+        "scene": "一匹摇摇木马，弧形底座完整"
+      },
+      {
+        "position": 7,
+        "chinese": "机器人",
+        "english": "Robot",
+        "caption": "机器人\nRobot",
+        "scene": "一个友善玩具机器人，关节明确"
+      },
+      {
+        "position": 8,
+        "chinese": "洋娃娃",
+        "english": "Doll",
+        "caption": "洋娃娃\nDoll",
+        "scene": "一个布娃娃，简单连衣裙、五官清楚"
+      },
+      {
+        "position": 9,
+        "chinese": "皮球",
+        "english": "Ball",
+        "caption": "皮球\nBall",
+        "scene": "一个彩色皮球"
+      },
+      {
+        "position": 10,
+        "chinese": "风筝",
+        "english": "Kite",
+        "caption": "风筝\nKite",
+        "scene": "一只菱形风筝，短飘带，不含天空"
+      },
+      {
+        "position": 11,
+        "chinese": "陀螺",
+        "english": "Spinning Top",
+        "caption": "陀螺\nSpinning Top",
+        "scene": "一个木制陀螺"
+      },
+      {
+        "position": 12,
+        "chinese": "溜溜球",
+        "english": "Yo-yo",
+        "caption": "溜溜球\nYo-yo",
+        "scene": "一个溜溜球，短线自然缠绕"
+      },
+      {
+        "position": 13,
+        "chinese": "滑板",
+        "english": "Skateboard",
+        "caption": "滑板\nSkateboard",
+        "scene": "一块滑板，四个轮子"
+      },
+      {
+        "position": 14,
+        "chinese": "泡泡棒",
+        "english": "Bubble Wand",
+        "caption": "泡泡棒\nBubble Wand",
+        "scene": "一根泡泡棒，圆环、手柄，不加飞散泡泡"
+      },
+      {
+        "position": 15,
+        "chinese": "不倒翁",
+        "english": "Roly-poly Toy",
+        "caption": "不倒翁\nRoly-poly Toy",
+        "scene": "一个圆底不倒翁玩具"
+      },
+      {
+        "position": 16,
+        "chinese": "拨浪鼓",
+        "english": "Rattle Drum",
+        "caption": "拨浪鼓\nRattle Drum",
+        "scene": "一个拨浪鼓，两侧短绳与小锤"
+      },
+      {
+        "position": 17,
+        "chinese": "橡皮鸭",
+        "english": "Rubber Duck",
+        "caption": "橡皮鸭\nRubber Duck",
+        "scene": "一只黄色橡皮鸭"
+      },
+      {
+        "position": 18,
+        "chinese": "沙桶与铲子",
+        "english": "Bucket & Spade",
+        "caption": "沙桶与铲子\nBucket & Spade",
+        "scene": "一个沙桶和一把配套小铲，唯一合理成组例外"
+      },
+      {
+        "position": 19,
+        "chinese": "套圈塔",
+        "english": "Stacking Rings",
+        "caption": "套圈塔\nStacking Rings",
+        "scene": "一座套圈塔，底座、中心杆与五个彩色圈"
+      },
+      {
+        "position": 20,
+        "chinese": "竹蜻蜓",
+        "english": "Bamboo Dragonfly",
+        "caption": "竹蜻蜓\nBamboo Dragonfly",
+        "scene": "一只竹蜻蜓，双叶片与一根竹杆"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/13/images/cover.png",
+        "sha256": "430218ccb100f20659e2100b2923ba0f07510e59c8bdbe88c84e194770f067d9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-01.png",
+        "sha256": "315e3242c51b33a1c70f6cd57ebfbe153e0fcb35f5ab00373d7945f0a2b06d65",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-02.png",
+        "sha256": "404d1039e0341ff708e44c284b1c126e8fca6fbeaa230b563f945ec98c1afacb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-03.png",
+        "sha256": "323c2217ad039861d958e7ee377fcd9308d480319783f1656771eb9864b521bd",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-04.png",
+        "sha256": "c749ff4fe892d4b58044f9bda7d494f00909628ce0b7a54da31007a2f4075984",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-05.png",
+        "sha256": "90decfc3ef1fe49d33e3fe2d3da7ca2d1c1b20a8646e2ab29f34b3303f38af41",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-06.png",
+        "sha256": "3bcbd5f88f1a1d4c9b9040ae6309dae56019c8e6486e1b09d59a47a1c110a8e7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-07.png",
+        "sha256": "3352b0e3ad3faaf920659ec4ca5a63cf697dbce40d67586c91b06eba2991d8d3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-08.png",
+        "sha256": "dbeaf03b8e6e7d2321c420fba69f40a0b8125b8b6f02987ab6a04feb9157f774",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-09.png",
+        "sha256": "a98bbd72b6cc259c4d329bda3522ec70c40f4668b3405da99a4609b2c8061ea5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-10.png",
+        "sha256": "4694072bd5bd764f1f7883f29f3b5657b1c07069d92e306720ccc0a9dc2fa9e4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-11.png",
+        "sha256": "fc9a26e1b1504e03164d33c7e65e499ecb949730d9bc6b03d9a80689d6f9d196",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-12.png",
+        "sha256": "f1ce915b0e93e9ce14f19ad6b9caae04018d146727d51b3c2d352ca228e80faf",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-13.png",
+        "sha256": "984318ea6418d841d4b2330d74df3c6f8376177c33c8daab9ea407ce094421c4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-14.png",
+        "sha256": "3f296db0626e9438712470a69cf47cdeb1128b1e0d4962bfa0862c9597e3983c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-15.png",
+        "sha256": "3718fbb2553fbc14c75ecc1cc2f7ae45b8ca874f61d3efc9eebdb4f143b9e9ec",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-16.png",
+        "sha256": "441b4b5e204cfa20a46d5b589403b01d91b0e5a7b55f2a1cad79ae5228f0fc28",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-17.png",
+        "sha256": "381d131e6f4e59b377aa406710a88de8718995d7da79a157d1cab296fc075a11",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-18.png",
+        "sha256": "dc9d9479d226ce8540133702343f25084885b89704dded11c9a678546f4f88cd",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-19.png",
+        "sha256": "914f110e5cfe3c49babecfa1d26bb548cc3a225186cfe64375e4d9db0b4718ae",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/13/images/page-20.png",
+        "sha256": "7fa0c2ed5a5ea0a2820036b9d7b6e55155abcf6783460fb8f9e9d1b188498303",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "14",
+    "title": "小小百科翻翻书·奇妙乐器",
+    "topic": "奇妙乐器",
+    "englishTitle": "Musical Instruments",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "钢琴",
+        "english": "Piano",
+        "caption": "钢琴\nPiano",
+        "scene": "一架迷你三角钢琴，琴盖半开，不加琴凳"
+      },
+      {
+        "position": 2,
+        "chinese": "小提琴",
+        "english": "Violin",
+        "caption": "小提琴\nViolin",
+        "scene": "一把小提琴与其琴弓，弦与琴码清楚"
+      },
+      {
+        "position": 3,
+        "chinese": "大提琴",
+        "english": "Cello",
+        "caption": "大提琴\nCello",
+        "scene": "一把大提琴，琴弓与尾柱"
+      },
+      {
+        "position": 4,
+        "chinese": "吉他",
+        "english": "Guitar",
+        "caption": "吉他\nGuitar",
+        "scene": "一把六弦木吉他"
+      },
+      {
+        "position": 5,
+        "chinese": "尤克里里",
+        "english": "Ukulele",
+        "caption": "尤克里里\nUkulele",
+        "scene": "一把四弦尤克里里，小巧轮廓"
+      },
+      {
+        "position": 6,
+        "chinese": "架子鼓",
+        "english": "Drum Set",
+        "caption": "架子鼓\nDrum Set",
+        "scene": "一套简洁架子鼓，必要鼓与镲，不加演奏者"
+      },
+      {
+        "position": 7,
+        "chinese": "手鼓",
+        "english": "Tambourine",
+        "caption": "手鼓\nTambourine",
+        "scene": "一只带金属小镲的手鼓"
+      },
+      {
+        "position": 8,
+        "chinese": "小号",
+        "english": "Trumpet",
+        "caption": "小号\nTrumpet",
+        "scene": "一把小号，三枚活塞"
+      },
+      {
+        "position": 9,
+        "chinese": "萨克斯",
+        "english": "Saxophone",
+        "caption": "萨克斯\nSaxophone",
+        "scene": "一把金色中音萨克斯，弯曲管体"
+      },
+      {
+        "position": 10,
+        "chinese": "长笛",
+        "english": "Flute",
+        "caption": "长笛\nFlute",
+        "scene": "一支横吹长笛，金属按键"
+      },
+      {
+        "position": 11,
+        "chinese": "口琴",
+        "english": "Harmonica",
+        "caption": "口琴\nHarmonica",
+        "scene": "一只口琴，吹孔规整"
+      },
+      {
+        "position": 12,
+        "chinese": "手风琴",
+        "english": "Accordion",
+        "caption": "手风琴\nAccordion",
+        "scene": "一架手风琴，键盘与风箱"
+      },
+      {
+        "position": 13,
+        "chinese": "竖琴",
+        "english": "Harp",
+        "caption": "竖琴\nHarp",
+        "scene": "一架竖琴，弦列完整"
+      },
+      {
+        "position": 14,
+        "chinese": "木琴",
+        "english": "Xylophone",
+        "caption": "木琴\nXylophone",
+        "scene": "一架木琴，木条与两根配套槌"
+      },
+      {
+        "position": 15,
+        "chinese": "沙锤",
+        "english": "Maracas",
+        "caption": "沙锤\nMaracas",
+        "scene": "一对沙锤"
+      },
+      {
+        "position": 16,
+        "chinese": "三角铁",
+        "english": "Triangle",
+        "caption": "三角铁\nTriangle",
+        "scene": "一个三角铁与配套敲棒，三角形留开口"
+      },
+      {
+        "position": 17,
+        "chinese": "邦戈鼓",
+        "english": "Bongos",
+        "caption": "邦戈鼓\nBongos",
+        "scene": "一对邦戈鼓，小鼓大鼓相连"
+      },
+      {
+        "position": 18,
+        "chinese": "古筝",
+        "english": "Guzheng",
+        "caption": "古筝\nGuzheng",
+        "scene": "一架古筝，长木共鸣箱、活动琴码与弦列"
+      },
+      {
+        "position": 19,
+        "chinese": "琵琶",
+        "english": "Pipa",
+        "caption": "琵琶\nPipa",
+        "scene": "一把四弦琵琶，梨形琴身"
+      },
+      {
+        "position": 20,
+        "chinese": "二胡",
+        "english": "Erhu",
+        "caption": "二胡\nErhu",
+        "scene": "一把二胡，两根弦、小音筒与穿弦琴弓"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/14/images/cover.png",
+        "sha256": "36721571c1833949cd02d01b907dc1e36210eea65d38def1070fa00593ca99de",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-01.png",
+        "sha256": "ee2c0390ac26684e96385d0c72a60e9201f6ae60bef91a04bb7d1f92aa9781b6",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-02.png",
+        "sha256": "642a6a1a50c78f0fd04aff0c715c8f68825858ea6d842e73e2170bb174f027ed",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-03.png",
+        "sha256": "9ff5af0e9e5e8d68580334fe3c8d8f5d9a7aaf106bb17f440efbd9e6105bdb7c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-04.png",
+        "sha256": "6aa8bac7d7f831664dbe783ffb9a675f929be65d7e67466b26f5a218e0c45f83",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-05.png",
+        "sha256": "1baf19a4f3fe1951558f6c82195ffd3d98b63c7bafb884535524c4556e989046",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-06.png",
+        "sha256": "38571b21331eda96b9ea178b85de03b3b43075c0e502661e6ab689f6e8e5e7e1",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-07.png",
+        "sha256": "939963ee891332f3cc31fea174d31a3cf565ef8ae90e811844c220e04fd2e2a7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-08.png",
+        "sha256": "4d1446f5f955eab656d5914695b519f5bbca58e5fee2017f0865ee5ab504dfe2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-09.png",
+        "sha256": "297aaa90930ab531996778cb623aaaa9a8e30693e45e45e8423243829d47e90b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-10.png",
+        "sha256": "6bf28e89d2cc41add732bfba8f0625f2505ef2be1934ee16837d47f520d46b4c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-11.png",
+        "sha256": "1058523bfb01794e67e351137a60e49151ad11dc4123d245916114e34fab7dd5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-12.png",
+        "sha256": "c49140ed0719fdceec12021e7272591e3097ff3b8f1fa95ccebc61891607f719",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-13.png",
+        "sha256": "c123b210846f5ea52cb7f50b3bf895dfec7c51d5d1d30a77de42a023f1f1dc53",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-14.png",
+        "sha256": "65dc40fc1fd022ba49c595ee60a50ab978b9afce26ef357c82870deb6a249b98",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-15.png",
+        "sha256": "dc0a9723527ec628e11babe1607e6d7335204f8cc24ec5579309edb0b47f1cb3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-16.png",
+        "sha256": "bc0c5c623bcaae4d152cf05d55a1dd0b783fea386a6363aa16447efaaafb1faf",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-17.png",
+        "sha256": "ec71923ddc1d3879a86393e0bd0f195825cdec14a07ae0fbb0e5ac3810d14d30",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-18.png",
+        "sha256": "8ea99852742875aa88fcde05e8cac2a0a9fb792310517af6b3385b8a2d49fadc",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-19.png",
+        "sha256": "13f6acb11d841922a23545bb3135842ca8dca58d30af3bc732ce94541b776176",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/14/images/page-20.png",
+        "sha256": "43592653ca068457bea0e5b978a3e6277f1ff7b337d98203def4c3b5b05fb6fe",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "15",
+    "title": "小小百科翻翻书·文具与运动",
+    "topic": "文具与运动",
+    "englishTitle": "School & Sports",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "铅笔",
+        "english": "Pencil",
+        "caption": "铅笔\nPencil",
+        "scene": "一支黄色铅笔，短尖笔头"
+      },
+      {
+        "position": 2,
+        "chinese": "蜡笔",
+        "english": "Crayon",
+        "caption": "蜡笔\nCrayon",
+        "scene": "一支红蜡笔"
+      },
+      {
+        "position": 3,
+        "chinese": "橡皮",
+        "english": "Eraser",
+        "caption": "橡皮\nEraser",
+        "scene": "一块白色橡皮"
+      },
+      {
+        "position": 4,
+        "chinese": "尺子",
+        "english": "Ruler",
+        "caption": "尺子\nRuler",
+        "scene": "一把透明直尺，简洁刻度、不加文字"
+      },
+      {
+        "position": 5,
+        "chinese": "剪刀",
+        "english": "Scissors",
+        "caption": "剪刀\nScissors",
+        "scene": "一把儿童圆头剪刀，合拢"
+      },
+      {
+        "position": 6,
+        "chinese": "胶水",
+        "english": "Glue",
+        "caption": "胶水\nGlue",
+        "scene": "一支胶棒，外壳无字"
+      },
+      {
+        "position": 7,
+        "chinese": "书本",
+        "english": "Book",
+        "caption": "书本\nBook",
+        "scene": "一本闭合书，封面纯色无字"
+      },
+      {
+        "position": 8,
+        "chinese": "调色盘",
+        "english": "Palette",
+        "caption": "调色盘\nPalette",
+        "scene": "一只调色盘，少量分区颜料"
+      },
+      {
+        "position": 9,
+        "chinese": "地球仪",
+        "english": "Globe",
+        "caption": "地球仪\nGlobe",
+        "scene": "一个地球仪，支架与球体，不加文字"
+      },
+      {
+        "position": 10,
+        "chinese": "放大镜",
+        "english": "Magnifying Glass",
+        "caption": "放大镜\nMagnifying Glass",
+        "scene": "一把放大镜"
+      },
+      {
+        "position": 11,
+        "chinese": "足球",
+        "english": "Soccer Ball",
+        "caption": "足球\nSoccer Ball",
+        "scene": "一个经典黑白足球"
+      },
+      {
+        "position": 12,
+        "chinese": "篮球",
+        "english": "Basketball",
+        "caption": "篮球\nBasketball",
+        "scene": "一个橙色篮球，黑色接缝"
+      },
+      {
+        "position": 13,
+        "chinese": "网球拍",
+        "english": "Tennis Racket",
+        "caption": "网球拍\nTennis Racket",
+        "scene": "一把网球拍，网格清楚"
+      },
+      {
+        "position": 14,
+        "chinese": "羽毛球",
+        "english": "Shuttlecock",
+        "caption": "羽毛球\nShuttlecock",
+        "scene": "一只羽毛球，软木底与羽毛裙，不画比赛场景"
+      },
+      {
+        "position": 15,
+        "chinese": "乒乓球拍",
+        "english": "Ping-Pong Paddle",
+        "caption": "乒乓球拍\nPing-Pong Paddle",
+        "scene": "一把乒乓球拍，红胶面、木柄"
+      },
+      {
+        "position": 16,
+        "chinese": "棒球棒",
+        "english": "Baseball Bat",
+        "caption": "棒球棒\nBaseball Bat",
+        "scene": "一根木棒球棒"
+      },
+      {
+        "position": 17,
+        "chinese": "跳绳",
+        "english": "Jump Rope",
+        "caption": "跳绳\nJump Rope",
+        "scene": "一根跳绳，两端手柄，绳子自然成圈"
+      },
+      {
+        "position": 18,
+        "chinese": "泳镜",
+        "english": "Swim Goggles",
+        "caption": "泳镜\nSwim Goggles",
+        "scene": "一副泳镜"
+      },
+      {
+        "position": 19,
+        "chinese": "轮滑鞋",
+        "english": "Roller Skates",
+        "caption": "轮滑鞋\nRoller Skates",
+        "scene": "一双直排轮滑鞋"
+      },
+      {
+        "position": 20,
+        "chinese": "头盔",
+        "english": "Helmet",
+        "caption": "头盔\nHelmet",
+        "scene": "一顶运动头盔，通风孔与扣带"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/15/images/cover.png",
+        "sha256": "b46cec5414573db2d0816da50c16c9617c25f9da51b9c6ee5d05fd1405608f5a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-01.png",
+        "sha256": "d544529b907af875d9c52588307bbb7562b8f679bfec7893d32f434b5b74aa3c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-02.png",
+        "sha256": "79d9f712c13f4e5119bae4f93feb2fc28885429da3b512db4537bedb089968fc",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-03.png",
+        "sha256": "52e17fbf106313b9fccf74c7de36b7a83897c863dcc70c261043cb8f544a7101",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-04.png",
+        "sha256": "adf1d61e8c26291d5b1a353b8c6715b461d665dc341b5ec20b57faf8403a3a7e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-05.png",
+        "sha256": "d8686cb4c995e5bdf7ba825c8d4fa117467884f41420002936b7534c2ecc528d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-06.png",
+        "sha256": "d3216c5602eb33817bd1e8f8f1b374e98395f2891f5de623cecd160296f35e76",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-07.png",
+        "sha256": "346fe6e9810132477aaee08125315de76a824a1e44a151259d50cb788220ba05",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-08.png",
+        "sha256": "21c90d4d3449f417ef67248183bf4a2b7e7e5f647fa53382764b3bd1ec716351",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-09.png",
+        "sha256": "b30033eeb7b96a0a63e69c3243b6a68b65da6739b31cf4922a4867a159ab1ea5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-10.png",
+        "sha256": "08f5f71c46462c0a75614b7bc4655c63726ced88b405b50b17b1e050b27c8137",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-11.png",
+        "sha256": "10a82fb910988967769cbcc2b3b6efc38e34262dbfee0ed7632cd7cc187c703c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-12.png",
+        "sha256": "6917ffac84ac4ebea0210a34df91cae96b94aafc31fb31d98d7a8a9a5aaf0d95",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-13.png",
+        "sha256": "d6f60d4b2f7e865ad42420b829effe1e931c6e027767c9b477ffe9b863eb766e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-14.png",
+        "sha256": "8c1af5fe4aeb2ded212c8a456df2b4bcacfb553a100ecf6f006dc479d25b6dee",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-15.png",
+        "sha256": "a3dfa6d43dece128bc61a0d42c2dce4959bee58d5219391d463fced1bd3a4af9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-16.png",
+        "sha256": "34939a45e9965969295c967ea4c3ad212b4f23c2305e82da4e94776ee712b8d8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-17.png",
+        "sha256": "b83bafaa2111bcc1a48b8bfcde6bc5e32fb4281ee6948a94fcf80f5f73a4459b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-18.png",
+        "sha256": "b9a290e0b2f8e6a36c3ddd923f6ea90aaa6851f2836eca97b0fa73a4797b61a7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-19.png",
+        "sha256": "5323743b5c283f1edfae74a1d4ab29505a0fc24419973ee391cd0a8fc8a5a9b4",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/15/images/page-20.png",
+        "sha256": "787ddd524b390bfa9802968e249258d90071bffb31a5e0d83d33deeb65ea3fd7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "16",
+    "title": "小小百科翻翻书·颜色与形状",
+    "topic": "颜色与形状",
+    "englishTitle": "Colors & Shapes",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "红色",
+        "english": "Red",
+        "caption": "红色\nRed",
+        "scene": "一只red色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 2,
+        "chinese": "黄色",
+        "english": "Yellow",
+        "caption": "黄色\nYellow",
+        "scene": "一只yellow色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 3,
+        "chinese": "蓝色",
+        "english": "Blue",
+        "caption": "蓝色\nBlue",
+        "scene": "一只blue色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 4,
+        "chinese": "绿色",
+        "english": "Green",
+        "caption": "绿色\nGreen",
+        "scene": "一只green色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 5,
+        "chinese": "橙色",
+        "english": "Orange",
+        "caption": "橙色\nOrange",
+        "scene": "一只orange色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 6,
+        "chinese": "紫色",
+        "english": "Purple",
+        "caption": "紫色\nPurple",
+        "scene": "一只purple色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 7,
+        "chinese": "粉色",
+        "english": "Pink",
+        "caption": "粉色\nPink",
+        "scene": "一只pink色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 8,
+        "chinese": "棕色",
+        "english": "Brown",
+        "caption": "棕色\nBrown",
+        "scene": "一只brown色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 9,
+        "chinese": "黑色",
+        "english": "Black",
+        "caption": "黑色\nBlack",
+        "scene": "一只black色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 10,
+        "chinese": "白色",
+        "english": "White",
+        "caption": "白色\nWhite",
+        "scene": "一只white色气球，统一轮廓、材质、视角、结头；不加长绳，白气球用浅灰自身阴影辨识"
+      },
+      {
+        "position": 11,
+        "chinese": "圆形",
+        "english": "Circle",
+        "caption": "圆形\nCircle",
+        "scene": "一个圆形薄立体块，正面仍是圆而非球"
+      },
+      {
+        "position": 12,
+        "chinese": "正方形",
+        "english": "Square",
+        "caption": "正方形\nSquare",
+        "scene": "一个正方形薄立体块，不画成立方体"
+      },
+      {
+        "position": 13,
+        "chinese": "三角形",
+        "english": "Triangle",
+        "caption": "三角形\nTriangle",
+        "scene": "一个三角形薄立体块"
+      },
+      {
+        "position": 14,
+        "chinese": "长方形",
+        "english": "Rectangle",
+        "caption": "长方形\nRectangle",
+        "scene": "一个长方形薄立体块"
+      },
+      {
+        "position": 15,
+        "chinese": "椭圆形",
+        "english": "Oval",
+        "caption": "椭圆形\nOval",
+        "scene": "一个椭圆形薄立体块"
+      },
+      {
+        "position": 16,
+        "chinese": "五角星",
+        "english": "Star",
+        "caption": "五角星\nStar",
+        "scene": "一个五角星薄立体块"
+      },
+      {
+        "position": 17,
+        "chinese": "心形",
+        "english": "Heart",
+        "caption": "心形\nHeart",
+        "scene": "一个心形薄立体块"
+      },
+      {
+        "position": 18,
+        "chinese": "菱形",
+        "english": "Diamond",
+        "caption": "菱形\nDiamond",
+        "scene": "一个菱形薄立体块"
+      },
+      {
+        "position": 19,
+        "chinese": "月牙形",
+        "english": "Crescent",
+        "caption": "月牙形\nCrescent",
+        "scene": "一个月牙形薄立体块"
+      },
+      {
+        "position": 20,
+        "chinese": "立方体",
+        "english": "Cube",
+        "caption": "立方体\nCube",
+        "scene": "一个真正的立方体，三面可见、透视合理"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/16/images/cover.png",
+        "sha256": "e14a10c21cc0ed7d2c728329ac8dd1183a33e35c0efd0f928f44461b1f638718",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-01.png",
+        "sha256": "c3e777001dbc5d828cbbe7867a29b9c2ed9719c7c88e0536f8364811a1aa08ba",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-02.png",
+        "sha256": "6e359c54f5679742c7334746d1cf3c64905d81287df67d6f5f0692fde9112725",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-03.png",
+        "sha256": "b8398278fe4ec4b27d034735384d15afc97a04b8006e58413660741dc67c1682",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-04.png",
+        "sha256": "6b8e27a6f94d086d7fff5caca1a5c5c0281e7a5f018d0e48f6905803c035d438",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-05.png",
+        "sha256": "89d5ea61f163985bde03ff454edd7489b3ae9aeebaf83238bba1029d48eb34f9",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-06.png",
+        "sha256": "5757e774eb742523016036d0cb07911ee2fdd80a41a4aad5b87492e821e4ac9d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-07.png",
+        "sha256": "66f92bf21ea0b30cbe2b1d87f2ea4dabf1f6436e285255b8457f64f35ede1b0b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-08.png",
+        "sha256": "94e6f6c92267832ad9f59eede5864a881a5e62895c7280b242bd20b23c5b7af8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-09.png",
+        "sha256": "7de71444ed78e5f1127d961983ce7fdb80d2710c6f8e9c31f884bcc395d325ae",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-10.png",
+        "sha256": "8b6fca487d270c32bdc65d1aea3b220c2f1a3424f1e919018f7f59564076b8a8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-11.png",
+        "sha256": "7f791408c6d4cb415a87c83c7c01836442c5664c430e3662f155eceea747ec86",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-12.png",
+        "sha256": "fb178f960bca567194ef1f9496ebd9c126e09759e19afc3f8d3d3462f851fd6b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-13.png",
+        "sha256": "29adf0a037b9ea702929a94f950b43d5f1734f7d96fd63933b80a8aece4a9e25",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-14.png",
+        "sha256": "3c3063e7548d2fe766eb06b5f4acb0ea006793802a210cb4490c8b0f41b64366",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-15.png",
+        "sha256": "247f6dfb1e6b45347c627a0ddd74f545fbd84cc9892535484b55f560c6b0ef77",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-16.png",
+        "sha256": "a2d6e959f16465d06c02bc67521af4e3198e7c4dae3e7eba306dc52396b36c8f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-17.png",
+        "sha256": "85e011e91849131dbd17dc157f8370d1d0f02714ea973d7642ce3714180d002d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-18.png",
+        "sha256": "2a1d790f9c75b00c596d64e0a75b9f024742eac664efbb1879a14dbb828de002",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-19.png",
+        "sha256": "74abf135116794be3ed5b78d99859279fcb7bf4eb6fc8441dc673f5c7b964169",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/16/images/page-20.png",
+        "sha256": "2cab85451f97870a7aeaef6aa48dd6603284e77b0d13032d9cfd70f9bebac731",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "17",
+    "title": "小小百科翻翻书·认识数字",
+    "topic": "认识数字",
+    "englishTitle": "Numbers",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "一",
+        "english": "One",
+        "caption": "一\nOne",
+        "scene": "糖果色圆润3D阿拉伯数字1；1颗红苹果；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 2,
+        "chinese": "二",
+        "english": "Two",
+        "caption": "二\nTwo",
+        "scene": "糖果色圆润3D阿拉伯数字2；2只小黄鸭；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 3,
+        "chinese": "三",
+        "english": "Three",
+        "caption": "三\nThree",
+        "scene": "糖果色圆润3D阿拉伯数字3；3只蝴蝶；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 4,
+        "chinese": "四",
+        "english": "Four",
+        "caption": "四\nFour",
+        "scene": "糖果色圆润3D阿拉伯数字4；4叶幸运草；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。此页按原文画一株四叶幸运草，只能作为数四片叶子的例子，不误画四株四叶草。"
+      },
+      {
+        "position": 5,
+        "chinese": "五",
+        "english": "Five",
+        "caption": "五\nFive",
+        "scene": "糖果色圆润3D阿拉伯数字5；5颗海星；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 6,
+        "chinese": "六",
+        "english": "Six",
+        "caption": "六\nSix",
+        "scene": "糖果色圆润3D阿拉伯数字6；6颗樱桃；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 7,
+        "chinese": "七",
+        "english": "Seven",
+        "caption": "七\nSeven",
+        "scene": "糖果色圆润3D阿拉伯数字7；7色彩虹糖；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。恰好七颗彩虹糖，每颗一种颜色。"
+      },
+      {
+        "position": 8,
+        "chinese": "八",
+        "english": "Eight",
+        "caption": "八\nEight",
+        "scene": "糖果色圆润3D阿拉伯数字8；8块积木；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 9,
+        "chinese": "九",
+        "english": "Nine",
+        "caption": "九\nNine",
+        "scene": "糖果色圆润3D阿拉伯数字9；9个彩色气球；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 10,
+        "chinese": "十",
+        "english": "Ten",
+        "caption": "十\nTen",
+        "scene": "糖果色圆润3D阿拉伯数字10；10颗小星星；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 11,
+        "chinese": "十一",
+        "english": "Eleven",
+        "caption": "十一\nEleven",
+        "scene": "糖果色圆润3D阿拉伯数字11；11颗草莓；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 12,
+        "chinese": "十二",
+        "english": "Twelve",
+        "caption": "十二\nTwelve",
+        "scene": "糖果色圆润3D阿拉伯数字12；12支彩色铅笔；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 13,
+        "chinese": "十三",
+        "english": "Thirteen",
+        "caption": "十三\nThirteen",
+        "scene": "糖果色圆润3D阿拉伯数字13；13朵小雏菊；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 14,
+        "chinese": "十四",
+        "english": "Fourteen",
+        "caption": "十四\nFourteen",
+        "scene": "糖果色圆润3D阿拉伯数字14；14颗松果；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 15,
+        "chinese": "十五",
+        "english": "Fifteen",
+        "caption": "十五\nFifteen",
+        "scene": "糖果色圆润3D阿拉伯数字15；15枚彩色纽扣；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 16,
+        "chinese": "十六",
+        "english": "Sixteen",
+        "caption": "十六\nSixteen",
+        "scene": "糖果色圆润3D阿拉伯数字16；16颗玻璃弹珠；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 17,
+        "chinese": "十七",
+        "english": "Seventeen",
+        "caption": "十七\nSeventeen",
+        "scene": "糖果色圆润3D阿拉伯数字17；17片银杏叶；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 18,
+        "chinese": "十八",
+        "english": "Eighteen",
+        "caption": "十八\nEighteen",
+        "scene": "糖果色圆润3D阿拉伯数字18；18颗蓝莓；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 19,
+        "chinese": "十九",
+        "english": "Nineteen",
+        "caption": "十九\nNineteen",
+        "scene": "糖果色圆润3D阿拉伯数字19；19个小贝壳；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      },
+      {
+        "position": 20,
+        "chinese": "二十",
+        "english": "Twenty",
+        "caption": "二十\nTwenty",
+        "scene": "糖果色圆润3D阿拉伯数字20；20颗金币；对应数量须准确、互不遮挡、可逐个点数，10以上按5个一组有序摆放，不添其他装饰。"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/17/images/cover.png",
+        "sha256": "3f96629c83ba3e819ac26c121360505bfd9e663b4ee180bce6c4fd9b3bc69253",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-01.png",
+        "sha256": "0f8a9ee1dc9a8ff01a319b9a24cf5ae9a9149eaee3a27b65eb203eb5dac33b96",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-02.png",
+        "sha256": "0c6e96fbd9eccbc10afddaba3200da223cdc1dc1af05d4029d6b69c78e9a1ed3",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-03.png",
+        "sha256": "ec289b15527500475048779fe9318fdb2e2972cf9331b1ab04ad855be8e430f7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-04.png",
+        "sha256": "3d7170673477289a4641f8579e0657d32f95d095ea67ee7971ca6cd221e5c6ae",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-05.png",
+        "sha256": "4ef52af8912313d30b8e861847f918b37fc88e3ad6ac5507f174ccbb24c1b625",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-06.png",
+        "sha256": "324fb097f9e5c906795158100453cdc7bb38a90eec45495612bf6fa305fcae21",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-07.png",
+        "sha256": "54a7149a35cbc83d17e0153ce4bd2668037b0622e1e71851dab8117c89d08d41",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-08.png",
+        "sha256": "cf1346962fa38df9691d9fff025f42206b079f332880c7fd9fb37f4b7332d81a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-09.png",
+        "sha256": "08dca3e305dfa58875377c4f5d12a56bc380750a31afde88667703716bca1687",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-10.png",
+        "sha256": "ed2639ddee60c1365a5a9bac0799d1d0c21e9c2878fb843d9e7bd9f799cb946f",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-11.png",
+        "sha256": "5e15b027f0686ad9717e4769028a323140fc9c57e568fce5656add217a4e2f8c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-12.png",
+        "sha256": "8e3c64451c8f2afef3374d0892add74cc70376b27d2ffdf8f08a4e9291f5d2cf",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-13.png",
+        "sha256": "82516ed26c444e5bb102d0c5a6f3915570be5757d743d8ed65ec444f87205d45",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-14.png",
+        "sha256": "080389ce139c222fed3d604761b2dacb40b890bf30c473aa2fe6d8cc37eddcf8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-15.png",
+        "sha256": "0ee36e126c9de1068d9dcdd40103eedfa8204d0495eee3b5efee9b7389419bae",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-16.png",
+        "sha256": "e05060764cf5948b9a98fbe3314671418efda7fb216977f15e8aa78d787bee3b",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-17.png",
+        "sha256": "405e7dd8fe906ad1d6fc1b56e06c894c7d899f5b2dbaf3e87ce54be74dbcb71e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-18.png",
+        "sha256": "2fb1ef8d3fa4ae342ca3044044d4b39beaa445a92660dce31564d9a3a3204097",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-19.png",
+        "sha256": "2f11592a16010519756429e16e22a539e46b5d89ff1cfb8ddd51e895389aac86",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/17/images/page-20.png",
+        "sha256": "5957756ee31ee4d4418f50cc621cabbbe46f1c5a25f2a250719d29a14641805a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "18",
+    "title": "小小百科翻翻书·海陆空交通",
+    "topic": "海陆空交通",
+    "englishTitle": "Vehicles",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "小汽车",
+        "english": "Car",
+        "caption": "小汽车\nCar",
+        "scene": "一辆红色小汽车，四轮结构"
+      },
+      {
+        "position": 2,
+        "chinese": "公交车",
+        "english": "Bus",
+        "caption": "公交车\nBus",
+        "scene": "一辆公交车，完整车窗车门"
+      },
+      {
+        "position": 3,
+        "chinese": "出租车",
+        "english": "Taxi",
+        "caption": "出租车\nTaxi",
+        "scene": "一辆黄色出租车，顶灯无字"
+      },
+      {
+        "position": 4,
+        "chinese": "房车",
+        "english": "Camper Van",
+        "caption": "房车\nCamper Van",
+        "scene": "一辆白色房车，侧窗与完整车轮"
+      },
+      {
+        "position": 5,
+        "chinese": "摩托车",
+        "english": "Motorcycle",
+        "caption": "摩托车\nMotorcycle",
+        "scene": "一辆摩托车，两轮完整"
+      },
+      {
+        "position": 6,
+        "chinese": "自行车",
+        "english": "Bicycle",
+        "caption": "自行车\nBicycle",
+        "scene": "一辆自行车，两轮、车架、踏板、车把"
+      },
+      {
+        "position": 7,
+        "chinese": "滑板车",
+        "english": "Scooter",
+        "caption": "滑板车\nScooter",
+        "scene": "一辆两轮脚踏滑板车，不带骑手"
+      },
+      {
+        "position": 8,
+        "chinese": "高铁",
+        "english": "High-Speed Train",
+        "caption": "高铁\nHigh-Speed Train",
+        "scene": "一列短编组高铁模型，流线车头"
+      },
+      {
+        "position": 9,
+        "chinese": "蒸汽火车",
+        "english": "Steam Train",
+        "caption": "蒸汽火车\nSteam Train",
+        "scene": "一辆蒸汽火车头，车轮连杆与烟囱，无浓烟"
+      },
+      {
+        "position": 10,
+        "chinese": "地铁",
+        "english": "Subway",
+        "caption": "地铁\nSubway",
+        "scene": "一节地铁车厢，车门车窗"
+      },
+      {
+        "position": 11,
+        "chinese": "飞机",
+        "english": "Airplane",
+        "caption": "飞机\nAirplane",
+        "scene": "一架客机，两翼两尾翼、发动机位置正确"
+      },
+      {
+        "position": 12,
+        "chinese": "直升机",
+        "english": "Helicopter",
+        "caption": "直升机\nHelicopter",
+        "scene": "一架直升机，主旋翼与尾旋翼"
+      },
+      {
+        "position": 13,
+        "chinese": "热气球",
+        "english": "Hot Air Balloon",
+        "caption": "热气球\nHot Air Balloon",
+        "scene": "一个热气球，完整球囊与吊篮"
+      },
+      {
+        "position": 14,
+        "chinese": "飞艇",
+        "english": "Airship",
+        "caption": "飞艇\nAirship",
+        "scene": "一艘飞艇，纺锤囊体与小吊舱"
+      },
+      {
+        "position": 15,
+        "chinese": "游轮",
+        "english": "Cruise Ship",
+        "caption": "游轮\nCruise Ship",
+        "scene": "一艘游轮，船体与甲板"
+      },
+      {
+        "position": 16,
+        "chinese": "帆船",
+        "english": "Sailboat",
+        "caption": "帆船\nSailboat",
+        "scene": "一艘帆船，桅杆与帆，船体完整"
+      },
+      {
+        "position": 17,
+        "chinese": "快艇",
+        "english": "Speedboat",
+        "caption": "快艇\nSpeedboat",
+        "scene": "一艘快艇"
+      },
+      {
+        "position": 18,
+        "chinese": "潜水艇",
+        "english": "Submarine",
+        "caption": "潜水艇\nSubmarine",
+        "scene": "一艘潜水艇，潜望镜与尾舵"
+      },
+      {
+        "position": 19,
+        "chinese": "缆车",
+        "english": "Cable Car",
+        "caption": "缆车\nCable Car",
+        "scene": "一个缆车轿厢，顶部悬挂机构，不画长缆绳"
+      },
+      {
+        "position": 20,
+        "chinese": "雪橇",
+        "english": "Sled",
+        "caption": "雪橇\nSled",
+        "scene": "一架木雪橇，滑轨完整"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/18/images/cover.png",
+        "sha256": "63aeeb7edb80156ab9c8d4d6cd39a8b0b87f882f2542397d32662ac9670d0112",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-01.png",
+        "sha256": "6e37e2ce4a952626c376628d3c97d9cd7d570a71b4f4f20038050549d247d95d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-02.png",
+        "sha256": "642790452fba67e9bffe850f6c322102924cecaf281bd74a86b2e939ef6168d8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-03.png",
+        "sha256": "d5e3b1bb62d370a003012dd166826eb932f173b5ebec24813af76627e96f72aa",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-04.png",
+        "sha256": "7b3777581af788d981703a6777b8620913d401670419fdd3c4f02bc7c125f649",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-05.png",
+        "sha256": "52706396f19da48e5b5ff5776bdf570d71e577a35053fbc59e982892ffcee5a5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-06.png",
+        "sha256": "9b5ef98c59aa7db96074afcbe3c32d14f572b1c5f1284c636890fdd877a4a52a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-07.png",
+        "sha256": "4c896ff0c3b775e6b37b32f74b4e91f939328584b38434e96eba0ce44e25b93c",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-08.png",
+        "sha256": "470fc3b7f96cedbdae5743f3449a078e530d81aabaaafe93fe582de9f210b3b5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-09.png",
+        "sha256": "1a866f220d0d8e24f5ffb836f91cb53193b8fdfc7e6dba83dbe4ffa6088946dc",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-10.png",
+        "sha256": "cb91afdf137ea3c986354068240b7ed29465b78b5ede88f1206f96ddcb20296d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-11.png",
+        "sha256": "ccac9ab0237777fc58ae2240971dc4515835d81852b4c31e38aa1d75867c12e8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-12.png",
+        "sha256": "483f6f8d50fb948dbee60bb571ac6c559a132508e1d0dff97db97da5e419a795",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-13.png",
+        "sha256": "e124aa0a75da204cc40b24d91e759758a175ae649a112f6af4e42c81f782f26e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-14.png",
+        "sha256": "5a74ee57ff2c313403a8000cf9b3ec446e1e743f46b7e7add47c8db278594550",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-15.png",
+        "sha256": "140461c9e231e4230e682a39d5ca364bc797c1124aaa6f8dfd887037b69ed53e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-16.png",
+        "sha256": "7bb1fb9aba9788bad5bd4e20911365f42e06003abf3b52fdc7aec46ba02a1648",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-17.png",
+        "sha256": "3bffa34bbbb850eee003d39fed105bf3c2cc1b8f49f0791e89bab840ad30c45a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-18.png",
+        "sha256": "67f87f3e1b728851d891a96e019f6a0c2b1d3b34a7698bb79811c651ef24a162",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-19.png",
+        "sha256": "4bad54f75dd84e26e9998533eaf36221ee7f777a79de987a5fc3796e31052216",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/18/images/page-20.png",
+        "sha256": "ca96c69702c34f9705f95cd3e90121b8f828a2fcd7e24b04bb450a150a8fad8e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "19",
+    "title": "小小百科翻翻书·工程与救援车",
+    "topic": "工程与救援车",
+    "englishTitle": "Trucks & Rescue",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "挖掘机",
+        "english": "Excavator",
+        "caption": "挖掘机\nExcavator",
+        "scene": "一辆黄色履带挖掘机，动臂、斗杆、铲斗"
+      },
+      {
+        "position": 2,
+        "chinese": "推土机",
+        "english": "Bulldozer",
+        "caption": "推土机\nBulldozer",
+        "scene": "一辆履带推土机，前方宽铲刀"
+      },
+      {
+        "position": 3,
+        "chinese": "水泥搅拌车",
+        "english": "Cement Mixer",
+        "caption": "水泥搅拌车\nCement Mixer",
+        "scene": "一辆水泥搅拌车，倾斜滚筒"
+      },
+      {
+        "position": 4,
+        "chinese": "自卸卡车",
+        "english": "Dump Truck",
+        "caption": "自卸卡车\nDump Truck",
+        "scene": "一辆自卸卡车，货斗略抬"
+      },
+      {
+        "position": 5,
+        "chinese": "起重机",
+        "english": "Crane Truck",
+        "caption": "起重机\nCrane Truck",
+        "scene": "一辆起重机卡车，吊臂与单个吊钩"
+      },
+      {
+        "position": 6,
+        "chinese": "压路机",
+        "english": "Road Roller",
+        "caption": "压路机\nRoad Roller",
+        "scene": "一辆压路机，前方大钢轮"
+      },
+      {
+        "position": 7,
+        "chinese": "装载机",
+        "english": "Loader",
+        "caption": "装载机\nLoader",
+        "scene": "一辆轮式装载机，前方铲斗"
+      },
+      {
+        "position": 8,
+        "chinese": "叉车",
+        "english": "Forklift",
+        "caption": "叉车\nForklift",
+        "scene": "一辆叉车，前方两根货叉，货叉低位"
+      },
+      {
+        "position": 9,
+        "chinese": "拖拉机",
+        "english": "Tractor",
+        "caption": "拖拉机\nTractor",
+        "scene": "一辆拖拉机，后轮明显大于前轮"
+      },
+      {
+        "position": 10,
+        "chinese": "收割机",
+        "english": "Harvester",
+        "caption": "收割机\nHarvester",
+        "scene": "一辆联合收割机，前方割台"
+      },
+      {
+        "position": 11,
+        "chinese": "消防车",
+        "english": "Fire Truck",
+        "caption": "消防车\nFire Truck",
+        "scene": "一辆红色消防车，伸缩梯收合"
+      },
+      {
+        "position": 12,
+        "chinese": "警车",
+        "english": "Police Car",
+        "caption": "警车\nPolice Car",
+        "scene": "一辆蓝白警车，红蓝顶灯，无字"
+      },
+      {
+        "position": 13,
+        "chinese": "救护车",
+        "english": "Ambulance",
+        "caption": "救护车\nAmbulance",
+        "scene": "一辆白色救护车，简单医疗标识、无字"
+      },
+      {
+        "position": 14,
+        "chinese": "清障拖车",
+        "english": "Tow Truck",
+        "caption": "清障拖车\nTow Truck",
+        "scene": "一辆清障拖车，后部拖曳平台"
+      },
+      {
+        "position": 15,
+        "chinese": "垃圾车",
+        "english": "Garbage Truck",
+        "caption": "垃圾车\nGarbage Truck",
+        "scene": "一辆垃圾车，封闭垃圾厢"
+      },
+      {
+        "position": 16,
+        "chinese": "洒水车",
+        "english": "Water Truck",
+        "caption": "洒水车\nWater Truck",
+        "scene": "一辆洒水车，水罐与喷头，不喷出水花"
+      },
+      {
+        "position": 17,
+        "chinese": "扫路车",
+        "english": "Street Sweeper",
+        "caption": "扫路车\nStreet Sweeper",
+        "scene": "一辆扫路车，底部圆刷"
+      },
+      {
+        "position": 18,
+        "chinese": "邮政车",
+        "english": "Mail Truck",
+        "caption": "邮政车\nMail Truck",
+        "scene": "一辆绿色邮政厢式车，无标识和文字"
+      },
+      {
+        "position": 19,
+        "chinese": "校车",
+        "english": "School Bus",
+        "caption": "校车\nSchool Bus",
+        "scene": "一辆黄色校车，无文字"
+      },
+      {
+        "position": 20,
+        "chinese": "除雪车",
+        "english": "Snowplow",
+        "caption": "除雪车\nSnowplow",
+        "scene": "一辆除雪车，前置宽雪铲，不画雪景"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/19/images/cover.png",
+        "sha256": "00c5a75318526276063509adb839cc76c3cb8d68b3102d2efc91f6b417e29d91",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-01.png",
+        "sha256": "6011ba440dbafb523ae3f14ba2c635e3fa698db3bc78f5ebd0bee3979bf634d8",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-02.png",
+        "sha256": "1e20a3b9572a5bdd5e8477cdfe1ddf17e105df808031db14772d7e8db408b638",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-03.png",
+        "sha256": "15137a406aa304d27aa19329f91bb9609f77db5cdef2ad1363b95e836eaa9a94",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-04.png",
+        "sha256": "41c21d936291b35a1cdb2d4921a6dfdd59c0806b0dfe3074c4f669f9ca544e81",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-05.png",
+        "sha256": "0f6c205fd34890d5a2e39e48caa1cd1ef91ec830424daf518b0b1b9bc9f5f032",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-06.png",
+        "sha256": "8371a79f000929fd0bf1fa30fb5e0fa5679089edbf70835265fb5d5179f486c7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-07.png",
+        "sha256": "255643e0aa57d7d130b7237dc8102266612fd1979e859a865e316005dbc40bfb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-08.png",
+        "sha256": "4e313a484688f49dec1dc12a01831ac0f499bfe828b0ed76b3df86c0a60ad9e7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-09.png",
+        "sha256": "ae1585d997e0fd2e173616ec589e8d1e14c79ac5bef0ab9d3c19fe27e329c4cd",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-10.png",
+        "sha256": "271af081de39ecbe19577c6458f2bad14e1f18071128fabe783014d6b12c42f2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-11.png",
+        "sha256": "901d784f6d0e1f78939f29db51e248099c14140bfd4dd9e61ab87f2d5f26adb2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-12.png",
+        "sha256": "29a11bec2cd7d5712329300bc8f1062c967c5e80fa272b2d22e4dce4c11bac28",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-13.png",
+        "sha256": "f6d2250a2f08172cfd10586afd980e8e831915179a230f10436df5b7fe44c831",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-14.png",
+        "sha256": "5e59569c5f3a047f8c1815858b39cdea7a824a4ccbbcf2ffcd151918d212f5cb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-15.png",
+        "sha256": "f4453795ce7f2325471c44fdb388017f3354d813b0cfa5d04816d9b71cc60f11",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-16.png",
+        "sha256": "f8fd22908e130ba56e5e70aaa3d096cc2ea8129e629223600d66ee1fc6e3ad73",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-17.png",
+        "sha256": "96c229a201b97263e3ec35c72b672dc741465ce8eeb7046d36a5425478fc8207",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-18.png",
+        "sha256": "ae078ab7ed01b00b4e6b029b43c7c7242f6a3d46a1b316b48383de166c20400e",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-19.png",
+        "sha256": "0869e7d5390ba12aae310556d38c36497ddff6b628e7b551df50500d620e7420",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/19/images/page-20.png",
+        "sha256": "c7befce1f2216800363ea6963639305775d7b6f97474a9aa5fccb826aa576eb7",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "20",
+    "title": "小小百科翻翻书·太空与自然",
+    "topic": "太空与自然",
+    "englishTitle": "Space & Nature",
+    "pages": [
+      {
+        "position": 1,
+        "chinese": "太阳",
+        "english": "Sun",
+        "caption": "太阳\nSun",
+        "scene": "一个太阳球体，暖橙黄表面与细微日珥，不画人脸"
+      },
+      {
+        "position": 2,
+        "chinese": "月亮",
+        "english": "Moon",
+        "caption": "月亮\nMoon",
+        "scene": "一颗灰色月球球体，真实环形山，不画会发光的星星"
+      },
+      {
+        "position": 3,
+        "chinese": "地球",
+        "english": "Earth",
+        "caption": "地球\nEarth",
+        "scene": "一颗地球球体，蓝色海洋、可辨陆地与白云，不画支架"
+      },
+      {
+        "position": 4,
+        "chinese": "土星",
+        "english": "Saturn",
+        "caption": "土星\nSaturn",
+        "scene": "一颗土星球体，清晰薄环，环不穿过球体"
+      },
+      {
+        "position": 5,
+        "chinese": "火星",
+        "english": "Mars",
+        "caption": "火星\nMars",
+        "scene": "一颗铁锈红火星球体，暗色地貌"
+      },
+      {
+        "position": 6,
+        "chinese": "星星",
+        "english": "Star",
+        "caption": "星星\nStar",
+        "scene": "一颗立体五角星教学符号，非真实恒星外形"
+      },
+      {
+        "position": 7,
+        "chinese": "彗星",
+        "english": "Comet",
+        "caption": "彗星\nComet",
+        "scene": "一颗带细长尾迹的彗星模型，不附带星空"
+      },
+      {
+        "position": 8,
+        "chinese": "火箭",
+        "english": "Rocket",
+        "caption": "火箭\nRocket",
+        "scene": "一枚直立火箭，分级结构与尾部喷口，未发射"
+      },
+      {
+        "position": 9,
+        "chinese": "空间站",
+        "english": "Space Station",
+        "caption": "空间站\nSpace Station",
+        "scene": "一个空间站模型，舱体与展开太阳能板"
+      },
+      {
+        "position": 10,
+        "chinese": "人造卫星",
+        "english": "Satellite",
+        "caption": "人造卫星\nSatellite",
+        "scene": "一颗人造卫星，主体与成对太阳能翼"
+      },
+      {
+        "position": 11,
+        "chinese": "月球车",
+        "english": "Lunar Rover",
+        "caption": "月球车\nLunar Rover",
+        "scene": "一辆月球车，车轮、仪器与天线，不含月面"
+      },
+      {
+        "position": 12,
+        "chinese": "宇航头盔",
+        "english": "Space Helmet",
+        "caption": "宇航头盔\nSpace Helmet",
+        "scene": "一顶宇航头盔，完整面罩与颈圈"
+      },
+      {
+        "position": 13,
+        "chinese": "天文望远镜",
+        "english": "Telescope",
+        "caption": "天文望远镜\nTelescope",
+        "scene": "一架天文望远镜，完整三脚架"
+      },
+      {
+        "position": 14,
+        "chinese": "彩虹",
+        "english": "Rainbow",
+        "caption": "彩虹\nRainbow",
+        "scene": "一条圆润虹弧，外红内紫顺序正确，无云朵装饰"
+      },
+      {
+        "position": 15,
+        "chinese": "白云",
+        "english": "Cloud",
+        "caption": "白云\nCloud",
+        "scene": "一朵白云，边缘浅灰自遮蔽保留轮廓"
+      },
+      {
+        "position": 16,
+        "chinese": "闪电",
+        "english": "Lightning",
+        "caption": "闪电\nLightning",
+        "scene": "一个立体黄色闪电教学符号"
+      },
+      {
+        "position": 17,
+        "chinese": "雪花",
+        "english": "Snowflake",
+        "caption": "雪花\nSnowflake",
+        "scene": "一朵六重对称雪花模型，恰好六个主枝"
+      },
+      {
+        "position": 18,
+        "chinese": "龙卷风",
+        "english": "Tornado",
+        "caption": "龙卷风\nTornado",
+        "scene": "一个灰色漏斗形龙卷风教学模型，不含建筑碎片"
+      },
+      {
+        "position": 19,
+        "chinese": "火山",
+        "english": "Volcano",
+        "caption": "火山\nVolcano",
+        "scene": "一座孤立火山剖面式小模型，有火山口与少量红色熔岩，不做场景"
+      },
+      {
+        "position": 20,
+        "chinese": "冰山",
+        "english": "Iceberg",
+        "caption": "冰山\nIceberg",
+        "scene": "一块蓝白冰山模型，完整孤立轮廓，不加海水"
+      }
+    ],
+    "images": [
+      {
+        "file": "books/20/images/cover.png",
+        "sha256": "03d8a8cc53ea5300356b399917a3b994af31812d781976b1958654d944e69fda",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-01.png",
+        "sha256": "2aa55b06a22252a02f85aada82677e8235077f255406008adbb6322a080eed71",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-02.png",
+        "sha256": "b8226556f8326dc7a53d9477f28324adeb64f602f86a964001d5afd35622f537",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-03.png",
+        "sha256": "3ce10cbd2fef1c2ec413955816633f32bd8fe7c1e3eb0a1d6b2cfdfb1237933d",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-04.png",
+        "sha256": "cf2c3a092147a401d028440e8d48a8f00a2a59e5110f4c5b357fbc19fb3d0453",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-05.png",
+        "sha256": "fe22e4afd322805d2cc97d04b1af8f02eeadff9cc52b02893b6cc44559b440be",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-06.png",
+        "sha256": "86432fdf872b27a0da19a127260695fd0154a7eeb9153341a23a449069132718",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-07.png",
+        "sha256": "2b590c318ce5e145d60b78292cb54109d8374a840207af5f16d1aeff7f093d35",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-08.png",
+        "sha256": "3e7adda615b202233e6ab9a53531b4b009855458b76f4208b1863a30f3481afb",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-09.png",
+        "sha256": "414fec7a1d62dde6947a6ba188e99e41aa632e913bb480534e9dc4d2cdf61500",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-10.png",
+        "sha256": "fd60ce760c35a735f4da8ddd3ef7ae54ea5e3f5acfab4a1286b1870935a45312",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-11.png",
+        "sha256": "747e7bdb3e0e8a72be96353e439508ab8d38a46fe812d12a7cef2dce0a2bda50",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-12.png",
+        "sha256": "a5048f43c2d0a215d71bb13ed8345e7f44f2878ed4e8d1ffe6b00b2b245f8dc5",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-13.png",
+        "sha256": "0fbbe0dd8b92b73b562bd87ef08a36e4e18bf0fc0969858c48348b6237874848",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-14.png",
+        "sha256": "663246dd59c81e2f83834fa20f04e3f23a8300d76f08ed475601137756412008",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-15.png",
+        "sha256": "5a857d2f163c2d085117c98807cc703dba5927a547a2cd75bdc411219cf34970",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-16.png",
+        "sha256": "8b6b298578a83f3115ef6243e4193589d860162f7e3eafbabe7173c4138ec683",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-17.png",
+        "sha256": "7943aea4af11030883ededd3438ae64a19aa408278f08ff557c0a14ce493a421",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-18.png",
+        "sha256": "b8d519412dd5f748c94367ad6705673064424c77eb782ecadb619bd08942f5e2",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-19.png",
+        "sha256": "770c3b1656e642f10e134a3f73787ff29c1dd8db5a9db737e5e48f99fe05e617",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      },
+      {
+        "file": "books/20/images/page-20.png",
+        "sha256": "cc1f30a4f53ebe7b2f2272383ca9a7da11e4632c7c1051c262017f694679eb6a",
+        "dimensions": [
+          1600,
+          1600
+        ]
+      }
+    ]
+  }
+]
