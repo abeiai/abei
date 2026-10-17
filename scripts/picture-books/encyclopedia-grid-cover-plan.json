@@ -1,0 +1,19 @@
+{
+  "courseId": "68b3163f3dc48403ce7a6408",
+  "oldRevisionId": "cmvb0juvy00ct9p8o9fxtjwoy",
+  "oldCoverId": "cmvb0jr2q00c89p8owrrbn6en",
+  "cover": {
+    "sha256": "dd6dc38d26992389f751432b71a892961cfdba606f85a3bf372c5683040c0a86",
+    "sizeBytes": 2165828,
+    "dimensions": [
+      1920,
+      1080
+    ]
+  },
+  "itemsDigest": "2211a2b4316056cf34a236900aefb09e447047682b36c733cf0cf71894c2705f",
+  "materialDigests": {
+    "books": "117efd6fc9649b7e269586c6e046c1a94fdbe40ee7f9698c7afc540bc0d5fb11",
+    "publications": "46415b156b7f688cce1471d4f13287f7d96ee0b8aa7a8a8ad01796e1f38625fc",
+    "submissions": "5f2242536c517a63e6e0e961833600796e3985b275c96d996548da30c43c5b35"
+  }
+}
