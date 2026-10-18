@@ -43,8 +43,8 @@ test("HTTP 图片接口返回真实小图、保留原文件，私有缓存不能
   app.setGlobalPrefix("api");
   app.useGlobalFilters(new HttpExceptionFilter());
   try {
-    await app.listen(3668, "127.0.0.1");
-    const base = "http://127.0.0.1:3668/api";
+    await app.listen(3670, "127.0.0.1");
+    const base = "http://127.0.0.1:3670/api";
     const small = await fetch(`${base}/media/files/original.png?w=320`);
     assert.equal(small.status, 200);
     assert.equal(small.headers.get("content-type"), "image/webp");

@@ -26,11 +26,19 @@ compose=(docker compose --project-name abei-prod --env-file /opt/abei/.env.produ
 # Build in the staged tree using only the explicit production env; no secret is copied into it.
 # The API image needs host networking for apt mirrors on this origin. Buildx supports it
 # directly, while this host's Compose Bake path rejects the network.host entitlement.
+# Opt in only on low-space origins; removes idle build cache, never images or volumes.
+prune_build_cache() {
+  if [[ "${ABEI_PRUNE_BUILD_CACHE:-0}" == "1" ]]; then
+    docker builder prune --all --force
+  fi
+}
 app_version="$(docker compose --project-name abei-prod --env-file /opt/abei/.env.production -f "$stage/docker-compose.abei-prod.yml" config --format json | python3 -c 'import json,sys; print(json.load(sys.stdin)["services"]["api-core"]["build"]["args"]["APP_VERSION"])')"
 docker buildx build --allow network.host --network host --load \
   --build-arg "APP_VERSION=$app_version" --build-arg "APP_RELEASE_SHA=$sha" \
   --file "$stage/apps/api-core/Dockerfile" --tag "abei-api-core:$sha" "$stage"
+prune_build_cache
 docker compose --project-name abei-prod --env-file /opt/abei/.env.production -f "$stage/docker-compose.abei-prod.yml" build web ai-gateway
+prune_build_cache
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 backup="/opt/abei/deploy/data/backups/creator-$stamp"
 mkdir -p "$backup" deploy/data/state

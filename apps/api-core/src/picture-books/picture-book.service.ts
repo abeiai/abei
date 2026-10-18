@@ -104,7 +104,7 @@ export class PictureBookService {
     const imageUrl = book.pages.find((page) => page.position === position)?.imageUrl;
     if (!imageUrl) throw new AppException(40401, "本页图片不存在", HttpStatus.NOT_FOUND);
     if (imageUrl.startsWith("/picture-book-demos/")) return displayImage(imageUrl, width, () => readPictureBookDemoImage(imageUrl));
-    return creatorAssetId(imageUrl) ? displayImage(`${imageUrl}:source`, width, () => readCreatorAssetReference(imageUrl)) : this.mediaService.readPictureBookStoredImage(imageUrl, width);
+    return creatorAssetId(imageUrl) ? readCreatorAssetReference(imageUrl, false, width) : this.mediaService.readPictureBookStoredImage(imageUrl, width);
   }
 
   async pageAudio(subject: ProfileSubject, id: string, position: number, language?: string) {
@@ -471,7 +471,7 @@ export class PictureBookService {
   private async ownedCharacterImage(userId: string, url: string) {
     const asset = await this.prisma.mediaAsset.findFirst({ where: { url, createdByUserId: userId, mediaType: "IMAGE" } });
     if (!asset) return null;
-    if (asset.storageProvider === "S3") return this.mediaService.readPictureBookStoredImage(asset.url, width);
+    if (asset.storageProvider === "S3") return this.mediaService.readPictureBookStoredImage(asset.url);
     const local = await this.mediaService.getLocalFile(asset.filename);
     return { buffer: await readFile(local.filepath), mimetype: local.mimeType };
   }

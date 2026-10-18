@@ -5,6 +5,7 @@ import { resolve, join, sep } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import sharp from 'sharp';
+import { displayImage } from '../media/image-variants.js';
 import { getPrismaClient, type Prisma } from '@xueleai/database';
 import type { CreatorPrincipal } from '../creator-auth/creator-auth.service.js';
 import { exact, fail, integer, lock, object, requirePrincipal, str, versioned, type Tx } from './creator-common.js';
@@ -32,15 +33,17 @@ function filePath(id: string, cover = false) {
     return join(creatorAssetRoot(), `${id}${cover ? '.cover' : '.data'}`);
 }
 /** Internal only: caller must first authorize the exact containing book/revision snapshot. */
-export async function readCreatorAssetReference(url: string, cover = false) {
+export async function readCreatorAssetReference(url: string, cover = false, width?: number) {
     const id = creatorAssetId(url);
     if (!id)
         fail('素材地址无效');
     const row = await getPrismaClient().creatorAsset.findUnique({ where: { id } });
     if (!row || row.status !== 'COMPLETED')
         fail('素材不存在', 404);
-    const buffer = await readFile(filePath(id));
-    return { buffer: cover ? await sharp(buffer, { limitInputPixels: 40000000 }).rotate().resize(1536, 1152, { fit: 'contain', background: '#faf8f4' }).png().toBuffer() : buffer, mimetype: cover ? 'image/png' : row.mimeType };
+    return displayImage(`${url}:${row.sha256}:${cover ? 'library-cover' : 'source'}`, width, async () => {
+        const buffer = await readFile(filePath(id));
+        return { buffer: cover ? await sharp(buffer, { limitInputPixels: 40000000 }).rotate().resize(1536, 1152, { fit: 'contain', background: '#faf8f4' }).png().toBuffer() : buffer, mimetype: cover ? 'image/png' : row.mimeType };
+    });
 }
 @Injectable()
 export class CreatorAssetsService {
