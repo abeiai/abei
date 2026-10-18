@@ -11,6 +11,10 @@ COPY packages/config/package.json packages/config/package.json
 RUN pnpm install --frozen-lockfile --filter @xueleai/web...
 
 FROM deps AS builder
+ARG IMAGE_REMOTE_BASE_URLS=https://r.abeiai.com
+ARG IMAGE_DELIVERY_BASE_URL=
+ENV IMAGE_REMOTE_BASE_URLS="${IMAGE_REMOTE_BASE_URLS}"
+ENV IMAGE_DELIVERY_BASE_URL="${IMAGE_DELIVERY_BASE_URL}"
 ARG API_BASE_URL=http://127.0.0.1:3602/api
 ENV API_BASE_URL="${API_BASE_URL}"
 ARG APP_VERSION=0.0.0
@@ -37,6 +41,9 @@ ENV APP_RELEASE_SHA="${APP_RELEASE_SHA}"
 COPY --from=builder --chown=node:node /app/apps/web/.next/standalone ./
 COPY --from=builder --chown=node:node /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder --chown=node:node /app/apps/web/public ./apps/web/public
+
+RUN mkdir -p /app/apps/web/.next/cache/images \
+  && chown -R node:node /app/apps/web/.next/cache
 
 USER node
 EXPOSE 3601

@@ -26,6 +26,9 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        IMAGE_REMOTE_BASE_URLS: ${IMAGE_REMOTE_BASE_URLS:-${S3_PUBLIC_BASE_URL:-https://r.abeiai.com}}
+        IMAGE_DELIVERY_BASE_URL: ${IMAGE_DELIVERY_BASE_URL:-}
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -34,6 +37,8 @@ services:
       API_BASE_URL: http://api-core:3602/api
       PUBLIC_API_BASE_URL: /api
       APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3600}
+    volumes:
+      - web_image_cache:/app/apps/web/.next/cache/images
     depends_on:
       api-core:
         condition: service_healthy
@@ -67,6 +72,7 @@ services:
       - logs:/app/logs
       - legacy_ai_log_assets:/app/private-legacy-ai-log-assets:ro
       - picture_book_guides:/app/private-picture-book-guides
+      - image_cache:/app/.cache/image-variants
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -139,6 +145,8 @@ services:
       retries: 10
 
 volumes:
+  image_cache:
+  web_image_cache:
   postgres_data:
   redis_data:
   uploads:

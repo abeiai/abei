@@ -6,6 +6,7 @@ node_modules
 .model-cache
 .venv-textbook-md
 .next
+**/.cache
 **/.next
 dist
 **/dist
