@@ -67,3 +67,41 @@ test("动图保留所有帧，不支持的文件不送入静态图编码", async
     await assert.rejects(displayImage("invalid-width", 641, async () => icon, directory), /图片尺寸/);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
+
+test("固定路径图片在发布版本变化后重新生成，不复用旧缓存", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "abei-image-version-"));
+  const previous = process.env.APP_RELEASE_SHA;
+  try {
+    let reads = 0;
+    const original = { buffer: await sharp({ create: { width: 1000, height: 1000, channels: 3, background: "blue" } }).png().toBuffer(), mimetype: "image/png" };
+    const load = async () => { reads++; return original; };
+    process.env.APP_RELEASE_SHA = "release-1";
+    await displayImage("/picture-book-demos/fixed.webp", 320, load, directory);
+    process.env.APP_RELEASE_SHA = "release-2";
+    await displayImage("/picture-book-demos/fixed.webp", 320, load, directory);
+    assert.equal(reads, 2);
+  } finally {
+    if (previous === undefined) delete process.env.APP_RELEASE_SHA; else process.env.APP_RELEASE_SHA = previous;
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("队列满时返回繁忙，不绕过并发上限下载原图", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "abei-image-queue-"));
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  let active = 0, maximum = 0;
+  try {
+    const results = await Promise.allSettled(Array.from({ length: 35 }, (_, index) => displayImage(`queue-${index}`, 320, async () => {
+      active++;
+      maximum = Math.max(maximum, active);
+      // The old overflow branch releases the gate here, proving the bypass without a timeout.
+      if (active > 2) release();
+      await gate;
+      active--;
+      return { buffer: Buffer.from("icon"), mimetype: "image/x-icon" };
+    }, directory).catch(error => { release(); throw error; })));
+    assert.equal(maximum, 2);
+    assert.ok(results.some(result => result.status === "rejected" && /繁忙/.test(String(result.reason))));
+  } finally { release(); await rm(directory, { recursive: true, force: true }); }
+});

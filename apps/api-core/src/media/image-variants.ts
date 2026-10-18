@@ -10,6 +10,7 @@ const pending = new Map<string, Promise<ImageFile>>();
 const waiting: (() => void)[] = [];
 let active = 0;
 let lastPrune = 0;
+const developmentRevision = randomUUID();
 
 export function parseImageWidth(value: unknown): number | undefined {
   if (value === undefined) return undefined;
@@ -27,7 +28,9 @@ export function imageVariantDirectory() {
 export async function displayImage(sourceKey: string, width: number | undefined, load: () => Promise<ImageFile>, directory = imageVariantDirectory()): Promise<ImageFile> {
   if (width === undefined) return load();
   parseImageWidth(String(width));
-  const key = createHash("sha256").update(`v1:${width}:${sourceKey}`).digest("hex");
+  const release = process.env.APP_RELEASE_SHA;
+  const revision = release && !["unknown", "local"].includes(release) ? release : developmentRevision;
+  const key = createHash("sha256").update(`v1:${revision}:${width}:${sourceKey}`).digest("hex");
   const file = join(directory, `${key}.img`);
   try {
     const cached = await readFile(file);
@@ -40,7 +43,7 @@ export async function displayImage(sourceKey: string, width: number | undefined,
   const running = pending.get(file);
   if (running) return running;
   // Keep decoding memory and queued work bounded, including uploads and cache misses.
-  if (active >= 2 && waiting.length >= 32) return load();
+  if (active >= 2 && waiting.length >= 32) throw new AppException(50301, "图片处理繁忙，请稍后重试", 503);
   const operation = (async () => {
     if (active >= 2) await new Promise<void>(resolve => waiting.push(resolve));
     else active++;
@@ -81,7 +84,8 @@ export async function displayImage(sourceKey: string, width: number | undefined,
 }
 
 export async function warmImageVariants(sourceKey: string, original: ImageFile) {
-  await Promise.all([320, 640].map(width => displayImage(sourceKey, width, async () => original)));
+  // Upload success does not depend on optional pre-generation capacity.
+  await Promise.allSettled([320, 640].map(width => displayImage(sourceKey, width, async () => original)));
 }
 
 export async function pruneImageVariants(directory = imageVariantDirectory(), maxBytes = 1024 * 1024 * 1024) {
