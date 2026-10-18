@@ -17,6 +17,9 @@ import { successResponse } from "../common/api-response.js";
 import { writeAdminOperationLog } from "../security/admin-operation-log.js";
 import type { HeaderRequestLike } from "../security/request-types.js";
 import { localMediaStream, mediaUploadMaxBytes, MediaService } from "./media.service.js";
+import { readFile } from "node:fs/promises";
+import { displayImage, parseImageWidth } from "./image-variants.js";
+import { AppException } from "../common/app-exception.js";
 
 interface UploadedFileLike {
   originalname: string;
@@ -74,12 +77,24 @@ export class MediaController {
   }
 
   @Get("files/:filename")
-  async file(@Param("filename") filename: string, @Res() response: unknown) {
+  async file(@Param("filename") filename: string, @Res() response: unknown, @Query("w") requestedWidth?: unknown) {
+    const width = parseImageWidth(requestedWidth);
     const file = await this.mediaService.getLocalFile(filename);
     const res = response as {
       setHeader(name: string, value: string | number): void;
       status(code: number): { end(): void };
     } & NodeJS.WritableStream;
+
+    if (width !== undefined) {
+      if (!file.mimeType.startsWith("image/")) throw new AppException(40001, "仅图片支持尺寸调整", 400);
+      const image = await displayImage(file.url, width, async () => ({ buffer: await readFile(file.filepath), mimetype: file.mimeType }));
+      res.setHeader("Content-Type", image.mimetype);
+      res.setHeader("Content-Length", image.buffer.length);
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.end(image.buffer);
+      return;
+    }
 
     res.setHeader("Content-Type", file.mimeType);
     res.setHeader("Content-Length", file.size);

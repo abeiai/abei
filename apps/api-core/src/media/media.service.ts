@@ -11,6 +11,7 @@ import { assertPictureBookGeneratedImageUrl, inspectPictureBookImage } from "../
 import { mediaStoragePublicBaseUrl } from "./media-object-url.js";
 import { downloadTtsProviderAudio } from "../audio/video-guide-narration-storage.js";
 import { assertMediaTransferResponse, mediaTransferTimeoutMs, retryMediaTransfer } from "./media-transfer.js";
+import { displayImage, warmImageVariants } from "./image-variants.js";
 
 const mediaAssetTypes = ["IMAGE", "AUDIO", "VIDEO"] as const;
 const mediaAssetSources = ["SYSTEM", "USER_UPLOAD", "AI_GENERATED", "WEB_FETCHED"] as const;
@@ -208,7 +209,11 @@ export class MediaService {
     return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "AI_GENERATED", storageProvider: "S3" });
   }
 
-  async readPictureBookStoredImage(sourceUrl: string) {
+  async readPictureBookStoredImage(sourceUrl: string, width?: number): Promise<{ buffer: Buffer; mimetype: string }> {
+    return displayImage(sourceUrl, width, () => this.readPictureBookOriginalImage(sourceUrl));
+  }
+
+  private async readPictureBookOriginalImage(sourceUrl: string) {
     const publicBase = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
     if (!publicBase || !sourceUrl.startsWith(`${publicBase}/`)) {
       return this.downloadPictureBookImage(assertPictureBookGeneratedImageUrl(sourceUrl));
@@ -474,6 +479,7 @@ export class MediaService {
 
     return {
       filepath,
+      url: asset.url,
       mimeType: asset.mimeType,
       size: asset.size
     };
@@ -552,6 +558,10 @@ export class MediaService {
         }
       }
     });
+
+    if (input.mediaType === "IMAGE") {
+      await warmImageVariants(url, { buffer: input.file.buffer, mimetype: input.file.mimetype });
+    }
 
     return {
       id: asset.id,

@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { Inject, Injectable } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AiService } from "../ai/ai.service.js";
+import { displayImage } from "../media/image-variants.js";
 import { MediaService } from "../media/media.service.js";
 import { mediaAssetPublicUrl } from "../media/media-object-url.js";
 import { normalizePictureBookLibraryCover } from "./picture-book-library-cover.js";
@@ -176,18 +177,18 @@ export class PictureBookSubmissionService {
     return row;
   }
 
-  async image(pictureBookId: string, position?: number) {
+  async image(pictureBookId: string, position?: number, width?: number) {
     const row = await this.published(pictureBookId);
     const url = position === undefined ? row.publishedCoverUrl : playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot).pages.find(page => page.position === position)?.imageUrl;
     if (!url) throw new AppException(40401, "绘本图片不存在", 404);
-    return creatorAssetId(url) ? readCreatorAssetReference(url, position === undefined) : this.readImage(url);
+    return creatorAssetId(url) ? displayImage(`${url}:${position === undefined ? "library-cover" : "source"}`, width, () => readCreatorAssetReference(url, position === undefined)) : this.readImage(url, width);
   }
 
-  async reviewImage(id: string, position?: number) {
+  async reviewImage(id: string, position?: number, width?: number) {
     const row = await this.review(id);
     const url = position === undefined ? row.coverUrl : row.book.pages.find(page => page.position === position)?.imageUrl;
     if (!url) throw new AppException(40401, "绘本图片不存在", 404);
-    return creatorAssetId(url) ? readCreatorAssetReference(url, position === undefined) : this.readImage(url);
+    return creatorAssetId(url) ? displayImage(`${url}:${position === undefined ? "library-cover" : "source"}`, width, () => readCreatorAssetReference(url, position === undefined)) : this.readImage(url, width);
   }
 
   async audio(pictureBookId: string, position: number, language?: string) {
@@ -207,10 +208,10 @@ export class PictureBookSubmissionService {
     return creatorAssetId(url) ? readCreatorAssetReference(url) : this.media.readPictureBookStoredAudio(url);
   }
 
-  private async readImage(url: string) {
-    if (creatorAssetId(url)) return readCreatorAssetReference(url);
-    if (!url.startsWith("/")) return this.media.readPictureBookStoredImage(url);
-    return readPictureBookDemoImage(url);
+  private async readImage(url: string, width?: number): Promise<{ buffer: Buffer; mimetype: string }> {
+    if (creatorAssetId(url)) return displayImage(`${url}:source`, width, () => readCreatorAssetReference(url));
+    if (!url.startsWith("/")) return this.media.readPictureBookStoredImage(url, width);
+    return displayImage(url, width, () => readPictureBookDemoImage(url));
   }
 
   async unpublish(adminId: string, id: string, expectedVersion: number) {

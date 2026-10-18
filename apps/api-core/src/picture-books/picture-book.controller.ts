@@ -4,6 +4,7 @@ import { AuthService } from "../auth/auth.service.js";
 import { successResponse } from "../common/api-response.js";
 import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
+import { parseImageWidth } from "../media/image-variants.js";
 import { PictureBookService } from "./picture-book.service.js";
 import { CreatePictureBookDto, CreatePictureBookCharacterDto, DiscussPictureBookDto, GeneratePictureBookAudioDto, GeneratePictureBookImageDto, GeneratePictureBookCharacterImageDto, PictureBookCharacterStyleDto, PictureBookGenerationCostDto, PictureBookImageCostDto, UpdatePictureBookDto, UpdatePictureBookPageDto } from "./picture-book.dto.js";
 
@@ -41,9 +42,9 @@ export class PictureBookController {
   }
 
   @Get("style-references/:assetId/image")
-  async customStyleImage(@Req() request: unknown, @Param("assetId") assetId: string, @Res() response: { setHeader(name: string, value: string | number): void; send(body: Buffer): void }) {
+  async customStyleImage(@Req() request: unknown, @Param("assetId") assetId: string, @Res() response: { setHeader(name: string, value: string | number): void; send(body: Buffer): void }, @Query("w") width?: unknown) {
     const subject = await this.account(request);
-    const image = await this.books.customStyleImage(subject.userId, assetId);
+    const image = await this.books.customStyleImage(subject.userId, assetId, parseImageWidth(width));
     response.setHeader("Content-Type", image.mimetype);
     response.setHeader("Content-Length", image.buffer.length);
     response.setHeader("Cache-Control", "private, no-store");
@@ -91,10 +92,10 @@ export class PictureBookController {
   }
 
   @Get(":id/pages/:position/image")
-  async pageImage(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: { setHeader(name: string, value: string | number): void; send(body: Buffer): void }) {
+  async pageImage(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: { setHeader(name: string, value: string | number): void; send(body: Buffer): void }, @Query("w") width?: unknown) {
     const user = await this.auth.me(request as never);
     const subject = await this.profiles.requireSelected(request as never, user.id);
-    const image = await this.books.pageImage(subject, id, Number(position));
+    const image = await this.books.pageImage(subject, id, Number(position), parseImageWidth(width));
     response.setHeader("Content-Type", image.mimetype);
     response.setHeader("Content-Length", image.buffer.length);
     response.setHeader("Cache-Control", "private, no-store");

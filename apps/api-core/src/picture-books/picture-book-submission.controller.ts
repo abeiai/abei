@@ -9,6 +9,7 @@ import { writeAdminOperationLog } from "../security/admin-operation-log.js";
 import type { HeaderRequestLike } from "../security/request-types.js";
 import { audioByteRange } from "./picture-book.controller.js";
 import { PictureBookSubmissionService } from "./picture-book-submission.service.js";
+import { parseImageWidth } from "../media/image-variants.js";
 
 export class PublicBookQuery {
   @Type(() => Number) @IsInt() @Min(1) @Max(100000)
@@ -78,9 +79,9 @@ export class PublicPictureBooksController {
   @Get(":id/play")
   async play(@Param("id") id: string) { return successResponse(await this.submissions.publicBook(id)); }
   @Get(":id/cover")
-  async cover(@Param("id") id: string, @Res() response: MediaResponse) { sendMedia(response, await this.submissions.image(id)); }
+  async cover(@Param("id") id: string, @Res() response: MediaResponse, @Query("w") width?: unknown) { sendMedia(response, await this.submissions.image(id, undefined, parseImageWidth(width))); }
   @Get(":id/pages/:position/image")
-  async image(@Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse) { sendMedia(response, await this.submissions.image(id, Number(position))); }
+  async image(@Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse, @Query("w") width?: unknown) { sendMedia(response, await this.submissions.image(id, Number(position), parseImageWidth(width))); }
   @Get(":id/pages/:position/audio")
   async audio(@Param("id") id: string, @Param("position") position: string, @Headers("range") range: string | undefined, @Res() response: MediaResponse, @Query("language") language?: string) { sendMedia(response, await this.submissions.audio(id, Number(position), language), range); }
 }
@@ -95,9 +96,9 @@ export class AdminPictureBookSubmissionsController {
   @Post(":id/cover")
   async cover(@Req() request: unknown, @Param("id") id: string) { await this.auth.me(request as never); return successResponse(await this.submissions.generateCover(id)); }
   @Get(":id/cover/image")
-  async coverImage(@Req() request: unknown, @Param("id") id: string, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id)); }
+  async coverImage(@Req() request: unknown, @Param("id") id: string, @Res() response: MediaResponse, @Query("w") width?: unknown) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id, undefined, parseImageWidth(width))); }
   @Get(":id/pages/:position/image")
-  async image(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id, Number(position))); }
+  async image(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Res() response: MediaResponse, @Query("w") width?: unknown) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id, Number(position), parseImageWidth(width))); }
   @Get(":id/pages/:position/audio")
   async audio(@Req() request: unknown, @Param("id") id: string, @Param("position") position: string, @Query("language") language: string | undefined, @Headers("range") range: string | undefined, @Res() response: MediaResponse) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewAudio(id, Number(position), language), range); }
   @Post(":id/unpublish")

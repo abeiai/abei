@@ -7,6 +7,7 @@ import { AudioService } from "../audio/audio.service.js";
 import { AppException } from "../common/app-exception.js";
 import { CourseReviewService } from "../courses/course-review.service.js";
 import { snapshotCourseMaterial } from "../courses/course-domain.js";
+import { displayImage } from "../media/image-variants.js";
 import { MediaService, type UploadedFileLike } from "../media/media.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { inspectPictureBookImage } from "./picture-book-image.js";
@@ -98,12 +99,12 @@ export class PictureBookService {
     return playbackFromSnapshot(id, item.pinnedSnapshot ?? item.publication.approvedSnapshot);
   }
 
-  async pageImage(subject: ProfileSubject, id: string, position: number) {
+  async pageImage(subject: ProfileSubject, id: string, position: number, width?: number) {
     const book = await this.playback(subject, id);
     const imageUrl = book.pages.find((page) => page.position === position)?.imageUrl;
     if (!imageUrl) throw new AppException(40401, "本页图片不存在", HttpStatus.NOT_FOUND);
-    if (imageUrl.startsWith("/picture-book-demos/")) return readPictureBookDemoImage(imageUrl);
-    return creatorAssetId(imageUrl) ? readCreatorAssetReference(imageUrl) : this.mediaService.readPictureBookStoredImage(imageUrl);
+    if (imageUrl.startsWith("/picture-book-demos/")) return displayImage(imageUrl, width, () => readPictureBookDemoImage(imageUrl));
+    return creatorAssetId(imageUrl) ? displayImage(`${imageUrl}:source`, width, () => readCreatorAssetReference(imageUrl)) : this.mediaService.readPictureBookStoredImage(imageUrl, width);
   }
 
   async pageAudio(subject: ProfileSubject, id: string, position: number, language?: string) {
@@ -327,9 +328,9 @@ export class PictureBookService {
     if (assetId) await this.ownedCustomStyleAsset(userId, assetId);
   }
 
-  async customStyleImage(userId: string, assetId: string) {
+  async customStyleImage(userId: string, assetId: string, width?: number) {
     const asset = await this.ownedCustomStyleAsset(userId, assetId);
-    return this.mediaService.readPictureBookStoredImage(asset.url);
+    return this.mediaService.readPictureBookStoredImage(asset.url, width);
   }
 
   private async styleReference(userId: string, value: string) {
@@ -470,7 +471,7 @@ export class PictureBookService {
   private async ownedCharacterImage(userId: string, url: string) {
     const asset = await this.prisma.mediaAsset.findFirst({ where: { url, createdByUserId: userId, mediaType: "IMAGE" } });
     if (!asset) return null;
-    if (asset.storageProvider === "S3") return this.mediaService.readPictureBookStoredImage(asset.url);
+    if (asset.storageProvider === "S3") return this.mediaService.readPictureBookStoredImage(asset.url, width);
     const local = await this.mediaService.getLocalFile(asset.filename);
     return { buffer: await readFile(local.filepath), mimetype: local.mimeType };
   }
