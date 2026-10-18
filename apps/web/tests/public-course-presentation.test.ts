@@ -428,7 +428,7 @@ test("公开课程详情使用正确的标题层级", () => {
   assert.match(html, /<h1[^>]*>公开课程<\/h1>/u);
   assert.match(html, /<h2[^>]*>课程目录<\/h2>/u);
   assert.doesNotMatch(html, /创作者：/u);
-  assert.match(html, /<img alt="课程作者头像" class="size-full object-cover" src="\/avatar\.png"\/>/u);
+  assert.match(html, /<img alt="课程作者头像"[^>]*src="\/_next\/image\?url=%2Favatar.png&amp;w=128&amp;q=82"[^>]*sizes="20px"/u);
   assert.match(html, /size-5[^"]*rounded-full/u);
   assert.match(html, /2026年07月18日更新 共3个课件/u);
   assert.doesNotMatch(html, /课程介绍/u);
@@ -553,7 +553,7 @@ test("课程详情使用十六比九封面并在复审时显示审核状态", ()
   try {
     html = renderToStaticMarkup(
       React.createElement(PublicCourseDetail, {
-        course: publicCourseFixture({ reviewing: true })
+        course: { ...publicCourseFixture({ reviewing: true }), coverUrl: "/picture-book-demos/test/cover.webp" }
       })
     );
   } finally {
@@ -563,8 +563,9 @@ test("课程详情使用十六比九封面并在复审时显示审核状态", ()
   assert.match(html, /aspect-video/u);
   assert.doesNotMatch(html, /aspect-\[4\/3\]/u);
   assert.match(html, /审核中/u);
-  assert.match(html, /role="img"/u);
-  assert.match(html, /background-image:url/u);
+  assert.match(html, /<img[^>]*alt="[^"]*课程封面"/u);
+  assert.match(html, /srcSet="[^"]*1280w"/u);
+  assert.match(html, /sizes="\(max-width: 1023px\) 90vw, 440px"/u);
 });
 
 test("创作者预览未提审草稿时明确说明资源中心仍展示已发布版", () => {

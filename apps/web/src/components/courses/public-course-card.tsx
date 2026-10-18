@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { ResponsiveImage } from "../ui/responsive-image";
 import type {
   CourseListItem,
   PublicCourse,
@@ -30,7 +31,7 @@ export function PublicCourseCard({
             <span>暂无封面</span>
           </div>
           {course.coverUrl ? (
-            <img
+            <ResponsiveImage
               alt={`${course.name}课程封面`}
               className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-[1.025]"
               decoding="async"
@@ -53,7 +54,9 @@ export function PublicCourseCard({
           <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
             <span className="flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary text-[10px] font-medium text-foreground ring-1 ring-border">
               {course.author.avatarUrl ? (
-                <img
+                <ResponsiveImage
+                  usage="avatar"
+                  sizes="20px"
                   alt={`${course.author.nickname}头像`}
                   className="size-full object-cover"
                   decoding="async"

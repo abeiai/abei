@@ -52,11 +52,11 @@ test("课程列表卡片使用视频流信息层级展示课件数和学习次�
   assert.match(html, /通过视频学习基础发音规则/u);
   assert.match(html, /王老师/u);
   assert.match(html, /2个课件 · 128次学习/u);
-  assert.match(html, /<img[^>]*loading="lazy"[^>]*src="\/cover\.png"/u);
+  assert.match(html, /<img[^>]*alt="自然拼读入门课程封面"[^>]*src="\/_next\/image\?url=%2Fcover.png&amp;w=640&amp;q=82"[^>]*srcSet="[^"]*320w[^"]*640w"[^>]*loading="lazy"/u);
   assert.match(html, /aspect-video/u);
   assert.doesNotMatch(html, /aspect-\[4\/3\]/u);
   assert.match(html, /<article class="[^"]*overflow-hidden[^"]*rounded-xl[^"]*border[^"]*">/u);
-  assert.match(html, /<img alt="王老师头像" class="size-full object-cover" decoding="async" loading="lazy" src="\/avatar\.png"\/>/u);
+  assert.match(html, /<img alt="王老师头像"[^>]*src="\/_next\/image\?url=%2Favatar.png&amp;w=128&amp;q=82"[^>]*sizes="20px"[^>]*loading="lazy"/u);
   assert.match(html, /size-5[^"]*rounded-full/u);
   assert.match(html, /<p class="[^"]*font-normal[^"]*text-muted-foreground[^"]*">通过视频学习基础发音规则<\/p>/u);
   assert.doesNotMatch(html, /已发布/u);

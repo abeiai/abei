@@ -4,17 +4,18 @@ import { libraryCatalogHref, type LibraryAlbum, type LibraryBook } from "@/lib/p
 import { yiweiLegacyBookId } from "@/lib/picture-book-public-slug";
 import { PictureBookImage } from "@/components/picture-books/picture-book-image";
 import styles from "./picture-book-home.module.css";
+import { ResponsiveImage } from "../ui/responsive-image";
 
 export function PictureBookAlbumGrid({ albums, libraryPage = false, emptyText = "暂无推荐专辑" }: { albums: LibraryAlbum[]; libraryPage?: boolean; emptyText?: string }) {
   return albums.length ? <div className={`${styles.albumGrid} ${libraryPage ? styles.libraryAlbumGrid : ""}`}>{albums.map(album => <Link className={styles.bookCard} href={album.href} key={album.id}>
-      <div className={styles.albumCover}><img src={album.coverUrl} alt={`${album.title}专辑封面`} width={400} height={225} loading="lazy" /><span className={styles.albumCount} aria-label={`${album.bookCount}本绘本`}>{album.bookCount}<BookOpen size={14} aria-hidden="true" /></span></div>
+      <div className={styles.albumCover}><ResponsiveImage src={album.coverUrl} alt={`${album.title}专辑封面`} width={400} height={225} loading="lazy" /><span className={styles.albumCount} aria-label={`${album.bookCount}本绘本`}>{album.bookCount}<BookOpen size={14} aria-hidden="true" /></span></div>
       <h4 className={styles.bookTitle}>{album.title}</h4>
     </Link>)}</div> : <p className="py-8 text-center text-sm text-muted-foreground">{emptyText}</p>;
 }
 
 export function PictureBookBookGrid({ books, emptyText = "暂无已审核的单本绘本" }: { books: LibraryBook[]; emptyText?: string }) {
   return books.length ? <div className={styles.bookGrid}>{books.map(book => <Link className={styles.singleBookCard} href={book.href} key={book.id} aria-label={`阅读《${book.title}》`}>
-      <div className={`${styles.singleBookCover} ${bookCoverCropClass(book.id)}`}><PictureBookImage src={book.coverUrl} fallbackSrc={`/api/public/picture-books/${encodeURIComponent(book.id)}/cover`} alt={`${book.title}绘本封面`} compact /></div>
+      <div className={`${styles.singleBookCover} ${bookCoverCropClass(book.id)}`}><PictureBookImage src={book.coverUrl} fallbackSrc={`/api/public/picture-books/${encodeURIComponent(book.id)}/cover`} alt={`${book.title}绘本封面`} compact usage="card" /></div>
       <h4 className={styles.singleBookTitle}>{book.title}</h4>
     </Link>)}</div> : <p className="py-8 text-center text-sm text-muted-foreground">{emptyText}</p>;
 }

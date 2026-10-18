@@ -9,6 +9,7 @@ import type { PublicCourse } from "@/lib/course-types";
 
 import { CourseMaterialLaunch } from "./course-material-launch";
 import { ExpandableCourseSummary } from "./expandable-course-summary";
+import { ResponsiveImage } from "../ui/responsive-image";
 
 type PublicCourseDetailProps = {
   canOpenMaterials?: boolean;
@@ -17,10 +18,6 @@ type PublicCourseDetailProps = {
   previewMode?: "PUBLIC" | "CREATOR" | "ADMIN";
   revisionStatus?: "DRAFT" | "PENDING" | "APPROVED" | "REJECTED";
 };
-
-function coverBackground(url: string) {
-  return `url(${JSON.stringify(url)})`;
-}
 
 export function PublicCourseDetail({
   canOpenMaterials = false,
@@ -64,11 +61,14 @@ export function PublicCourseDetail({
             <span>暂无封面</span>
           </div>
           {course.coverUrl ? (
-            <div
-              aria-label={`${course.name}课程封面`}
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              role="img"
-              style={{ backgroundImage: coverBackground(course.coverUrl) }}
+            <ResponsiveImage
+              alt={`${course.name}课程封面`}
+              className="absolute inset-0 size-full object-cover"
+              usage="detail"
+              sizes="(max-width: 1023px) 90vw, 440px"
+              loading="eager"
+              fetchPriority="high"
+              src={course.coverUrl}
             />
           ) : null}
         </div>
@@ -80,7 +80,7 @@ export function PublicCourseDetail({
             <div className="flex min-w-0 items-center gap-2">
               <span className="flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary text-[10px] font-medium text-foreground ring-1 ring-border">
                 {course.author.avatarUrl ? (
-                  <img alt={`${course.author.nickname}头像`} className="size-full object-cover" src={course.author.avatarUrl} />
+                  <ResponsiveImage usage="avatar" sizes="20px" alt={`${course.author.nickname}头像`} className="size-full object-cover" src={course.author.avatarUrl} />
                 ) : (
                   <span aria-hidden="true">{authorInitial(course.author.nickname)}</span>
                 )}

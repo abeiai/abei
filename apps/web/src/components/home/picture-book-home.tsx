@@ -4,6 +4,7 @@ import { StoryIdeaForm } from "./story-idea-form";
 import { homepageLibrary, type LibraryAlbum, type LibraryBook } from "@/lib/picture-book-library";
 import { PictureBookShelves } from "./picture-book-shelves";
 import styles from "./picture-book-home.module.css";
+import { ResponsiveImage } from "../ui/responsive-image";
 
 const testimonials = [
   { name: "林女士", role: "家长", avatar: "female-middle", quote: "把孩子的小小想法写进绘本，再一起听、一起读。睡前的这段时间，成了我们每天最期待的时刻。" },
@@ -28,7 +29,7 @@ export function PictureBookHome({ albums, books, libraryFailed = false }: { albu
             </div>
             <div className={styles.heroArt}>
               <div className={styles.artBackdrop} />
-              <img className={styles.heroIllustration} src="/home-assets/reading-hero-v2.webp" alt="两个孩子坐在彩色绘本上一起阅读，小熊猫陪在身旁" width={1024} height={1024} fetchPriority="high" />
+              <ResponsiveImage className={styles.heroIllustration} src="/home-assets/reading-hero-v2.webp" usage="detail" sizes="(max-width: 800px) 100vw, 50vw" alt="两个孩子坐在彩色绘本上一起阅读，小熊猫陪在身旁" width={1024} height={1024} fetchPriority="high" loading="eager" />
               <div className={styles.soundLabel}><span className={styles.soundIcon}><AudioLines size={24} /></span><div><strong>每个故事，都能听见</strong><span>画面与声音，一起陪伴</span></div><div className={styles.waveform} aria-hidden="true">{[12, 22, 32, 18, 27, 14, 23].map((height, index) => <i key={index} style={{ height }} />)}</div></div>
               <Sparkles className={styles.artSparkle} size={32} strokeWidth={1.2} aria-hidden="true" />
             </div>
@@ -48,7 +49,7 @@ export function PictureBookHome({ albums, books, libraryFailed = false }: { albu
       <section className={styles.guideSection} id="guide" aria-labelledby="guide-title">
         <div className={styles.container}><div className={styles.guide}>
           <div className={styles.guideVisual}>
-            <div className={styles.guidePage}><img src="/picture-book-demos/lele-bear/04.webp" alt="熊猫乐乐和小熊一起阅读分享的故事" width={370} height={370} loading="lazy" /><div><AudioLines size={20} /><span>一起读，聊一聊</span><span className={styles.guideDots} aria-hidden="true">···</span></div></div>
+            <div className={styles.guidePage}><ResponsiveImage src="/picture-book-demos/lele-bear/04.webp" usage="detail" sizes="370px" alt="熊猫乐乐和小熊一起阅读分享的故事" width={370} height={370} /><div><AudioLines size={20} /><span>一起读，聊一聊</span><span className={styles.guideDots} aria-hidden="true">···</span></div></div>
             <div className={styles.guidePrompt}><Sparkles size={17} /><span>如果是你，会怎么做？</span></div>
             <span className={styles.guideTag}><Upload size={16} />上传你的绘本素材</span>
           </div>
@@ -64,7 +65,7 @@ export function PictureBookHome({ albums, books, libraryFailed = false }: { albu
               <div className={styles.testimonialStars} aria-hidden="true">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={16} fill="currentColor" strokeWidth={0} />)}</div>
               <blockquote>{item.quote}</blockquote>
               <figcaption>
-                <img className={styles.testimonialAvatar} src={`/images/voice-avatars/${item.avatar}.jpg`} alt={`${item.name}的示例头像`} width={90} height={90} loading="lazy" />
+                <ResponsiveImage className={styles.testimonialAvatar} src={`/images/voice-avatars/${item.avatar}.jpg`} usage="avatar" sizes="90px" alt={`${item.name}的示例头像`} width={90} height={90} />
                 <h3>{item.name}<span className={styles.testimonialSample}>（示例）</span></h3>
                 <span className={styles.testimonialRole}>{item.role}</span>
               </figcaption>
