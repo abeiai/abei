@@ -14,7 +14,7 @@ async function request(host, path, expected=200) {
   assert.equal(response.status,expected,`${host}${path}`);
   return response;
 }
-const main=await request('new.abeiai.com','/creator');
+const main=await request('abeiai.com','/creator');
 assert.ok(main.body.includes('阿贝绘本创作助手'),'新 Web 入口未提供创作助手页面');
 const metadata=await request('mcp.abeiai.com','/.well-known/oauth-authorization-server');
 assert.match(metadata.headers['cache-control']??'',/no-store/);

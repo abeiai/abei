@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Read-only HTTPS checks. Run only after deployment; no credentials or TLS bypass.
 import assert from 'node:assert/strict';
-const main='https://new.abeiai.com', issuer='https://mcp.abeiai.com';
+const main='https://abeiai.com', issuer='https://mcp.abeiai.com';
 async function get(url, expected=200) {
   const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(30_000)});
   assert.equal(response.status,expected,`${url} HTTP status`);

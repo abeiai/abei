@@ -59,7 +59,7 @@ test('existing ingress is recreated after config inode replacement and probed be
     mkdirSync(join(dir,'deploy/data/state'),{recursive:true});
     writeFileSync(join(dir,'deploy/data/state/maintenance.enabled'),'');writeFileSync(join(dir,'env'),'');
     const cert=join(dir,'certs/live/mcp.abeiai.com');
-    execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-keyout',join(cert,'privkey.pem'),'-out',join(cert,'fullchain.pem'),'-days','1','-subj','/CN=mcp.abeiai.com','-addext','subjectAltName=DNS:mcp.abeiai.com,DNS:new.abeiai.com'],{stdio:'ignore'});
+    execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-keyout',join(cert,'privkey.pem'),'-out',join(cert,'fullchain.pem'),'-days','1','-subj','/CN=mcp.abeiai.com','-addext','subjectAltName=DNS:mcp.abeiai.com,DNS:abeiai.com,DNS:new.abeiai.com'],{stdio:'ignore'});
     for (const file of ['fullchain.pem','privkey.pem']) writeFileSync(join(dir,'certs/live/new.abeiai.com',file),readFileSync(join(cert,file)));
     writeFileSync(join(dir,'maintenance.mjs'), `import assert from 'node:assert/strict'; import https from 'node:https';
 for (const host of ['new.abeiai.com','mcp.abeiai.com']) {
