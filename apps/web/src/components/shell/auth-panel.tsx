@@ -6,7 +6,7 @@ import { getPublicSystemConfigs } from "@/lib/settings-api";
 
 interface AuthPanelProps {
   variant?: "public" | "admin";
-  title?: string;
+  title?: string | null;
   description?: string;
   children: ReactNode;
   footer: {
@@ -18,6 +18,7 @@ interface AuthPanelProps {
 
 export async function AuthPanel({ title, description, children, footer, variant = "public" }: AuthPanelProps) {
   const { siteLogo, siteName } = await getSiteIdentity();
+  const showHeader = title !== null || Boolean(description);
 
   return (
     <main className={`xueleai-auth-shell ${variant === "admin" ? "abei-admin-theme" : ""} min-h-screen bg-background text-foreground`} data-public-theme={variant === "public" ? "default" : undefined}>
@@ -34,11 +35,13 @@ export async function AuthPanel({ title, description, children, footer, variant 
             )}
           </Link>
           <Card className="w-full">
-            <CardHeader>
-              <CardTitle>{title ?? siteName}</CardTitle>
-              {description ? <CardDescription>{description}</CardDescription> : null}
-            </CardHeader>
-            <CardContent className="flex flex-col gap-6">
+            {showHeader ? (
+              <CardHeader>
+                {title !== null ? <CardTitle>{title ?? siteName}</CardTitle> : null}
+                {description ? <CardDescription>{description}</CardDescription> : null}
+              </CardHeader>
+            ) : null}
+            <CardContent className={`flex flex-col gap-6 ${showHeader ? "" : "pt-5 md:pt-6"}`}>
               {children}
               <p className="text-center text-sm text-muted-foreground">
                 {footer.label}

@@ -108,6 +108,7 @@ export function UserLoginForm({
         </Button>
       </fieldset>
 
+      <div className="h-[400px] overflow-y-auto">
       {mode === "wechat" ? (
         <WechatLoginPanel next={next} />
       ) : mode === "email" ? (
@@ -241,6 +242,8 @@ export function UserLoginForm({
           </Button>
         </form>
       )}
+
+      </div>
 
       <Button asChild variant="outline">
         <Link href="/">返回首页</Link>
