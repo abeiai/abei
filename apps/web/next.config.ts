@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ["127.0.0.1"],
   images: {
+    localPatterns: [
+      { pathname: "**", search: "" },
+      { pathname: "/home-assets/**" },
+      { pathname: "/picture-book-demos/**" },
+      { pathname: "/images/voice-avatars/**" }
+    ],
     remotePatterns: [...imageRemoteBases.map(base => {
       const url = new URL(base);
       return { protocol: "https" as const, hostname: url.hostname, port: url.port, pathname: `${url.pathname.replace(/\/+$/, "")}/**` };

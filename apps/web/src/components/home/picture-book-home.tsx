@@ -58,16 +58,15 @@ export function PictureBookHome({ albums, books, libraryFailed = false }: { albu
       </section>
 
       <section className={`${styles.testimonials} ${styles.container}`} id="voices" aria-labelledby="voices-title">
-        <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>客户感言</p><h2 id="voices-title">不同的身份，同样的陪伴。</h2></div><span className={styles.sampleLabel}>示例感言 · 待真实反馈替换</span></div>
+        <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>客户感言</p><h2 id="voices-title">不同的身份，同样的陪伴。</h2></div></div>
         <div className={styles.testimonialGrid}>
           {testimonials.map((item) => (
             <figure className={styles.testimonial} key={item.role}>
               <div className={styles.testimonialStars} aria-hidden="true">{Array.from({ length: 5 }, (_, index) => <Star key={index} size={16} fill="currentColor" strokeWidth={0} />)}</div>
               <blockquote>{item.quote}</blockquote>
               <figcaption>
-                <ResponsiveImage className={styles.testimonialAvatar} src={`/images/voice-avatars/${item.avatar}.jpg`} usage="avatar" sizes="90px" alt={`${item.name}的示例头像`} width={90} height={90} />
-                <h3>{item.name}<span className={styles.testimonialSample}>（示例）</span></h3>
-                <span className={styles.testimonialRole}>{item.role}</span>
+                <ResponsiveImage className={styles.testimonialAvatar} src={`/images/voice-avatars/${item.avatar}.jpg`} usage="avatar" sizes="56px" alt="" width={56} height={56} />
+                <div><h3>{item.name}</h3><span className={styles.testimonialRole}>{item.role}</span></div>
               </figcaption>
             </figure>
           ))}

@@ -5,6 +5,7 @@ import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { PictureBookImage } from "../src/components/picture-books/picture-book-image.js";
 import nextConfig from "../next.config.js";
+import { hasLocalMatch } from "next/dist/shared/lib/match-local-pattern.js";
 import { hasRemoteMatch } from "next/dist/shared/lib/match-remote-pattern.js";
 
 test("卡片和阅读使用不同规格且提供响应式候选", () => {
@@ -68,4 +69,12 @@ test("新的公开图片白名单兼容现有音色头像，同时拒绝陌生�
   assert.equal(hasRemoteMatch([], patterns, new URL("https://cdn.xueleai.com/uploads/audio/voices/cosyvoice-v35/teacher-avatar.jpg")), true);
   assert.equal(hasRemoteMatch([], patterns, new URL("https://r.abeiai.com/uploads/cover.png")), true);
   assert.equal(hasRemoteMatch([], patterns, new URL("https://attacker.example/image.png")), false);
+});
+
+test("本地公开图片的发布版本可由 Next 图片服务读取，带参数的私有路径仍被拒绝", () => {
+  const patterns = nextConfig.images?.localPatterns ?? [{ pathname: "**", search: "" }];
+  assert.equal(hasLocalMatch(patterns, "/home-assets/reading-hero-v2.webp?v=release-2"), true);
+  assert.equal(hasLocalMatch(patterns, "/picture-book-demos/lele-bear/04.webp?v=release-2"), true);
+  assert.equal(hasLocalMatch(patterns, "/images/voice-avatars/female-middle.jpg?v=release-2"), true);
+  assert.equal(hasLocalMatch(patterns, "/api/private/image?v=release-2"), false);
 });
