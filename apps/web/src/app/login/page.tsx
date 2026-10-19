@@ -13,8 +13,7 @@ export default async function LoginPage({
 
   return (
     <AuthPanel
-      title="登录"
-      description={params.reset === "1" ? "密码已重置，请重新登录" : "继续学习任务"}
+      description={params.reset === "1" ? "密码已重置，请重新登录" : undefined}
       footer={{
         label: "还没有账号？",
         href: registerHref,

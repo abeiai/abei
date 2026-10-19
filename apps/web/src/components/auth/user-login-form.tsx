@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { ArrowRight, GraduationCap, Mail, Smartphone } from "lucide-react";
+import { faWeixin } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -23,7 +25,7 @@ export function UserLoginForm({
 }: {
   next?: string;
 }) {
-  const [mode, setMode] = useState<"email" | "phone" | "learner">("email");
+  const [mode, setMode] = useState<"wechat" | "email" | "phone" | "learner">("wechat");
   const [phone, setPhone] = useState("");
   const [codeCountdown, setCodeCountdown] = useState(0);
   const [state, formAction, isPending] = useActionState(userLoginAction, initialState);
@@ -63,10 +65,24 @@ export function UserLoginForm({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-3 gap-1 rounded-lg bg-secondary p-1 sm:gap-2">
+      <fieldset
+        aria-label="登录方式"
+        className="grid grid-cols-2 gap-1 rounded-lg bg-secondary p-1 sm:grid-cols-4 [&_button]:min-w-0 [&_button]:gap-1 [&_button]:px-1 [&_button]:text-xs sm:[&_button]:text-sm"
+        disabled={isPending || isPhonePending || isLearnerPending}
+      >
+        <Button
+          type="button"
+          variant={mode === "wechat" ? "default" : "ghost"}
+          aria-pressed={mode === "wechat"}
+          onClick={() => setMode("wechat")}
+        >
+          <FontAwesomeIcon aria-hidden="true" icon={faWeixin} />
+          微信登录
+        </Button>
         <Button
           type="button"
           variant={mode === "email" ? "default" : "ghost"}
+          aria-pressed={mode === "email"}
           onClick={() => setMode("email")}
         >
           <Mail data-icon="inline-start" />
@@ -75,6 +91,7 @@ export function UserLoginForm({
         <Button
           type="button"
           variant={mode === "phone" ? "default" : "ghost"}
+          aria-pressed={mode === "phone"}
           onClick={() => setMode("phone")}
         >
           <Smartphone data-icon="inline-start" />
@@ -83,14 +100,17 @@ export function UserLoginForm({
         <Button
           type="button"
           variant={mode === "learner" ? "default" : "ghost"}
+          aria-pressed={mode === "learner"}
           onClick={() => setMode("learner")}
         >
           <GraduationCap data-icon="inline-start" />
           学习账号
         </Button>
-      </div>
+      </fieldset>
 
-      {mode === "email" ? (
+      {mode === "wechat" ? (
+        <WechatLoginPanel next={next} />
+      ) : mode === "email" ? (
         <form action={formAction} className="flex flex-col gap-6">
           {next ? <input name="next" type="hidden" value={next} /> : null}
           <FieldGroup>
@@ -221,14 +241,6 @@ export function UserLoginForm({
           </Button>
         </form>
       )}
-
-      <div className="flex items-center gap-3" aria-hidden="true">
-        <span className="h-px flex-1 bg-border" />
-        <span className="text-xs text-muted-foreground">其他登录方式</span>
-        <span className="h-px flex-1 bg-border" />
-      </div>
-
-      <WechatLoginPanel next={next} disabled={isPending || isPhonePending || isLearnerPending} />
 
       <Button asChild variant="outline">
         <Link href="/">返回首页</Link>

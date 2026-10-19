@@ -6,8 +6,8 @@ import { getPublicSystemConfigs } from "@/lib/settings-api";
 
 interface AuthPanelProps {
   variant?: "public" | "admin";
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   children: ReactNode;
   footer: {
     label: string;
@@ -35,8 +35,8 @@ export async function AuthPanel({ title, description, children, footer, variant 
           </Link>
           <Card className="w-full">
             <CardHeader>
-              <CardTitle>{title}</CardTitle>
-              <CardDescription>{description}</CardDescription>
+              <CardTitle>{title ?? siteName}</CardTitle>
+              {description ? <CardDescription>{description}</CardDescription> : null}
             </CardHeader>
             <CardContent className="flex flex-col gap-6">
               {children}

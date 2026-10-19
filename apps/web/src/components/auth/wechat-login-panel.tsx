@@ -1,6 +1,4 @@
 "use client";
-import { faWeixin } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +8,6 @@ import {
 } from "@/lib/wechat-auth";
 
 type Phase =
-  | "CLOSED"
   | "PREPARING"
   | "WAITING"
   | "COMPLETING"
@@ -19,12 +16,10 @@ type Phase =
   | "ERROR";
 export function WechatLoginPanel({
   next,
-  disabled = false,
 }: {
   next?: string;
-  disabled?: boolean;
 }) {
-  const [phase, setPhase] = useState<Phase>("CLOSED"),
+  const [phase, setPhase] = useState<Phase>("PREPARING"),
     [challenge, setChallenge] = useState<WechatChallenge | null>(null);
   const [error, setError] = useState<string | null>(null),
     [seconds, setSeconds] = useState(180),
@@ -40,10 +35,10 @@ export function WechatLoginPanel({
     [email, setEmail] = useState(""),
     [password, setPassword] = useState("");
   const clientRef = useRef<WechatScanClient | null>(null),
+    challengeRef = useRef<WechatChallenge | null>(null),
     requestRef = useRef<AbortController | null>(null),
     generation = useRef(0);
   async function start() {
-    if (disabled) return;
     const current = ++generation.current;
     requestRef.current?.abort();
     const abort = new AbortController();
@@ -64,6 +59,7 @@ export function WechatLoginPanel({
       const result = await client.start(next, abort.signal);
       if (current !== generation.current) return;
       setRegistrationEnabled(client.registrationEnabled);
+      challengeRef.current = result;
       setChallenge(result);
       setPhase("WAITING");
     } catch (cause) {
@@ -75,26 +71,16 @@ export function WechatLoginPanel({
       }
     }
   }
-  function close() {
-    const old = challenge,
-      client = clientRef.current;
-    ++generation.current;
-    requestRef.current?.abort();
-    setPhase("CLOSED");
-    setChallenge(null);
-    setError(null);
-    if (old && client) void client.cancel(old.challengeId).catch(() => {});
-  }
   useEffect(() => {
-    if (disabled) close();
-  }, [disabled]);
-  useEffect(
-    () => () => {
+    void start();
+    return () => {
       ++generation.current;
       requestRef.current?.abort();
-    },
-    [],
-  );
+      const current = challengeRef.current;
+      if (current && clientRef.current)
+        void clientRef.current.cancel(current.challengeId).catch(() => {});
+    };
+  }, []);
   useEffect(() => {
     if (!challenge || phase !== "WAITING") return;
     function tick() {
@@ -224,40 +210,10 @@ export function WechatLoginPanel({
       setBusy(false);
     }
   }
-  if (phase === "CLOSED")
-    return (
-      <Button
-        type="button"
-        variant="outline"
-        disabled={disabled}
-        onClick={() => void start()}
-      >
-        <FontAwesomeIcon
-          aria-hidden="true"
-          className="size-5 text-[#07c160]"
-          icon={faWeixin}
-        />
-        微信登录
-      </Button>
-    );
-  const working = phase === "PREPARING" || phase === "COMPLETING" || busy;
   return (
     <section
       aria-label="微信扫码登录"
-      className="rounded-xl border bg-background p-5"
     >
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-base font-semibold">微信扫码登录</h3>
-        <Button
-          type="button"
-          size="sm"
-          variant="ghost"
-          disabled={working}
-          onClick={close}
-        >
-          关闭
-        </Button>
-      </div>
       <div aria-live="polite" className="flex flex-col items-center gap-4">
         {phase === "PREPARING" ? (
           <p className="text-sm text-muted-foreground">正在获取二维码…</p>
