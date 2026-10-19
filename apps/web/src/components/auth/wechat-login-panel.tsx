@@ -214,7 +214,7 @@ export function WechatLoginPanel({
     <section
       aria-label="微信扫码登录"
     >
-      <div aria-live="polite" className="flex flex-col items-center gap-4">
+      <div aria-live="polite" className="flex flex-col items-center gap-3">
         {phase === "PREPARING" ? (
           <p className="text-sm text-muted-foreground">正在获取二维码…</p>
         ) : null}

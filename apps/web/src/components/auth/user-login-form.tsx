@@ -108,7 +108,7 @@ export function UserLoginForm({
         </Button>
       </fieldset>
 
-      <div className="h-[400px] overflow-y-auto">
+      <div className="h-[320px] overflow-y-auto">
       {mode === "wechat" ? (
         <WechatLoginPanel next={next} />
       ) : mode === "email" ? (
