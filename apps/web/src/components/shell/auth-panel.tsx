@@ -3,9 +3,11 @@ import type { ReactNode } from "react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPublicSystemConfigs } from "@/lib/settings-api";
+import styles from "./auth-panel.module.css";
 
 interface AuthPanelProps {
   variant?: "public" | "admin";
+  layout?: "default" | "illustrated";
   title?: string | null;
   description?: string;
   children: ReactNode;
@@ -16,12 +18,12 @@ interface AuthPanelProps {
   };
 }
 
-export async function AuthPanel({ title, description, children, footer, variant = "public" }: AuthPanelProps) {
+export async function AuthPanel({ title, description, children, footer, variant = "public", layout = "default" }: AuthPanelProps) {
   const { siteLogo, siteName } = await getSiteIdentity();
   const showHeader = title !== null || Boolean(description);
 
   return (
-    <main className={`xueleai-auth-shell ${variant === "admin" ? "abei-admin-theme" : ""} min-h-screen bg-background text-foreground`} data-public-theme={variant === "public" ? "default" : undefined}>
+    <main className={`xueleai-auth-shell ${variant === "admin" ? "abei-admin-theme" : ""} ${layout === "illustrated" ? styles.illustrated : ""} min-h-screen bg-background text-foreground`} data-public-theme={variant === "public" ? "default" : undefined}>
       <div className="mx-auto flex min-h-screen w-full max-w-[460px] flex-col justify-center px-5 py-10">
         <section className="flex flex-col items-center gap-6">
           <Link className="flex min-h-10 items-center justify-center gap-3 font-display text-3xl font-semibold" href="/">
@@ -44,7 +46,7 @@ export async function AuthPanel({ title, description, children, footer, variant 
             <CardContent className={`flex flex-col gap-6 ${showHeader ? "" : "pt-5 md:pt-6"}`}>
               {children}
               <p className="text-center text-sm text-muted-foreground">
-                {footer.label}
+                <span>{footer.label}</span>
                 <Link className="ml-1 font-medium text-foreground" href={footer.href}>
                   {footer.action}
                 </Link>

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { ArrowRight, Mail, Smartphone } from "lucide-react";
 
@@ -187,9 +186,6 @@ export function RegisterForm({ next }: { next?: string }) {
         </div>
       )}
 
-      <Button asChild variant="outline">
-        <Link href="/">返回首页</Link>
-      </Button>
     </div>
   );
 }

@@ -13,6 +13,7 @@ export default async function RegisterPage({
 
   return (
     <AuthPanel
+      layout="illustrated"
       title="创建账号"
       description="保存学习材料和生成记录"
       footer={{

@@ -1,0 +1,119 @@
+.illustrated:global(.xueleai-auth-shell) {
+  background: #f5f3f0 url("/images/auth/login-background.svg") no-repeat left bottom / cover;
+  background-attachment: fixed;
+}
+
+.illustrated > div {
+  max-width: 1140px;
+  align-items: flex-end;
+  padding: 32px 12px;
+}
+
+.illustrated > div > section {
+  width: 420px;
+  max-width: 100%;
+  padding: 32px;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 10px 40px rgb(0 0 0 / 8%);
+  backdrop-filter: blur(10px);
+}
+
+.illustrated > div > section > a {
+  align-self: flex-start;
+  justify-content: flex-start;
+  font-size: 28px;
+}
+
+.illustrated > div > section > a img {
+  max-width: 180px;
+  max-height: 60px;
+}
+
+.illustrated:global(.xueleai-auth-shell) :global(.xueleai-card),
+.illustrated:global(.xueleai-auth-shell) :global(.xueleai-card):hover {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.illustrated :global(.xueleai-card) > div {
+  padding: 0;
+}
+
+.illustrated :global(.xueleai-card) > div + div {
+  margin-top: 24px;
+}
+
+.illustrated :global(.xueleai-card) > div:last-child {
+  gap: 12px;
+}
+
+.illustrated :global(.abei-login-content) > form,
+.illustrated :global(.abei-login-content) > div {
+  min-height: 100%;
+}
+
+.illustrated :global(.abei-login-content) > div > form:last-child {
+  flex: 1;
+}
+
+.illustrated :global(.abei-login-content) button[type="submit"]:last-child {
+  margin-top: auto;
+}
+
+.illustrated input {
+  border-color: #bdc4d3;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.illustrated input:focus {
+  border-color: var(--primary);
+}
+
+.illustrated :global(.xueleai-card) > div > p > span {
+  display: none;
+}
+
+.illustrated :global(.xueleai-card) > div > p > a {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  color: var(--primary);
+  font-weight: 600;
+  transition: background-color 150ms;
+}
+
+.illustrated :global(.xueleai-card) > div > p > a:hover {
+  background: var(--accent);
+}
+
+.illustrated :global(.xueleai-card) > div > p > a:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+}
+
+@media (max-width: 991px) {
+  .illustrated > div {
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  .illustrated > div > section {
+    background: #fff;
+  }
+}
+
+@media (max-width: 479px) {
+  .illustrated > div > section {
+    padding: 24px;
+  }
+}
