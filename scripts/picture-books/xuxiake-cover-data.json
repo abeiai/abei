@@ -1,0 +1,123 @@
+{
+  "title": "徐霞客游记绘本版",
+  "file": "album/series-cover-publication.png",
+  "sha256": "0239d65049c97c287454b7fcdad77a240ce6bcafdff0fe1435ef23fca027a2bb",
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "libraries": {
+    "library:01": {
+      "sha256": "e1915126158725814b8096e1ddcf97a342dc27084436b212f9ff655d89564272",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:02": {
+      "sha256": "c83c3e598da7df5b7be5c8cb887d1334be99fc9669e2954bf493070e61cddb3f",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:03": {
+      "sha256": "56daa35eb2aacce84e12c1361fe5678628cf387f19ec058fe88f6d9603cc1007",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:04": {
+      "sha256": "2fb1000a314581c7d99cb30949e770b920ab87afb7db0c751e92221be195669e",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:05": {
+      "sha256": "445c565b36cc3cf2d9835b813e75467acfb022fa741b152d5177b9d85bfd6978",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:06": {
+      "sha256": "b24fcac54a3f92a20590da978ba1272a471e79f7e20c27c5d1b4841b82a94313",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:07": {
+      "sha256": "1a526694e67e651078b0f64d3d18878f234fe6ac746efa617b1c21eabe12117e",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:08": {
+      "sha256": "b16d7dc95496122998fbb27b512c4319d1f5245a8a4207b3884ab7934b02ef8a",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:09": {
+      "sha256": "bcc6beeca1d1aa9dba851dcf09a9c1453e8bf047e462c830c86f222251534da0",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:10": {
+      "sha256": "a84732e433c5075664ae190dd34d47eb26964cf97591871ac39d8348c5910589",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:11": {
+      "sha256": "45b34fb35de1aa278c5f1126ef16ace10a568ae683ac038e23006358d8988ffd",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:12": {
+      "sha256": "2677bd94ff24777eb7c989d205b55a876f1ae569331fd0d32edbbc455910549b",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:13": {
+      "sha256": "c9f068733571bb5af107a8a5ec426ea6011da8279d95a32e4808a3ef414e2d52",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:14": {
+      "sha256": "bffedea126a17c4202455e7095235d3cac9faae2003a4b0cd17aa9166507b566",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:15": {
+      "sha256": "ec29eec7afc09aa87556379034ddfdeffabad591e429068c2fd2f7728eb734d4",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    },
+    "library:16": {
+      "sha256": "2bb1047dc424f51c26a6112cf58da027d6b775802f58be4db8edd4b551666e48",
+      "dimensions": [
+        1536,
+        1152
+      ]
+    }
+  }
+}
