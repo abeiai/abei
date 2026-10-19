@@ -36,6 +36,14 @@ test('common 代理保留所有方法、原始 URI、请求体及上游响应', 
         res.writeHead(422, { 'Content-Type': 'application/octet-stream', 'X-Upstream': 'unchanged' });
         return res.end(Buffer.from([0, 255, 13, 10]));
       }
+      if (req.url.startsWith('/open/v5/common/redirect')) {
+        res.writeHead(307, { Location: 'https://long-api.abeiai.com/open/v5/common/next?raw=%2f' });
+        return res.end('upstream redirect');
+      }
+      if (req.url.startsWith('/open/v5/common/teapot')) {
+        res.writeHead(418);
+        return res.end('upstream 418');
+      }
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ method: req.method, url: req.url, headers: req.headers, servername: req.socket.servername, body: Buffer.concat(chunks).toString('base64') }));
     });
@@ -99,12 +107,29 @@ test('common 代理保留所有方法、原始 URI、请求体及上游响应', 
           assert.equal(result.status, 200, result.body.toString());
           assert.equal(JSON.parse(result.body).body, body.toString('base64'));
         });
+        await t.test(`${file} 原始 common 前缀下的 dot-segment 不落回 Web`, async () => {
+          for (const path of ['/open/v5/common/../x?sig=%2f', '/open/v5/common/%2e%2e/x?sig=%2f']) {
+            const result = await request('POST', path, Buffer.from('raw'), { 'Content-Length': 3 });
+            assert.equal(result.status, 200, result.body.toString());
+            const echo = JSON.parse(result.body);
+            assert.equal(echo.method, 'POST');
+            assert.equal(echo.url, path);
+            assert.equal(echo.body, 'cmF3');
+          }
+        });
         await t.test(`${file} HEAD 及错误响应不改写`, async () => {
           assert.equal((await request('HEAD', '/open/v5/common/')).status, 200);
           const result = await request('GET', '/open/v5/common/error');
           assert.equal(result.status, 422);
           assert.equal(result.headers['x-upstream'], 'unchanged');
           assert.deepEqual(result.body, Buffer.from([0, 255, 13, 10]));
+          const redirect = await request('POST', '/open/v5/common/redirect');
+          assert.equal(redirect.status, 307);
+          assert.equal(redirect.headers.location, 'https://long-api.abeiai.com/open/v5/common/next?raw=%2f');
+          assert.equal(redirect.body.toString(), 'upstream redirect');
+          const teapot = await request('GET', '/open/v5/common/teapot');
+          assert.equal(teapot.status, 418);
+          assert.equal(teapot.body.toString(), 'upstream 418');
           assert.notEqual((await request('GET', '/open/v5/common-other/')).status, 200);
         });
       } finally { docker('rm', '-f', container); }
