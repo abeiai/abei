@@ -245,9 +245,6 @@ export function UserLoginForm({
 
       </div>
 
-      <Button asChild variant="outline">
-        <Link href="/">返回首页</Link>
-      </Button>
     </div>
   );
 }
