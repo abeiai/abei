@@ -1,7 +1,6 @@
 import {
   createHash,
   randomBytes,
-  randomInt,
   timingSafeEqual,
 } from "node:crypto";
 import { Inject, Injectable, Optional } from "@nestjs/common";
@@ -167,7 +166,6 @@ export class WechatAuthService {
           contextKey: ctxKey,
           status: "WAITING",
           openId: null,
-          confirmationCode: null,
           next: safeWechatNextPath(next),
           referralToken,
         };
@@ -188,9 +186,6 @@ export class WechatAuthService {
     return {
       status: challenge.status,
       expiresAt: challenge.expiresAt,
-      ...(challenge.status === "SCANNED"
-        ? { confirmationCode: challenge.confirmationCode! }
-        : {}),
     };
   }
   async cancel(contextId: string, csrf: string, id: string) {
@@ -261,12 +256,8 @@ export class WechatAuthService {
       if (!/^ABEI2_L_[a-f0-9]{32}$/.test(scene)) return null;
       return this.scan(message, scene);
     }
-    if (message.MsgType === "text") {
-      const match = /^登录\s*(\d{6})$/.exec((message.Content ?? "").trim());
-      if (match) return this.confirm(message, match[1]!);
-    }
     if (message.MsgType === "event" && event === "unsubscribe")
-      await this.confirm(message, null);
+      await this.cancelOnUnsubscribe(message);
     return null;
   }
   private async scan(message: Record<string, string>, scene: string) {
@@ -289,8 +280,7 @@ export class WechatAuthService {
         if (previous) return { values, result: previous.reply };
         const challenge = recordOf(values[1], "CHALLENGE"),
           context = recordOf(values[2], "CONTEXT");
-        const reply =
-          "请返回你正在登录的阿贝页面查看确认码，回复「登录 确认码」。";
+        const reply = "扫码成功，请返回阿贝网页完成登录。";
         if (
           !recordOf(values[0], "SCENE") ||
           !challenge ||
@@ -310,22 +300,17 @@ export class WechatAuthService {
             );
           if (entries.length >= 8)
             return { values, result: "登录请求过多，请稍后重试。" };
-          let code = String(randomInt(100000, 1000000));
-          while (entries.some((x) => x.code === code))
-            code = String(randomInt(100000, 1000000));
           challenge.openId = message.FromUserName!;
-          challenge.confirmationCode = code;
-          challenge.status = "SCANNED";
+          challenge.status = "CONFIRMED";
           values[3] = {
             kind: "OPENID",
             expiresAt: Math.max(
               challenge.expiresAt,
               ...entries.map((x) => x.expiresAt),
             ),
-            failures: existing?.failures ?? 0,
             entries: [
               ...entries,
-              { id: challenge.id, code, expiresAt: challenge.expiresAt },
+              { id: challenge.id, expiresAt: challenge.expiresAt },
             ],
           };
         }
@@ -334,7 +319,7 @@ export class WechatAuthService {
       },
     );
   }
-  private async confirm(message: Record<string, string>, code: string | null) {
+  private async cancelOnUnsubscribe(message: Record<string, string>) {
     const indexKey = this.key("openid", message.FromUserName!),
       eventKey = this.eventKey(message),
       snapshot = recordOf(await this.store.read(indexKey), "OPENID");
@@ -360,23 +345,8 @@ export class WechatAuthService {
             x.openId === message.FromUserName &&
             (x.status === "SCANNED" || x.status === "CONFIRMED"),
         );
-      let reply = "确认码错误或已失效，请核对网页上的确认码。";
-      if (code === null) {
-        for (const challenge of candidates) challenge.status = "CANCELLED";
-        reply = "登录已取消。";
-      } else {
-        const matching = candidates.filter((x) => x.confirmationCode === code);
-        if (matching.length === 1 && index.failures < 5) {
-          matching[0]!.status = "CONFIRMED";
-          reply = "确认成功，请返回阿贝网页。";
-        } else {
-          index.failures++;
-          if (index.failures >= 5) {
-            for (const challenge of candidates) challenge.status = "CANCELLED";
-            reply = "尝试次数过多，请返回网页刷新二维码。";
-          }
-        }
-      }
+      for (const challenge of candidates) challenge.status = "CANCELLED";
+      const reply = "登录已取消。";
       values[1] = { kind: "EVENT", expiresAt: this.clock() + 300_000, reply };
       return { values, result: reply };
     });

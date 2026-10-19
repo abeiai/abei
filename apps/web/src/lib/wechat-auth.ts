@@ -5,9 +5,8 @@ export interface WechatChallenge {
   expiresAt: number;
 }
 export interface WechatScanState {
-  status: "WAITING" | "SCANNED" | "CONFIRMED" | "CONSUMED" | "CANCELLED";
+  status: "WAITING" | "CONFIRMED" | "CONSUMED" | "CANCELLED";
   expiresAt: number;
-  confirmationCode?: string;
 }
 export type WechatCompletion =
   | { status: "AUTHENTICATED"; next: string }
@@ -97,12 +96,10 @@ export class WechatScanClient {
       signal,
     );
     if (
-      !["WAITING", "SCANNED", "CONFIRMED", "CONSUMED", "CANCELLED"].includes(
+      !["WAITING", "CONFIRMED", "CONSUMED", "CANCELLED"].includes(
         result.status,
       ) ||
-      !Number.isFinite(result.expiresAt) ||
-      (result.status === "SCANNED" &&
-        !/^\d{6}$/.test(result.confirmationCode ?? ""))
+      !Number.isFinite(result.expiresAt)
     )
       throw new Error("扫码状态异常，请刷新二维码");
     return result;

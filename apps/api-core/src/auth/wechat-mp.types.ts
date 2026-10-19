@@ -127,7 +127,6 @@ export type ScanRecord =
       contextKey: string;
       status: ScanStatus;
       openId: string | null;
-      confirmationCode: string | null;
       next: string;
       referralToken: string | null;
     }
@@ -135,8 +134,7 @@ export type ScanRecord =
   | {
       kind: "OPENID";
       expiresAt: number;
-      failures: number;
-      entries: Array<{ id: string; code: string; expiresAt: number }>;
+      entries: Array<{ id: string; expiresAt: number }>;
     }
   | { kind: "EVENT"; expiresAt: number; reply: string }
   | {

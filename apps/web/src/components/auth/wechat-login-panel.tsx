@@ -7,14 +7,12 @@ import { Input } from "@/components/ui/input";
 import {
   WechatScanClient,
   type WechatChallenge,
-  type WechatScanState,
 } from "@/lib/wechat-auth";
 
 type Phase =
   | "CLOSED"
   | "PREPARING"
   | "WAITING"
-  | "SCANNED"
   | "COMPLETING"
   | "RESOLUTION"
   | "EXPIRED"
@@ -27,8 +25,7 @@ export function WechatLoginPanel({
   disabled?: boolean;
 }) {
   const [phase, setPhase] = useState<Phase>("CLOSED"),
-    [challenge, setChallenge] = useState<WechatChallenge | null>(null),
-    [scan, setScan] = useState<WechatScanState | null>(null);
+    [challenge, setChallenge] = useState<WechatChallenge | null>(null);
   const [error, setError] = useState<string | null>(null),
     [seconds, setSeconds] = useState(180),
     [busy, setBusy] = useState(false),
@@ -55,7 +52,6 @@ export function WechatLoginPanel({
     clientRef.current = client;
     setPhase("PREPARING");
     setError(null);
-    setScan(null);
     setChallenge(null);
     setPhone("");
     setCode("");
@@ -86,7 +82,6 @@ export function WechatLoginPanel({
     requestRef.current?.abort();
     setPhase("CLOSED");
     setChallenge(null);
-    setScan(null);
     setError(null);
     if (old && client) void client.cancel(old.challengeId).catch(() => {});
   }
@@ -101,7 +96,7 @@ export function WechatLoginPanel({
     [],
   );
   useEffect(() => {
-    if (!challenge || (phase !== "WAITING" && phase !== "SCANNED")) return;
+    if (!challenge || phase !== "WAITING") return;
     function tick() {
       const remaining = Math.max(
         0,
@@ -156,8 +151,7 @@ export function WechatLoginPanel({
           else setPhase("RESOLUTION");
           return;
         }
-        setScan(result);
-        setPhase(result.status === "SCANNED" ? "SCANNED" : "WAITING");
+        setPhase("WAITING");
       } catch (cause) {
         if (!stopped && id === generation.current) {
           finished = true;
@@ -268,7 +262,7 @@ export function WechatLoginPanel({
         {phase === "PREPARING" ? (
           <p className="text-sm text-muted-foreground">正在获取二维码…</p>
         ) : null}
-        {(phase === "WAITING" || phase === "SCANNED") && challenge ? (
+        {phase === "WAITING" && challenge ? (
           <>
             <img
               alt="本次微信登录二维码"
@@ -278,21 +272,12 @@ export function WechatLoginPanel({
               height={208}
               referrerPolicy="no-referrer"
             />
-            {phase === "WAITING" ? (
-              <p className="text-sm">微信扫码，首次使用请关注公众号</p>
-            ) : (
-              <div className="text-center">
-                <p className="text-sm">请在公众号回复</p>
-                <p className="mt-2 select-all text-2xl font-semibold tracking-widest">
-                  登录 {scan?.confirmationCode}
-                </p>
-              </div>
-            )}
+            <p className="text-sm">微信扫码后自动登录，首次使用请关注公众号</p>
             <p className="text-xs text-muted-foreground">{seconds} 秒后失效</p>
           </>
         ) : null}
         {phase === "COMPLETING" ? (
-          <p className="text-sm">确认成功，正在登录…</p>
+          <p className="text-sm">扫码成功，正在登录…</p>
         ) : null}
         {phase === "RESOLUTION" ? (
           <form onSubmit={resolveAccount} className="w-full space-y-4">
@@ -466,8 +451,7 @@ export function WechatLoginPanel({
         ) : null}
         {phase === "ERROR" ||
         phase === "EXPIRED" ||
-        phase === "WAITING" ||
-        phase === "SCANNED" ? (
+        phase === "WAITING" ? (
           <Button type="button" variant="outline" onClick={() => void start()}>
             刷新二维码
           </Button>

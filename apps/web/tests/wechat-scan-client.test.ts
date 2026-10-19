@@ -9,7 +9,7 @@ interface Client {
   start(
     next?: string,
   ): Promise<{ challengeId: string; qrcodeUrl: string; expiresAt: number }>;
-  poll(id: string): Promise<{ status: string; confirmationCode?: string }>;
+  poll(id: string): Promise<{ status: string }>;
   complete(id: string): Promise<{ status: string; next?: string }>;
 }
 test("扫码客户端使用同源上下文和 CSRF，不再跳转 OAuth", async () => {
@@ -21,11 +21,7 @@ test("扫码客户端使用同源上下文和 CSRF，不再跳转 OAuth", async 
       qrcodeUrl: "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=unit",
       expiresAt: Date.now() + 180000,
     },
-    {
-      status: "SCANNED",
-      confirmationCode: "456789",
-      expiresAt: Date.now() + 180000,
-    },
+    { status: "CONFIRMED", expiresAt: Date.now() + 180000 },
     { status: "AUTHENTICATED", next: "/select-profile?next=%2Fpicture-books" },
   ];
   const request = (async (url: RequestInfo | URL, init: RequestInit = {}) => {
@@ -54,10 +50,7 @@ test("扫码客户端使用同源上下文和 CSRF，不再跳转 OAuth", async 
   );
   assert.equal(requests[1]!.init.credentials, "same-origin");
   assert.equal(requests[1]!.init.cache, "no-store");
-  assert.equal(
-    (await client.poll(challenge.challengeId)).confirmationCode,
-    "456789",
-  );
+  assert.equal((await client.poll(challenge.challengeId)).status, "CONFIRMED");
   assert.equal(
     (await client.complete(challenge.challengeId)).next,
     "/select-profile?next=%2Fpicture-books",
@@ -68,6 +61,18 @@ test("扫码客户端使用同源上下文和 CSRF，不再跳转 OAuth", async 
     ),
     false,
   );
+});
+test("旧版等待回复的扫码状态不能误当作已完成登录", async () => {
+  const client = new auth.WechatScanClient((async () =>
+    Response.json({
+      code: 0,
+      data: {
+        status: "SCANNED",
+        confirmationCode: "123456",
+        expiresAt: Date.now() + 180000,
+      },
+    })) as typeof fetch);
+  await assert.rejects(() => client.poll("opaque-challenge-id"), /扫码状态异常/);
 });
 test("错误响应和不安全跳转均不会成为登录成功", async () => {
   const Constructor = (

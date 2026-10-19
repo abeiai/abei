@@ -26,7 +26,9 @@ Docker 项目名为 `abei`，入口容器名为 `abei`。端口均在指定范�
 上游的 `docker-compose.prod.yml` 和发布脚本仍保留供参考，其 xueleai 配置不用于 abei 的本地运行。
 ## abei 公众号扫码登录
 
-微信登录已替换为「临时二维码 → 关注/扫码 → 在公众号回复网页确认码 → 原浏览器登录」。网站应用 OAuth 的 authorize/callback 已移除。已导入的同公众号 OpenID 对应原用户；未匹配身份先选择绑定已有手机号/邮箱账号或创建新账号，不能扫码后自动建号。
+微信登录采用「临时二维码 → 关注/扫码 → 原浏览器自动登录」，无需在公众号回复确认码。公众号事件在服务端验签解密，扫码状态仅由发起扫码的浏览器上下文领取，不向浏览器返回 OpenID。网站应用 OAuth 的 authorize/callback 已移除。已导入的同公众号 OpenID 对应原用户；未匹配身份先选择绑定已有手机号/邮箱账号或创建新账号，不能扫码后自动建号。
+
+扫码即登录有二维码替换风险：用户若扫描他人展示的登录二维码，可能把自己的账号登录到对方浏览器；应只扫描自己打开的登录页二维码。
 
 在 abei 配置中填写 `WECHAT_APP_ID`、`WECHAT_APP_SECRET`、`WECHAT_MP_CALLBACK_TOKEN`、43 位 `WECHAT_MP_ENCODING_AES_KEY`、`WECHAT_MP_ORIGINAL_ID`，并将 `APP_BASE_URL` 设置为用户实际访问的同源 HTTPS 地址。消息入口为 `https://你的域名/api/auth/wechat/mp/events`，只接收已验签的安全模式加密消息。`WECHAT_MP_LOGIN_ENABLED` 和 `WECHAT_MP_REGISTRATION_ENABLED` 默认均为 false；旧用户身份导入、独立测试及旧公众号消息接管完成后再按需开启。
 

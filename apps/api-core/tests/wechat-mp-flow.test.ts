@@ -205,23 +205,11 @@ function harness() {
       EventKey: event === "subscribe" ? "qrscene_" + scene : scene,
     });
   }
-  async function confirm(
+  async function scanFor(
     state: Awaited<ReturnType<typeof start>>,
     openId = "owner-openid",
   ) {
     await scan(state.scene, openId);
-    const status = await service.poll(
-      state.boot.contextId,
-      state.challenge.challengeId,
-    );
-    await service.handleMessage({
-      ToUserName: config.originalId,
-      FromUserName: openId,
-      CreateTime: String(Math.floor(now / 1000)),
-      MsgType: "text",
-      MsgId: "confirm-" + state.scene,
-      Content: "登录 " + status.confirmationCode,
-    });
   }
   return {
     service,
@@ -233,7 +221,7 @@ function harness() {
     response,
     start,
     scan,
-    confirm,
+    scanFor,
     provider,
     auth,
     get verifiedId() {
@@ -255,7 +243,7 @@ function owner(id = "existing-owner") {
     phone: "13800000001",
   };
 }
-test("二维码仅绑定发起浏览器，查询不暴露身份，确认后领取一次已有账号会话", async () => {
+test("公众号扫码后原浏览器直接领取一次已有账号会话且不暴露身份", async () => {
   const h = harness();
   h.users.push(owner());
   const s = await h.start();
@@ -268,18 +256,9 @@ test("二维码仅绑定发起浏览器，查询不暴露身份，确认后领�
     s.boot.contextId,
     s.challenge.challengeId,
   );
-  assert.equal(scanned.status, "SCANNED");
-  assert.match(scanned.confirmationCode ?? "", /^\d{6}$/);
+  assert.equal(scanned.status, "CONFIRMED");
+  assert.equal("confirmationCode" in scanned, false);
   assert.doesNotMatch(JSON.stringify(scanned), /owner-openid|existing-union/);
-  await assert.rejects(() =>
-    h.service.complete(
-      s.boot.contextId,
-      s.boot.csrfToken,
-      s.challenge.challengeId,
-      h.response,
-    ),
-  );
-  await h.confirm(s);
   const completed = await h.service.complete(
     s.boot.contextId,
     s.boot.csrfToken,
@@ -306,6 +285,53 @@ test("二维码仅绑定发起浏览器，查询不暴露身份，确认后领�
     ),
   );
 });
+test("扫码登录不再要求公众号回复确认码，取消关注仍会终止未领取的挑战", async () => {
+  const h = harness();
+  const state = await h.start();
+  await h.scan(state.scene);
+  assert.equal(
+    await h.service.handleMessage({
+      FromUserName: "owner-openid",
+      CreateTime: String(Math.floor(Date.now() / 1000)),
+      MsgType: "text",
+      MsgId: "obsolete-confirmation",
+      Content: "登录 123456",
+    }),
+    null,
+  );
+  await h.service.handleMessage({
+    FromUserName: "owner-openid",
+    CreateTime: String(Math.floor(Date.now() / 1000)),
+    MsgType: "event",
+    Event: "unsubscribe",
+  });
+  assert.equal(
+    (await h.service.poll(state.boot.contextId, state.challenge.challengeId)).status,
+    "CANCELLED",
+  );
+});
+test("取消关注也撤销滚动发布期间遗留的等待回复挑战", async () => {
+  const h = harness();
+  const state = await h.start();
+  await h.scan(state.scene);
+  const entry = [...h.store.values.entries()].find(
+    ([, value]) => value.kind === "CHALLENGE" && value.id === state.challenge.challengeId,
+  );
+  assert.ok(entry);
+  const [key, challenge] = entry;
+  assert.equal(challenge.kind, "CHALLENGE");
+  h.store.values.set(key, { ...challenge, status: "SCANNED" } as ScanRecord);
+  await h.service.handleMessage({
+    FromUserName: "owner-openid",
+    CreateTime: String(Math.floor(Date.now() / 1000)),
+    MsgType: "event",
+    Event: "unsubscribe",
+  });
+  assert.equal(
+    (await h.service.poll(state.boot.contextId, state.challenge.challengeId)).status,
+    "CANCELLED",
+  );
+});
 test("首次扫码身份不能被另一个微信覆盖，普通关注和错误前缀不会登录", async () => {
   const h = harness();
   h.users.push(owner());
@@ -320,7 +346,7 @@ test("首次扫码身份不能被另一个微信覆盖，普通关注和错误�
     Event: "subscribe",
     EventKey: "",
   });
-  await h.confirm(s);
+  await h.scanFor(s);
   await h.service.complete(
     s.boot.contextId,
     s.boot.csrfToken,
@@ -345,7 +371,7 @@ test("刷新取消旧挑战、过期及 CSRF 不匹配均不能领取", async ()
     h.service.poll(s.boot.contextId, s.challenge.challengeId),
   );
   const current = await h.start();
-  await h.confirm(current);
+  await h.scanFor(current);
   h.advance(181_000);
   await assert.rejects(() =>
     h.service.complete(
@@ -361,7 +387,7 @@ test("并发 complete 只允许一次会话副作用，取消关注不删除账�
   const h = harness();
   h.users.push(owner());
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   const results = await Promise.allSettled(
     Array.from({ length: 8 }, () =>
       h.service.complete(
@@ -381,7 +407,7 @@ test("未匹配身份只获得未登录处理上下文，绑定要使用其验�
   const h = harness();
   h.users.push({ ...owner("phone-owner"), wechatMpOpenId: null });
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   const result = await h.service.complete(
     s.boot.contextId,
     s.boot.csrfToken,
@@ -423,11 +449,11 @@ test("未匹配身份只获得未登录处理上下文，绑定要使用其验�
     ),
   );
 });
-test("禁用身份、UnionID 冲突以及过多错误确认都失败关闭", async () => {
+test("禁用身份扫码后仍拒绝登录", async () => {
   const h = harness();
   h.users.push({ ...owner(), status: "DISABLED" });
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   await assert.rejects(() =>
     h.service.complete(
       s.boot.contextId,
@@ -437,21 +463,6 @@ test("禁用身份、UnionID 冲突以及过多错误确认都失败关闭", asy
     ),
   );
   assert.equal(h.sessions.length, 0);
-  const h2 = harness();
-  const s2 = await h2.start();
-  await h2.scan(s2.scene);
-  for (let i = 0; i < 5; i++)
-    await h2.service.handleMessage({
-      FromUserName: "owner-openid",
-      CreateTime: String(Math.floor(Date.now() / 1000)),
-      MsgType: "text",
-      MsgId: "wrong-" + i,
-      Content: "登录 000000",
-    });
-  assert.equal(
-    (await h2.service.poll(s2.boot.contextId, s2.challenge.challengeId)).status,
-    "CANCELLED",
-  );
 });
 test("外部 next 被过滤，重复消息不重置原始有效期", async () => {
   const h = harness();
@@ -478,7 +489,7 @@ test("领取过程中刷新不能使旧请求绕过当前浏览器状态", async
   const h = harness();
   h.users.push(owner());
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   let release!: () => void, started!: () => void;
   const waiting = new Promise<void>((resolve) => {
       release = resolve;
@@ -517,7 +528,7 @@ test("可信 UnionID 与原账号不同不能覆盖，即使该 UnionID 尚无�
   const h = harness();
   h.users.push(owner());
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   h.provider.identity = async (openId: string) => ({
     appId: config.appId,
     openId,
@@ -547,7 +558,7 @@ test("仅邮箱账号可凭已有密码绑定，失败不发会话或覆盖身�
     wechatMpOpenId: null,
   });
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   await h.service.complete(
     s.boot.contextId,
     s.boot.csrfToken,
@@ -580,7 +591,7 @@ test("仅邮箱账号可凭已有密码绑定，失败不发会话或覆盖身�
     wechatMpOpenId: null,
   });
   const s2 = await h2.start();
-  await h2.confirm(s2);
+  await h2.scanFor(s2);
   await h2.service.complete(
     s2.boot.contextId,
     s2.boot.csrfToken,
@@ -603,7 +614,7 @@ test("验证手机号后账号并发更换手机号不能把微信绑定给旧�
   const h = harness();
   h.users.push({ ...owner(), wechatMpOpenId: null });
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   await h.service.complete(
     s.boot.contextId,
     s.boot.csrfToken,
@@ -636,7 +647,7 @@ test("其他登录领取同一浏览器上下文后，扫码领取失败", async
   const h = harness();
   h.users.push(owner());
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   await h.service.withAlternativeLogin(
     s.boot.contextId,
     async () => "email-login",
@@ -691,7 +702,7 @@ test("验证后邮箱、密码或密码开关改变，微信身份写入均失�
       wechatMpOpenId: null,
     });
     const s = await h.start();
-    await h.confirm(s);
+    await h.scanFor(s);
     await h.service.complete(
       s.boot.contextId,
       s.boot.csrfToken,
@@ -721,7 +732,7 @@ test("扫码完成已领取时，取消和其他登录失败，原登录仅建�
   const h = harness();
   h.users.push(owner());
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   let release!: () => void, ready!: () => void;
   const waiting = new Promise<void>((r) => {
       release = r;
@@ -771,7 +782,7 @@ test("扫码完成已领取时，取消和其他登录失败，原登录仅建�
 test("未知身份必须明确创建且完成短信，创建不启用密码登录", async () => {
   const h = harness();
   const s = await h.start();
-  await h.confirm(s);
+  await h.scanFor(s);
   await h.service.complete(
     s.boot.contextId,
     s.boot.csrfToken,
