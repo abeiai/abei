@@ -32,8 +32,8 @@
 
 - 字体：保留项目 Mulish 与系统中文回退；品牌 28px，字段和正文 14px；无文本截断。保留原有中文与功能文案，未添加参考页的英文占位说明。
 - 布局：桌面靠右、窄屏居中；内边距 32px，手机 24px，圆角 20px。输入框维持项目 44px 高度，验证码组合行可用。
-- 色彩：主色实际为 `#ff7b31`；背景 SVG 的蓝色矢量色板改为橙色，未更改路径、内嵌插图或构图。品牌从既有后台公开配置读取。
-- 影像：复用真实源 SVG，缩放清晰，无占位图、外链背景请求或新增手绘替代图。
+- 色彩：主色实际为 `#ff7b31`；背景 SVG 的蓝色矢量色板改为橙色，保留路径和构图。品牌从既有后台公开配置读取。
+- 影像：复用源 SVG 背景，内嵌人物按后续要求替换为中国男孩；不依赖外链图片。
 - 登录切换：桌面四种方式的外框均 576px，手机均 604px，内容区均 320px；两个视口均无横向溢出。
 - 注册：保留昵称、邮箱、验证码、密码及手机注册；390px 视口无横向溢出。
 - 交互：四种登录方式、两种注册方式切换正常；“立即注册”和“去登录”互相跳转正常；输入与键盘聚焦可用。
@@ -49,5 +49,27 @@
 - `apps/web/src/components/auth/register-form.tsx`：移除多余返回首页入口。
 - `apps/web/public/images/auth/login-background.svg`：引用原始背景并适配橙色矢量色板，来源注明在 SVG 首行。
 - `design-qa.md`：视觉对照及验证记录。
+
+## 中国男孩插画更新
+
+- 修改范围仅为 `apps/web/public/images/auth/login-background.svg` 内嵌人物图片；登录、注册共用该背景，无代码、数据库、migration 或 seed 变更。
+- 使用内置 imagegen 编辑原透明 PNG，将人物替换为短黑发的中国男孩；保留 3D 风格、书桌、电脑、椅子、杯子与橙色主题。
+- 生成原件：`/Users/ericword/.codex/generated_images/01a11e00-a9f2-70c1-85be-f7bfa3339fa1/exec-fc880d68-fb5f-4054-9c23-0b3c78dff0cc.png`；缩至 966px 宽并保留透明通道，内嵌保存到上述项目 SVG。
+- 最终提示词如下（内置工具模式，编辑目标为原内嵌 PNG）：
+
+```text
+Use case: precise-object-edit.
+Edit target: the attached transparent 483×444 PNG illustration used inside an existing website background.
+Primary request: replace the female character with a Chinese boy, about 10–12 years old, naturally recognizable East Asian facial features, short black hair, friendly focused expression, seated at the laptop.
+Style: preserve the existing polished soft 3D clay/cartoon rendering, proportions, materials and lighting.
+Keep: identical camera, canvas aspect ratio, subject placement and scale, seated pose, hands using laptop, wooden desk, wooden chair, laptop, cup and all furniture geometry. Keep the desk and chair fully visible exactly as in the source. Preserve the boy's blue trousers; use a simple warm orange/cream casual shirt and neutral shoes, suited to the existing orange website theme.
+Background: true transparency, including around furniture legs; preserve all transparent cutout areas. No scenery, colored rectangle, gradient backdrop, lettering or extra objects.
+Only change the person into a Chinese boy. Remove the long orange hair and feminine face/clothing. Do not crop or enlarge the scene.
+```
+
+- 验证通过：`pnpm --filter @xueleai/web typecheck`、`docker compose --project-name abei build web`；重建本地 Web 容器，健康检查通过并重载 Nginx。
+- SVG 解析验证通过；与修改前对比，除人物位图和来源注释外，所有矢量节点、颜色与图片摆放属性完全一致。内嵌 PNG 保留真实透明通道。
+- 已在实际 `http://localhost:3600/login` 和 `/register` 查看新图。截图为 `output/auth-redesign/login-chinese-boy.png`（1280×720）与 `register-chinese-boy.png`（1280×900）；男孩、橙色背景及表单显示正常。
+- 仅图片变更，未运行全量测试或全量 lint；未修改登录流程，未进行线上部署。
 
 final result: passed
