@@ -45,7 +45,7 @@ services:
       HOSTNAME: 0.0.0.0
       API_BASE_URL: http://api-core:3602/api
       PUBLIC_API_BASE_URL: /api
-      APP_BASE_URL: https://new.abeiai.com
+      APP_BASE_URL: https://abeiai.com
     volumes:
       - web_image_cache:/app/apps/web/.next/cache/images
     depends_on:
@@ -77,12 +77,12 @@ services:
       DATABASE_URL: postgresql://abei:${POSTGRES_PASSWORD}@postgres:3604/abei?schema=public
       REDIS_URL: redis://redis:3605
       AI_GATEWAY_BASE_URL: http://ai-gateway:3603
-      APP_BASE_URL: https://new.abeiai.com
+      APP_BASE_URL: https://abeiai.com
       PUBLIC_API_BASE_URL: /api
       UPLOAD_DRIVER: local
       UPLOAD_DIR: /app/uploads
       CREATOR_ASSET_DIR: /app/private-creator-assets
-      CREATOR_MAIN_ORIGIN: https://new.abeiai.com
+      CREATOR_MAIN_ORIGIN: https://abeiai.com
       LEGACY_AI_LOG_ASSET_DIR: /app/private-legacy-ai-log-assets
       VIDEO_GUIDE_MEDIA_UPLOAD_DRIVER: local
     volumes:

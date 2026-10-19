@@ -36,4 +36,4 @@ Docker 项目名为 `abei`，入口容器名为 `abei`。端口均在指定范�
 
 ## 生产部署
 
-首个域名为 `https://new.abeiai.com`，使用独立 `docker-compose.abei-prod.yml`；完整发布与数据同步说明见 [abei 生产发布](docs/ops/abei-production.md)。
+主域名为 `https://abeiai.com`（旧域名 `https://new.abeiai.com` 的页面自动跳转），使用独立 `docker-compose.abei-prod.yml`；完整发布与数据同步说明见 [abei 生产发布](docs/ops/abei-production.md)。

@@ -1,6 +1,6 @@
 # abei 生产发布
 
-生产域名为 `https://new.abeiai.com`，服务器 `8.130.44.204`，目录 `/opt/abei` 为发布目录，不是 Git 仓库。使用 `docker-compose.abei-prod.yml`，Compose 项目 `abei-prod`，所有卷以 `abei-prod_` 开头。本地 `abei` 卷不参与服务器 Compose。
+生产主域名为 `https://abeiai.com`，服务器 `8.130.44.204`，目录 `/opt/abei` 为发布目录，不是 Git 仓库。使用 `docker-compose.abei-prod.yml`，Compose 项目 `abei-prod`，所有卷以 `abei-prod_` 开头。本地 `abei` 卷不参与服务器 Compose。
 
 ## 代码与私有配置
 
@@ -26,10 +26,26 @@ docker compose --env-file .env.production -f docker-compose.abei-prod.yml up -d
 ## 复验
 
 ```bash
-curl -fsS https://new.abeiai.com/api/health
-curl -fsS https://new.abeiai.com/api/health/db
-curl -fsS https://new.abeiai.com/api/health/redis
-curl -fsS https://new.abeiai.com/api/system-config/public
+curl -fsS https://abeiai.com/api/health
+curl -fsS https://abeiai.com/api/health/db
+curl -fsS https://abeiai.com/api/health/redis
+curl -fsS https://abeiai.com/api/system-config/public
 ```
 
 还须核对发布 revision，首页和工具页面 HTML，登录与后台鉴权，以及 robots、sitemap 和 canonical 域名。报告分别说明 GitHub、服务器、API、页面及数据同步状态。
+
+## 主域名 HTTPS（2026-10-19）
+
+`abeiai.com` 与 `new.abeiai.com` 共用 `/etc/letsencrypt/live/new.abeiai.com/` 的 SAN 证书，证书同时覆盖两个域名。HTTP 页面永久跳转到 `https://abeiai.com`，旧域名 HTTPS 页面使用 308 跳转并保留路径与查询参数。旧域名的 `/api/`、`/uploads/`、`/healthz` 继续提供服务，兼容已有回调与素材地址；`mcp.abeiai.com` 的证书、issuer 和 API 路由保持独立。
+
+Web/API 的 `APP_BASE_URL`、API 的 `CREATOR_MAIN_ORIGIN` 和公开系统配置 `siteUrl` 使用 `https://abeiai.com`。仅重建运行容器以应用环境变量，复用当前应用镜像，不执行 migration 或 seed。线上域名配置可单独发布，不将配置提交号冒充为应用镜像版本。
+
+证书使用已有 certbot.timer 自动续期，webroot 为 `/opt/abei/deploy/data/certbot`，成功续期后由 `/etc/letsencrypt/renewal-hooks/deploy/reload-abei.sh` reload 入口 Nginx。该方案遵循 [Certbot 的 webroot 和续期流程](https://eff-certbot.readthedocs.io/en/stable/using.html#renewing-certificates)。复验：
+
+```bash
+certbot renew --cert-name new.abeiai.com --dry-run
+curl -I http://abeiai.com/
+curl -I https://abeiai.com/
+curl -I 'https://new.abeiai.com/login?next=%2Fdashboard'
+curl -fsS https://new.abeiai.com/api/health
+```
