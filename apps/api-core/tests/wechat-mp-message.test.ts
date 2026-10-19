@@ -8,6 +8,7 @@ const config = {
   token: "unit-callback-token",
   encodingKey: key.toString("base64").slice(0, -1),
   originalId: "gh_unit_test",
+  messageMode: "safe" as const,
 };
 const now = 1_800_000_000_000;
 const timestamp = "1800000000";
@@ -51,6 +52,34 @@ test("安全模式验签解密获得正文身份，而不信任查询 OpenID", (
   );
   assert.equal(message.FromUserName, "verified-openid");
   assert.equal(message.Event, "subscribe");
+});
+test("明文模式验签后读取扫码事件，并拒绝坏签名与错误接收方", () => {
+  const codec = new WechatMessageCodec({ ...config, messageMode: "plain" }, () => now);
+  const query = {
+    timestamp,
+    nonce: "plain-nonce",
+    signature: signature(config.token, timestamp, "plain-nonce"),
+  };
+  assert.equal(
+    codec.decode({ ...query, openid: "forged-openid" }, event).FromUserName,
+    "verified-openid",
+  );
+  for (const input of [
+    { query: { ...query, signature: "0".repeat(40) }, body: event },
+    { query, body: event.replace("gh_unit_test", "gh_other") },
+    { query: { ...query, timestamp: "1799999000" }, body: event },
+    { query, body: fixture(event).body },
+  ]) assert.throws(() => codec.decode(input.query, input.body));
+  assert.throws(() => new WechatMessageCodec(config, () => now).decode(query, event));
+});
+test("明文模式被动回复包含经 XML 转义的正文", () => {
+  const response = new WechatMessageCodec(
+    { ...config, messageMode: "plain" },
+    () => now,
+  ).reply("verified-openid", "扫码成功 & 请返回网页");
+  assert.match(response, /<ToUserName><!\[CDATA\[verified-openid\]\]><\/ToUserName>/);
+  assert.match(response, /扫码成功 & 请返回网页/);
+  assert.doesNotMatch(response, /<Encrypt>/);
 });
 test("坏签名、其他 AppID、其他接收公众号、过期时间和明文均拒绝", () => {
   const codec = new WechatMessageCodec(config, () => now);

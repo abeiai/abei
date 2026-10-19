@@ -17,6 +17,7 @@ const config: WechatMpConfig = {
   token: "unitcallbacktoken",
   encodingKey: Buffer.alloc(32, 7).toString("base64").slice(0, -1),
   originalId: "gh_unit",
+  messageMode: "safe",
   origin: "https://abei.example",
   registrationEnabled: false,
 };
@@ -112,6 +113,7 @@ test("公众号配置独立于网站应用配置，生产 HTTP 配置失败关�
     WECHAT_MP_CALLBACK_TOKEN: config.token,
     WECHAT_MP_ENCODING_AES_KEY: config.encodingKey,
     WECHAT_MP_ORIGINAL_ID: config.originalId,
+    WECHAT_MP_MESSAGE_MODE: "safe",
     APP_BASE_URL: config.origin,
     NODE_ENV: "production",
   };
@@ -121,6 +123,15 @@ test("公众号配置独立于网站应用配置，生产 HTTP 配置失败关�
   delete process.env.WECHAT_OPEN_APP_SECRET;
   try {
     assert.equal(loadWechatMpConfig().appId, config.appId);
+    assert.equal(loadWechatMpConfig().messageMode, "safe");
+    process.env.WECHAT_MP_MESSAGE_MODE = "plain";
+    assert.equal(loadWechatMpConfig().messageMode, "plain");
+    delete process.env.WECHAT_MP_ENCODING_AES_KEY;
+    assert.equal(loadWechatMpConfig().encodingKey, "");
+    process.env.WECHAT_MP_ENCODING_AES_KEY = config.encodingKey;
+    process.env.WECHAT_MP_MESSAGE_MODE = "invalid";
+    assert.throws(() => loadWechatMpConfig());
+    process.env.WECHAT_MP_MESSAGE_MODE = "safe";
     process.env.APP_BASE_URL = "http://abei.example";
     assert.throws(() => loadWechatMpConfig());
   } finally {

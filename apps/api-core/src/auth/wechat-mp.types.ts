@@ -38,6 +38,7 @@ export interface WechatMpConfig {
   token: string;
   encodingKey: string;
   originalId: string;
+  messageMode: "plain" | "safe";
   origin: string;
   registrationEnabled: boolean;
 }
@@ -52,8 +53,9 @@ export function loadWechatMpConfig(): WechatMpConfig {
   const appId = required("WECHAT_APP_ID"),
     appSecret = required("WECHAT_APP_SECRET"),
     token = required("WECHAT_MP_CALLBACK_TOKEN"),
-    encodingKey = required("WECHAT_MP_ENCODING_AES_KEY"),
     originalId = required("WECHAT_MP_ORIGINAL_ID");
+  const encodingKey = process.env.WECHAT_MP_ENCODING_AES_KEY?.trim() ?? "";
+  const messageMode = process.env.WECHAT_MP_MESSAGE_MODE ?? "safe";
   let origin: string;
   try {
     const url = new URL(required("APP_BASE_URL"));
@@ -71,9 +73,12 @@ export function loadWechatMpConfig(): WechatMpConfig {
   if (
     !/^[A-Za-z0-9_-]{1,128}$/.test(appId) ||
     !/^[A-Za-z0-9_-]{1,128}$/.test(originalId) ||
+    (messageMode !== "plain" && messageMode !== "safe") ||
     !/^[A-Za-z0-9]{3,32}$/.test(token) ||
-    !/^[A-Za-z0-9+/]{43}$/.test(encodingKey) ||
-    Buffer.from(encodingKey + "=", "base64").length !== 32
+    (messageMode === "safe" && !encodingKey) ||
+    (encodingKey &&
+      (!/^[A-Za-z0-9+/]{43}$/.test(encodingKey) ||
+        Buffer.from(encodingKey + "=", "base64").length !== 32))
   )
     throw new WechatAuthError("config");
   return {
@@ -82,6 +87,7 @@ export function loadWechatMpConfig(): WechatMpConfig {
     token,
     encodingKey,
     originalId,
+    messageMode,
     origin,
     registrationEnabled: process.env.WECHAT_MP_REGISTRATION_ENABLED === "true",
   };

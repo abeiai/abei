@@ -12,6 +12,7 @@ const config: WechatMpConfig = {
   token: "unitcallbacktoken",
   encodingKey: Buffer.alloc(32, 7).toString("base64").slice(0, -1),
   originalId: "gh_unit",
+  messageMode: "safe",
   origin: "http://127.0.0.1:3608",
   registrationEnabled: true,
 };

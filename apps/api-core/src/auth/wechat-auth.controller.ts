@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Inject,
   Param,
   Post,
@@ -271,6 +272,7 @@ export class WechatAuthController {
     }
   }
   @Post("events")
+  @HttpCode(200)
   async events(
     @Query() query: Record<string, string | undefined>,
     @Body() body: unknown,

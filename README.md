@@ -26,15 +26,15 @@ Docker 项目名为 `abei`，入口容器名为 `abei`。端口均在指定范�
 上游的 `docker-compose.prod.yml` 和发布脚本仍保留供参考，其 xueleai 配置不用于 abei 的本地运行。
 ## abei 公众号扫码登录
 
-微信登录采用「临时二维码 → 关注/扫码 → 原浏览器自动登录」，无需在公众号回复确认码。公众号事件在服务端验签解密，扫码状态仅由发起扫码的浏览器上下文领取，不向浏览器返回 OpenID。网站应用 OAuth 的 authorize/callback 已移除。已导入的同公众号 OpenID 对应原用户；未匹配身份先选择绑定已有手机号/邮箱账号或创建新账号，不能扫码后自动建号。
+微信登录采用「临时二维码 → 关注/扫码 → 原浏览器自动登录」，无需在公众号回复确认码。公众号事件在服务端验签，安全模式另行解密；扫码状态仅由发起扫码的浏览器上下文领取，不向浏览器返回 OpenID。网站应用 OAuth 的 authorize/callback 已移除。已导入的同公众号 OpenID 对应原用户；未匹配身份先选择绑定已有手机号/邮箱账号或创建新账号，不能扫码后自动建号。
 
 扫码即登录有二维码替换风险：用户若扫描他人展示的登录二维码，可能把自己的账号登录到对方浏览器；应只扫描自己打开的登录页二维码。
 
-在 abei 配置中填写 `WECHAT_APP_ID`、`WECHAT_APP_SECRET`、`WECHAT_MP_CALLBACK_TOKEN`、43 位 `WECHAT_MP_ENCODING_AES_KEY`、`WECHAT_MP_ORIGINAL_ID`，并将 `APP_BASE_URL` 设置为用户实际访问的同源 HTTPS 地址。消息入口为 `https://你的域名/api/auth/wechat/mp/events`，只接收已验签的安全模式加密消息。`WECHAT_MP_LOGIN_ENABLED` 和 `WECHAT_MP_REGISTRATION_ENABLED` 默认均为 false；旧用户身份导入、独立测试及旧公众号消息接管完成后再按需开启。
+在 abei 配置中填写 `WECHAT_APP_ID`、`WECHAT_APP_SECRET`、`WECHAT_MP_CALLBACK_TOKEN`、`WECHAT_MP_ORIGINAL_ID`，安全模式另需 43 位 `WECHAT_MP_ENCODING_AES_KEY`，并将 `APP_BASE_URL` 设置为用户实际访问的同源 HTTPS 地址。公众号已登记的 `https://abeiai.com/callback/mp` 由 Nginx 转发到 `/api/auth/wechat/mp/events`；`WECHAT_MP_MESSAGE_MODE=plain` 接收已验签的明文消息，`safe` 接收已验签的安全模式加密消息，必须与公众号后台设置一致。`WECHAT_MP_LOGIN_ENABLED` 和 `WECHAT_MP_REGISTRATION_ENABLED` 默认均为 false；旧用户身份导入、独立测试及旧公众号消息接管完成后再按需开启。
 
 账号绑定支持已有邮箱与密码，或真实手机号短信。微信绑定/注册要求 `ALIYUN_SMS` 标准短信，验证码与本次发送记录绑定；开发默认码和目前无法证明本条发送记录的 `ALIYUN_DYPNS` 均不可用于微信关联。普通手机登录原有 DYPNS 入口保留。未注册手机号仅在明确选择创建且注册开关开启后生成零余额钱包，不重发旧账号奖励。验证失败后需重新扫码。
 
-本次代码不执行生产二维码创建、公众号消息地址/模式变更或旧库写入。真实公众号权限、消息接管、既有菜单/自动回复与共享 token 策略须在另行授权的发布联调中核验，支付 OAuth/回调保持原有业务。无需新增数据库 migration 或真实数据 seed。上游 `docker-compose.prod.yml` 为历史部署模板，abei 使用根 Compose 和 `deploy/abei`，服务端口限于 3600–3680。
+明文模式的签名不包含 XML 正文，应关闭回调入口的访问日志并保护完整请求 URL；需要消息正文完整性时切换公众号后台与服务端到安全模式。回调接管时核对既有菜单、自动回复与共享 Token 策略。无需新增数据库 migration 或真实数据 seed。上游 `docker-compose.prod.yml` 为历史部署模板，abei 使用根 Compose 和 `deploy/abei`，服务端口限于 3600–3680。
 
 ## 生产部署
 

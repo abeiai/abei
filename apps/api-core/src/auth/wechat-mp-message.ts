@@ -12,6 +12,7 @@ export interface WechatMessageConfig {
   token: string;
   encodingKey: string;
   originalId: string;
+  messageMode: "plain" | "safe";
 }
 const xmlLimit = 65_536;
 function flatXml(xml: string): Record<string, string> {
@@ -98,8 +99,17 @@ export class WechatMessageCodec {
     body: string,
   ): Record<string, string> {
     try {
-      const { timestamp, nonce } = this.parameters(query),
-        signature = this.query(query, "msg_signature", 40);
+      const { timestamp, nonce } = this.parameters(query);
+      if (this.config.messageMode === "plain") {
+        const signature = this.query(query, "signature", 40);
+        if (
+          !/^[a-f0-9]{40}$/.test(signature) ||
+          !equal(signature, sign(this.config.token, timestamp, nonce))
+        )
+          throw new WechatAuthError("state");
+        return this.validateMessage(flatXml(body));
+      }
+      const signature = this.query(query, "msg_signature", 40);
       const outer = flatXml(body),
         encrypted = outer.Encrypt;
       if (
@@ -142,24 +152,29 @@ export class WechatMessageCodec {
       const utf8 = new TextDecoder("utf-8", { fatal: true });
       if (!equal(utf8.decode(payload.subarray(20 + size)), this.config.appId))
         throw new WechatAuthError("state");
-      const message = flatXml(utf8.decode(payload.subarray(20, 20 + size)));
-      if (
-        message.ToUserName !== this.config.originalId ||
-        !/^[A-Za-z0-9_-]{1,128}$/.test(message.FromUserName ?? "") ||
-        !/^\d{10,12}$/.test(message.CreateTime ?? "") ||
-        Math.abs(Number(message.CreateTime) - Math.floor(this.clock() / 1000)) >
-          300
-      )
-        throw new WechatAuthError("state");
-      return message;
+      return this.validateMessage(
+        flatXml(utf8.decode(payload.subarray(20, 20 + size))),
+      );
     } catch {
       throw new WechatAuthError("state");
     }
+  }
+  private validateMessage(message: Record<string, string>) {
+    if (
+      message.ToUserName !== this.config.originalId ||
+      !/^[A-Za-z0-9_-]{1,128}$/.test(message.FromUserName ?? "") ||
+      !/^\d{10,12}$/.test(message.CreateTime ?? "") ||
+      Math.abs(Number(message.CreateTime) - Math.floor(this.clock() / 1000)) >
+        300
+    )
+      throw new WechatAuthError("state");
+    return message;
   }
   reply(recipient: string, text: string) {
     const timestamp = String(Math.floor(this.clock() / 1000)),
       nonce = randomBytes(16).toString("hex");
     const xml = `<xml><ToUserName>${cdata(recipient)}</ToUserName><FromUserName>${cdata(this.config.originalId)}</FromUserName><CreateTime>${timestamp}</CreateTime><MsgType><![CDATA[text]]></MsgType><Content>${cdata(text)}</Content></xml>`;
+    if (this.config.messageMode === "plain") return xml;
     const length = Buffer.alloc(4);
     length.writeUInt32BE(Buffer.byteLength(xml));
     const raw = Buffer.concat([
