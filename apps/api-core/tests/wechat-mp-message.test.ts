@@ -44,6 +44,43 @@ function fixture(xml: string, appId?: string) {
   };
 }
 const event = `<xml><ToUserName><![CDATA[gh_unit_test]]></ToUserName><FromUserName><![CDATA[verified-openid]]></FromUserName><CreateTime>1800000000</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event><EventKey><![CDATA[qrscene_ABEI2_L_0123456789abcdef0123456789abcdef]]></EventKey></xml>`;
+test("微信格式化 XML 的字段间和文档空白在明文与安全模式均可解析", () => {
+  const format = (xml: string) => "\r\n" + xml
+    .replace("<xml>", "<xml>\r\n  ")
+    .replace(/(<\/[A-Za-z]+>)(?=<)/g, "$1\r\n  ") + "\r\n";
+  const formatted = format(event);
+  const plain = new WechatMessageCodec({ ...config, messageMode: "plain" }, () => now);
+  const query = {
+    timestamp,
+    nonce: "formatted",
+    signature: signature(config.token, timestamp, "formatted"),
+  };
+  assert.equal(plain.decode(query, formatted).FromUserName, "verified-openid");
+  const safe = fixture(formatted);
+  assert.equal(
+    new WechatMessageCodec(config, () => now).decode(
+      safe.query,
+      format(safe.body),
+    ).FromUserName,
+    "verified-openid",
+  );
+});
+test("允许格式空白不放宽身份值或非空白混合文本校验", () => {
+  const plain = new WechatMessageCodec({ ...config, messageMode: "plain" }, () => now);
+  const query = {
+    timestamp,
+    nonce: "invalid-text",
+    signature: signature(config.token, timestamp, "invalid-text"),
+  };
+  for (const xml of [
+    event.replace("verified-openid", " verified-openid "),
+    event.replace("</xml>", "unexpected text</xml>"),
+  ]) {
+    assert.throws(() => plain.decode(query, xml));
+    const safe = fixture(xml);
+    assert.throws(() => new WechatMessageCodec(config, () => now).decode(safe.query, safe.body));
+  }
+});
 test("安全模式验签解密获得正文身份，而不信任查询 OpenID", () => {
   const input = fixture(event);
   const message = new WechatMessageCodec(config, () => now).decode(

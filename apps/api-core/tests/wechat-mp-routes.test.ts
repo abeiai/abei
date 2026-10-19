@@ -181,7 +181,8 @@ test("明文模式回调通过 GET 验证和 POST 扫码事件，坏签名被拒
     const scan = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/xml" },
-      body,
+      body: "\n" + body.replace("<xml>", "<xml>\n")
+        .replace(/(<\/[A-Za-z]+>)(?=<)/g, "$1\n") + "\n",
     });
     assert.equal(scan.status, 200);
     assert.match(await scan.text(), /扫码成功，请返回网页/);

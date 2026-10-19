@@ -15,6 +15,9 @@ export interface WechatMessageConfig {
   messageMode: "plain" | "safe";
 }
 const xmlLimit = 65_536;
+function formattingText(key: string, value: unknown) {
+  return key === "#text" && typeof value === "string" && /^[\t\r\n ]*$/.test(value);
+}
 function flatXml(xml: string): Record<string, string> {
   if (
     Buffer.byteLength(xml) > xmlLimit ||
@@ -32,10 +35,14 @@ function flatXml(xml: string): Record<string, string> {
     !root ||
     typeof root !== "object" ||
     Array.isArray(root) ||
-    Object.keys(value).some((k) => k !== "xml" && k !== "?xml")
+    Object.entries(value).some(
+      ([key, entry]) => key !== "xml" && key !== "?xml" && !formattingText(key, entry),
+    )
   )
     throw new WechatAuthError("state");
-  const entries = Object.entries(root);
+  const entries = Object.entries(root).filter(
+    ([key, entry]) => !formattingText(key, entry),
+  );
   if (
     entries.length > 24 ||
     entries.some(
