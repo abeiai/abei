@@ -1,5 +1,5 @@
 .illustrated:global(.xueleai-auth-shell) {
-  background: #f5f3f0 url("/images/auth/login-background.svg") no-repeat left bottom / cover;
+  background: #f5f3f0 url("/images/auth/login-home-family.webp") no-repeat left bottom / auto 100%;
   background-attachment: fixed;
 }
 

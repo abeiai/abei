@@ -72,4 +72,27 @@ Only change the person into a Chinese boy. Remove the long orange hair and femin
 - 已在实际 `http://localhost:3600/login` 和 `/register` 查看新图。截图为 `output/auth-redesign/login-chinese-boy.png`（1280×720）与 `register-chinese-boy.png`（1280×900）；男孩、橙色背景及表单显示正常。
 - 仅图片变更，未运行全量测试或全量 lint；未修改登录流程，未进行线上部署。
 
+## 居家亲子场景更新
+
+- 新增图片 `apps/web/public/images/auth/login-home-family.webp`，登录和注册共享样式改为引用此图；保留橙色与既有表单布局。
+- 男孩双脚并排落地、双腿不交叉，父母在身后观看电脑；居家背景包含窗帘、书架、绿植、地毯与木家具。
+- 使用内置 imagegen；图 1 为当前背景的栅格化编辑目标，图 2 为原男孩人物参考。生成原件位于 `/Users/ericword/.codex/generated_images/01a11e00-a9f2-70c1-85be-f7bfa3339fa1/exec-184d551f-a7a3-495b-9fc0-56d030c70d31.png`，转为 WebP 保存到项目后使用。
+- 最终提示词：
+
+```text
+Use case: precise-object-edit.
+Asset type: wide background illustration for a real login and signup webpage, 1920×1080 landscape.
+Input 1 is the existing background to redesign. Input 2 is a close-up identity/style reference for the Chinese boy.
+Requested changes: make the boy sit normally at his laptop, both thighs parallel, both knees bent at about 90 degrees, both lower legs vertical and BOTH feet flat on the floor side by side, NO crossed legs. Put his Chinese mother and father standing behind him, watching his laptop with warm, supportive expressions. Exactly three people. Keep the boy's short black hair, friendly youthful face, orange and cream T-shirt and blue trousers from Input 2. Give the parents natural East Asian features and casual home clothing in warm neutral shades.
+Redesign the old abstract oversized desk and floating tech graphics into a cozy contemporary family home study corner: a normal wooden desk and chair, a sunlit window with soft curtains, a low bookshelf with a few books, an indoor plant, a soft rug and a gentle orange curved accent on a cream wall. All furniture in plausible perspective and scale. Make the family the main illustration, larger and clearer than the tiny boy in Input 1.
+Style: polished soft 3D clay/cartoon like Input 2, rounded friendly forms, warm sunlight, tasteful orange, cream, light wood and small green accents. Simple restrained background patterns, calm welcoming home feeling.
+Composition is essential: anchor the ENTIRE family, all faces, laptop, desk, chair and feet within the LEFT HALF of the canvas (x approximately 70–900 of 1920). Place parents behind the boy so all three faces are visible. Keep all heads well inside the canvas and both boy's feet visible with floor beneath them. Home details may softly frame this left area. Right half (x 1000–1920) must remain mostly empty uniform light warm cream (#f5f3f0), with a gentle natural transition into the home illustration, reserved for the existing actual form rendered separately.
+Do not draw a form, card, logo, UI, writing, numbers or text. No extra people, crossed legs, floating limbs, giant computers, futuristic dashboards, decorative tech overlays, clutter or dark background. Opaque image, no transparency.
+```
+
+- 验证通过：`pnpm --filter @xueleai/web typecheck`、`docker compose --project-name abei build web`；本地 Web 容器健康，Nginx 配置检查和重载成功。
+- 实际页面已加载 `login-home-family.webp`；背景按高度缩放（`auto 100%`），避免宽屏裁掉人物头部与脚部。1920×900 视口的文档宽度为 1920，无横向溢出。
+- 浏览器截图：`output/auth-redesign/login-home-family.png` 和 `register-home-family.png` 为 1280×900；`login-home-family-wide.png` 为 1920×900。已检查正常坐姿、父母观看、居家细节、橙色主题及表单显示。
+- 仅图片和背景样式调整，未跑全量测试或全量 lint；无登录逻辑、API、数据库、migration 或 seed 变更，未部署线上。
+
 final result: passed
