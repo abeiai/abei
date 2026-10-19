@@ -129,7 +129,7 @@ export function UserLoginForm({
           </Link>
           {state.error ? <p className="text-sm text-destructive">{state.error}</p> : null}
           <Button disabled={isPending} type="submit">
-            {isPending ? "登录中..." : "登录到用户中心"}
+            {isPending ? "登录中..." : "登录"}
             <ArrowRight data-icon="inline-end" />
           </Button>
         </form>
@@ -183,7 +183,7 @@ export function UserLoginForm({
             </Field>
             {phoneState.error ? <p className="text-sm text-destructive">{phoneState.error}</p> : null}
             <Button disabled={isPhonePending || !phone} type="submit">
-              {isPhonePending ? "登录中..." : "手机号登录"}
+              {isPhonePending ? "登录中..." : "登录"}
               <ArrowRight data-icon="inline-end" />
             </Button>
           </form>
