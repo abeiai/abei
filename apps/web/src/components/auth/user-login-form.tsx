@@ -26,6 +26,7 @@ export function UserLoginForm({
   next?: string;
 }) {
   const [mode, setMode] = useState<"wechat" | "email" | "phone" | "learner">("wechat");
+  const [isWechatBusy, setIsWechatBusy] = useState(false);
   const [phone, setPhone] = useState("");
   const [codeCountdown, setCodeCountdown] = useState(0);
   const [state, formAction, isPending] = useActionState(userLoginAction, initialState);
@@ -68,7 +69,7 @@ export function UserLoginForm({
       <fieldset
         aria-label="登录方式"
         className="grid grid-cols-2 gap-1 rounded-lg bg-secondary p-1 sm:grid-cols-4 [&_button]:min-w-0 [&_button]:gap-1 [&_button]:px-1 [&_button]:text-xs sm:[&_button]:text-sm"
-        disabled={isPending || isPhonePending || isLearnerPending}
+        disabled={isPending || isPhonePending || isLearnerPending || isWechatBusy}
       >
         <Button
           type="button"
@@ -110,7 +111,7 @@ export function UserLoginForm({
 
       <div className="abei-login-content h-[320px] overflow-y-auto">
       {mode === "wechat" ? (
-        <WechatLoginPanel next={next} />
+        <WechatLoginPanel next={next} onBusyChange={setIsWechatBusy} />
       ) : mode === "email" ? (
         <form action={formAction} className="flex flex-col gap-6">
           {next ? <input name="next" type="hidden" value={next} /> : null}

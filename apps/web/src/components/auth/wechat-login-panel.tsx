@@ -16,8 +16,10 @@ type Phase =
   | "ERROR";
 export function WechatLoginPanel({
   next,
+  onBusyChange,
 }: {
   next?: string;
+  onBusyChange?: (busy: boolean) => void;
 }) {
   const [phase, setPhase] = useState<Phase>("PREPARING"),
     [challenge, setChallenge] = useState<WechatChallenge | null>(null);
@@ -38,6 +40,10 @@ export function WechatLoginPanel({
     challengeRef = useRef<WechatChallenge | null>(null),
     requestRef = useRef<AbortController | null>(null),
     generation = useRef(0);
+  useEffect(() => {
+    onBusyChange?.(phase === "COMPLETING" || busy);
+  }, [phase, busy, onBusyChange]);
+  useEffect(() => () => onBusyChange?.(false), [onBusyChange]);
   async function start() {
     const current = ++generation.current;
     requestRef.current?.abort();
@@ -178,20 +184,24 @@ export function WechatLoginPanel({
     return () => clearTimeout(timer);
   }, [countdown]);
   async function sendCode() {
+    const current = generation.current;
     setBusy(true);
     setError(null);
     try {
       await clientRef.current!.sendPhoneCode(phone);
+      if (current !== generation.current) return;
       setCountdown(60);
     } catch (cause) {
+      if (current !== generation.current) return;
       setError(cause instanceof Error ? cause.message : "验证码发送失败");
     } finally {
-      setBusy(false);
+      if (current === generation.current) setBusy(false);
     }
   }
   async function resolveAccount(event: React.FormEvent) {
     event.preventDefault();
     if (!action) return;
+    const current = generation.current;
     setBusy(true);
     setError(null);
     try {
@@ -199,15 +209,17 @@ export function WechatLoginPanel({
         bindingMethod === "EMAIL" && action === "BIND"
           ? await clientRef.current!.resolveEmail(email, password)
           : await clientRef.current!.resolvePhone(phone, code, action);
+      if (current !== generation.current) return;
       if (result.status === "AUTHENTICATED")
         window.location.assign(result.next);
     } catch (cause) {
+      if (current !== generation.current) return;
       setError(
         cause instanceof Error ? cause.message : "验证未完成，请刷新二维码重试",
       );
       setPhase("ERROR");
     } finally {
-      setBusy(false);
+      if (current === generation.current) setBusy(false);
     }
   }
   return (

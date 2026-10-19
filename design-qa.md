@@ -95,4 +95,10 @@ Do not draw a form, card, logo, UI, writing, numbers or text. No extra people, c
 - 浏览器截图：`output/auth-redesign/login-home-family.png` 和 `register-home-family.png` 为 1280×900；`login-home-family-wide.png` 为 1920×900。已检查正常坐姿、父母观看、居家细节、橙色主题及表单显示。
 - 仅图片和背景样式调整，未跑全量测试或全量 lint；无登录逻辑、API、数据库、migration 或 seed 变更，未部署线上。
 
+## 发布前登录切换复验
+
+- 独立审查发现微信完成登录或绑定时可切换页签，异步绑定结果可能在卸载后跳转；已补充忙碌状态向父组件传递，以及异步结果的 generation 校验，独立复查通过。
+- 隔离的 Next Web 与模拟微信边界仅使用本机 3608/3609，不连接真实账号或数据库。修复前浏览器断言失败：显示“扫码成功，正在登录…”时邮箱标签仍可用；修复后同一断言通过，四种方式均暂时禁用，处理结束后正常恢复并可切到邮箱登录。
+- 修复后完整前端测试 637/637、前端 typecheck、lint 和生产构建均通过；6 项发布包/入口相关检查通过。本次不修改后端、数据库或 migration。
+
 final result: passed
