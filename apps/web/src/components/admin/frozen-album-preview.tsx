@@ -42,7 +42,7 @@ export function FrozenAlbumPreview({ review }: { review: CourseReviewRequest }) 
       if (item.materialType !== "PICTURE_BOOK" || !item.pinnedSnapshot) {
         return <div key={item.id} className="flex items-center justify-between gap-4 rounded-lg border p-4">
           <span className="text-sm font-semibold">{item.displayName}</span>
-          {courseId ? <Button asChild size="sm" variant="outline"><Link aria-label={`${item.displayName}：打开课程预览`} href={`/c/${courseId}`} rel="noreferrer" target="_blank">打开课程预览</Link></Button> : <span className="text-sm text-muted-foreground">暂无可预览课程</span>}
+          {courseId ? <Button asChild size="sm" variant="outline"><Link aria-label={`${item.displayName}：打开专辑预览`} href={`/c/${courseId}`} rel="noreferrer" target="_blank">打开专辑预览</Link></Button> : <span className="text-sm text-muted-foreground">暂无可预览专辑</span>}
         </div>;
       }
       const frozen = submitted.find(value => value.publicationId === item.publicationId);

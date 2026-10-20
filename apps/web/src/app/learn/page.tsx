@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "学习首页 - 学乐 AI",
-  description: "查看当前学习者可用的场景应用、课程和最近学习记录。"
+  description: "查看当前学习者可用的场景应用、专辑和最近学习记录。"
 };
 
 export default async function LearnPage({

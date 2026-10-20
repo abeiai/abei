@@ -129,23 +129,23 @@ function validatedCourseInput({
   const orderedItems = [...items].sort((left, right) => left.sortOrder - right.sortOrder);
 
   if (normalizedName.length < 2) {
-    return { ok: false, message: "课程名称至少需要 2 个字符。" };
+    return { ok: false, message: "专辑名称至少需要 2 个字符。" };
   }
 
   if (normalizedName.length > 80) {
-    return { ok: false, message: "课程名称不能超过 80 个字符。" };
+    return { ok: false, message: "专辑名称不能超过 80 个字符。" };
   }
 
   if (!coverMediaId) {
-    return { ok: false, message: "请先上传课程封面。" };
+    return { ok: false, message: "请先上传专辑封面。" };
   }
 
   if (!normalizedSummary) {
-    return { ok: false, message: "请填写课程简介。" };
+    return { ok: false, message: "请填写专辑简介。" };
   }
 
   if (normalizedSummary.length > 2000) {
-    return { ok: false, message: "课程简介不能超过 2000 个字符。" };
+    return { ok: false, message: "专辑简介不能超过 2000 个字符。" };
   }
 
   if (tags.length > 8 || tags.some((tag) => tag.length > 16)) {
@@ -297,7 +297,7 @@ export function CourseEditor({
         router.refresh();
       }
     } catch {
-      setFeedback({ status: "error", message: "课程操作失败，请稍后重试。" });
+      setFeedback({ status: "error", message: "专辑操作失败，请稍后重试。" });
     } finally {
       actionLockRef.current = false;
       setPendingAction(null);
@@ -310,7 +310,7 @@ export function CourseEditor({
         <Button asChild variant="ghost">
           <Link href="/dashboard/courses">
             <ArrowLeft />
-            返回课程列表
+            返回专辑列表
           </Link>
         </Button>
         {persistedCourseId ? (
@@ -326,7 +326,7 @@ export function CourseEditor({
       <CreatorWorkMetadata sync={course?.creatorSync} />
       {isReadOnly ? (
         <div className="rounded-xl border border-border bg-secondary p-4 text-sm" role="status">
-          课程正在审核中，当前内容暂不能修改。
+          专辑正在审核中，当前内容暂不能修改。
         </div>
       ) : null}
       {rejectionReason ? (
@@ -348,36 +348,36 @@ export function CourseEditor({
       <div className="flex min-w-0 flex-col gap-5">
         <Card>
           <CardHeader>
-            <CardTitle>课程信息</CardTitle>
+            <CardTitle>专辑信息</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
               <FieldGroup>
                 <Field>
-                  <FieldLabel htmlFor="course-name">课程名称</FieldLabel>
+                  <FieldLabel htmlFor="course-name">专辑名称</FieldLabel>
                   <Input
                     disabled={controlsDisabled}
                     id="course-name"
                     maxLength={80}
                     onChange={(event) => setName(event.target.value)}
-                    placeholder="输入课程名称"
+                    placeholder="输入专辑名称"
                     value={name}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="course-summary">课程简介</FieldLabel>
+                  <FieldLabel htmlFor="course-summary">专辑简介</FieldLabel>
                   <Textarea
                     disabled={controlsDisabled}
                     id="course-summary"
                     maxLength={2000}
                     onChange={(event) => setSummary(event.target.value)}
-                    placeholder="简要介绍课程内容"
+                    placeholder="简要介绍专辑内容"
                     rows={7}
                     value={summary}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="course-tags">课程标签</FieldLabel>
+                  <FieldLabel htmlFor="course-tags">专辑标签</FieldLabel>
                   <Input
                     disabled={controlsDisabled}
                     id="course-tags"
@@ -388,7 +388,7 @@ export function CourseEditor({
                 </Field>
               </FieldGroup>
               <Field>
-                <FieldLabel htmlFor="course-cover">课程封面</FieldLabel>
+                <FieldLabel htmlFor="course-cover">专辑封面</FieldLabel>
                 <CourseCoverUploader
                   coverUrl={coverUrl}
                   disabled={businessDisabled}
@@ -410,7 +410,7 @@ export function CourseEditor({
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between gap-3">
-              <CardTitle>课程目录</CardTitle>
+              <CardTitle>专辑目录</CardTitle>
               <div className="flex flex-wrap items-center justify-end gap-3">
                 <span className="text-sm text-muted-foreground">{items.length} 个课件</span>
                 <CourseMaterialPicker
@@ -530,7 +530,7 @@ export function CourseEditor({
                   ))
             ) : (
               <div className="rounded-xl border border-dashed border-border p-6 text-sm text-muted-foreground">
-                点击“添加课件”，从自己制作的课件中选择课程内容。
+                点击“添加课件”，从自己制作的课件中选择专辑内容。
               </div>
             )}
           </CardContent>

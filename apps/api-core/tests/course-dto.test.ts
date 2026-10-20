@@ -28,7 +28,7 @@ test("课程保存接口允许二百个课件并拒绝第二百零一个", async
   assert.deepEqual(acceptedErrors, []);
   assert.equal(rejectedErrors.some((error) => error.property === "items"), true);
   assert.equal(
-    rejectedErrors.some((error) => error.constraints?.arrayMaxSize === "单个课程最多添加 200 个课件"),
+    rejectedErrors.some((error) => error.constraints?.arrayMaxSize === "单个专辑最多添加 200 个课件"),
     true
   );
 });

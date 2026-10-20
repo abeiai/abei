@@ -22,7 +22,7 @@ function editorContent(): VideoGuideLessonContent {
       {
         id: "intro",
         type: "INTRO",
-        title: "课程导入",
+        title: "导读开场",
         script: "今天我们学习垃圾分类。",
         chunks: [{ id: "intro-c1", type: "intro", text: "今天我们学习垃圾分类。" }]
       },
@@ -38,7 +38,7 @@ function editorContent(): VideoGuideLessonContent {
       {
         id: "summary",
         type: "SUMMARY",
-        title: "课程总结",
+        title: "导读总结",
         script: "今天学会了 lots of。",
         chunks: [{ id: "summary-c1", type: "summary", text: "今天学会了 lots of。" }]
       }
@@ -49,12 +49,12 @@ function editorContent(): VideoGuideLessonContent {
 test("编辑器按导入、逐句、总结导航并保留本地修改", () => {
   let state = createNarrationEditorState(editorContent());
 
-  assert.equal(state.items[0]?.sourceText, "课程导入");
+  assert.equal(state.items[0]?.sourceText, "导读开场");
   state = moveNarrationEditor(state, "NEXT");
   assert.equal(state.items[state.index]?.sourceText, "There are lots of things.");
   state = updateNarrationEditorScript(state, "修改后的逐句讲解");
   state = moveNarrationEditor(state, "NEXT");
-  assert.equal(state.items[state.index]?.sourceText, "课程总结");
+  assert.equal(state.items[state.index]?.sourceText, "导读总结");
   state = moveNarrationEditor(state, "NEXT");
   assert.equal(state.index, 2);
   state = moveNarrationEditor(state, "PREVIOUS");

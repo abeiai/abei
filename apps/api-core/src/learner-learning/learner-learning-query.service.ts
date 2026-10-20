@@ -595,7 +595,7 @@ export class LearnerLearningQueryService {
       select: { id: true }
     });
     if (!course) {
-      throw new AppException(40301, "无权查看该课程", HttpStatus.FORBIDDEN);
+      throw new AppException(40301, "无权查看该专辑", HttpStatus.FORBIDDEN);
     }
   }
 
@@ -619,7 +619,7 @@ export class LearnerLearningQueryService {
         const keys = materialKeySet(group);
         return {
           courseId,
-          courseName: course?.approvedRevision?.name ?? "课程",
+          courseName: course?.approvedRevision?.name ?? "专辑",
           studySeconds: learningSeconds(group),
           startedMaterialCount: progress.filter((row) => keys.has(materialKey(row))).length,
           completedMaterialCount: progress.filter(
@@ -800,7 +800,7 @@ export class LearnerLearningQueryService {
     const courseInfo = item
       ? { id: item.revision.courseId, name: item.revision.name }
       : course
-        ? { id: course.id, name: course.approvedRevision?.name ?? "课程" }
+        ? { id: course.id, name: course.approvedRevision?.name ?? "专辑" }
         : null;
     return {
       title: item?.displayName ?? material.title,

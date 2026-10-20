@@ -302,7 +302,7 @@ const fallbackGuidedStudyVoices: GuidedStudyVoiceOption[] = [
   },
   {
     badge: "官方系统音色",
-    description: "温和耐听，适合课程讲解。",
+    description: "温和耐听，适合专辑讲解。",
     name: "龙珊珊",
     previewAudioUrl: "/audio/voices/cosyvoice-v3/longshanshan_v3.mp3",
     language: "中文、英文",
@@ -3735,7 +3735,7 @@ function buildScriptEditorItems(material: EnglishGuidedStudyMaterial | null): Sc
       key: "intro",
       label: hasContentTitle ? "标题和导语" : "导语",
       originalLabel: hasContentTitle ? "标题" : "导语",
-      originalText: material.contentTitle || "课程导语",
+      originalText: material.contentTitle || "导读开场",
       script: material.summary,
       targetType: "INTRO"
     });

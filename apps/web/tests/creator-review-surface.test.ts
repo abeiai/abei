@@ -46,9 +46,9 @@ test('active album preview retains frozen book inspection and exposes every mixe
   // Render the same preview subtree opened by the active manager's preview modal.
   const html = renderToStaticMarkup(createElement(FrozenAlbumPreview, { review }));
   for (const name of ['冻结绘本', '新增绘本', '视频课件', '闪卡课件', '英语课件']) assert.ok(html.includes(name), `missing member: ${name}`);
-  for (const name of ['新增绘本', '视频课件', '闪卡课件', '英语课件']) assert.ok(html.includes(`aria-label="${name}：打开课程预览"`));
+  for (const name of ['新增绘本', '视频课件', '闪卡课件', '英语课件']) assert.ok(html.includes(`aria-label="${name}：打开专辑预览"`));
   assert.equal((html.match(/href="\/c\/mixed-album"/g) ?? []).length, 4);
-  assert.doesNotMatch(html, /aria-label="冻结绘本：打开课程预览"|\/picture-books\/|\/private\//);
+  assert.doesNotMatch(html, /aria-label="冻结绘本：打开专辑预览"|\/picture-books\/|\/private\//);
   assert.match(html, /冻结正文/);
   assert.match(html, /\/api\/creator-media\/items\/frozen-member\/pages\/1\/image/);
   assert.match(html, /\/api\/creator-media\/items\/frozen-member\/pages\/1\/audio/);

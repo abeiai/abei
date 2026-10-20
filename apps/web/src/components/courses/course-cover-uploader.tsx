@@ -12,7 +12,7 @@ function loadImage(url: string) {
     const image = new Image();
 
     image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("课程封面读取失败"));
+    image.onerror = () => reject(new Error("专辑封面读取失败"));
     image.src = url;
   });
 }
@@ -27,7 +27,7 @@ async function cropCourseCover(file: File) {
     const context = canvas.getContext("2d");
 
     if (!context) {
-      throw new Error("课程封面处理失败");
+      throw new Error("专辑封面处理失败");
     }
 
     canvas.width = 1600;
@@ -46,7 +46,7 @@ async function cropCourseCover(file: File) {
 
     return await new Promise<Blob>((resolve, reject) =>
       canvas.toBlob(
-        (value) => value ? resolve(value) : reject(new Error("课程封面处理失败")),
+        (value) => value ? resolve(value) : reject(new Error("专辑封面处理失败")),
         "image/jpeg",
         0.9
       )
@@ -185,7 +185,7 @@ export function CourseCoverUploader({
       setLocalPreviewUrl("");
     } catch {
       if (isCurrentUpload(generation)) {
-        setError("课程封面处理失败，请重新选择图片。");
+        setError("专辑封面处理失败，请重新选择图片。");
         revokeLocalPreview();
         setLocalPreviewUrl("");
       }
@@ -203,11 +203,11 @@ export function CourseCoverUploader({
     <div className="flex flex-col gap-3">
       <div className="aspect-video w-full overflow-hidden rounded-xl border border-border bg-secondary">
         {previewUrl ? (
-          <img alt="课程封面预览" className="size-full object-cover" src={previewUrl} />
+          <img alt="专辑封面预览" className="size-full object-cover" src={previewUrl} />
         ) : (
           <div className="flex size-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
             <ImageUp className="size-6" />
-            <span>上传 16:9 课程封面</span>
+            <span>上传 16:9 专辑封面</span>
           </div>
         )}
       </div>

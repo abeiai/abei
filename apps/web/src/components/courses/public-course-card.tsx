@@ -32,7 +32,7 @@ export function PublicCourseCard({
           </div>
           {course.coverUrl ? (
             <ResponsiveImage
-              alt={`${course.name}课程封面`}
+              alt={`${course.name}专辑封面`}
               className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-[1.025]"
               decoding="async"
               fetchPriority={eagerCover ? "high" : "auto"}
@@ -49,7 +49,7 @@ export function PublicCourseCard({
             {course.name}
           </h3>
           <p className="mt-0.5 truncate text-sm font-normal text-muted-foreground">
-            {course.summary || "暂无课程简介"}
+            {course.summary || "暂无专辑简介"}
           </p>
           <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
             <span className="flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary text-[10px] font-medium text-foreground ring-1 ring-border">

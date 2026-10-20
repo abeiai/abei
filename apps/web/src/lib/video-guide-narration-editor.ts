@@ -83,9 +83,9 @@ function toEditorItem(node: NarrationTimelineNode): NarrationEditorItem {
     type: node.type,
     sourceText:
       node.type === "INTRO"
-        ? "课程导入"
+        ? "导读开场"
         : node.type === "SUMMARY"
-          ? "课程总结"
+          ? "导读总结"
           : node.subtitle?.trim() || node.title,
     script: node.script
   };

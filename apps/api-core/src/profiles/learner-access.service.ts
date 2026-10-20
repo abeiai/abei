@@ -256,7 +256,7 @@ export class LearnerAccessService {
     const validCourseIds = new Set(courses.map((course) => course.id));
 
     if (courseIds.some((id) => !validCourseIds.has(id))) {
-      throw new AppException(40004, "包含当前账号不可授权的课程", HttpStatus.BAD_REQUEST);
+      throw new AppException(40004, "包含当前账号不可授权的专辑", HttpStatus.BAD_REQUEST);
     }
 
     await transaction.learnerScenarioAuthorization.deleteMany({
@@ -374,7 +374,7 @@ export class LearnerAccessService {
     });
 
     if (!course?.approvedRevision) {
-      throw new AppException(40004, "当前课程暂不可学习", HttpStatus.BAD_REQUEST);
+      throw new AppException(40004, "当前专辑暂不可学习", HttpStatus.BAD_REQUEST);
     }
 
     const authorization = await this.prisma.learnerCourseAuthorization.findUnique({
@@ -382,7 +382,7 @@ export class LearnerAccessService {
     });
 
     if (!authorization) {
-      throw new AppException(40301, "当前学习者未获得此课程授权", HttpStatus.FORBIDDEN);
+      throw new AppException(40301, "当前学习者未获得此专辑授权", HttpStatus.FORBIDDEN);
     }
 
     return course;
@@ -473,7 +473,7 @@ export class LearnerAccessService {
 
   async listAuthorizedCourses(subject: ProfileSubject) {
     if (subject.mode !== "LEARNER") {
-      throw new AppException(40301, "请使用学习者身份访问课程", HttpStatus.FORBIDDEN);
+      throw new AppException(40301, "请使用学习者身份访问专辑", HttpStatus.FORBIDDEN);
     }
     await this.requireActiveSubject(subject);
     const grants = await this.prisma.learnerCourseAuthorization.findMany({
@@ -495,7 +495,7 @@ export class LearnerAccessService {
 
   async getAuthorizedCourse(subject: ProfileSubject, courseId: string) {
     if (subject.mode !== "LEARNER") {
-      throw new AppException(40301, "请使用学习者身份访问课程", HttpStatus.FORBIDDEN);
+      throw new AppException(40301, "请使用学习者身份访问专辑", HttpStatus.FORBIDDEN);
     }
     await this.assertCourseAuthorized(subject, courseId);
     const course = await this.prisma.course.findFirst({
@@ -508,7 +508,7 @@ export class LearnerAccessService {
     });
     const projection = course ? this.toLearnerCourseProjection(course) : null;
     if (!projection) {
-      throw new AppException(40004, "当前课程暂不可学习", HttpStatus.BAD_REQUEST);
+      throw new AppException(40004, "当前专辑暂不可学习", HttpStatus.BAD_REQUEST);
     }
     return projection;
   }

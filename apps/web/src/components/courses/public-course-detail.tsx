@@ -62,7 +62,7 @@ export function PublicCourseDetail({
           </div>
           {course.coverUrl ? (
             <ResponsiveImage
-              alt={`${course.name}课程封面`}
+              alt={`${course.name}专辑封面`}
               className="absolute inset-0 size-full object-cover"
               usage="detail"
               sizes="(max-width: 1023px) 90vw, 440px"
@@ -90,7 +90,7 @@ export function PublicCourseDetail({
             <span>{updatedDate}更新 共{items.length}个课件</span>
             {course.reviewing ? <Badge variant="outline">审核中</Badge> : null}
           </div>
-          <ExpandableCourseSummary text={course.summary || "暂无课程介绍"} />
+          <ExpandableCourseSummary text={course.summary || "暂无专辑介绍"} />
           {course.tags.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {course.tags.map((tag) => (
@@ -105,7 +105,7 @@ export function PublicCourseDetail({
 
       <section className="overflow-hidden">
         <header className="flex items-center justify-between border-b border-border px-5 py-4 sm:px-6">
-          <h2 className="text-xl font-semibold leading-snug">课程目录</h2>
+          <h2 className="text-xl font-semibold leading-snug">专辑目录</h2>
           <span className="text-sm text-muted-foreground">共 {items.length} 个课件</span>
         </header>
         <ol>

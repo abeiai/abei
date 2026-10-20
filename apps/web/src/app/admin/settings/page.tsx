@@ -64,7 +64,7 @@ export default async function AdminSettingsPage() {
                     name="siteDescription"
                     defaultValue={
                       configByKey.get("siteDescription") ??
-                      "面向中小学生家长和学生的 AI 学习工具，把文案、音视频和图片素材转为培训材料与课程。"
+                      "面向中小学生家长和学生的 AI 学习工具，把文案、音视频和图片素材转为培训材料与专辑。"
                     }
                     required
                   />
@@ -100,7 +100,7 @@ export default async function AdminSettingsPage() {
                     name="seoDescription"
                     defaultValue={
                       configByKey.get("seoDescription") ??
-                      "面向中小学生家长和学生，把文案、音视频和图片素材转为专业培训材料与课程。"
+                      "面向中小学生家长和学生，把文案、音视频和图片素材转为专业培训材料与专辑。"
                     }
                     required
                   />

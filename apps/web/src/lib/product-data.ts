@@ -34,7 +34,7 @@ export const pricingFaqs = [
   },
   {
     question: "适合什么团队使用？",
-    answer: "适合中小学生家庭、教培老师和课程内容团队，把现有素材整理成讲解稿、课件、练习和可分享学习资料。"
+    answer: "适合中小学生家庭、教培老师和专辑内容团队，把现有素材整理成讲解稿、课件、练习和可分享学习资料。"
   }
 ];
 
@@ -105,7 +105,7 @@ export const productTools = [
     category: "学习材料",
     summary: "输入课文、笔记或讲解需求，生成结构清晰的学习说明文案。",
     description:
-      "适合快速整理课文讲解、知识点说明、课程开场和复习提示。生成前会提示预估点数，提交后可在任务历史中回看。",
+      "适合快速整理课文讲解、知识点说明、专辑开场和复习提示。生成前会提示预估点数，提交后可在任务历史中回看。",
     costCredits: 120,
     isAvailable: true,
     icon: Megaphone,
@@ -116,15 +116,15 @@ export const productTools = [
   },
   {
     slug: "article-outline",
-    title: "课程大纲助手",
+    title: "专辑大纲助手",
     category: "学习材料",
-    summary: "根据学习主题拆解课程结构、讲解层级和练习要点。",
-    description: "适合课程讲义、导学课件和复习材料的前期结构规划。",
+    summary: "根据学习主题拆解专辑结构、讲解层级和练习要点。",
+    description: "适合专辑讲义、导学课件和复习材料的前期结构规划。",
     costCredits: 80,
     isAvailable: false,
     icon: FileText,
     placeholder: "例如：围绕初中英语一般过去时，生成一份 20 分钟讲解大纲。",
-    inputLabel: "课程主题",
+    inputLabel: "专辑主题",
     resultLabel: "大纲结果",
     tips: ["适合先确定讲解顺序", "可配合导学课件生成", "后续接入真实 AI 场景"]
   },
@@ -171,7 +171,7 @@ export const conversionSteps = [
     href: "/pricing"
   },
   {
-    title: "沉淀课程",
+    title: "沉淀专辑",
     description: "回看课件、音频和练习。",
     icon: ReceiptText,
     href: "/dashboard/tasks"

@@ -349,9 +349,9 @@ export function diffCourseRevision(
   after: CourseRevisionSnapshot
 ): CourseDiffEntry[] {
   const diff: CourseDiffEntry[] = [];
-  pushChangedValue(diff, "NAME", "课程名称", before.name, after.name);
-  pushChangedValue(diff, "COVER", "课程封面", coverValue(before), coverValue(after));
-  pushChangedValue(diff, "SUMMARY", "课程简介", before.summary, after.summary);
+  pushChangedValue(diff, "NAME", "专辑名称", before.name, after.name);
+  pushChangedValue(diff, "COVER", "专辑封面", coverValue(before), coverValue(after));
+  pushChangedValue(diff, "SUMMARY", "专辑简介", before.summary, after.summary);
 
   const beforeTags = normalizeCourseTags(before.tags ?? []);
   const afterTags = normalizeCourseTags(after.tags ?? []);

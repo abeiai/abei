@@ -2403,9 +2403,9 @@ export function VideoGuideConsole({
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {currentNarrationItem.type === "INTRO"
-                    ? "课程导入"
+                    ? "导读开场"
                     : currentNarrationItem.type === "SUMMARY"
-                      ? "课程总结"
+                      ? "导读总结"
                       : `第 ${narrationEditor.index} 句`}
                 </p>
               </div>

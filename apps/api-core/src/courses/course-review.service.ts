@@ -185,29 +185,29 @@ export class CourseReviewService {
       });
 
       if (!course) {
-        throw new AppException(40401, "课程不存在", HttpStatus.NOT_FOUND);
+        throw new AppException(40401, "专辑不存在", HttpStatus.NOT_FOUND);
       }
 
       if (course.userId !== userId) {
-        throw new AppException(40301, "只能提交自己的课程审核", HttpStatus.FORBIDDEN);
+        throw new AppException(40301, "只能提交自己的专辑审核", HttpStatus.FORBIDDEN);
       }
 
       const revision = course.workingRevision;
 
       if (!revision) {
-        throw new AppException(40001, "课程没有可提交的工作版本", HttpStatus.BAD_REQUEST);
+        throw new AppException(40001, "专辑没有可提交的工作版本", HttpStatus.BAD_REQUEST);
       }
 
       if (course.reviewState === "PENDING_REVIEW" || revision.status === "PENDING") {
-        throw new AppException(40901, "课程正在审核中", HttpStatus.CONFLICT);
+        throw new AppException(40901, "专辑正在审核中", HttpStatus.CONFLICT);
       }
 
       if (!['DRAFT', 'REJECTED'].includes(revision.status)) {
-        throw new AppException(40001, "课程没有可提交的工作版本", HttpStatus.BAD_REQUEST);
+        throw new AppException(40001, "专辑没有可提交的工作版本", HttpStatus.BAD_REQUEST);
       }
 
       if (revision.items.length === 0) {
-        throw new AppException(40001, "课程至少需要一个课件", HttpStatus.BAD_REQUEST);
+        throw new AppException(40001, "专辑至少需要一个课件", HttpStatus.BAD_REQUEST);
       }
 
       const materialReferences = this.materialReferences(revision.items);
@@ -700,7 +700,7 @@ export class CourseReviewService {
 
       if (preview.scope === "COURSE_REVISION") {
         if (!preview.courseId || !preview.courseRevision) {
-          throw new AppException(50001, "课程审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
+          throw new AppException(50001, "专辑审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         await this.lockCourse(transaction, preview.courseId);
         const lockedRequest = await this.requireReviewRequest(transaction, id);
@@ -749,7 +749,7 @@ export class CourseReviewService {
           : [];
 
         if (affectedCourses.length === 0) {
-          throw new AppException(40901, "课件已不再被公开课程引用，请刷新后重试", HttpStatus.CONFLICT);
+          throw new AppException(40901, "课件已不再被公开专辑引用，请刷新后重试", HttpStatus.CONFLICT);
         }
         await this.verifySubmittedMaterial(transaction, request);
         await this.approveMaterial(transaction, request);
@@ -770,7 +770,7 @@ export class CourseReviewService {
         );
       } catch (error) {
         this.logger.error(
-          "课程审核已通过，但旧封面清理失败",
+          "专辑审核已通过，但旧封面清理失败",
           error instanceof Error ? error.stack : undefined
         );
       }
@@ -802,7 +802,7 @@ export class CourseReviewService {
 
       if (preview.scope === "COURSE_REVISION") {
         if (!preview.courseId) {
-          throw new AppException(50001, "课程审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
+          throw new AppException(50001, "专辑审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         await this.lockCourse(transaction, preview.courseId);
       } else {
@@ -831,7 +831,7 @@ export class CourseReviewService {
 
       if (request.scope === "COURSE_REVISION") {
         if (!request.courseId || !request.courseRevisionId || !request.course) {
-          throw new AppException(50001, "课程审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
+          throw new AppException(50001, "专辑审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         await transaction.courseRevision.update({
@@ -873,7 +873,7 @@ export class CourseReviewService {
     submittedMaterials: Map<string, SubmittedMaterialSnapshot>
   ) {
     if (!request.courseId || !request.courseRevisionId || !request.courseRevision || !request.course) {
-      throw new AppException(50001, "课程审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new AppException(50001, "专辑审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     const approvedCoverMediaId = request.courseRevision.coverMediaId;
@@ -968,7 +968,7 @@ export class CourseReviewService {
     request: ReviewRequestRecord
   ) {
     if (!request.courseRevision) {
-      throw new AppException(50001, "课程审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new AppException(50001, "专辑审核数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     const snapshotItems = snapshotItemsByPublication(request.afterSnapshot);
@@ -1268,7 +1268,7 @@ export class CourseReviewService {
     revision?: RevisionRecord | null
   ): Promise<ProviderTextAttachment> {
     if (!coverUrl) {
-      throw new AppException(40001, "课程封面缺失，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑封面缺失，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
     }
 
     // The authenticated review owns this exact revision; never fetch its protected URL anonymously.
@@ -1277,7 +1277,7 @@ export class CourseReviewService {
         throw new AppException(40901, "审核封面已变化，请刷新后重试", HttpStatus.CONFLICT);
       }
       const file = await readCreatorAssetReference(revision.coverMedia.url, true);
-      return { name: "课程封面", type: "image", mimeType: file.mimetype, size: file.buffer.length, dataUrl: `data:${file.mimetype};base64,${file.buffer.toString("base64")}` };
+      return { name: "专辑封面", type: "image", mimeType: file.mimetype, size: file.buffer.length, dataUrl: `data:${file.mimetype};base64,${file.buffer.toString("base64")}` };
     }
 
     const baseUrl = process.env.S3_PUBLIC_BASE_URL
@@ -1290,11 +1290,11 @@ export class CourseReviewService {
         ? new URL(coverUrl)
         : new URL(coverUrl, baseUrl?.endsWith("/") ? baseUrl : `${baseUrl ?? ""}/`);
     } catch {
-      throw new AppException(40001, "课程封面地址无效，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑封面地址无效，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
     }
 
     if (!/^https?:$/u.test(resolvedUrl.protocol)) {
-      throw new AppException(40001, "课程封面地址无效，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑封面地址无效，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
     }
 
     const controller = new AbortController();
@@ -1319,14 +1319,14 @@ export class CourseReviewService {
       }
 
       return {
-        name: "课程封面",
+        name: "专辑封面",
         type: "image",
         mimeType,
         size: buffer.length,
         dataUrl: `data:${mimeType};base64,${buffer.toString("base64")}`
       };
     } catch {
-      throw new AppException(40001, "课程封面读取失败，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑封面读取失败，无法完成 AI 预审", HttpStatus.BAD_REQUEST);
     } finally {
       clearTimeout(timeout);
     }
@@ -1348,7 +1348,7 @@ export class CourseReviewService {
         ?? item.pictureBookId;
 
       if (!materialId) {
-        throw new AppException(50001, "课程课件数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new AppException(50001, "专辑课件数据不完整", HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
       return {
@@ -1426,7 +1426,7 @@ export class CourseReviewService {
 
     return courses.map((course) => ({
       id: course.id,
-      name: course.approvedRevision?.name ?? "未命名课程",
+      name: course.approvedRevision?.name ?? "未命名专辑",
       reviewState: course.reviewState,
       publishedAt: course.publishedAt
     }));

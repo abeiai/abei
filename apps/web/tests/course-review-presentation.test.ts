@@ -66,7 +66,7 @@ function reviewFixture(overrides: Partial<CourseReviewRequest> = {}): CourseRevi
     submittedByUser: {
       id: "user-1",
       email: "creator@example.com",
-      nickname: "课程作者"
+      nickname: "专辑作者"
     },
     reviewedByAdmin: null,
     affectedCourses: [],
@@ -86,14 +86,14 @@ function render(element: React.ReactNode) {
   }
 }
 
-test("课程和课件差异按资料、目录和内容分组", () => {
+test("专辑和课件差异按资料、目录和内容分组", () => {
   const groups = groupCourseReviewDiff([
-    { kind: "NAME", label: "课程名称", before: "旧", after: "新" },
+    { kind: "NAME", label: "专辑名称", before: "旧", after: "新" },
     { kind: "ITEM_REORDERED", label: "课件顺序", before: 2, after: 1 },
     { kind: "CARD_CHANGED", label: "闪卡 c1 正面", before: "cat", after: "a cat" }
   ]);
 
-  assert.deepEqual(groups.map((group) => group.title), ["课程资料", "课程目录", "课件内容"]);
+  assert.deepEqual(groups.map((group) => group.title), ["专辑资料", "专辑目录", "课件内容"]);
 });
 
 test("全部差异类型稳定分组并在组内保留原顺序", () => {
@@ -119,7 +119,7 @@ test("全部差异类型稳定分组并在组内保留原顺序", () => {
     after: null
   })));
 
-  assert.deepEqual(groups.map((group) => group.title), ["课程资料", "课程目录", "课件内容"]);
+  assert.deepEqual(groups.map((group) => group.title), ["专辑资料", "专辑目录", "课件内容"]);
   assert.deepEqual(groups[0]?.entries.map((entry) => entry.kind), [
     "TAG_REMOVED",
     "NAME",
@@ -150,10 +150,10 @@ test("未知差异类型进入其他变更且不丢失内容", () => {
   };
   const groups = groupCourseReviewDiff([
     unknownEntry,
-    { kind: "NAME", label: "课程名称", before: "旧", after: "新" }
+    { kind: "NAME", label: "专辑名称", before: "旧", after: "新" }
   ] as Parameters<typeof groupCourseReviewDiff>[0]);
 
-  assert.deepEqual(groups.map((group) => group.title), ["课程资料", "其他变更"]);
+  assert.deepEqual(groups.map((group) => group.title), ["专辑资料", "其他变更"]);
   assert.equal(groups[1]?.entries[0], unknownEntry);
 });
 
@@ -229,7 +229,7 @@ test("学习材料分组首位是统一资源审核入口", () => {
   });
 });
 
-test("顶部只展示待审核、课程变更和课件变更三项指标", () => {
+test("顶部只展示待审核、专辑变更和课件变更三项指标", () => {
   const html = render(React.createElement(CourseReviewMetrics, {
     reviews: [
       reviewFixture(),
@@ -239,7 +239,7 @@ test("顶部只展示待审核、课程变更和课件变更三项指标", () =>
   }));
 
   assert.match(html, /待审核数量[\s\S]*3/u);
-  assert.match(html, /课程变更数量[\s\S]*1/u);
+  assert.match(html, /专辑变更数量[\s\S]*1/u);
   assert.match(html, /课件变更数量[\s\S]*2/u);
   assert.equal((html.match(/data-review-metric=/gu) ?? []).length, 3);
 });
@@ -250,7 +250,7 @@ test("审核详情明确展示封面、标签、排序和内容的修改前后",
       diff: [
         {
           kind: "COVER",
-          label: "课程封面",
+          label: "专辑封面",
           before: "/old-cover.jpg",
           after: "/new-cover.jpg"
         },
@@ -288,8 +288,8 @@ test("审核详情明确展示封面、标签、排序和内容的修改前后",
     })
   }));
 
-  assert.match(html, /课程资料/u);
-  assert.match(html, /课程目录/u);
+  assert.match(html, /专辑资料/u);
+  assert.match(html, /专辑目录/u);
   assert.match(html, /课件内容/u);
   assert.equal((html.match(/aspect-video/gu) ?? []).length, 2);
   assert.match(html, /新增/u);
@@ -341,10 +341,10 @@ test("成功和 409 冲突都会刷新列表并清空选择，普通错误保留
   assert.deepEqual(courseReviewActionOutcome({
     ok: true,
     data: undefined,
-    message: "课程审核已通过。"
+    message: "专辑审核已通过。"
   }), {
     clearSelection: true,
-    message: "课程审核已通过。",
+    message: "专辑审核已通过。",
     refresh: true,
     success: true
   });
@@ -361,16 +361,16 @@ test("成功和 409 冲突都会刷新列表并清空选择，普通错误保留
   });
   assert.deepEqual(courseReviewActionOutcome({
     ok: false,
-    message: "课程审核操作失败，请稍后重试。"
+    message: "专辑审核操作失败，请稍后重试。"
   }), {
     clearSelection: false,
-    message: "课程审核操作失败，请稍后重试。",
+    message: "专辑审核操作失败，请稍后重试。",
     refresh: false,
     success: false
   });
 });
 
-test("统一工作区同时展示审核队列、提交用户、影响课程和结构化详情", () => {
+test("统一工作区同时展示审核队列、提交用户、影响专辑和结构化详情", () => {
   const review = reviewFixture({
     scope: "MATERIAL_CHANGE",
     materialPublication: {
@@ -414,7 +414,7 @@ test("统一工作区同时展示审核队列、提交用户、影响课程和�
   }));
 
   assert.match(html, /审核队列/u);
-  assert.match(html, /课程作者/u);
+  assert.match(html, /专辑作者/u);
   assert.match(html, /creator@example\.com/u);
   assert.match(html, /视频导学/u);
   assert.match(html, /英语入门课/u);
@@ -705,7 +705,7 @@ test("新增删除闪卡和目录课件只展示中文业务字段", () => {
   ]);
 });
 
-test("同类型课件审核用快照标题区分并显示去重后的影响课程数", () => {
+test("同类型课件审核用快照标题区分并显示去重后的影响专辑数", () => {
   const first = reviewFixture({
     id: "review-video-1",
     scope: "MATERIAL_CHANGE",
@@ -759,8 +759,8 @@ test("同类型课件审核用快照标题区分并显示去重后的影响课�
   assert.equal(courseReviewAffectedCourseCount(second), 2);
   assert.match(html, /分数基础/u);
   assert.match(html, /几何入门/u);
-  assert.match(html, /影响 1 门课程/u);
-  assert.match(html, /影响 2 门课程/u);
+  assert.match(html, /影响 1 个专辑/u);
+  assert.match(html, /影响 2 个专辑/u);
 });
 
 test("课件标题缺失时依次回退旧快照标题和课件类型", () => {
@@ -788,12 +788,12 @@ test("课件标题缺失时依次回退旧快照标题和课件类型", () => {
   assert.equal(courseReviewTitle({ ...fromBefore, beforeSnapshot: {} }), "学习闪卡内容变更");
 });
 
-test("课程变更的影响课程数至少包含自身并与受影响列表去重", () => {
+test("专辑变更的影响专辑数至少包含自身并与受影响列表去重", () => {
   const courseReview = reviewFixture({
     courseId: "course-1",
     affectedCourses: [
-      { id: "course-1", name: "当前课程", reviewState: "PENDING_REVIEW", publishedAt: null },
-      { id: "course-2", name: "关联课程", reviewState: "PUBLISHED", publishedAt: null }
+      { id: "course-1", name: "当前专辑", reviewState: "PENDING_REVIEW", publishedAt: null },
+      { id: "course-2", name: "关联专辑", reviewState: "PUBLISHED", publishedAt: null }
     ]
   });
 
@@ -801,15 +801,15 @@ test("课程变更的影响课程数至少包含自身并与受影响列表去�
   assert.equal(courseReviewAffectedCourseCount(courseReview), 2);
 });
 
-test("资源审核预览生成去重的真实课程页面地址", () => {
+test("资源审核预览生成去重的真实专辑页面地址", () => {
   const courseReview = reviewFixture({
     courseId: "course-1",
     courseRevision: {
       id: "revision-1",
       courseId: "course-1",
       coverMediaId: "cover-1",
-      name: "待审课程",
-      summary: "课程简介",
+      name: "待审专辑",
+      summary: "专辑简介",
       tags: [],
       status: "PENDING",
       submittedAt: null,
@@ -835,7 +835,7 @@ test("资源审核预览生成去重的真实课程页面地址", () => {
   });
 
   assert.deepEqual(courseReviewPreviewCourses(courseReview), [
-    { id: "course-1", name: "待审课程", href: "/c/course-1" }
+    { id: "course-1", name: "待审专辑", href: "/c/course-1" }
   ]);
   assert.deepEqual(courseReviewPreviewCourses(materialReview), [
     { id: "course-2", name: "英语课", href: "/c/course-2" },
@@ -843,7 +843,7 @@ test("资源审核预览生成去重的真实课程页面地址", () => {
   ]);
 });
 
-test("差异详情实际使用中文结构字段且不渲染课程目录与闪卡内部 ID", () => {
+test("差异详情实际使用中文结构字段且不渲染专辑目录与闪卡内部 ID", () => {
   const review = reviewFixture({
     scope: "MATERIAL_CHANGE",
     materialPublication: {
@@ -966,7 +966,7 @@ test("闪卡差异正面为空时不从动态标签或内部字段泄露 ID", ()
   assert.doesNotMatch(html, new RegExp(privateId, "u"));
 });
 
-test("首次公开课件在课程审核详情中展示真实中文结构化内容且隐藏内部字段", () => {
+test("首次公开课件在专辑审核详情中展示真实中文结构化内容且隐藏内部字段", () => {
   const review = reviewFixture({
     diff: [{
       kind: "ITEM_ADDED",

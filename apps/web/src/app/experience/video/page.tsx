@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "视频生成体验 - 学乐 AI",
-  description: "围绕课程片段输入提示词、选择模型和参考文件，生成视频并查看历史记录。"
+  description: "围绕专辑片段输入提示词、选择模型和参考文件，生成视频并查看历史记录。"
 };
 
 export default async function ExperienceVideoPage() {

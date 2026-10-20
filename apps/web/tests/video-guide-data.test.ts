@@ -65,7 +65,7 @@ test("讲解语音进度和文案草稿可在刷新后恢复", () => {
   const draftNode = {
     id: "intro",
     type: "INTRO",
-    title: "课程导入",
+    title: "导读开场",
     script: "今天我们学习消防车。",
     chunks: [{ id: "intro-chunk", type: "TEACHER", text: "今天我们学习消防车。" }]
   };
@@ -213,7 +213,7 @@ test("不完整的文案草稿不会遮蔽完整的已发布时间线", () => {
   const validNode = {
     id: "intro",
     type: "INTRO",
-    title: "课程导入",
+    title: "导读开场",
     script: "有效导入",
     chunks: [{ id: "intro-c1", type: "intro", text: "有效导入" }]
   };

@@ -139,7 +139,7 @@ export function CourseReviewManager({
           router.refresh();
         }
       } catch {
-        const safeMessage = "课程审核操作失败，请稍后重试。";
+        const safeMessage = "专辑审核操作失败，请稍后重试。";
         setMessage({ text: safeMessage, success: false });
         setConfirmationError(safeMessage);
       } finally {
@@ -167,7 +167,7 @@ export function CourseReviewManager({
               变更范围
               <Select className="mt-2 font-normal" defaultValue={filters.scope} name="scope">
                 <option value="">全部类型</option>
-                <option value="COURSE_REVISION">课程变更</option>
+                <option value="COURSE_REVISION">专辑变更</option>
                 <option value="MATERIAL_CHANGE">课件变更</option>
               </Select>
             </label>
@@ -215,7 +215,7 @@ export function CourseReviewMetrics({ reviews }: { reviews: CourseReviewRequest[
   const metrics = [
     { label: "待审核数量", value: reviews.length },
     {
-      label: "课程变更数量",
+      label: "专辑变更数量",
       value: reviews.filter((review) => review.scope === "COURSE_REVISION").length
     },
     {
@@ -290,7 +290,7 @@ export function CourseReviewWorkspace({
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <Badge variant={review.scope === "COURSE_REVISION" ? "secondary" : "outline"}>
-                        {review.scope === "COURSE_REVISION" ? "课程变更" : "课件变更"}
+                        {review.scope === "COURSE_REVISION" ? "专辑变更" : "课件变更"}
                       </Badge>
                       <Badge variant={reviewStatusVariant(review.status)}>
                         {reviewStatusLabel(review.status)}
@@ -301,7 +301,7 @@ export function CourseReviewWorkspace({
                       {review.submittedByUser.nickname} · {formatDateTime(review.submittedAt)}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      影响 {courseReviewAffectedCourseCount(review)} 门课程
+                      影响 {courseReviewAffectedCourseCount(review)} 个专辑
                     </p>
                   </button>
                 );
@@ -323,7 +323,7 @@ export function CourseReviewWorkspace({
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge variant={selectedReview.scope === "COURSE_REVISION" ? "secondary" : "outline"}>
-                      {selectedReview.scope === "COURSE_REVISION" ? "课程变更" : "课件变更"}
+                      {selectedReview.scope === "COURSE_REVISION" ? "专辑变更" : "课件变更"}
                     </Badge>
                     {selectedReview.materialPublication ? (
                       <Badge variant="muted">
@@ -343,7 +343,7 @@ export function CourseReviewWorkspace({
                   value={`${selectedReview.submittedByUser.nickname}（${selectedReview.submittedByUser.email}）`}
                 />
                 <InfoValue label="提交时间" value={formatDateTime(selectedReview.submittedAt)} />
-                <InfoValue label="影响课程" value={affectedCourseLabel(selectedReview)} />
+                <InfoValue label="影响专辑" value={affectedCourseLabel(selectedReview)} />
                 <InfoValue
                   label="审核时间"
                   value={selectedReview.reviewedAt ? formatDateTime(selectedReview.reviewedAt) : "尚未审核"}
@@ -486,7 +486,7 @@ export function CourseReviewConfirmation({
         {approving ? "确认通过本次审核" : "确认拒绝本次审核"}
       </p>
       <p className="mt-1 text-sm text-muted-foreground">
-        {approving ? "请再次确认，审核通过后将更新公开内容。" : "请填写拒绝原因，提交者将在课程状态中看到该说明。"}
+        {approving ? "请再次确认，审核通过后将更新公开内容。" : "请填写拒绝原因，提交者将在专辑状态中看到该说明。"}
       </p>
       {!approving ? (
         <label className="mt-4 block text-sm font-semibold">
@@ -653,7 +653,7 @@ function CoverValue({ label, value }: { label: string; value: JsonValue }) {
       <p className="mb-2 text-xs font-medium text-muted-foreground">{label}</p>
       <div className="relative aspect-video overflow-hidden rounded-lg border border-border bg-secondary">
         {source ? (
-          <img alt={`${label}课程封面`} className="size-full object-cover" src={source} />
+          <img alt={`${label}专辑封面`} className="size-full object-cover" src={source} />
         ) : (
           <div className="flex size-full items-center justify-center text-sm text-muted-foreground">无封面</div>
         )}
@@ -752,7 +752,7 @@ function affectedCourseLabel(review: CourseReviewRequest) {
     }
   }
 
-  return [...new Set(names)].join("、") || "暂无关联课程";
+  return [...new Set(names)].join("、") || "暂无关联专辑";
 }
 
 function reviewStatusLabel(status: CourseReviewRequest["status"]) {

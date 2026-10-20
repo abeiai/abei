@@ -22,7 +22,7 @@ function courseFixture(overrides: Partial<PublicCourse> = {}): PublicCourse {
   };
 }
 
-test("课程选择器同时支持关键词、标签筛选并排除已加入课程", () => {
+test("专辑选择器同时支持关键词、标签筛选并排除已加入专辑", () => {
   const courses = [
     courseFixture(),
     courseFixture({
@@ -61,7 +61,7 @@ test("课程选择器同时支持关键词、标签筛选并排除已加入课�
   );
 });
 
-test("资源中心按条件排序并固定最多展示二十门课程", async () => {
+test("资源中心按条件排序并固定最多展示二十个专辑", async () => {
   const library = await import("../src/lib/course-library.js") as unknown as {
     collectPopularCourseTopics?: (courses: PublicCourse[], limit?: number) => string[];
     preparePublicCourseListing?: (
@@ -81,9 +81,9 @@ test("资源中心按条件排序并固定最多展示二十门课程", async ()
     courseFixture({
       id: `course-${index}`,
       learningCount: index === 3 ? 999 : index,
-      name: `阅读课程 ${index}`,
+      name: `阅读专辑 ${index}`,
       publishedAt: `2026-07-${String(index + 1).padStart(2, "0")}T00:00:00.000Z`,
-      summary: index === 7 ? "诗歌中的爱与自然" : `课程简介 ${index}`,
+      summary: index === 7 ? "诗歌中的爱与自然" : `专辑简介 ${index}`,
       tags: index % 2 === 0 ? ["英语", "阅读"] : ["科普"]
     })
   );
@@ -136,7 +136,7 @@ test("资源中心轻量列表仍可按课件名称搜索", () => {
   );
 });
 
-test("课程多选可以切换且最多保留五十门", () => {
+test("专辑多选可以切换且最多保留五十门", () => {
   assert.deepEqual(toggleCourseSelection(["course-1"], "course-2"), ["course-1", "course-2"]);
   assert.deepEqual(toggleCourseSelection(["course-1", "course-2"], "course-1"), ["course-2"]);
   assert.equal(
@@ -145,7 +145,7 @@ test("课程多选可以切换且最多保留五十门", () => {
   );
 });
 
-test("添加课程使用居中浮层、复选框和批量加入操作", () => {
+test("添加专辑使用居中浮层、复选框和批量加入操作", () => {
   const source = readFileSync(
     new URL("../src/components/courses/course-library.tsx", import.meta.url),
     "utf8"
@@ -156,7 +156,7 @@ test("添加课程使用居中浮层、复选框和批量加入操作", () => {
   assert.match(source, /type="checkbox"/u);
   assert.match(source, /addCoursesAction/u);
   assert.match(source, /searchCourseCatalogAction/u);
-  assert.match(source, /搜索课程名称、简介、标签或作者/u);
+  assert.match(source, /搜索专辑名称、简介、标签或作者/u);
   assert.match(source, /handleDialogKeyDown/u);
   assert.match(source, /focus-within:ring/u);
   assert.match(source, /上一页/u);

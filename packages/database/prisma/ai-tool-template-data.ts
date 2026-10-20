@@ -517,9 +517,9 @@ export const aiToolTemplates = [
     promptTemplate: "短视频口播语音任务：{input}"
   },
   {
-    name: "课程讲稿转语音",
+    name: "专辑讲稿转语音",
     slug: "course-script-tts",
-    description: "把课程讲稿、训练营内容或知识讲解转换为稳定清晰的课程语音。",
+    description: "把专辑讲稿、训练营内容或知识讲解转换为稳定清晰的专辑语音。",
     categorySlug: "voice",
     sortOrder: 230,
     costCredits: 5,
@@ -530,10 +530,10 @@ export const aiToolTemplates = [
       fields: [
         {
           name: "text",
-          label: "课程讲稿",
+          label: "专辑讲稿",
           type: "textarea",
           required: true,
-          placeholder: "粘贴课程讲稿正文，建议按小节分批生成。"
+          placeholder: "粘贴专辑讲稿正文，建议按小节分批生成。"
         },
         {
           name: "voiceId",
@@ -558,12 +558,12 @@ export const aiToolTemplates = [
         },
         {
           name: "preview",
-          label: "课程音频",
+          label: "专辑音频",
           type: "audio-preview"
         }
       ]
     },
-    promptTemplate: "课程讲稿转语音任务：{input}"
+    promptTemplate: "专辑讲稿转语音任务：{input}"
   },
   {
     name: "绘本朗读音频生成",
@@ -722,7 +722,7 @@ export const aiToolTemplates = [
           label: "音色名称",
           type: "text",
           required: true,
-          placeholder: "例如：我的课程旁白音色"
+          placeholder: "例如：我的专辑旁白音色"
         },
         {
           name: "sourceAudio",
@@ -737,7 +737,7 @@ export const aiToolTemplates = [
           label: "用途备注",
           type: "textarea",
           required: false,
-          placeholder: "说明该音色的合法用途，例如仅用于本人课程讲解。"
+          placeholder: "说明该音色的合法用途，例如仅用于本人专辑讲解。"
         },
         {
           name: "consentType",

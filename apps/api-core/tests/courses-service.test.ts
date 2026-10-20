@@ -655,7 +655,7 @@ test("批量加入包含未发布课程时整批拒绝且不写入关系", async
 
   await assert.rejects(
     () => service.enrollCourses("user-1", ["course-1", "unpublished-course"]),
-    /有课程不存在或尚未发布/
+    /有专辑不存在或尚未发布/
   );
   assert.equal(createCalls, 0);
 });
@@ -836,7 +836,7 @@ test("审核中的工作版本不能被覆盖", async () => {
 
   await assert.rejects(
     () => service.saveCourse("user-1", "0123456789abcdef01234567", saveCourseInput()),
-    /课程正在审核中/
+    /专辑正在审核中/
   );
   assert.equal(transactionCalls, 0);
 });
@@ -895,7 +895,7 @@ test("保存课程先锁定课程再权威重读，锁后进入待审时不产�
 
   await assert.rejects(
     () => service.saveCourse("user-1", "0123456789abcdef01234567", saveCourseInput()),
-    /课程正在审核中/
+    /专辑正在审核中/
   );
   assert.deepEqual(events, ["LOCK_COURSE", "READ_COURSE"]);
   assert.deepEqual(writes, []);
@@ -1150,7 +1150,7 @@ test("课程名称 trim 后为空时返回中文参数错误", async () => {
 
   await assert.rejects(
     () => service.createCourse("user-1", { ...saveCourseInput(), name: "   " }),
-    /课程名称不能为空/
+    /专辑名称不能为空/
   );
 });
 
@@ -1159,7 +1159,7 @@ test("课程名称 trim 后不足两个字符时返回中文参数错误", async
 
   await assert.rejects(
     () => service.createCourse("user-1", { ...saveCourseInput(), name: " 一 " }),
-    /课程名称至少需要 2 个字符/
+    /专辑名称至少需要 2 个字符/
   );
 });
 
@@ -1168,7 +1168,7 @@ test("课程简介 trim 后为空时返回中文参数错误", async () => {
 
   await assert.rejects(
     () => service.createCourse("user-1", { ...saveCourseInput(), summary: "   " }),
-    /课程简介不能为空/
+    /专辑简介不能为空/
   );
 });
 
@@ -1267,7 +1267,7 @@ test("用户课程封面上传要求文件并写入用户归属", async () => {
 
   await assert.rejects(
     () => mediaService.uploadUserCourseCover("user-1", undefined),
-    /请选择课程封面/
+    /请选择专辑封面/
   );
 
   let persisted: Record<string, unknown> | null = null;

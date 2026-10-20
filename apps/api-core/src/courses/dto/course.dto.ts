@@ -54,7 +54,7 @@ export class SaveCourseDto {
 
   @IsArray()
   @ArrayMinSize(1)
-  @ArrayMaxSize(200, { message: "单个课程最多添加 200 个课件" })
+  @ArrayMaxSize(200, { message: "单个专辑最多添加 200 个课件" })
   @ValidateNested({ each: true })
   @Type(() => CourseItemInputDto)
   items!: CourseItemInputDto[];

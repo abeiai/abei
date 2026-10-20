@@ -9,7 +9,7 @@ import { guardLearnerScenarioEntry } from "@/lib/profile-api";
 
 export const metadata: Metadata = {
   title: "AI 对话体验 - 学乐 AI",
-  description: "围绕学习材料整理、课程讲解和练习设计使用基础 AI 对话能力。"
+  description: "围绕学习材料整理、专辑讲解和练习设计使用基础 AI 对话能力。"
 };
 
 export default async function ExperienceChatPage() {

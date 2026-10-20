@@ -392,7 +392,7 @@ test("学习账号导航提供账号管理、学习数据、资源授权和应�
   ]);
 });
 
-test("资源授权支持按全部、已授权和未授权筛选课程", () => {
+test("资源授权支持按全部、已授权和未授权筛选专辑", () => {
   const filterCourses = (learnerAuthorization as unknown as {
     filterAuthorizationCourses?: (
       courses: Array<{ id: string; name: string }>,

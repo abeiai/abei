@@ -259,7 +259,7 @@ test("学习者授权为空时首页和直接场景课程访问均保持严格�
   );
   await assert.rejects(
     fixture.service.assertCourseAuthorized(learnerSubject, "course-1"),
-    (error: AppException) => error.message === "当前学习者未获得此课程授权"
+    (error: AppException) => error.message === "当前学习者未获得此专辑授权"
   );
 });
 
@@ -471,7 +471,7 @@ test("不可授权场景或未发布课程在删除旧授权前整体拒绝", as
       scenarioIds: [],
       courseIds: ["course-draft"]
     }),
-    (error: AppException) => error.message === "包含当前账号不可授权的课程"
+    (error: AppException) => error.message === "包含当前账号不可授权的专辑"
   );
   assert.deepEqual([...fixture.courseGrants], ["learner-1:course-old"]);
 });
@@ -526,7 +526,7 @@ test("课程授权即使仍有授权行也会在撤稿后失去可学习资格",
 
   await assert.rejects(
     fixture.service.assertCourseAuthorized(learnerSubject, "course-draft"),
-    (error: AppException) => error.message === "当前课程暂不可学习"
+    (error: AppException) => error.message === "当前专辑暂不可学习"
   );
   assert.deepEqual(await fixture.service.listAuthorizedCourses(learnerSubject), []);
   assert.deepEqual((await fixture.service.listAuthorizedHome(learnerSubject)).courses, []);

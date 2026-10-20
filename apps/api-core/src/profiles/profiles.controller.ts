@@ -280,7 +280,7 @@ export class ProfilesController {
     return user;
   }
 
-  private async requireLearner(request: unknown, errorMessage = "请使用学习者身份访问课程") {
+  private async requireLearner(request: unknown, errorMessage = "请使用学习者身份访问专辑") {
     const user = await this.authService.me(request as never);
     const subject = await this.profileContextService.requireSelected(request as never, user.id);
     if (subject.mode !== "LEARNER") {

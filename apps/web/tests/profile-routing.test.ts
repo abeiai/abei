@@ -340,7 +340,7 @@ test("资源中心轻量列表请求携带身份 Cookie 供服务端按学习者
   assert.match(requestHeaders.get("Cookie") ?? "", /xueleai_profile_context=learner-context/u);
 });
 
-test("资源中心首页请求轻量课程列表并携带身份 Cookie", async () => {
+test("资源中心首页请求轻量专辑列表并携带身份 Cookie", async () => {
   globalThis.__task4Mocks.cookieStore.values.set("xueleai_user_access", "access-token");
   let requestUrl = "";
   let requestHeaders = new Headers();
@@ -356,7 +356,7 @@ test("资源中心首页请求轻量课程列表并携带身份 Cookie", async (
   assert.match(requestHeaders.get("Cookie") ?? "", /xueleai_user_access=access-token/u);
 });
 
-test("课程详情请求携带用户和管理员 Cookie 以解析待审预览权限", async () => {
+test("专辑详情请求携带用户和管理员 Cookie 以解析待审预览权限", async () => {
   globalThis.__task4Mocks.cookieStore.values.set("xueleai_user_access", "user-token");
   globalThis.__task4Mocks.cookieStore.values.set("xueleai_admin_access", "admin-token");
   let requestHeaders = new Headers();

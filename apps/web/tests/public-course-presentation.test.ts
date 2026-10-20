@@ -46,11 +46,11 @@ function publicCourseFixture({
 
   return {
     id: "507f1f77bcf86cd799439011",
-    name: "公开课程",
+    name: "公开专辑",
     coverUrl: "https://example.com/cover.jpg",
-    summary: "课程简介",
+    summary: "专辑简介",
     tags: ["英语"],
-    author: { nickname: "课程作者", avatarUrl: null },
+    author: { nickname: "专辑作者", avatarUrl: null },
     reviewing,
     publishedAt: "2026-07-18T00:00:00.000Z",
     items: itemStates.map((reviewState, index) => ({
@@ -141,7 +141,7 @@ async function loadCoursePageForViewer({
   }
 }
 
-test("课程复审时只禁用真实待审课件", () => {
+test("专辑复审时只禁用真实待审课件", () => {
   const course = publicCourseFixture({
     reviewing: true,
     itemStates: ["READY", "PENDING", "READY"]
@@ -173,7 +173,7 @@ test("单课件待审只禁用对应入口", () => {
   );
 });
 
-test("课程课件启动链接携带编码后的课程和课程项上下文", () => {
+test("专辑课件启动链接携带编码后的专辑和专辑项上下文", () => {
   assert.equal(
     learningLaunchHref("/media-tutor/share-1", "course-1", "item-1"),
     "/media-tutor/share-1?courseId=course-1&courseRevisionItemId=item-1"
@@ -184,10 +184,10 @@ test("课程课件启动链接携带编码后的课程和课程项上下文", ()
   );
 });
 
-test("公开课程 API 的业务 40401 与 HTTP 404 返回空结果", async () => {
+test("公开专辑 API 的业务 40401 与 HTTP 404 返回空结果", async () => {
   const originalFetch = globalThis.fetch;
   const responses = [
-    Response.json({ code: 40401, message: "课程不存在或尚未发布", data: null }, { status: 400 }),
+    Response.json({ code: 40401, message: "专辑不存在或尚未发布", data: null }, { status: 400 }),
     Response.json({ code: 50001, message: "请求失败", data: null }, { status: 404 })
   ];
 
@@ -201,7 +201,7 @@ test("公开课程 API 的业务 40401 与 HTTP 404 返回空结果", async () =
   }
 });
 
-test("公开课程服务异常、解析异常和网络异常继续抛出", async () => {
+test("公开专辑服务异常、解析异常和网络异常继续抛出", async () => {
   const originalFetch = globalThis.fetch;
   const fetchResults: Array<() => Promise<Response>> = [
     async () => Response.json(
@@ -254,7 +254,7 @@ test("资源中心沿用电子教材内容宽度并使用面包屑代替大标�
   assert.doesNotMatch(source, /<h1[^>]*>资源中心<\/h1>/u);
 });
 
-test("公开课程 metadata 使用公开站点地址生成 canonical 和绝对封面 URL", () => {
+test("公开专辑 metadata 使用公开站点地址生成 canonical 和绝对封面 URL", () => {
   const course = {
     ...publicCourseFixture({ reviewing: false }),
     coverUrl: "/api/media/files/course-cover.jpg"
@@ -270,7 +270,7 @@ test("公开课程 metadata 使用公开站点地址生成 canonical 和绝对�
   ]);
 });
 
-test("无封面课程使用品牌分享图并保留课程标题和摘要", () => {
+test("无封面专辑使用品牌分享图并保留专辑标题和摘要", () => {
   const course = { ...publicCourseFixture({ reviewing: false }), coverUrl: "" };
   const metadata = buildPublicCourseMetadata(course, "https://xueleai.com");
 
@@ -279,7 +279,7 @@ test("无封面课程使用品牌分享图并保留课程标题和摘要", () =>
   assert.equal(metadata.openGraph?.description, course.summary);
 });
 
-test("相对课程封面不会生成 localhost 外部 metadata URL", () => {
+test("相对专辑封面不会生成 localhost 外部 metadata URL", () => {
   const course = {
     ...publicCourseFixture({ reviewing: false }),
     coverUrl: "/api/media/files/course-cover.jpg"
@@ -314,7 +314,7 @@ test("无效系统站点地址后继续使用有效环境站点地址", () => {
   }
 });
 
-test("不安全课程封面不会绕过公开 URL 校验", () => {
+test("不安全专辑封面不会绕过公开 URL 校验", () => {
   for (const coverUrl of [
     "http://localhost:3321/private.jpg",
     "//localhost/private.jpg",
@@ -334,7 +334,7 @@ test("不安全课程封面不会绕过公开 URL 校验", () => {
   }
 });
 
-test("未授权待审课程只显示资源审核中且不包含待审资料", () => {
+test("未授权待审专辑只显示资源审核中且不包含待审资料", () => {
   const runtime = globalThis as typeof globalThis & { React?: typeof React };
   const previousReact = runtime.React;
   runtime.React = React;
@@ -353,7 +353,7 @@ test("未授权待审课程只显示资源审核中且不包含待审资料", ()
   assert.match(html, /资源审核中/u);
   assert.match(html, /该资源正在审核，审核完成后即可访问/u);
   assert.match(html, /aria-label="面包屑"/u);
-  assert.doesNotMatch(html, /课程作者|课程简介|课程封面|课件/u);
+  assert.doesNotMatch(html, /专辑作者|专辑简介|专辑封面|课件/u);
 });
 
 test("审核中元数据使用稳定地址和通用文案", () => {
@@ -365,10 +365,10 @@ test("审核中元数据使用稳定地址和通用文案", () => {
   assert.deepEqual(metadata.alternates, {
     canonical: `https://xueleai.com/c/${courseId}`
   });
-  assert.doesNotMatch(JSON.stringify(metadata), /待审新版|待审简介|课程作者|课程封面/u);
+  assert.doesNotMatch(JSON.stringify(metadata), /待审新版|待审简介|专辑作者|专辑封面/u);
 });
 
-test("课程详情页面按 API 状态渲染真实课程或通用审核页", () => {
+test("专辑详情页面按 API 状态渲染真实专辑或通用审核页", () => {
   const pagePath = new URL("../src/app/c/[id]/page.tsx", import.meta.url);
   const source = readFileSync(pagePath, "utf8");
 
@@ -378,7 +378,7 @@ test("课程详情页面按 API 状态渲染真实课程或通用审核页", () 
   assert.match(source, /buildReviewingCourseMetadata/u);
 });
 
-test("课程详情页读取登录状态并把登录用户交给课件入口", async () => {
+test("专辑详情页读取登录状态并把登录用户交给课件入口", async () => {
   const { calls, course, shellProps } = await loadCoursePageForViewer({
     user: loggedInUserFixture
   });
@@ -391,7 +391,7 @@ test("课程详情页读取登录状态并把登录用户交给课件入口", as
   assert.equal(shellProps.children.props.canOpenMaterials, true);
 });
 
-test("游客仍可打开课程详情页且课件入口保持未登录状态", async () => {
+test("游客仍可打开专辑详情页且课件入口保持未登录状态", async () => {
   const { shellProps } = await loadCoursePageForViewer({});
 
   assert.equal(shellProps.currentUser, null);
@@ -406,7 +406,7 @@ test("创作者和管理员预览资源时都能直接打开课件", async () =>
   }
 });
 
-test("公开课程详情使用正确的标题层级", () => {
+test("公开专辑详情使用正确的标题层级", () => {
   const runtime = globalThis as typeof globalThis & { React?: typeof React };
   const previousReact = runtime.React;
   runtime.React = React;
@@ -417,7 +417,7 @@ test("公开课程详情使用正确的标题层级", () => {
       React.createElement(PublicCourseDetail, {
         course: {
           ...publicCourseFixture({ reviewing: false }),
-          author: { nickname: "课程作者", avatarUrl: "/avatar.png" }
+          author: { nickname: "专辑作者", avatarUrl: "/avatar.png" }
         }
       })
     );
@@ -425,22 +425,22 @@ test("公开课程详情使用正确的标题层级", () => {
     runtime.React = previousReact;
   }
 
-  assert.match(html, /<h1[^>]*>公开课程<\/h1>/u);
-  assert.match(html, /<h2[^>]*>课程目录<\/h2>/u);
+  assert.match(html, /<h1[^>]*>公开专辑<\/h1>/u);
+  assert.match(html, /<h2[^>]*>专辑目录<\/h2>/u);
   assert.doesNotMatch(html, /创作者：/u);
-  assert.match(html, /<img alt="课程作者头像"[^>]*src="\/_next\/image\?url=%2Favatar.png&amp;w=128&amp;q=82"[^>]*sizes="20px"/u);
+  assert.match(html, /<img alt="专辑作者头像"[^>]*src="\/_next\/image\?url=%2Favatar.png&amp;w=128&amp;q=82"[^>]*sizes="20px"/u);
   assert.match(html, /size-5[^"]*rounded-full/u);
   assert.match(html, /2026年07月18日更新 共3个课件/u);
-  assert.doesNotMatch(html, /课程介绍/u);
+  assert.doesNotMatch(html, /专辑介绍/u);
   assert.match(html, /line-clamp-4/u);
   assert.match(html, /text-sm leading-6/u);
   assert.doesNotMatch(html, /line-clamp-4[^"]*text-base/u);
-  assert.match(html, /aria-label="展开完整课程简介"/u);
+  assert.match(html, /aria-label="展开完整专辑简介"/u);
   assert.match(html, />… 展开<\/button>/u);
-  assert.ok(html.indexOf("公开课程</h1>") < html.indexOf("课程作者头像"));
-  assert.ok(html.indexOf("课程作者头像") < html.indexOf("2026年07月18日更新 共3个课件"));
+  assert.ok(html.indexOf("公开专辑</h1>") < html.indexOf("专辑作者头像"));
+  assert.ok(html.indexOf("专辑作者头像") < html.indexOf("2026年07月18日更新 共3个课件"));
   assert.match(html, /aria-label="面包屑"/u);
-  assert.match(html, />首页<\/a>.*».*>绘本馆<\/a>.*».*>公开课程<\/a>/u);
+  assert.match(html, />首页<\/a>.*».*>绘本馆<\/a>.*».*>公开专辑<\/a>/u);
   assert.match(html, /class="grid gap-8 lg:grid-cols-\[minmax\(0,440px\)_1fr\]"/u);
   assert.doesNotMatch(html, /bg-\[#f7f7f6\]|rounded-2xl bg-|p-5 sm:p-6 lg:grid-cols/u);
 });
@@ -544,7 +544,7 @@ test("待审课件在游客和授权预览中都保持锁定且不出现登录�
   }
 });
 
-test("课程详情使用十六比九封面并在复审时显示审核状态", () => {
+test("专辑详情使用十六比九封面并在复审时显示审核状态", () => {
   const runtime = globalThis as typeof globalThis & { React?: typeof React };
   const previousReact = runtime.React;
   runtime.React = React;
@@ -563,7 +563,7 @@ test("课程详情使用十六比九封面并在复审时显示审核状态", ()
   assert.match(html, /aspect-video/u);
   assert.doesNotMatch(html, /aspect-\[4\/3\]/u);
   assert.match(html, /审核中/u);
-  assert.match(html, /<img[^>]*alt="[^"]*课程封面"/u);
+  assert.match(html, /<img[^>]*alt="[^"]*专辑封面"/u);
   assert.match(html, /srcSet="[^"]*1280w"/u);
   assert.match(html, /sizes="\(max-width: 1023px\) 90vw, 440px"/u);
 });
@@ -610,7 +610,7 @@ test("登录态闪卡读取失败后使用脱敏公开响应并补齐展示字�
         id: "deck-1",
         title: "公开闪卡",
         sourceType: "IMPORT",
-        sourceName: "课程课件",
+        sourceName: "专辑课件",
         textbookId: null,
         textbookRange: null,
         textbook: null,
@@ -660,7 +660,7 @@ test("登录态闪卡读取失败后使用脱敏公开响应并补齐展示字�
   }
 });
 
-test("课程闪卡使用提交链内置的匿名学习页面", () => {
+test("专辑闪卡使用提交链内置的匿名学习页面", () => {
   const routePath = new URL("../src/app/learn/flashcards/[id]/page.tsx", import.meta.url);
   const playerPath = new URL("../src/components/courses/public-flashcard-player.tsx", import.meta.url);
 

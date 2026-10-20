@@ -34,8 +34,8 @@ export class LearnerLearningContextDto {
   scenarioId?: string;
 
   @IsOptional()
-  @IsString({ message: "课程参数不正确" })
-  @MaxLength(128, { message: "课程参数过长" })
+  @IsString({ message: "专辑参数不正确" })
+  @MaxLength(128, { message: "专辑参数过长" })
   courseId?: string;
 
   @IsOptional()
@@ -121,8 +121,8 @@ export class AccountLearnerLearningQueryDto extends LearnerLearningOverviewQuery
   scenarioId?: string;
 
   @IsOptional()
-  @IsString({ message: "课程参数不正确" })
-  @MaxLength(128, { message: "课程参数过长" })
+  @IsString({ message: "专辑参数不正确" })
+  @MaxLength(128, { message: "专辑参数过长" })
   courseId?: string;
 
   @IsOptional()

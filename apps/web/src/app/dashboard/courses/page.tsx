@@ -64,13 +64,13 @@ export default async function DashboardCoursesPage() {
       <section className="flex w-full flex-col gap-6 px-5 py-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-2xl font-semibold tracking-normal">我的课程</h2>
-            <p className="mt-1 text-sm text-muted-foreground">查看已加入课程，管理自己创建的课程。</p>
+            <h2 className="text-2xl font-semibold tracking-normal">我的专辑</h2>
+            <p className="mt-1 text-sm text-muted-foreground">查看已加入专辑，管理自己创建的专辑。</p>
           </div>
           <Button asChild>
             <Link href="/dashboard/courses/new">
               <Plus />
-              创建课程
+              创建专辑
             </Link>
           </Button>
         </div>
@@ -80,7 +80,7 @@ export default async function DashboardCoursesPage() {
             <CardHeader>
               <BookOpen className="size-5 text-muted-foreground" />
               <CardTitle className="text-3xl">{(enrolledPage.total + courseList.length).toLocaleString("zh-CN")}</CardTitle>
-              <p className="text-sm text-muted-foreground">全部课程</p>
+              <p className="text-sm text-muted-foreground">全部专辑</p>
             </CardHeader>
           </Card>
           <Card>
@@ -107,14 +107,14 @@ export default async function DashboardCoursesPage() {
 
         <div className="flex items-center justify-between gap-3 border-t border-border pt-6">
           <div>
-            <h3 className="text-xl font-semibold">我创建的课程</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{courseList.length} 门课程</p>
+            <h3 className="text-xl font-semibold">我创建的专辑</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{courseList.length} 个专辑</p>
           </div>
         </div>
 
         {courses === null ? (
           <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive" role="alert">
-            课程列表加载失败，请稍后刷新重试。
+            专辑列表加载失败，请稍后刷新重试。
           </div>
         ) : courseList.length > 0 ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -132,11 +132,11 @@ export default async function DashboardCoursesPage() {
                       className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-sm text-muted-foreground"
                     >
                       <BookOpen className="size-6" />
-                      <span>课程封面暂不可用</span>
+                      <span>专辑封面暂不可用</span>
                     </div>
                     {revision?.coverMedia.url ? (
                       <div
-                        aria-label={`${revision.name}课程封面`}
+                        aria-label={`${revision.name}专辑封面`}
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                         role="img"
                         style={{ backgroundImage: coverBackground(revision.coverMedia.url) }}
@@ -146,7 +146,7 @@ export default async function DashboardCoursesPage() {
                   <CardHeader>
                     <CreatorWorkMetadata sync={course.creatorSync} />
                     <div className="flex items-start justify-between gap-3">
-                      <CardTitle className="line-clamp-2">{revision?.name ?? "未命名课程"}</CardTitle>
+                      <CardTitle className="line-clamp-2">{revision?.name ?? "未命名专辑"}</CardTitle>
                       <Badge variant={rereviewRejected ? "muted" : statusVariant(course.reviewState)}>
                         {courseStatusLabel(
                           course.reviewState,
@@ -156,7 +156,7 @@ export default async function DashboardCoursesPage() {
                       </Badge>
                     </div>
                     <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
-                      {revision?.summary ?? "暂无课程简介"}
+                      {revision?.summary ?? "暂无专辑简介"}
                     </p>
                     {rereviewRejected && course.workingRevision?.rejectionReason ? (
                       <p className="line-clamp-2 text-sm text-destructive">
@@ -171,7 +171,7 @@ export default async function DashboardCoursesPage() {
                     <div className="flex flex-wrap gap-2">
                       <Button asChild size="sm">
                         <Link href={`/dashboard/courses/${course.id}`}>
-                          {course.reviewState === "PENDING_REVIEW" ? "查看课程" : "编辑课程"}
+                          {course.reviewState === "PENDING_REVIEW" ? "查看专辑" : "编辑专辑"}
                         </Link>
                       </Button>
                       {revision ? (
@@ -188,9 +188,9 @@ export default async function DashboardCoursesPage() {
         ) : (
           <Card>
             <CardContent className="flex flex-col items-start gap-4 py-8">
-              <p className="text-sm text-muted-foreground">还没有创建课程。</p>
+              <p className="text-sm text-muted-foreground">还没有创建专辑。</p>
               <Button asChild variant="outline">
-                <Link href="/dashboard/courses/new">创建第一门课程</Link>
+                <Link href="/dashboard/courses/new">创建第一个专辑</Link>
               </Button>
             </CardContent>
           </Card>

@@ -36,7 +36,7 @@ const course: PublicCourse & { learningCount: number } = {
   ]
 };
 
-test("课程列表卡片使用视频流信息层级展示课件数和学习次数", () => {
+test("专辑列表卡片使用视频流信息层级展示课件数和学习次数", () => {
   const runtime = globalThis as typeof globalThis & { React?: typeof React };
   const previousReact = runtime.React;
   runtime.React = React;
@@ -52,7 +52,7 @@ test("课程列表卡片使用视频流信息层级展示课件数和学习次�
   assert.match(html, /通过视频学习基础发音规则/u);
   assert.match(html, /王老师/u);
   assert.match(html, /2个课件 · 128次学习/u);
-  assert.match(html, /<img[^>]*alt="自然拼读入门课程封面"[^>]*src="\/_next\/image\?url=%2Fcover.png&amp;w=640&amp;q=82"[^>]*srcSet="[^"]*320w[^"]*640w"[^>]*loading="lazy"/u);
+  assert.match(html, /<img[^>]*alt="自然拼读入门专辑封面"[^>]*src="\/_next\/image\?url=%2Fcover.png&amp;w=640&amp;q=82"[^>]*srcSet="[^"]*320w[^"]*640w"[^>]*loading="lazy"/u);
   assert.match(html, /aspect-video/u);
   assert.doesNotMatch(html, /aspect-\[4\/3\]/u);
   assert.match(html, /<article class="[^"]*overflow-hidden[^"]*rounded-xl[^"]*border[^"]*">/u);
@@ -62,7 +62,7 @@ test("课程列表卡片使用视频流信息层级展示课件数和学习次�
   assert.doesNotMatch(html, /已发布/u);
 });
 
-test("首屏课程封面可显式设为高优先级加载", () => {
+test("首屏专辑封面可显式设为高优先级加载", () => {
   const runtime = globalThis as typeof globalThis & { React?: typeof React };
   const previousReact = runtime.React;
   runtime.React = React;

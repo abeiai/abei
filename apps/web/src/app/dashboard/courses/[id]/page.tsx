@@ -12,7 +12,7 @@ import { requireAccountProfile } from "@/lib/profile-api";
 export const dynamic = "force-dynamic";
 
 function isMissingCourse(error: unknown) {
-  return error instanceof Error && error.message === "课程不存在";
+  return error instanceof Error && error.message === "专辑不存在";
 }
 
 export default async function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
@@ -35,7 +35,7 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
         <section className="flex w-full flex-col gap-6 px-5 py-8">
           <Card>
             <CardContent className="flex flex-col items-start gap-4 py-8">
-              <p className="text-sm text-destructive" role="alert">课程加载失败，请稍后重试。</p>
+              <p className="text-sm text-destructive" role="alert">专辑加载失败，请稍后重试。</p>
               <Button asChild variant="outline">
                 <Link href={`/dashboard/courses/${id}`}>重新加载</Link>
               </Button>
@@ -60,12 +60,12 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
     <DashboardShell active="courses" continuation={continuation}>
       <section className="flex w-full flex-col gap-6 px-5 py-8">
         <div>
-          <h2 className="text-2xl font-semibold tracking-normal">编辑课程</h2>
+          <h2 className="text-2xl font-semibold tracking-normal">编辑专辑</h2>
           <p className="mt-1 text-sm text-muted-foreground">保存内容后可申请发布。</p>
         </div>
         {materialOptions === null ? (
           <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive" role="alert">
-            课件库加载失败，现有课程内容仍可查看。
+            课件库加载失败，现有专辑内容仍可查看。
           </div>
         ) : null}
         <CourseEditor course={course} materialOptions={materialOptions ?? []} />

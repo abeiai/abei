@@ -73,7 +73,7 @@ export class LearnerLearningContextService {
       !input.materialType ||
       !input.materialId
     ) {
-      throw new AppException(40004, "课程学习上下文不完整", HttpStatus.BAD_REQUEST);
+      throw new AppException(40004, "专辑学习上下文不完整", HttpStatus.BAD_REQUEST);
     }
 
     const course = await this.learnerAccessService.assertCourseAuthorized(
@@ -81,7 +81,7 @@ export class LearnerLearningContextService {
       input.courseId
     );
     if (!course?.approvedRevisionId) {
-      throw new AppException(40301, "当前学习者未获得此课程授权", HttpStatus.FORBIDDEN);
+      throw new AppException(40301, "当前学习者未获得此专辑授权", HttpStatus.FORBIDDEN);
     }
 
     const item = await this.prisma.courseRevisionItem.findFirst({
@@ -117,7 +117,7 @@ export class LearnerLearningContextService {
       !item.publication.approvedHash ||
       item.publication.approvedHash !== item.publication.currentHash
     ) {
-      throw new AppException(40004, "课程课件不存在或版本已变更", HttpStatus.BAD_REQUEST);
+      throw new AppException(40004, "专辑课件不存在或版本已变更", HttpStatus.BAD_REQUEST);
     }
 
     return {

@@ -156,7 +156,7 @@ export class MediaService {
 
   async uploadUserCourseCover(userId: string, file: UploadedFileLike | undefined) {
     if (!file) {
-      throw new AppException(40001, "请选择课程封面", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "请选择专辑封面", HttpStatus.BAD_REQUEST);
     }
 
     inspectCourseCover(file.buffer, file.mimetype);
@@ -431,7 +431,7 @@ export class MediaService {
       }
 
       try {
-        await this.deleteMediaObject(asset, "课程封面");
+        await this.deleteMediaObject(asset, "专辑封面");
       } catch (error) {
         await this.prisma.mediaAsset.create({
           data: {
@@ -643,7 +643,7 @@ export class MediaService {
     filename: string;
     url: string;
     storageProvider: string;
-  }, assetLabel: "头像" | "课程封面") {
+  }, assetLabel: "头像" | "专辑封面") {
     // Imported originals are shared by immutable log/book/other-owner references.
     if (asset.storageProvider === "S3" && /^legacy-sync\/abeiai-v1\/[a-f0-9]{64}\.[a-z0-9]+$/.test(asset.filename)) return;
     if (asset.storageProvider === "LOCAL") {

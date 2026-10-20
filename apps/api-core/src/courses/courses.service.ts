@@ -413,7 +413,7 @@ export class CoursesService {
     });
 
     if (!ownedCourse) {
-      throw new AppException(40401, "课程不存在", HttpStatus.NOT_FOUND);
+      throw new AppException(40401, "专辑不存在", HttpStatus.NOT_FOUND);
     }
 
     this.assertCourseEditable(ownedCourse);
@@ -436,7 +436,7 @@ export class CoursesService {
       });
 
       if (!course) {
-        throw new AppException(40401, "课程不存在", HttpStatus.NOT_FOUND);
+        throw new AppException(40401, "专辑不存在", HttpStatus.NOT_FOUND);
       }
 
       this.assertCourseEditable(course);
@@ -648,11 +648,11 @@ export class CoursesService {
     const normalizedIds = [...new Set(courseIds.map((id) => id.trim()).filter(Boolean))];
 
     if (normalizedIds.length === 0) {
-      throw new AppException(40001, "请至少选择一门课程", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "请至少选择一个专辑", HttpStatus.BAD_REQUEST);
     }
 
     if (normalizedIds.length > 50) {
-      throw new AppException(40001, "一次最多添加 50 门课程", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "一次最多添加 50 个专辑", HttpStatus.BAD_REQUEST);
     }
 
     return this.prisma.$transaction(async (transaction) => {
@@ -667,7 +667,7 @@ export class CoursesService {
       const publishedIds = new Set(publishedCourses.map((course) => course.id));
 
       if (normalizedIds.some((id) => !publishedIds.has(id))) {
-        throw new AppException(40401, "有课程不存在或尚未发布", HttpStatus.NOT_FOUND);
+        throw new AppException(40401, "有专辑不存在或尚未发布", HttpStatus.NOT_FOUND);
       }
 
       const result = await transaction.courseEnrollment.createMany({
@@ -690,7 +690,7 @@ export class CoursesService {
     });
 
     if (!course) {
-      throw new AppException(40401, "课程不存在", HttpStatus.NOT_FOUND);
+      throw new AppException(40401, "专辑不存在", HttpStatus.NOT_FOUND);
     }
 
     const synced = await this.prisma.creatorWork.findFirst({ where: { userId, kind: "ALBUM", resourceId: id }, select: { version: true } });
@@ -798,7 +798,7 @@ export class CoursesService {
     const revision = course?.approvedRevision;
 
     if (!course || !revision || !course.publishedAt) {
-      throw new AppException(40401, "课程不存在或尚未发布", HttpStatus.NOT_FOUND);
+      throw new AppException(40401, "专辑不存在或尚未发布", HttpStatus.NOT_FOUND);
     }
 
     return this.toPublicCourse(course, revision, course.publishedAt);
@@ -811,7 +811,7 @@ export class CoursesService {
     });
 
     if (!course) {
-      throw new AppException(40401, "课程不存在或尚未发布", HttpStatus.NOT_FOUND);
+      throw new AppException(40401, "专辑不存在或尚未发布", HttpStatus.NOT_FOUND);
     }
 
     const canPreviewWorking = viewer.isAdmin || viewer.userId === course.userId;
@@ -846,17 +846,17 @@ export class CoursesService {
     const name = dto.name.trim();
 
     if (!name) {
-      throw new AppException(40001, "课程名称不能为空", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑名称不能为空", HttpStatus.BAD_REQUEST);
     }
 
     if (name.length < 2) {
-      throw new AppException(40001, "课程名称至少需要 2 个字符", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑名称至少需要 2 个字符", HttpStatus.BAD_REQUEST);
     }
 
     const summary = dto.summary.trim();
 
     if (!summary) {
-      throw new AppException(40001, "课程简介不能为空", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑简介不能为空", HttpStatus.BAD_REQUEST);
     }
 
     const items = dto.items.map((item) => {
@@ -892,7 +892,7 @@ export class CoursesService {
       const key = `${item.materialType}:${item.materialId}`;
 
       if (duplicateKeys.has(key)) {
-        throw new AppException(40001, "课程中不能重复添加同一课件", HttpStatus.BAD_REQUEST);
+        throw new AppException(40001, "专辑中不能重复添加同一课件", HttpStatus.BAD_REQUEST);
       }
 
       duplicateKeys.add(key);
@@ -919,15 +919,15 @@ export class CoursesService {
     ]);
 
     if (!cover) {
-      throw new AppException(40401, "课程封面不存在", HttpStatus.NOT_FOUND);
+      throw new AppException(40401, "专辑封面不存在", HttpStatus.NOT_FOUND);
     }
 
     if (cover.createdByUserId !== userId) {
-      throw new AppException(40301, "只能选择自己上传的课程封面", HttpStatus.FORBIDDEN);
+      throw new AppException(40301, "只能选择自己上传的专辑封面", HttpStatus.FORBIDDEN);
     }
 
     if (cover.mediaType !== "IMAGE") {
-      throw new AppException(40001, "课程封面必须是图片", HttpStatus.BAD_REQUEST);
+      throw new AppException(40001, "专辑封面必须是图片", HttpStatus.BAD_REQUEST);
     }
 
     const recordByKey = new Map<string, CourseMaterialRecord>();
@@ -1019,7 +1019,7 @@ export class CoursesService {
     workingRevision: { status: string } | null;
   }) {
     if (course.reviewState === "PENDING_REVIEW" || course.workingRevision?.status === "PENDING") {
-      throw new AppException(40901, "课程正在审核中", HttpStatus.CONFLICT);
+      throw new AppException(40901, "专辑正在审核中", HttpStatus.CONFLICT);
     }
   }
 
@@ -1035,7 +1035,7 @@ export class CoursesService {
 
   private requireCourse<T>(course: T | null): T {
     if (!course) {
-      throw new AppException(50001, "课程保存失败", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new AppException(50001, "专辑保存失败", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return course;

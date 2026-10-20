@@ -231,7 +231,7 @@ export function ResourceReviewManager({
               资源类型
               <Select className="mt-2 font-normal" defaultValue={filters.scope} name="scope">
                 <option value="">全部资源</option>
-                <option value="COURSE_REVISION">课程资源</option>
+                <option value="COURSE_REVISION">专辑资源</option>
                 <option value="MATERIAL_CHANGE">课件更新</option>
               </Select>
             </label>
@@ -286,7 +286,7 @@ export function ResourceReviewManager({
                           disabled={previewCourses.length === 0}
                           onClick={() => openModal("preview", review)}
                           size="sm"
-                          title={previewCourses.length === 0 ? "暂无可预览课程" : undefined}
+                          title={previewCourses.length === 0 ? "暂无可预览专辑" : undefined}
                           type="button"
                           variant="outline"
                         >
@@ -325,7 +325,7 @@ export function ResourceReviewManager({
           onClose={() => {
             if (!humanRunning) setModal(null);
           }}
-          title={modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? "投稿版本预览" : "选择预览课程") : modal.kind === "ai" ? "AI 预审" : "人工审核"}
+          title={modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? "投稿版本预览" : "选择预览专辑") : modal.kind === "ai" ? "AI 预审" : "人工审核"}
         >
           {modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? <FrozenAlbumPreview review={activeReview} /> : <CoursePreviewLinks review={activeReview} />) : null}
           {modal.kind === "ai" ? (
@@ -400,7 +400,7 @@ function CoursePreviewLinks({ review }: { review: CourseReviewRequest }) {
   return (
     <div>
       <p className="text-sm leading-6 text-muted-foreground">
-        该课件更新影响多门课程，请选择需要预览的课程。预览将打开与前台一致的课程页面。
+        该课件更新影响多个专辑，请选择需要预览的专辑。预览将打开与前台一致的专辑页面。
       </p>
       <div className="mt-4 flex flex-col gap-3">
         {courses.map((course) => (

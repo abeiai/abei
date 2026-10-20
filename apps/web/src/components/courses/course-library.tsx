@@ -94,18 +94,18 @@ export function CourseLibrary({
     <section className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className="text-xl font-semibold">已加入课程</h3>
-          <p className="mt-1 text-sm text-muted-foreground">{total} 门课程</p>
+          <h3 className="text-xl font-semibold">已加入专辑</h3>
+          <p className="mt-1 text-sm text-muted-foreground">{total} 个专辑</p>
         </div>
         <Button onClick={openPicker} type="button">
           <Plus />
-          添加课程
+          添加专辑
         </Button>
       </div>
 
       {loadFailed ? (
         <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive" role="alert">
-          已加入课程加载失败，请稍后刷新重试。
+          已加入专辑加载失败，请稍后刷新重试。
         </div>
       ) : courses.length > 0 ? (
         <>
@@ -127,10 +127,10 @@ export function CourseLibrary({
       ) : (
         <div className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border bg-card px-6 text-center">
           <BookOpen className="size-6 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">还没有加入课程</p>
+          <p className="text-sm text-muted-foreground">还没有加入专辑</p>
           <Button onClick={openPicker} type="button" variant="outline">
             <Plus />
-            添加课程
+            添加专辑
           </Button>
         </div>
       )}
@@ -272,11 +272,11 @@ function CoursePickerDialog({ onClose }: { onClose: () => void }) {
       >
         <header className="flex shrink-0 items-center justify-between gap-4 border-b border-border px-5 py-4 sm:px-6">
           <div>
-            <h2 className="text-xl font-semibold" id="course-picker-title">添加课程</h2>
-            <p className="mt-1 text-sm text-muted-foreground">可选择 {catalog.total} 门课程</p>
+            <h2 className="text-xl font-semibold" id="course-picker-title">添加专辑</h2>
+            <p className="mt-1 text-sm text-muted-foreground">可选择 {catalog.total} 个专辑</p>
           </div>
           <Button
-            aria-label="关闭添加课程"
+            aria-label="关闭添加专辑"
             className="size-10 px-0"
             disabled={submitting}
             onClick={onClose}
@@ -296,7 +296,7 @@ function CoursePickerDialog({ onClose }: { onClose: () => void }) {
                 setKeyword(event.target.value);
                 setPage(1);
               }}
-              placeholder="搜索课程名称、简介、标签或作者"
+              placeholder="搜索专辑名称、简介、标签或作者"
               ref={searchInputRef}
               value={keyword}
             />
@@ -318,7 +318,7 @@ function CoursePickerDialog({ onClose }: { onClose: () => void }) {
           {loading ? (
             <div className="flex min-h-56 items-center justify-center" role="status">
               <Loader2 className="size-6 animate-spin text-muted-foreground" />
-              <span className="sr-only">正在加载课程</span>
+              <span className="sr-only">正在加载专辑</span>
             </div>
           ) : feedback ? (
             <div className="flex min-h-56 items-center justify-center text-sm text-destructive" role="alert">
@@ -388,7 +388,7 @@ function CoursePickerDialog({ onClose }: { onClose: () => void }) {
             </>
           ) : (
             <div className="flex min-h-56 items-center justify-center text-sm text-muted-foreground">
-              {keyword || tag ? "没有符合条件的课程" : "所有已发布课程都已加入"}
+              {keyword || tag ? "没有符合条件的专辑" : "所有已发布专辑都已加入"}
             </div>
           )}
         </div>
@@ -399,7 +399,7 @@ function CoursePickerDialog({ onClose }: { onClose: () => void }) {
             <Button disabled={submitting} onClick={onClose} type="button" variant="outline">取消</Button>
             <Button disabled={selectedIds.length === 0 || submitting} onClick={() => void addSelectedCourses()} type="button">
               {submitting ? <Loader2 className="animate-spin" /> : <Plus />}
-              加入课程{selectedIds.length > 0 ? `（${selectedIds.length}）` : ""}
+              加入专辑{selectedIds.length > 0 ? `（${selectedIds.length}）` : ""}
             </Button>
           </div>
         </footer>

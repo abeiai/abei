@@ -33,9 +33,9 @@ export class CreateLearnerDto {
   scenarioIds?: string[];
 
   @IsOptional()
-  @IsArray({ message: "课程授权参数不正确" })
-  @ArrayMaxSize(200, { message: "课程授权数量过多" })
-  @IsString({ each: true, message: "课程授权参数不正确" })
+  @IsArray({ message: "专辑授权参数不正确" })
+  @ArrayMaxSize(200, { message: "专辑授权数量过多" })
+  @IsString({ each: true, message: "专辑授权参数不正确" })
   @Matches(/\S/u, { each: true, message: "授权项不能为空" })
   courseIds?: string[];
 }
@@ -66,9 +66,9 @@ export class UpdateLearnerAuthorizationsDto {
   @Matches(/\S/u, { each: true, message: "授权项不能为空" })
   scenarioIds!: string[];
 
-  @IsArray({ message: "课程授权参数不正确" })
-  @ArrayMaxSize(200, { message: "课程授权数量过多" })
-  @IsString({ each: true, message: "课程授权参数不正确" })
+  @IsArray({ message: "专辑授权参数不正确" })
+  @ArrayMaxSize(200, { message: "专辑授权数量过多" })
+  @IsString({ each: true, message: "专辑授权参数不正确" })
   @Matches(/\S/u, { each: true, message: "授权项不能为空" })
   courseIds!: string[];
 }

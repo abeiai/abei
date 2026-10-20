@@ -29,8 +29,8 @@ export default async function NewCoursePage() {
     <DashboardShell active="courses" continuation="/dashboard/courses/new">
       <section className="flex w-full flex-col gap-6 px-5 py-8">
         <div>
-          <h2 className="text-2xl font-semibold tracking-normal">创建课程</h2>
-          <p className="mt-1 text-sm text-muted-foreground">整理课程信息并添加已完成的课件。</p>
+          <h2 className="text-2xl font-semibold tracking-normal">创建专辑</h2>
+          <p className="mt-1 text-sm text-muted-foreground">整理专辑信息并添加已完成的课件。</p>
         </div>
         {materialOptions ? (
           <CourseEditor materialOptions={materialOptions} />

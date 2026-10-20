@@ -9,8 +9,8 @@ import { ResponsiveImage } from "../ui/responsive-image";
 const testimonials = [
   { name: "林女士", role: "家长", avatar: "testimonial-lin", quote: "把孩子的小小想法写进绘本，再一起听、一起读。睡前的这段时间，成了我们每天最期待的时刻。" },
   { name: "陈老师", role: "幼儿园老师", avatar: "male-young", quote: "把课堂主题变成孩子喜欢的故事，配上画面和声音。读完再聊一聊，孩子们更愿意说出自己的想法。" },
-  { name: "许老师", role: "培训机构", avatar: "female-young", quote: "围绕课程制作绘本和导读，把故事延伸到课后的家庭阅读。老师备课有了素材，家长也更容易参与。" },
-  { name: "李园长", role: "幼儿园园长", avatar: "testimonial-li-director", quote: "我们围绕绘本开发校本课程，把阅读、表达和创作融入日常教学。课程落地后，孩子参与更积极，家长反馈也很好。" }
+  { name: "许老师", role: "培训机构", avatar: "female-young", quote: "围绕教学主题制作绘本和导读，把故事延伸到课后的家庭阅读。老师备课有了素材，家长也更容易参与。" },
+  { name: "李园长", role: "幼儿园园长", avatar: "testimonial-li-director", quote: "我们围绕绘本制作阅读专辑，把阅读、表达和创作融入日常教学。专辑应用后，孩子参与更积极，家长反馈也很好。" }
 ];
 
 export function PictureBookHome({ albums, books, libraryFailed = false }: { albums: LibraryAlbum[]; books: LibraryBook[]; libraryFailed?: boolean }) {

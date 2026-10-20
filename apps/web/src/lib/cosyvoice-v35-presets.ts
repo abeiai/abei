@@ -16,8 +16,8 @@ export const cosyVoiceV35Presets: CosyVoiceV35Preset[] = [
     id: "announcer",
     value: `${cosyVoiceV35PresetPrefix}announcer`,
     name: "叶明澄",
-    description: "专业中文播音员，声线明亮清晰、吐字利落，播报节奏平稳且有分寸，适合资讯播报、课程旁白和产品说明。",
-    prompt: "中文普通话女声，专业播音员风格，吐字清晰，语速稳定，声音明亮自然，适合新闻播报、课程旁白和产品介绍。",
+    description: "专业中文播音员，声线明亮清晰、吐字利落，播报节奏平稳且有分寸，适合资讯播报、专辑旁白和产品说明。",
+    prompt: "中文普通话女声，专业播音员风格，吐字清晰，语速稳定，声音明亮自然，适合新闻播报、专辑旁白和产品介绍。",
     previewText: "欢迎使用 AI SaaS 语音合成体验区，这是一段用于试听音色风格的示范文本。",
     avatarUrl: "https://cdn.xueleai.com/uploads/audio/voices/cosyvoice-v35/announcer-avatar-0e5da5a5e1443657.jpg",
     previewAudioUrl: "https://cdn.xueleai.com/uploads/audio/voices/cosyvoice-v35/announcer-preview-29e0e9136ac2205e.wav"
@@ -36,8 +36,8 @@ export const cosyVoiceV35Presets: CosyVoiceV35Preset[] = [
     id: "teacher",
     value: `${cosyVoiceV35PresetPrefix}teacher`,
     name: "柳知微老师",
-    description: "知性耐心的女教师，发音清楚、节奏从容，讲解重点时层次分明，适合在线课程、知识科普和培训内容。",
-    prompt: "中文普通话女声，知性沉稳，表达清楚，节奏适中，带有耐心讲解感，适合在线课程、知识科普和培训内容。",
+    description: "知性耐心的女教师，发音清楚、节奏从容，讲解重点时层次分明，适合在线教学、知识科普和培训内容。",
+    prompt: "中文普通话女声，知性沉稳，表达清楚，节奏适中，带有耐心讲解感，适合在线教学、知识科普和培训内容。",
     previewText: "接下来我们用一个简单例子，帮助你快速理解这个概念的使用方法。",
     avatarUrl: "https://cdn.xueleai.com/uploads/audio/voices/cosyvoice-v35/teacher-avatar-3136a0f9b1c7ab9c.jpg",
     previewAudioUrl: "https://cdn.xueleai.com/uploads/audio/voices/cosyvoice-v35/teacher-preview-95cb057db7a5a6f6.wav"

@@ -13,12 +13,12 @@ import {
   reorderCourseItem
 } from "../src/lib/course-editor-state.js";
 
-test("课程目录按带学场景显示学古诗文或英文带读", () => {
+test("专辑目录按带学场景显示学古诗文或英文带读", () => {
   assert.equal(courseMaterialDirectoryLabel("ENGLISH_GUIDED_STUDY", "GUSHIWEN"), "学古诗文");
   assert.equal(courseMaterialDirectoryLabel("ENGLISH_GUIDED_STUDY", "ENGLISH"), "英文带读");
 });
 
-test("重新打开课程时从带学课件内容恢复古诗文场景", () => {
+test("重新打开专辑时从带学课件内容恢复古诗文场景", () => {
   assert.equal(courseGuidedStudyScene({ scene: "GUSHIWEN" }), "GUSHIWEN");
   assert.equal(courseGuidedStudyScene({ scene: "ENGLISH" }), "ENGLISH");
   assert.equal(courseGuidedStudyScene({}), "ENGLISH");
@@ -116,7 +116,7 @@ test("标签按中文逗号、英文逗号和空格拆分去重", () => {
   assert.deepEqual(normalizeEditorTags("英语，小学 口语,英语"), ["英语", "小学", "口语"]);
 });
 
-test("课程状态使用简体中文", () => {
+test("专辑状态使用简体中文", () => {
   assert.equal(courseStatusLabel("PENDING_REVIEW", true), "审核中");
   assert.equal(courseStatusLabel("REJECTED", false), "审核未通过");
   assert.equal(courseStatusLabel("PUBLISHED", true, "DRAFT"), "有未提交修改");
@@ -126,7 +126,7 @@ test("课程状态使用简体中文", () => {
   );
 });
 
-test("已发布课程复审拒绝后编辑器按工作版本状态显示原因", () => {
+test("已发布专辑复审拒绝后编辑器按工作版本状态显示原因", () => {
   const source = readFileSync(
     new URL("../src/components/courses/course-editor.tsx", import.meta.url),
     "utf8"
@@ -150,7 +150,7 @@ test("课件审核被拒后只显示当前拒绝原因", () => {
   }), null);
 });
 
-test("创作者预览统一进入真实课程页面，旧预览路由只做兼容跳转", () => {
+test("创作者预览统一进入真实专辑页面，旧预览路由只做兼容跳转", () => {
   const editorSource = readFileSync(
     new URL("../src/components/courses/course-editor.tsx", import.meta.url),
     "utf8"
@@ -171,7 +171,7 @@ test("创作者预览统一进入真实课程页面，旧预览路由只做兼�
   assert.doesNotMatch(listSource, /\/dashboard\/courses\/\$\{course\.id\}\/preview/u);
 });
 
-test("课程编辑器使用申请发布动作避免把保存草稿误认为已提审", () => {
+test("专辑编辑器使用申请发布动作避免把保存草稿误认为已提审", () => {
   const editorSource = readFileSync(
     new URL("../src/components/courses/course-editor.tsx", import.meta.url),
     "utf8"

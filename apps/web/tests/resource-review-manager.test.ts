@@ -15,7 +15,7 @@ const menuSource = readFileSync(
   "utf8"
 );
 
-test("后台课程审核统一命名为资源审核并使用列表列项", () => {
+test("后台专辑审核统一命名为资源审核并使用列表列项", () => {
   assert.match(pageSource, /title="资源审核"/);
   assert.match(menuSource, /href: "\/admin\/course-reviews",\s*label: "资源审核"/);
   for (const heading of ["资源名称", "创作人", "提审时间", "预览", "AI 预审", "人工审核"]) {
@@ -23,10 +23,10 @@ test("后台课程审核统一命名为资源审核并使用列表列项", () =>
   }
 });
 
-test("资源审核通过真实课程页预览并保留 AI 与人工审核弹窗", () => {
+test("资源审核通过真实专辑页预览并保留 AI 与人工审核弹窗", () => {
   assert.match(managerSource, /courseReviewPreviewCourses/u);
   assert.match(managerSource, /target="_blank"/u);
-  assert.match(managerSource, /选择需要预览的课程/u);
+  assert.match(managerSource, /选择需要预览的专辑/u);
   assert.doesNotMatch(managerSource, /JSON\.stringify\(localizeCourseReviewValue\(review\.afterSnapshot\)/u);
   assert.match(managerSource, /AI 预审进度/);
   assert.match(managerSource, /aiPrecheckProgress/);
@@ -35,8 +35,8 @@ test("资源审核通过真实课程页预览并保留 AI 与人工审核弹窗"
   assert.match(managerSource, /审核拒绝/);
 });
 
-test("没有可预览课程时显示明确提示", () => {
-  assert.match(managerSource, /title=\{previewCourses\.length === 0 \? "暂无可预览课程" : undefined\}/u);
+test("没有可预览专辑时显示明确提示", () => {
+  assert.match(managerSource, /title=\{previewCourses\.length === 0 \? "暂无可预览专辑" : undefined\}/u);
 });
 
 test("人工拒绝只能选择约定理由，其他理由需要填写说明", () => {

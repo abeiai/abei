@@ -16,5 +16,5 @@ test("主账号看板要求账号身份并保留筛选参数", async () => {
 
 test("主账号看板包含核心指标、分解和分段入口", async () => {
   const source = await readFile(new URL("../src/components/learning/account-learning-dashboard.tsx", import.meta.url), "utf8");
-  for (const text of ["有效在线", "学习时长", "每日学习趋势", "已学习应用", "课程投入", "学习资源投入", "课件进度", "分段明细"]) assert.match(source, new RegExp(text, "u"));
+  for (const text of ["有效在线", "学习时长", "每日学习趋势", "已学习应用", "专辑投入", "学习资源投入", "课件进度", "分段明细"]) assert.match(source, new RegExp(text, "u"));
 });

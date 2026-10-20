@@ -467,7 +467,7 @@ export class LearnerLearningEventService {
         select: { publication: { select: { approvedSnapshot: true, approvedHash: true } } }
       });
       if (!item?.publication.approvedSnapshot || item.publication.approvedHash !== context.contentVersion) {
-        throw new AppException(40004, "课程课件版本已变更", HttpStatus.BAD_REQUEST);
+        throw new AppException(40004, "专辑课件版本已变更", HttpStatus.BAD_REQUEST);
       }
       snapshot = jsonRecord(item.publication.approvedSnapshot);
     } else {

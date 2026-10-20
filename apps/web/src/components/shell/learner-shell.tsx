@@ -14,7 +14,7 @@ import {
 export const learnerNavigationItems = [
   { href: "/learn", label: "学习首页" },
   { href: "/tools", label: "场景应用" },
-  { href: "/learn#courses", label: "我的课程" }
+  { href: "/learn#courses", label: "我的专辑" }
 ] as const;
 
 export const learnerHeaderActions = [

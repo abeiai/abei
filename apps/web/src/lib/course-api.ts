@@ -313,9 +313,9 @@ export async function createCourseAction(
     });
     revalidateCoursePaths(course.id);
 
-    return { ok: true, data: course, message: "课程已创建。" };
+    return { ok: true, data: course, message: "专辑已创建。" };
   } catch (error) {
-    return actionError(error, "课程创建失败，请稍后重试。");
+    return actionError(error, "专辑创建失败，请稍后重试。");
   }
 }
 
@@ -332,10 +332,10 @@ export async function addCoursesAction(
     return {
       ok: true,
       data: result,
-      message: result.addedCount > 0 ? `已加入 ${result.addedCount} 门课程。` : "所选课程已在课程库中。"
+      message: result.addedCount > 0 ? `已加入 ${result.addedCount} 个专辑。` : "所选专辑已在专辑库中。"
     };
   } catch (error) {
-    return actionError(error, "课程添加失败，请稍后重试。");
+    return actionError(error, "专辑添加失败，请稍后重试。");
   }
 }
 
@@ -359,9 +359,9 @@ export async function searchCourseCatalogAction(input: {
   try {
     const result = await apiFetch<CourseCatalogPage>(`/courses/catalog?${searchParams.toString()}`);
 
-    return { ok: true, data: result, message: "课程目录已加载。" };
+    return { ok: true, data: result, message: "专辑目录已加载。" };
   } catch (error) {
-    return actionError(error, "课程目录加载失败，请稍后重试。");
+    return actionError(error, "专辑目录加载失败，请稍后重试。");
   }
 }
 
@@ -371,9 +371,9 @@ export async function loadEnrolledCoursesAction(
 ): Promise<ActionResult<CourseListPage>> {
   try {
     const result = await getEnrolledCourses(page, pageSize);
-    return { ok: true, data: result, message: "已加载更多课程。" };
+    return { ok: true, data: result, message: "已加载更多专辑。" };
   } catch (error) {
-    return actionError(error, "已加入课程加载失败，请稍后重试。");
+    return actionError(error, "已加入专辑加载失败，请稍后重试。");
   }
 }
 
@@ -388,9 +388,9 @@ export async function saveCourseAction(
     });
     revalidateCoursePaths(course.id);
 
-    return { ok: true, data: course, message: "课程已保存。" };
+    return { ok: true, data: course, message: "专辑已保存。" };
   } catch (error) {
-    return actionError(error, "课程保存失败，请稍后重试。");
+    return actionError(error, "专辑保存失败，请稍后重试。");
   }
 }
 
@@ -420,9 +420,9 @@ export async function uploadCourseCoverAction(
     });
     revalidatePath("/dashboard/courses");
 
-    return { ok: true, data: asset, message: "课程封面已上传。" };
+    return { ok: true, data: asset, message: "专辑封面已上传。" };
   } catch (error) {
-    return actionError(error, "课程封面上传失败，请稍后重试。");
+    return actionError(error, "专辑封面上传失败，请稍后重试。");
   }
 }
 

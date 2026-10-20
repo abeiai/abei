@@ -40,7 +40,7 @@ export function learnerHomeModel(home: LearnerHomeData) {
     recentRecords: [...home.recentRecords],
     emptyMessages: {
       scenarios: "暂无可用应用",
-      courses: "暂无可学课程",
+      courses: "暂无可学专辑",
       recentRecords: "暂无学习记录"
     }
   };
@@ -89,7 +89,7 @@ export function LearnerHome({ home }: { home: LearnerHomeData }) {
       </section>
 
       <section className="flex flex-col gap-4" id="courses">
-        <h2 className="text-base font-semibold">我的课程</h2>
+        <h2 className="text-base font-semibold">我的专辑</h2>
         {model.courseCards.length ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {model.courseCards.map((course) => (
@@ -103,7 +103,7 @@ export function LearnerHome({ home }: { home: LearnerHomeData }) {
                 </CardHeader>
                 <CardContent>
                   <Button asChild size="sm" variant="outline">
-                    <Link href={course.href}>进入课程</Link>
+                    <Link href={course.href}>进入专辑</Link>
                   </Button>
                 </CardContent>
               </Card>

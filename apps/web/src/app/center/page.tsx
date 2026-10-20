@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "绘本馆",
-  description: "浏览已发布课程和学习课件。"
+  description: "浏览已发布专辑和学习课件。"
 };
 
 type CenterSearchParams = Record<string, string | string[] | undefined>;
@@ -49,7 +49,7 @@ export default async function ResourceCenterPage({
             {topic ? <input name="topic" type="hidden" value={topic} /> : null}
             <div className="flex h-14 items-center rounded-xl border border-border bg-background px-5 shadow-sm focus-within:ring-2 focus-within:ring-ring/30">
               <input
-                aria-label="搜索课程"
+                aria-label="搜索专辑"
                 className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground/60"
                 defaultValue={keyword}
                 name="q"
@@ -88,7 +88,7 @@ export default async function ResourceCenterPage({
               最多学习
             </Link>
           </div>
-          <span className="text-muted-foreground">共 {visibleCourses.length} 门课程</span>
+          <span className="text-muted-foreground">共 {visibleCourses.length} 个专辑</span>
         </div>
 
         {visibleCourses.length > 0 ? (
@@ -98,7 +98,7 @@ export default async function ResourceCenterPage({
             ))}
           </div>
         ) : (
-          <p className="py-16 text-center text-sm text-muted-foreground">没有找到符合条件的课程</p>
+          <p className="py-16 text-center text-sm text-muted-foreground">没有找到符合条件的专辑</p>
         )}
       </section>
     </PublicShell>

@@ -99,7 +99,7 @@ export function LearnerCenter({
       <section aria-labelledby="authorized-resources-title" className="grid gap-4">
         <div className="flex items-center justify-between gap-4">
           <h2 className="text-base font-semibold" id="authorized-resources-title">已授权学习资源</h2>
-          <span className="text-sm text-muted-foreground">{model.courseCards.length} 门课程</span>
+          <span className="text-sm text-muted-foreground">{model.courseCards.length} 个专辑</span>
         </div>
         {model.courseCards.length ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -114,7 +114,7 @@ export function LearnerCenter({
                 </CardHeader>
                 <CardContent>
                   <Button asChild size="sm" variant="outline">
-                    <Link href={course.href}>进入课程</Link>
+                    <Link href={course.href}>进入专辑</Link>
                   </Button>
                 </CardContent>
               </Card>

@@ -339,7 +339,7 @@ export function LearnerResourceAuthorization({
               <article className="overflow-hidden rounded-xl border border-border bg-background" key={course.id}>
                 <div className="relative aspect-video overflow-hidden bg-secondary">
                   {course.coverUrl ? (
-                    <img alt={`${course.name}课程封面`} className="size-full object-cover" src={course.coverUrl} />
+                    <img alt={`${course.name}专辑封面`} className="size-full object-cover" src={course.coverUrl} />
                   ) : (
                     <div className="flex size-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
                       <BookOpen className="size-6" />
@@ -363,7 +363,7 @@ export function LearnerResourceAuthorization({
                 <div className="flex min-h-36 flex-col px-4 pb-4 pt-3">
                   <h3 className="truncate text-base font-semibold leading-6">{course.name}</h3>
                   <p className="mt-0.5 line-clamp-2 text-sm leading-6 text-muted-foreground">
-                    {course.summary || "暂无课程简介"}
+                    {course.summary || "暂无专辑简介"}
                   </p>
                   {course.tags.length ? (
                     <div className="mt-auto flex flex-wrap gap-1.5 pt-3">

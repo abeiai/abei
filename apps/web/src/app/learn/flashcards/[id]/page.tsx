@@ -6,7 +6,7 @@ import { getWebProfile } from "@/lib/profile-api";
 
 export const metadata: Metadata = {
   title: "闪卡学习 - 学乐 AI",
-  description: "在线学习课程闪卡。"
+  description: "在线学习专辑闪卡。"
 };
 
 export default async function PublicFlashcardPage({

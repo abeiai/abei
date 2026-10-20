@@ -113,11 +113,11 @@ test("学习者导航只包含三个学习入口", () => {
     [
       ["学习首页", "/learn"],
       ["场景应用", "/tools"],
-      ["我的课程", "/learn#courses"]
+      ["我的专辑", "/learn#courses"]
     ]
   );
   const labels: readonly string[] = learnerNavigationItems.map((item) => item.label);
-  for (const forbidden of ["账单明细", "组织账号", "个人资料", "学习账号", "课程编排"]) {
+  for (const forbidden of ["账单明细", "组织账号", "个人资料", "学习账号", "专辑编排"]) {
     assert.equal(labels.includes(forbidden), false);
   }
 });
@@ -138,7 +138,7 @@ test("空授权和空历史保持为空且使用简洁空状态", () => {
   assert.deepEqual(model.recentRecords, []);
   assert.deepEqual(model.emptyMessages, {
     scenarios: "暂无可用应用",
-    courses: "暂无可学课程",
+    courses: "暂无可学专辑",
     recentRecords: "暂无学习记录"
   });
 });
@@ -148,8 +148,8 @@ test("学习中心模型展示授权内容和基础学习统计", () => {
     scenarios: [scenario("scenario-1", "experience-ai-chat", "AI 对话")],
     courses: [{
       id: "course-1",
-      name: "语文课程",
-      summary: "课程摘要",
+      name: "语文专辑",
+      summary: "专辑摘要",
       tags: ["语文"],
       coverUrl: "",
       publishedAt: "2026-08-14T00:00:00.000Z"
@@ -157,7 +157,7 @@ test("学习中心模型展示授权内容和基础学习统计", () => {
   }));
 
   assert.deepEqual(model.scenarioCards.map((item) => item.name), ["AI 对话"]);
-  assert.deepEqual(model.courseCards.map((item) => item.name), ["语文课程"]);
+  assert.deepEqual(model.courseCards.map((item) => item.name), ["语文专辑"]);
 });
 
 test("学习者首页保留身份标签并只使用 API 返回的最近记录", () => {

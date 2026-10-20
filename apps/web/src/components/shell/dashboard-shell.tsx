@@ -37,7 +37,7 @@ export const dashboardNavItems: DashboardNavItem[] = [
   {
     key: "courses",
     href: "/dashboard/courses",
-    label: "课程编排"
+    label: "专辑编排"
   },
   {
     key: "billing",

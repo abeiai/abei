@@ -27,12 +27,12 @@ const groupDefinitions: Array<{
 }> = [
   {
     key: "profile",
-    title: "课程资料",
+    title: "专辑资料",
     kinds: new Set(["NAME", "COVER", "SUMMARY", "TAG_ADDED", "TAG_REMOVED"])
   },
   {
     key: "outline",
-    title: "课程目录",
+    title: "专辑目录",
     kinds: new Set(["ITEM_ADDED", "ITEM_REMOVED", "ITEM_RENAMED", "ITEM_REORDERED"])
   },
   {
@@ -434,7 +434,7 @@ export function courseReviewTitle(review: CourseReviewRequest) {
   if (review.scope === "COURSE_REVISION") {
     return review.courseRevision?.name
       ?? review.course?.approvedRevision?.name
-      ?? "未命名课程";
+      ?? "未命名专辑";
   }
 
   const currentTitle = snapshotTitle(review.afterSnapshot);
@@ -473,7 +473,7 @@ export function courseReviewPreviewCourses(review: CourseReviewRequest) {
 
     courses.set(id, {
       id,
-      name: name?.trim() || "未命名课程",
+      name: name?.trim() || "未命名专辑",
       href: `/c/${id}`
     });
   };

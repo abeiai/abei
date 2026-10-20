@@ -35,7 +35,7 @@ const options: CourseMaterialOption[] = [
   }
 ];
 
-test("单课程最多可以添加二百个课件", () => {
+test("单专辑最多可以添加二百个课件", () => {
   assert.equal(courseMaterialLimit, 200);
 });
 
@@ -74,7 +74,7 @@ test("弹窗课件可以按类型和关键词筛选", () => {
   );
 });
 
-test("弹窗多选排除已添加课件并遵守课程容量", () => {
+test("弹窗多选排除已添加课件并遵守专辑容量", () => {
   const existing = new Set(["VIDEO_GUIDE:video-1"]);
   assert.deepEqual(toggleCourseMaterialSelection([], "VIDEO_GUIDE:video-1", existing, 2), []);
   assert.deepEqual(toggleCourseMaterialSelection([], "ENGLISH_GUIDED_STUDY:english-1", existing, 2), [

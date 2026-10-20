@@ -59,9 +59,9 @@ export function AccountLearningDashboard({
                 {overview.scenarioBreakdown.map((row) => <option key={row.scenarioId} value={row.scenarioId}>{row.scenarioName}</option>)}
               </select>
             </Filter>
-            <Filter label="课程">
+            <Filter label="专辑">
               <select className={selectClass} defaultValue={filters.courseId ?? ""} name="courseId">
-                <option value="">全部课程</option>
+                <option value="">全部专辑</option>
                 {overview.courseBreakdown.map((row) => <option key={row.courseId} value={row.courseId}>{row.courseName}</option>)}
               </select>
             </Filter>
@@ -102,10 +102,10 @@ export function AccountLearningDashboard({
         title="已学习应用"
       />
       <BreakdownTable
-        columns={["课程", "学习时长", "开始课件", "完成课件"]}
-        empty="暂无课程学习记录"
+        columns={["专辑", "学习时长", "开始课件", "完成课件"]}
+        empty="暂无专辑学习记录"
         rows={overview.courseBreakdown.map((row) => [row.courseName, formatLearningDuration(row.studySeconds), `${row.startedMaterialCount}`, `${row.completedMaterialCount}`])}
-        title="课程投入"
+        title="专辑投入"
       />
       <BreakdownTable
         columns={["学习资源", "学习时长", "开始课件", "完成课件"]}
