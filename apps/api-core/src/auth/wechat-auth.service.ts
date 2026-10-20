@@ -10,6 +10,7 @@ import {
   type Prisma,
 } from "@xueleai/database";
 import { rewardNewReferral } from "../referrals/referral.service.js";
+import { createRegistrationWallet } from "../wallet/registration-credits.js";
 import type { ResponseLike } from "../security/cookies.js";
 import { AuthService } from "./auth.service.js";
 import { WechatMpClient, type WechatMpProvider } from "./wechat-mp.client.js";
@@ -637,7 +638,7 @@ export class WechatAuthService {
                 ...(pending.unionId ? { wechatUnionId: pending.unionId } : {}),
               },
             });
-            await tx.wallet.create({ data: { userId: created.id } });
+            await createRegistrationWallet(tx, created.id);
             if (pending.referralToken)
               await rewardNewReferral(tx, created.id, pending.referralToken);
             return created;

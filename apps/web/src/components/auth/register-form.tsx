@@ -55,6 +55,7 @@ export function RegisterForm({ next }: { next?: string }) {
 
   return (
     <div className="flex flex-col gap-6">
+      <p className="text-center text-sm text-muted-foreground">新用户注册即送 100 点，永不过期</p>
       <div className="grid grid-cols-2 gap-2 rounded-lg bg-secondary p-1">
         <Button
           type="button"

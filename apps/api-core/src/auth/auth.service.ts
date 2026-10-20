@@ -1,4 +1,5 @@
 import { rewardNewReferral } from "../referrals/referral.service.js";
+import { createRegistrationWallet } from "../wallet/registration-credits.js";
 import { createHmac, randomBytes, randomInt } from "node:crypto";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { decryptSecret, getPrismaClient, hashPassword, verifyPassword } from "@xueleai/database";
@@ -138,11 +139,7 @@ export class AuthService {
         }
       });
 
-      await transaction.wallet.create({
-        data: {
-          userId: createdUser.id
-        }
-      });
+      await createRegistrationWallet(transaction, createdUser.id);
 
       await rewardNewReferral(transaction, createdUser.id, referralToken);
       return createdUser;
@@ -607,11 +604,7 @@ export class AuthService {
           }
         });
 
-        await transaction.wallet.create({
-          data: {
-            userId: createdUser.id
-          }
-        });
+        await createRegistrationWallet(transaction, createdUser.id);
 
         if (dto.code.trim() !== defaultPhoneVerificationCode) await rewardNewReferral(transaction, createdUser.id, referralToken);
         return createdUser;

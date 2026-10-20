@@ -289,7 +289,8 @@ test("手机号首次创建用户禁用密码登录而邮箱注册启用密码�
             return phoneUser;
           }
         },
-        wallet: { create: async () => ({ id: "wallet-1" }) }
+        wallet: { create: async () => ({ id: "wallet-1", availableCredits: 100 }) },
+        ledgerEntry: { create: async () => ({ id: "registration-ledger" }) }
       })
   };
   await phoneService.loginByPhone({ phone: "13800138000", code: "199599" }, responseRecorder().response);
@@ -309,7 +310,8 @@ test("手机号首次创建用户禁用密码登录而邮箱注册启用密码�
             return publicUserRecord();
           }
         },
-        wallet: { create: async () => ({ id: "wallet-1" }) }
+        wallet: { create: async () => ({ id: "wallet-1", availableCredits: 100 }) },
+        ledgerEntry: { create: async () => ({ id: "registration-ledger" }) }
       })
   };
   await emailService.register(

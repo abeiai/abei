@@ -27,7 +27,8 @@ test("本地真实HTTP邮箱注册完成双向500点奖励", { skip: process.env
     });
     assert.equal(response.status, 201);
     const invitee = await prisma.user.findUniqueOrThrow({ where: { email } }); ids.push(invitee.id);
-    for (const userId of ids) assert.equal((await prisma.wallet.findUniqueOrThrow({ where: { userId } })).availableCredits, 500);
+    assert.equal((await prisma.wallet.findUniqueOrThrow({ where: { userId: inviter.id } })).availableCredits, 500);
+    assert.equal((await prisma.wallet.findUniqueOrThrow({ where: { userId: invitee.id } })).availableCredits, 600);
     assert.equal(await prisma.referralReward.count({ where: { inviteeId: invitee.id } }), 1);
     assert.equal(await prisma.ledgerEntry.count({ where: { idempotencyKey: { startsWith: `referral:${invitee.id}:` } } }), 2);
   } finally {

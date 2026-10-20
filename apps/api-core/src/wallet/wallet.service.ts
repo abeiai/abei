@@ -44,7 +44,7 @@ export class WalletService {
       id: entry.id,
       userId: entry.userId,
       type: entry.type,
-      typeName: entry.idempotencyKey.startsWith("referral:") ? "推荐奖励" : entry.type === "ADMIN_ADJUST" && (entry.idempotencyKey.startsWith("membership:") || entry.idempotencyKey.startsWith("membership-release-expired:"))
+      typeName: entry.idempotencyKey.startsWith("registration:") ? "注册赠点" : entry.idempotencyKey.startsWith("referral:") ? "推荐奖励" : entry.type === "ADMIN_ADJUST" && (entry.idempotencyKey.startsWith("membership:") || entry.idempotencyKey.startsWith("membership-release-expired:"))
         ? entry.amount > 0 ? "会员赠点" : "会员点数到期"
         : this.typeName(entry.type),
       amount: entry.amount,

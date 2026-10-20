@@ -67,6 +67,8 @@ function harness() {
   };
   const users: Array<Record<string, unknown>> = [];
   const sessions: string[] = [];
+  const wallets: Array<Record<string, unknown>> = [];
+  const ledgers: Array<Record<string, unknown>> = [];
   const cookies: string[] = [];
   let verifiedId: string | null = null;
   const db = {
@@ -119,8 +121,16 @@ function harness() {
       },
     },
     wallet: {
-      async create() {
-        return {};
+      async create({ data }: { data: Record<string, unknown> }) {
+        const wallet = { availableCredits: 0, ...data };
+        wallets.push(wallet);
+        return wallet;
+      },
+    },
+    ledgerEntry: {
+      async create({ data }: { data: Record<string, unknown> }) {
+        ledgers.push(data);
+        return data;
       },
     },
     async $transaction<T>(operation: (tx: unknown) => Promise<T>) {
@@ -218,6 +228,8 @@ function harness() {
     db,
     users,
     sessions,
+    wallets,
+    ledgers,
     cookies,
     response,
     start,
@@ -275,6 +287,8 @@ test("公众号扫码后原浏览器直接领取一次已有账号会话且不�
     JSON.stringify(completed),
     /private-access|private-refresh|owner-openid/,
   );
+  assert.equal(h.wallets.length, 0);
+  assert.equal(h.ledgers.length, 0);
   assert.equal(h.users[0]!.wechatUnionId, "existing-union");
   assert.equal(h.users[0]!.nickname, "我的昵称");
   await assert.rejects(() =>
@@ -802,6 +816,10 @@ test("未知身份必须明确创建且完成短信，创建不启用密码登�
     h.response,
   );
   assert.equal(h.users.length, 1);
+  assert.equal(h.wallets[0]!.availableCredits, 100);
+  assert.equal(h.ledgers.length, 1);
+  assert.equal(h.ledgers[0]!.amount, 100);
+  assert.equal(h.ledgers[0]!.balanceAfter, 100);
   assert.equal(h.users[0]!.passwordLoginEnabled, false);
   assert.match(
     String(h.users[0]!.email),
