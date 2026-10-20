@@ -15,8 +15,9 @@ const expectedPrompt = `请将这张绘本封面图调整为4:3的横版比例�
 1. 【风格保留】严格保持原图的绘画风格、色彩基调、笔触质感和整体氛围不变。
 2. 【主体保留】画面中的核心主体（人物/动物/场景）必须完整保留，不得裁切、变形或遮挡。
 3. 【文字保留】封面标题文字必须原样保留，包括字体样式、颜色、大小和位置关系，不得修改、模糊或重新生成文字内容。
-4. 【扩展填充】新增的画面区域应基于原图风格进行自然延伸和补充，保持构图和谐、过渡自然，避免出现明显的拼接痕迹或空白区域。
-5. 【输出质量】输出高清、无水印、无额外添加元素的完整封面图。`;
+4. 【扩展填充】新增的画面区域必须基于原图风格自然延伸原有场景、背景和笔触纹理，使插画连续覆盖完整画布并延伸至四个边缘，保持构图和谐、过渡自然，避免拼接痕迹或空白区域。
+5. 【输出质量】输出高清、无水印、无额外添加元素的完整封面图。
+6. 【禁止补边】严禁为了凑足4:3比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。`;
 
 function fixture(available = models, failure?: Error, coverUrl: string | null = null, claimAllowed = true) {
   const calls: Array<{ modelInstanceId: string; prompt: string; width: number; height: number; referenceImages: unknown[] }> = [];
@@ -95,4 +96,26 @@ test("重新生成失败保留旧图并释放生成锁，抢锁失败不重复�
   const concurrent = fixture(models, undefined, "https://r.example/old.png", false);
   await concurrent.service.generateCover("submission", true);
   assert.equal(concurrent.calls.length, 0);
+});
+
+
+test("横版与竖版原封面原样传给模型，不预先加纯色补边", async () => {
+  for (const [width, height] of [[1536, 864], [900, 1200]]) {
+    const original = await sharp({ create: { width, height, channels: 3, background: "#cb483d" } }).png().toBuffer();
+    const { service, calls } = fixture();
+    Object.assign(service, { readImage: async () => ({ buffer: original, mimetype: "image/png" }) });
+    await service.generateCover("submission");
+    const reference = calls[0]!.referenceImages[0] as { dataUrl: string };
+    assert.ok(Buffer.from(reference.dataUrl.split(",")[1]!, "base64").equals(original));
+  }
+});
+
+test("模型返回非4:3图片时保留旧封面，拒绝通过补边保存", async () => {
+  const wide = await sharp({ create: { width: 1536, height: 864, channels: 3, background: "#cb483d" } }).png().toBuffer();
+  const { service, calls, updates } = fixture(models, undefined, "https://r.example/old.png");
+  Object.assign(service, { media: { readPictureBookStoredImage: async (url: string) => ({ buffer: url === "https://r.example/cover.png" ? image : wide, mimetype: "image/png" }) } });
+  await assert.rejects(service.generateCover("submission", true), /封面生成失败/);
+  assert.equal(calls.length, 1);
+  assert.ok(updates.every(update => !Object.hasOwn(update.data, "coverUrl")));
+  assert.equal(updates.at(-1)!.data.coverToken, null);
 });
