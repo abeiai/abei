@@ -81,7 +81,7 @@ export const uploadSchema = z.strictObject({
 });
 export function creatorMcpServer(service: CreatorService, p: CreatorPrincipal) {
   const server = new McpServer(
-    { name: "abei-creator", version: "0.1.0" },
+    { name: "abei-creator", version: "0.1.1" },
     { capabilities: { tools: {} } },
   );
   function register<Shape extends z.ZodRawShape>(

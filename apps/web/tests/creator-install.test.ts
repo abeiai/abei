@@ -7,9 +7,9 @@ test('installation offers versioned real bundles and truthful client-specific st
   assert.ok(module?.CreatorInstallation, 'installation component required');
   const html = renderToStaticMarkup(React.createElement(module.CreatorInstallation));
   for (const label of ['Codex','Claude Code','Claude Desktop','Claude Cowork','豆包工作电脑版','WorkBuddy','DeepSeek Harness','预览版已开放下载','/account/connections','/storybook','/dashboard/courses']) assert.ok(html.includes(label),label);
-  for (const name of ['codex','claude-code','claude-cowork','workbuddy','deepseek','doubao-work']) assert.ok(html.includes(`abei-creator-${name}-0.1.0.zip`));
-  assert.ok(html.includes('abei-creator-desktop-0.1.0.mcpb'));
-  assert.ok(html.includes('/releases/download/v0.1.0/'));
+  for (const name of ['codex','claude-code','claude-cowork','workbuddy','deepseek','doubao-work']) assert.ok(html.includes(`abei-creator-${name}-0.1.1.zip`));
+  assert.ok(html.includes('abei-creator-desktop-0.1.1.mcpb'));
+  assert.ok(html.includes('/releases/download/v0.1.1/'));
 });
 test('connection dates distinguish unused and metadata never fabricates a client name', async () => {
   const auth = await import('../src/components/creator/authorization-panel');

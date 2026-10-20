@@ -1,6 +1,6 @@
 # 阿贝绘本创作助手：发布与验收
 
-版本：0.1.0。代码与安装包已制作，GitHub Release、服务器部署及真实客户端端到端验收尚未完成。不得把下表的格式/安装检查称作完整可用保证。
+版本：0.1.1（2026-10-20）。本次仅更新主站域名为 `https://abeiai.com`，同步助手、安装包和下载页版本；MCP issuer 和资源地址保持 `https://mcp.abeiai.com`。不涉及数据库迁移或 seed。下表为既有客户端验证范围，本次版本更新不表示新增客户端端到端验收。发布结果以当次 GitHub 下载校验和线上复验记录为准。
 
 | 入口 | 已验证 | 未验证 / 限制 |
 | --- | --- | --- |
@@ -13,7 +13,7 @@
 | DeepSeek Harness | 0.2.0-rc.2 临时安装/启用检查后移除 | 最终修复包再次加载、设备授权、完整创作 |
 | 独立助手 | macOS ARM64 运行与 MCP；Linux ARM64 容器基础执行 | 其他平台实机、Windows ACL、签名/公证 |
 
-下载 URL 固定为 `https://github.com/abeiai/abei-creator/releases/download/v0.1.0/<文件名>`。真实文件清单及哈希在 `integrations/abei-creator/release/SHA256SUMS`。共 14 个包/程序，加一个校验文件；公开仓库与 Release 当前待发布。升级前停止旧助手，保留外部作品标识和各配置的私有状态目录。不得修改用户全局客户端配置来“证明”安装完成。
+下载 URL 固定为 `https://github.com/abeiai/abei-creator/releases/download/v0.1.1/<文件名>`。真实文件清单及哈希在 `integrations/abei-creator/release/SHA256SUMS`。共 14 个包/程序，加一个校验文件；每次发布必须核对公开 Release 的实际下载及 SHA256。升级前停止旧助手，保留外部作品标识和各配置的私有状态目录。不得修改用户全局客户端配置来“证明”安装完成。
 
 ## 网页与权限验收
 

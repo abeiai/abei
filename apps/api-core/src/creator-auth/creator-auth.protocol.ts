@@ -25,7 +25,7 @@ export function creatorUnauthorizedChallenge(audience: string) {
   return `Bearer resource_metadata="${resourceMetadataUrl(audience)}"`;
 }
 export function creatorMainOrigin() {
-  const origin = process.env.CREATOR_MAIN_ORIGIN ?? 'https://new.abeiai.com';
+  const origin = process.env.CREATOR_MAIN_ORIGIN ?? 'https://abeiai.com';
   const url = new URL(origin);
   if (url.origin !== origin || (url.protocol !== 'https:' && !(process.env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1'].includes(url.hostname)))) {
     throw new Error('创作授权主站地址配置无效');

@@ -9,7 +9,7 @@ import { AuthService } from '../src/auth/auth.service.js';
 const db = getPrismaClient();
 const MCP = 'https://mcp.abeiai.com/mcp';
 const API = 'https://mcp.abeiai.com/api/creator/v1';
-const origin = 'https://new.abeiai.com';
+const origin = 'https://abeiai.com';
 const verifier = 'v'.repeat(64);
 const challenge = createHash('sha256').update(verifier).digest('base64url');
 const hash = (s: string) => createHash('sha256').update(s).digest('hex');

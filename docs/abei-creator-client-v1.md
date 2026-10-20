@@ -129,7 +129,7 @@ MCP 模块在现有 NestJS `apps/api-core` 中实现，以 Streamable HTTP 对�
 | `https://mcp.abeiai.com/.well-known/oauth-authorization-server` | 授权服务元数据，issuer 固定为 `https://mcp.abeiai.com` |
 | `mcp.abeiai.com` 下明确列出的 OAuth 端点 | 令牌签发、刷新、撤销及所需的客户端注册／设备授权申请 |
 | `mcp.abeiai.com` 下版本化的创作 API 与上传控制端点 | 辅助组件调用、申请及确认素材上传；直接 API 使用独立资源受众或专用上传许可 |
-| 主站 `new.abeiai.com` 的授权与设备确认页面 | 沿用现有登录账号，展示并确认客户端授权；具体页面由授权服务元数据或设备授权响应提供 |
+| 主站 `abeiai.com` 的授权与设备确认页面 | 沿用现有登录账号，展示并确认客户端授权；具体页面由授权服务元数据或设备授权响应提供 |
 | 主站安装页、作品预览及账号中心 | 安装发行包、查看作品、管理已连接客户端 |
 
 用户授权交互可在主站完成，协议入口与令牌服务在 MCP 域名。两者复用同一后台的授权事务和用户数据，通过受校验的短时事务关联完成授权；不把主站 Cookie、密码或访问凭证放入跳转 URL，也不为方便接入把登录 Cookie 放宽到整个父域。需要浏览器跨域请求时只允许实际所需来源，原生客户端／云端 MCP 请求不依赖浏览器共享登录态。MCP 资源域与授权端点位置通过标准元数据发现，不在 Skill 中硬编码用户登录状态。
@@ -159,7 +159,7 @@ Nginx 公网 443 映射容器 3610，转发至 `api-core:3602`；本地入口复
 
 验收页面为安装／授权／连接管理、我的绘本与专辑、登录预览、现有后台单本与专辑审核、`/library`、单本详情和 `/c/{id}` 专辑展示。五类客户端分别完成真实上传与投稿；配音能力与纯图文能力分开记录，不能把仅能调用文字工具记作完成有声制作。
 
-发布结果区分 GitHub、服务器、线上 API 和页面：远端 main 用 `git ls-remote origin refs/heads/main` 验证；主站复验使用 `new.abeiai.com` 的 `/api/health`、`/api/health/db`、`/api/health/redis`、`/api/system-config/public` 及实际作品页面。另检查 `mcp.abeiai.com` 的 DNS／TLS、元数据中的 issuer 与资源地址、未授权响应、MCP 初始化和工具调用、主站登录授权跳转、令牌受众隔离、撤销、上传及不存在的管理路由。不能只用 MCP 地址的普通 GET 返回成功判断接入完成。迁移保留既有内容和权限，禁止生产 reset、删除卷或把真实环境文件放入发行包。
+发布结果区分 GitHub、服务器、线上 API 和页面：远端 main 用 `git ls-remote origin refs/heads/main` 验证；主站复验使用 `abeiai.com` 的 `/api/health`、`/api/health/db`、`/api/health/redis`、`/api/system-config/public` 及实际作品页面。另检查 `mcp.abeiai.com` 的 DNS／TLS、元数据中的 issuer 与资源地址、未授权响应、MCP 初始化和工具调用、主站登录授权跳转、令牌受众隔离、撤销、上传及不存在的管理路由。不能只用 MCP 地址的普通 GET 返回成功判断接入完成。迁移保留既有内容和权限，禁止生产 reset、删除卷或把真实环境文件放入发行包。
 
 ## 本轮核对依据
 

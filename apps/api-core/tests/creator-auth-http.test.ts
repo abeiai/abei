@@ -39,7 +39,7 @@ test('compiled Nest HTTP OAuth wire format, no-store, browser consent and accoun
     const params = new URLSearchParams({ response_type: 'code', client_id: clientId!, redirect_uri: client.redirect_uris[0], code_challenge_method: 'S256', code_challenge: createHash('sha256').update(verifier).digest('base64url'), resource: 'https://mcp.abeiai.com/mcp', scope: 'creator:read' });
     const authorize = await fetch(`${base}/oauth/authorize?${params}`, { redirect: 'manual' });
     assert.equal(authorize.status, 302);
-    const location = new URL(authorize.headers.get('location')!); assert.equal(location.origin, 'https://new.abeiai.com');
+    const location = new URL(authorize.headers.get('location')!); assert.equal(location.origin, 'https://abeiai.com');
     assert.deepEqual([...location.searchParams.keys()], ['transaction']);
     const id = location.searchParams.get('transaction')!;
     const unauthenticated = await fetch(`${base}/requests/${id}`); assert.equal(unauthenticated.status, 401);
@@ -50,7 +50,7 @@ test('compiled Nest HTTP OAuth wire format, no-store, browser consent and accoun
     const read = await fetch(`${base}/requests/${id}`, { headers: { cookie } });
     assert.equal(read.status, 200); const view = (await read.json()).data;
     assert.deepEqual(view.scopes, ['creator:read']);
-    const origin = 'https://new.abeiai.com';
+    const origin = 'https://abeiai.com';
     const missingCsrf = await json(`/requests/${id}`, { approve: true }, { cookie, origin }); assert.equal(missingCsrf.status, 403);
     const wrongOrigin = await json(`/requests/${id}`, { approve: true }, { cookie, origin: 'https://evil.test', 'x-creator-csrf': view.csrfToken }); assert.equal(wrongOrigin.status, 403);
     const approve = await json(`/requests/${id}`, { approve: true }, { cookie, origin, 'x-creator-csrf': view.csrfToken });

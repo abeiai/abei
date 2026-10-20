@@ -138,12 +138,15 @@ test('Creator works and immutable publication: real database',async t=>{
         }
         const current=await db.pictureBook.findUniqueOrThrow({where:{id:draft.id}});
         for (const page of current.pages as Array<{position:number}>) await website.updatePage(a.userId,draft.id,page.position,{caption:'网页文字',imagePrompt:'网页画面'});
-        const completed=await website.complete(a.userId,draft.id);
-        assert.equal(completed.status,'COMPLETED');
+        await assert.rejects(website.complete(a.userId,draft.id),status(400));
+        const completed=await website.get(a.userId,draft.id);
+        assert.equal(completed.status,'EDITING');
         assert.equal((await service.validateBook(a,draft.id)).valid,false);
         await assert.rejects(service.submitBook(a,draft.id,{expectedVersion:completed.version}),status(400));
         assert.equal(await db.pictureBookSubmission.count({where:{pictureBookId:draft.id}}),0);
         await assert.rejects(service.saveAlbum(a,{schemaVersion:1,externalId:`bad-${variant}`,expectedVersion:0,title:'专辑',summary:'测试',coverAssetId:upload.id,items:[{bookId:draft.id,expectedVersion:completed.version,displayName:'绘本'}]}),status(400));
+        // Legacy rows may already be marked completed; they must still fail publication validation.
+        await db.pictureBook.update({where:{id:draft.id},data:{status:'COMPLETED'}});
         const valid=await service.saveAlbum(a,{schemaVersion:1,externalId:`web-${variant}`,expectedVersion:0,title:'专辑',summary:'测试',coverAssetId:upload.id,items:[{bookId:book.id,expectedVersion:2,displayName:'绘本'}]});
         const course=await db.course.findUniqueOrThrow({where:{id:valid.id},include:{workingRevision:true}});
         await new CoursesService().saveCourse(a.userId,valid.id,{name:'网页专辑',summary:'网页',coverMediaId:course.workingRevision!.coverMediaId,tags:[],items:[{materialType:'PICTURE_BOOK',materialId:draft.id,displayName:'不完整'}]});
@@ -152,7 +155,10 @@ test('Creator works and immutable publication: real database',async t=>{
         assert.equal(await db.courseReviewRequest.count({where:{courseId:valid.id}}),0);
       }
       const withoutDirectory=await service.saveBook(a,{...manifest(),externalId:'no-directory',coverAssetId:undefined});
-      const complete=await website.complete(a.userId,withoutDirectory.id);
+      // Exercise a legacy completed reader without a catalog cover.
+      await db.pictureBook.update({where:{id:withoutDirectory.id},data:{status:'COMPLETED'}});
+      const complete=await service.getBook(a,withoutDirectory.id);
+      assert.equal((await website.get(a.userId,complete.id)).status,'COMPLETED');
       assert.equal((await service.validateBook(a,complete.id)).valid,false);
       await assert.rejects(service.submitBook(a,complete.id,{expectedVersion:complete.version}),status(400));
       assert.equal(await db.pictureBookSubmission.count({where:{pictureBookId:complete.id}}),0);

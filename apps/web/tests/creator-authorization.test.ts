@@ -28,7 +28,7 @@ for (const [audience, modeLabel] of [['https://mcp.abeiai.com/mcp', 'MCP 客户�
 test('existing login and account selection preserve the opaque transaction and device destination', async () => {
   const { profileLoginHref, selectorLoginContinuation, profileSelectionHref, selectionDestination } = await import('../src/lib/profile-routing');
   for (const next of ['/creator/authorize?transaction=opaque-transaction', '/creator/device', '/account/connections']) {
-    const login = new URL(profileLoginHref(next), 'https://new.abeiai.com');
+    const login = new URL(profileLoginHref(next), 'https://abeiai.com');
     assert.equal(login.pathname, '/login');
     assert.equal(login.searchParams.get('next'), next);
     assert.equal(selectorLoginContinuation(profileSelectionHref(next)), next);

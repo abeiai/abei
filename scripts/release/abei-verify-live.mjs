@@ -23,9 +23,9 @@ const unauth=await get(issuer+'/mcp',401);
 assert.match(unauth.headers.get('www-authenticate')??'',/oauth-protected-resource\/mcp/);
 for (const path of ['/api/admin/users','/api/health','/uploads/creator-test','/private-creator-assets/test','/api/creator-assets/test','/api/creator-auth/connections']) await get(issuer+path,404);
 if (process.argv.includes('--artifacts')) {
-  const base='https://github.com/abeiai/abei-creator/releases/download/v0.1.0/';
-  const files=['codex','claude-code','claude-cowork','workbuddy','deepseek','doubao-work','source'].map(n=>`abei-creator-${n}-0.1.0.zip`);
-  files.push('abei-creator-desktop-0.1.0.mcpb','abeiai-creator-0.1.0.tgz',...['darwin-arm64','darwin-x64','linux-arm64','linux-x64','windows-x64.exe'].map(n=>`abei-creator-${n}`),'SHA256SUMS');
+  const base='https://github.com/abeiai/abei-creator/releases/download/v0.1.1/';
+  const files=['codex','claude-code','claude-cowork','workbuddy','deepseek','doubao-work','source'].map(n=>`abei-creator-${n}-0.1.1.zip`);
+  files.push('abei-creator-desktop-0.1.1.mcpb','abeiai-creator-0.1.1.tgz',...['darwin-arm64','darwin-x64','linux-arm64','linux-x64','windows-x64.exe'].map(n=>`abei-creator-${n}`),'SHA256SUMS');
   for(const file of files) {
     const response=await fetch(base+file,{method:'HEAD',signal:AbortSignal.timeout(30_000)});
     assert.equal(response.status,200,file); assert.ok(Number(response.headers.get('content-length'))>0,file);

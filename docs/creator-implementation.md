@@ -5,7 +5,7 @@ Approved product specification: docs/abei-creator-client-v1.md. User authorized 
 ## Global constraints
 
 - Chinese UI/errors. Existing Abei User identity; AdminUser remains separate. No payment, wallet, AI generation, unrelated CMS, xueleai infrastructure changes. No production seed/reset.
-- Resource https://mcp.abeiai.com/mcp; OAuth issuer https://mcp.abeiai.com; main-site consent https://new.abeiai.com. Do not widen cookies or leak tokens in URLs/logs. Creator API audience https://mcp.abeiai.com/api/creator/v1.
+- Resource https://mcp.abeiai.com/mcp; OAuth issuer https://mcp.abeiai.com; main-site consent https://abeiai.com. Do not widen cookies or leak tokens in URLs/logs. Creator API audience https://mcp.abeiai.com/api/creator/v1.
 - Business HTTP envelopes {code,message,data}; MCP JSON-RPC and OAuth standards use native envelopes. Protocol cannot be broken by global logging/filter/interceptors.
 - Assets private before publication. Account ownership, version conflicts, idempotency and revocation must be enforced server-side. Frozen pending and published snapshots, old public remains on resubmission/rejection. Albums pin member versions.
 - Local isolated test PostgreSQL 127.0.0.1:3668 (container 3604), Redis 127.0.0.1:3669 (container 3605), Compose label abei-creator-test. Never connect to xueleai services. Production /opt/abei, abei-prod, existing data preserved.
