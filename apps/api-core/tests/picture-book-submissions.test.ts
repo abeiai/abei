@@ -74,7 +74,8 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
       return {url:"https://r.abeiai.com/picture-books/library-cover.png"};
     }});
     let generations=0, failCover=true;
-    Object.assign(app.get(AiService),{generatePictureBookImage:async (_subject:unknown,input:{width:number;height:number;prompt:string;referenceImages:unknown[]},options:{fixedCredits:number})=>{
+    Object.assign(app.get(AiService),{listImageModels:async()=>[{id:"review-qwen3",providerKey:"dashscope",modelName:"qwen-image-3.0",maxReferenceImages:3}],generateImage:async (_subject:unknown,input:{modelInstanceId:string;width:number;height:number;prompt:string;referenceImages:unknown[]},options:{fixedCredits:number;pictureBookR2:boolean})=>{
+      assert.equal(input.modelInstanceId,"review-qwen3"); assert.equal(options.pictureBookR2,true);
       generations++; assert.equal(input.width,1536); assert.equal(input.height,1152); assert.match(input.prompt,/小熊的雨天/); assert.match(input.prompt,/4:3/); assert.equal(input.referenceImages.length,1); assert.equal(options.fixedCredits,0);
       if(failCover) throw new Error("provider secret must not reach user");
       await new Promise(resolve=>setTimeout(resolve,30));
