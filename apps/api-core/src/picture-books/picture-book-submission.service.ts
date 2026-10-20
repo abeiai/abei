@@ -67,13 +67,13 @@ export class PictureBookSubmissionService {
     return { ...this.summary(row), pictureBookId: row.pictureBookId, author: row.pictureBook.user.nickname, coverUrl: row.coverUrl, coverGenerating: Boolean(row.coverToken && row.coverExpiresAt && row.coverExpiresAt > new Date()), book: playbackFromSnapshot(row.pictureBookId, row.snapshot) };
   }
 
-  async generateCover(id: string) {
+  async generateCover(id: string, regenerate = false) {
     const row = await this.prisma.pictureBookSubmission.findUnique({ where: { id }, include: { pictureBook: { select: { userId: true } } } });
     if (!row) throw new AppException(40401, "绘本投稿不存在", 404);
     if (row.status !== "PENDING") throw new AppException(40901, "该投稿已审核，请刷新列表", 409);
-    if (row.coverUrl) return this.review(id);
+    if (row.coverUrl && !regenerate) return this.review(id);
     const token = randomUUID(), now = new Date();
-    const claimed = await this.prisma.pictureBookSubmission.updateMany({ where: { id, status: "PENDING", coverUrl: null, snapshotHash: row.snapshotHash, OR: [{ coverExpiresAt: null }, { coverExpiresAt: { lte: now } }] }, data: { coverToken: token, coverExpiresAt: new Date(now.getTime() + 15 * 60_000) } });
+    const claimed = await this.prisma.pictureBookSubmission.updateMany({ where: { id, status: "PENDING", coverUrl: row.coverUrl, snapshotHash: row.snapshotHash, OR: [{ coverExpiresAt: null }, { coverExpiresAt: { lte: now } }] }, data: { coverToken: token, coverExpiresAt: new Date(now.getTime() + 15 * 60_000) } });
     if (!claimed.count) return this.review(id);
     try {
       const model = (await this.ai.listImageModels()).find(item => item.providerKey === "dashscope" && item.modelName === "qwen-image-3.0" && item.maxReferenceImages >= 1);

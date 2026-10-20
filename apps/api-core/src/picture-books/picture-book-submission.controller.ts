@@ -95,6 +95,8 @@ export class AdminPictureBookSubmissionsController {
   async get(@Req() request: unknown, @Param("id") id: string) { await this.auth.me(request as never); return successResponse(await this.submissions.review(id)); }
   @Post(":id/cover")
   async cover(@Req() request: unknown, @Param("id") id: string) { await this.auth.me(request as never); return successResponse(await this.submissions.generateCover(id)); }
+  @Post(":id/cover/regenerate")
+  async regenerateCover(@Req() request: unknown, @Param("id") id: string) { await this.auth.me(request as never); return successResponse(await this.submissions.generateCover(id, true)); }
   @Get(":id/cover/image")
   async coverImage(@Req() request: unknown, @Param("id") id: string, @Res() response: MediaResponse, @Query("w") width?: unknown) { await this.auth.me(request as never); sendMedia(response, await this.submissions.reviewImage(id, undefined, parseImageWidth(width))); }
   @Get(":id/pages/:position/image")

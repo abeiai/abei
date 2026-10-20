@@ -10,15 +10,16 @@ const models = [
   { id: "dashscope-qwen3", providerKey: "dashscope", modelName: "qwen-image-3.0", maxReferenceImages: 3 }
 ];
 
-function fixture(available = models, failure?: Error) {
+function fixture(available = models, failure?: Error, coverUrl: string | null = null, claimAllowed = true) {
   const calls: Array<{ modelInstanceId: string; width: number; height: number; referenceImages: unknown[] }> = [];
+  const updates: Array<{ where: Record<string, unknown>; data: Record<string, unknown> }> = [];
   let legacyCalls = 0;
   const service = Object.create(PictureBookSubmissionService.prototype) as PictureBookSubmissionService;
   Object.assign(service, {
     prisma: { pictureBookSubmission: {
-      findUnique: async () => ({ id: "submission", pictureBookId: "book", status: "PENDING", snapshotHash: "hash", coverUrl: null,
+      findUnique: async () => ({ id: "submission", pictureBookId: "book", status: "PENDING", snapshotHash: "hash", coverUrl,
         pictureBook: { userId: "owner" }, snapshot: { title: "云朵工厂", pages: [{ position: 0, imageUrl: "https://r.example/cover.png" }] } }),
-      updateMany: async () => ({ count: 1 })
+      updateMany: async (input: typeof updates[number]) => { updates.push(input); return { count: input.data.coverToken && !claimAllowed ? 0 : 1 }; }
     } },
     media: { readPictureBookStoredImage: async () => ({ buffer: image, mimetype: "image/png" }) },
     review: async () => ({ id: "submission", coverUrl: "https://r.example/library-cover.png" }),
@@ -34,7 +35,7 @@ function fixture(available = models, failure?: Error) {
       }
     }
   });
-  return { service, calls, legacyCalls: () => legacyCalls };
+  return { service, calls, updates, legacyCalls: () => legacyCalls };
 }
 
 test("审核4:3封面直接使用DashScope qwen-image-3.0并保留零扣点及R2存储", async () => {
@@ -63,4 +64,25 @@ test("DashScope模型未启用或不支持参考图时拒绝替用其他模型",
     assert.equal(calls.length, 0);
     assert.equal(legacyCalls(), 0);
   }
+});
+
+test("已有封面默认复用，主动重新生成时保留旧图直到新图保存", async () => {
+  const { service, calls, updates } = fixture(models, undefined, "https://r.example/old.png");
+  await service.generateCover("submission");
+  assert.equal(calls.length, 0);
+  await service.generateCover("submission", true);
+  assert.equal(calls.length, 1);
+  assert.equal(updates[0]!.where.coverUrl, "https://r.example/old.png");
+  assert.equal(Object.hasOwn(updates[0]!.data, "coverUrl"), false);
+  assert.equal(updates[1]!.data.coverUrl, "https://r.example/library-cover.png");
+});
+
+test("重新生成失败保留旧图并释放生成锁，抢锁失败不重复出图", async () => {
+  const failed = fixture(models, new Error("unavailable"), "https://r.example/old.png");
+  await assert.rejects(failed.service.generateCover("submission", true), /封面生成失败/);
+  assert.equal(failed.updates.at(-1)!.data.coverToken, null);
+  assert.ok(failed.updates.every(update => !Object.hasOwn(update.data, "coverUrl")));
+  const concurrent = fixture(models, undefined, "https://r.example/old.png", false);
+  await concurrent.service.generateCover("submission", true);
+  assert.equal(concurrent.calls.length, 0);
 });

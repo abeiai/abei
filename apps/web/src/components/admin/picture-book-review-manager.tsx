@@ -19,6 +19,7 @@ async function request<T>(path: string, method = "GET", body?: unknown, signal?:
 export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; status: string }) {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
+  const regenerateFor = useRef<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [review, setReview] = useState<Review | null>(null);
   const [index, setIndex] = useState(0);
@@ -30,22 +31,24 @@ export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; 
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
-    if (!selected) { dialog.current?.close(); return; }
+    if (!selected) { regenerateFor.current = null; dialog.current?.close(); return; }
+    const regenerate = regenerateFor.current === selected;
+    regenerateFor.current = null;
     dialog.current?.showModal();
     const controller = new AbortController();
-    setReview(null); setIndex(0); setReason(""); setError(""); setBusy(true);
+    setReview(current => current?.id === selected ? current : null); if (!regenerate) { setIndex(0); setReason(""); } setError(""); setBusy(true);
     const update = (value: Review) => { if (!controller.signal.aborted) setReview(value); };
     void (async () => {
       try {
         let latest = await request<Review>(`/${selected}`, "GET", undefined, controller.signal); update(latest);
-        if (latest.status === "PENDING" && !latest.coverUrl) {
-          latest = await request<Review>(`/${selected}/cover`, "POST", undefined, controller.signal); update(latest);
+        if (latest.status === "PENDING" && (!latest.coverUrl || regenerate || latest.coverGenerating)) {
+          if (!latest.coverGenerating) { latest = await request<Review>(`/${selected}/cover${regenerate ? "/regenerate" : ""}`, "POST", undefined, controller.signal); update(latest); }
           for (let attempt = 0; latest.coverGenerating && attempt < 180; attempt++) {
             await new Promise(resolve => window.setTimeout(resolve, 2000));
             if (controller.signal.aborted) return;
             latest = await request<Review>(`/${selected}`, "GET", undefined, controller.signal); update(latest);
           }
-          if (!latest.coverUrl && !controller.signal.aborted) throw new Error("封面尚未生成，请稍后重试。");
+          if ((!latest.coverUrl || latest.coverGenerating) && !controller.signal.aborted) throw new Error("封面尚未生成完成，请稍后重试。");
         }
       } catch (cause) {
         if (!controller.signal.aborted) { setError(cause instanceof Error ? cause.message : "绘本加载失败"); try { update(await request<Review>(`/${selected}`)); } catch { /* 保留错误和重试入口。 */ } }
@@ -55,7 +58,7 @@ export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; 
   }, [selected, retry]);
 
   async function decide(action: "approve" | "reject") {
-    if (!review || deciding || busy) return;
+    if (!review || deciding || busy || review.coverGenerating) return;
     if (action === "reject" && reason.trim().length < 2) { setError("请填写至少 2 个字符的拒绝原因。"); return; }
     setDeciding(true); setError("");
     try {
@@ -86,7 +89,7 @@ export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; 
           {page.audioUrl ? <audio aria-label="原文语音" controls preload="none" className="mt-3 w-full" src={`/api/admin/picture-book-submissions/${encodeURIComponent(review.id)}/pages/${page.position}/audio`} /> : null}
           {page.translations?.length ? <div className="mt-4 space-y-3 border-t pt-4"><h4 className="text-sm font-semibold">多语种内容</h4>{page.translations.map(item => <div key={item.language} className="rounded-xl border bg-secondary/30 p-3"><p className="text-sm font-semibold">{pictureBookLanguageName(item.language)}</p><p className="mt-2 whitespace-pre-wrap text-sm leading-6">{item.caption}</p>{item.audioUrl ? <audio aria-label={`${pictureBookLanguageName(item.language)}语音`} controls preload="none" className="mt-3 w-full" src={`/api/admin/picture-book-submissions/${encodeURIComponent(review.id)}/pages/${page.position}/audio?language=${encodeURIComponent(item.language)}`} /> : <p className="mt-2 text-xs text-muted-foreground">尚未合成语音</p>}</div>)}</div> : null}</> : null}</section>
         <section><h3 className="mb-3 text-base font-semibold">绘本馆封面 · 4:3</h3>{review.coverUrl ? <img className="aspect-[4/3] w-full rounded-xl border object-cover" src={`/api/admin/picture-book-submissions/${review.id}/cover/image?v=${encodeURIComponent(review.updatedAt)}`} alt={`${review.book.title}绘本馆封面`} /> : <div className="flex aspect-[4/3] items-center justify-center rounded-xl border bg-secondary text-sm text-muted-foreground">{busy ? <><LoaderCircle className="mr-2 size-4 animate-spin" />正在生成封面…</> : "封面尚未生成"}</div>}
-          {review.status === "PENDING" ? <div className="mt-5 space-y-4">{!review.coverUrl && !busy ? <Button variant="outline" onClick={()=>setRetry(retry+1)}>重试生成封面</Button> : null}<label className="block text-sm font-semibold">拒绝原因<Textarea className="mt-2 font-normal" value={reason} maxLength={500} onChange={event=>setReason(event.target.value)} placeholder="拒绝投稿时必填" disabled={deciding} /></label><div className="flex gap-3"><Button disabled={busy||deciding||!review.coverUrl} onClick={()=>void decide("approve")}>通过审核</Button><Button variant="outline" disabled={busy||deciding} onClick={()=>void decide("reject")}>拒绝投稿</Button></div></div> : review.reviewNote ? <p className="mt-4 text-sm text-destructive">拒绝原因：{review.reviewNote}</p> : null}
+          {review.status === "PENDING" ? <div className="mt-5 space-y-4">{review.coverUrl ? <Button variant="outline" disabled={busy || deciding || review.coverGenerating} onClick={()=>{regenerateFor.current=review.id;setBusy(true);setRetry(value=>value+1);}}>{busy || review.coverGenerating ? <><LoaderCircle className="mr-2 size-4 animate-spin" />正在重新生成…</> : "重新生成"}</Button> : !busy ? <Button variant="outline" onClick={()=>setRetry(retry+1)}>重试生成封面</Button> : null}<label className="block text-sm font-semibold">拒绝原因<Textarea className="mt-2 font-normal" value={reason} maxLength={500} onChange={event=>setReason(event.target.value)} placeholder="拒绝投稿时必填" disabled={deciding} /></label><div className="flex gap-3"><Button disabled={busy||deciding||review.coverGenerating||!review.coverUrl} onClick={()=>void decide("approve")}>通过审核</Button><Button variant="outline" disabled={busy||deciding||review.coverGenerating} onClick={()=>void decide("reject")}>拒绝投稿</Button></div></div> : review.reviewNote ? <p className="mt-4 text-sm text-destructive">拒绝原因：{review.reviewNote}</p> : null}
           {review.published ? <Button className="mt-4" variant="outline" disabled={deciding} onClick={() => void unpublish()}>下架已发布绘本</Button> : null}
         </section>
       </div> : <p className="py-12 text-center text-sm text-muted-foreground">{busy ? "正在加载绘本…" : "绘本加载失败"}</p>}

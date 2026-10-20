@@ -69,6 +69,17 @@ test("待审译文语音接口先校验管理员身份", async () => {
   assert.equal(read, true);
 });
 
+test("重新生成封面接口先验证管理员，再显式触发替换", async () => {
+  const calls: unknown[][] = [];
+  const submissions = { generateCover: async (...args: unknown[]) => { calls.push(args); return { id: "submission" }; } };
+  const denied = new AdminPictureBookSubmissionsController(submissions as never, { me: async () => { throw new Error("请先登录管理后台"); } } as never);
+  await assert.rejects(denied.regenerateCover({}, "submission"), /登录管理后台/);
+  assert.equal(calls.length, 0);
+  const allowed = new AdminPictureBookSubmissionsController(submissions as never, { me: async () => ({ id: "admin" }) } as never);
+  await allowed.regenerateCover({}, "submission");
+  assert.deepEqual(calls, [["submission", true]]);
+});
+
 test("非作者只能读取已发布课程审核通过的绘本快照", async () => {
   const service = Object.create(PictureBookService.prototype) as PictureBookService;
   let approved = false;
