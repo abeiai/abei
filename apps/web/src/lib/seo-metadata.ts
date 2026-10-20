@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const PRODUCTION_SITE_URL = "https://xueleai.com";
+const PRODUCTION_SITE_URL = "https://abeiai.com";
 
 interface PublicSiteUrlOptions {
   environmentUrl?: string;

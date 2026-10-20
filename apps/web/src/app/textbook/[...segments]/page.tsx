@@ -98,6 +98,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
       },
       openGraph: {
         ...defaultOpenGraph,
+        siteName,
         title,
         description,
         url: `${baseUrl}/textbook/${textbook.slug}`,
@@ -127,6 +128,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     robots: result?.pagination.total === 0 ? { index: false, follow: true } : undefined,
     openGraph: {
       ...defaultOpenGraph,
+      siteName,
       title: pageMeta.title,
       description: pageMeta.description,
       url: canonical,

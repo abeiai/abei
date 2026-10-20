@@ -25,11 +25,14 @@ function keywords(value: string | null) {
     : undefined;
 }
 
-async function baseUrl() {
+async function siteInfo() {
   const settings = await getPublicSystemConfigs().catch(() => []);
   const configByKey = new Map(settings.map((setting) => [setting.key, setting.value]));
 
-  return resolvePublicSiteUrl(configByKey.get("siteUrl"));
+  return {
+    rootUrl: resolvePublicSiteUrl(configByKey.get("siteUrl")),
+    siteName: configByKey.get("siteName")?.trim() || defaultOpenGraph.siteName
+  };
 }
 
 export async function generateMetadata({
@@ -46,7 +49,7 @@ export async function generateMetadata({
     };
   }
 
-  const rootUrl = await baseUrl();
+  const { rootUrl, siteName } = await siteInfo();
   const canonical = page.canonicalUrl || `${rootUrl}/pages/${page.slug}`;
   const title = page.seoTitle || page.title;
   const description = page.seoDescription || page.title;
@@ -64,6 +67,7 @@ export async function generateMetadata({
     },
     openGraph: {
       ...defaultOpenGraph,
+      siteName,
       title: page.ogTitle || title,
       description: page.ogDescription || description,
       url: canonical,

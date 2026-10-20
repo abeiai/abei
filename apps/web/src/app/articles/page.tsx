@@ -28,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       ...defaultOpenGraph,
+      siteName: configByKey.get("siteName")?.trim() || defaultOpenGraph.siteName,
       title,
       description,
       url: `${baseUrl}/articles`,

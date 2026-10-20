@@ -44,9 +44,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const configByKey = new Map(settings.map((setting) => [setting.key, setting.value]));
   const siteUrl = resolvePublicSiteUrl(configByKey.get("siteUrl"));
 
-  return coursePage.state === "AVAILABLE"
+  const metadata = coursePage.state === "AVAILABLE"
     ? buildPublicCourseMetadata(coursePage.course, siteUrl)
     : buildReviewingCourseMetadata(coursePage.courseId, siteUrl);
+  return { ...metadata, openGraph: { ...metadata.openGraph, siteName: configByKey.get("siteName")?.trim() || "阿贝智能" } };
 }
 
 export default async function PublicCoursePage({ params }: PageProps) {

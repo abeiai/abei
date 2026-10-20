@@ -29,7 +29,7 @@ test("生产 SEO 元数据始终使用 HTTPS 域名并覆盖全部公开教材",
       environmentUrl: undefined,
       production: true
     }),
-    "https://xueleai.com"
+    "https://abeiai.com"
   );
   assert.equal(
     seoModule.resolvePublicSiteUrl("http://localhost:3600/", {

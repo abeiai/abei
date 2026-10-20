@@ -63,6 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     openGraph: {
       ...defaultOpenGraph,
+      siteName,
       title,
       description,
       url: `${baseUrl}/textbook/markdown/${result.textbook.slug}`,

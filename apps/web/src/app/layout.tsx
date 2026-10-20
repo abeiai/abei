@@ -1,9 +1,9 @@
-import { defaultOpenGraph, SHARE_SITE_URL } from "@/lib/share-metadata";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { AnalyticsCode } from "@/components/shell/analytics-code";
 import { getPublicSystemConfigs } from "@/lib/settings-api";
+import { resolveSiteSeo, rootSiteMetadata } from "@/lib/site-seo-metadata";
 import "@incremark/theme/styles.css";
 import "katex/dist/katex.min.css";
 import "vditor/dist/index.css";
@@ -27,17 +27,10 @@ const mulishFont = localFont({
   variable: "--font-mulish"
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SHARE_SITE_URL),
-  openGraph: defaultOpenGraph,
-  twitter: { card: "summary_large_image" },
-  title: "学乐 AI - AI 学习材料工坊",
-  description: "面向中小学生家长和学生的 AI 学习工具，把文案、音视频和图片素材转为培训材料与课程。",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico"
-  }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const configs = await getPublicSystemConfigs().catch(() => []);
+  return rootSiteMetadata(resolveSiteSeo(configs));
+}
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   const analyticsCode = await getAnalyticsCode();

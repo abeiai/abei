@@ -41,6 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       ...defaultOpenGraph,
+      siteName,
       title,
       description,
       url: `${baseUrl}/textbook`,

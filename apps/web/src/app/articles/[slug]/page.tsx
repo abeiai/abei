@@ -27,11 +27,14 @@ function articleCover(article: Awaited<ReturnType<typeof getPublicArticle>>) {
   return article.ogImage || article.coverMedia?.url || article.coverImage || undefined;
 }
 
-async function baseUrl() {
+async function siteInfo() {
   const settings = await getPublicSystemConfigs().catch(() => []);
   const configByKey = new Map(settings.map((setting) => [setting.key, setting.value]));
 
-  return resolvePublicSiteUrl(configByKey.get("siteUrl"));
+  return {
+    rootUrl: resolvePublicSiteUrl(configByKey.get("siteUrl")),
+    siteName: configByKey.get("siteName")?.trim() || defaultOpenGraph.siteName
+  };
 }
 
 export async function generateMetadata({
@@ -48,7 +51,7 @@ export async function generateMetadata({
     };
   }
 
-  const rootUrl = await baseUrl();
+  const { rootUrl, siteName } = await siteInfo();
   const canonical = article.canonicalUrl || `${rootUrl}/articles/${article.slug}`;
   const title = article.seoTitle || article.title;
   const description = article.seoDescription || article.summary || article.title;
@@ -67,6 +70,7 @@ export async function generateMetadata({
     },
     openGraph: {
       ...defaultOpenGraph,
+      siteName,
       title: article.ogTitle || title,
       description: article.ogDescription || description,
       url: canonical,
