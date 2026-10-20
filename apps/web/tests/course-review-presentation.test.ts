@@ -96,6 +96,19 @@ test("专辑和课件差异按资料、目录和内容分组", () => {
   assert.deepEqual(groups.map((group) => group.title), ["专辑资料", "专辑目录", "课件内容"]);
 });
 
+test("历史审核标签使用专辑称呼，原始审核快照和用户内容保持不变", () => {
+  const diff = [
+    { kind: "NAME", label: "课程名称", before: "旧课程名", after: "新课程名" },
+    { kind: "COVER", label: "课程封面", before: "/old.png", after: "/new.png" },
+    { kind: "SUMMARY", label: "课程简介", before: "旧", after: "新" }
+  ] as const;
+  const before = JSON.stringify(diff);
+  const groups = groupCourseReviewDiff([...diff]);
+  assert.deepEqual(groups[0]?.entries.map(entry => entry.label), ["专辑名称", "专辑封面", "专辑简介"]);
+  assert.equal(groups[0]?.entries[0]?.after, "新课程名");
+  assert.equal(JSON.stringify(diff), before);
+});
+
 test("全部差异类型稳定分组并在组内保留原顺序", () => {
   const kinds = [
     "CARD_CHANGED",

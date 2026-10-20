@@ -43,14 +43,18 @@ const groupDefinitions: Array<{
 ];
 
 export function groupCourseReviewDiff(diff: CourseDiffEntry[]): CourseReviewDiffGroup[] {
+  const profileLabels: Record<string, string> = { NAME: "专辑名称", COVER: "专辑封面", SUMMARY: "专辑简介" };
+  const entries = diff.map(entry => profileLabels[entry.kind]
+    ? { ...entry, label: profileLabels[entry.kind]! }
+    : entry);
   const groups = groupDefinitions.map((definition) => ({
     key: definition.key,
     title: definition.title,
-    entries: diff.filter((entry) => definition.kinds.has(entry.kind))
+    entries: entries.filter((entry) => definition.kinds.has(entry.kind))
   }));
 
   const knownKinds = new Set(groupDefinitions.flatMap((definition) => [...definition.kinds]));
-  const otherEntries = diff.filter((entry) => !knownKinds.has(entry.kind));
+  const otherEntries = entries.filter((entry) => !knownKinds.has(entry.kind));
 
   if (otherEntries.length > 0) {
     groups.push({ key: "other", title: "其他变更", entries: otherEntries });
