@@ -1,5 +1,6 @@
 import { creatorAssetId, creatorAssetUrl, readCreatorAssetReference } from "../creator/creator-assets.service.js";
 import { randomUUID } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import { Inject, Injectable } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AiService } from "../ai/ai.service.js";
@@ -9,6 +10,7 @@ import { mediaAssetPublicUrl } from "../media/media-object-url.js";
 import { normalizePictureBookLibraryCover } from "./picture-book-library-cover.js";
 import { inspectImage } from "../media/image-inspection.js";
 import { readPictureBookDemoImage } from "./picture-book-demo-image.js";
+import { inspectPictureBookImage } from "./picture-book-image.js";
 import { AppException } from "../common/app-exception.js";
 import { hashCourseSnapshot, snapshotCourseMaterial } from "../courses/course-domain.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
@@ -220,6 +222,12 @@ export class PictureBookSubmissionService {
   private async readImage(url: string, width?: number): Promise<{ buffer: Buffer; mimetype: string }> {
     if (creatorAssetId(url)) return readCreatorAssetReference(url, false, width);
     if (!url.startsWith("/")) return this.media.readPictureBookStoredImage(url, width);
+    const local = /^\/api\/media\/files\/([a-zA-Z0-9_-]+\.(?:png|jpe?g|webp))$/.exec(url);
+    if (local) return displayImage(url, width, async () => {
+      const file = await this.media.getLocalFile(local[1]!);
+      const buffer = await readFile(file.filepath);
+      return { buffer: inspectPictureBookImage({ originalname: local[1]!, mimetype: file.mimeType, size: buffer.length, buffer }).buffer, mimetype: file.mimeType };
+    });
     return displayImage(url, width, () => readPictureBookDemoImage(url));
   }
 
