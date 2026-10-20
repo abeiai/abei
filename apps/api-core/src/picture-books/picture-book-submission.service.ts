@@ -28,11 +28,18 @@ export class PictureBookSubmissionService {
       const imported = await transaction.creatorWork.findFirst({ where: { resourceId: pictureBookId, userId, kind: "BOOK" } });
       const coverId = imported && typeof imported.input === "object" && imported.input && !Array.isArray(imported.input) ? imported.input.coverAssetId : null;
       const cover = typeof coverId === "string" ? await transaction.creatorAsset.findFirst({ where: { id: coverId, userId, kind: "IMAGE", status: "COMPLETED" } }) : null;
-      const snapshot = { ...snapshotCourseMaterial("PICTURE_BOOK", book), ...(cover ? { libraryCoverUrl: creatorAssetUrl(cover.id) } : {}) };
+      const pages = Array.isArray(book.pages) ? book.pages : [];
+      // Legacy readers use the first image as their cover, count it in pageCount, and number from 1.
+      const legacyPages = pages.length > 0 && pages.length === book.pageCount && pages.every((page, index) => page && typeof page === "object" && !Array.isArray(page) && page.position === index + 1);
+      const source = legacyPages ? { ...book, pages: pages.map((page, index) => ({ ...(page as Prisma.JsonObject), position: index })) } : book;
+      const snapshot = { ...snapshotCourseMaterial("PICTURE_BOOK", source), ...(cover ? { libraryCoverUrl: creatorAssetUrl(cover.id) } : {}) };
       const playback = playbackFromSnapshot(book.id, snapshot);
-      if (book.status !== "COMPLETED" || !book.title.trim() || playback.pages[0]?.position !== 0 || playback.pages.length !== book.pageCount + 1 || playback.pages.some((page, index) => page.position !== index || !page.imageUrl)) {
-        throw new AppException(40001, "请先保存为作品，并补齐封面和每页图片后再投稿", 400);
+      if (book.status !== "COMPLETED") throw new AppException(40001, "请先保存为作品后再投稿", 400);
+      if (!book.title.trim()) throw new AppException(40001, "请先填写绘本名称", 400);
+      if (playback.pages[0]?.position !== 0 || playback.pages.length !== book.pageCount + (legacyPages ? 0 : 1) || playback.pages.some((page, index) => page.position !== index)) {
+        throw new AppException(40001, "绘本页数或页码不完整，请检查页面后再投稿", 400);
       }
+      if (playback.pages.some(page => !page.imageUrl)) throw new AppException(40001, "请补齐封面和每页图片后再投稿", 400);
       const snapshotHash = hashCourseSnapshot(snapshot);
       const existing = await transaction.pictureBookSubmission.findUnique({ where: { pictureBookId } });
       if (existing?.status === "PENDING") {

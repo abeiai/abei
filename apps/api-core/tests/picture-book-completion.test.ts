@@ -13,6 +13,7 @@ function fixture() {
 
 function services(book: ReturnType<typeof fixture>) {
   let saved = false, submitted = false;
+  let submittedSnapshot: unknown;
   const completion = Object.create(PictureBookService.prototype) as PictureBookService;
   Object.assign(completion, {
     get: async () => book,
@@ -28,11 +29,11 @@ function services(book: ReturnType<typeof fixture>) {
     creatorWork: { findFirst: async () => null },
     pictureBookSubmission: {
       findUnique: async () => null,
-      upsert: async () => { submitted = true; return { id: "submission", status: "PENDING", reviewNote: null, submittedAt: new Date(), updatedAt: new Date() }; }
+      upsert: async (input: { create: { snapshot: unknown } }) => { submitted = true; submittedSnapshot = input.create.snapshot; return { id: "submission", status: "PENDING", reviewNote: null, submittedAt: new Date(), updatedAt: new Date() }; }
     }
   };
   Object.assign(submission, { prisma: { $transaction: async (callback: (tx: typeof transaction) => unknown) => callback(transaction) } });
-  return { completion, submission, saved: () => saved, submitted: () => submitted };
+  return { completion, submission, saved: () => saved, submitted: () => submitted, snapshot: () => submittedSnapshot };
 }
 
 test("无字绘本和本地上传图片无需提示词或语音即可保存并投稿", async () => {
@@ -73,7 +74,39 @@ test("缺页时仍然不能保存或投稿", async () => {
   const service = services(book);
   await assert.rejects(service.completion.complete("owner", "book"), /图片/);
   book.status = "COMPLETED";
-  await assert.rejects(service.submission.submit("owner", "book"), /图片/);
+  await assert.rejects(service.submission.submit("owner", "book"), /页数或页码/);
   assert.equal(service.saved(), false);
   assert.equal(service.submitted(), false);
+});
+
+test("旧版封面计入总页数且从1编号的17页绘本可投稿，原稿页码保持不变", async () => {
+  const book = fixture();
+  book.pageCount = 17;
+  book.pages = Array.from({ length: 17 }, (_, index) => ({ ...book.pages[0]!, position: index + 1, imageUrl: `/uploads/legacy-${index + 1}.png` }));
+  const original = structuredClone(book.pages);
+  const service = services(book);
+  await service.completion.complete("owner", "book");
+  assert.equal((await service.submission.submit("owner", "book")).status, "PENDING");
+  const snapshot = service.snapshot() as { pages: typeof book.pages };
+  assert.deepEqual(snapshot.pages.map(page => page.position), Array.from({ length: 17 }, (_, index) => index));
+  assert.equal(snapshot.pages[0]?.imageUrl, original[0]?.imageUrl);
+  assert.equal(snapshot.pages.at(-1)?.imageUrl, original.at(-1)?.imageUrl);
+  assert.equal(snapshot.pages[0]?.narration, "");
+  assert.deepEqual(book.pages, original);
+});
+
+test("旧版绘本缺图、缺页、重复页码或页码断档时仍拒绝投稿", async () => {
+  for (const kind of ["image", "missing", "duplicate", "gap"] as const) {
+    const book = fixture();
+    book.pageCount = 3;
+    book.status = "COMPLETED";
+    book.pages = book.pages.map((page, index) => ({ ...page, position: index + 1 }));
+    if (kind === "image") book.pages[1]!.imageUrl = "";
+    if (kind === "missing") book.pages.pop();
+    if (kind === "duplicate") book.pages[1]!.position = 1;
+    if (kind === "gap") book.pages[1]!.position = 4;
+    const service = services(book);
+    await assert.rejects(service.submission.submit("owner", "book"));
+    assert.equal(service.submitted(), false);
+  }
 });
