@@ -254,8 +254,8 @@ export class PictureBookService {
     return this.mutate(userId, id, (book) => {
       const pages = pagesOf(book.pages);
       const validLength = pages.length === book.pageCount || (pages.length === book.pageCount + 1 && pages[0]?.position === 0);
-      if (!validLength || pages.some((page) => !page.caption.trim() || !page.imagePrompt.trim())) {
-        throw new AppException(40001, "请先完成每页的展示文字与画面提示词", HttpStatus.BAD_REQUEST);
+      if (!validLength || pages.some((page) => !page.imageUrl?.trim())) {
+        throw new AppException(40001, "请先补齐每页图片", HttpStatus.BAD_REQUEST);
       }
       return { status: "COMPLETED" };
     });

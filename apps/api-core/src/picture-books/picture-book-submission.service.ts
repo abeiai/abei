@@ -30,8 +30,8 @@ export class PictureBookSubmissionService {
       const cover = typeof coverId === "string" ? await transaction.creatorAsset.findFirst({ where: { id: coverId, userId, kind: "IMAGE", status: "COMPLETED" } }) : null;
       const snapshot = { ...snapshotCourseMaterial("PICTURE_BOOK", book), ...(cover ? { libraryCoverUrl: creatorAssetUrl(cover.id) } : {}) };
       const playback = playbackFromSnapshot(book.id, snapshot);
-      if (book.status !== "COMPLETED" || !book.title.trim() || playback.pages[0]?.position !== 0 || playback.pages.length !== book.pageCount + 1 || playback.pages.some((page, index) => page.position !== index || !page.imageUrl || !page.caption.trim())) {
-        throw new AppException(40001, "请先保存为作品，并完成封面和每页图文后再投稿", 400);
+      if (book.status !== "COMPLETED" || !book.title.trim() || playback.pages[0]?.position !== 0 || playback.pages.length !== book.pageCount + 1 || playback.pages.some((page, index) => page.position !== index || !page.imageUrl)) {
+        throw new AppException(40001, "请先保存为作品，并补齐封面和每页图片后再投稿", 400);
       }
       const snapshotHash = hashCourseSnapshot(snapshot);
       const existing = await transaction.pictureBookSubmission.findUnique({ where: { pictureBookId } });

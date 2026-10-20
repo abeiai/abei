@@ -2,6 +2,8 @@
 
 生产主域名为 `https://abeiai.com`，服务器 `8.130.44.204`，目录 `/opt/abei` 为发布目录，不是 Git 仓库。使用 `docker-compose.abei-prod.yml`，Compose 项目 `abei-prod`，所有卷以 `abei-prod_` 开头。本地 `abei` 卷不参与服务器 Compose。
 
+后续发布、默认站点 URL、页面链接和线上验收统一使用 `https://abeiai.com`。旧域名 `new.abeiai.com` 即将弃用，不再作为发布目标；其回调、素材及证书目录按现有兼容配置维护，不能仅因目录含旧域名就删除或改名。
+
 ## 代码与私有配置
 
 先在 `abeiai/abei` 的 `main` 推送已验证提交，再用 `git ls-remote origin refs/heads/main` 确认提交号。服务器代码只来自该提交的 `git archive`，排除本地旧版源码 `abeiai/`、真实环境变量、私钥、备份和运行数据。

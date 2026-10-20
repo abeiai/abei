@@ -4,7 +4,7 @@
 
 本仓库从 xueleai 的 `origin/main` 导入，作为 abei 的技术底座。下文保留上游开发约定；其中与 Docker 名称或端口冲突的规则，以本节为准。abei 的 Compose 项目名为 `abei`，入口容器名为 `abei`，Docker 服务仅使用 3600–3680 端口段：3600 HTTP、3601 Web、3602 API、3603 AI Gateway、3604 PostgreSQL、3605 Redis。不得连接或复用 xueleai 的容器、数据卷和 3320 端口段。
 
-生产部署覆盖：发布目录为 `/opt/abei`（非 Git 仓库），使用 `docker-compose.abei-prod.yml`、`abei-prod` Compose 项目及 `abei-prod_*` 独立数据卷。公网 80/443 分别映射容器 3600/3610；3606–3609 保留本地测试；当该段已有测试占用时，Creator 隔离测试使用 3668 PostgreSQL、3669 Redis。生产主域名为 `abeiai.com`，旧域名 `new.abeiai.com` 保留回调与素材接口，页面跳转到主域名。代码发布排除所有真实环境文件、密钥和备份；用户明确授权的业务数据同步须通过独立私有传输，并校验数据库表计数和素材哈希。线上复验使用该域名的 `/api/health`、`/api/health/db`、`/api/health/redis`、`/api/system-config/public` 及实际页面。
+生产部署覆盖：发布目录为 `/opt/abei`（非 Git 仓库），使用 `docker-compose.abei-prod.yml`、`abei-prod` Compose 项目及 `abei-prod_*` 独立数据卷。公网 80/443 分别映射容器 3600/3610；3606–3609 保留本地测试；当该段已有测试占用时，Creator 隔离测试使用 3668 PostgreSQL、3669 Redis。生产站点主域名统一为 `abeiai.com`。`new.abeiai.com` 即将弃用，后续发布、默认站点 URL、页面链接和线上验收一律使用 `https://abeiai.com`；旧域名只按现有兼容配置保留回调与素材访问，不再作为发布目标。代码发布排除所有真实环境文件、密钥和备份；用户明确授权的业务数据同步须通过独立私有传输，并校验数据库表计数和素材哈希。线上复验使用该域名的 `/api/health`、`/api/health/db`、`/api/health/redis`、`/api/system-config/public` 及实际页面。
 
 本文件是 Codex 在本仓库中执行开发任务时必须优先读取和遵守的全局规则。
 
