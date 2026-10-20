@@ -172,14 +172,14 @@ export function creatorMcpServer(service: CreatorService, p: CreatorPrincipal) {
   );
   register(
     "creator_book_save",
-    "保存绘本草稿；不会投稿。冲突时先读取当前版本",
+    "保存绘本草稿；不会公开分享。冲突时先读取当前版本",
     "creator:write",
     bookSchema,
     (a) => service.saveBook(p, a),
   );
   register(
     "creator_book_submit",
-    "将指定绘本版本投稿审核，仅在用户任务包含投稿时调用",
+    "将指定绘本版本公开分享审核，仅在用户任务包含公开分享时调用",
     "creator:submit",
     submit,
     (a) => service.submitBook(p, a.id, { expectedVersion: a.expectedVersion }),
@@ -207,14 +207,14 @@ export function creatorMcpServer(service: CreatorService, p: CreatorPrincipal) {
   );
   register(
     "creator_album_save",
-    "保存专辑并固定成员版本；不会投稿",
+    "保存专辑并固定成员版本；不会公开分享",
     "creator:write",
     albumSchema,
     (a) => service.saveAlbum(p, a),
   );
   register(
     "creator_album_submit",
-    "将指定专辑版本投稿审核，仅在用户任务包含投稿时调用",
+    "将指定专辑版本公开分享审核，仅在用户任务包含公开分享时调用",
     "creator:submit",
     submit,
     (a) => service.submitAlbum(p, a.id, { expectedVersion: a.expectedVersion }),

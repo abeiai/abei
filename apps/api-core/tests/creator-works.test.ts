@@ -18,7 +18,7 @@ import type { CreatorPrincipal } from '../src/creator-auth/creator-auth.service.
 const db=getPrismaClient();
 const status=(n:number)=>(e:unknown)=>(e as {getStatus():number}).getStatus()===n;
 test('Creator works and immutable publication: real database',async t=>{
-  assert.equal(new URL(process.env.DATABASE_URL!).port,'3668');
+  assert.ok(new URL(process.env.DATABASE_URL!).port === '3668' || (new URL(process.env.DATABASE_URL!).port === '3608' && new URL(process.env.DATABASE_URL!).pathname === '/abei_sharing_test'));
   const module=await import('../src/creator/creator.service.js').catch(()=>null); assert.ok(module?.CreatorService,'creator works service required');
   const dir=await mkdtemp(`${tmpdir()}/abei-works-`);process.env.CREATOR_ASSET_DIR=dir;
   const users=await Promise.all([1,2].map(i=>db.user.create({data:{email:`works-${randomUUID()}@example.test`,nickname:`作品测试${i}`,passwordHash:'unused'}})));
@@ -76,11 +76,11 @@ test('Creator works and immutable publication: real database',async t=>{
         const pending=await reviews.submitCourse(a.userId,album.id);
         assert.equal((pending.afterSnapshot as {items:Array<{materialVersion:number}>}).items[0].materialVersion,1);
         assert.equal(((pending.afterSnapshot as {items:Array<{materialSnapshot:{title:string}}>}).items[0].materialSnapshot).title,'所选第一版');
-        await service.saveAlbum(a,{...input,expectedVersion:alreadyApproved?3:2,title:'未投稿专辑版本B',items:[{bookId:member.id,expectedVersion:2,displayName:'新的成员版本'}]});
+        await service.saveAlbum(a,{...input,expectedVersion:alreadyApproved?3:2,title:'未公开分享专辑版本B',items:[{bookId:member.id,expectedVersion:2,displayName:'新的成员版本'}]});
         const approved=await reviews.approve(admin.id,pending.id,pending.updatedAt.toISOString());
         assert.equal(approved.status,'APPROVED');
         const current=await db.course.findUniqueOrThrow({where:{id:album.id},include:{workingRevision:true}});
-        assert.equal(current.workingRevision!.name,'未投稿专辑版本B');
+        assert.equal(current.workingRevision!.name,'未公开分享专辑版本B');
         assert.equal(current.workingRevision!.status,'DRAFT');
         assert.equal((await new CreatorMediaService(undefined as never).play(after.workingRevision!.items[0].id,{})).title,'所选第一版');
       }
@@ -117,10 +117,11 @@ test('Creator works and immutable publication: real database',async t=>{
       const pending=await service.submitAlbum(a,album.id,{expectedVersion:1});await reviews.approve(admin.id,pending.id,pending.updatedAt.toISOString());
       const item=await db.courseRevisionItem.findFirstOrThrow({where:{revision:{courseId:album.id}}});
       await db.pictureBook.update({where:{id:native.id},data:{pages:pages.map(page=>({...page,translations:[{language:'en',caption:'Unsent English',audioUrl:'https://example.test/unsent.wav'}]}))}});
-      const publicBook=await books.publicBook(native.id);
-      assert.equal(publicBook.pages[1].translations![0].caption,'Frozen English');
-      assert.equal(publicBook.pages[1].translations![0].audioUrl,`/api/public/picture-books/${native.id}/pages/1/audio?language=en`);
-      assert.equal((await books.audio(native.id,1,'en')).buffer.toString(),'frozen audio');
+      await assert.rejects(books.publicBook(native.id),status(404));
+      await assert.rejects(books.audio(native.id,1,'en'),status(404));
+      await assert.rejects(books.submit(a.userId,native.id),/本作品已经通过专辑分享，请不要重复分享/);
+      const withdrawn=await db.pictureBookSubmission.findUniqueOrThrow({where:{id:first.id}});
+      assert.equal(withdrawn.publishedAt,null);assert.equal(withdrawn.status,'APPROVED');
       const albumMedia=new CreatorMediaService(mediaStub as never);
       const playback=await albumMedia.play(item.id,{});
       assert.equal(playback.pages[1].translations![0].caption,'Frozen English');
@@ -213,6 +214,9 @@ test('Creator works and immutable publication: real database',async t=>{
       await service.saveBook(a,{...manifest('第五版'),expectedVersion:4});
       const approved=await reviews.approve(admin.id,pending.id,pending.updatedAt.toISOString());
       assert.equal(approved.status,'APPROVED');
+      const shared=await service.getBook(a,book.id);assert.equal(shared.sharedViaAlbum,true);assert.equal(shared.review,null);
+      const websiteShared=await new PictureBookService(undefined as never,undefined as never,undefined as never,reviews,undefined as never).get(a.userId,book.id);
+      assert.equal(websiteShared.sharedViaAlbum,true);assert.equal(websiteShared.submission,null);
       const course=await db.course.findUniqueOrThrow({where:{id:album.id},include:{approvedRevision:{include:{items:true}}}});
       const item=course.approvedRevision!.items[0]; assert.equal((item.pinnedSnapshot as {title:string}).title,'第四版');
       const media=new CreatorMediaService(undefined as never);
@@ -246,13 +250,19 @@ test('Creator works and immutable publication: real database',async t=>{
       const recovered=await service.saveAlbum(a,{...albumInput,expectedVersion:3,items:[{bookId:book.id,expectedVersion:5,displayName:'恢复同步'}]});
       assert.equal(recovered.version,4);
       const albumPending=await service.submitAlbum(a,album.id,{expectedVersion:4});
-      const bookPending=await service.submitBook(a,book.id,{expectedVersion:5});
-      const current=await submissions.review(await db.pictureBookSubmission.findUniqueOrThrow({where:{pictureBookId:book.id}}).then(x=>x.id));
-      await submissions.unpublish(admin.id,current.id,current.publishedVersion);
+      await assert.rejects(service.submitBook(a,book.id,{expectedVersion:5}),/本作品已经通过专辑分享，请不要重复分享/);
       await assert.rejects(submissions.publicBook(book.id),status(404));
+      await reviews.unpublish(admin.id,album.id,course.approvedRevisionId!);
+      const standalone=await service.saveBook(a,{...manifest(),externalId:'standalone-unpublish'});
+      const firstStandalone=await service.submitBook(a,standalone.id,{expectedVersion:1});
+      await submissions.decide(admin.id,firstStandalone.id,firstStandalone.updatedAt.toISOString(),'APPROVED');
+      await service.saveBook(a,{...manifest('单本新版'),externalId:'standalone-unpublish',expectedVersion:1});
+      const bookPending=await service.submitBook(a,standalone.id,{expectedVersion:2});
+      const current=await submissions.review(bookPending.id);
+      await submissions.unpublish(admin.id,current.id,current.publishedVersion);
+      await assert.rejects(submissions.publicBook(standalone.id),status(404));
       assert.equal((await submissions.review(bookPending.id)).updatedAt.toISOString(),bookPending.updatedAt.toISOString());
       assert.equal((await submissions.review(bookPending.id)).status,'PENDING');
-      await reviews.unpublish(admin.id,album.id,course.approvedRevisionId!);
       assert.equal((await db.course.findUniqueOrThrow({where:{id:album.id}})).publishedAt,null);
       assert.equal((await reviews.getReview(albumPending.id)).status,'PENDING');
       assert.equal(await db.adminOperationLog.count({where:{adminUserId:admin.id,action:{in:['UNPUBLISH_PICTURE_BOOK','UNPUBLISH_COURSE']}}}),2);

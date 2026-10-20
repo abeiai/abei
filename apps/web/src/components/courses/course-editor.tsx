@@ -549,7 +549,7 @@ export function CourseEditor({
         </Button>
         <Button disabled={controlsDisabled} onClick={() => runAction("submit")} type="button">
           {pendingAction === "submit" ? <Loader2 className="animate-spin" /> : <Send />}
-          {pendingAction === "submit" ? "正在申请" : "申请发布"}
+          {pendingAction === "submit" ? "正在申请" : "公开分享"}
         </Button>
       </div>
     </div>

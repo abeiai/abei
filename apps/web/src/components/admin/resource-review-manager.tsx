@@ -274,7 +274,7 @@ export function ResourceReviewManager({
                     <TableCell className="text-muted-foreground">{formatDateTime(review.submittedAt)}</TableCell>
                     <TableCell>
                       {hasFrozenAlbum(review) ? (
-                        <Button size="sm" variant="outline" onClick={() => openModal("preview", review)}><Eye />预览投稿版本</Button>
+                        <Button size="sm" variant="outline" onClick={() => openModal("preview", review)}><Eye />预览公开分享版本</Button>
                       ) : previewCourses.length === 1 ? (
                         <Button asChild size="sm" variant="outline">
                           <Link href={previewCourses[0]!.href} rel="noreferrer" target="_blank">
@@ -325,7 +325,7 @@ export function ResourceReviewManager({
           onClose={() => {
             if (!humanRunning) setModal(null);
           }}
-          title={modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? "投稿版本预览" : "选择预览专辑") : modal.kind === "ai" ? "AI 预审" : "人工审核"}
+          title={modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? "公开分享版本预览" : "选择预览专辑") : modal.kind === "ai" ? "AI 预审" : "人工审核"}
         >
           {modal.kind === "preview" ? (hasFrozenAlbum(activeReview) ? <FrozenAlbumPreview review={activeReview} /> : <CoursePreviewLinks review={activeReview} />) : null}
           {modal.kind === "ai" ? (

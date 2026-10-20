@@ -31,7 +31,7 @@ export function PictureBookShelves({ albums, books, libraryPage = false, search 
   return <>
     <div className={styles.shelfHeading}><h3>推荐专辑</h3>{!libraryPage ? <span>{albums.length} 个专辑</span> : null}<Link className={styles.shelfMore} href={libraryCatalogHref("albums", 1, search)}>更多专辑<ArrowUpRight size={16} /></Link></div>
     <PictureBookAlbumGrid albums={libraryPage ? albums.slice(0, 6) : albums} libraryPage={libraryPage} emptyText={search ? "没有找到相关专辑" : undefined} />
-    <div className={styles.shelfHeading}><h3>单本绘本</h3>{libraryPage ? <Link className={styles.shelfMore} href={libraryCatalogHref("books", 1, search)}>更多绘本<ArrowUpRight size={16} /></Link> : <span className={styles.shelfActions}><Link href="/storybook">投稿绘本</Link><Link className={styles.shelfMore} href="/library/books">更多绘本<ArrowUpRight size={16} /></Link></span>}</div>
+    <div className={styles.shelfHeading}><h3>单本绘本</h3>{libraryPage ? <Link className={styles.shelfMore} href={libraryCatalogHref("books", 1, search)}>更多绘本<ArrowUpRight size={16} /></Link> : <span className={styles.shelfActions}><Link href="/storybook">公开分享绘本</Link><Link className={styles.shelfMore} href="/library/books">更多绘本<ArrowUpRight size={16} /></Link></span>}</div>
     <PictureBookBookGrid books={books} emptyText={search ? "没有找到相关绘本" : undefined} />
   </>;
 }

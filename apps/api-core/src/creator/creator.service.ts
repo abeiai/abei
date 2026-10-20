@@ -1,3 +1,4 @@
+import { assertStandaloneSharingAllowed, pictureBookSharingState, publishedAlbumRevisionWhere } from '../courses/album-sharing.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { getPrismaClient, type Prisma } from '@xueleai/database';
 import type { CreatorPrincipal } from '../creator-auth/creator-auth.service.js';
@@ -54,10 +55,11 @@ export class CreatorService {
         return row;
     }
     private async bookResult(tx: Tx, w: CreatorWork, full = false) {
-        const book = await tx.pictureBook.findFirst({ where: { id: w.resourceId, userId: w.userId }, include: { submission: true } });
+        const book = await tx.pictureBook.findFirst({ where: { id: w.resourceId, userId: w.userId }, include: { submission: true, revisionItems: { where: { revision: publishedAlbumRevisionWhere }, select: { id: true }, take: 1 } } });
         if (!book)
             fail('作品不存在', 404);
-        return { id: book.id, externalId: w.externalId, version: book.version, title: book.title, status: book.status, previewHref: `/picture-books/${book.id}/play`, publishedHref: book.submission?.publishedAt ? `/library/${book.id}` : null, review: book.submission ? { id: book.submission.id, status: book.submission.status, note: book.submission.reviewNote, published: !!book.submission.publishedAt, publishedVersion: book.submission.publishedVersion } : null, ...(full ? { manifest: w.input, book } : {}) };
+        const { sharedViaAlbum, submission } = pictureBookSharingState(book);
+        return { sharedViaAlbum, id: book.id, externalId: w.externalId, version: book.version, title: book.title, status: book.status, previewHref: `/picture-books/${book.id}/play`, publishedHref: submission?.publishedAt ? `/library/${book.id}` : null, review: submission ? { id: submission.id, status: submission.status, note: submission.reviewNote, published: !!submission.publishedAt, publishedVersion: submission.publishedVersion } : null, ...(full ? { manifest: w.input, book: { ...book, submission, sharedViaAlbum } } : {}) };
     }
     private async albumResult(tx: Tx, w: CreatorWork, full = false) {
         const course = await tx.course.findFirst({ where: { id: w.resourceId, userId: w.userId }, include: { workingRevision: { include: { items: { orderBy: { sortOrder: 'asc' } }, coverMedia: true } }, approvedRevision: true } });
@@ -131,16 +133,17 @@ export class CreatorService {
             await requirePrincipal(p, 'creator:submit', tx);
             await lock(tx, `picture-book-submission:${id}`);
             const work = await this.work(tx, p, 'BOOK', id);
+            await assertStandaloneSharingAllowed(tx, id);
             // Row lock makes the snapshot and its expectedVersion inseparable from ordinary studio updates.
             await tx.$queryRaw `SELECT id FROM picture_books WHERE id=${id} FOR UPDATE`;
             const existing = await tx.pictureBookSubmission.findUnique({ where: { pictureBookId: id } });
-            if (existing?.submittedVersion === version && ['PENDING', 'APPROVED'].includes(existing.status))
+            if (existing?.submittedVersion === version && (existing.status === 'PENDING' || (existing.status === 'APPROVED' && existing.publishedAt)))
                 return this.submissionResult(existing);
             const book = await tx.pictureBook.findUniqueOrThrow({ where: { id } });
             if (book.version !== version)
                 fail('作品版本已变化', 409);
             if (book.status !== 'COMPLETED' || !hasCompletePictureBookPlayback(book))
-                fail('请补全封面与全部页面图文后再投稿');
+                fail('请补全封面与全部页面图文后再公开分享');
             const manifest = object(work.input), cover = await this.ownedAsset(tx, p, manifest.coverAssetId), snapshot = { ...snapshotCourseMaterial('PICTURE_BOOK', book), libraryCoverUrl: creatorAssetUrl(cover.id) }, snapshotHash = hashCourseSnapshot(snapshot);
             if (existing?.status === 'PENDING') {
                 if (existing.snapshotHash !== snapshotHash)

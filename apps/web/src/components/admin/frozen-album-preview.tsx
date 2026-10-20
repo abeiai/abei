@@ -35,9 +35,9 @@ export function FrozenAlbumPreview({ review }: { review: CourseReviewRequest }) 
   const submitted = Array.isArray(snapshot.items) ? snapshot.items.map(record) : [];
   const courseId = review.courseId ?? review.course?.id;
   return <section className="space-y-4">
-    <h3 className="text-base font-semibold">{String(snapshot.name ?? review.courseRevision!.name)} · 投稿版本</h3>
+    <h3 className="text-base font-semibold">{String(snapshot.name ?? review.courseRevision!.name)} · 公开分享版本</h3>
     {snapshot.summary ? <p className="whitespace-pre-wrap text-sm leading-6">{String(snapshot.summary)}</p> : null}
-    <img className="max-h-64 rounded-lg object-contain" src={`/api/creator-media/revisions/${review.courseRevision!.id}/cover`} alt="投稿专辑封面" />
+    <img className="max-h-64 rounded-lg object-contain" src={`/api/creator-media/revisions/${review.courseRevision!.id}/cover`} alt="公开分享专辑封面" />
     {review.courseRevision!.items.map(item => {
       if (item.materialType !== "PICTURE_BOOK" || !item.pinnedSnapshot) {
         return <div key={item.id} className="flex items-center justify-between gap-4 rounded-lg border p-4">

@@ -112,7 +112,7 @@ export class AdminPictureBookSubmissionsController {
   private async decide(request: unknown, id: string, dto: DecisionDto, status: "APPROVED" | "REJECTED", reason?: string) {
     const admin = await this.auth.me(request as never);
     const review = await this.submissions.decide(admin.id, id, dto.expectedUpdatedAt, status, reason);
-    await writeAdminOperationLog({ adminUserId: admin.id, action: status === "APPROVED" ? "APPROVE_PICTURE_BOOK_SUBMISSION" : "REJECT_PICTURE_BOOK_SUBMISSION", resourceType: "PICTURE_BOOK_SUBMISSION", resourceId: id, description: status === "APPROVED" ? "通过单本绘本投稿审核" : `拒绝单本绘本投稿：${reason?.trim()}`, request: request as HeaderRequestLike });
+    await writeAdminOperationLog({ adminUserId: admin.id, action: status === "APPROVED" ? "APPROVE_PICTURE_BOOK_SUBMISSION" : "REJECT_PICTURE_BOOK_SUBMISSION", resourceType: "PICTURE_BOOK_SUBMISSION", resourceId: id, description: status === "APPROVED" ? "通过单本绘本公开分享审核" : `拒绝单本绘本公开分享：${reason?.trim()}`, request: request as HeaderRequestLike });
     return successResponse(review);
   }
 }

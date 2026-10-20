@@ -64,7 +64,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     assert.equal((await fetch(`${base}/books`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scope: "PUBLIC", bookId: "unknown" }) })).status, 401);
     const owner = await session(), other = await session();
     coverId = (await prisma.mediaAsset.create({ data: { filename: "cover.png", originalName: "cover.png", mimeType: "image/png", size: 1, url: "/picture-book-demos/lele-bear/cover.webp" } })).id;
-    const own = await book(owner.id, "我的未投稿作品", "本人当前配文");
+    const own = await book(owner.id, "我的未公开分享作品", "本人当前配文");
     const approved = await book(other.id, "公开绘本", "未审核的当前配文", "COMPLETED");
     const goodPublication = await published(approved, "APPROVED");
     await published(await book(other.id, "待审核作品", "秘密"), "PENDING");
@@ -74,7 +74,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     const importBook = (bookId: string, scope: string) => fetch(`${base}/books`, { method: "POST", headers: { Cookie: owner.cookie, "Content-Type": "application/json" }, body: JSON.stringify({ bookId, scope }) });
     const mine = await get("/books?scope=MINE"); assert.equal(mine.status, 200);
     const mineData = (await mine.json()).data;
-    assert.equal(mineData.total, 1); assert.equal(mineData.items[0].title, "我的未投稿作品");
+    assert.equal(mineData.total, 1); assert.equal(mineData.items[0].title, "我的未公开分享作品");
     assert.equal("brief" in mineData.items[0], false); assert.equal("pages" in mineData.items[0], false);
     const publicData = (await (await get(`/books?scope=PUBLIC&search=${fixtureTag}`)).json()).data;
     assert.equal(publicData.total, 1); assert.deepEqual(publicData.items.map((item: { title: string }) => item.title), [`审核版公开绘本 ${fixtureTag}`]);
@@ -85,7 +85,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     assert.equal((await importBook(own.id, "PUBLIC")).status, 404);
     const importedOwn = await importBook(own.id, "MINE"); assert.equal(importedOwn.status, 201);
     const ownGuide = (await importedOwn.json()).data;
-    assert.equal(ownGuide.title, "我的未投稿作品"); assert.equal(ownGuide.audience, "一二年级"); assert.equal(ownGuide.pageCount, 2);
+    assert.equal(ownGuide.title, "我的未公开分享作品"); assert.equal(ownGuide.audience, "一二年级"); assert.equal(ownGuide.pageCount, 2);
     assert.deepEqual(ownGuide.pages.map((page: { pageNumber: number }) => page.pageNumber), [1, 2]);
     assert.match(ownGuide.pages[1].sourceText, /本人当前配文/); assert.equal(ownGuide.scriptCount, 0); assert.equal(ownGuide.audioCount, 0);
     const multiline = await book(owner.id, "多行配文", Array.from({ length: 10 }, (_, index) => `第${index + 1}段配文需要完整保留`).join("\n"));

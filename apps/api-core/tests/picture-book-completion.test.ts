@@ -27,6 +27,7 @@ function services(book: ReturnType<typeof fixture>) {
     $queryRaw: async () => [],
     pictureBook: { findFirst: async () => book },
     creatorWork: { findFirst: async () => null },
+    courseRevisionItem: { findFirst: async () => null },
     pictureBookSubmission: {
       findUnique: async () => null,
       upsert: async (input: { create: { snapshot: unknown } }) => { submitted = true; submittedSnapshot = input.create.snapshot; return { id: "submission", status: "PENDING", reviewNote: null, submittedAt: new Date(), updatedAt: new Date() }; }
@@ -36,7 +37,7 @@ function services(book: ReturnType<typeof fixture>) {
   return { completion, submission, saved: () => saved, submitted: () => submitted, snapshot: () => submittedSnapshot };
 }
 
-test("无字绘本和本地上传图片无需提示词或语音即可保存并投稿", async () => {
+test("无字绘本和本地上传图片无需提示词或语音即可保存并公开分享", async () => {
   const book = fixture();
   const service = services(book);
   assert.equal((await service.completion.complete("owner", "book")).status, "COMPLETED");
@@ -45,7 +46,7 @@ test("无字绘本和本地上传图片无需提示词或语音即可保存并�
   assert.ok(service.submitted());
 });
 
-test("部分页面没有语音不影响投稿", async () => {
+test("部分页面没有语音不影响公开分享", async () => {
   const book = fixture();
   book.pages[1]!.audioUrl = "/uploads/page-1.mp3";
   const service = services(book);
@@ -53,7 +54,7 @@ test("部分页面没有语音不影响投稿", async () => {
   assert.equal((await service.submission.submit("owner", "book")).status, "PENDING");
 });
 
-test("缺少封面或任一内页图片时不能保存或投稿", async () => {
+test("缺少封面或任一内页图片时不能保存或公开分享", async () => {
   for (const position of [0, 1, 2]) {
     for (const imageUrl of [null, "", "   "]) {
       const book = fixture();
@@ -68,7 +69,7 @@ test("缺少封面或任一内页图片时不能保存或投稿", async () => {
   }
 });
 
-test("缺页时仍然不能保存或投稿", async () => {
+test("缺页时仍然不能保存或公开分享", async () => {
   const book = fixture();
   book.pages = book.pages.slice(0, 1);
   const service = services(book);
@@ -79,7 +80,7 @@ test("缺页时仍然不能保存或投稿", async () => {
   assert.equal(service.submitted(), false);
 });
 
-test("旧版封面计入总页数且从1编号的17页绘本可投稿，原稿页码保持不变", async () => {
+test("旧版封面计入总页数且从1编号的17页绘本可公开分享，原稿页码保持不变", async () => {
   const book = fixture();
   book.pageCount = 17;
   book.pages = Array.from({ length: 17 }, (_, index) => ({ ...book.pages[0]!, position: index + 1, imageUrl: `/uploads/legacy-${index + 1}.png` }));
@@ -95,7 +96,7 @@ test("旧版封面计入总页数且从1编号的17页绘本可投稿，原稿�
   assert.deepEqual(book.pages, original);
 });
 
-test("旧版绘本缺图、缺页、重复页码或页码断档时仍拒绝投稿", async () => {
+test("旧版绘本缺图、缺页、重复页码或页码断档时仍拒绝公开分享", async () => {
   for (const kind of ["image", "missing", "duplicate", "gap"] as const) {
     const book = fixture();
     book.pageCount = 3;

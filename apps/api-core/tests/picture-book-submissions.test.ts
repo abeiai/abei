@@ -27,7 +27,7 @@ Reflect.defineMetadata("design:paramtypes", [Object, ReviewQuery], AdminPictureB
 Reflect.defineMetadata("design:paramtypes", [Object, String, DecisionDto], AdminPictureBookSubmissionsController.prototype, "approve");
 Reflect.defineMetadata("design:paramtypes", [Object, String, RejectDto], AdminPictureBookSubmissionsController.prototype, "reject");
 
-test("单本绘本投稿要求本人账号和完成的图文，重复提交返回同一份待审核稿", async () => {
+test("单本绘本公开分享要求本人账号和完成的图文，重复提交返回同一份待审核稿", async () => {
   const prisma = getPrismaClient();
   const app = await NestFactory.create(PictureBookModule, { logger: ["error"], abortOnError: false });
   app.setGlobalPrefix("api"); app.useGlobalFilters(new HttpExceptionFilter()); app.useGlobalPipes(createValidationPipe());
@@ -35,7 +35,7 @@ test("单本绘本投稿要求本人账号和完成的图文，重复提交返�
   const users: string[] = [];
   let adminId = "", albumCoverId = "", publicationId = "";
   try {
-    const user = await prisma.user.create({ data: { email: `submission-${randomUUID()}@test.invalid`, nickname: "投稿测试", passwordHash: await hashPassword("Fixture-987!") } }); users.push(user.id);
+    const user = await prisma.user.create({ data: { email: `submission-${randomUUID()}@test.invalid`, nickname: "公开分享测试", passwordHash: await hashPassword("Fixture-987!") } }); users.push(user.id);
     const other = await prisma.user.create({ data: { email: `submission-${randomUUID()}@test.invalid`, nickname: "其他作者", passwordHash: "unused" } }); users.push(other.id);
     const data = { title: "小熊的雨天", brief: "私密创作对话", style: "watercolor", pageCount: 1, messages: [{ role: "user", content: "私密对话" }], characters: [], pages: [{ position: 0, caption: "小熊的雨天", narration: "", imagePrompt: "封面", imageUrl: "https://r.abeiai.com/picture-books/test-cover.webp", audioUrl: null }, { position: 1, caption: "小熊在雨中散步", narration: "小熊在雨中散步", imagePrompt: "雨中的小熊", imageUrl: "https://r.abeiai.com/picture-books/test-page.webp", audioUrl: null }] };
     const book = await prisma.pictureBook.create({ data: { ...data, userId: user.id, status: "COMPLETED" } });

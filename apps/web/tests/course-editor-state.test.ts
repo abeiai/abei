@@ -171,7 +171,7 @@ test("创作者预览统一进入真实专辑页面，旧预览路由只做兼�
   assert.doesNotMatch(listSource, /\/dashboard\/courses\/\$\{course\.id\}\/preview/u);
 });
 
-test("专辑编辑器使用申请发布动作避免把保存草稿误认为已提审", () => {
+test("专辑编辑器将公开分享与保存草稿区分", () => {
   const editorSource = readFileSync(
     new URL("../src/components/courses/course-editor.tsx", import.meta.url),
     "utf8"
@@ -182,7 +182,7 @@ test("专辑编辑器使用申请发布动作避免把保存草稿误认为已�
   );
 
   assert.match(editorSource, /正在申请/u);
-  assert.match(editorSource, /申请发布/u);
+  assert.match(editorSource, /公开分享/u);
   assert.doesNotMatch(editorSource, />提交审核</u);
   assert.match(actionSource, /发布申请已提交，正在等待审核/u);
 });

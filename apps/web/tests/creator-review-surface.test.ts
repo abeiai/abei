@@ -19,9 +19,9 @@ test('active resource review uses frozen album preview instead of latest draft c
 
 
 test('frozen review displays submitted cover text narration and multilingual audio from revision A',()=>{
-  const review={scope:'COURSE_REVISION',courseRevision:{id:'revision-a',name:'草稿B',items:[{id:'member-a',publicationId:'pub-a',materialType:'PICTURE_BOOK',displayName:'成员',pinnedVersion:1,pinnedSnapshot:{pages:[{position:0,caption:'草稿B'}]}}]},afterSnapshot:{name:'投稿A',summary:'简介A',items:[{publicationId:'pub-a',materialSnapshot:{pages:[{position:0,caption:'封面A',narration:'旁白A',audioUrl:'private-raw-audio',translations:[{language:'en',caption:'Frozen A',audioUrl:'private-english'}]}]}}]}} as unknown as CourseReviewRequest;
+  const review={scope:'COURSE_REVISION',courseRevision:{id:'revision-a',name:'草稿B',items:[{id:'member-a',publicationId:'pub-a',materialType:'PICTURE_BOOK',displayName:'成员',pinnedVersion:1,pinnedSnapshot:{pages:[{position:0,caption:'草稿B'}]}}]},afterSnapshot:{name:'公开分享A',summary:'简介A',items:[{publicationId:'pub-a',materialSnapshot:{pages:[{position:0,caption:'封面A',narration:'旁白A',audioUrl:'private-raw-audio',translations:[{language:'en',caption:'Frozen A',audioUrl:'private-english'}]}]}}]}} as unknown as CourseReviewRequest;
   const html=renderToStaticMarkup(createElement(FrozenAlbumPreview,{review}));
-  for(const text of ['投稿A','简介A','封面A','旁白A','Frozen A','/api/creator-media/revisions/revision-a/cover','/api/creator-media/items/member-a/pages/0/image','/api/creator-media/items/member-a/pages/0/audio?language=en']) assert.ok(html.includes(text));
+  for(const text of ['公开分享A','简介A','封面A','旁白A','Frozen A','/api/creator-media/revisions/revision-a/cover','/api/creator-media/items/member-a/pages/0/image','/api/creator-media/items/member-a/pages/0/audio?language=en']) assert.ok(html.includes(text));
   assert.doesNotMatch(html,/草稿B|private-raw-audio|private-english/);
 });
 
@@ -41,7 +41,7 @@ test('active album preview retains frozen book inspection and exposes every mixe
   } as unknown as CourseReviewRequest;
   const router = { refresh() {} } as unknown as NonNullable<Parameters<typeof AppRouterContext.Provider>[0]['value']>;
   const manager = renderToStaticMarkup(createElement(AppRouterContext.Provider, { value: router }, createElement(ResourceReviewManager, { reviews: [review], filters: { status: 'PENDING', scope: '' } })));
-  assert.match(manager, /预览投稿版本/);
+  assert.match(manager, /预览公开分享版本/);
   assert.doesNotMatch(manager, /href="\/c\/mixed-album"/);
   // Render the same preview subtree opened by the active manager's preview modal.
   const html = renderToStaticMarkup(createElement(FrozenAlbumPreview, { review }));

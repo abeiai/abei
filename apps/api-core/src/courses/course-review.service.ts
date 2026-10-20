@@ -1,3 +1,4 @@
+import { withdrawStandaloneBookShares } from "./album-sharing.js";
 import { creatorAssetId, readCreatorAssetReference } from "../creator/creator-assets.service.js";
 import { HttpStatus, Inject, Injectable, Logger, Optional } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
@@ -936,6 +937,8 @@ export class CourseReviewService {
         });
       }
     }
+
+    await withdrawStandaloneBookShares(transaction, request.courseRevision.items.flatMap(item => item.pictureBookId ? [item.pictureBookId] : []));
 
     return {
       assetIds: frozenAlbum ? [] : [...new Set(supersededCovers.map((item) => item.coverMediaId))],
