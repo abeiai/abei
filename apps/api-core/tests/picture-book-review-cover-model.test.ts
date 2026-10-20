@@ -10,8 +10,16 @@ const models = [
   { id: "dashscope-qwen3", providerKey: "dashscope", modelName: "qwen-image-3.0", maxReferenceImages: 3 }
 ];
 
+const expectedPrompt = `请将这张绘本封面图调整为4:3的横版比例。要求如下：
+
+1. 【风格保留】严格保持原图的绘画风格、色彩基调、笔触质感和整体氛围不变。
+2. 【主体保留】画面中的核心主体（人物/动物/场景）必须完整保留，不得裁切、变形或遮挡。
+3. 【文字保留】封面标题文字必须原样保留，包括字体样式、颜色、大小和位置关系，不得修改、模糊或重新生成文字内容。
+4. 【扩展填充】新增的画面区域应基于原图风格进行自然延伸和补充，保持构图和谐、过渡自然，避免出现明显的拼接痕迹或空白区域。
+5. 【输出质量】输出高清、无水印、无额外添加元素的完整封面图。`;
+
 function fixture(available = models, failure?: Error, coverUrl: string | null = null, claimAllowed = true) {
-  const calls: Array<{ modelInstanceId: string; width: number; height: number; referenceImages: unknown[] }> = [];
+  const calls: Array<{ modelInstanceId: string; prompt: string; width: number; height: number; referenceImages: unknown[] }> = [];
   const updates: Array<{ where: Record<string, unknown>; data: Record<string, unknown> }> = [];
   let legacyCalls = 0;
   const service = Object.create(PictureBookSubmissionService.prototype) as PictureBookSubmissionService;
@@ -46,6 +54,7 @@ test("审核4:3封面直接使用DashScope qwen-image-3.0并保留零扣点及R2
   assert.equal(calls[0]!.width, 1536);
   assert.equal(calls[0]!.height, 1152);
   assert.equal(calls[0]!.referenceImages.length, 1);
+  assert.equal(calls[0]!.prompt, expectedPrompt);
   assert.equal(legacyCalls(), 0);
 });
 
@@ -72,6 +81,7 @@ test("已有封面默认复用，主动重新生成时保留旧图直到新图�
   assert.equal(calls.length, 0);
   await service.generateCover("submission", true);
   assert.equal(calls.length, 1);
+  assert.equal(calls[0]!.prompt, expectedPrompt);
   assert.equal(updates[0]!.where.coverUrl, "https://r.example/old.png");
   assert.equal(Object.hasOwn(updates[0]!.data, "coverUrl"), false);
   assert.equal(updates[1]!.data.coverUrl, "https://r.example/library-cover.png");
