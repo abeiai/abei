@@ -5,7 +5,7 @@ import { ImageUp, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { centerCropRect } from "@/lib/course-editor-state";
-import { uploadCourseCoverAction } from "@/lib/course-api";
+import { uploadCourseCover } from "@/lib/course-cover-upload";
 
 function loadImage(url: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -165,9 +165,7 @@ export function CourseCoverUploader({
       localPreviewUrlRef.current = previewObjectUrl;
       setLocalPreviewUrl(previewObjectUrl);
 
-      const formData = new FormData();
-      formData.append("file", new File([blob], "course-cover.jpg", { type: "image/jpeg" }));
-      const result = await uploadCourseCoverAction(formData);
+      const result = await uploadCourseCover(blob);
 
       if (!isCurrentUpload(generation)) {
         return;
