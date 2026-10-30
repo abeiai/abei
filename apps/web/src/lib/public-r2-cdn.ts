@@ -1,5 +1,5 @@
 const sourceOrigin = "https://r.abeiai.com";
-const cdnOrigin = "https://cdn.abeiai.com";
+const cdnOrigin = "https://cc.abeiai.com";
 const publicMediaExtension = /\.(?:png|jpe?g|webp|gif|svg|avif|ico|mp3|wav|ogg|aac|m4a|flac|opus)$/i;
 const signedParameter = /signature|token|credential|authorization|accesskey|keypair|policy|expires|jwt|hmac|secret|ticket|verify|^sign$|^sig$|^auth|^x(?:amz|goog|cos)|^qsign/i;
 

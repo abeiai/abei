@@ -16,7 +16,7 @@ export function imageSources(src: string, usage: ImageUsage) {
     || /^\/api\/picture-books\/style-references\/[^/?]+\/image(?=\?|$)/.test(src);
   const animatedOrVector = /\.(?:gif|svg|ico)(?:\?|$)/i.test(src);
   const publicLocal = /^\/(?!api\/|\/|_next\/)[^?]+\.(?:png|jpe?g|webp)(?:\?|$)/i.test(src);
-  const bases = [...(process.env.NEXT_PUBLIC_IMAGE_REMOTE_BASE_URLS || "https://r.abeiai.com").split(","), "https://cdn.abeiai.com"].map(base => base.trim().replace(/\/+$/, "")).filter(Boolean);
+  const bases = [...(process.env.NEXT_PUBLIC_IMAGE_REMOTE_BASE_URLS || "https://r.abeiai.com").split(","), "https://cdn.abeiai.com", "https://cc.abeiai.com"].map(base => base.trim().replace(/\/+$/, "")).filter(Boolean);
   const publicRemote = bases.some(base => src.startsWith(`${base}/`)) && /\.(?:png|jpe?g|webp)(?:\?|$)/i.test(src);
   if (animatedOrVector || (!endpoint && !publicLocal && !publicRemote)) return { src: publicR2CdnUrl(src), srcSet: undefined, sizes: undefined };
   const quality = usage === "detail" || usage === "reading" ? 90 : 82;

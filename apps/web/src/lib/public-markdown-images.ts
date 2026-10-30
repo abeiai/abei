@@ -45,7 +45,7 @@ export function publicMarkdownImageFallback(currentSrc: string): string | null {
   try {
     const url = new URL(currentSrc, "https://local.invalid");
     const source = url.pathname === "/_next/image" ? url.searchParams.get("url") : currentSrc;
-    return source?.startsWith("https://cdn.abeiai.com/") && !hasSignedUrlParameters(source) ? `https://r.abeiai.com${source.slice("https://cdn.abeiai.com".length)}` : null;
+    return source?.startsWith("https://cc.abeiai.com/") && !hasSignedUrlParameters(source) ? `https://r.abeiai.com${source.slice("https://cc.abeiai.com".length)}` : null;
   } catch {
     return null;
   }

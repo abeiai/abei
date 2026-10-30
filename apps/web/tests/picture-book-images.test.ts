@@ -10,8 +10,8 @@ test("R2 图片使用站内地址，重新生成后使用新的缓存版本", ()
 
 test("已发布绘本的 R2 图片使用 CDN，其他图片仍使用站内接口", () => {
   const cdn = "https://r.abeiai.com";
-  assert.equal(pictureBookPageImageSource("book-1", 1, `${cdn}/picture-books/page.webp`, "public", cdn), "https://cdn.abeiai.com/picture-books/page.webp");
-  assert.equal(pictureBookPageImageSource("book-1", 1, `${cdn}/uploads/page.webp`, "public", cdn), "https://cdn.abeiai.com/uploads/page.webp");
+  assert.equal(pictureBookPageImageSource("book-1", 1, `${cdn}/picture-books/page.webp`, "public", cdn), "https://cc.abeiai.com/picture-books/page.webp");
+  assert.equal(pictureBookPageImageSource("book-1", 1, `${cdn}/uploads/page.webp`, "public", cdn), "https://cc.abeiai.com/uploads/page.webp");
   assert.equal(pictureBookPageImageSource("book-1", 1, "https://other.example/page.webp", "public", cdn), "/api/public/picture-books/book-1/pages/1/image?v=page.webp");
   assert.equal(pictureBookPageImageSource("book-1", 1, `${cdn}/uploads/page.svg`, "public", cdn), "/api/public/picture-books/book-1/pages/1/image?v=page.svg");
   assert.equal(pictureBookPageImageSource("book-1", 1, `${cdn}/picture-books/page.webp`, "private", cdn), "/api/picture-books/book-1/pages/1/image?v=page.webp");
