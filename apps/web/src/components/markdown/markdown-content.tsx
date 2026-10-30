@@ -4,12 +4,14 @@ import { IncremarkContent } from "@incremark/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { normalizeMarkdownForIncremark } from "@/lib/markdown-normalize";
+import { publicMarkdownImageFallback, rewritePublicMarkdownImages } from "@/lib/public-markdown-images";
 import { cn } from "@/lib/utils";
 
 interface MarkdownContentProps {
   className?: string;
   content: string;
   isStreaming?: boolean;
+  publicMedia?: boolean;
 }
 
 const baseIncremarkOptions = {
@@ -21,15 +23,20 @@ const baseIncremarkOptions = {
   }
 } as const;
 
-export function MarkdownContent({ className, content, isStreaming = false }: MarkdownContentProps) {
+export function MarkdownContent({ className, content, isStreaming = false, publicMedia = false }: MarkdownContentProps) {
   const progressiveContent = useProgressiveMarkdown(content, isStreaming);
   const isProgressivelyRendering = isStreaming || progressiveContent !== content;
   const normalizedContent = useMemo(() => normalizeMarkdownForIncremark(content), [content]);
-  const renderedContent = isProgressivelyRendering ? progressiveContent : normalizedContent;
+  const displayedContent = isProgressivelyRendering ? progressiveContent : normalizedContent;
+  const renderedContent = useMemo(() => publicMedia ? rewritePublicMarkdownImages(displayedContent) : displayedContent, [displayedContent, publicMedia]);
   const renderMode = isProgressivelyRendering ? "streaming" : "finished";
 
   return (
-    <div className={cn("xueleai-markdown", className)}>
+    <div className={cn("xueleai-markdown", className)} onErrorCapture={event => {
+      if (!publicMedia || !(event.target instanceof HTMLImageElement)) return;
+      const fallback = publicMarkdownImageFallback(event.target.currentSrc || event.target.src);
+      if (fallback) event.target.src = fallback;
+    }}>
       <IncremarkContent
         content={renderedContent}
         incremarkOptions={baseIncremarkOptions}

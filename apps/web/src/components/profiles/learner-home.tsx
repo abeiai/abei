@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LearnerHome as LearnerHomeData } from "@/lib/profile-api";
 import {
@@ -95,7 +96,7 @@ export function LearnerHome({ home }: { home: LearnerHomeData }) {
             {model.courseCards.map((course) => (
               <Card className="overflow-hidden rounded-2xl shadow-sm" key={course.id}>
                 {course.coverUrl ? (
-                  <img alt={`${course.name}封面`} className="aspect-video w-full object-cover" src={course.coverUrl} />
+                  <ResponsiveImage usage="card" alt={`${course.name}封面`} className="aspect-video w-full object-cover" src={course.coverUrl} />
                 ) : null}
                 <CardHeader>
                   <CardTitle className="text-base">{course.name}</CardTitle>

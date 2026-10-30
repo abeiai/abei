@@ -12,6 +12,7 @@ import {
 } from "@/components/textbook/textbook-page-sections";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PublicShell } from "@/components/shell/public-shell";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { resolvePublicSiteUrl } from "@/lib/seo-metadata";
 import { getPublicSystemConfigs } from "@/lib/settings-api";
 import { textbookSourceSameAs } from "@/lib/textbook-source";
@@ -282,7 +283,7 @@ async function TextbookDetailPage({
         <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
           <div className="overflow-hidden rounded-md border border-border bg-card">
             {textbook.coverUrl ? (
-              <img
+              <ResponsiveImage usage="detail"
                 alt={`${textbook.title}封面`}
                 className="aspect-[3/4] h-full w-full object-cover"
                 src={textbook.coverUrl}

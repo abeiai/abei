@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Check, Heart, Shield, Sparkles, Star, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import type { ContentModule } from "@/lib/content-module-api";
 
 type TextStyle = {
@@ -72,7 +73,7 @@ function SlideshowModule({ module }: { module: ContentModule }) {
             return (
               <div className="relative w-full min-w-0 flex-none snap-start overflow-hidden bg-secondary" key={item.id}>
                 {item.imageUrl ? (
-                  <img
+                  <ResponsiveImage usage="detail"
                     alt={item.imageAlt ?? item.title ?? ""}
                     className={`absolute inset-0 size-full object-cover ${imagePositionClass}`}
                     src={item.imageUrl}
@@ -134,7 +135,7 @@ function ImageCardListModule({ module }: { module: ContentModule }) {
             <ModuleLink className="xueleai-card group overflow-hidden rounded-md border border-border bg-card" href={item.resolvedHref} key={item.id}>
               <div className="relative aspect-[4/3] bg-secondary">
                 {item.imageUrl ? (
-                  <img alt={item.imageAlt ?? item.title ?? ""} className="size-full object-cover transition-transform group-hover:scale-[1.02]" src={item.imageUrl} />
+                  <ResponsiveImage usage="card" alt={item.imageAlt ?? item.title ?? ""} className="size-full object-cover transition-transform group-hover:scale-[1.02]" src={item.imageUrl} />
                 ) : null}
                 {textPosition !== "BELOW_IMAGE" && item.title ? (
                   <div className={textPosition === "IMAGE_MIDDLE" ? "absolute inset-0 flex items-center justify-center bg-foreground/30 p-4 text-center text-primary-foreground" : "absolute inset-x-0 bottom-0 bg-foreground/55 p-4 text-primary-foreground"}>
@@ -239,7 +240,7 @@ function SplitImageTextRow({
   const image = (
     <div className={`relative w-full max-w-[660px] overflow-hidden rounded-md bg-transparent ${imageOrderClass} ${imagePlacementClass} ${ratioClass(imageRatio)}`}>
       {imageUrl ? (
-        <img alt={imageAlt} className="size-full object-contain" src={imageUrl} />
+        <ResponsiveImage usage="detail" alt={imageAlt} className="size-full object-contain" src={imageUrl} />
       ) : null}
     </div>
   );

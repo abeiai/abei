@@ -8,6 +8,7 @@ import { LearningTrend } from "@/components/learning/learning-trend";
 import { MaterialProgressList } from "@/components/learning/material-progress-list";
 import { learnerHomeModel } from "@/components/profiles/learner-home";
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -106,7 +107,7 @@ export function LearnerCenter({
             {model.courseCards.map((course) => (
               <Card className="overflow-hidden rounded-2xl shadow-sm" key={course.id}>
                 {course.coverUrl ? (
-                  <img alt={`${course.name}封面`} className="aspect-video w-full object-cover" src={course.coverUrl} />
+                  <ResponsiveImage usage="card" alt={`${course.name}封面`} className="aspect-video w-full object-cover" src={course.coverUrl} />
                 ) : null}
                 <CardHeader className="flex-row items-center gap-3">
                   <BookOpen className="size-5 shrink-0" />

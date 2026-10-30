@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 
 import { MarkdownContent } from "@/components/markdown/markdown-content";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import {
   parseTextbookMarkdownReader,
   stripTextbookMarkdownToPlainText,
@@ -104,7 +105,7 @@ export function TextbookMarkdownReader({ content }: TextbookMarkdownReaderProps)
 
 function ReaderContent({ displayMode, item }: { displayMode: DisplayMode; item: ReaderItem | undefined }) {
   if (displayMode === "markdown") {
-    return <MarkdownContent className="text-base leading-8" content={item?.markdown ?? ""} />;
+    return <MarkdownContent publicMedia className="text-base leading-8" content={item?.markdown ?? ""} />;
   }
 
   if (displayMode === "plainText") {
@@ -210,7 +211,7 @@ function OriginalImagePanel({ item }: { item: ReaderItem | undefined }) {
     <div className="grid gap-5">
       {imageUrls.map((imageUrl, index) => (
         <figure className="rounded-md border border-border bg-background p-3" key={`${imageUrl}-${index}`}>
-          <img
+          <ResponsiveImage usage="reading"
             alt={`${item?.title ?? "教材"}原图 ${index + 1}`}
             className="mx-auto h-auto max-h-[86vh] w-full object-contain"
             loading="lazy"

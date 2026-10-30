@@ -14,12 +14,12 @@ test("多语种语音地址带语种参数并使用站内鉴权接口", () => {
   assert.equal(pictureBookPageAudioSource("book", 2, "/api/audio/files/en.mp3", "public", "en"), "/api/public/picture-books/book/pages/2/audio?language=en&v=en.mp3");
 });
 
-test("已发布绘本的原文及译文语音直连 R2，私有语音不直连", () => {
+test("已发布绘本的原文及译文语音使用 CDN，私有语音不直连", () => {
   const cdn = "https://r.abeiai.com";
   const source = `${cdn}/picture-books/narration.mp3`;
-  assert.equal(pictureBookPageAudioSource("book", 2, source, "public", undefined, cdn), source);
-  assert.equal(pictureBookPageAudioSource("book", 2, source, "public", "en", cdn), source);
-  assert.equal(pictureBookPageAudioSource("book", 2, `${cdn}/uploads/audio/narration.mp3`, "public", undefined, cdn), `${cdn}/uploads/audio/narration.mp3`);
+  assert.equal(pictureBookPageAudioSource("book", 2, source, "public", undefined, cdn), "https://cdn.abeiai.com/picture-books/narration.mp3");
+  assert.equal(pictureBookPageAudioSource("book", 2, source, "public", "en", cdn), "https://cdn.abeiai.com/picture-books/narration.mp3");
+  assert.equal(pictureBookPageAudioSource("book", 2, `${cdn}/uploads/audio/narration.mp3`, "public", undefined, cdn), "https://cdn.abeiai.com/uploads/audio/narration.mp3");
   assert.equal(pictureBookPageAudioSource("book", 2, source, "private", undefined, cdn), "/api/picture-books/book/pages/2/audio?v=narration.mp3");
   assert.equal(pictureBookPageAudioSource("book", 2, "https://other.example/narration.mp3", "public", undefined, cdn), "/api/public/picture-books/book/pages/2/audio?v=narration.mp3");
 });

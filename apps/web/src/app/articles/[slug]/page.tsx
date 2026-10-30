@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 
 import { PublicShell } from "@/components/shell/public-shell";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -141,7 +142,7 @@ export default async function ArticleDetailPage({
         </header>
         <div className="aspect-[16/9] overflow-hidden rounded-lg border border-border bg-secondary">
           {coverUrl ? (
-            <img className="size-full object-cover" src={coverUrl} alt={article.title} />
+            <ResponsiveImage usage="detail" className="size-full object-cover" src={coverUrl} alt={article.title} />
           ) : (
             <div className="flex size-full items-center justify-center text-sm text-muted-foreground">
               暂无封面
@@ -149,6 +150,7 @@ export default async function ArticleDetailPage({
           )}
         </div>
         <MarkdownContent
+          publicMedia
           className="border-t border-border pt-8 text-base leading-8 text-foreground"
           content={article.content}
         />

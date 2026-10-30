@@ -178,6 +178,7 @@ function mapVoiceOptions(library: VoiceLibrary | null): VoiceOption[] {
       description: voice.description,
       badge: voice.type === "CLONED" ? "平台复刻音色" : "平台设计音色",
       previewAudioUrl: voice.previewAudioUrl,
+      visibility: voice.visibility,
       language: voice.language,
       languages: voice.languages ?? [],
       accent: voice.accent,

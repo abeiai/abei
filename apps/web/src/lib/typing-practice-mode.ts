@@ -1,3 +1,5 @@
+import { publicR2CdnUrl } from "./public-r2-cdn";
+
 export const typingPracticeModes = [
   { value: "BEGINNER", label: "新手上路" },
   { value: "CHINESE", label: "中文听写" },
@@ -34,5 +36,6 @@ export function parseTypingVoice(value: string | null): TypingVoice {
 }
 export function typingVoiceKey(sessionId: string) { return `typing:voice:${sessionId}`; }
 export function typingAudioUrl(audioUrls: Record<string, string> | undefined, voice: TypingVoice) {
-  return audioUrls?.[voice] ?? null;
+  const source = audioUrls?.[voice];
+  return source ? publicR2CdnUrl(source) : null;
 }

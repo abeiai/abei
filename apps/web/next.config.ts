@@ -38,7 +38,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [...imageRemoteBases.map(base => {
       const url = new URL(base);
       return { protocol: "https" as const, hostname: url.hostname, port: url.port, pathname: `${url.pathname.replace(/\/+$/, "")}/**` };
-    }), { protocol: "https", hostname: "cdn.xueleai.com" }],
+    }), { protocol: "https", hostname: "cdn.xueleai.com" }, { protocol: "https", hostname: "cdn.abeiai.com" }],
     deviceSizes: [640, 960, 1280, 1920],
     imageSizes: [64, 128, 160, 320],
     qualities: [75, 82, 90],

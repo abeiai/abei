@@ -19,6 +19,7 @@ import {
   voicePickerFavoriteKey,
   voicePickerLanguages,
   voicePickerRecentKey,
+  voicePreviewSource,
   type VoicePickerOption
 } from "@/lib/voice-picker";
 import { cn } from "@/lib/utils";
@@ -293,7 +294,7 @@ function VoicePickerDialog({
                     </span>
                   </span>
                   <div className="flex shrink-0 items-center gap-2">
-                    <Button aria-label={`试听${voice.name}`} disabled={!voice.previewAudioUrl} onClick={() => playPreview(voice.previewAudioUrl)} size="sm" type="button" variant="outline">
+                    <Button aria-label={`试听${voice.name}`} disabled={!voice.previewAudioUrl} onClick={() => playPreview(voicePreviewSource(voice))} size="sm" type="button" variant="outline">
                       <Play className="size-4" />
                       试听
                     </Button>

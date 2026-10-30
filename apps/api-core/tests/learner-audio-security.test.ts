@@ -147,6 +147,8 @@ test("学习者音色列表只查询 READY 可执行音色并返回无资产、�
 
   assert.deepEqual(result.customVoices.map((item) => item.id), ["voice-ready"]);
   assert.deepEqual(result.platformVoices.map((item) => item.id), ["voice-platform"]);
+  assert.equal(result.platformVoices[0]?.visibility, "PUBLIC");
+  assert.equal("visibility" in result.customVoices[0]!, false);
   assert.deepEqual(result.defaultVoice, { voiceAssetId: null, systemVoiceId: null });
   assert.ok(result.systemVoices.every((item) => item.status === "READY"));
   const learnerSystemVoiceKeys = new Set([

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, Download, LibraryBig } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import {
   getPublicTextbookMarkdownViewUrl,
   getPublicTextbookPdfDownloadUrl,
@@ -140,7 +141,7 @@ export function TextbookCards({ textbooks }: { textbooks: PublicTextbookListItem
           <Link className="textbook-book-cover" href={`/textbook/${textbook.slug}`}>
             <span className="textbook-book-spine" />
             {textbook.coverUrl ? (
-              <img alt={`${textbook.title}封面`} src={textbook.coverUrl} />
+              <ResponsiveImage usage="card" alt={`${textbook.title}封面`} src={textbook.coverUrl} />
             ) : (
               <span className="textbook-cover-placeholder">
                 <BookOpen />
@@ -208,7 +209,7 @@ export function TextbookResourceShelf({
           return (
             <article className="textbook-resource-card" key={textbook.id}>
               <Link className="textbook-resource-cover" href={`/textbook/${textbook.slug}`}>
-                {textbook.coverUrl ? <img alt={`${textbook.title}封面`} src={textbook.coverUrl} /> : <BookOpen />}
+                {textbook.coverUrl ? <ResponsiveImage usage="card" alt={`${textbook.title}封面`} src={textbook.coverUrl} /> : <BookOpen />}
               </Link>
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <h3 className="line-clamp-2 text-sm font-extrabold leading-5">

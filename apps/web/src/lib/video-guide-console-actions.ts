@@ -104,6 +104,7 @@ interface VideoGuideVoiceItem {
   targetModel?: string;
   type?: string;
   typeName?: string;
+  visibility?: "PRIVATE" | "PUBLIC" | "ADMIN_ONLY";
 }
 
 export function buildVideoGuideVoiceOptions(library: {
@@ -137,6 +138,7 @@ export function buildVideoGuideVoiceOptions(library: {
     .map((voice) => ({
       ...voice,
       value: voice.providerVoiceId!,
+      isSystemVoice: true,
       badge: "官方多语种音色",
       isDefault: voice.providerVoiceId === defaultSystemId
     }));

@@ -1,3 +1,5 @@
+import { hasSignedUrlParameters, publicR2CdnUrl } from "./public-r2-cdn";
+
 export type ImageUsage = "avatar" | "thumbnail" | "card" | "detail" | "reading";
 const presets = {
   avatar: { widths: [64, 128], sizes: "64px" },
@@ -8,18 +10,19 @@ const presets = {
 } satisfies Record<ImageUsage, { widths: number[]; sizes: string }>;
 
 export function imageSources(src: string, usage: ImageUsage) {
+  if (hasSignedUrlParameters(src)) return { src, srcSet: undefined, sizes: undefined };
   const preset = presets[usage];
   const endpoint = /^\/api\/(?:media\/files\/[^/?]+|(?:public\/)?picture-books\/[^/?]+\/(?:cover|pages\/\d+\/image|style-references\/[^/?]+\/image))(?=\?|$)/.test(src)
     || /^\/api\/picture-books\/style-references\/[^/?]+\/image(?=\?|$)/.test(src);
   const animatedOrVector = /\.(?:gif|svg|ico)(?:\?|$)/i.test(src);
   const publicLocal = /^\/(?!api\/|\/|_next\/)[^?]+\.(?:png|jpe?g|webp)(?:\?|$)/i.test(src);
-  const bases = (process.env.NEXT_PUBLIC_IMAGE_REMOTE_BASE_URLS || "https://r.abeiai.com").split(",").map(base => base.trim().replace(/\/+$/, "")).filter(Boolean);
+  const bases = [...(process.env.NEXT_PUBLIC_IMAGE_REMOTE_BASE_URLS || "https://r.abeiai.com").split(","), "https://cdn.abeiai.com"].map(base => base.trim().replace(/\/+$/, "")).filter(Boolean);
   const publicRemote = bases.some(base => src.startsWith(`${base}/`)) && /\.(?:png|jpe?g|webp)(?:\?|$)/i.test(src);
-  if (animatedOrVector || (!endpoint && !publicLocal && !publicRemote)) return { src, srcSet: undefined, sizes: undefined };
+  if (animatedOrVector || (!endpoint && !publicLocal && !publicRemote)) return { src: publicR2CdnUrl(src), srcSet: undefined, sizes: undefined };
   const quality = usage === "detail" || usage === "reading" ? 90 : 82;
   const deliveryBase = (process.env.NEXT_PUBLIC_IMAGE_DELIVERY_BASE_URL || "").replace(/\/+$/, "");
-  let publicSource = src;
-  if (publicLocal && process.env.NEXT_PUBLIC_IMAGE_RELEASE_VERSION) {
+  let publicSource = publicR2CdnUrl(src);
+  if (publicLocal && /^\/(?:home-assets|picture-book-demos|images\/voice-avatars)\//.test(src) && process.env.NEXT_PUBLIC_IMAGE_RELEASE_VERSION) {
     const [pathname, query = ""] = src.split("?");
     const params = new URLSearchParams(query);
     params.set("v", process.env.NEXT_PUBLIC_IMAGE_RELEASE_VERSION);

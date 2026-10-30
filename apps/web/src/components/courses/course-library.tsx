@@ -14,6 +14,7 @@ import { BookOpen, Check, Loader2, Plus, Search, X } from "lucide-react";
 
 import { PublicCourseCard } from "@/components/courses/public-course-card";
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import {
@@ -342,7 +343,7 @@ function CoursePickerDialog({ onClose }: { onClose: () => void }) {
                     >
                       <div className="aspect-video overflow-hidden rounded-md bg-secondary">
                         {course.coverUrl ? (
-                          <img alt="" className="size-full object-cover" src={course.coverUrl} />
+                          <ResponsiveImage usage="thumbnail" alt="" className="size-full object-cover" src={course.coverUrl} />
                         ) : (
                           <div className="flex size-full items-center justify-center">
                             <BookOpen className="size-5 text-muted-foreground" />

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 
 import { PublicShell } from "@/components/shell/public-shell";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,7 +56,7 @@ export default async function ArticlesPage() {
               <div className="grid md:grid-cols-[240px_1fr]">
                 <div className="aspect-[16/9] bg-secondary md:aspect-auto">
                   {article.coverMedia?.url || article.coverImage ? (
-                    <img
+                    <ResponsiveImage usage="card"
                       className="size-full object-cover"
                       src={article.coverMedia?.url ?? article.coverImage ?? ""}
                       alt={article.title}

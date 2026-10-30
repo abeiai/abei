@@ -1281,7 +1281,7 @@ export class AudioService {
           isDefault: preference?.defaultSystemVoiceId === voice.providerVoiceId
         })),
       platformVoices: readyPlatformVoices
-        .map((voice) => ({ ...this.toLearnerVoiceAsset(voice), isDefault: preference?.defaultVoiceAssetId === voice.id })),
+        .map((voice) => ({ ...this.toLearnerVoiceAsset(voice), visibility: "PUBLIC" as const, isDefault: preference?.defaultVoiceAssetId === voice.id })),
       customVoices: readyCustomVoices
         .map((voice) => ({ ...this.toLearnerVoiceAsset(voice), isDefault: preference?.defaultVoiceAssetId === voice.id })),
       defaultVoice: {

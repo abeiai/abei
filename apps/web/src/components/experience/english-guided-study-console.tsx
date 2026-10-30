@@ -4216,6 +4216,7 @@ function mapVoiceAssetToGuidedStudyOption(
     description: stringRecordValue(voice.description),
     name,
     previewAudioUrl: stringRecordValue(voice.previewAudioUrl),
+    visibility: voice.visibility === "PUBLIC" || voice.visibility === "PRIVATE" || voice.visibility === "ADMIN_ONLY" ? voice.visibility : undefined,
     language: stringRecordValue(voice.language),
     languages: stringArrayRecordValue(voice.languages),
     accent: stringRecordValue(voice.accent),

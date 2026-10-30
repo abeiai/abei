@@ -84,6 +84,7 @@ import {
   videoGuidePartKey
 } from "@/lib/video-guide-learning-tracking";
 import { cn } from "@/lib/utils";
+import { publicR2CdnUrl } from "@/lib/public-r2-cdn";
 
 type RepeatMode = "逐句跟读" | "整体跟读";
 
@@ -1335,7 +1336,7 @@ function StudyMediaPanel({
               onTimeUpdate={(event) => handleMediaTimeUpdate(event.currentTarget)}
               preload="metadata"
               ref={audioRef}
-              src={mediaUrl}
+              src={publicR2CdnUrl(mediaUrl)}
             />
           </div>
         ) : null}
@@ -2130,7 +2131,7 @@ function StageInteractiveGuide({
       advancingAudioRef.current = true;
       pendingAudioPlayRef.current = true;
       audio.autoplay = true;
-      audio.src = currentNode.audioUrl;
+      audio.src = publicR2CdnUrl(currentNode.audioUrl);
       audio.load();
     }
 
@@ -2485,7 +2486,7 @@ function StageInteractiveGuide({
               onPlay={() => setIsPlaying(true)}
               onTimeUpdate={(event) => handleAudioTimeUpdate(event.currentTarget)}
               ref={generatedAudioRef}
-              src={node.audioUrl}
+              src={node.audioUrl ? publicR2CdnUrl(node.audioUrl) : undefined}
             />
             {narrationAudioTruncated ? (
               <p className="mt-4 text-xs leading-5 text-muted-foreground">

@@ -1,4 +1,5 @@
 import { normalizeAdminVoiceLanguage } from "./voice-classification";
+import { publicR2CdnUrl } from "./public-r2-cdn";
 
 export const voicePickerRecentKey = "xueleai:voice-picker:recent";
 export const voicePickerFavoriteKey = "xueleai:voice-picker:favorite";
@@ -13,6 +14,8 @@ export interface VoicePickerOption {
   avatarUrl?: string | null;
   description?: string | null;
   previewAudioUrl?: string | null;
+  visibility?: "PRIVATE" | "PUBLIC" | "ADMIN_ONLY";
+  isSystemVoice?: boolean;
   language?: string | null;
   languages?: string[];
   accent?: string | null;
@@ -24,6 +27,13 @@ export interface VoicePickerOption {
   instructSupported?: boolean;
   timestampSupported?: boolean;
   isDefault?: boolean;
+}
+
+export function voicePreviewSource(voice: VoicePickerOption): string | null {
+  if (!voice.previewAudioUrl) return null;
+  return voice.visibility === "PUBLIC" || (voice.visibility == null && (voice.isSystemVoice || voice.value.startsWith("system:")))
+    ? publicR2CdnUrl(voice.previewAudioUrl)
+    : voice.previewAudioUrl;
 }
 
 export function preferredTtsModelNamesForVoice(voice: { provider?: string; targetModel?: string }): string[] {

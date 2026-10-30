@@ -67,6 +67,7 @@ import {
   guidedStudyPartKey
 } from "@/lib/english-guided-study-tracking";
 import { cn } from "@/lib/utils";
+import { publicR2CdnUrl } from "@/lib/public-r2-cdn";
 
 type StudyView = "demonstration" | "guided" | "practice" | "readAlong";
 type PlaybackLoopMode = "all" | "sentence";
@@ -774,10 +775,10 @@ export function EnglishGuidedStudyLearningPlayer({
         onTimeUpdate={handleAudioTimeUpdate}
         preload="metadata"
         ref={audioRef}
-        src={currentNode?.audioUrl ?? material.audioUrl ?? undefined}
+        src={currentNode?.audioUrl || material.audioUrl ? publicR2CdnUrl((currentNode?.audioUrl ?? material.audioUrl)!) : undefined}
       />
       {usingNodeAudio && narrationNodes[currentNodeIndex + 1]?.audioUrl ? (
-        <audio className="hidden" preload="auto" src={narrationNodes[currentNodeIndex + 1]!.audioUrl} />
+        <audio className="hidden" preload="auto" src={publicR2CdnUrl(narrationNodes[currentNodeIndex + 1]!.audioUrl!)} />
       ) : null}
 
       <div
@@ -2119,10 +2120,10 @@ function ReadAlongPanel({
         onTimeUpdate={handleTimeUpdate}
         preload="metadata"
         ref={audioRef}
-        src={audioUrl}
+        src={audioUrl ? publicR2CdnUrl(audioUrl) : undefined}
       />
       {usesNodeAudio && track.nodes[cueIndex + 1]?.audioUrl ? (
-        <audio className="hidden" preload="auto" src={track.nodes[cueIndex + 1]!.audioUrl} />
+        <audio className="hidden" preload="auto" src={publicR2CdnUrl(track.nodes[cueIndex + 1]!.audioUrl!)} />
       ) : null}
     </div>
   );

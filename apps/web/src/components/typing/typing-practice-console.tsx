@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
+import { imageSources } from "@/lib/image-delivery";
 import {
   advanceTypingSession,
   finishTypingSession,
@@ -145,7 +147,7 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
     const nextMedia = session?.nextMedia;
     if (!nextMedia) return;
     const image = nextMedia.imageUrl ? new Image() : null;
-    if (image) image.src = nextMedia.imageUrl!;
+    if (image) image.src = imageSources(nextMedia.imageUrl!, "detail").src;
     const nextAudioUrl = presentation.audioEnabled ? typingAudioUrl(nextMedia.audioUrls, voice) : null;
     const nextAudio = nextAudioUrl ? new Audio() : null;
     if (nextAudio && nextAudioUrl) {
@@ -327,7 +329,7 @@ export function TypingPracticeConsole({ sessionId }: { sessionId: string }) {
       <section className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto px-4 py-4 [&>*]:shrink-0">
         {question?.imageUrl && presentation.showImage ? (
           <div className="relative mb-4 min-h-20 max-h-[420px] w-full max-w-[560px] flex-[1_1_420px]" style={{ flexShrink: 1 }}>
-            <img
+            <ResponsiveImage usage="detail"
               alt={`${question.prompt}的情景图片`}
               className="absolute inset-0 h-full w-full rounded-2xl object-contain"
               src={question.imageUrl}

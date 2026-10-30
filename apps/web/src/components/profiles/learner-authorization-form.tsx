@@ -5,6 +5,7 @@ import { useActionState, useEffect, useState, useTransition } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import { Select } from "@/components/ui/select";
 import { replaceLearnerAuthorizationsAction } from "@/lib/profile-actions";
 import type {
@@ -339,7 +340,7 @@ export function LearnerResourceAuthorization({
               <article className="overflow-hidden rounded-xl border border-border bg-background" key={course.id}>
                 <div className="relative aspect-video overflow-hidden bg-secondary">
                   {course.coverUrl ? (
-                    <img alt={`${course.name}专辑封面`} className="size-full object-cover" src={course.coverUrl} />
+                    <ResponsiveImage usage="card" alt={`${course.name}专辑封面`} className="size-full object-cover" src={course.coverUrl} />
                   ) : (
                     <div className="flex size-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
                       <BookOpen className="size-6" />

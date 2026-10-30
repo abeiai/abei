@@ -125,6 +125,7 @@ export default async function PageDetail({
           </p>
         </header>
         <MarkdownContent
+          publicMedia
           className="border-t border-border pt-8 text-base leading-8 text-foreground"
           content={page.content}
         />
