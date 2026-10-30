@@ -1,0 +1,17 @@
+[Unit]
+Description=Synchronize cc.abeiai.com certificate to Tencent CDN
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/python3 /usr/local/lib/abei-cdn-cert/sync.py
+TimeoutStartSec=650
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadOnlyPaths=/etc/letsencrypt
+ReadWritePaths=/etc/abei-cdn-cert
