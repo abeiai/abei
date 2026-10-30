@@ -19,6 +19,7 @@ import {
 import { getCurrentUser } from "@/lib/auth-actions";
 import { getPublicSystemConfigs } from "@/lib/settings-api";
 import { requireAccountProfile } from "@/lib/profile-api";
+import { voicePreviewSource } from "@/lib/voice-picker";
 
 export const dynamic = "force-dynamic";
 
@@ -113,7 +114,7 @@ function SystemVoiceCard({ voice }: { voice: VoiceAsset }) {
           <SupportBadge label="Instruct" value={voice.instructSupported} />
           <SupportBadge label="时间戳" value={voice.timestampSupported} />
         </div>
-        {voice.previewAudioUrl ? <audio className="w-full" controls src={voice.previewAudioUrl} /> : null}
+        {voice.previewAudioUrl ? <audio className="w-full" controls src={voicePreviewSource({ ...voice, value: `system:${voice.id}`, badge: "系统音色" }) ?? undefined} /> : null}
         <form action={setDefaultVoiceAction}>
           <input name="systemVoiceId" type="hidden" value={voice.providerVoiceId ?? ""} />
           <Button size="sm" type="submit" variant={voice.isDefault ? "outline" : "default"}>
@@ -160,7 +161,7 @@ function PlatformVoiceCard({ voice }: { voice: VoiceAsset }) {
           {voice.language ? <Badge variant="muted">{voice.language}</Badge> : null}
           <Badge variant="muted">{voice.targetModel}</Badge>
         </div>
-        {voice.previewAudioUrl ? <audio className="w-full" controls src={voice.previewAudioUrl} /> : null}
+        {voice.previewAudioUrl ? <audio className="w-full" controls src={voicePreviewSource({ ...voice, value: `voice:${voice.id}`, badge: "平台音色" }) ?? undefined} /> : null}
         <div className="flex flex-wrap gap-3">
           <form action={setDefaultVoiceAction}>
             <input name="voiceAssetId" type="hidden" value={voice.id} />
@@ -198,7 +199,7 @@ function CustomVoiceCard({ voice }: { voice: VoiceAsset }) {
         <CardDescription>{voice.targetModel}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        {voice.previewAudioUrl ? <audio className="w-full" controls src={voice.previewAudioUrl} /> : null}
+        {voice.previewAudioUrl ? <audio className="w-full" controls src={voicePreviewSource({ ...voice, value: `voice:${voice.id}`, badge: "我的音色" }) ?? undefined} /> : null}
         {voice.consent ? (
           <div className="rounded-md border border-border bg-background p-4 text-sm text-muted-foreground">
             <p className="font-medium text-foreground">授权记录</p>
