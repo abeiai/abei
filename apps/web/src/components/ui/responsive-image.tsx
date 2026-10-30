@@ -3,16 +3,16 @@
 import { useState, type ImgHTMLAttributes } from "react";
 import { imageSources, type ImageUsage } from "../../lib/image-delivery";
 
-type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> & { src: string; usage?: ImageUsage };
+type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> & { src: string; usage?: ImageUsage; fallbackToOriginal?: boolean };
 
 export function ResponsiveImage(props: Props) {
   return <ImageSource key={props.src} {...props} />;
 }
 
-function ImageSource({ src, usage = "card", sizes, onError, loading = "lazy", decoding = "async", ...props }: Props) {
+function ImageSource({ src, usage = "card", sizes, onError, loading = "lazy", decoding = "async", fallbackToOriginal = true, ...props }: Props) {
   const [original, setOriginal] = useState(false);
   const sources = imageSources(src, usage);
   return <img {...props} src={original ? src : sources.src} srcSet={original ? undefined : sources.srcSet}
     sizes={original ? undefined : sizes ?? sources.sizes} loading={loading} decoding={decoding}
-    onError={event => { if (!original && sources.src !== src) setOriginal(true); else onError?.(event); }} />;
+    onError={event => { if (fallbackToOriginal && !original && sources.src !== src) setOriginal(true); else onError?.(event); }} />;
 }

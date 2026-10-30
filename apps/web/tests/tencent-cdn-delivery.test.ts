@@ -168,3 +168,39 @@ test("复杂替代文字、标题与转义括号仍形成正确的 Markdown 图�
   assert.equal(images[0]?.title, '两行\n标题');
   assert.match(images[1]?.url ?? '', /cc\.abeiai\.com%2Fa\)\.png/);
 });
+
+test("已发布专辑的公开 R2 资源使用 CDN，保留查询并继续使用图片优化", async () => {
+  const delivery = await import("../src/lib/picture-book-public-media.js");
+  const url = delivery.creatorPublicPictureBookMediaUrl("https://r.abeiai.com/books/page.webp?v=2&lang=zh");
+  assert.equal(url, "https://cc.abeiai.com/books/page.webp?v=2&lang=zh");
+  assert.match(imageSources(url!, "reading").src, /_next\/image\?url=https%3A%2F%2Fcc\.abeiai\.com/);
+  assert.equal(delivery.creatorPublicPictureBookMediaUrl("https://r.abeiai.com/books/page.mp3?mode=1"), "https://cc.abeiai.com/books/page.mp3?mode=1");
+  for (const source of ["https://r.abeiai.com/books/page.mp3?token=secret", "https://r.abeiai.com/books/video.mp4", "/api/creator-media/items/id/pages/0/image", "https://evil.example/a.png"]) {
+    assert.equal(delivery.creatorPublicPictureBookMediaUrl(source), null);
+  }
+});
+
+test("公开译文语音只跟随选中的语言", async () => {
+  const { pictureBookPageContent } = await import("../src/lib/picture-book-languages.js");
+  const page = {caption:"中文",audioUrl:"/original",publicAudioUrl:"https://r.abeiai.com/a.mp3",translations:[{language:"en",caption:"English",audioUrl:"/english",publicAudioUrl:"https://r.abeiai.com/en.mp3"},{language:"ja",caption:"日本語",audioUrl:"/japanese"}]};
+  assert.equal(pictureBookPageContent(page,"original").publicAudioUrl, "https://r.abeiai.com/a.mp3");
+  assert.equal(pictureBookPageContent(page,"en").publicAudioUrl, "https://r.abeiai.com/en.mp3");
+  assert.equal(pictureBookPageContent(page,"ja").publicAudioUrl, undefined);
+});
+
+
+test("专辑 CDN 失败时回退到同一冻结条目和语种的代理", async () => {
+  const { creatorPictureBookMediaSources } = await import("../src/lib/picture-book-public-media.js");
+  const imageProxy = "/api/creator-media/items/frozen/pages/1/image";
+  const audioProxy = "/api/creator-media/items/frozen/pages/1/audio?language=en";
+  assert.deepEqual(creatorPictureBookMediaSources("https://r.abeiai.com/a.webp", imageProxy), {src:"https://cc.abeiai.com/a.webp",fallback:imageProxy});
+  assert.deepEqual(creatorPictureBookMediaSources("https://r.abeiai.com/en.mp3", audioProxy), {src:"https://cc.abeiai.com/en.mp3",fallback:audioProxy});
+  assert.deepEqual(creatorPictureBookMediaSources(undefined, audioProxy), {src:audioProxy, fallback:undefined});
+});
+
+test("公开专辑图片在 CDN 优化失败时回退到 1920 像素的 Creator 代理", async () => {
+  const { creatorPictureBookImageSources } = await import("../src/lib/picture-book-public-media.js");
+  const proxy = "/api/creator-media/items/frozen/pages/0/image";
+  assert.deepEqual(creatorPictureBookImageSources("https://r.abeiai.com/books/cover.webp", proxy), {src:"https://cc.abeiai.com/books/cover.webp",fallback:`${proxy}?w=1920`});
+  assert.deepEqual(creatorPictureBookImageSources(undefined, proxy), {src:proxy,fallback:undefined});
+});

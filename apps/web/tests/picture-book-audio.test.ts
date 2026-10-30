@@ -42,3 +42,12 @@ test("专辑译文语音保留冻结成员路径，不回退作者当前草稿",
   const source = "/api/creator-media/items/member-v1/pages/1/audio?language=en";
   assert.equal(pictureBookPageAudioSource("book", 1, source, "private", "en"), source);
 });
+
+test("当前页和预加载页的 CDN 语音可同时回退，彼此不会覆盖", async () => {
+  const { addPictureBookAudioFallback } = await import("../src/lib/picture-book-audio.js");
+  let fallback = addPictureBookAudioFallback(new Set<string>(), "book-1-0-original");
+  fallback = addPictureBookAudioFallback(fallback, "book-1-1-en");
+  assert.ok(fallback.has("book-1-0-original"));
+  assert.ok(fallback.has("book-1-1-en"));
+  assert.equal(fallback.size, 2);
+});

@@ -11,3 +11,20 @@ export function publicPictureBookMediaUrl(sourceUrl: string, publicBaseUrl?: str
   if (sourceUrl.includes("?") && cdnUrl === sourceUrl) return null;
   return cdnUrl;
 }
+
+/** The creator playback API supplies this field only for a currently public revision. */
+export function creatorPublicPictureBookMediaUrl(source: string | null | undefined) {
+  if (!source) return null;
+  const result = publicR2CdnUrl(source);
+  return result === source ? null : result;
+}
+
+export function creatorPictureBookMediaSources(publicUrl: string | null | undefined, proxyUrl: string) {
+  const cdnUrl = creatorPublicPictureBookMediaUrl(publicUrl);
+  return { src: cdnUrl ?? proxyUrl, fallback: cdnUrl ? proxyUrl : undefined };
+}
+
+export function creatorPictureBookImageSources(publicUrl: string | null | undefined, proxyUrl: string) {
+  const sources = creatorPictureBookMediaSources(publicUrl, proxyUrl);
+  return { src: sources.src, fallback: sources.fallback ? `${sources.fallback}${sources.fallback.includes("?") ? "&" : "?"}w=1920` : undefined };
+}

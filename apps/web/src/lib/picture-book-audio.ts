@@ -32,3 +32,8 @@ export function waitForPictureBookAudio(src: string): Promise<void> {
     audio.src = src;
   });
 }
+
+/** Keep fallback decisions for both the current and preloaded page. */
+export function addPictureBookAudioFallback(previous: ReadonlySet<string>, key: string): Set<string> {
+  return new Set(previous).add(key);
+}

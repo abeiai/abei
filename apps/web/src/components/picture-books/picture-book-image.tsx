@@ -20,5 +20,5 @@ function ImageAttempt({ src, fallbackSrc, alt, className, compact, hidden, usage
     {!compact ? <><p>图片加载失败</p><button type="button" className="inline-flex items-center gap-2 rounded-lg border bg-white px-3 py-2 text-gray-700" onClick={() => { setFailed(false); setUsingFallback(false); setAttempt(attempt + 1); }}><RotateCcw className="size-4" />重试加载</button></> : null}
   </div>;
   const activeSrc = usingFallback ? fallbackSrc! : src;
-  return <ResponsiveImage hidden={hidden} alt={alt} className={className} usage={usage} sizes={sizes} loading={compact ? "lazy" : "eager"} src={attempt && !usingFallback ? `${activeSrc}${activeSrc.includes("?") ? "&" : "?"}retry=${attempt}` : activeSrc} onError={() => { if (!usingFallback && fallbackSrc && fallbackSrc !== src) setUsingFallback(true); else setFailed(true); }} />;
+  return <ResponsiveImage fallbackToOriginal={!fallbackSrc?.startsWith("/api/creator-media/")} hidden={hidden} alt={alt} className={className} usage={usage} sizes={sizes} loading={compact ? "lazy" : "eager"} src={attempt && !usingFallback ? `${activeSrc}${activeSrc.includes("?") ? "&" : "?"}retry=${attempt}` : activeSrc} onError={() => { if (!usingFallback && fallbackSrc && fallbackSrc !== src) setUsingFallback(true); else setFailed(true); }} />;
 }

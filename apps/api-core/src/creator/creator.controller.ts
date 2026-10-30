@@ -13,6 +13,7 @@ import { ProfileContextService } from '../profiles/profile-context.service.js';
 import { successResponse } from '../common/api-response.js';
 import type { HeaderRequestLike } from '../security/request-types.js';
 import { audioByteRange } from '../picture-books/picture-book.controller.js';
+import { parseImageWidth } from '../media/image-variants.js';
 import { CreatorService } from './creator.service.js';
 import { CreatorMediaService, type CreatorMediaViewer } from './creator-media.service.js';
 import { creatorAssetUrl, readCreatorAssetReference } from './creator-assets.service.js';
@@ -332,9 +333,10 @@ export class CreatorMediaController {
     kind: string, 
     @Headers('range')
     range?: string,
-    @Query('language') language?: string) {
+    @Query('language') language?: string,
+    @Query('w') width?: unknown) {
         if (kind !== 'image' && kind !== 'audio')
             fail('素材类型不存在', 404);
-        send(res, await this.media.page(id, Number(position), kind, await this.viewer(req), language), range);
+        send(res, await this.media.page(id, Number(position), kind, await this.viewer(req), language, kind === 'image' ? parseImageWidth(width) : undefined), range);
     }
 }

@@ -8,13 +8,14 @@ import { publishLearningContext, publishLearningEvent } from "@/components/learn
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { pictureBookPageRatio, pictureBookPlaybackLayout, pictureBookInitialLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
-import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
+import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
+import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
 import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookPageContent, type PictureBookTranslation } from "@/lib/picture-book-languages";
 import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
-type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden" };
+type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden" };
 type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
@@ -45,7 +46,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const volumeRef = useRef<HTMLDivElement | null>(null);
   const [audioError, setAudioError] = useState("");
   const [audioRetry, setAudioRetry] = useState(0);
-  const [audioFallbackKey, setAudioFallbackKey] = useState<string | null>(null);
+  const [audioFallbackKeys, setAudioFallbackKeys] = useState<Set<string>>(() => new Set());
   const [layout, setLayout] = useState<typeof layouts[number]["value"] | null>(null);
   const [language, setLanguage] = useState("original");
   const [bilingualSubtitles, setBilingualSubtitles] = useState(false);
@@ -115,6 +116,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const availableLanguages = pictureBookAvailableLanguages(pages);
   const activeContent = page ? pictureBookPageContent(page, language) : null;
   const activeAudioUrl = activeContent?.audioUrl;
+  const activeAudioFallback = page ? audioFallbackKeys.has(`${activeBookId}-${activeRevisionItemId ?? ""}-${page.position}-${language}`) : false;
   const activeCaption = activeContent?.caption ?? "";
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
@@ -125,8 +127,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const preloadPages = pages.slice(index, index + 2);
   const imagePages = pages.slice(Math.max(0, index - 1), index + 2);
   const turningPage = pageTurn ? pages[pageTurn.to] : null;
-  const imageSource = (item: Page) => pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, publicMode ? "public" : "private", book?.publicMediaBaseUrl);
-  const imageFallbackSource = (item: Page) => publicMode ? pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, "public") : undefined;
+  const imageSource = (item: Page) => creatorPictureBookImageSources(item.publicImageUrl, pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, publicMode ? "public" : "private", book?.publicMediaBaseUrl)).src;
+  const imageFallbackSource = (item: Page) => publicMode ? pictureBookPageImageSource(activeBookId, item.position, item.imageUrl!, "public") : creatorPictureBookImageSources(item.publicImageUrl, item.imageUrl!).fallback;
 
   useEffect(() => {
     if (!book || !learnerMode || !courseId || !activeRevisionItemId) return;
@@ -226,7 +228,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     let cancelled = false;
     audio.play().catch(() => { if (!cancelled && !audio.error) { setPlaying(false); setRunning(false); } });
     return () => { cancelled = true; audio.pause(); };
-  }, [running, activeAudioUrl, cover, coverNarrationEnded, activeBookId, index, audioRetry, audioFallbackKey, playbackVersion]);
+  }, [running, activeAudioUrl, cover, coverNarrationEnded, activeBookId, index, audioRetry, activeAudioFallback, playbackVersion]);
 
   async function toggleAudio() {
     const audio = audioRef.current;
@@ -297,13 +299,13 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           {preloadPages.map(item => {
             const current = item.position === page.position;
             const content = pictureBookPageContent(item, language);
-            const directSource = content.audioUrl ? pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language, book?.publicMediaBaseUrl) : undefined;
             const proxySource = content.audioUrl ? pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language) : undefined;
-            const audioKey = `${activeBookId}-${item.position}-${language}`;
-            const source = audioFallbackKey === audioKey ? proxySource : directSource;
+            const directSource = content.audioUrl ? creatorPictureBookMediaSources(content.publicAudioUrl, pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language, book?.publicMediaBaseUrl)).src : undefined;
+            const audioKey = `${activeBookId}-${activeRevisionItemId ?? ""}-${item.position}-${language}`;
+            const source = audioFallbackKeys.has(audioKey) ? proxySource : directSource;
             const retry = current ? audioRetry : 0;
-            return <audio key={`${audioKey}-${retry}-${audioFallbackKey === audioKey}`} hidden={!current} muted={volume === 0} preload="auto"
-              onError={() => { if (source !== proxySource) setAudioFallbackKey(audioKey); else if (current) { setPlaying(false); setRunning(false); setAudioError("语音加载失败"); } }}
+            return <audio key={`${audioKey}-${retry}-${audioFallbackKeys.has(audioKey)}`} hidden={!current} muted={volume === 0} preload="auto"
+              onError={() => { if (source !== proxySource) setAudioFallbackKeys(previous => addPictureBookAudioFallback(previous, audioKey)); else if (current) { setPlaying(false); setRunning(false); setAudioError("语音加载失败"); } }}
               onEnded={current ? () => { if (cover && autoTurn) { setPlaying(false); setCoverNarrationEnded(true); } else finishPage(); } : undefined}
               onPause={current ? () => setPlaying(false) : undefined}
               onPlay={current ? () => { setPlaying(true); setAudioError(""); } : undefined}

@@ -222,6 +222,17 @@ test('Creator works and immutable publication: real database',async t=>{
       const media=new CreatorMediaService(undefined as never);
       assert.equal((await media.play(item.id,{})).title,'第四版');
       assert.ok(!JSON.stringify(await media.play(item.id,{})).includes('creator-assets'));
+      // Real approved revision keeps its frozen media while exposing only public R2 delivery hints.
+      const publicSnapshot=structuredClone(item.pinnedSnapshot) as {pages:Array<{imageUrl:string;audioUrl:string|null}>};
+      publicSnapshot.pages[0].imageUrl='https://r.abeiai.com/books/public-cover.webp?v=1';
+      publicSnapshot.pages[0].audioUrl='https://r.abeiai.com/books/public-audio.mp3?v=1';
+      await db.courseRevisionItem.update({where:{id:item.id},data:{pinnedSnapshot:publicSnapshot}});
+      try {
+        const publicPlayback=await media.play(item.id,{});
+        assert.equal(publicPlayback.pages[0].publicImageUrl,publicSnapshot.pages[0].imageUrl);
+        assert.equal(publicPlayback.pages[0].publicAudioUrl,publicSnapshot.pages[0].audioUrl);
+        assert.equal(publicPlayback.pages[0].imageUrl,`/api/creator-media/items/${item.id}/pages/0/image`);
+      } finally { await db.courseRevisionItem.update({where:{id:item.id},data:{pinnedSnapshot:item.pinnedSnapshot!}}); }
       assert.ok((await media.page(item.id,1,'image',{})).buffer.equals(image));
       // Legacy demo assets remain readable after revision playback moves behind authorized routes.
       const demoSnapshot=structuredClone(item.pinnedSnapshot) as {pages:Array<{imageUrl:string}>};

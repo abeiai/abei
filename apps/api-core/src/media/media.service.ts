@@ -209,8 +209,8 @@ export class MediaService {
     return this.persistFile({ createdByUserId: userId, file, mediaType: "IMAGE", sourceType: "AI_GENERATED", storageProvider: "S3" });
   }
 
-  async readPictureBookStoredImage(sourceUrl: string, width?: number): Promise<{ buffer: Buffer; mimetype: string }> {
-    return displayImage(sourceUrl, width, () => this.readPictureBookOriginalImage(sourceUrl));
+  async readPictureBookStoredImage(sourceUrl: string, width?: number, cacheKey = sourceUrl): Promise<{ buffer: Buffer; mimetype: string }> {
+    return displayImage(cacheKey, width, () => this.readPictureBookOriginalImage(sourceUrl));
   }
 
   private async readPictureBookOriginalImage(sourceUrl: string) {

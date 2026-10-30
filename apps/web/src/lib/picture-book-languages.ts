@@ -1,5 +1,5 @@
-export type PictureBookTranslation = { language: string; caption: string; audioUrl: string | null };
-export type PictureBookTranslatedPage = { caption: string; audioUrl: string | null; translations?: PictureBookTranslation[] };
+export type PictureBookTranslation = { language: string; caption: string; audioUrl: string | null; publicAudioUrl?: string };
+export type PictureBookTranslatedPage = { caption: string; audioUrl: string | null; publicAudioUrl?: string; translations?: PictureBookTranslation[] };
 
 export const pictureBookLanguageChoices = [
   { code: "en", name: "英语" }, { code: "ja", name: "日语" }, { code: "ko", name: "韩语" },
@@ -18,5 +18,6 @@ export function pictureBookAvailableLanguages(pages: PictureBookTranslatedPage[]
 
 export function pictureBookPageContent(page: PictureBookTranslatedPage, selectedLanguage: string) {
   const translation = page.translations?.find(item => item.language === selectedLanguage && item.caption.trim());
-  return { caption: translation?.caption ?? page.caption, originalCaption: page.caption, audioUrl: translation?.audioUrl ?? (translation ? null : page.audioUrl), language: translation?.language };
+  const publicAudioUrl = translation ? translation.publicAudioUrl : page.publicAudioUrl;
+  return { caption: translation?.caption ?? page.caption, originalCaption: page.caption, audioUrl: translation?.audioUrl ?? (translation ? null : page.audioUrl), language: translation?.language, ...(publicAudioUrl ? { publicAudioUrl } : {}) };
 }
