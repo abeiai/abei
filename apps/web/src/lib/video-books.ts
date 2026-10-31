@@ -20,7 +20,7 @@ export type VideoBookPage = {
   description: string; prompt: string; motion: VideoBookMotion; references: VideoBookReference[]; clip: VideoBookClip | null;
 };
 export type VideoBookProject = {
-  id: string; title: string; pdfUrl: string; sourceName: string; editing: boolean; removeText: boolean;
+  id: string; title: string; pdfUrl: string | null; sourceName: string; editing: boolean; removeText: boolean;
   modelId: string; ratio: string; resolution: string; duration: number; updatedAt: string; pages: VideoBookPage[];
   pollingPaused?: boolean;
 };

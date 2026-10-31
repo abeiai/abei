@@ -1,13 +1,101 @@
 import "reflect-metadata";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { getPrismaClient } from "@xueleai/database";
+import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { PictureBookGuideService } from "../src/picture-book-guide/picture-book-guide.service.js";
 import { guidePdfFixture } from "./fixtures/picture-book-guide-fixture.js";
+
+test("直接导入图片超过总量限制时删除临时目录", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "abei-guide-limit-"));
+  const oldDirectory = process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR;
+  process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR = directory;
+  try {
+    const service = new PictureBookGuideService({} as never, {} as never);
+    await assert.rejects(service.importBook("user", { title: "测试", audience: "幼儿园", pages: [{ sourceText: "", imageUrl: "/test" }] }, async () => ({ buffer: Buffer.alloc(200 * 1024 * 1024 + 1), mimetype: "image/png" }), async () => {}), /200MB/);
+    assert.deepEqual(await readdir(directory), []);
+  } finally {
+    if (oldDirectory === undefined) delete process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR; else process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR = oldDirectory;
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("PDF 分析逐页保存并确认封面和广告筛选后，使用整本上下文生成导读", async () => {
+  const prisma = getPrismaClient();
+  const directory = await mkdtemp(join(tmpdir(), "abei-guide-analysis-"));
+  const oldDirectory = process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR;
+  process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR = directory;
+  const user = await prisma.user.create({ data: { email: `guide-analysis-${randomUUID()}@test.invalid`, passwordHash: "fixture-hash", nickname: "分析测试" } });
+  const calls: Array<{ input: string; attachments: Array<{ dataUrl: string }> }> = [];
+  let failSecond = true;
+  const ai = { createTaskStream: async (_subject: unknown, input: { input: string; attachments: Array<{ dataUrl: string }> }) => {
+    calls.push(input);
+    if (input.input.includes("绘本页面识别助手")) {
+      const pageNumber = Number(/"pageNumber":(\d+)/.exec(input.input)?.[1]);
+      if (pageNumber === 2 && failSecond) { failSecond = false; return { status: "FAILED", errorMessage: "识别暂时失败", output: null }; }
+      return { status: "SUCCEEDED", output: JSON.stringify({ pageNumber, kind: pageNumber === 1 ? "ADVERTISEMENT" : pageNumber === 2 ? "COVER" : "CONTENT", description: `第${pageNumber}页画面`, text: `第${pageNumber}页文字` }) };
+    }
+    if (input.input.includes("按页序理解整本绘本")) return { status: "SUCCEEDED", output: JSON.stringify({ title: "森林故事", summary: "小熊来到森林，遇到了朋友。" }) };
+    if (input.input.includes("按顺序综合绘本各部分")) return { status: "SUCCEEDED", output: JSON.stringify({ title: "森林故事", summary: "小熊来到森林，遇到了朋友。" }) };
+    return { status: "SUCCEEDED", output: JSON.stringify({ pageNumber: 1, script: "一起打开森林故事吧。" }) };
+  } };
+  const service = new PictureBookGuideService(ai as never, {} as never);
+  const subject = { userId: user.id, mode: "ACCOUNT" as const, learnerId: null };
+  try {
+    const buffer = await guidePdfFixture();
+    let guide = await service.upload(user.id, { originalname: "故事.pdf", mimetype: "application/pdf", size: buffer.length, buffer }, { preparePdfAnalysis: true });
+    await assert.rejects(service.generateScript(subject, guide.id, 1, guide.version), /先完成绘本分析/);
+    await assert.rejects(service.finishPdfAnalysis(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] }), /全部页面分析/);
+    const originalCover = (await service.file(user.id, guide.id, "image", 2)).buffer;
+    guide = await service.analyzePdfPage(subject, guide.id, 1, guide.version);
+    await assert.rejects(service.analyzePdfPage(subject, guide.id, 2, guide.version), /识别暂时失败/);
+    guide = await service.get(user.id, guide.id);
+    assert.equal(guide.pages[0]!.pdfAnalysis?.kind, "ADVERTISEMENT");
+    assert.equal(guide.pages[1]!.pdfAnalysis, undefined);
+    for (const number of [2, 3]) guide = await service.analyzePdfPage(subject, guide.id, number, guide.version);
+    assert.equal(guide.pages[0]!.pdfAnalysis?.kind, "ADVERTISEMENT");
+    const saved = await prisma.pictureBookGuide.findUniqueOrThrow({ where: { id: guide.id } });
+    const longPages = saved.pages as unknown as Array<{ sourceText: string }>;
+    longPages[1]!.sourceText = "长".repeat(11000) + "尾页线索";
+    longPages[2]!.sourceText = "文".repeat(11000);
+    await prisma.pictureBookGuide.update({ where: { id: guide.id }, data: { pages: longPages as unknown as Prisma.InputJsonValue } });
+    guide = await service.get(user.id, guide.id);
+    await assert.rejects(service.finishPdfAnalysis(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] }), /整本绘本分析/);
+    guide = await service.summarizePdfBatch(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] });
+    assert.equal(guide.pages[0]!.pdfOverviewCache?.levels[0]!.length, 2);
+    await assert.rejects(service.finishPdfAnalysis(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] }), /整本绘本分析/);
+    guide = await service.summarizePdfBatch(subject, guide.id, { version: guide.version, pageNumbers: [3] });
+    assert.deepEqual(guide.pages[0]!.pdfOverviewCache?.selection, [3]);
+    guide = await service.summarizePdfBatch(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] });
+    assert.deepEqual(guide.pages[0]!.pdfOverviewCache?.selection, [2, 3]);
+    guide = await service.get(user.id, guide.id);
+    guide = await service.summarizePdfBatch(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] });
+    guide = await service.summarizePdfBatch(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] });
+    const callsAfterBatch = calls.length;
+    guide = await service.summarizePdfBatch(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] });
+    assert.equal(calls.length, callsAfterBatch);
+    await assert.rejects(service.finishPdfAnalysis(subject, guide.id, { version: guide.version, pageNumbers: [3, 2] }), /整本绘本分析/);
+    guide = await service.finishPdfAnalysis(subject, guide.id, { version: guide.version, pageNumbers: [2, 3] });
+    assert.equal(guide.title, "森林故事"); assert.equal(guide.pageCount, 2);
+    assert.deepEqual((await service.file(user.id, guide.id, "image", 1)).buffer, originalCover);
+    const overview = calls.find(call => call.input.includes("按页序理解整本绘本"))!;
+    assert.match(overview.input, /第2页画面/); assert.match(overview.input, /尾页线索/); assert.doesNotMatch(overview.input, /第1页画面/);
+    guide = await service.generateScript(subject, guide.id, 1, guide.version);
+    assert.equal(guide.pages[0]!.script, "一起打开森林故事吧。");
+    const scriptRequest = calls.at(-1)!;
+    assert.match(scriptRequest.input, /小熊来到森林，遇到了朋友/); assert.match(scriptRequest.input, /简短自然的导语/);
+    assert.ok(scriptRequest.attachments[0]!.dataUrl.startsWith("data:image/png;base64,"));
+    await assert.rejects(service.analyzePdfPage(subject, guide.id, 1, guide.version), /无法重新整理/);
+  } finally {
+    await prisma.user.delete({ where: { id: user.id } });
+    await rm(directory, { recursive: true, force: true });
+    if (oldDirectory === undefined) delete process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR; else process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR = oldDirectory;
+    await prisma.$disconnect();
+  }
+});
 
 test("导读闭环：所有页文稿先完成，音频按页保存，编辑清除旧音频，并隔离账号", async () => {
   const prisma = getPrismaClient();

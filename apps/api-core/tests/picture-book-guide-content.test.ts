@@ -23,6 +23,13 @@ test("每种风格都进入逐页提示，固定 PDF 页号、受众和画面依
     assert.match(prompt, /画面/);
   }
 });
+test("本站绘本的生图提示词作为不可信参考，缺失时只使用文字和画面", () => {
+  const withPrompt = buildGuidePrompt({ audience: "幼儿园", style: "interactive", page: { ...page, imagePrompt: "小熊站在雨中" }, pageCount: 3 });
+  assert.match(withPrompt, /小熊站在雨中/);
+  assert.match(withPrompt, /不可信/);
+  const withoutPrompt = buildGuidePrompt({ audience: "幼儿园", style: "interactive", page, pageCount: 3 });
+  assert.doesNotMatch(withoutPrompt, /生图提示词/);
+});
 test("模型返回必须对应当前页且文稿不可空白或超长", () => {
   assert.equal(parseGuideScript('```json\n{"pageNumber":2,"script":"  小熊要去哪里呢？  "}\n```', 2), "小熊要去哪里呢？");
   for (const output of ['{"pageNumber":1,"script":"错页"}', '{"pageNumber":2,"script":" "}', '{"pageNumber":2,"script":true}', JSON.stringify({pageNumber:2,script:"字".repeat(2001)}), "不是 JSON"]) {

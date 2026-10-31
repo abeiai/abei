@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -9,6 +9,7 @@ import test from "node:test";
 import { NestFactory } from "@nestjs/core";
 import { getPrismaClient, hashPassword } from "@xueleai/database";
 import { AuthService } from "../src/auth/auth.service.js";
+import { AiService } from "../src/ai/ai.service.js";
 import { HttpExceptionFilter } from "../src/common/http-exception.filter.js";
 import { createValidationPipe } from "../src/common/validation.js";
 import { MediaService } from "../src/media/media.service.js";
@@ -20,7 +21,10 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
   const directory = await mkdtemp(join(tmpdir(), "abei-guide-library-"));
   const oldDirectory = process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR;
   const oldWebBase = process.env.PICTURE_BOOK_GUIDE_WEB_BASE_URL;
+  const oldCreatorDirectory = process.env.CREATOR_ASSET_DIR;
   process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR = directory;
+  process.env.CREATOR_ASSET_DIR = join(directory, "creator-assets");
+  await mkdir(process.env.CREATOR_ASSET_DIR, { recursive: true });
   process.env.PICTURE_BOOK_GUIDE_WEB_BASE_URL = "http://127.0.0.1:3620";
   process.env.JWT_ACCESS_SECRET ??= `fixture-${randomUUID()}`;
   process.env.JWT_REFRESH_SECRET ??= `fixture-${randomUUID()}`;
@@ -46,7 +50,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     for (const line of selected.headers.getSetCookie()) { const [name, ...value] = line.split(";")[0]!.split("="); jar[name!] = value.join("="); }
     return { id: user.id, cookie: cookie() };
   }
-  const pages = (caption: string) => [{ position: 0, caption: "绘本封面", narration: "", imageUrl: "/picture-book-demos/lele-bear/cover.webp" }, { position: 1, caption, narration: caption, imageUrl: "/picture-book-demos/lele-bear/01.webp" }];
+  const pages = (caption: string) => [{ position: 0, caption: "绘本封面", narration: "", imageUrl: "/picture-book-demos/lele-bear/cover.webp" }, { position: 1, caption, narration: "不同的原绘本旁白", imagePrompt: "小熊在森林里奔跑", imageUrl: "/picture-book-demos/lele-bear/01.webp" }];
   async function book(owner: string, title: string, caption: string, status = "EDITING") {
     return prisma.pictureBook.create({ data: { userId: owner, title, brief: "私密创作沟通", audience: "一二年级", style: "watercolor", status, pageCount: 1, messages: [], characters: [], pages: pages(caption) } });
   }
@@ -55,7 +59,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     const publication = await prisma.courseMaterialPublication.create({ data: { materialType: "PICTURE_BOOK", pictureBookId: source.id, status, approvedHash: "approved-fixture", currentHash: "new-private-version", approvedSnapshot: snapshot, currentSnapshot: { ...snapshot, title: "待审核私密版本" } } }); publications.push(publication.id);
     const course = await prisma.course.create({ data: { id: randomUUID(), userId: source.userId, reviewState: "PUBLISHED", publishedAt: isPublished ? new Date() : null } }); courses.push(course.id);
     const revision = await prisma.courseRevision.create({ data: { courseId: course.id, coverMediaId: coverId, name: "测试课程", summary: "测试", status: "APPROVED" } });
-    await prisma.courseRevisionItem.create({ data: { revisionId: revision.id, publicationId: publication.id, materialType: "PICTURE_BOOK", pictureBookId: source.id, displayName: source.title } });
+    await prisma.courseRevisionItem.create({ data: { revisionId: revision.id, publicationId: publication.id, materialType: "PICTURE_BOOK", pictureBookId: source.id, displayName: source.title, pinnedSnapshot: snapshot, pinnedHash: "pinned-fixture" } });
     await prisma.course.update({ where: { id: course.id }, data: { approvedRevisionId: revision.id } });
     return publication;
   }
@@ -71,7 +75,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     await published(await book(other.id, "被拒绝作品", "秘密"), "REJECTED");
     await published(await book(other.id, "撤下作品", "秘密"), "APPROVED", false);
     const get = (suffix: string) => fetch(`${base}${suffix}`, { headers: { Cookie: owner.cookie } });
-    const importBook = (bookId: string, scope: string) => fetch(`${base}/books`, { method: "POST", headers: { Cookie: owner.cookie, "Content-Type": "application/json" }, body: JSON.stringify({ bookId, scope }) });
+    const importBook = (bookId: string, scope: string, revisionItemId?: string) => fetch(`${base}/books`, { method: "POST", headers: { Cookie: owner.cookie, "Content-Type": "application/json" }, body: JSON.stringify({ bookId, scope, revisionItemId }) });
     const mine = await get("/books?scope=MINE"); assert.equal(mine.status, 200);
     const mineData = (await mine.json()).data;
     assert.equal(mineData.total, 1); assert.equal(mineData.items[0].title, "我的未公开分享作品");
@@ -86,6 +90,24 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     const importedOwn = await importBook(own.id, "MINE"); assert.equal(importedOwn.status, 201);
     const ownGuide = (await importedOwn.json()).data;
     assert.equal(ownGuide.title, "我的未公开分享作品"); assert.equal(ownGuide.audience, "一二年级"); assert.equal(ownGuide.pageCount, 2);
+    assert.equal(ownGuide.pdfUrl, null);
+    assert.equal(ownGuide.pages[1].sourceText, "本人当前配文");
+    assert.equal(ownGuide.pages[1].imagePrompt, "小熊在森林里奔跑");
+    const ownImage = await get(`/${ownGuide.id}/pages/2/image`);
+    assert.equal(ownImage.headers.get("content-type"), "image/webp");
+    assert.deepEqual(Buffer.from(await ownImage.arrayBuffer()), image);
+    assert.equal((await get(`/${ownGuide.id}/pdf`)).status, 404);
+    let capturedPrompt = "", capturedImage = "";
+    Object.assign(app.get(AiService), { createTaskStream: async (_subject: unknown, input: { input: string; attachments: Array<{ dataUrl: string }> }) => {
+      capturedPrompt = input.input; capturedImage = input.attachments[0]!.dataUrl;
+      return { status: "SUCCEEDED", output: JSON.stringify({ pageNumber: 2, script: "我们一起看看小熊。" }) };
+    } });
+    const generated = await fetch(`${base}/${ownGuide.id}/pages/2/script`, { method: "POST", headers: { Cookie: owner.cookie, "Content-Type": "application/json" }, body: JSON.stringify({ version: ownGuide.version }) });
+    assert.equal(generated.status, 201);
+    assert.match(capturedPrompt, /本人当前配文/); assert.match(capturedPrompt, /小熊在森林里奔跑/);
+    assert.doesNotMatch(capturedPrompt, /不同的原绘本旁白/);
+    assert.equal(capturedImage, `data:image/webp;base64,${image.toString("base64")}`);
+    assert.equal((await generated.json()).data.pages[1].script, "我们一起看看小熊。");
     assert.deepEqual(ownGuide.pages.map((page: { pageNumber: number }) => page.pageNumber), [1, 2]);
     assert.match(ownGuide.pages[1].sourceText, /本人当前配文/); assert.equal(ownGuide.scriptCount, 0); assert.equal(ownGuide.audioCount, 0);
     const multiline = await book(owner.id, "多行配文", Array.from({ length: 10 }, (_, index) => `第${index + 1}段配文需要完整保留`).join("\n"));
@@ -96,7 +118,21 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     const publicGuide = (await importedPublic.json()).data;
     assert.equal(publicGuide.title, `审核版公开绘本 ${fixtureTag}`); assert.match(publicGuide.pages[1].sourceText, /已审核配文/);
     assert.doesNotMatch(JSON.stringify(publicGuide), /未审核的当前配文|待审核私密版本|私密创作沟通/);
-    const preview = await get(`/${publicGuide.id}/pages/2/image`); assert.equal(preview.status, 200); assert.equal(preview.headers.get("content-type"), "image/png");
+    await prisma.courseMaterialPublication.update({ where: { id: goodPublication.id }, data: { approvedSnapshot: { type: "PICTURE_BOOK", title: "尚未在专辑发布的新版本", pages: pages("新版私密配文") }, approvedHash: "new-approved" } });
+    const frozenResponse = await importBook(approved.id, "PUBLIC"); assert.equal(frozenResponse.status, 201);
+    const frozenGuide = (await frozenResponse.json()).data;
+    assert.equal(frozenGuide.title, `审核版公开绘本 ${fixtureTag}`); assert.equal(frozenGuide.pages[1].sourceText, "已审核配文");
+    const secondCourse = await prisma.course.create({ data: { id: randomUUID(), userId: other.id, reviewState: "PUBLISHED", publishedAt: new Date() } }); courses.push(secondCourse.id);
+    const secondRevision = await prisma.courseRevision.create({ data: { courseId: secondCourse.id, coverMediaId: coverId, name: "第二专辑", summary: "测试", status: "APPROVED" } });
+    const secondItem = await prisma.courseRevisionItem.create({ data: { revisionId: secondRevision.id, publicationId: goodPublication.id, materialType: "PICTURE_BOOK", pictureBookId: approved.id, displayName: approved.title, pinnedSnapshot: { type: "PICTURE_BOOK", title: `另一个发布版 ${fixtureTag}`, pages: pages("另一版配文") }, pinnedHash: "other-frozen" } });
+    await prisma.course.update({ where: { id: secondCourse.id }, data: { approvedRevisionId: secondRevision.id } });
+    const otherVersion = (await (await get("/books?scope=PUBLIC&search=另一个发布版")).json()).data.items[0];
+    assert.equal(otherVersion.revisionItemId, secondItem.id);
+    const otherGuide = (await (await importBook(approved.id, "PUBLIC", otherVersion.revisionItemId)).json()).data;
+    assert.equal(otherGuide.title, `另一个发布版 ${fixtureTag}`); assert.equal(otherGuide.pages[1].sourceText, "另一版配文");
+    assert.equal((await importBook(own.id, "PUBLIC", secondItem.id)).status, 404);
+    await prisma.course.update({ where: { id: secondCourse.id }, data: { publishedAt: null } });
+    const preview = await get(`/${publicGuide.id}/pages/2/image`); assert.equal(preview.status, 200); assert.equal(preview.headers.get("content-type"), "image/webp");
     assert.ok((await preview.arrayBuffer()).byteLength > 1000);
     assert.equal((await fetch(`${base}/${publicGuide.id}/pdf`, { headers: { Cookie: other.cookie } })).status, 404);
     await prisma.course.update({ where: { id: courses[0]! }, data: { publishedAt: null } });
@@ -105,6 +141,44 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     await prisma.course.update({ where: { id: courses[0]! }, data: { publishedAt: new Date() } });
     await prisma.courseMaterialPublication.update({ where: { id: goodPublication.id }, data: { status: "PENDING" } });
     assert.equal((await importBook(approved.id, "PUBLIC")).status, 404);
+    const shared = await book(other.id, "原始私有标题", "私有当前配文", "COMPLETED");
+    const sharedSnapshot = { type: "PICTURE_BOOK", title: `绘本馆审核版本 ${fixtureTag}`, pages: pages("公开配文") };
+    await prisma.pictureBookSubmission.create({ data: { pictureBookId: shared.id, status: "PENDING", coverUrl: "/picture-book-demos/lele-bear/cover.webp", snapshotHash: "unpublished-new", snapshot: { type: "PICTURE_BOOK", title: "待审核私密标题", pages: pages("待审核私密内容") }, publishedAt: new Date(), publishedCoverUrl: "/picture-book-demos/lele-bear/cover.webp", publishedHash: "shared-fixture", publishedSnapshot: sharedSnapshot } });
+    const sharedList = (await (await get("/books?scope=PUBLIC&search=绘本馆审核版本")).json()).data;
+    assert.deepEqual(sharedList.items.map((item: { title: string }) => item.title), [`绘本馆审核版本 ${fixtureTag}`]);
+    const sharedResponse = await importBook(shared.id, "PUBLIC"); assert.equal(sharedResponse.status, 201);
+    const sharedGuide = (await sharedResponse.json()).data;
+    assert.equal(sharedGuide.title, `绘本馆审核版本 ${fixtureTag}`); assert.equal(sharedGuide.pages[1].sourceText, "公开配文");
+    assert.doesNotMatch(JSON.stringify(sharedGuide), /原始私有标题|私有当前配文|待审核私密/);
+    await prisma.pictureBookSubmission.update({ where: { pictureBookId: shared.id }, data: { publishedAt: null } });
+    assert.equal((await importBook(shared.id, "PUBLIC")).status, 404);
+    await published(shared, "APPROVED");
+    await prisma.pictureBookSubmission.update({ where: { pictureBookId: shared.id }, data: { publishedAt: new Date() } });
+    for (let index = 0; index < 20; index++) {
+      const item = await book(other.id, `分页绘本${index}`, "测试", "COMPLETED");
+      const snapshot = { type: "PICTURE_BOOK", title: `分页绘本${index} ${fixtureTag}`, pages: pages("测试") };
+      await prisma.pictureBookSubmission.create({ data: { pictureBookId: item.id, status: "APPROVED", coverUrl: "/picture-book-demos/lele-bear/cover.webp", snapshotHash: `page-${index}`, snapshot, publishedAt: new Date(), publishedCoverUrl: "/picture-book-demos/lele-bear/cover.webp", publishedHash: `page-${index}`, publishedSnapshot: snapshot } });
+    }
+    const first = (await (await get(`/books?scope=PUBLIC&page=1&search=${fixtureTag}`)).json()).data;
+    const second = (await (await get(`/books?scope=PUBLIC&page=2&search=${fixtureTag}`)).json()).data;
+    assert.equal(first.total, 21); assert.equal(first.items.length, 20); assert.equal(second.items.length, 1);
+    assert.equal(new Set([...first.items, ...second.items].map((item: { bookId: string }) => item.bookId)).size, 21);
+    assert.equal((await (await get("/books?scope=PUBLIC&search=原始私有标题")).json()).data.total, 0);
+    assert.equal((await (await get("/books?scope=PUBLIC&search=绘本馆审核版本")).json()).data.total, 1);
+    const local = await book(owner.id, "本地图片绘本", "本地配文");
+    await prisma.pictureBook.update({ where: { id: local.id }, data: { pages: [{ position: 0, caption: "本地配文", imageUrl: "/api/media/files/local-test.webp" }] } });
+    Object.assign(media, { getLocalFile: async () => ({ filepath: new URL("../../web/public/picture-book-demos/lele-bear/01.webp", import.meta.url).pathname, mimeType: "image/webp" }) });
+    const localResponse = await importBook(local.id, "MINE"); assert.equal(localResponse.status, 201);
+    const localGuide = (await localResponse.json()).data;
+    assert.deepEqual(Buffer.from(await (await get(`/${localGuide.id}/pages/1/image`)).arrayBuffer()), image);
+    const asset = await prisma.creatorAsset.create({ data: { userId: owner.id, externalId: randomUUID(), grantId: "fixture", kind: "IMAGE", mimeType: "image/webp", size: image.length, sha256: "fixture", requestHash: "fixture", status: "COMPLETED", offset: image.length, expiresAt: new Date(Date.now() + 3600000) } });
+    await writeFile(join(process.env.CREATOR_ASSET_DIR!, `${asset.id}.data`), image);
+    const creatorBook = await book(owner.id, "创作客户端绘本", "测试");
+    await prisma.pictureBook.update({ where: { id: creatorBook.id }, data: { pages: [{ position: 0, caption: "封面", imageUrl: `/api/creator-assets/${asset.id}` }] } });
+    const creatorResponse = await importBook(creatorBook.id, "MINE"); assert.equal(creatorResponse.status, 201);
+    const creatorGuide = (await creatorResponse.json()).data;
+    assert.deepEqual(Buffer.from(await (await get(`/${creatorGuide.id}/pages/1/image`)).arrayBuffer()), image);
+    assert.equal((await fetch(`${base}/books`, { method: "POST", headers: { Cookie: other.cookie, "Content-Type": "application/json" }, body: JSON.stringify({ bookId: creatorBook.id, scope: "MINE" }) })).status, 404);
     const empty = await prisma.pictureBook.create({ data: { userId: owner.id, title: "尚无页面", brief: "测试", style: "watercolor", pageCount: 1, pages: [], characters: [], messages: [] } });
     assert.equal((await importBook(empty.id, "MINE")).status, 400);
     const unsafe = await book(owner.id, "非法图片路径", "测试");
@@ -121,6 +195,7 @@ test("本站绘本仅列出本人作品和已发布审核版本，选择后私�
     await rm(directory, { recursive: true, force: true });
     if (oldDirectory === undefined) delete process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR; else process.env.PICTURE_BOOK_GUIDE_STORAGE_DIR = oldDirectory;
     if (oldWebBase === undefined) delete process.env.PICTURE_BOOK_GUIDE_WEB_BASE_URL; else process.env.PICTURE_BOOK_GUIDE_WEB_BASE_URL = oldWebBase;
+    if (oldCreatorDirectory === undefined) delete process.env.CREATOR_ASSET_DIR; else process.env.CREATOR_ASSET_DIR = oldCreatorDirectory;
     await prisma.$disconnect();
   }
 });

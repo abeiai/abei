@@ -2604,7 +2604,8 @@ export class AiService {
     subject: ProfileSubject,
     dto: CreateAiTaskDto,
     onEvent: (event: Record<string, unknown>) => void,
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    options?: { requireFree?: boolean; requireVision?: boolean }
   ) {
     const attribution = snapshotAttribution(subject);
     const { userId } = attribution;
@@ -2624,8 +2625,15 @@ export class AiService {
       throw new AppException(40401, "AI 场景不存在或已停用", HttpStatus.NOT_FOUND);
     }
 
+    if (options?.requireFree && scenario.costCredits !== 0) {
+      throw new AppException(40001, "绘本分析暂不可用，请联系管理员检查收费配置", HttpStatus.BAD_REQUEST);
+    }
+
     const promptInput = await this.preparePromptInput(userId, scenario, dto);
     const activeModel = await this.getModelForScenario(scenario, dto.modelInstanceId);
+    if (options?.requireVision && (!activeModel || !modelHasAnyCapability(activeModel, ["VISION", "MULTIMODAL", "IMAGE_INPUT"]))) {
+      throw new AppException(40001, "绘本分析需要支持识图的模型，请联系管理员检查配置", HttpStatus.BAD_REQUEST);
+    }
     const attachments = attachmentsForModel(activeModel, normalizeProviderAttachments(dto.attachments));
     const reservedTask = await this.reserveCredits(attribution, scenario, input, activeModel, promptInput, undefined, billingContext);
 

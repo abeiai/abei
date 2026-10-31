@@ -1,14 +1,15 @@
 export type GuidePage = {
   pageNumber: number; sourceText: string; script: string; imageUrl: string;
+  pdfNeedsAnalysis?: boolean; bookSummary?: string; pdfAnalysis?: { kind: "COVER" | "CONTENT" | "ADVERTISEMENT"; description: string; text: string }; pdfOverviewCache?: { selection: number[]; levels: Array<Array<{ title: string; summary: string } | null>> };
   audioUrl: string | null; audioTaskId: string | null; audioMimeType: string | null; audioVoice: string | null; audioSpeed: number | null;
 };
 export type GuideSummary = {
-  id: string; title: string; pdfName: string; pdfUrl: string; audience: string; style: string;
+  id: string; title: string; pdfName: string; pdfUrl: string | null; audience: string; style: string;
   version: number; busy: boolean; pageCount: number; scriptCount: number; audioCount: number; updatedAt: string;
 };
 export type PictureBookGuide = GuideSummary & { pages: GuidePage[] };
 export type GuideOptions = { audiences: string[]; styles: Array<{ value: string; label: string; description: string; speed: number }> };
-export type GuideBookChoice = { bookId: string; title: string; pageCount: number; scope: "MINE" | "PUBLIC"; completed: boolean };
+export type GuideBookChoice = { bookId: string; title: string; pageCount: number; scope: "MINE" | "PUBLIC"; completed: boolean; revisionItemId?: string };
 export type GuideBookListing = { items: GuideBookChoice[]; total: number; page: number; pageSize: number };
 
 export async function guideRequest<T>(path = "", method = "GET", data?: unknown): Promise<T> {

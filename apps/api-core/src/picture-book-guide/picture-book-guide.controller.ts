@@ -7,7 +7,7 @@ import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
 import { guidePdfMaxBytes } from "./picture-book-guide-content.js";
-import { GuideAudioDto, GuideBookImportDto, GuideBookQueryDto, GuidePageDto, GuideSettingsDto, GuideVersionDto } from "./picture-book-guide.dto.js";
+import { GuideAudioDto, GuideBookImportDto, GuideBookQueryDto, GuidePageDto, GuidePdfSelectionDto, GuideSettingsDto, GuideVersionDto } from "./picture-book-guide.dto.js";
 import { PictureBookGuideService } from "./picture-book-guide.service.js";
 import { PictureBookGuideLibraryService } from "./picture-book-guide-library.service.js";
 
@@ -45,7 +45,7 @@ export class PictureBookGuideController {
 
   @Post()
   @UseInterceptors(FileInterceptor("file", { limits: { fileSize: guidePdfMaxBytes, files: 1 } }))
-  async upload(@Req() request: GuideRequest, @UploadedFile() file?: UploadedFileLike) { return successResponse(await this.guides.upload(request.guideSubject.userId, file)); }
+  async upload(@Req() request: GuideRequest, @UploadedFile() file?: UploadedFileLike, @Body("prepare") prepare?: string) { return successResponse(await this.guides.upload(request.guideSubject.userId, file, { preparePdfAnalysis: prepare === "1" })); }
 
   @Get(":id")
   async get(@Req() request: GuideRequest, @Param("id") id: string) { return successResponse(await this.guides.get(request.guideSubject.userId, id)); }
@@ -61,6 +61,15 @@ export class PictureBookGuideController {
 
   @Post(":id/pages/:pageNumber/script")
   async script(@Req() request: GuideRequest, @Param("id") id: string, @Param("pageNumber", ParseIntPipe) pageNumber: number, @Body() dto: GuideVersionDto) { return successResponse(await this.guides.generateScript(request.guideSubject, id, pageNumber, dto.version)); }
+
+  @Post(":id/pages/:pageNumber/analyze")
+  async analyzePage(@Req() request: GuideRequest, @Param("id") id: string, @Param("pageNumber", ParseIntPipe) pageNumber: number, @Body() dto: GuideVersionDto) { return successResponse(await this.guides.analyzePdfPage(request.guideSubject, id, pageNumber, dto.version)); }
+
+  @Post(":id/pdf-selection")
+  async selectPdfPages(@Req() request: GuideRequest, @Param("id") id: string, @Body() dto: GuidePdfSelectionDto) { return successResponse(await this.guides.finishPdfAnalysis(request.guideSubject, id, dto)); }
+
+  @Post(":id/pdf-overview-batch")
+  async pdfOverviewBatch(@Req() request: GuideRequest, @Param("id") id: string, @Body() dto: GuidePdfSelectionDto) { return successResponse(await this.guides.summarizePdfBatch(request.guideSubject, id, dto)); }
 
   @Post(":id/pages/:pageNumber/audio")
   async audio(@Req() request: GuideRequest, @Param("id") id: string, @Param("pageNumber", ParseIntPipe) pageNumber: number, @Body() dto: GuideAudioDto) { return successResponse(await this.guides.generateAudio(request.guideSubject, id, pageNumber, dto)); }

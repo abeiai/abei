@@ -28,8 +28,8 @@ test("HTTP 导读：登录身份校验、PDF 上传、文稿与语音分页、�
   const app=await NestFactory.create(PictureBookGuideModule,{logger:false});
   app.setGlobalPrefix("api");app.useGlobalFilters(new HttpExceptionFilter());app.useGlobalPipes(createValidationPipe());
   Object.assign(app.get(AiService),{createTaskStream:async(_subject:unknown,dto:{input:string},onEvent:(event:Record<string,unknown>)=>void)=>{
-    const pageNumber=Number(/第(\d+)页/.exec(dto.input)?.[1]);
-    const output=JSON.stringify({pageNumber,script:`第${pageNumber}页，看看小熊的背包。`});onEvent({type:"delta",text:output});return{status:"SUCCEEDED",output};
+    const pageNumber=Number((dto.input.includes("绘本页面识别助手") ? /"pageNumber":(\d+)/ : /第(\d+)页/).exec(dto.input)?.[1]);
+    const output=dto.input.includes("绘本页面识别助手") ? JSON.stringify({pageNumber,kind:pageNumber===1?"ADVERTISEMENT":pageNumber===2?"COVER":"CONTENT",description:`画面${pageNumber}`,text:"文字"}) : dto.input.includes("按页序理解整本绘本") ? JSON.stringify({title:"绘本标题",summary:"小熊的完整故事"}) : JSON.stringify({pageNumber,script:`第${pageNumber}页，看看小熊的背包。`});onEvent({type:"delta",text:output});return{status:"SUCCEEDED",output};
   }});
   let audioCalls=0;
   Object.assign(app.get(AudioService),{createTtsTask:async(subject:{userId:string},_dto:unknown,options:PrivateTtsPersistence)=>{
@@ -58,6 +58,18 @@ test("HTTP 导读：登录身份校验、PDF 上传、文稿与语音分页、�
     const cookie=await session();const other=await session();
     const opts=await (await fetch(`${base}/picture-book-guide/options`,{headers:{Cookie:cookie}})).json();
     assert.equal(opts.data.audiences.length,8);assert.equal(opts.data.styles.length,5);
+    const analyzedForm=new FormData();analyzedForm.set("file",new Blob([new Uint8Array(await guidePdfFixture())],{type:"application/pdf"}),"需分析.pdf");analyzedForm.set("prepare","1");
+    const analyzedUpload=await fetch(`${base}/picture-book-guide`,{method:"POST",headers:{Cookie:cookie},body:analyzedForm});assert.equal(analyzedUpload.status,201);
+    let analyzed=(await analyzedUpload.json()).data as Guide; assert.equal(analyzed.pages[0]!.pdfNeedsAnalysis,true);
+    const analysisPath=`${base}/picture-book-guide/${analyzed.id}`;
+    const analysisPost=(suffix:string,body:unknown,auth=cookie)=>fetch(`${analysisPath}${suffix}`,{method:"POST",headers:{Cookie:auth,"Content-Type":"application/json"},body:JSON.stringify(body)});
+    assert.equal((await analysisPost("/pages/1/analyze",{version:analyzed.version},other)).status,404);
+    assert.equal((await analysisPost("/pdf-selection",{version:analyzed.version,pageNumbers:[]})).status,400);
+    for(let number=1;number<=3;number++){const response=await analysisPost(`/pages/${number}/analyze`,{version:analyzed.version});assert.equal(response.status,201);analyzed=(await response.json()).data;}
+    const batch=await analysisPost("/pdf-overview-batch",{version:analyzed.version,pageNumbers:[2,3]});assert.equal(batch.status,201);analyzed=(await batch.json()).data;
+    const confirmed=await analysisPost("/pdf-selection",{version:analyzed.version,pageNumbers:[2,3]});assert.equal(confirmed.status,201);
+    analyzed=(await confirmed.json()).data;assert.equal(analyzed.title,"绘本标题");assert.equal(analyzed.pageCount,2);assert.equal(analyzed.pages[0]!.pdfNeedsAnalysis,undefined);
+    assert.equal((await analysisPost("/pdf-selection",{version:analyzed.version,pageNumbers:[1]})).status,400);
     const form=new FormData();form.set("file",new Blob([new Uint8Array(await guidePdfFixture())],{type:"application/pdf"}),"小熊绘本.pdf");
     const uploaded=await fetch(`${base}/picture-book-guide`,{method:"POST",headers:{Cookie:cookie},body:form});
     assert.equal(uploaded.status,201);

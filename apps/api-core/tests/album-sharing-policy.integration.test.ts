@@ -38,7 +38,7 @@ test("真实数据库：仅当前公开专辑阻止重复分享，并发专辑�
     });
     await ready;
     Object.assign(service, { prisma: { $transaction: (callback: (tx: unknown) => unknown) => db.$transaction(async tx => callback(new Proxy(tx, { get(target, prop) {
-      if (prop === "$queryRaw") return async (...args: unknown[]) => { if (args.includes(`course-material:PICTURE_BOOK:${book.id}`)) reached(); return (target.$queryRaw as Function)(...args); };
+      if (prop === "$queryRaw") return async (...args: unknown[]) => { if (args.includes(`course-material:PICTURE_BOOK:${book.id}`)) reached(); return (target.$queryRaw as (...args: unknown[]) => unknown)(...args); };
       return Reflect.get(target, prop);
     } }))) } });
     const attempt = service.submit(user.id, book.id);

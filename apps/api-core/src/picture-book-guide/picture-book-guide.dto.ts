@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength } from "class-validator";
+import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, MaxLength, Min, MinLength } from "class-validator";
 import { pictureBookAudiences } from "../picture-books/picture-book-audience.js";
 import { guideStyles } from "./picture-book-guide-content.js";
 
@@ -16,6 +16,10 @@ export class GuideSettingsDto extends GuideVersionDto {
 export class GuidePageDto extends GuideVersionDto {
   @IsString() @MinLength(1) @MaxLength(2000)
   script!: string;
+}
+export class GuidePdfSelectionDto extends GuideVersionDto {
+  @IsArray() @ArrayMinSize(1) @ArrayMaxSize(80) @ArrayUnique() @IsInt({ each: true }) @Min(1, { each: true })
+  pageNumbers!: number[];
 }
 export class GuideAudioDto extends GuideVersionDto {
   @IsOptional() @IsString() @MaxLength(80)
@@ -39,4 +43,6 @@ export class GuideBookImportDto {
   scope!: "MINE" | "PUBLIC";
   @IsString() @MinLength(1) @MaxLength(80)
   bookId!: string;
+  @IsOptional() @IsString() @MinLength(1) @MaxLength(80)
+  revisionItemId?: string;
 }

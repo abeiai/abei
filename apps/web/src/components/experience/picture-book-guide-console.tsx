@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BookOpenText, Check, ChevronLeft, ChevronRight, FileText, History, Info, LoaderCircle, Plus, Save, Sparkles, Trash2, Upload, Volume2 } from "lucide-react";
+import { BookOpenText, Check, ChevronLeft, ChevronRight, FileText, History, Info, LoaderCircle, Play, Plus, Save, Sparkles, Trash2, Upload, Volume2 } from "lucide-react";
 import { VoicePicker } from "@/components/audio/voice-picker";
 import { GuideBookPicker } from "@/components/picture-books/guide-book-picker";
+import { PictureBookGuidePlayer } from "@/components/picture-books/picture-book-guide-player";
+import { GuidePdfPageSelection } from "@/components/picture-books/guide-pdf-page-selection";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import type { VoiceLibrary } from "@/lib/audio-api";
@@ -39,6 +41,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   const [resetDialog, setResetDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [bookPickerOpen, setBookPickerOpen] = useState(false);
+  const [playerOpen, setPlayerOpen] = useState(false);
   const closeBookPicker = useCallback(() => setBookPickerOpen(false), []);
   const audioRef = useRef<HTMLAudioElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,6 +52,8 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   const settingsDirty = Boolean(guide && (guide.audience !== audience || guide.style !== style));
   const selectedStyle = options.styles.find(item => item.value === style);
   const allScripts = Boolean(guide && guide.scriptCount === guide.pageCount);
+  const needsPdfAnalysis = Boolean(guide?.pages[0]?.pdfNeedsAnalysis);
+  const pdfPagesAnalyzed = Boolean(guide && guide.pages.every(item => item.pdfAnalysis));
 
   const voiceOptions = useMemo<VoicePickerOption[]>(() => [
     ...(voices?.systemVoices ?? []).filter(item => item.status === "READY" && item.providerVoiceId).map(item => ({ ...item, value: `system:${item.providerVoiceId}`, badge: "官方系统音色" })),
@@ -107,7 +112,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   async function upload(file: File) {
     if (!/\.pdf$/i.test(file.name) || !file.size || file.size > 200 * 1024 * 1024) { setError("请选择 200MB 以内、1—80 页的 PDF 绘本"); return; }
     await run("正在解析 PDF…", async () => {
-      const form = new FormData(); form.set("file", file);
+      const form = new FormData(); form.set("file", file); form.set("prepare", "1");
       const next = await guideRequest<PictureBookGuide>("", "POST", form);
       preserveDraft.current = false;
       accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style);
@@ -115,10 +120,39 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
       window.history.replaceState(null, "", `/magic-reader?guide=${next.id}`);
     });
   }
+  async function analyzePdf() {
+    await run("正在分析绘本…", async () => {
+      let current = guideRef.current!;
+      for (const target of current.pages.filter(item => !item.pdfAnalysis)) {
+        if (!active.current) break;
+        setBusy(`正在分析第 ${target.pageNumber} / ${current.pageCount} 页…`);
+        current = await guideRequest<PictureBookGuide>(`/${current.id}/pages/${target.pageNumber}/analyze`, "POST", { version: current.version });
+        accept(current);
+      }
+    });
+  }
+  async function finishPdf(pageNumbers: number[]) {
+    await run("正在理解整本绘本…", async () => {
+      let current = guideRef.current!;
+      let complete: boolean;
+      do {
+        current = await guideRequest<PictureBookGuide>(`/${current.id}/pdf-overview-batch`, "POST", { version: current.version, pageNumbers });
+        accept(current);
+        const levels = current.pages[0]?.pdfOverviewCache?.levels;
+        const parts = levels?.at(-1);
+        if (!parts?.length) throw new Error("绘本分析进度读取失败，请重试");
+        setBusy(`正在理解绘本：第 ${levels!.length} 阶段，${parts.filter(Boolean).length} / ${parts.length} 部分…`);
+        complete = parts.length === 1 && Boolean(parts[0]);
+        if (!active.current) return;
+      } while (!complete);
+      const next = await guideRequest<PictureBookGuide>(`/${current.id}/pdf-selection`, "POST", { version: current.version, pageNumbers });
+      accept(next); setPageNumber(1); setNotice("绘本已整理完成，可以生成导读文稿");
+    });
+  }
   async function selectBook(book: GuideBookChoice) {
     closeBookPicker();
     await run("正在载入绘本…", async () => {
-      const next = await guideRequest<PictureBookGuide>("/books", "POST", { bookId: book.bookId, scope: book.scope });
+      const next = await guideRequest<PictureBookGuide>("/books", "POST", { bookId: book.bookId, scope: book.scope, revisionItemId: book.revisionItemId });
       preserveDraft.current = false;
       accept(next); setPageNumber(1); setAudience(next.audience); setStyle(next.style);
       setSpeed(options.styles.find(item => item.value === next.style)?.speed ?? 0.95);
@@ -215,14 +249,17 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
               {signedIn ? <Button className="mt-6" disabled={disabled} onClick={() => setBookPickerOpen(true)}><BookOpenText className="size-4" />选择绘本</Button> : <Button className="mt-6" asChild><Link href={loginHref}>登录后选择绘本</Link></Button>}
             </div>
           </section>
-        </div> : <>
+        </div> : needsPdfAnalysis ? <>
+          <div className="flex justify-end"><Button size="sm" variant="ghost" disabled={disabled} onClick={() => setDeleteDialog(true)}><Trash2 className="size-4" />删除导读</Button></div>
+          {!pdfPagesAnalyzed ? <section className="rounded-2xl border border-border bg-background p-5 shadow-sm"><h2 className="text-base font-semibold">{guide.title}</h2><p className="mt-3 text-sm text-muted-foreground">已分析 {guide.pages.filter(item => item.pdfAnalysis).length} / {guide.pageCount} 页</p><Button className="mt-4" disabled={disabled} onClick={() => void analyzePdf()}><Sparkles className="size-4" />{guide.pages.some(item => item.pdfAnalysis) ? "继续分析绘本" : "分析绘本"}</Button></section> : <GuidePdfPageSelection key={guide.id} pages={guide.pages} disabled={disabled} onConfirm={pages => void finishPdf(pages)} />}
+        </> : <>
           <section className="overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
               <div className="min-w-0"><h2 className="truncate text-base font-semibold">{guide.title}</h2><p className="mt-1 text-xs text-muted-foreground">第 {pageNumber} / {guide.pageCount} 页</p></div>
-              <div className="flex gap-2"><Button size="sm" variant="outline" asChild><a href={guide.pdfUrl} target="_blank" rel="noreferrer">查看 PDF</a></Button><Button size="sm" variant="ghost" disabled={disabled} aria-label="删除导读" onClick={() => setDeleteDialog(true)}><Trash2 className="size-4" /></Button></div>
+              <div className="flex gap-2"><Button size="sm" variant="outline" disabled={disabled || dirty || settingsDirty || !guide.audioCount} onClick={() => { audioRef.current?.pause(); setAutoPlay(false); setPlayerOpen(true); }}><Play className="size-4" />播放导读</Button>{guide.pdfUrl ? <Button size="sm" variant="outline" asChild><a href={guide.pdfUrl} target="_blank" rel="noreferrer">查看 PDF</a></Button> : null}<Button size="sm" variant="ghost" disabled={disabled} aria-label="删除导读" onClick={() => setDeleteDialog(true)}><Trash2 className="size-4" /></Button></div>
             </div>
             {page ? <div className="flex min-h-72 items-center justify-center bg-secondary/20 p-4">
-              {/* Private PDF previews require the authenticated image endpoint. */}
+              {/* Private previews require the authenticated image endpoint. */}
               <img key={page.imageUrl} src={page.imageUrl} alt={`绘本第 ${pageNumber} 页`} className="max-h-[48vh] w-auto max-w-full object-contain" />
             </div> : null}
             <div className="flex items-center justify-between gap-3 border-t border-border p-4">
@@ -252,11 +289,12 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
         <h2 className="text-base font-semibold">带读设置</h2>
         <label className="block space-y-2 text-sm font-semibold">适用对象<Select value={audience} disabled={!guide || disabled || !options.audiences.length} onChange={event => { setAudience(event.target.value); setAutoPlay(false); }}>{options.audiences.length ? options.audiences.map(value => <option key={value} value={value}>{value}</option>) : <option>幼儿园</option>}</Select></label>
         <div className="space-y-2"><div className="flex items-center justify-between"><label htmlFor="guide-style" className="text-sm font-semibold">带读风格</label>{selectedStyle ? <Help text={selectedStyle.description} /> : null}</div><Select id="guide-style" value={style} disabled={!guide || disabled || !options.styles.length} onChange={event => { setStyle(event.target.value); setSpeed(options.styles.find(item => item.value === event.target.value)?.speed ?? 1); setAutoPlay(false); }}>{options.styles.length ? options.styles.map(item => <option key={item.value} value={item.value}>{item.label}</option>) : <option value="interactive">交互启发型</option>}</Select></div>
-        <div className="space-y-3 border-t border-border pt-5"><div className="flex items-center justify-between"><h3 className="text-sm font-semibold">1. 生成带读文稿</h3>{allScripts && !settingsDirty ? <Check className="size-4 text-primary" /> : null}</div><Button className="w-full" disabled={!guide || disabled || !options.styles.length || (dirty && !script.trim())} onClick={() => requestScripts()}><Sparkles className="size-4" />{settingsDirty ? "按新设置生成全部文稿" : guide?.scriptCount && !allScripts ? "继续生成剩余文稿" : "生成全部文稿"}</Button><p className="text-xs text-muted-foreground">已生成 {guide?.scriptCount ?? 0} / {guide?.pageCount ?? 0} 页</p></div>
+        <div className="space-y-3 border-t border-border pt-5"><div className="flex items-center justify-between"><h3 className="text-sm font-semibold">1. 生成带读文稿</h3>{allScripts && !settingsDirty ? <Check className="size-4 text-primary" /> : null}</div><Button className="w-full" disabled={!guide || needsPdfAnalysis || disabled || !options.styles.length || (dirty && !script.trim())} onClick={() => requestScripts()}><Sparkles className="size-4" />{settingsDirty ? "按新设置生成全部文稿" : guide?.scriptCount && !allScripts ? "继续生成剩余文稿" : "生成全部文稿"}</Button><p className="text-xs text-muted-foreground">已生成 {guide?.scriptCount ?? 0} / {guide?.pageCount ?? 0} 页</p></div>
         <div className="space-y-4 border-t border-border pt-5"><div className="flex items-center justify-between"><h3 className="text-sm font-semibold">2. 生成带读语音</h3>{guide && guide.audioCount === guide.pageCount ? <Check className="size-4 text-primary" /> : null}</div><VoicePicker label="带读声音" value={voice} voices={voiceOptions} disabled={disabled || !signedIn} onChange={setVoice} /><label className="block space-y-2 text-sm font-semibold">语速<Select value={speed} disabled={disabled} onChange={event => setSpeed(Number(event.target.value))}>{[0.5, 0.75, 0.85, 0.9, 0.95, 1, 1.1, 1.25, 1.5].map(value => <option key={value} value={value}>{value} 倍</option>)}</Select></label><Button className="w-full" variant="outline" disabled={!allScripts || disabled || settingsDirty || !script.trim() || !voice} onClick={() => void generateAudio()}><Volume2 className="size-4" />生成全部语音</Button><p className="text-xs text-muted-foreground">已生成 {guide?.audioCount ?? 0} / {guide?.pageCount ?? 0} 页</p></div>
       </aside>
     </div>
     {bookPickerOpen ? <GuideBookPicker onClose={closeBookPicker} onSelect={book => void selectBook(book)} /> : null}
+    {playerOpen && guide ? <PictureBookGuidePlayer guide={guide} initialPage={pageNumber} onClose={() => setPlayerOpen(false)} /> : null}
     {resetDialog || deleteDialog ? <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-5"><div role="dialog" aria-modal="true" aria-labelledby="guide-confirm-title" className="w-full max-w-sm rounded-2xl border border-border bg-background p-6 shadow-xl"><h2 id="guide-confirm-title" className="text-base font-semibold">{deleteDialog ? "删除这份导读？" : "按新设置重新生成？"}</h2><p className="mt-3 text-sm leading-6 text-muted-foreground">{deleteDialog ? "绘本文件、逐页文稿和带读语音将从导读记录中删除。" : "原有文稿和语音将失效，所有页面会按新的适用对象与带读风格重新生成文稿。"}</p><div className="mt-5 flex justify-end gap-3"><Button variant="outline" onClick={() => { setResetDialog(false); setDeleteDialog(false); }}>取消</Button><Button onClick={() => { if (deleteDialog) { setDeleteDialog(false); void run("正在删除导读…", async () => { await guideRequest(`/${guide!.id}`, "DELETE"); newGuide(); }); } else void generateScripts(); }}>{deleteDialog ? "删除" : "重新生成"}</Button></div></div></div> : null}
   </div>;
 }

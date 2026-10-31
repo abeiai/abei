@@ -197,7 +197,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
 
   async function selectBook(book: GuideBookChoice) {
     closeBookPicker();
-    await run("正在载入本站绘本…", async () => importGuide(await guideRequest<PictureBookGuide>("/books", "POST", { bookId: book.bookId, scope: book.scope })));
+    await run("正在载入本站绘本…", async () => importGuide(await guideRequest<PictureBookGuide>("/books", "POST", { bookId: book.bookId, scope: book.scope, revisionItemId: book.revisionItemId })));
   }
 
   async function cleanFrame(target: VideoBookPage) {
@@ -387,7 +387,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
           </section>
           <section className={cn(panel, "space-y-3")}><div className="flex items-center justify-between"><h2 className="text-base font-semibold">生成视频</h2><span className="text-xs text-muted-foreground">{completed}/{project.pages.length} 页</span></div><Button className="w-full" disabled={disabled || !model || page?.clip?.status === "RUNNING"} onClick={() => void generate()}>{page?.clip?.status === "RUNNING" ? <LoaderCircle className="size-4 animate-spin" /> : <Film className="size-4" />}{page?.clip?.status === "SUCCEEDED" ? "重新生成本页" : page?.clip?.status === "FAILED" || page?.clip?.status === "CANCELLED" ? "重试本页视频" : "生成本页视频"}</Button><Button variant="outline" className="w-full" disabled={disabled || !model || hasRunning || completed === project.pages.length} onClick={() => void generate(true)}>生成全部未完成页</Button><p className="text-xs leading-5 text-muted-foreground">生成会按所选模型消耗个人账户点数。</p></section>
         </>}
-        {project && !project.editing ? <section className={cn(panel, "space-y-3")}><h2 className="text-base font-semibold">绘本素材</h2><Button variant="outline" className="w-full" disabled={disabled} onClick={() => pdfInput.current?.click()}><Upload className="size-4" />重新上传绘本</Button><Button variant="outline" className="w-full" disabled={disabled} onClick={() => setBookPicker(true)}><BookOpenText className="size-4" />选择其他绘本</Button><Button asChild variant="ghost" className="w-full"><a href={project.pdfUrl} target="_blank" rel="noreferrer">查看原始 PDF</a></Button></section> : null}
+        {project && !project.editing ? <section className={cn(panel, "space-y-3")}><h2 className="text-base font-semibold">绘本素材</h2><Button variant="outline" className="w-full" disabled={disabled} onClick={() => pdfInput.current?.click()}><Upload className="size-4" />重新上传绘本</Button><Button variant="outline" className="w-full" disabled={disabled} onClick={() => setBookPicker(true)}><BookOpenText className="size-4" />选择其他绘本</Button>{project.pdfUrl ? <Button asChild variant="ghost" className="w-full"><a href={project.pdfUrl} target="_blank" rel="noreferrer">查看原始 PDF</a></Button> : null}</section> : null}
       </aside>
     </div>
     {bookPicker ? <GuideBookPicker onClose={closeBookPicker} onSelect={book => void selectBook(book)} /> : null}
