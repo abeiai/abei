@@ -12,6 +12,11 @@ export type GuideOptions = { audiences: string[]; styles: Array<{ value: string;
 export type GuideBookChoice = { bookId: string; title: string; pageCount: number; scope: "MINE" | "PUBLIC"; completed: boolean; revisionItemId?: string };
 export type GuideBookListing = { items: GuideBookChoice[]; total: number; page: number; pageSize: number };
 
+export function guidePlaybackPage(page: GuidePage, index: number, hasCover = false) {
+  const cover = hasCover && index === 0;
+  return { cover, text: page.sourceText.trim() ? page.sourceText : page.pdfAnalysis?.text ?? "", label: cover ? "封面" : `第 ${index + 1 - Number(hasCover)} 页` };
+}
+
 export async function guideRequest<T>(path = "", method = "GET", data?: unknown): Promise<T> {
   const isForm = data instanceof FormData;
   const response = await fetch(`/api/picture-book-guide${path}`, { method, credentials: "include", cache: "no-store",
