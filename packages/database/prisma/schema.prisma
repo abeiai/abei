@@ -859,6 +859,8 @@ model PictureBookSubmission {
   snapshotHash      String
   coverUrl          String?
   publishedSnapshot Json?
+  sourceInfo        Json @default("{}")
+  publishedSourceInfo Json @default("{}")
   publishedHash String?
   publishedCoverUrl String?
   publishedAt DateTime?

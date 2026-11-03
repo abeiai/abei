@@ -68,7 +68,24 @@ export class PictureBookSubmissionService {
   async review(id: string) {
     const row = await this.prisma.pictureBookSubmission.findUnique({ where: { id }, include: { pictureBook: { select: { user: { select: { nickname: true } } } } } });
     if (!row) throw new AppException(40401, "绘本公开分享不存在", 404);
-    return { ...this.summary(row), pictureBookId: row.pictureBookId, author: row.pictureBook.user.nickname, coverUrl: row.coverUrl, coverGenerating: Boolean(row.coverToken && row.coverExpiresAt && row.coverExpiresAt > new Date()), book: playbackFromSnapshot(row.pictureBookId, row.snapshot) };
+    return { ...this.summary(row), pictureBookId: row.pictureBookId, author: row.pictureBook.user.nickname, coverUrl: row.coverUrl, source: row.sourceInfo, coverGenerating: Boolean(row.coverToken && row.coverExpiresAt && row.coverExpiresAt > new Date()), book: playbackFromSnapshot(row.pictureBookId, row.snapshot) };
+  }
+
+  async updateSource(id: string, expectedUpdatedAt: string, input: { name: string; iconUrl: string; url: string; statement: string }) {
+    const date = new Date(expectedUpdatedAt);
+    if (!Number.isFinite(date.getTime())) throw new AppException(40001, "审核版本参数格式错误", 400);
+    const source = { name: input.name.trim(), iconUrl: input.iconUrl.trim(), url: input.url.trim(), statement: input.statement.trim() };
+    const isWebUrl = (value: string) => { try { const url = new URL(value); return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password; } catch { return false; } };
+    if (source.url && !isWebUrl(source.url)) throw new AppException(40001, "来源网址格式错误，请使用 HTTP 或 HTTPS 网址", 400);
+    if (source.iconUrl && !isWebUrl(source.iconUrl) && !/^\/(?:api\/media\/files|images)\/[a-zA-Z0-9_-]+\.(?:png|jpe?g|webp|gif)$/i.test(source.iconUrl)) throw new AppException(40001, "来源图标地址无效", 400);
+    const row = await this.prisma.pictureBookSubmission.findUnique({ where: { id } });
+    if (!row) throw new AppException(40401, "绘本公开分享不存在", 404);
+    const changed = await this.prisma.pictureBookSubmission.updateMany({ where: { id, updatedAt: date, status: row.status, publishedVersion: row.publishedVersion }, data: {
+      sourceInfo: source,
+      ...(row.status === "APPROVED" && row.publishedAt ? { publishedSourceInfo: source, publishedVersion: { increment: 1 } } : {})
+    } });
+    if (!changed.count) throw new AppException(40901, "绘本审核或发布状态已变化，请刷新后重试", 409);
+    return this.review(id);
   }
 
   async generateCover(id: string, regenerate = false) {
@@ -129,7 +146,7 @@ export class PictureBookSubmissionService {
       if (status === "APPROVED") await assertStandaloneSharingAllowed(tx, row.pictureBookId);
       if (hashCourseSnapshot(row.snapshot) !== row.snapshotHash) throw new AppException(40901, "审核快照校验失败，请重新公开分享", 409);
       const changed = await tx.pictureBookSubmission.updateMany({ where: { id, status: "PENDING", snapshotHash: row.snapshotHash, updatedAt: date, ...(status === "APPROVED" ? { coverUrl: { not: null }, coverToken: null } : {}) }, data: { status, reviewedByAdminId: adminId, reviewedAt: new Date(), reviewNote: status === "REJECTED" ? reason!.trim() : null, coverToken: null, coverExpiresAt: null,
-        ...(status === "APPROVED" ? { publishedSnapshot: row.snapshot as Prisma.InputJsonValue, publishedHash: row.snapshotHash, publishedCoverUrl: row.coverUrl, publishedAt: new Date(), publishedVersion: { increment: 1 } } : {}) } });
+        ...(status === "APPROVED" ? { publishedSnapshot: row.snapshot as Prisma.InputJsonValue, publishedHash: row.snapshotHash, publishedCoverUrl: row.coverUrl, publishedSourceInfo: (row.sourceInfo ?? {}) as Prisma.InputJsonValue, publishedAt: new Date(), publishedVersion: { increment: 1 } } : {}) } });
       if (!changed.count) throw new AppException(40901, "公开分享状态已变化或封面尚未生成，请刷新后重试", 409);
     });
     return this.review(id);
@@ -164,7 +181,7 @@ export class PictureBookSubmissionService {
     const row = await this.published(pictureBookId);
     const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot);
     const publicMediaBaseUrl = this.publicMediaBaseUrl();
-    return { ...book, ...(publicMediaBaseUrl ? { publicMediaBaseUrl } : {}), pages: book.pages.map(page => ({
+    return { ...book, ...(row.publishedSourceInfo ? { source: row.publishedSourceInfo } : {}), ...(publicMediaBaseUrl ? { publicMediaBaseUrl } : {}), pages: book.pages.map(page => ({
       ...page,
       imageUrl: page.imageUrl ? this.publicMediaUrl(page.imageUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/image` : null,
       audioUrl: page.audioUrl ? this.publicMediaUrl(page.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio` : null,

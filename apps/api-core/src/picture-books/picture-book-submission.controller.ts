@@ -35,6 +35,12 @@ export class RejectDto extends DecisionDto {
   @IsString() @MinLength(2) @MaxLength(500)
   reason!: string;
 }
+export class SourceDto extends DecisionDto {
+  @IsString() @MaxLength(120) name!: string;
+  @IsString() @MaxLength(2048) iconUrl!: string;
+  @IsString() @MaxLength(2048) url!: string;
+  @IsString() @MaxLength(10000) statement!: string;
+}
 type MediaResponse = { setHeader(name: string, value: string | number): void; status(code: number): void; send(body: Buffer): void };
 function sendMedia(response: MediaResponse, file: { buffer: Buffer; mimetype: string }, range?: string) {
   let body = file.buffer;
@@ -93,6 +99,13 @@ export class AdminPictureBookSubmissionsController {
   async list(@Req() request: unknown, @Query() query: ReviewQuery) { await this.auth.me(request as never); return successResponse(await this.submissions.listReviews(query.status)); }
   @Get(":id")
   async get(@Req() request: unknown, @Param("id") id: string) { await this.auth.me(request as never); return successResponse(await this.submissions.review(id)); }
+  @Post(":id/source")
+  async source(@Req() request: unknown, @Param("id") id: string, @Body() dto: SourceDto) {
+    const admin = await this.auth.me(request as never);
+    const result = await this.submissions.updateSource(id, dto.expectedUpdatedAt, dto);
+    await writeAdminOperationLog({ adminUserId: admin.id, action: "UPDATE_PICTURE_BOOK_SOURCE", resourceType: "PICTURE_BOOK_SUBMISSION", resourceId: id, description: "更新绘本来源信息", request: request as HeaderRequestLike });
+    return successResponse(result);
+  }
   @Post(":id/cover")
   async cover(@Req() request: unknown, @Param("id") id: string) { await this.auth.me(request as never); return successResponse(await this.submissions.generateCover(id)); }
   @Post(":id/cover/regenerate")

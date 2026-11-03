@@ -4,16 +4,49 @@ import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, LoaderCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { pictureBookLanguageName } from "@/lib/picture-book-languages";
 
 type ReviewRow = { published?: boolean; publishedVersion?: number; id: string; title: string; author: string; status: string; submittedAt: string; updatedAt: string; coverUrl: string | null; reviewNote: string | null };
-type Review = Omit<ReviewRow, "title"> & { coverGenerating: boolean; book: { title: string; pages: Array<{ position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; translations?: Array<{ language: string; caption: string; audioUrl: string | null }> }> } };
+type Source = { name: string; iconUrl: string; url: string; statement: string };
+type Review = Omit<ReviewRow, "title"> & { source?: Partial<Source>; coverGenerating: boolean; book: { title: string; pages: Array<{ position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; translations?: Array<{ language: string; caption: string; audioUrl: string | null }> }> } };
 const labels: Record<string, string> = { PENDING: "待审核", APPROVED: "已通过", REJECTED: "已拒绝" };
 async function request<T>(path: string, method = "GET", body?: unknown, signal?: AbortSignal): Promise<T> {
   const response = await fetch(`/api/admin/picture-book-submissions${path}`, { method, credentials: "include", cache: "no-store", signal, headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined });
   const result = await response.json();
   if (!response.ok || result.code !== 0) throw new Error(result.message || "绘本审核操作失败，请重试");
   return result.data as T;
+}
+
+function SourceEditor({ review, onSaved }: { review: Review; onSaved: (review: Review) => void }) {
+  const [source, setSource] = useState<Source>({ name: review.source?.name ?? "", iconUrl: review.source?.iconUrl ?? "", url: review.source?.url ?? "", statement: review.source?.statement ?? "" });
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+  async function upload(file: File) {
+    setBusy(true); setMessage("");
+    try {
+      const data = new FormData(); data.set("file", file); data.set("sourceType", "SYSTEM");
+      const response = await fetch("/internal/admin/media/upload-json", { method: "POST", body: data });
+      const result = await response.json();
+      if (!response.ok || result.code !== 0 || !result.data?.url) throw new Error(result.message || "图片上传失败");
+      setSource(value => ({ ...value, iconUrl: result.data.url }));
+    } catch (error) { setMessage(error instanceof Error ? error.message : "图片上传失败"); }
+    finally { setBusy(false); }
+  }
+  async function save() {
+    setBusy(true); setMessage("");
+    try { onSaved(await request<Review>(`/${review.id}/source`, "POST", { ...source, expectedUpdatedAt: review.updatedAt })); setMessage("来源信息已保存"); }
+    catch (error) { setMessage(error instanceof Error ? error.message : "来源信息保存失败"); }
+    finally { setBusy(false); }
+  }
+  return <div className="mt-6 space-y-4 border-t pt-5"><h3 className="text-base font-semibold">来源信息</h3>
+    <label className="block text-sm font-semibold">来源名称<Input className="mt-2 font-normal" maxLength={120} value={source.name} onChange={event => setSource({ ...source, name: event.target.value })} /></label>
+    <label className="block text-sm font-semibold">来源图标<input className="mt-2 block w-full text-sm font-normal" type="file" accept="image/png,image/jpeg,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void upload(file); event.currentTarget.value = ""; }} /></label>
+    {source.iconUrl ? <div className="flex items-center gap-3"><img src={source.iconUrl} alt="来源图标预览" className="max-h-12 max-w-32 object-contain" /><Button variant="outline" size="sm" onClick={() => setSource({ ...source, iconUrl: "" })}>移除图标</Button></div> : null}
+    <label className="block text-sm font-semibold">来源网址<Input className="mt-2 font-normal" type="url" maxLength={2048} value={source.url} onChange={event => setSource({ ...source, url: event.target.value })} /></label>
+    <label className="block text-sm font-semibold">其他声明<Textarea className="mt-2 font-normal" rows={5} maxLength={10000} value={source.statement} onChange={event => setSource({ ...source, statement: event.target.value })} /></label>
+    <Button variant="outline" disabled={busy} onClick={() => void save()}>{busy ? "处理中…" : "保存来源信息"}</Button>{message ? <p role="status" className="text-sm">{message}</p> : null}
+  </div>;
 }
 
 export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; status: string }) {
@@ -91,6 +124,7 @@ export function PictureBookReviewManager({ rows, status }: { rows: ReviewRow[]; 
         <section><h3 className="mb-3 text-base font-semibold">绘本馆封面 · 4:3</h3>{review.coverUrl ? <img className="aspect-[4/3] w-full rounded-xl border object-cover" src={`/api/admin/picture-book-submissions/${review.id}/cover/image?v=${encodeURIComponent(review.updatedAt)}`} alt={`${review.book.title}绘本馆封面`} /> : <div className="flex aspect-[4/3] items-center justify-center rounded-xl border bg-secondary text-sm text-muted-foreground">{busy ? <><LoaderCircle className="mr-2 size-4 animate-spin" />正在生成封面…</> : "封面尚未生成"}</div>}
           {review.status === "PENDING" ? <div className="mt-5 space-y-4">{review.coverUrl ? <Button variant="outline" disabled={busy || deciding || review.coverGenerating} onClick={()=>{regenerateFor.current=review.id;setBusy(true);setRetry(value=>value+1);}}>{busy || review.coverGenerating ? <><LoaderCircle className="mr-2 size-4 animate-spin" />正在重新生成…</> : "重新生成"}</Button> : !busy ? <Button variant="outline" onClick={()=>setRetry(retry+1)}>重试生成封面</Button> : null}<label className="block text-sm font-semibold">拒绝原因<Textarea className="mt-2 font-normal" value={reason} maxLength={500} onChange={event=>setReason(event.target.value)} placeholder="拒绝公开分享时必填" disabled={deciding} /></label><div className="flex gap-3"><Button disabled={busy||deciding||review.coverGenerating||!review.coverUrl} onClick={()=>void decide("approve")}>通过审核</Button><Button variant="outline" disabled={busy||deciding||review.coverGenerating} onClick={()=>void decide("reject")}>拒绝公开分享</Button></div></div> : review.reviewNote ? <p className="mt-4 text-sm text-destructive">拒绝原因：{review.reviewNote}</p> : null}
           {review.published ? <Button className="mt-4" variant="outline" disabled={deciding} onClick={() => void unpublish()}>下架已发布绘本</Button> : null}
+          <SourceEditor key={review.id} review={review} onSaved={setReview} />
         </section>
       </div> : <p className="py-12 text-center text-sm text-muted-foreground">{busy ? "正在加载绘本…" : "绘本加载失败"}</p>}
     </dialog>

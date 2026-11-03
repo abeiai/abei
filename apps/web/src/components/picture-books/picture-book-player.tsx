@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Captions, ChevronLeft, ChevronRight, EyeOff, LoaderCircle, Maximize, Minimize, PanelLeft, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowLeft, Captions, ChevronLeft, ChevronRight, EyeOff, Info, LoaderCircle, Maximize, Minimize, PanelLeft, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
 import { type CSSProperties, useCallback, useEffect, useId, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
@@ -16,7 +16,7 @@ import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden" };
-type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; pages: Page[] };
+type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
@@ -52,6 +52,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [bilingualSubtitles, setBilingualSubtitles] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [sourceOpen, setSourceOpen] = useState(false);
+  const sourceId = useId();
   const [fullscreenAvailable, setFullscreenAvailable] = useState(false);
   const [viewError, setViewError] = useState("");
   const [zones, setZones] = useState({ controls: false, close: false, previous: false, next: false });
@@ -265,7 +267,10 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       <header className={styles.header}>
         <Link className={styles.back} href={returnHref}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
         <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
-        <span aria-hidden="true" />
+        {book?.source?.name ? <div className={styles.source}>
+          {book.source.url ? <a className={styles.sourceLink} href={book.source.url} target="_blank" rel="noopener noreferrer" aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</a> : <span className={styles.sourceLink} tabIndex={0} aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</span>}
+          {book.source.statement ? <><button type="button" className={styles.sourceInfo} aria-label="查看来源声明" aria-expanded={sourceOpen} aria-controls={sourceId} onClick={() => setSourceOpen(!sourceOpen)}><Info size={18} /></button><div id={sourceId} role="tooltip" className={styles.sourceTooltip} data-open={sourceOpen}>{book.source.statement}</div></> : null}
+        </div> : <span aria-hidden="true" />}
       </header>
       {fullscreen ? <button className={styles.closePlayer} aria-label="关闭播放并返回" title="关闭播放并返回" onClick={() => void closePlayer()} type="button"><X /></button> : null}
 
