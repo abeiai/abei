@@ -25,6 +25,7 @@ const layouts = [
   { value: "below", label: "上图下文", icon: PanelsTopLeft },
   { value: "hidden", label: "隐藏文字", icon: EyeOff },
 ] as const;
+const playbackRates = [0.6, 0.8, 0.9, 1, 1.2, 1.5, 2] as const;
 
 export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode, publicMode = false }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean; publicMode?: boolean }) {
   const router = useRouter();
@@ -42,6 +43,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [playbackVersion, setPlaybackVersion] = useState(0);
   const [autoTurn, setAutoTurn] = useState(true);
   const [volume, setVolume] = useState(1);
+  const [playbackRate, setPlaybackRate] = useState(1);
   const [volumeOpen, setVolumeOpen] = useState(false);
   const volumeId = useId();
   const volumeRef = useRef<HTMLDivElement | null>(null);
@@ -315,7 +317,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
               onEnded={current ? () => { if (cover && autoTurn) { setPlaying(false); setCoverNarrationEnded(true); } else finishPage(); } : undefined}
               onPause={current ? () => setPlaying(false) : undefined}
               onPlay={current ? () => { setPlaying(true); setAudioError(""); } : undefined}
-              ref={audio => { if (audio) audio.volume = volume; if (current) audioRef.current = audio; }}
+              ref={audio => { if (audio) { audio.volume = volume; audio.playbackRate = playbackRate; } if (current) audioRef.current = audio; }}
               src={source && retry ? `${source}${source.includes("?") ? "&" : "?"}retry=${retry}` : source} />;
           })}
           <footer className={styles.footer}>
@@ -342,6 +344,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {layouts.map(item => <button key={item.value} aria-pressed={activeLayout === item.value} disabled={Boolean(book?.isSpread && item.value === "side")} title={book?.isSpread && item.value === "side" ? "跨页绘本不支持左文右图" : undefined} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-40 ${activeLayout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(pictureBookPlaybackLayout(item.value, book?.isSpread))} type="button"><item.icon className="size-7" />{item.label}</button>)}
         </div></fieldset>
+        <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-playback-rate" className="mb-3 block text-sm font-semibold">语速</label><select id="reader-playback-rate" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={playbackRate} onChange={event => { const rate = Number(event.target.value); if (audioRef.current) audioRef.current.playbackRate = rate; setPlaybackRate(rate); }}>{playbackRates.map(rate => <option key={rate} value={rate}>{rate === 2 ? "2.0" : rate} 倍</option>)}</select></div>
         {availableLanguages.length ? <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-language" className="mb-3 block text-sm font-semibold">语音语种</label><select id="reader-language" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={language} onChange={event => { audioRef.current?.pause(); setPlaying(false); setCoverNarrationEnded(false); setLanguage(event.target.value); }}><option value="original">原文</option>{availableLanguages.map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}</select></div> : null}
         {activeLayout === "subtitle" && availableLanguages.length > 0 ? <div className="mt-4 flex items-center justify-between rounded-2xl bg-background p-5"><span id="reader-bilingual-label" className="text-sm font-semibold">双语字幕</span><button role="switch" aria-labelledby="reader-bilingual-label" aria-checked={bilingualSubtitles} disabled={language === "original"} className={`h-6 w-11 rounded-full p-0.5 transition-colors disabled:opacity-40 ${bilingualSubtitles ? "bg-primary" : "bg-black/20"}`} onClick={() => setBilingualSubtitles(!bilingualSubtitles)} type="button"><span className={`block size-5 rounded-full bg-white transition-transform ${bilingualSubtitles ? "translate-x-5" : "translate-x-0"}`} /></button></div> : null}
         <div className="mt-4 flex items-center justify-between rounded-2xl bg-background p-5"><span id="reader-auto-turn-label" className="text-sm font-semibold">自动翻页</span><button role="switch" aria-labelledby="reader-auto-turn-label" aria-checked={autoTurn} className={`h-6 w-11 rounded-full p-0.5 transition-colors ${autoTurn ? "bg-primary" : "bg-black/20"}`} onClick={() => setAutoTurn(!autoTurn)} type="button"><span className={`block size-5 rounded-full bg-white transition-transform ${autoTurn ? "translate-x-5" : "translate-x-0"}`} /></button></div>
