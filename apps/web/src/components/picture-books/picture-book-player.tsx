@@ -8,6 +8,7 @@ import { publishLearningContext, publishLearningEvent } from "@/components/learn
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { pictureBookPageRatio, pictureBookPlaybackLayout, pictureBookInitialLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
+import { PictureBookSourceStatement } from "./picture-book-source-statement";
 import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
 import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookPageContent, type PictureBookTranslation } from "@/lib/picture-book-languages";
@@ -269,7 +270,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
         {book?.source?.name ? <div className={styles.source}>
           {book.source.url ? <a className={styles.sourceLink} href={book.source.url} target="_blank" rel="noopener noreferrer" aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</a> : <span className={styles.sourceLink} tabIndex={0} aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</span>}
-          {book.source.statement ? <><button type="button" className={styles.sourceInfo} aria-label="查看来源声明" aria-expanded={sourceOpen} aria-controls={sourceId} onClick={() => setSourceOpen(!sourceOpen)}><Info size={18} /></button><div id={sourceId} role="tooltip" className={styles.sourceTooltip} data-open={sourceOpen}>{book.source.statement}</div></> : null}
+          {book.source.statement ? <><button type="button" className={styles.sourceInfo} aria-label="查看来源声明" aria-expanded={sourceOpen} aria-controls={sourceId} onClick={() => setSourceOpen(!sourceOpen)}><Info size={18} /></button><div id={sourceId} role="region" aria-label="来源声明" className={styles.sourceTooltip} data-open={sourceOpen}><PictureBookSourceStatement text={book.source.statement} /></div></> : null}
         </div> : <span aria-hidden="true" />}
       </header>
       {fullscreen ? <button className={styles.closePlayer} aria-label="关闭播放并返回" title="关闭播放并返回" onClick={() => void closePlayer()} type="button"><X /></button> : null}
