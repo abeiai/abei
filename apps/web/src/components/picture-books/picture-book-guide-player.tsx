@@ -68,7 +68,7 @@ export function PictureBookGuidePlayer({ guide, initialPage, onClose }: { guide:
         <div className={styles.stage}>
           <article className={styles.sheet} data-layout={layout} data-cover={display.cover} aria-label={display.label}>
             <div className={styles.artwork}><img src={page.imageUrl} alt={`${guide.title}${display.label}`} className={styles.image} onLoad={event => { const image = event.currentTarget; if (image.naturalWidth && image.naturalHeight) setImageRatio(image.naturalWidth / image.naturalHeight); }} /></div>
-            {display.text && !display.cover ? <div className={layout === "hidden" ? "sr-only" : styles.caption}><p>{display.text}</p></div> : null}
+            {display.text && !display.cover ? <div className={layout === "hidden" ? "sr-only" : styles.caption} tabIndex={layout === "subtitle" ? 0 : undefined}><p>{display.text}</p></div> : null}
           </article>
           <button type="button" aria-label="上一页" className={`${styles.pageArrow} ${styles.previous}`} disabled={index === 0} onClick={() => goTo(index - 1)}><ChevronLeft /></button>
           <button type="button" aria-label="下一页" className={`${styles.pageArrow} ${styles.next}`} disabled={index === guide.pages.length - 1} onClick={() => goTo(index + 1)}><ChevronRight /></button>

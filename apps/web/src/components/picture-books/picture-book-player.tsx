@@ -299,7 +299,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
                   </div>
                 ) : null}
               </div>
-              {activeCaption && !cover ? <div className={activeLayout === "hidden" ? "sr-only" : styles.caption}><p lang={activeContent?.language}>{activeCaption}</p>{activeLayout === "subtitle" && bilingualSubtitles && activeContent?.language ? <p className="mt-1 text-[0.85em] opacity-80">{activeContent.originalCaption}</p> : null}</div> : null}
+              {activeCaption && !cover ? <div className={activeLayout === "hidden" ? "sr-only" : styles.caption} tabIndex={activeLayout === "subtitle" ? 0 : undefined}><p lang={activeContent?.language}>{activeCaption}</p>{activeLayout === "subtitle" && bilingualSubtitles && activeContent?.language ? <p className="mt-1 text-[0.9em]">{activeContent.originalCaption}</p> : null}</div> : null}
             </article>
             <button aria-label="上一页" className={`${styles.pageArrow} ${styles.previous}`} disabled={index === 0 || Boolean(pageTurn)} onClick={() => turnTo(index - 1)} type="button"><ChevronLeft /></button>
             <button aria-label="下一页" className={`${styles.pageArrow} ${styles.next}`} disabled={index === pages.length - 1 || Boolean(pageTurn)} onClick={() => turnTo(index + 1)} type="button"><ChevronRight /></button>
