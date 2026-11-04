@@ -1,6 +1,28 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, pictureBookTranslationBaseline } from "../src/lib/picture-book-background.js";
+import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, pictureBookPageChanges, pictureBookPageSavePlan, pictureBookTranslationBaseline } from "../src/lib/picture-book-background.js";
+
+test("旧绘本缺少可选字段时，打开编排不会产生待保存修改", () => {
+  assert.deepEqual(pictureBookPageChanges(
+    { caption: "故事", imagePrompt: null, narration: undefined },
+    { caption: "故事", imagePrompt: "", narration: "" }
+  ), {});
+});
+
+test("保存绘本文字时只发送实际修改的字段，避免提交未填写的空字段", () => {
+  assert.deepEqual(pictureBookPageChanges(
+    { caption: "", imagePrompt: "", narration: "" },
+    { caption: "新文字", imagePrompt: "", narration: "新文字" }
+  ), { caption: "新文字", narration: "新文字" });
+});
+
+test("排队保存按前一次保存结果比较，保留等待期间改回原值的编辑", async () => {
+  let finishFirst!: (page: { caption: string; imagePrompt: string; narration: string }) => void;
+  const pending = new Promise<{ caption: string; imagePrompt: string; narration: string }>(resolve => { finishFirst = resolve; });
+  const next = pending.then(page => pictureBookPageSavePlan(page, { caption: "原文", imagePrompt: "新提示", narration: "讲解" }));
+  finishFirst({ caption: "第一次保存", imagePrompt: "旧提示", narration: "讲解" });
+  assert.deepEqual(await next, { pageChanges: { caption: "原文", imagePrompt: "新提示" }, translationsDirty: false });
+});
 
 test("后台图片和语音结果只更新发起页，保留其他页及绘本的修改", () => {
   const editing = { position: 2, caption: "编辑中的新内容", imageUrl: null as string | null, audioUrl: null as string | null };

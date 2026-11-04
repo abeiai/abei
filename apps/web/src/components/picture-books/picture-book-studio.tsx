@@ -14,7 +14,7 @@ import type { PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
 import { PictureBookAudio } from "./picture-book-audio";
 import { pictureBookLanguageChoices, pictureBookLanguageName } from "@/lib/picture-book-languages";
-import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, pictureBookTranslationBaseline, type PictureBookPageDraft } from "@/lib/picture-book-background";
+import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, pictureBookPageSavePlan, pictureBookTranslationBaseline, type PictureBookPageDraft } from "@/lib/picture-book-background";
 import { loadPictureBookStyles, selectedPictureBookStyle, type PictureBookStyle } from "@/lib/picture-book-styles";
 import { PictureBookStylePicker } from "./picture-book-style-picker";
 import { PictureBookRatioPicker, type PictureBookAspectRatio } from "./picture-book-ratio-picker";
@@ -118,7 +118,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   const conversationRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(1);
   const [pageDrafts, setPageDrafts] = useState<Record<string, PictureBookPageDraft>>({});
-  const saveQueueRef = useRef(new Map<string, Promise<Book | null>>());
+  const saveQueueRef = useRef(new Map<string, Promise<{ book: Book; translationsSaved: boolean } | null>>());
   const [busy, setBusy] = useState("");
   const [generationKeys, setGenerationKeys] = useState<string[]>([]);
   const generationRef = useRef(new Set<string>());
@@ -188,8 +188,8 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   }
   const imagePending = Boolean(book && generationKeys.includes(pictureBookGenerationKey(book.id, position, "image")));
   const audioPending = Boolean(book && generationKeys.includes(pictureBookGenerationKey(book.id, position, "audio")));
-  const translationsDirty = JSON.stringify(draft.translations ?? []) !== JSON.stringify(savedTranslations);
-  const dirty = Boolean(page && (draft.caption !== page.caption || draft.imagePrompt !== page.imagePrompt || draft.narration !== page.narration || translationsDirty));
+  const pagePlan = page ? pictureBookPageSavePlan(page, draft) : null;
+  const dirty = Boolean(page && (Object.keys(pagePlan!.pageChanges).length > 0 || pagePlan!.translationsDirty || (saveQueueRef.current.has(draftKey) && pageDrafts[draftKey])));
   const remainingLanguages = pictureBookLanguageChoices.filter(item => !draft.translations?.some(translation => translation.language === item.code));
   const addLanguage = remainingLanguages.some(item => item.code === newLanguage) ? newLanguage : remainingLanguages[0]?.code ?? "";
   const hasUnsavedDrafts = Object.keys(pageDrafts).length > 0;
@@ -308,18 +308,26 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   async function savePage(): Promise<Book | null> {
     if (!book || !page) return null;
     const pending = saveQueueRef.current.get(draftKey);
-    if (!dirty) return pending ?? book;
-    const save = (pending ?? Promise.resolve(null)).catch(() => null).then(async () => {
+    if (!dirty && !pending) return book;
+    const save = (pending ?? Promise.resolve(null)).catch(() => null).then(async previous => {
+      const basePage = previous?.book.pages.find(item => item.position === position) ?? page;
+      const nextPlan = pictureBookPageSavePlan(basePage, draft);
+      const { pageChanges } = nextPlan;
+      const translationsDirty = previous?.translationsSaved ? nextPlan.translationsDirty : Boolean(pagePlan?.translationsDirty);
+      if (!Object.keys(pageChanges).length && !translationsDirty) {
+        setPageDrafts(current => acknowledgePictureBookDraft(current, draftKey, draft));
+        return previous ?? { book, translationsSaved: false };
+      }
       const updated = await api<Book>(`/${book.id}/pages/${position}`, "PATCH", {
-        caption: draft.caption, imagePrompt: draft.imagePrompt, narration: draft.narration,
-        ...(translationsDirty ? { translations: draft.translations ?? [], expectedTranslations: pictureBookTranslationBaseline(draft, page.translations ?? []) } : {})
+        ...pageChanges,
+        ...(translationsDirty ? { translations: draft.translations ?? [], expectedTranslations: pictureBookTranslationBaseline(previous?.translationsSaved ? undefined : draft, basePage.translations ?? []) } : {})
       });
       const saved = updated.pages.find(item => item.position === position);
       setBook(current => patchPictureBookPage(current, book.id, position, {
-        ...draft,
+        ...pageChanges,
         translations: saved?.translations ?? [],
-        ...(draft.imagePrompt !== page.imagePrompt ? { imageUrl: saved?.imageUrl ?? null } : {}),
-        ...(draft.narration !== page.narration ? { audioUrl: saved?.audioUrl ?? null } : {})
+        ...(pageChanges.imagePrompt !== undefined ? { imageUrl: saved?.imageUrl ?? null } : {}),
+        ...(saved && (pageChanges.narration !== undefined || pageChanges.caption !== undefined) ? { narration: saved.narration, audioUrl: saved.audioUrl } : {})
       }));
       setPageDrafts(current => {
         const remaining = acknowledgePictureBookDraft(current, draftKey, draft);
@@ -327,12 +335,12 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
         return remaining;
       });
       setNotice(`${position === 0 ? "封面" : `第 ${position} 页`}修改已保存。`);
-      return updated;
+      return { book: updated, translationsSaved: Boolean(previous?.translationsSaved || translationsDirty) };
     });
     saveQueueRef.current.set(draftKey, save);
     const clear = () => { if (saveQueueRef.current.get(draftKey) === save) saveQueueRef.current.delete(draftKey); };
     void save.then(clear, clear);
-    return save;
+    return (await save)?.book ?? null;
   }
 
   async function runPageGeneration(kind: "image" | "audio", payload: Record<string, unknown>, language?: string) {
