@@ -845,9 +845,20 @@ model PictureBook {
   revisionItems CourseRevisionItem[]
   materialPublication CourseMaterialPublication?
   submission PictureBookSubmission?
+  edition PictureBookEdition?
 
   @@index([userId, updatedAt])
   @@map("picture_books")
+}
+
+model PictureBookEdition {
+  pictureBookId String @id
+  groupKey      String
+  language      String
+  pictureBook   PictureBook @relation(fields: [pictureBookId], references: [id], onDelete: Cascade)
+
+  @@unique([groupKey, language])
+  @@map("picture_book_editions")
 }
 
 model PictureBookSubmission {

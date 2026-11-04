@@ -181,7 +181,13 @@ export class PictureBookSubmissionService {
     const row = await this.published(pictureBookId);
     const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot);
     const publicMediaBaseUrl = this.publicMediaBaseUrl();
-    return { ...book, ...(row.publishedSourceInfo ? { source: row.publishedSourceInfo } : {}), ...(publicMediaBaseUrl ? { publicMediaBaseUrl } : {}), pages: book.pages.map(page => ({
+    const edition = await this.prisma.pictureBookEdition.findUnique({ where: { pictureBookId: row.pictureBookId } });
+    const siblings = edition ? await this.prisma.pictureBookEdition.findMany({
+      where: { groupKey: edition.groupKey, pictureBook: { submission: { is: { publishedAt: { not: null }, publishedCoverUrl: { not: null } } } } },
+      select: { pictureBookId: true, language: true }, orderBy: { language: "asc" }
+    }) : [];
+    const editions = siblings.map(item => ({ id: item.pictureBookId, language: item.language, href: publicPictureBookHref(item.pictureBookId), current: item.pictureBookId === row.pictureBookId }));
+    return { ...book, editions, ...(row.publishedSourceInfo ? { source: row.publishedSourceInfo } : {}), ...(publicMediaBaseUrl ? { publicMediaBaseUrl } : {}), pages: book.pages.map(page => ({
       ...page,
       imageUrl: page.imageUrl ? this.publicMediaUrl(page.imageUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/image` : null,
       audioUrl: page.audioUrl ? this.publicMediaUrl(page.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio` : null,

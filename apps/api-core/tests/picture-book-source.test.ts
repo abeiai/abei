@@ -9,7 +9,7 @@ test("公开播放只显示已发布版本的来源信息", async () => {
     pictureBookId: "book", publishedSnapshot: { title: "书", pages: [] },
     sourceInfo: { name: "待审核", url: "https://draft.example", iconUrl: "", statement: "草稿" },
     publishedSourceInfo: { name: "Book Dash", url: "https://bookdash.org/", iconUrl: "/api/media/files/logo.png", statement: "已发布声明" }
-  }) } } });
+  }) }, pictureBookEdition: { findUnique: async () => null } } });
   const result = await service.publicBook("book");
   assert.deepEqual(result.source, { name: "Book Dash", url: "https://bookdash.org/", iconUrl: "/api/media/files/logo.png", statement: "已发布声明" });
 });

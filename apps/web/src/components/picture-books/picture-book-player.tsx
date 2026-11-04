@@ -12,12 +12,13 @@ import { PictureBookSourceStatement } from "./picture-book-source-statement";
 import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
 import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookPageContent, type PictureBookTranslation } from "@/lib/picture-book-languages";
+import { pictureBookEditionOptions, type PictureBookEdition } from "@/lib/picture-book-editions";
 import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden" };
-type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; pages: Page[] };
+type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; editions?: PictureBookEdition[]; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
@@ -119,6 +120,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const pages = book?.pages ?? [];
   const page = pages[index];
   const availableLanguages = pictureBookAvailableLanguages(pages);
+  const editionOptions = pictureBookEditionOptions(book?.editions ?? []);
   const activeContent = page ? pictureBookPageContent(page, language) : null;
   const activeAudioUrl = activeContent?.audioUrl;
   const activeAudioFallback = page ? audioFallbackKeys.has(`${activeBookId}-${activeRevisionItemId ?? ""}-${page.position}-${language}`) : false;
@@ -270,10 +272,13 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       <header className={styles.header}>
         <Link className={styles.back} href={returnHref}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
         <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
+        <div className={styles.headerTools}>
+        {editionOptions.length ? <select aria-label="绘本语种" className={styles.editionSelect} value={editionOptions.find(item => item.current)?.id} onChange={event => { const target = editionOptions.find(item => item.id === event.target.value); if (target && !target.current) window.location.assign(target.href); }}>{editionOptions.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select> : null}
         {book?.source?.name ? <div className={styles.source}>
           {book.source.url ? <a className={styles.sourceLink} href={book.source.url} target="_blank" rel="noopener noreferrer" aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</a> : <span className={styles.sourceLink} tabIndex={0} aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</span>}
           {book.source.statement ? <><button type="button" className={styles.sourceInfo} aria-label="查看来源声明" aria-expanded={sourceOpen} aria-controls={sourceId} onClick={() => setSourceOpen(!sourceOpen)}><Info size={18} /></button><div id={sourceId} role="region" aria-label="来源声明" className={styles.sourceTooltip} data-open={sourceOpen}><PictureBookSourceStatement text={book.source.statement} /></div></> : null}
-        </div> : <span aria-hidden="true" />}
+        </div> : null}
+        </div>
       </header>
       {fullscreen ? <button className={styles.closePlayer} aria-label="关闭播放并返回" title="关闭播放并返回" onClick={() => void closePlayer()} type="button"><X /></button> : null}
 
