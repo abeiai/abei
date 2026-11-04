@@ -10,14 +10,16 @@ import { PictureBookTextOverlay } from "./picture-book-text-overlay";
 type Props = {
   bookId: string; position: number; imageUrl: string; initial?: PictureBookTextLayout;
   legacyCaption: string; voiceKey: string; voiceOptions: VoicePickerOption[]; onVoiceChange: (value: string) => void; onClose: () => void; onSaved: (layout: PictureBookTextLayout) => void;
+  previous: number | null; next: number | null; onNavigate: (position: number) => void;
   save: (layout: PictureBookTextLayout, baseline: string) => Promise<PictureBookTextLayout>;
   generate: (language: string, selectedVoice: string, narration: string) => Promise<PictureBookTextLayout | null>;
 };
 const input = "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm";
 const button = "rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium hover:bg-secondary disabled:opacity-50";
-export function PictureBookTextEditor({ bookId, position, imageUrl, initial, legacyCaption, voiceKey, voiceOptions, onVoiceChange, onClose, onSaved, save, generate }: Props) {
+export function PictureBookTextEditor({ bookId, position, imageUrl, initial, legacyCaption, voiceKey, voiceOptions, onVoiceChange, onClose, onSaved, previous, next, onNavigate, save, generate }: Props) {
   const [layout, setLayout] = useState<PictureBookTextLayout>(initial ?? { enabled: false, versions: [{ language: "original", boxes: [], audioUrl: null }] });
   const [baseline, setBaseline] = useState(JSON.stringify(initial ?? null));
+  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initial ?? { enabled: false, versions: [{ language: "original", boxes: [], audioUrl: null }] }));
   const [language, setLanguage] = useState("original");
   const [selected, setSelected] = useState("");
   const [newLanguage, setNewLanguage] = useState("en");
@@ -26,8 +28,7 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, leg
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [ratio, setRatio] = useState(1);
-  const dialog = useRef<HTMLDialogElement>(null);
-  useEffect(() => { if (dialog.current && !dialog.current.open) dialog.current.showModal(); }, []);
+  const leaving = useRef(false);
   const canvas = useRef<HTMLDivElement>(null);
   const drag = useRef<{ id: string; startX: number; startY: number; x: number; y: number } | null>(null);
   const resize = useRef<{ startX: number; startY: number; width: number; height: number } | null>(null);
@@ -36,7 +37,13 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, leg
   const version = layout.versions.find(item => item.language === language);
   const boxes = version?.boxes ?? [];
   const box = boxes.find(item => item.id === selected);
-  const dirty = JSON.stringify(layout) !== baseline;
+  const dirty = JSON.stringify(layout) !== savedSnapshot;
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (event: BeforeUnloadEvent) => { if (!leaving.current) { event.preventDefault(); event.returnValue = ""; } };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
   useEffect(() => {
     const check = () => { const node = editorText.current; setOverflow(Boolean(node && (node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1))); };
     const frame = requestAnimationFrame(check);
@@ -50,22 +57,27 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, leg
     updateBoxes([...boxes, { id, text, x: .1, y: .1 + (boxes.length % 6) * .1, width: .5, height: .2, fontSize: 32, fontFamily: "sans", color: "#222222", bold: false, align: "left", lineHeight: 1.5, speak: true, zIndex: 0 }]); setSelected(id);
   }
   function reorder(index: number, delta: number) { const next = [...boxes]; const target = index + delta; if (target < 0 || target >= next.length) return; [next[index], next[target]] = [next[target]!, next[index]!]; updateBoxes(next); }
-  async function persist(): Promise<PictureBookTextLayout> { const saved = await save(layout, baseline); setLayout(saved); setBaseline(JSON.stringify(saved)); onSaved(saved); return saved; }
+  async function persist(): Promise<PictureBookTextLayout> { const saved = await save(layout, baseline); setLayout(saved); setBaseline(JSON.stringify(saved)); setSavedSnapshot(JSON.stringify(saved)); onSaved(saved); return saved; }
   async function doSave() { setPending(true); setError(""); try { await persist(); setNotice("图文编排已保存"); } catch (cause) { setError(cause instanceof Error ? cause.message : "保存失败"); } finally { setPending(false); } }
   async function doGenerate() {
     if (!layout.enabled) { setError("请先开启图文编排"); return; }
     if (!layoutNarration(boxes)) { setError("请先选择并填写要配音的文本框"); return; }
     setPending(true); setError("");
-    try { await persist(); const updated = await generate(language, version?.voiceKey ?? voiceKey, layoutNarration(boxes)); if (updated) { setLayout(updated); setBaseline(JSON.stringify(updated)); onSaved(updated); setNotice("语音已生成"); } }
+    try { await persist(); const updated = await generate(language, version?.voiceKey ?? voiceKey, layoutNarration(boxes)); if (updated) { setLayout(updated); setBaseline(JSON.stringify(updated)); setSavedSnapshot(JSON.stringify(updated)); onSaved(updated); setNotice("语音已生成"); } }
     catch (cause) { setError(cause instanceof Error ? cause.message : "语音生成失败"); } finally { setPending(false); }
   }
-  function close() { if (dirty && !window.confirm("图文编排尚未保存，确定关闭吗？")) return; onClose(); }
+  function close() { if (dirty && !window.confirm("图文编排尚未保存，确定返回吗？")) return; leaving.current = true; onClose(); }
+  async function navigate(target: number) {
+    setPending(true); setError("");
+    try { if (dirty) await persist(); leaving.current = true; onNavigate(target); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "保存失败，请重试"); setPending(false); }
+  }
   function addLanguage() {
     if (layout.versions.some(item => item.language === newLanguage)) { setLanguage(newLanguage); return; }
     setLayout(current => ({ ...current, versions: [...current.versions, { language: newLanguage, boxes: copyLayout ? boxes.map(item => ({ ...item, id: crypto.randomUUID(), text: "" })) : [], audioUrl: null }] })); setLanguage(newLanguage); setNewLanguage(pictureBookLanguageChoices.find(item => item.code !== newLanguage && !layout.versions.some(version => version.language === item.code))?.code ?? newLanguage); setSelected("");
   }
-  return <dialog ref={dialog} aria-label="图文编排" onCancel={event => { event.preventDefault(); if (!pending) close(); }} className="fixed inset-0 z-[100] m-0 flex h-dvh max-h-none w-screen max-w-none flex-col border-0 bg-[#f6f6f5] p-0 text-foreground">
-    <header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><h2 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h2><label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={pending} checked={layout.enabled} onChange={event => setLayout({ ...layout, enabled: event.target.checked })} />开启图文编排</label><span className="ml-auto text-sm text-muted-foreground">{dirty ? "未保存" : "已保存"}</span><button type="button" className={button} disabled={pending} onClick={() => void doSave()}>保存</button><button type="button" className={button} disabled={pending} onClick={close}>关闭</button></header>
+  return <main aria-label="图文编排" className="flex h-dvh min-h-0 w-full flex-col bg-[#f6f6f5] text-foreground">
+    <header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><button type="button" className={button} disabled={pending} onClick={close}>返回绘本</button><h1 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h1><button type="button" className={button} disabled={pending || previous === null} onClick={() => previous !== null && void navigate(previous)}>上一页</button><button type="button" className={button} disabled={pending || next === null} onClick={() => next !== null && void navigate(next)}>下一页</button><label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={pending} checked={layout.enabled} onChange={event => setLayout({ ...layout, enabled: event.target.checked })} />开启图文编排</label><span className="ml-auto text-sm text-muted-foreground">{dirty ? "未保存" : "已保存"}</span><button type="button" className={button} disabled={pending || !dirty} onClick={() => void doSave()}>保存</button></header>
     {(error || (!dirty && notice)) && <div role={error ? "alert" : "status"} className={`px-5 py-2 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>{error || notice}</div>}
     <fieldset disabled={pending} className="grid min-h-0 min-w-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-[minmax(0,1fr)_360px] lg:overflow-hidden">
       <section className="flex min-h-[55vh] flex-col overflow-auto p-4 lg:min-h-0 lg:p-6"><div className="mb-3 flex flex-wrap items-center gap-3"><button type="button" className={button} onClick={() => addBox()}>添加文本框</button>{legacyCaption && language === "original" ? <button type="button" className={button} onClick={() => addBox(legacyCaption)}>导入原有展示文字</button> : null}<span className="text-sm text-muted-foreground">拖动文本框顶部移动位置</span></div>
@@ -85,5 +97,5 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, leg
         <div className="space-y-3 border-t pt-4"><h3 className="font-semibold">当前语言配音</h3><VoicePicker label="讲解声音" value={version?.voiceKey ?? voiceKey} voices={voiceOptions} onChange={value => { setLayout(current => ({ ...current, versions: current.versions.map(item => item.language === language ? withLayoutVoice(item, value) : item) })); onVoiceChange(value); }} />{version?.audioUrl && !dirty ? <audio controls className="w-full" src={pictureBookPageAudioSource(bookId, position, version.audioUrl, "private", language === "original" ? undefined : language)} /> : null}<button type="button" className={button} disabled={pending} onClick={() => void doGenerate()}>{pending ? "处理中…" : version?.audioUrl ? "重新生成语音" : "生成语音"}</button></div>
       </aside>
     </fieldset>
-  </dialog>;
+  </main>;
 }

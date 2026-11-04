@@ -8,8 +8,8 @@ import { ArrowLeft, ArrowRight, BookOpen, ChevronLeft, ChevronRight, History, Im
 import { pictureBookPageImageSource, waitForPictureBookImage } from "@/lib/picture-book-images";
 import { publicPictureBookHref } from "@/lib/picture-book-public-slug";
 import { PictureBookImage } from "./picture-book-image";
-import { PictureBookTextEditor } from "./picture-book-text-editor";
 import { PictureBookTextOverlay } from "./picture-book-text-overlay";
+import { pictureBookLayoutHref, pictureBookStudioHref } from "@/lib/picture-book-layout-navigation";
 import type { PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
 import { PictureBookAudio } from "./picture-book-audio";
@@ -86,7 +86,7 @@ function Field({ label, value, onChange, rows = 3, placeholder, maxLength, readO
   return <label className="block space-y-2"><span className="text-sm font-semibold text-[#272a30]">{label}</span><textarea value={value} onChange={(event) => onChange(event.target.value)} readOnly={readOnly} rows={rows} maxLength={maxLength} placeholder={placeholder} className="w-full resize-y rounded-xl border border-[#e8e6e3] bg-white px-3 py-3 text-sm leading-6 outline-none transition focus:border-[#ff8c55] focus:ring-2 focus:ring-[#ff8c55]/15 read-only:bg-[#f8f7f5]" /></label>;
 }
 
-export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "", returnPath = "/storybook" }: { signedIn: boolean; initialBookId: string; initialPrompt?: string; returnPath?: string }) {
+export function PictureBookStudio({ signedIn, initialBookId, initialPosition = null, initialPrompt = "", returnPath = "/storybook" }: { signedIn: boolean; initialBookId: string; initialPosition?: number | null; initialPrompt?: string; returnPath?: string }) {
   const generationConfirmation = usePictureBookGenerationConfirmation();
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [book, setBook] = useState<Book | null>(null);
@@ -118,6 +118,8 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   const conversationRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(1);
   const [pageDrafts, setPageDrafts] = useState<Record<string, PictureBookPageDraft>>({});
+  const pageDraftsRef = useRef(pageDrafts);
+  pageDraftsRef.current = pageDrafts;
   const saveQueueRef = useRef(new Map<string, Promise<{ book: Book; translationsSaved: boolean } | null>>());
   const [busy, setBusy] = useState("");
   const [generationKeys, setGenerationKeys] = useState<string[]>([]);
@@ -125,7 +127,6 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [preview, setPreview] = useState(false);
-  const [textEditorOpen, setTextEditorOpen] = useState(false);
   const [previewPosition, setPreviewPosition] = useState(1);
   const [previewLanguage, setPreviewLanguage] = useState("original");
   const [previewRatio, setPreviewRatio] = useState(1);
@@ -133,13 +134,14 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
   const [loading, setLoading] = useState(signedIn);
   const leavingRef = useRef(false);
 
-  const openBook = useCallback(async (id: string) => {
+  const openBook = useCallback(async (id: string, requestedPosition: number | null = null) => {
     const loaded = await api<Book>(`/${id}`);
     setBook(loaded);
     setChatInput("");
-    setPosition(loaded.pages[0]?.position ?? 1);
+    const position = requestedPosition !== null && loaded.pages.some(page => page.position === requestedPosition) ? requestedPosition : loaded.pages[0]?.position ?? 1;
+    setPosition(position);
     setPreview(false);
-    window.history.replaceState(null, "", `/storybook?book=${loaded.id}`);
+    window.history.replaceState(null, "", pictureBookStudioHref(loaded.id, position));
   }, []);
 
   useEffect(() => {
@@ -160,12 +162,12 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
         setStyle(list.find(item => item.enabled && item.id === "watercolor")?.id ?? list.find(item => item.enabled)!.id);
       } else setError(results[4].reason instanceof Error ? results[4].reason.message : "绘画风格加载失败");
       if (initialBookId) {
-        try { await openBook(initialBookId); } catch (cause) { if (active) setError(cause instanceof Error ? cause.message : "作品加载失败"); }
+        try { await openBook(initialBookId, initialPosition); } catch (cause) { if (active) setError(cause instanceof Error ? cause.message : "作品加载失败"); }
       }
       if (active) setLoading(false);
     });
     return () => { active = false; };
-  }, [signedIn, initialBookId, openBook]);
+  }, [signedIn, initialBookId, initialPosition, openBook]);
 
   useEffect(() => {
     const conversation = conversationRef.current;
@@ -305,6 +307,22 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
     await run("preview", async () => { await savePage(); setPreviewPosition(book?.pages[0]?.position ?? 1); setPreview(true); });
   }
 
+  async function openTextLayout() {
+    if (!book || !page) return;
+    await run("text-layout", async () => {
+      const otherDrafts = () => Object.keys(pageDraftsRef.current).some(key => key !== draftKey) || [...saveQueueRef.current.keys()].some(key => key !== draftKey);
+      if (otherDrafts()) throw new Error("其他页面还有未保存的修改，请先保存后再打开图文编排");
+      const updated = await savePage();
+      const savedPage = updated?.pages.find(item => item.position === position);
+      if (!savedPage?.imageUrl) throw new Error("请先生成或上传本页图片");
+      const latestDraft = pageDraftsRef.current[draftKey];
+      const latestPlan = latestDraft ? pictureBookPageSavePlan(savedPage, latestDraft) : null;
+      if (otherDrafts() || (latestPlan && (Object.keys(latestPlan.pageChanges).length > 0 || latestPlan.translationsDirty))) throw new Error("还有未保存的修改，请保存后再打开图文编排");
+      leavingRef.current = true;
+      window.location.assign(pictureBookLayoutHref(book.id, position));
+    });
+  }
+
   async function savePage(): Promise<Book | null> {
     if (!book || !page) return null;
     const pending = saveQueueRef.current.get(draftKey);
@@ -413,7 +431,6 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] text-foreground">
     {generationConfirmation.dialog}
-    {textEditorOpen && book && page?.imageUrl ? <PictureBookTextEditor key={`${book.id}-${position}`} bookId={book.id} position={position} imageUrl={pictureBookPageImageSource(book.id, position, page.imageUrl)} initial={page.textLayout} legacyCaption={page.caption} voiceKey={voiceKey} voiceOptions={voiceOptions} onVoiceChange={setVoiceKey} onClose={() => setTextEditorOpen(false)} onSaved={textLayout => setBook(current => patchPictureBookPage(current, book.id, position, { textLayout }))} save={async (textLayout, baseline) => { const updated = await api<Book>(`/${book.id}/pages/${position}`, "PATCH", { textLayout, expectedTextLayout: baseline }); const result = updated.pages.find(item => item.position === position)?.textLayout; if (!result) throw new Error("图文编排保存失败"); return result; }} generate={async (language, selectedVoice, narration) => { const voice = selectedVoice.startsWith("voice:") ? { voiceAssetId: selectedVoice.slice(6) } : selectedVoice.startsWith("system:") ? { voice: selectedVoice.slice(7) } : {}; const payload = { textLayout: true, expectedLayoutNarration: narration, ...(language === "original" ? {} : { language }), ...voice }; if (!await generationConfirmation.confirm({ label: "图文编排语音生成", path: `/${book.id}/generation-cost`, body: { kind: "audio", position, ...payload } })) return null; const updated = await api<Book>(`/${book.id}/pages/${position}/audio`, "POST", payload); const result = updated.pages.find(item => item.position === position)?.textLayout; if (!result) throw new Error("语音生成失败"); return result; }} /> : null}
     {book?.pages.length ? <header className="sticky top-[4.5rem] z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
       {book ? <button onClick={() => void leaveBook("tools")} className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</button> : <Link href="/tools" className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</Link>}
       <span className="flex size-9 items-center justify-center rounded-xl bg-[#ff7b3b] text-white"><BookOpen className="size-5" /></span>
@@ -475,7 +492,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPrompt = "",
         <div className="flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-[#e9e7e4] bg-white shadow-sm"><div className="flex flex-1 items-center justify-center bg-[#f4f3f1] p-6">{page?.imageUrl ? <div className="relative max-w-full" style={{ aspectRatio: mainRatio, width: `min(100%, ${Math.max(30, Math.min(140, 60 * mainRatio))}vh)` }}><PictureBookImage src={pictureBookPageImageSource(book.id, position, page.imageUrl)} alt={`第 ${position} 页插画`} className="absolute inset-0 h-full w-full rounded-lg object-contain shadow-md" onLoad={event => { const img = event.currentTarget; if (img.naturalHeight) setMainRatio(img.naturalWidth / img.naturalHeight); }} />{page.textLayout?.enabled ? <PictureBookTextOverlay boxes={page.textLayout.versions.find(item => item.language === "original")?.boxes ?? []} /> : null}</div> : <div className="text-center"><ImagePlus className="mx-auto size-12 text-[#c9c6c2]" /><p className="mt-4 text-sm text-gray-400">这一页还没有插画</p><Button className="mt-5" disabled={Boolean(busy) || imagePending} onClick={() => void generateImage()}><WandSparkles className="size-4" />生成本页图片</Button><label className="mx-auto mt-3 flex w-fit cursor-pointer items-center gap-2 rounded-xl border border-[#ddd9d4] bg-white px-4 py-2 text-sm">上传图片<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(busy) || imagePending} className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void uploadPageImage(file); }} /></label></div>}</div><div className="bg-[#33363b] px-5 py-4 text-center text-base leading-8 text-white">{page?.textLayout?.enabled ? "已开启图文编排" : draft.caption || "填写本页展示文字"}</div></div>
         <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-[#e9e7e4] bg-white px-4 py-3"><Button disabled={position === book.pages[0]?.position} onClick={() => void goToPage(position - 1)}><ChevronLeft className="size-4" />上一页</Button><Button disabled={position === book.pages.at(-1)?.position} onClick={() => void goToPage(position + 1)}>下一页<ChevronRight className="size-4" /></Button><span className="ml-auto flex items-center gap-2 text-sm text-gray-500"><Volume2 className="size-4" />讲解语音</span>{studioAudioUrl ? <PictureBookAudio src={pictureBookPageAudioSource(book.id, position, studioAudioUrl)} className="h-9 max-w-full md:w-56" /> : <span className="text-xs text-gray-400">尚未生成</span>}</div>
       </section>
-      <aside className="max-h-[calc(100vh-105px)] space-y-5 overflow-y-auto rounded-2xl border border-[#e9e7e4] bg-white p-5"><div className="flex items-center justify-between"><h2 className="font-semibold">本页设置</h2><span className="text-xs text-gray-400">{book.aspectRatio} · {selectedPictureBookStyle(book.style, styleChoices)?.name ?? book.style}</span></div><PictureBookStylePicker value={book.style} styles={styleChoices} onStylesChange={setStyleChoices} disabled={Boolean(busy)} onChange={value => void run("settings", () => saveBook({ style: value }))} /><PictureBookRatioPicker value={book.aspectRatio} disabled={Boolean(busy)} onChange={value => void run("settings", () => saveBook({ aspectRatio: value }))} /><SpreadSelect value={book.isSpread ?? false} disabled={Boolean(busy)} onChange={changeSpread} /><details className="rounded-xl border border-[#eee9e4] bg-[#faf8f6] p-3 text-sm"><summary className="cursor-pointer font-semibold">故事概要</summary><div className="mt-3 space-y-2 leading-6 text-gray-600"><p><strong className="text-[#26282d]">主题：</strong>{book.theme || book.brief}</p><p><strong className="text-[#26282d]">适合：</strong>{book.audience || "未指定"}</p><p><strong className="text-[#26282d]">情节：</strong>{book.plot || book.brief}</p></div></details><Button className="w-full" disabled={!page?.imageUrl || Boolean(busy)} onClick={() => void run("text-layout", async () => { await savePage(); setTextEditorOpen(true); })}>图文编排{page?.textLayout?.enabled ? " · 已开启" : ""}</Button><Field label="画面展示文字" value={draft.caption} onChange={(caption) => setDraft({ ...draft, caption, narration: draft.narration === draft.caption ? caption : draft.narration })} rows={3} maxLength={500} /><div className="border-t pt-5"><Field label="画面生成提示词" value={draft.imagePrompt} onChange={(imagePrompt) => setDraft({ ...draft, imagePrompt })} rows={6} maxLength={2000} /><p className="mt-1 text-xs text-gray-400">修改提示词后，已生成的插画需要重新生成。</p><Button kind="primary" className="mt-4 w-full" disabled={Boolean(busy) || imagePending} onClick={() => void generateImage()}>{imagePending ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}{imagePending ? "图片生成中" : page?.imageUrl ? "重新生成图片" : "生成图片"}</Button><label className="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#e8e6e3] px-4 py-2 text-sm font-medium"><ImagePlus className="size-4" />上传或替换图片<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(busy) || imagePending} className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void uploadPageImage(file); }} /></label></div><div className="border-t pt-5"><Field label="讲解语音文稿" value={draft.narration} onChange={(narration) => setDraft({ ...draft, narration })} rows={4} maxLength={1000} /><p className="mt-1 text-xs text-gray-400">默认与展示文字相同，可单独修改。</p><div className="mt-4"><VoicePicker label="讲解声音" value={voiceKey} voices={voiceOptions} onChange={setVoiceKey} /></div><Button className="mt-4 w-full" disabled={Boolean(busy) || audioPending || Boolean(page?.textLayout?.enabled)} onClick={() => void generateAudio()}>{audioPending ? <LoaderCircle className="size-4 animate-spin" /> : <Mic2 className="size-4" />}{audioPending ? "语音生成中" : page?.audioUrl ? "重新生成语音" : "生成讲解语音"}</Button></div><div className="border-t pt-5">
+      <aside className="max-h-[calc(100vh-105px)] space-y-5 overflow-y-auto rounded-2xl border border-[#e9e7e4] bg-white p-5"><div className="flex items-center justify-between"><h2 className="font-semibold">本页设置</h2><span className="text-xs text-gray-400">{book.aspectRatio} · {selectedPictureBookStyle(book.style, styleChoices)?.name ?? book.style}</span></div><PictureBookStylePicker value={book.style} styles={styleChoices} onStylesChange={setStyleChoices} disabled={Boolean(busy)} onChange={value => void run("settings", () => saveBook({ style: value }))} /><PictureBookRatioPicker value={book.aspectRatio} disabled={Boolean(busy)} onChange={value => void run("settings", () => saveBook({ aspectRatio: value }))} /><SpreadSelect value={book.isSpread ?? false} disabled={Boolean(busy)} onChange={changeSpread} /><details className="rounded-xl border border-[#eee9e4] bg-[#faf8f6] p-3 text-sm"><summary className="cursor-pointer font-semibold">故事概要</summary><div className="mt-3 space-y-2 leading-6 text-gray-600"><p><strong className="text-[#26282d]">主题：</strong>{book.theme || book.brief}</p><p><strong className="text-[#26282d]">适合：</strong>{book.audience || "未指定"}</p><p><strong className="text-[#26282d]">情节：</strong>{book.plot || book.brief}</p></div></details><Button className="w-full" disabled={!page?.imageUrl || Boolean(busy)} onClick={() => void openTextLayout()}>图文编排{page?.textLayout?.enabled ? " · 已开启" : ""}</Button><Field label="画面展示文字" value={draft.caption} onChange={(caption) => setDraft({ ...draft, caption, narration: draft.narration === draft.caption ? caption : draft.narration })} rows={3} maxLength={500} /><div className="border-t pt-5"><Field label="画面生成提示词" value={draft.imagePrompt} onChange={(imagePrompt) => setDraft({ ...draft, imagePrompt })} rows={6} maxLength={2000} /><p className="mt-1 text-xs text-gray-400">修改提示词后，已生成的插画需要重新生成。</p><Button kind="primary" className="mt-4 w-full" disabled={Boolean(busy) || imagePending} onClick={() => void generateImage()}>{imagePending ? <LoaderCircle className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}{imagePending ? "图片生成中" : page?.imageUrl ? "重新生成图片" : "生成图片"}</Button><label className="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#e8e6e3] px-4 py-2 text-sm font-medium"><ImagePlus className="size-4" />上传或替换图片<input type="file" accept="image/jpeg,image/png,image/webp" disabled={Boolean(busy) || imagePending} className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void uploadPageImage(file); }} /></label></div><div className="border-t pt-5"><Field label="讲解语音文稿" value={draft.narration} onChange={(narration) => setDraft({ ...draft, narration })} rows={4} maxLength={1000} /><p className="mt-1 text-xs text-gray-400">默认与展示文字相同，可单独修改。</p><div className="mt-4"><VoicePicker label="讲解声音" value={voiceKey} voices={voiceOptions} onChange={setVoiceKey} /></div><Button className="mt-4 w-full" disabled={Boolean(busy) || audioPending || Boolean(page?.textLayout?.enabled)} onClick={() => void generateAudio()}>{audioPending ? <LoaderCircle className="size-4 animate-spin" /> : <Mic2 className="size-4" />}{audioPending ? "语音生成中" : page?.audioUrl ? "重新生成语音" : "生成讲解语音"}</Button></div><div className="border-t pt-5">
         <h3 className="mb-3 text-sm font-semibold">多语种内容</h3>
         <div className="flex gap-2">
           <select aria-label="新增语种" value={addLanguage} onChange={event => setNewLanguage(event.target.value)} className="min-w-0 flex-1 rounded-xl border border-[#e8e6e3] bg-white px-3 py-2 text-sm">
