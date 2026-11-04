@@ -9,15 +9,17 @@ import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { pictureBookPageRatio, pictureBookPlaybackLayout, pictureBookInitialLayout } from "@/lib/picture-book-layout";
 import { PictureBookImage } from "./picture-book-image";
 import { PictureBookSourceStatement } from "./picture-book-source-statement";
+import { PictureBookTextOverlay } from "./picture-book-text-overlay";
+import { readerPageContent, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
-import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookPageContent, type PictureBookTranslation } from "@/lib/picture-book-languages";
+import { pictureBookAvailableLanguages, pictureBookLanguageName, type PictureBookTranslation } from "@/lib/picture-book-languages";
 import { pictureBookEditionOptions, type PictureBookEdition } from "@/lib/picture-book-editions";
 import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
-type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden" };
+type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden"; textLayout?: PictureBookTextLayout };
 type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; editions?: PictureBookEdition[]; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
@@ -53,6 +55,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [audioFallbackKeys, setAudioFallbackKeys] = useState<Set<string>>(() => new Set());
   const [layout, setLayout] = useState<typeof layouts[number]["value"] | null>(null);
   const [language, setLanguage] = useState("original");
+  const [imageRatios, setImageRatios] = useState<Record<string, number>>({});
   const [bilingualSubtitles, setBilingualSubtitles] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
@@ -119,16 +122,18 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
 
   const pages = book?.pages ?? [];
   const page = pages[index];
-  const availableLanguages = pictureBookAvailableLanguages(pages);
+  const strictLanguages = pages.some(item => item.textLayout?.enabled);
+  const availableLanguages = [...new Set([...pictureBookAvailableLanguages(pages), ...pages.flatMap(item => item.textLayout?.enabled ? item.textLayout.versions.filter(version => version.language !== "original").map(version => version.language) : [])])];
   const editionOptions = pictureBookEditionOptions(book?.editions ?? []);
-  const activeContent = page ? pictureBookPageContent(page, language) : null;
+  const activeContent = page ? readerPageContent(page, language, strictLanguages) : null;
   const activeAudioUrl = activeContent?.audioUrl;
   const activeAudioFallback = page ? audioFallbackKeys.has(`${activeBookId}-${activeRevisionItemId ?? ""}-${page.position}-${language}`) : false;
   const activeCaption = activeContent?.caption ?? "";
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
   const imageRatio = pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
-  const activeLayout = pictureBookPlaybackLayout(pictureBookInitialLayout(layout, page?.playbackLayout, page?.textInImage), book?.isSpread);
+  const layoutEnabled = page?.textLayout?.enabled === true;
+  const activeLayout = layoutEnabled ? "hidden" : pictureBookPlaybackLayout(pictureBookInitialLayout(layout, page?.playbackLayout, page?.textInImage), book?.isSpread);
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
   // Stable page keys keep the next page's downloaded media when it becomes current.
   const preloadPages = pages.slice(index, index + 2);
@@ -195,6 +200,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       const selected = album[next.album]!;
       if (selected.bookId === activeBookId && selected.revisionItemId === activeRevisionItemId) { goTo(0); return; }
       setBook(null); setError(""); setAudioError(""); setAudioRetry(0); setIndex(0);
+      setLanguage("original");
       setEntry(selected);
       window.history.replaceState(window.history.state, "", selected.href);
       return;
@@ -291,7 +297,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           <div className={styles.stage}>
             <article className={styles.sheet} data-layout={activeLayout} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
-                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
+                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} onLoad={event => { const img = event.currentTarget; if (img.naturalHeight) setImageRatios(current => ({ ...current, [`${activeBookId}:${item.position}`]: img.naturalWidth / img.naturalHeight })); }} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
+                {layoutEnabled && page.imageUrl ? <div className={styles.textCanvas} style={{ width: `min(100%, calc(100cqh * ${imageRatios[`${activeBookId}:${page.position}`] ?? imageRatio}))`, aspectRatio: imageRatios[`${activeBookId}:${page.position}`] ?? imageRatio }}><PictureBookTextOverlay boxes={page.textLayout?.versions.find(item => item.language === language)?.boxes ?? []} /></div> : null}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
                 {pageTurn && turningPage && page.imageUrl && turningPage.imageUrl ? (
                   <div className={styles.pageTurn} data-direction={pageTurn.direction} aria-hidden="true">
@@ -304,14 +311,14 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
                   </div>
                 ) : null}
               </div>
-              {activeCaption && !cover ? <div className={activeLayout === "hidden" ? "sr-only" : styles.caption} tabIndex={activeLayout === "subtitle" ? 0 : undefined}><p lang={activeContent?.language}>{activeCaption}</p>{activeLayout === "subtitle" && bilingualSubtitles && activeContent?.language ? <p className="mt-1 text-[0.9em]">{activeContent.originalCaption}</p> : null}</div> : null}
+              {!layoutEnabled && activeCaption && !cover ? <div className={activeLayout === "hidden" ? "sr-only" : styles.caption} tabIndex={activeLayout === "subtitle" ? 0 : undefined}><p lang={activeContent?.language}>{activeCaption}</p>{activeLayout === "subtitle" && bilingualSubtitles && activeContent?.language ? <p className="mt-1 text-[0.9em]">{activeContent.originalCaption}</p> : null}</div> : null}
             </article>
             <button aria-label="上一页" className={`${styles.pageArrow} ${styles.previous}`} disabled={index === 0 || Boolean(pageTurn)} onClick={() => turnTo(index - 1)} type="button"><ChevronLeft /></button>
             <button aria-label="下一页" className={`${styles.pageArrow} ${styles.next}`} disabled={index === pages.length - 1 || Boolean(pageTurn)} onClick={() => turnTo(index + 1)} type="button"><ChevronRight /></button>
           </div>
           {preloadPages.map(item => {
             const current = item.position === page.position;
-            const content = pictureBookPageContent(item, language);
+            const content = readerPageContent(item, language, strictLanguages);
             const proxySource = content.audioUrl ? pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language) : undefined;
             const directSource = content.audioUrl ? creatorPictureBookMediaSources(content.publicAudioUrl, pictureBookPageAudioSource(activeBookId, item.position, content.audioUrl, publicMode ? "public" : "private", content.language, book?.publicMediaBaseUrl)).src : undefined;
             const audioKey = `${activeBookId}-${activeRevisionItemId ?? ""}-${item.position}-${language}`;
@@ -325,6 +332,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
               ref={audio => { if (audio) { audio.volume = volume; audio.playbackRate = playbackRate; } if (current) audioRef.current = audio; }}
               src={source && retry ? `${source}${source.includes("?") ? "&" : "?"}retry=${retry}` : source} />;
           })}
+          {strictLanguages && language !== "original" && !activeCaption ? <p role="status" className="text-center text-sm text-muted-foreground">本页暂无该语言文字</p> : null}
           <footer className={styles.footer}>
             {audioError || viewError ? <div role="alert" className={styles.feedback}>{audioError || viewError}{audioError ? <button className="ml-2 underline" onClick={() => { setAudioError(""); setRunning(true); setAudioRetry(audioRetry + 1); }} type="button">重试加载</button> : null}</div> : null}
             <nav aria-label="绘本播放控制" className={styles.toolbar}>
@@ -346,11 +354,11 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       ) : null}
       <dialog ref={settingsRef} aria-labelledby="reader-settings-title" className={styles.settings} onCancel={() => setSettingsOpen(false)} onClose={() => setSettingsOpen(false)} onClick={event => { if (event.target === event.currentTarget) setSettingsOpen(false); }}>
         <div className="mb-5 flex items-center justify-between"><h2 id="reader-settings-title" className="text-lg font-semibold">播放设置</h2><button aria-label="关闭播放设置" className="flex size-9 items-center justify-center rounded-full hover:bg-black/5" onClick={() => setSettingsOpen(false)} type="button"><X className="size-5" /></button></div>
-        <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {layouts.map(item => <button key={item.value} aria-pressed={activeLayout === item.value} disabled={Boolean(book?.isSpread && item.value === "side")} title={book?.isSpread && item.value === "side" ? "跨页绘本不支持左文右图" : undefined} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-40 ${activeLayout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(pictureBookPlaybackLayout(item.value, book?.isSpread))} type="button"><item.icon className="size-7" />{item.label}</button>)}
+        <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式{layoutEnabled ? " · 当前使用图文编排" : ""}</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {layouts.map(item => <button key={item.value} aria-pressed={!layoutEnabled && activeLayout === item.value} disabled={layoutEnabled || Boolean(book?.isSpread && item.value === "side")} title={book?.isSpread && item.value === "side" ? "跨页绘本不支持左文右图" : undefined} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-40 ${!layoutEnabled && activeLayout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(pictureBookPlaybackLayout(item.value, book?.isSpread))} type="button"><item.icon className="size-7" />{item.label}</button>)}
         </div></fieldset>
         <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-playback-rate" className="mb-3 block text-sm font-semibold">语速</label><select id="reader-playback-rate" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={playbackRate} onChange={event => { const rate = Number(event.target.value); if (audioRef.current) audioRef.current.playbackRate = rate; setPlaybackRate(rate); }}>{playbackRates.map(rate => <option key={rate} value={rate}>{rate === 2 ? "2.0" : rate} 倍</option>)}</select></div>
-        {availableLanguages.length ? <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-language" className="mb-3 block text-sm font-semibold">语音语种</label><select id="reader-language" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={language} onChange={event => { audioRef.current?.pause(); setPlaying(false); setCoverNarrationEnded(false); setLanguage(event.target.value); }}><option value="original">原文</option>{availableLanguages.map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}</select></div> : null}
+        {availableLanguages.length ? <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-language" className="mb-3 block text-sm font-semibold">图文与语音语言</label><select id="reader-language" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={language} onChange={event => { audioRef.current?.pause(); setPlaying(false); setCoverNarrationEnded(false); setLanguage(event.target.value); }}><option value="original">原文</option>{availableLanguages.map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}</select></div> : null}
         {activeLayout === "subtitle" && availableLanguages.length > 0 ? <div className="mt-4 flex items-center justify-between rounded-2xl bg-background p-5"><span id="reader-bilingual-label" className="text-sm font-semibold">双语字幕</span><button role="switch" aria-labelledby="reader-bilingual-label" aria-checked={bilingualSubtitles} disabled={language === "original"} className={`h-6 w-11 rounded-full p-0.5 transition-colors disabled:opacity-40 ${bilingualSubtitles ? "bg-primary" : "bg-black/20"}`} onClick={() => setBilingualSubtitles(!bilingualSubtitles)} type="button"><span className={`block size-5 rounded-full bg-white transition-transform ${bilingualSubtitles ? "translate-x-5" : "translate-x-0"}`} /></button></div> : null}
         <div className="mt-4 flex items-center justify-between rounded-2xl bg-background p-5"><span id="reader-auto-turn-label" className="text-sm font-semibold">自动翻页</span><button role="switch" aria-labelledby="reader-auto-turn-label" aria-checked={autoTurn} className={`h-6 w-11 rounded-full p-0.5 transition-colors ${autoTurn ? "bg-primary" : "bg-black/20"}`} onClick={() => setAutoTurn(!autoTurn)} type="button"><span className={`block size-5 rounded-full bg-white transition-transform ${autoTurn ? "translate-x-5" : "translate-x-0"}`} /></button></div>
         <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-loop-mode" className="mb-3 block text-sm font-semibold">循环模式</label><select id="reader-loop-mode" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={loopMode} onChange={event => setLoopMode(event.target.value as PictureBookLoopMode)}><option value="none">不循环</option><option value="book">单本循环</option><option value="album" disabled={!albumAvailable}>多本循环{albumAvailable ? "" : "（从专辑进入后可用）"}</option></select></div>

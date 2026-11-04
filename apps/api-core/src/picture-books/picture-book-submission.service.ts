@@ -160,7 +160,7 @@ export class PictureBookSubmissionService {
       this.prisma.pictureBookSubmission.findMany({ where, orderBy: [{ publishedAt: "desc" }, { id: "desc" }], skip: (page - 1) * pageSize, take: pageSize, select: { pictureBookId: true, publishedSnapshot: true, publishedCoverUrl: true } }),
       this.prisma.pictureBookSubmission.count({ where })
     ]);
-    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl)), href: publicPictureBookHref(book.id) }; }), total, page, pageSize };
+    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl) || page.textLayout?.versions.some(item => item.audioUrl)), href: publicPictureBookHref(book.id) }; }), total, page, pageSize };
   }
 
   async albums() {
@@ -191,7 +191,8 @@ export class PictureBookSubmissionService {
       ...page,
       imageUrl: page.imageUrl ? this.publicMediaUrl(page.imageUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/image` : null,
       audioUrl: page.audioUrl ? this.publicMediaUrl(page.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio` : null,
-      ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? this.publicMediaUrl(translation.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {})
+      ...(page.translations ? { translations: page.translations.map(translation => ({ ...translation, audioUrl: translation.audioUrl ? this.publicMediaUrl(translation.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null })) } : {}),
+      ...(page.textLayout ? { textLayout: { ...page.textLayout, versions: page.textLayout.versions.map(version => ({ ...version, audioUrl: version.audioUrl ? this.publicMediaUrl(version.audioUrl, publicMediaBaseUrl, true) ?? `/api/public/picture-books/${encodeURIComponent(row.pictureBookId)}/pages/${page.position}/audio${version.language === "original" ? "" : `?language=${encodeURIComponent(version.language)}`}` : null })) } } : {})
     })) };
   }
 
@@ -231,7 +232,7 @@ export class PictureBookSubmissionService {
     const row = await this.published(pictureBookId);
     const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot);
     const page = book.pages.find(item => item.position === position);
-    const url = language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
+    const url = page?.textLayout?.enabled ? page.textLayout.versions.find(item => item.language === (language ?? "original"))?.audioUrl : language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
     if (!url) throw new AppException(40401, "本页语音不存在", 404);
     return creatorAssetId(url) ? readCreatorAssetReference(url) : this.media.readPictureBookStoredAudio(url);
   }
@@ -239,7 +240,7 @@ export class PictureBookSubmissionService {
   async reviewAudio(id: string, position: number, language?: string) {
     const row = await this.review(id);
     const page = row.book.pages.find(item => item.position === position);
-    const url = language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
+    const url = page?.textLayout?.enabled ? page.textLayout.versions.find(item => item.language === (language ?? "original"))?.audioUrl : language ? page?.translations?.find(item => item.language === language)?.audioUrl : page?.audioUrl;
     if (!url) throw new AppException(40401, "本页语音不存在", 404);
     return creatorAssetId(url) ? readCreatorAssetReference(url) : this.media.readPictureBookStoredAudio(url);
   }

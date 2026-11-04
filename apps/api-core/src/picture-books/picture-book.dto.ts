@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, Matches, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsObject, IsString, Matches, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
 import { pictureBookAspectRatios, type PictureBookAspectRatio } from "./picture-book-ratio.js";
 
 export class CreatePictureBookDto {
@@ -71,6 +71,12 @@ export class DiscussPictureBookDto {
 }
 
 export class UpdatePictureBookPageDto {
+  @IsOptional() @IsObject()
+  textLayout?: import("./picture-book-text-layout.js").PictureBookTextLayout;
+
+  @IsOptional() @IsString() @MaxLength(200000)
+  expectedTextLayout?: string;
+
   @IsOptional() @IsString() @MinLength(1) @MaxLength(500)
   caption?: string;
 
@@ -106,6 +112,12 @@ export class GeneratePictureBookImageDto {
 }
 
 export class GeneratePictureBookAudioDto {
+  @IsOptional() @IsBoolean()
+  textLayout?: boolean;
+
+  @IsOptional() @IsString() @MaxLength(50100)
+  expectedLayoutNarration?: string;
+
   @IsOptional() @IsString() @Matches(/^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/)
   language?: string;
   @IsOptional() @IsString() @MaxLength(80)

@@ -72,6 +72,7 @@ export class CreatorMediaService {
                 imageUrl: page.imageUrl ? `/api/creator-media/items/${id}/pages/${page.position}/image` : null,
                 audioUrl: page.audioUrl ? `/api/creator-media/items/${id}/pages/${page.position}/audio` : null,
                 ...(publicImageUrl ? { publicImageUrl } : {}), ...(publicAudioUrl ? { publicAudioUrl } : {}),
+                ...(page.textLayout ? { textLayout: { ...page.textLayout, versions: page.textLayout.versions.map(version => ({ ...version, audioUrl: version.audioUrl ? `/api/creator-media/items/${id}/pages/${page.position}/audio${version.language === 'original' ? '' : `?language=${encodeURIComponent(version.language)}`}` : null })) } } : {}),
                 ...(page.translations ? { translations: page.translations.map(translation => {
                     const translationUrl = publicMedia ? publicR2MediaUrl(translation.audioUrl, 'audio') : undefined;
                     return { ...translation, audioUrl: translation.audioUrl ? `/api/creator-media/items/${id}/pages/${page.position}/audio?language=${encodeURIComponent(translation.language)}` : null, ...(translationUrl ? { publicAudioUrl: translationUrl } : {}) };
@@ -80,7 +81,7 @@ export class CreatorMediaService {
         }) };
     }
     async page(id: string, position: number, kind: 'image' | 'audio', v: CreatorMediaViewer, language?: string, width?: number) {
-        const { book, publicMedia } = await this.item(id, v), page = book.pages.find(p => p.position === position), url = kind === 'image' ? page?.imageUrl : language ? page?.translations?.find(translation => translation.language === language)?.audioUrl : page?.audioUrl;
+        const { book, publicMedia } = await this.item(id, v), page = book.pages.find(p => p.position === position), url = kind === 'image' ? page?.imageUrl : page?.textLayout?.enabled ? page.textLayout.versions.find(version => version.language === (language ?? 'original'))?.audioUrl : language ? page?.translations?.find(translation => translation.language === language)?.audioUrl : page?.audioUrl;
         if (!url)
             fail('页面素材不存在', 404);
         if (kind === 'image' && url.startsWith('/picture-book-demos/'))

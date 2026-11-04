@@ -1,3 +1,4 @@
+import { publicTextLayout } from "../picture-books/picture-book-text-layout.js";
 import { createHash, randomBytes } from "node:crypto";
 
 export type CourseDiffEntry = {
@@ -311,13 +312,14 @@ export function snapshotCourseMaterial(
       pages: arrayOfRecords(source.pages)
         .map((page) => ({
           position: page.position,
-          caption: page.caption,
-          narration: page.narration,
+          caption: asRecord(page.textLayout).enabled === true ? "" : page.caption,
+          narration: asRecord(page.textLayout).enabled === true ? "" : page.narration,
           ...(page.textInImage === true ? { textInImage: true } : {}),
           ...(page.playbackLayout === "hidden" ? { playbackLayout: "hidden" } : {}),
+          ...(asRecord(page.textLayout).enabled === true ? { textLayout: publicTextLayout(page.textLayout) } : {}),
           imageUrl: page.imageUrl,
-          audioUrl: page.audioUrl,
-          ...(Array.isArray(page.translations) && page.translations.length ? { translations: arrayOfRecords(page.translations).map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl })) } : {})
+          audioUrl: asRecord(page.textLayout).enabled === true ? null : page.audioUrl,
+          ...(asRecord(page.textLayout).enabled !== true && Array.isArray(page.translations) && page.translations.length ? { translations: arrayOfRecords(page.translations).map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl })) } : {})
         }))
         .sort((left, right) => Number(left.position) - Number(right.position))
     };

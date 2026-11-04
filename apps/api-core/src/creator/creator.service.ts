@@ -1,3 +1,4 @@
+import { preserveCreatorTextLayouts } from "../picture-books/picture-book-text-layout.js";
 import { assertStandaloneSharingAllowed, pictureBookSharingState, publishedAlbumRevisionWhere } from '../courses/album-sharing.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { getPrismaClient, type Prisma } from '@xueleai/database';
@@ -104,8 +105,11 @@ export class CreatorService {
                 const audio = page.audioAssetId ? await this.ownedAsset(tx, p, page.audioAssetId, 'AUDIO') : null;
                 stored.push({ position: page.position, caption: page.caption, narration: page.narration, imagePrompt: page.imagePrompt, textInImage: page.textInImage, imageUrl: image ? creatorAssetUrl(image.id) : null, audioUrl: audio ? creatorAssetUrl(audio.id) : null, imageTaskId: null, audioTaskId: null, status: image ? 'READY' : 'DRAFT' });
             }
-            const complete = hasCompletePictureBookPlayback({ title, pageCount, pages: stored }, { requireDirectoryCover: true, directoryCoverUrl: cover ? creatorAssetUrl(cover.id) : null });
-            const data = { title, brief, audience, style, aspectRatio, isSpread: b.isSpread === true, pageCount, pages: json(stored), status: complete ? 'COMPLETED' : 'EDITING', version: (live?.version ?? 0) + 1 };
+            let preserved: ReturnType<typeof preserveCreatorTextLayouts<typeof stored[number]>>;
+            try { preserved = preserveCreatorTextLayouts(live?.pages, stored); }
+            catch { fail("页面包含图文编排，请先在网页中处理文字后再删除页面", 409); }
+            const complete = hasCompletePictureBookPlayback({ title, pageCount, pages: preserved }, { requireDirectoryCover: true, directoryCoverUrl: cover ? creatorAssetUrl(cover.id) : null });
+            const data = { title, brief, audience, style, aspectRatio, isSpread: b.isSpread === true, pageCount, pages: json(preserved), status: complete ? 'COMPLETED' : 'EDITING', version: (live?.version ?? 0) + 1 };
             let bookId = live?.id;
             if (live) {
                 const changed = await tx.pictureBook.updateMany({ where: { id: live.id, userId: p.userId, version: live.version }, data });

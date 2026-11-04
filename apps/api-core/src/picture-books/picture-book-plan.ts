@@ -1,3 +1,4 @@
+import { mergeTextLayout, type PictureBookTextLayout } from "./picture-book-text-layout.js";
 import { pictureBookPageAspectRatio } from "./picture-book-ratio.js";
 import { normalizePictureBookAudience, pictureBookAudienceGuide, pictureBookHealthyContentRules } from "./picture-book-audience.js";
 
@@ -11,6 +12,7 @@ export interface PictureBookPage {
   audioUrl: string | null;
   audioTaskId: string | null;
   translations?: PictureBookTranslation[];
+  textLayout?: PictureBookTextLayout;
 }
 
 export interface PictureBookTranslation {
@@ -125,6 +127,7 @@ export function updatePictureBookPage(page: PictureBookPage, patch: {
   narration?: string;
   translations?: Array<{ language: string; caption: string }>;
   expectedTranslations?: Array<{ language: string; caption: string; audioUrl?: string | null }>;
+  textLayout?: PictureBookTextLayout;
 }): PictureBookPage {
   if (patch.translations !== undefined) {
     const current = (page.translations ?? []).map(item => ({ language: item.language, caption: item.caption, audioUrl: item.audioUrl ?? null }));
@@ -148,6 +151,7 @@ export function updatePictureBookPage(page: PictureBookPage, patch: {
   if (translations && (translations.length > 20 || new Set(translations.map(item => item.language)).size !== translations.length)) throw new Error("译文语种重复或数量过多");
   return {
     ...page,
+    ...(patch.textLayout !== undefined ? { textLayout: mergeTextLayout(patch.textLayout, page.textLayout) } : {}),
     caption,
     imagePrompt,
     narration,

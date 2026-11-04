@@ -1,9 +1,11 @@
+import { parseTextLayout, type PictureBookTextLayout } from "./picture-book-text-layout.js";
 type PlaybackPage = {
   position: number;
   caption: string;
   narration: string;
   textInImage?: true;
   playbackLayout?: "hidden";
+  textLayout?: PictureBookTextLayout;
   imageUrl: string | null;
   audioUrl: string | null;
   translations?: Array<{ language: string; caption: string; audioUrl: string | null }>;
@@ -36,6 +38,7 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
       narration: string(page.narration) || string(page.caption),
       ...(page.textInImage === true ? { textInImage: true as const } : {}),
       ...(page.playbackLayout === "hidden" ? { playbackLayout: "hidden" as const } : {}),
+      ...(page.textLayout ? { textLayout: parseTextLayout(page.textLayout) } : {}),
       imageUrl: url(page.imageUrl),
       audioUrl: url(page.audioUrl),
       ...(Array.isArray(page.translations) ? { translations: page.translations.map(object).filter(item => /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(string(item.language)) && string(item.language) !== "zh" && string(item.language) !== "zh-CN" && string(item.caption).trim()).slice(0, 20).map(item => ({ language: string(item.language), caption: string(item.caption), audioUrl: url(item.audioUrl) })) } : {})
@@ -59,6 +62,6 @@ export function hasCompletePictureBookPlayback(value: unknown, options: { requir
     && Boolean(book.title.trim())
     && Array.isArray(source.pages) && source.pages.length === Number(source.pageCount) + 1
     && book.pages.length === source.pages.length
-    && book.pages.every((page, index) => page.position === index && Boolean(page.caption.trim()) && Boolean(page.imageUrl))
+    && book.pages.every((page, index) => page.position === index && Boolean(page.caption.trim() || (page.textLayout?.enabled && page.textLayout.versions.some(version => version.boxes.some(box => box.text.trim())))) && Boolean(page.imageUrl))
     && (!options.requireDirectoryCover || Boolean(url(options.directoryCoverUrl)));
 }
