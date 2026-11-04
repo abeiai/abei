@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { libraryCatalogHref, type LibraryAlbum, type LibraryBook } from "@/lib/picture-book-library";
+import { pictureBookEnglishLevelLabel } from "@/lib/picture-book-english-level";
 import { yiweiLegacyBookId } from "@/lib/picture-book-public-slug";
 import { PictureBookImage } from "@/components/picture-books/picture-book-image";
 import styles from "./picture-book-home.module.css";
@@ -14,9 +15,10 @@ export function PictureBookAlbumGrid({ albums, libraryPage = false, emptyText = 
 }
 
 export function PictureBookBookGrid({ books, emptyText = "暂无已审核的单本绘本" }: { books: LibraryBook[]; emptyText?: string }) {
-  return books.length ? <div className={styles.bookGrid}>{books.map(book => <Link className={styles.singleBookCard} href={book.href} key={book.id} aria-label={`阅读《${book.title}》`}>
+  return books.length ? <div className={styles.bookGrid}>{books.map(book => <Link className={styles.singleBookCard} href={book.href} key={book.id} aria-label={`阅读《${book.title}》${pictureBookEnglishLevelLabel(book.englishLevel) ? `，${pictureBookEnglishLevelLabel(book.englishLevel)}` : ""}`}>
       <div className={`${styles.singleBookCover} ${bookCoverCropClass(book.id)}`}><PictureBookImage src={book.coverUrl} fallbackSrc={`/api/public/picture-books/${encodeURIComponent(book.id)}/cover`} alt={`${book.title}绘本封面`} compact usage="card" /></div>
       <h4 className={styles.singleBookTitle}>{book.title}</h4>
+      {pictureBookEnglishLevelLabel(book.englishLevel) ? <p className="mt-1 text-xs text-muted-foreground">{pictureBookEnglishLevelLabel(book.englishLevel)}</p> : null}
     </Link>)}</div> : <p className="py-8 text-center text-sm text-muted-foreground">{emptyText}</p>;
 }
 

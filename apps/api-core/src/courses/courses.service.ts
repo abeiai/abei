@@ -899,6 +899,11 @@ export class CoursesService {
     }
 
     const idsByType = groupMaterialIds(dto.items);
+    // Lock in stable order before reading snapshots, so concurrent book edits
+    // cannot leave a newly created material publication pinned to stale data.
+    for (const id of [...idsByType.PICTURE_BOOK].sort()) {
+      await transaction.$queryRaw`SELECT "id" FROM "picture_books" WHERE "id" = ${id} FOR SHARE`;
+    }
     const [cover, videoLessons, englishMaterials, flashcardDecks, pictureBooks] = await Promise.all([
       transaction.mediaAsset.findUnique({ where: { id: dto.coverMediaId } }),
       transaction.videoGuideLesson.findMany({

@@ -177,3 +177,22 @@ test("缺省、false及非布尔图片内文字标记不改变既有审核快照
     assert.equal(Object.hasOwn(playbackFromSnapshot("old", candidate).pages[0], "textInImage"), false);
   }
 });
+
+test("英语分级随公开快照与播放结果保留，同时旧绘本快照不变", () => {
+  const source = { title: "Hello", style: "illustration", aspectRatio: "4:3", pages: [{ position: 0, caption: "", imageUrl: "/cover.png" }] };
+  const old = snapshotCourseMaterial("PICTURE_BOOK", source);
+  assert.deepEqual(snapshotCourseMaterial("PICTURE_BOOK", { ...source, englishLevel: null }), old);
+  const english = snapshotCourseMaterial("PICTURE_BOOK", { ...source, englishLevel: 2 });
+  assert.equal(english.englishLevel, 2);
+  assert.equal(playbackFromSnapshot("english", english).englishLevel, 2);
+  assert.equal(playbackFromSnapshot("old", old).englishLevel, undefined);
+  assert.notEqual(hashCourseSnapshot(english), hashCourseSnapshot(old));
+});
+
+test("公开绘本排序使用来源顺序并回退真实发布时间", async () => {
+  const queries: string[] = [];
+  const service = new PictureBookSubmissionService({} as never, {} as never);
+  Object.assign(service, { prisma: { $queryRaw: async (parts: TemplateStringsArray) => { queries.push(parts.join("?")); return []; }, pictureBookSubmission: { count: async () => 0 } } });
+  await service.publicList(1, 20);
+  assert.ok(queries.some(sql => /COALESCE\([^)]*"catalogSortAt"[^)]*"publishedAt"\) DESC/.test(sql)));
+});

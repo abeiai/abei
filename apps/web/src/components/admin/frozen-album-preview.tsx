@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import type { CourseReviewRequest, JsonValue } from "@/lib/course-types";
 import { pictureBookLanguageName } from "@/lib/picture-book-languages";
+import { pictureBookEnglishLevelLabel } from "@/lib/picture-book-english-level";
 
 const record = (value: JsonValue | undefined): Record<string, JsonValue> => value && typeof value === "object" && !Array.isArray(value) ? value : {};
 export function hasFrozenAlbum(review: CourseReviewRequest) {
@@ -48,7 +49,7 @@ export function FrozenAlbumPreview({ review }: { review: CourseReviewRequest }) 
       const frozen = submitted.find(value => value.publicationId === item.publicationId);
       const book = record(frozen?.materialSnapshot ?? item.pinnedSnapshot);
       const pages = Array.isArray(book.pages) ? book.pages.map(record) : [];
-      return <details key={item.id} className="rounded-lg border p-4"><summary className="cursor-pointer font-semibold">{item.displayName} · v{item.pinnedVersion}</summary><div className="mt-4 grid gap-4 sm:grid-cols-2">{pages.map(page => {
+      return <details key={item.id} className="rounded-lg border p-4"><summary className="cursor-pointer font-semibold">{item.displayName} · v{item.pinnedVersion}{typeof book.englishLevel === "number" && pictureBookEnglishLevelLabel(book.englishLevel) ? ` · ${pictureBookEnglishLevelLabel(book.englishLevel)}` : ""}</summary><div className="mt-4 grid gap-4 sm:grid-cols-2">{pages.map(page => {
         const position = Number(page.position);
         const base = `/api/creator-media/items/${item.id}/pages/${position}`;
         const translations = Array.isArray(page.translations) ? page.translations.map(record) : [];

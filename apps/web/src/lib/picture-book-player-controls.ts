@@ -4,6 +4,13 @@ export type PictureBookLoopMode = "none" | "book" | "album";
 export const PICTURE_BOOK_COVER_PAUSE_MS = 1000;
 export interface PictureBookAlbumEntry { bookId: string; revisionItemId: string; href: string }
 
+export function pictureBookDefaultAutoTurn(pages: Array<{ audioUrl?: string | null; translations?: Array<{ audioUrl?: string | null }>; textLayout?: { versions: Array<{ audioUrl?: string | null }> } }>) {
+  return pages.some(page => Boolean(page.audioUrl || page.translations?.some(item => item.audioUrl) || page.textLayout?.versions.some(item => item.audioUrl)));
+}
+export function pictureBookSilentPlayToggle(running: boolean, autoTurn: boolean) {
+  return { running: !running, autoTurn: running ? autoTurn : true };
+}
+
 export function pictureBookAlbumLaunchHref(href: string, courseId: string) {
   if (!/^\/picture-books\/[^/?#]+\/play(?:[?#]|$)/.test(href)) return href;
   const url = new URL(href, "https://reader.invalid");

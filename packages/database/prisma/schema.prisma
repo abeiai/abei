@@ -829,6 +829,7 @@ model PictureBook {
   brief        String   @db.Text
   theme        String   @default("")
   audience     String   @default("")
+  englishLevel Int?
   plot         String   @default("") @db.Text
   style        String
   aspectRatio  String   @default("1:1")
@@ -875,6 +876,7 @@ model PictureBookSubmission {
   publishedHash String?
   publishedCoverUrl String?
   publishedAt DateTime?
+  catalogSortAt DateTime?
   publishedVersion Int @default(0)
   coverTaskId       String?
   coverToken        String?

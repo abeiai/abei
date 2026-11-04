@@ -47,6 +47,7 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
   return {
     id,
     title: string(source.title),
+    ...(Number.isInteger(source.englishLevel) && Number(source.englishLevel) >= 1 && Number(source.englishLevel) <= 5 ? { englishLevel: Number(source.englishLevel) } : {}),
     style: string(source.style),
     aspectRatio: string(source.aspectRatio) || "1:1",
     isSpread: source.isSpread === true,

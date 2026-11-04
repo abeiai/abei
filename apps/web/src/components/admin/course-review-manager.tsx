@@ -16,6 +16,7 @@ import {
 import {
   courseMaterialTypeLabel,
   courseMaterialFieldLabel,
+  courseMaterialFieldValue,
   courseReviewAffectedCourseCount,
   courseReviewActionOutcome,
   courseReviewTitle,
@@ -563,8 +564,8 @@ function DiffEntry({
           {courseMaterialFieldLabel(materialType, entry.label)}
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
-          <BeforeAfterValue label="修改前" value={localizeCourseReviewValue(entry.before)} />
-          <BeforeAfterValue label="修改后" value={localizeCourseReviewValue(entry.after)} />
+          <BeforeAfterValue label="修改前" value={courseMaterialFieldValue(materialType, entry.label, entry.before)} />
+          <BeforeAfterValue label="修改后" value={courseMaterialFieldValue(materialType, entry.label, entry.after)} />
         </div>
       </div>
     );

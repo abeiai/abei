@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { pictureBookAfterPage, pictureBookAlbumEntries, pictureBookAlbumLaunchHref, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn } from "../src/lib/picture-book-player-controls";
+import { pictureBookDefaultAutoTurn, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookAlbumLaunchHref, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn } from "../src/lib/picture-book-player-controls";
 import type { PublicCourseItem } from "../src/lib/course-types";
 
 test("只有专辑中的绘本播放链接带专辑标记，保留学习上下文", () => {
@@ -64,4 +64,16 @@ test("无语音页面留出阅读时间，使封面和静音绘本也能自动�
   assert.equal(pictureBookSilentPageDuration("字".repeat(30), true), 8500);
   assert.equal(pictureBookSilentPageDuration("字".repeat(100)), 12000);
   assert.equal(pictureBookSilentPageDuration("字".repeat(100), true), 13000);
+});
+
+test("没有任何配音的绘本默认手动翻页，有任一语音时保持自动翻页",()=>{
+ assert.equal(pictureBookDefaultAutoTurn([{audioUrl:null},{audioUrl:null}]),false);
+ assert.equal(pictureBookDefaultAutoTurn([{audioUrl:null,translations:[{audioUrl:"https://r.example/voice.mp3"}]}]),true);
+ assert.equal(pictureBookDefaultAutoTurn([{audioUrl:null,textLayout:{versions:[{audioUrl:"https://r.example/voice.mp3"}]}}]),true);
+});
+
+test("无配音时主动播放会启用自动翻页，暂停时保留设置", async () => {
+  const { pictureBookSilentPlayToggle } = await import("../src/lib/picture-book-player-controls");
+  assert.deepEqual(pictureBookSilentPlayToggle(false, false), { running: true, autoTurn: true });
+  assert.deepEqual(pictureBookSilentPlayToggle(true, true), { running: false, autoTurn: true });
 });

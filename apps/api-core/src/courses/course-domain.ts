@@ -308,6 +308,7 @@ export function snapshotCourseMaterial(
       title: source.title,
       style: source.style,
       aspectRatio: source.aspectRatio,
+      ...(Number.isInteger(source.englishLevel) && Number(source.englishLevel) >= 1 && Number(source.englishLevel) <= 5 ? { englishLevel: source.englishLevel } : {}),
       ...(source.isSpread === true ? { isSpread: true } : {}),
       pages: arrayOfRecords(source.pages)
         .map((page) => ({
@@ -683,6 +684,7 @@ function materialFieldLabel(field: string) {
     knowledgeGraph: "知识图谱",
     style: "画风",
     aspectRatio: "画面比例",
+    englishLevel: "英语分级",
     pages: "绘本页面"
   };
 

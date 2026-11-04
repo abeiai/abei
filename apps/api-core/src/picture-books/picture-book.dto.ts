@@ -3,6 +3,9 @@ import { IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsObject, IsString, Matche
 import { pictureBookAspectRatios, type PictureBookAspectRatio } from "./picture-book-ratio.js";
 
 export class CreatePictureBookDto {
+  @IsOptional() @IsInt() @Min(1) @Max(5)
+  englishLevel?: number | null;
+
   @IsString() @MinLength(2) @MaxLength(30000)
   brief!: string;
 
@@ -43,6 +46,9 @@ export class PictureBookCharacterSelectionDto {
 }
 
 export class UpdatePictureBookDto {
+  @IsOptional() @IsInt() @Min(1) @Max(5)
+  englishLevel?: number | null;
+
   @IsOptional() @IsString() @MinLength(1) @MaxLength(100)
   title?: string;
 

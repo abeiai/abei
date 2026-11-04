@@ -53,6 +53,7 @@ export class PictureBookService {
     const characters = await this.resolveCharacters(userId, dto.characters ?? [], dto.style);
     return this.prisma.pictureBook.create({ data: {
       userId,
+      englishLevel: dto.englishLevel ?? null,
       title: dto.title?.trim() || "未命名绘本",
       brief: dto.brief.trim(),
       audience: normalizePictureBookAudience(dto.audience),
@@ -141,6 +142,7 @@ export class PictureBookService {
         throw new AppException(40901, "已有分镜时不能修改页数，请先创建新作品", HttpStatus.CONFLICT);
       }
       return {
+        ...(dto.englishLevel !== undefined ? { englishLevel: dto.englishLevel } : {}),
         ...(dto.title !== undefined ? { title: dto.title.trim() } : {}),
         ...(dto.audience !== undefined ? { audience: normalizePictureBookAudience(dto.audience) } : {}),
         ...(dto.style !== undefined ? { style: dto.style.trim() } : {}),

@@ -14,13 +14,14 @@ import { readerPageContent, type PictureBookTextLayout } from "@/lib/picture-boo
 import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
 import { pictureBookAvailableLanguages, pictureBookLanguageName, type PictureBookTranslation } from "@/lib/picture-book-languages";
+import { pictureBookEnglishLevelLabel } from "@/lib/picture-book-english-level";
 import { pictureBookEditionOptions, type PictureBookEdition } from "@/lib/picture-book-editions";
-import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
+import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookDefaultAutoTurn, pictureBookSilentPlayToggle, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
 import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden"; textLayout?: PictureBookTextLayout };
-type Book = { id: string; title: string; style: string; aspectRatio: string; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; editions?: PictureBookEdition[]; pages: Page[] };
+type Book = { id: string; title: string; style: string; aspectRatio: string; englishLevel?: number | null; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; editions?: PictureBookEdition[]; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
@@ -112,6 +113,9 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       .then(async (response) => {
         const result = await response.json() as { code?: number; message?: string; data?: Book };
         if (!response.ok || result.code !== 0 || !result.data) throw new Error(result.message || "绘本加载失败");
+        const defaultAutoTurn = pictureBookDefaultAutoTurn(result.data.pages);
+        setAutoTurn(defaultAutoTurn);
+        setRunning(defaultAutoTurn);
         setBook(result.data);
       })
       .catch((reason: unknown) => {
@@ -246,7 +250,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   async function toggleAudio() {
     const audio = audioRef.current;
     if (cover && coverNarrationEnded) { setRunning(!running); return; }
-    if (!activeAudioUrl) { setRunning(!running); return; }
+    if (!activeAudioUrl) { const next = pictureBookSilentPlayToggle(running, autoTurn); setAutoTurn(next.autoTurn); setRunning(next.running); return; }
     if (!audio) return;
     if (!running || audio.paused) {
       try { await audio.play(); setRunning(true); } catch { setPlaying(false); setRunning(false); setAudioError("语音播放失败，请重试加载。"); }
@@ -279,6 +283,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         <Link className={styles.back} href={returnHref}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
         <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
         <div className={styles.headerTools}>
+        {pictureBookEnglishLevelLabel(book?.englishLevel) ? <span className="text-sm">{pictureBookEnglishLevelLabel(book?.englishLevel)}</span> : null}
         {editionOptions.length ? <select aria-label="绘本语种" className={styles.editionSelect} value={editionOptions.find(item => item.current)?.id} onChange={event => { const target = editionOptions.find(item => item.id === event.target.value); if (target && !target.current) window.location.assign(target.href); }}>{editionOptions.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select> : null}
         {book?.source?.name ? <div className={styles.source}>
           {book.source.url ? <a className={styles.sourceLink} href={book.source.url} target="_blank" rel="noopener noreferrer" aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</a> : <span className={styles.sourceLink} tabIndex={0} aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</span>}

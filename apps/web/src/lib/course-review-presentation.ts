@@ -7,6 +7,7 @@ import type {
   CourseReviewScope,
   JsonValue
 } from "./course-types";
+import { pictureBookEnglishLevelLabel } from "./picture-book-english-level";
 
 export interface CourseReviewDiffGroup {
   key: "profile" | "outline" | "material" | "other";
@@ -199,7 +200,7 @@ const materialFieldLabels: Record<CourseMaterialType, Record<string, string>> = 
     knowledgeGraph: "知识图谱",
     cards: "闪卡内容"
   },
-  PICTURE_BOOK: { title: "绘本标题", style: "画风", aspectRatio: "画面比例", pages: "绘本页面" }
+  PICTURE_BOOK: { title: "绘本标题", style: "画风", aspectRatio: "画面比例", englishLevel: "英语分级", pages: "绘本页面" }
 };
 
 const legacyMaterialFieldKeys: Record<string, string> = {
@@ -302,6 +303,11 @@ export function localizeCourseReviewValue(value: JsonValue): JsonValue {
   return localizeReviewValue(value, 0);
 }
 
+export function courseMaterialFieldValue(type: CourseMaterialType | null | undefined, field: string, value: JsonValue): JsonValue {
+  return type === "PICTURE_BOOK" && (field === "englishLevel" || field === "英语分级") && typeof value === "number"
+    ? pictureBookEnglishLevelLabel(value) : localizeCourseReviewValue(value);
+}
+
 function localizeReviewValue(value: JsonValue, depth: number): JsonValue {
   if (Array.isArray(value)) {
     return value.map((item) => localizeReviewValue(item, depth + 1));
@@ -322,7 +328,7 @@ function localizeReviewValue(value: JsonValue, depth: number): JsonValue {
       ? "标题"
       : nestedFieldLabels[key] ?? unknownFieldLabel(key);
     const label = uniqueLocalizedFieldLabel(baseLabel, key, localized);
-    localized[label] = localizeReviewValue(item, depth + 1);
+    localized[label] = key === "englishLevel" && typeof item === "number" ? pictureBookEnglishLevelLabel(item) : localizeReviewValue(item, depth + 1);
   }
 
   return localized;
@@ -426,7 +432,7 @@ export function firstPublicationMaterialPresentations(
       return [{
         key,
         label: courseMaterialFieldLabel(materialType, key),
-        value: localizeCourseReviewValue(fieldValue)
+        value: courseMaterialFieldValue(materialType, key, fieldValue)
       }];
     });
 

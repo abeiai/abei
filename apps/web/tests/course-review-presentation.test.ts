@@ -1039,3 +1039,8 @@ test("管理员审核动作把当前请求 updatedAt 作为版本 token 提交",
     /rejectCourseReviewAction\(reviewId, reason\.trim\(\), selectedReview\.updatedAt\)/u
   );
 });
+
+test("绘本审核将英语启蒙等级显示为来源名称", () => {
+  assert.equal(courseMaterialFieldLabel("PICTURE_BOOK", "englishLevel"), "英语分级");
+  assert.deepEqual(localizeCourseReviewValue({ englishLevel: 5 }), { "英语分级": "英语 Level 1（启蒙）" });
+});
