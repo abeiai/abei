@@ -1,8 +1,8 @@
 FROM node:22-bookworm-slim AS base
 WORKDIR /app
-RUN npm config set registry https://registry.npmmirror.com \
+RUN npm config set registry https://registry.npmjs.org \
   && npm install -g pnpm@10.33.0 \
-  && pnpm config set registry https://registry.npmmirror.com
+  && pnpm config set registry https://registry.npmjs.org
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./

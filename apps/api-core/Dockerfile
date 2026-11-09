@@ -15,9 +15,9 @@ RUN apt-get update \
 RUN apt-get update \
   && apt-get install -y --no-install-recommends fonts-noto-cjk \
   && rm -rf /var/lib/apt/lists/*
-RUN npm config set registry https://registry.npmmirror.com \
+RUN npm config set registry https://registry.npmjs.org \
   && npm install -g pnpm@10.33.0 \
-  && pnpm config set registry https://registry.npmmirror.com
+  && pnpm config set registry https://registry.npmjs.org
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
