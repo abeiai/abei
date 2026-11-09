@@ -28,14 +28,17 @@ if (process.argv.includes('--check')) {
 }
 const selected = process.argv.find(arg => arg.startsWith('--ids='))?.slice(6).split(',');
 const positions = process.argv.find(arg => arg.startsWith('--positions='))?.slice(12).split(',').map(Number);
+const pairs = process.argv.find(arg => arg.startsWith('--pairs='))?.slice(8).split(',').map(item => item.split(':'));
 const books = await prisma.pictureBook.findMany({
   where: {id: {startsWith: 'storyweaver-'}},
   include: {submission: true},
 });
 for (const book of books) {
   if (selected && !selected.includes(book.id)) continue;
+  if (pairs && !pairs.some(([id]) => id === book.id)) continue;
   const pages = sourcePages(book);
-  const matching = selected ? pages.filter(page => !positions || positions.includes(page.position))
+  const matching = pairs ? pages.filter(page => pairs.some(([id, position]) => id === book.id && Number(position) === page.position))
+    : selected ? pages.filter(page => !positions || positions.includes(page.position))
     : pages.filter(page => /\b(?:lakh|crore)s?\b/i.test(String(page.caption ?? '')));
   if (!matching.length) continue;
   let stage = null, draft = null;

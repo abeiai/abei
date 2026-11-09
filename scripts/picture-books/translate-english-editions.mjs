@@ -89,7 +89,8 @@ function validateMagnitude(original, caption, index) {
       for (const number of chineseInteger(expected)) {
         candidates.push(`${number}多`, number.replace(/(万|亿)$/, '多$1'));
       }
-    if (!candidates.some(candidate => new RegExp(`(?<![\\d零一二三四五六七八九十百千万亿两])${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\d零一二三四五六七八九十百千万亿两])`).test(caption)))
+    const compactCaption = caption.replace(/\s+/g, '');
+    if (!candidates.some(candidate => new RegExp(`(?<![\\d零一二三四五六七八九十百千万亿两])${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\d零一二三四五六七八九十百千万亿两])`).test(compactCaption)))
       throw Error(`第 ${index} 页 ${match[0]} 的数量级不正确`);
   }
 }
