@@ -110,7 +110,8 @@ function modelMessages(book, chunk, previous, note = '', compact = false) {
       .map(page => ({position: page.position, caption: page.caption ?? ''}))} : sourceDocument(book);
   const target = chunk.map(page => ({position: page.position, caption: page.caption ?? ''}));
   const system = `你是儿童绘本英译中译者和逐页校对者。先通读全书，再只翻译指定页。\n要求：\n1. 保留原作事实、角色名称对应关系、对话、幽默、重复、韵律和结尾，不增加角色、动作、修饰词、说教或原文没有的细节。\n2. 只用中国大陆通行的简体中文，适合朗读，难度与原英语相当；英语分级仅供参考，不擅自简化或拔高。\n3. 原文普通阿拉伯数字原样保留，包括 0。印度数量单位必须准确换算：1 lakh＝10万，1 crore＝1000万，10 lakh＝100万，100 crore＝10亿；不要把 5 lakh 译成五百万。原页空白则译页空白。\n4. 封面如显示标题，必须与译名一致。翻译全部指定页，页码严格对应。\n5. 在输出前自行从头对照英文核对姓名、重复语、事实、数字、漏译和增写。\n只输出 JSON 对象：{"title":"中文书名","pages":[{"position":0,"caption":"中文展示文字"}]}。不要 Markdown。`;
-  const user = `${compact ? '原书标题及本次页面（请保持前文译法一致）' : '原书全局背景（用于保持全书一致性）'}：\n${JSON.stringify(source)}\n已译页面（固定用词和语气，保持一致）：\n${JSON.stringify(compact ? previous.slice(-5) : previous)}\n本次仅翻译这些页：\n${JSON.stringify(target)}\n${note}`;
+  const compactPrevious = previous.filter(page => !Object.hasOwn(manualPageTranslations[book.id] ?? {}, page.position)).slice(-5);
+  const user = `${compact ? '原书标题及本次页面（请保持前文译法一致）' : '原书全局背景（用于保持全书一致性）'}：\n${JSON.stringify(source)}\n已译页面（固定用词和语气，保持一致）：\n${JSON.stringify(compact ? compactPrevious : previous)}\n本次仅翻译这些页：\n${JSON.stringify(target)}\n${note}`;
   return [{role: 'system', content: system}, {role: 'user', content: user}];
 }
 async function modelConfig() {
