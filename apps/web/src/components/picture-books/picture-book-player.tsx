@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Captions, ChevronLeft, ChevronRight, EyeOff, Info, LoaderCircle, Maximize, Minimize, PanelLeft, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowLeft, Captions, ChevronLeft, ChevronRight, EyeOff, Info, LayoutTemplate, LoaderCircle, Maximize, Minimize, PanelLeft, PanelsTopLeft, Pause, Play, SkipBack, SkipForward, SlidersHorizontal, Volume2, VolumeX, X } from "lucide-react";
 import { type CSSProperties, useCallback, useEffect, useId, useRef, useState } from "react";
 import { publishLearningContext, publishLearningEvent } from "@/components/learning/learner-learning-provider";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
@@ -359,7 +359,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       ) : null}
       <dialog ref={settingsRef} aria-labelledby="reader-settings-title" className={styles.settings} onCancel={() => setSettingsOpen(false)} onClose={() => setSettingsOpen(false)} onClick={event => { if (event.target === event.currentTarget) setSettingsOpen(false); }}>
         <div className="mb-5 flex items-center justify-between"><h2 id="reader-settings-title" className="text-lg font-semibold">播放设置</h2><button aria-label="关闭播放设置" className="flex size-9 items-center justify-center rounded-full hover:bg-black/5" onClick={() => setSettingsOpen(false)} type="button"><X className="size-5" /></button></div>
-        <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式{layoutEnabled ? " · 当前使用图文编排" : ""}</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <fieldset className="rounded-2xl bg-background p-5"><legend className="sr-only">图文版式</legend><p className="mb-4 text-sm font-semibold">图文版式</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+          <button type="button" aria-pressed={layoutEnabled} disabled className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm ${layoutEnabled ? "border-primary bg-primary/10 text-primary" : "border-transparent opacity-40"}`}><LayoutTemplate className="size-7" />图文编排</button>
           {layouts.map(item => <button key={item.value} aria-pressed={!layoutEnabled && activeLayout === item.value} disabled={layoutEnabled || Boolean(book?.isSpread && item.value === "side")} title={book?.isSpread && item.value === "side" ? "跨页绘本不支持左文右图" : undefined} className={`flex flex-col items-center gap-3 rounded-xl border px-1 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-40 ${!layoutEnabled && activeLayout === item.value ? "border-primary bg-primary/10 text-primary" : "border-transparent hover:bg-muted"}`} onClick={() => setLayout(pictureBookPlaybackLayout(item.value, book?.isSpread))} type="button"><item.icon className="size-7" />{item.label}</button>)}
         </div></fieldset>
         <div className="mt-4 rounded-2xl bg-background p-5"><label htmlFor="reader-playback-rate" className="mb-3 block text-sm font-semibold">语速</label><select id="reader-playback-rate" className="w-full rounded-xl border border-border bg-background p-3 text-sm" value={playbackRate} onChange={event => { const rate = Number(event.target.value); if (audioRef.current) audioRef.current.playbackRate = rate; setPlaybackRate(rate); }}>{playbackRates.map(rate => <option key={rate} value={rate}>{rate === 2 ? "2.0" : rate} 倍</option>)}</select></div>

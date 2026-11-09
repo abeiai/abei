@@ -16,6 +16,7 @@ import { AppException } from "../common/app-exception.js";
 import { hashCourseSnapshot, snapshotCourseMaterial } from "../courses/course-domain.js";
 import { playbackFromSnapshot } from "./picture-book-playback.js";
 import { publicPictureBookHref, resolvePublicPictureBookId } from "./picture-book-public-slug.js";
+import { withoutAutomaticTextLayoutMarker } from "./picture-book-layout-review.js";
 
 export function assertExpectedPictureBookSnapshot(actual: string, expected?: string) {
   if (expected !== undefined && actual !== expected) throw new AppException(40901, "绘本内容已变化，请重新核对后发布", 409);
@@ -52,10 +53,10 @@ export class PictureBookSubmissionService {
       assertExpectedPictureBookSnapshot(snapshotHash, expectedSnapshotHash);
       const existing = await transaction.pictureBookSubmission.findUnique({ where: { pictureBookId } });
       if (existing?.status === "PENDING") {
-        if (existing.snapshotHash !== snapshotHash) throw new AppException(40901, "已有公开分享正在审核，请审核完成后再提交修改", 409);
+        if (existing.snapshotHash !== snapshotHash && hashCourseSnapshot(withoutAutomaticTextLayoutMarker(existing.snapshot)) !== snapshotHash) throw new AppException(40901, "已有公开分享正在审核，请审核完成后再提交修改", 409);
         return this.summary(existing);
       }
-      if (existing?.status === "APPROVED" && existing.publishedAt && existing.snapshotHash === snapshotHash) return this.summary(existing);
+      if (existing?.status === "APPROVED" && existing.publishedAt && (existing.snapshotHash === snapshotHash || hashCourseSnapshot(withoutAutomaticTextLayoutMarker(existing.snapshot)) === snapshotHash)) return this.summary(existing);
       const row = await transaction.pictureBookSubmission.upsert({
         where: { pictureBookId },
         create: { pictureBookId, submittedVersion: book.version, coverUrl: cover ? creatorAssetUrl(cover.id) : null, snapshot: snapshot as Prisma.InputJsonValue, snapshotHash },

@@ -1,4 +1,5 @@
 import { preserveCreatorTextLayouts } from "../picture-books/picture-book-text-layout.js";
+import { withoutAutomaticTextLayoutMarker } from "../picture-books/picture-book-layout-review.js";
 import { assertStandaloneSharingAllowed, pictureBookSharingState, publishedAlbumRevisionWhere } from '../courses/album-sharing.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { getPrismaClient, type Prisma } from '@xueleai/database';
@@ -150,11 +151,11 @@ export class CreatorService {
                 fail('请补全封面与全部页面图文后再公开分享');
             const manifest = object(work.input), cover = await this.ownedAsset(tx, p, manifest.coverAssetId), snapshot = { ...snapshotCourseMaterial('PICTURE_BOOK', book), libraryCoverUrl: creatorAssetUrl(cover.id) }, snapshotHash = hashCourseSnapshot(snapshot);
             if (existing?.status === 'PENDING') {
-                if (existing.snapshotHash !== snapshotHash)
+                if (existing.snapshotHash !== snapshotHash && hashCourseSnapshot(withoutAutomaticTextLayoutMarker(existing.snapshot)) !== snapshotHash)
                     fail('已有不同版本正在审核', 409);
                 return this.submissionResult(existing);
             }
-            if (existing?.publishedHash === snapshotHash && existing.publishedAt)
+            if (existing?.publishedAt && (existing.publishedHash === snapshotHash || hashCourseSnapshot(withoutAutomaticTextLayoutMarker(existing.publishedSnapshot)) === snapshotHash))
                 return this.submissionResult(existing);
             const row = await tx.pictureBookSubmission.upsert({ where: { pictureBookId: id }, create: { submittedVersion: version, pictureBookId: id, snapshot: json(snapshot), snapshotHash, coverUrl: creatorAssetUrl(cover.id) }, update: { submittedVersion: version, snapshot: json(snapshot), snapshotHash, coverUrl: creatorAssetUrl(cover.id), status: 'PENDING', submittedAt: new Date(), reviewNote: null, reviewedAt: null, reviewedByAdminId: null, coverToken: null, coverExpiresAt: null } });
             return this.submissionResult(row);

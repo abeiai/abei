@@ -1,4 +1,5 @@
 import { layoutNarration } from "./picture-book-text-layout.js";
+import { stagePublishedTextLayout } from "./picture-book-layout-review.js";
 import { pictureBookSharingState, publishedAlbumRevisionWhere } from "../courses/album-sharing.js";
 import { creatorAssetId, readCreatorAssetReference } from "../creator/creator-assets.service.js";
 import { HttpStatus, Inject, Injectable } from "@nestjs/common";
@@ -278,8 +279,14 @@ export class PictureBookService {
         if (error instanceof Error && dto.textLayout) throw new AppException(40001, error.message, HttpStatus.BAD_REQUEST);
         throw error;
       }
+      if (dto.textLayout) {
+        for (let i = 0; i < pages.length; i++) {
+          const layout = pages[i]!.textLayout ?? { enabled: false, versions: [{ language: "original", boxes: [], audioUrl: null }] };
+          pages[i] = { ...pages[i]!, textLayout: { ...layout, enabled: dto.textLayout.enabled } };
+        }
+      }
       return { pages: pages as unknown as Prisma.InputJsonValue, status: "EDITING" };
-    });
+    }, Boolean(dto.textLayout));
   }
 
   async generateImage(subject: ProfileSubject & { mode: "ACCOUNT" }, id: string, position: number, dto: GeneratePictureBookImageDto) {
@@ -405,7 +412,7 @@ export class PictureBookService {
         pages[index] = { ...pages[index]!, audioUrl, audioTaskId: task.id };
       }
       return { pages: pages as unknown as Prisma.InputJsonValue };
-    });
+    }, Boolean(dto.textLayout));
   }
 
   private async resolveCharacters(userId: string, selected: PictureBookCharacter[], style: string) {
@@ -538,13 +545,18 @@ export class PictureBookService {
     return output;
   }
 
-  private async mutate(userId: string, id: string, change: (book: Awaited<ReturnType<PictureBookService["get"]>>) => Prisma.PictureBookUpdateManyMutationInput) {
+  private async mutate(userId: string, id: string, change: (book: Awaited<ReturnType<PictureBookService["get"]>>) => Prisma.PictureBookUpdateManyMutationInput, syncTextLayout = false) {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const current = await this.get(userId, id);
       const data = change(current);
-      const result = await this.prisma.pictureBook.updateMany({
-        where: { id, userId, version: current.version }, data: { ...data, version: { increment: 1 } }
-      });
+      const update = { where: { id, userId, version: current.version }, data: { ...data, version: { increment: 1 } } };
+      const result = syncTextLayout ? await this.prisma.$transaction(async transaction => {
+        await transaction.$queryRaw`SELECT 1 FROM pg_advisory_xact_lock(hashtext(${`picture-book-submission:${id}`}))`;
+        await transaction.$queryRaw`SELECT 1 FROM pg_advisory_xact_lock(hashtext(${`course-material:PICTURE_BOOK:${id}`}))`;
+        const updated = await transaction.pictureBook.updateMany(update);
+        if (updated.count === 1) await stagePublishedTextLayout(transaction, userId, id);
+        return updated;
+      }) : await this.prisma.pictureBook.updateMany(update);
       if (result.count === 1) {
         await this.courseReviewService.recordMaterialChange("PICTURE_BOOK", id);
         return this.get(userId, id);

@@ -187,6 +187,25 @@ test('Creator works and immutable publication: real database',async t=>{
         assert.equal(fetches,1); // Legacy audio is a local lookup, never a URL fetch.
       } finally {globalThis.fetch=originalFetch;if(oldUploadDir===undefined)delete process.env.UPLOAD_DIR;else process.env.UPLOAD_DIR=oldUploadDir;}
     });
+    await t.test('Creator 重复提交自动图文审核版本不会产生重复待审',async()=>{
+      const item=await service.saveBook(a,{...manifest('全书图文'),externalId:'layout-review-idempotence'});
+      const first=await service.submitBook(a,item.id,{expectedVersion:1});
+      await submissions.decide(admin.id,first.id,first.updatedAt.toISOString(),'APPROVED');
+      const existing=await db.pictureBook.findUniqueOrThrow({where:{id:item.id}});
+      const textBox={id:'box',text:'已编排文字',x:.1,y:.1,width:.5,height:.2,fontSize:32,fontFamily:'sans',color:'#222222',bold:false,align:'left',lineHeight:1.5,speak:true};
+      const disabled={enabled:false,versions:[{language:'original',boxes:[textBox],audioUrl:null}]};
+      await db.pictureBook.update({where:{id:item.id},data:{pages:(existing.pages as Array<Record<string,unknown>>).map(page=>({...page,textLayout:disabled}))}});
+      const website=new PictureBookService(undefined as never,undefined as never,undefined as never,reviews,undefined as never);
+      const before=await website.get(a.userId,item.id);
+      const page=(before.pages as Array<{textLayout:unknown}>)[0]!;
+      await website.updatePage(a.userId,item.id,0,{textLayout:{...disabled,enabled:true} as never,expectedTextLayout:JSON.stringify(page.textLayout)});
+      const complete=await website.complete(a.userId,item.id);
+      const pending=await service.submitBook(a,item.id,{expectedVersion:complete.version});
+      assert.equal(pending.status,'PENDING');
+      await submissions.decide(admin.id,pending.id,pending.updatedAt.toISOString(),'APPROVED');
+      const again=await website.complete(a.userId,item.id);
+      assert.equal((await service.submitBook(a,item.id,{expectedVersion:again.version})).status,'APPROVED');
+    });
     await t.test('approved book survives edit, resubmit and reject; races; public JSON has no private refs or prompts',async()=>{
       const review=await service.submitBook(a,book.id,{expectedVersion:2});
       assert.equal((await service.submitBook(a,book.id,{expectedVersion:2})).id,review.id);

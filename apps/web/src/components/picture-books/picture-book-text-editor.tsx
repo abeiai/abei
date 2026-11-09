@@ -9,6 +9,7 @@ import { PictureBookTextOverlay } from "./picture-book-text-overlay";
 
 type Props = {
   bookId: string; position: number; imageUrl: string; initial?: PictureBookTextLayout;
+  bookLayoutEnabled: boolean; needsBookLayoutSync: boolean;
   legacyCaption: string; voiceKey: string; voiceOptions: VoicePickerOption[]; onVoiceChange: (value: string) => void; onClose: () => void; onSaved: (layout: PictureBookTextLayout) => void;
   previous: number | null; next: number | null; onNavigate: (position: number) => void;
   save: (layout: PictureBookTextLayout, baseline: string) => Promise<PictureBookTextLayout>;
@@ -16,10 +17,10 @@ type Props = {
 };
 const input = "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm";
 const button = "rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium hover:bg-secondary disabled:opacity-50";
-export function PictureBookTextEditor({ bookId, position, imageUrl, initial, legacyCaption, voiceKey, voiceOptions, onVoiceChange, onClose, onSaved, previous, next, onNavigate, save, generate }: Props) {
-  const [layout, setLayout] = useState<PictureBookTextLayout>(initial ?? { enabled: false, versions: [{ language: "original", boxes: [], audioUrl: null }] });
+export function PictureBookTextEditor({ bookId, position, imageUrl, initial, bookLayoutEnabled, needsBookLayoutSync, legacyCaption, voiceKey, voiceOptions, onVoiceChange, onClose, onSaved, previous, next, onNavigate, save, generate }: Props) {
+  const [layout, setLayout] = useState<PictureBookTextLayout>(() => ({ ...(initial ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: bookLayoutEnabled }));
   const [baseline, setBaseline] = useState(JSON.stringify(initial ?? null));
-  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initial ?? { enabled: false, versions: [{ language: "original", boxes: [], audioUrl: null }] }));
+  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify({ ...(initial ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: bookLayoutEnabled }));
   const [language, setLanguage] = useState("original");
   const [selected, setSelected] = useState("");
   const [newLanguage, setNewLanguage] = useState("en");
@@ -37,7 +38,7 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, leg
   const version = layout.versions.find(item => item.language === language);
   const boxes = version?.boxes ?? [];
   const box = boxes.find(item => item.id === selected);
-  const dirty = JSON.stringify(layout) !== savedSnapshot;
+  const dirty = JSON.stringify(layout) !== savedSnapshot || needsBookLayoutSync;
   useEffect(() => {
     if (!dirty) return;
     const warn = (event: BeforeUnloadEvent) => { if (!leaving.current) { event.preventDefault(); event.returnValue = ""; } };
@@ -77,7 +78,7 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, leg
     setLayout(current => ({ ...current, versions: [...current.versions, { language: newLanguage, boxes: copyLayout ? boxes.map(item => ({ ...item, id: crypto.randomUUID(), text: "" })) : [], audioUrl: null }] })); setLanguage(newLanguage); setNewLanguage(pictureBookLanguageChoices.find(item => item.code !== newLanguage && !layout.versions.some(version => version.language === item.code))?.code ?? newLanguage); setSelected("");
   }
   return <main aria-label="图文编排" className="flex h-dvh min-h-0 w-full flex-col bg-[#f6f6f5] text-foreground">
-    <header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><button type="button" className={button} disabled={pending} onClick={close}>返回绘本</button><h1 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h1><button type="button" className={button} disabled={pending || previous === null} onClick={() => previous !== null && void navigate(previous)}>上一页</button><button type="button" className={button} disabled={pending || next === null} onClick={() => next !== null && void navigate(next)}>下一页</button><label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={pending} checked={layout.enabled} onChange={event => setLayout({ ...layout, enabled: event.target.checked })} />开启图文编排</label><span className="ml-auto text-sm text-muted-foreground">{dirty ? "未保存" : "已保存"}</span><button type="button" className={button} disabled={pending || !dirty} onClick={() => void doSave()}>保存</button></header>
+    <header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><button type="button" className={button} disabled={pending} onClick={close}>返回绘本</button><h1 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h1><button type="button" className={button} disabled={pending || previous === null} onClick={() => previous !== null && void navigate(previous)}>上一页</button><button type="button" className={button} disabled={pending || next === null} onClick={() => next !== null && void navigate(next)}>下一页</button><label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={pending} checked={layout.enabled} onChange={event => setLayout({ ...layout, enabled: event.target.checked })} />全书开启图文编排</label><span className="ml-auto text-sm text-muted-foreground">{dirty ? "未保存" : "已保存"}</span><button type="button" className={button} disabled={pending || !dirty} onClick={() => void doSave()}>保存</button></header>
     {(error || (!dirty && notice)) && <div role={error ? "alert" : "status"} className={`px-5 py-2 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>{error || notice}</div>}
     <fieldset disabled={pending} className="grid min-h-0 min-w-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-[minmax(0,1fr)_360px] lg:overflow-hidden">
       <section className="flex min-h-[55vh] flex-col overflow-auto p-4 lg:min-h-0 lg:p-6"><div className="mb-3 flex flex-wrap items-center gap-3"><button type="button" className={button} onClick={() => addBox()}>添加文本框</button>{legacyCaption && language === "original" ? <button type="button" className={button} onClick={() => addBox(legacyCaption)}>导入原有展示文字</button> : null}<span className="text-sm text-muted-foreground">拖动文本框顶部移动位置</span></div>
