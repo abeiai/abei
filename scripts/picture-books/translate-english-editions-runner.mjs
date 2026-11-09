@@ -101,11 +101,13 @@ function sourceDocument(book) {
   return {title: book.submission.publishedSnapshot?.title ?? book.title, englishLevel: book.englishLevel, audience: book.audience,
     pages: sourcePages(book).map(page => ({position: page.position, caption: page.caption ?? ''}))};
 }
-function modelMessages(book, chunk, previous, note = '') {
-  const source = sourceDocument(book);
+function modelMessages(book, chunk, previous, note = '', compact = false) {
+  const source = compact ? {title: book.submission.publishedSnapshot?.title ?? book.title, englishLevel: book.englishLevel,
+    audience: book.audience, pages: sourcePages(book).filter(page => chunk.some(item => item.position === page.position))
+      .map(page => ({position: page.position, caption: page.caption ?? ''}))} : sourceDocument(book);
   const target = chunk.map(page => ({position: page.position, caption: page.caption ?? ''}));
-  const system = `你是儿童绘本英译中译者和逐页校对者。先通读全书，再只翻译指定页。\n要求：\n1. 保留原作事实、角色名称对应关系、对话、幽默、重复、韵律和结尾，不增加角色、动作、修饰词、说教或原文没有的细节。\n2. 中文要自然适合朗读，难度与原英语相当；英语分级仅供参考，不擅自简化或拔高。\n3. 原文阿拉伯数字原样保留，包括 0，不改成汉字数字。原页空白则译页空白。\n4. 封面如显示标题，必须与译名一致。翻译全部指定页，页码严格对应。\n5. 在输出前自行从头对照英文核对姓名、重复语、事实、数字、漏译和增写。\n只输出 JSON 对象：{"title":"中文书名","pages":[{"position":0,"caption":"中文展示文字"}]}。不要 Markdown。`;
-  const user = `原书全局背景（用于保持全书一致性）：\n${JSON.stringify(source)}\n已译页面（固定用词和语气，保持一致）：\n${JSON.stringify(previous)}\n本次仅翻译这些页：\n${JSON.stringify(target)}\n${note}`;
+  const system = `你是儿童绘本英译中译者和逐页校对者。先通读全书，再只翻译指定页。\n要求：\n1. 保留原作事实、角色名称对应关系、对话、幽默、重复、韵律和结尾，不增加角色、动作、修饰词、说教或原文没有的细节。\n2. 只用中国大陆通行的简体中文，适合朗读，难度与原英语相当；英语分级仅供参考，不擅自简化或拔高。\n3. 原文普通阿拉伯数字原样保留，包括 0。印度数量单位必须准确换算：1 lakh＝10万，1 crore＝1000万，10 lakh＝100万，100 crore＝10亿；不要把 5 lakh 译成五百万。原页空白则译页空白。\n4. 封面如显示标题，必须与译名一致。翻译全部指定页，页码严格对应。\n5. 在输出前自行从头对照英文核对姓名、重复语、事实、数字、漏译和增写。\n只输出 JSON 对象：{"title":"中文书名","pages":[{"position":0,"caption":"中文展示文字"}]}。不要 Markdown。`;
+  const user = `${compact ? '原书标题及本次页面（请保持前文译法一致）' : '原书全局背景（用于保持全书一致性）'}：\n${JSON.stringify(source)}\n已译页面（固定用词和语气，保持一致）：\n${JSON.stringify(compact ? previous.slice(-5) : previous)}\n本次仅翻译这些页：\n${JSON.stringify(target)}\n${note}`;
   return [{role: 'system', content: system}, {role: 'user', content: user}];
 }
 async function modelConfig() {
@@ -117,12 +119,12 @@ async function modelConfig() {
   if (!instance || !model || !encrypted) throw Error(`DashScope ${modelName} 未启用或凭据不存在`);
   return {url: (model.baseUrl || instance.baseUrl).replace(/\/$/, '') + '/chat/completions', name: model.providerModelName, key: decryptSecret(encrypted)};
 }
-async function translateChunk(config, book, chunk, previous, note = '') {
+async function translateChunk(config, book, chunk, previous, note = '', compact = false) {
   let lastError;
   for (let attempt = 1; attempt <= 4; attempt++) {
     try {
       const response = await fetch(config.url, {method: 'POST', headers: {'Authorization': `Bearer ${config.key}`, 'Content-Type': 'application/json'},
-        body: JSON.stringify({model: config.name, messages: modelMessages(book, chunk, previous, note), temperature: 0.2, max_tokens: 8192, response_format: {type: 'json_object'}}), signal: AbortSignal.timeout(180000)});
+        body: JSON.stringify({model: config.name, messages: modelMessages(book, chunk, previous, note, compact), temperature: 0.2, max_tokens: 8192, response_format: {type: 'json_object'}}), signal: AbortSignal.timeout(180000)});
       const body = await response.text();
       if (!response.ok) throw Error(`模型 HTTP ${response.status}: ${body.slice(0, 200)}`);
       const result = JSON.parse(body), content = result.choices?.[0]?.message?.content;
@@ -137,10 +139,11 @@ async function translateChunk(config, book, chunk, previous, note = '') {
       if (attempt < 4) await sleep(Math.min(25000, 1500 * 2 ** attempt + Math.random() * 500));
     }
   }
-  if (chunk.length > 1 && !/data_inspection_failed/.test(lastError.message)) {
+  if (!compact && /data_inspection_failed/.test(lastError.message)) return translateChunk(config, book, chunk, previous, note, true);
+  if (chunk.length > 1) {
     const middle = Math.ceil(chunk.length / 2);
-    const left = await translateChunk(config, book, chunk.slice(0, middle), previous, note);
-    const right = await translateChunk(config, book, chunk.slice(middle), [...previous, ...left.translation.pages], note);
+    const left = await translateChunk(config, book, chunk.slice(0, middle), previous, note, compact);
+    const right = await translateChunk(config, book, chunk.slice(middle), [...previous, ...left.translation.pages], note, compact);
     return {translation: {title: left.translation.title, pages: [...left.translation.pages, ...right.translation.pages]}, usage: {
       prompt_tokens: (left.usage.prompt_tokens ?? 0) + (right.usage.prompt_tokens ?? 0),
       completion_tokens: (left.usage.completion_tokens ?? 0) + (right.usage.completion_tokens ?? 0),
@@ -149,7 +152,10 @@ async function translateChunk(config, book, chunk, previous, note = '') {
   throw Error(`${book.id} 第 ${chunk[0]?.position} 页: ${lastError.message}`);
 }
 async function prepareOne(book, config) {
-  try { if (await loadStage(book)) return 'cached'; }
+  try {
+    const staged = await loadStage(book);
+    if (staged && (!manualBookTranslations[book.id] || JSON.stringify(staged.translation) === JSON.stringify(manualBookTranslations[book.id]))) return 'cached';
+  }
   catch (error) {
     if (!/^(第 \d+ 页|译名缺失|翻译页码)/.test(error.message)) throw error;
     log({mode: 'repair-stage', id: book.id, error: error.message});
@@ -172,6 +178,7 @@ async function prepareOne(book, config) {
   catch (error) { if (error.code !== 'ENOENT') throw error; }
   if (draft && (draft.id !== book.id || draft.sourceDigest !== sourceDigest(book) || !Array.isArray(draft.pages) || typeof draft.title !== 'string')) throw Error(`${book.id}: 未完成翻译断点不匹配`);
   let title = draft?.title ?? '', translatedPages = draft?.pages ?? [], usage = draft?.usage ?? {prompt_tokens: 0, completion_tokens: 0};
+  if (title && !/[\u3400-\u9fff]/u.test(title)) title = '';
   const donePositions = new Set(translatedPages.map(page => page.position));
   const chunks = chunksForPages(pages.filter(page => String(page.caption ?? '').trim() && !donePositions.has(page.position)));
   if (!chunks.length && !title) {

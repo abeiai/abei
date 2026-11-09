@@ -59,6 +59,24 @@ function chineseInteger(value) {
   return [...new Set([text, text.replace(/二(?=[百千万])/g, '两'), ...(value === 2 ? ['两'] : [])])];
 }
 
+function validateIndianMagnitude(original, caption, index) {
+  const words = {one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+    twenty: 20, thirty: 30, forty: 40, fifty: 50, hundred: 100};
+  const pattern = /\b(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|twenty|thirty|forty|fifty|hundred|three and a half)\s+(lakh|crore)s?\b/gi;
+  for (const match of original.matchAll(pattern)) {
+    const amount = match[1].toLowerCase() === 'three and a half' ? 3.5 : (words[match[1].toLowerCase()] ?? Number(match[1]));
+    const expected = amount * (match[2].toLowerCase() === 'lakh' ? 100000 : 10000000);
+    if (!Number.isSafeInteger(expected)) continue;
+    const candidates = [String(expected), expected.toLocaleString('en-US'),
+      ...chineseInteger(expected),
+      ...(expected % 10000 === 0 ? [`${expected / 10000}万`] : []),
+      ...(expected % 100000000 === 0 ? [`${expected / 100000000}亿`, ...chineseInteger(expected / 100000000).map(number => `${number}亿`)] : [])];
+    if (!candidates.some(candidate => /\d/.test(candidate)
+      ? new RegExp(`(?<!\\d)${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`).test(caption)
+      : caption.includes(candidate))) throw Error(`第 ${index} 页 ${match[0]} 的数量级不正确`);
+  }
+}
+
 export function validateTranslation(book, translation) {
   const pages = sourcePages(book);
   if (typeof translation?.title !== 'string' || !translation.title.trim() || !/[\u3400-\u9fff]/u.test(translation.title)) throw Error('译名缺失或不是中文');
@@ -70,10 +88,15 @@ export function validateTranslation(book, translation) {
     if (!original && caption) throw Error(`第 ${index} 页原文空白却新增译文`);
     if (original && (!caption || (/[A-Za-z]/.test(original) && !/[\u3400-\u9fff]/u.test(caption)))) throw Error(`第 ${index} 页译文缺失或不是中文`);
     if (original.startsWith('@page {')) continue;
+    validateIndianMagnitude(original, caption, index);
     const sourceNumbers = new Map();
     const numberPattern = /(?<!\d)(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?(?!\d)/g;
     const normalNumber = number => String(Number(number.replace(/,/g, '')));
-    for (const number of original.match(numberPattern) ?? []) sourceNumbers.set(number, (sourceNumbers.get(number) ?? 0) + 1);
+    for (const match of original.matchAll(numberPattern)) {
+      const number = match[0];
+      if (/^\s+(?:lakh|crore)s?\b/i.test(original.slice(match.index + number.length))) continue;
+      sourceNumbers.set(number, (sourceNumbers.get(number) ?? 0) + 1);
+    }
     const targetNumbers = (caption.match(numberPattern) ?? []).map(normalNumber);
     for (const [number, count] of sourceNumbers) {
       const arabic = targetNumbers.filter(item => item === normalNumber(number)).length;
@@ -82,7 +105,14 @@ export function validateTranslation(book, translation) {
       const clock = /^([01]?\d|2[0-3])\.([0-5]\d)$/.exec(number);
       const naturalTime = clock ? caption.split(`${Number(clock[1])}点${clock[2]}分`).length - 1 : 0;
       const covid = number === '19' && /COVID-19/i.test(original) ? (caption.match(/新冠(?:肺炎|病毒|疫情)/g) ?? []).length : 0;
-      if (arabic + chinese + naturalTime + covid < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
+      const exponent = /(?:Powers of 10|superscript of 10)/i.test(original) ? /^10([1-9]\d?)$/.exec(number)?.[1] : null;
+      const superscript = exponent?.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)]);
+      const scientific = exponent ? [`10${superscript}`, `10^${exponent}`, `10的${exponent}次方`].reduce((total, form) => total + caption.split(form).length - 1, 0) : 0;
+      const squareBase = /Squared or/i.test(original) ? /^(\d+)2$/.exec(number)?.[1] : null;
+      const squared = squareBase ? caption.split(`${squareBase}²`).length - 1 : 0;
+      const footnoteMark = original.includes(`)${number}`) ? number.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)]) : null;
+      const footnote = footnoteMark ? caption.split(footnoteMark).length - 1 : 0;
+      if (arabic + chinese + naturalTime + covid + scientific + squared + footnote < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
     }
   }
   return translation;

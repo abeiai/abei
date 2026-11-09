@@ -40,6 +40,21 @@ test('translation keeps exact page mapping, Arabic numerals, and blank pages', (
   assert.doesNotThrow(() => validateTranslation(date, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '1983年9月1日。'} : p)}));
   const css = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '@page { margin: 0.79in } The pond is here.'} : p)};
   assert.doesNotThrow(() => validateTranslation(css, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '池塘就在这里。'} : p)}));
+  const power = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'Powers of 10: 103, 1016.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(power, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '10的幂：10³、10¹⁶。'} : p)}));
+  const squared = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '1 Squared or 12=1; 13 Squared or 132=169.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(squared, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '1的平方，即1²=1；13的平方，即13²=169。'} : p)}));
+  const footnote = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'The (BPD)2 team.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(footnote, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '（BPD）²团队。'} : p)}));
+  const lakh = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'Five lakhs and two lakh rupees.'} : p)};
+  assert.throws(() => validateTranslation(lakh, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '五百万和两百万卢比。'} : p)}), /数量级/);
+  assert.doesNotThrow(() => validateTranslation(lakh, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '五十万和二十万卢比。'} : p)}));
+  const crore = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '5 crore women and 2.7 crore homes.'} : p)};
+  assert.throws(() => validateTranslation(crore, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '5亿女性和2.7亿户。'} : p)}), /数量级/);
+  assert.doesNotThrow(() => validateTranslation(crore, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '5000万女性和2700万户。'} : p)}));
+  const hundredCrore = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'One metre is a hundred crore nanometres.'} : p)};
+  assert.throws(() => validateTranslation(hundredCrore, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '一米是一百亿纳米。'} : p)}), /数量级/);
+  assert.doesNotThrow(() => validateTranslation(hundredCrore, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '一米是十亿纳米。'} : p)}));
   assert.throws(() => validateTranslation(original, {...translated, pages: translated.pages.map(p => p.position === 2 ? {...p, caption: '再见'} : p)}), /空白/);
 });
 
