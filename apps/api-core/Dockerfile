@@ -1,5 +1,6 @@
 FROM node:22-bookworm-slim AS base
 WORKDIR /app
+ENV PRISMA_ENGINES_MIRROR=https://registry.npmmirror.com/-/binary/prisma
 RUN sed -i \
   -e "s|http://deb.debian.org/debian-security|http://mirrors.aliyun.com/debian-security|g" \
   -e "s|http://deb.debian.org/debian|http://mirrors.aliyun.com/debian|g" \
