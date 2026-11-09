@@ -51,6 +51,8 @@ test('translation keeps exact page mapping, Arabic numerals, and blank pages', (
   assert.doesNotThrow(() => validateTranslation(decade, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '在二十世纪九十年代初。'} : p)}));
   const grouped = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '186, 413.22 miles per second.'} : p)};
   assert.doesNotThrow(() => validateTranslation(grouped, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '186,413.22英里每秒。'} : p)}));
+  const sequence = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '99, 100 eggs.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(sequence, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '99，100个蛋。'} : p)}));
   const drawnSquares = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'Draw 12 and 22 as squares.'} : p)};
   assert.doesNotThrow(() => validateTranslation(drawnSquares, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '把1²和2²画成方格。'} : p)}));
   const formula = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'Volume = a3 = 8 cm3.'} : p)};
@@ -74,6 +76,10 @@ test('translation keeps exact page mapping, Arabic numerals, and blank pages', (
   assert.throws(() => validateTranslation(millions, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '175亿年和13亿颗星。'} : p)}), /数量级/);
   const trillion = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '40 trillion kilometres.'} : p)};
   assert.doesNotThrow(() => validateTranslation(trillion, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '40万亿公里。'} : p)}));
+  const hundredMillion = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '9 hundred million miles away.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(hundredMillion, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '9亿英里之外。'} : p)}));
+  const overMillion = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'Over one million years.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(overMillion, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '一百多万年。'} : p)}));
   const spiral = {...original, title: 'The Fascinating Fibonaccis', pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'The Fibonacci spiral has another grid, 212.'} : p)};
   assert.doesNotThrow(() => validateTranslation(spiral, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '斐波那契螺旋又添了一块方格图：21²。'} : p)}));
   assert.throws(() => validateTranslation(original, {...translated, pages: translated.pages.map(p => p.position === 2 ? {...p, caption: '再见'} : p)}), /空白/);

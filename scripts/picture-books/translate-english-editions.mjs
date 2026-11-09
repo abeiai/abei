@@ -70,7 +70,11 @@ function validateMagnitude(original, caption, index) {
     twenty: 20, thirty: 30, forty: 40, fifty: 50, hundred: 100};
   const pattern = /\b(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|twenty|thirty|forty|fifty|hundred|three and a half)\s+(lakh|crore|million|billion|trillion)s?\b/gi;
   for (const match of original.matchAll(pattern)) {
-    const amount = match[1].toLowerCase() === 'three and a half' ? 3.5 : (words[match[1].toLowerCase()] ?? Number(match[1]));
+    let amount = match[1].toLowerCase() === 'three and a half' ? 3.5 : (words[match[1].toLowerCase()] ?? Number(match[1]));
+    if (match[1].toLowerCase() === 'hundred') {
+      const multiplier = /(\d+)\s+$/u.exec(original.slice(0, match.index));
+      if (multiplier) amount *= Number(multiplier[1]);
+    }
     const factor = {lakh: 100000, crore: 10000000, million: 1000000, billion: 1000000000, trillion: 1000000000000}[match[2].toLowerCase()];
     if (/^\s+(?:million|billion|trillion)\b/i.test(original.slice(match.index + match[0].length))) continue;
     const expected = amount * factor;
@@ -81,6 +85,10 @@ function validateMagnitude(original, caption, index) {
       ...(expected >= 100000000 ? [`${expected / 100000000}亿`,
         ...(expected % 100000000 === 0 ? chineseInteger(expected / 100000000).map(number => `${number}亿`) : [])] : [])];
     if (expected >= 1000000000000) candidates.push(`${expected / 1000000000000}万亿`);
+    if (/\b(?:over|more than)\s*$/i.test(original.slice(Math.max(0, match.index - 20), match.index)))
+      for (const number of chineseInteger(expected)) {
+        candidates.push(`${number}多`, number.replace(/(万|亿)$/, '多$1'));
+      }
     if (!candidates.some(candidate => new RegExp(`(?<![\\d零一二三四五六七八九十百千万亿两])${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\d零一二三四五六七八九十百千万亿两])`).test(caption)))
       throw Error(`第 ${index} 页 ${match[0]} 的数量级不正确`);
   }
@@ -101,7 +109,7 @@ export function validateTranslation(book, translation) {
     const sourceNumbers = new Map();
     const numberPattern = /(?<!\d)(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?(?!\d)/g;
     const normalNumber = number => String(Number(number.replace(/,/g, '')));
-    const numericSource = original.replace(/(\d{1,3}),\s+(?=\d{3}(?:\.\d+)?)/g, '$1,');
+    const numericSource = original.replace(/(\d{1,3}),\s+(?=\d{3}\.\d+)/g, '$1,');
     for (const match of numericSource.matchAll(numberPattern)) {
       const number = match[0];
       if (/^\s+(?:lakh|crore|million|billion|trillion)s?\b/i.test(numericSource.slice(match.index + number.length))) continue;

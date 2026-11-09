@@ -15,6 +15,13 @@ from opencc import OpenCC
 
 # Reviewed against the complete source page and its translated caption.
 REPLACEMENTS = {
+    "storyweaver-139804": {2: [("400百万年前", "4亿年前"), ("65百万年前", "6500万年前")]},
+    "storyweaver-152051": {13: [("4.6亿年", "46亿年"), ("13.2亿年", "132亿年"), ("13.8亿年", "138亿年")]},
+    "storyweaver-268344": {13: [("200百万年", "2亿年")]},
+    "storyweaver-5205": {7: [("40 BILLION个", "400亿个")]},
+    "storyweaver-53256": {14: [("1.3亿人", "13亿人"), ("1.3亿！", "13亿！")]},
+    "storyweaver-55713": {13: [("500百万年前", "5亿年前")]},
+    "storyweaver-61595": {18: [("两千多万年前", "两千万年前")]},
     "storyweaver-541242": {23: [("成千上万只阿穆尔隼", "数十万只阿穆尔隼")]},
     "storyweaver-58665": {5: [("数到‘克若尔’", "数到上千万")]},
     "storyweaver-69028": {
