@@ -135,7 +135,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const activeCaption = activeContent?.caption ?? "";
   const hasCover = pages[0]?.position === 0;
   const cover = hasCover && index === 0;
-  const imageRatio = pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
+  const imageRatioKey = useCallback((item: Page) => `${activeBookId}:${activeRevisionItemId ?? ""}:${item.position}:${item.imageUrl ?? ""}:${item.publicImageUrl ?? ""}`, [activeBookId, activeRevisionItemId]);
+  const imageRatio = (page ? imageRatios[imageRatioKey(page)] : undefined) ?? pictureBookPageRatio(book?.aspectRatio || "1:1", book?.isSpread, page?.position ?? 0);
   const layoutEnabled = page?.textLayout?.enabled === true;
   const activeLayout = layoutEnabled ? "hidden" : pictureBookPlaybackLayout(pictureBookInitialLayout(layout, page?.playbackLayout, page?.textInImage), book?.isSpread);
   const pageLabel = (pageIndex: number) => hasCover && pageIndex === 0 ? "封面" : `第 ${pageIndex + 1 - Number(hasCover)} 页`;
@@ -176,7 +177,9 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const turnTo = useCallback((next: number) => {
     if (next < 0 || next >= pages.length || pageTurnRef.current) return;
     const direction = pictureBookSpreadTurn(pages, Boolean(book?.isSpread), index, next, window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    if (direction) {
+    const fromRatio = imageRatios[imageRatioKey(pages[index]!)];
+    const toRatio = imageRatios[imageRatioKey(pages[next]!)];
+    if (direction && fromRatio && toRatio && Math.abs(fromRatio - toRatio) < 0.0001) {
       const turn: PageTurn = { from: index, to: next, direction };
       audioRef.current?.pause();
       setPlaying(false);
@@ -185,7 +188,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       return;
     }
     goTo(next);
-  }, [book?.isSpread, goTo, index, pages]);
+  }, [book?.isSpread, goTo, imageRatioKey, imageRatios, index, pages]);
 
   const completePageTurn = useCallback(() => {
     const turn = pageTurnRef.current;
@@ -300,10 +303,10 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
       {page ? (
         <>
           <div className={styles.stage}>
-            <article className={styles.sheet} data-layout={activeLayout} data-cover={cover} aria-label={pageLabel(index)}>
+            <article className={styles.sheet} data-layout={activeCaption || cover ? activeLayout : "hidden"} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
-                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} onLoad={event => { const img = event.currentTarget; if (img.naturalHeight) setImageRatios(current => ({ ...current, [`${activeBookId}:${item.position}`]: img.naturalWidth / img.naturalHeight })); }} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
-                {layoutEnabled && page.imageUrl ? <div className={styles.textCanvas} style={{ width: `min(100%, calc(100cqh * ${imageRatios[`${activeBookId}:${page.position}`] ?? imageRatio}))`, aspectRatio: imageRatios[`${activeBookId}:${page.position}`] ?? imageRatio }}><PictureBookTextOverlay boxes={page.textLayout?.versions.find(item => item.language === language)?.boxes ?? []} /></div> : null}
+                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} onLoad={event => { const img = event.currentTarget; if (img.naturalWidth && img.naturalHeight) setImageRatios(current => ({ ...current, [imageRatioKey(item)]: img.naturalWidth / img.naturalHeight })); }} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
+                {layoutEnabled && page.imageUrl ? <div className={styles.textCanvas} style={{ width: `min(100%, calc(100cqh * ${imageRatio}))`, aspectRatio: imageRatio }}><PictureBookTextOverlay boxes={page.textLayout?.versions.find(item => item.language === language)?.boxes ?? []} /></div> : null}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
                 {pageTurn && turningPage && page.imageUrl && turningPage.imageUrl ? (
                   <div className={styles.pageTurn} data-direction={pageTurn.direction} aria-hidden="true">
