@@ -171,7 +171,7 @@ async function prepare(books) {
   const config = await modelConfig();
   const selected = args['--limit'] ? books.slice(0, Number(args['--limit'])) : books;
   const queue = [...selected]; let complete = 0, failed = 0, tokens = 0;
-  const workers = Array.from({length: Math.min(16, selected.length)}, async () => {
+  const workers = Array.from({length: Math.min(24, selected.length)}, async () => {
     while (queue.length) {
       const book = queue.shift();
       try {

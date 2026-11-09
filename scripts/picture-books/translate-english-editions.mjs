@@ -70,8 +70,9 @@ export function validateTranslation(book, translation) {
     if (!original && caption) throw Error(`第 ${index} 页原文空白却新增译文`);
     if (original && (!caption || (/[A-Za-z]/.test(original) && !/[\u3400-\u9fff]/u.test(caption)))) throw Error(`第 ${index} 页译文缺失或不是中文`);
     const sourceNumbers = new Map();
-    for (const number of original.match(/\b\d+(?:[.,]\d+)*\b/g) ?? []) sourceNumbers.set(number, (sourceNumbers.get(number) ?? 0) + 1);
-    const targetNumbers = caption.match(/\b\d+(?:[.,]\d+)*\b/g) ?? [];
+    const numberPattern = /\b\d+(?:,\d{3})*(?:\.\d+)?\b/g;
+    for (const number of original.match(numberPattern) ?? []) sourceNumbers.set(number, (sourceNumbers.get(number) ?? 0) + 1);
+    const targetNumbers = caption.match(numberPattern) ?? [];
     for (const [number, count] of sourceNumbers) {
       const arabic = targetNumbers.filter(item => item === number).length;
       const value = /^\d{1,3}(?:,\d{3})*$|^\d+$/.test(number) ? Number(number.replace(/,/g, '')) : NaN;

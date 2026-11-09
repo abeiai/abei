@@ -30,6 +30,8 @@ test('translation keeps exact page mapping, Arabic numerals, and blank pages', (
   assert.equal(validateTranslation(original, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '山姆找到了两只猫。'} : p)}).pages[1].caption, '山姆找到了两只猫。');
   const repeated = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '2 cats and 2 dogs.'} : p)};
   assert.throws(() => validateTranslation(repeated, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '2只猫和狗。'} : p)}), /数字/);
+  const list = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '2,4,6 cats.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(list, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '2、4、6只猫。'} : p)}));
   assert.throws(() => validateTranslation(original, {...translated, pages: translated.pages.map(p => p.position === 2 ? {...p, caption: '再见'} : p)}), /空白/);
 });
 
