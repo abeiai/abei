@@ -41,6 +41,7 @@ def main():
     changed_books = 0
     changed_captions = 0
     missing = []
+    pending = []
     for path in sorted(options.directory.glob("*.json")):
         if path.name.endswith(".draft.json") or path.name in {"publish-baseline.json"}:
             continue
@@ -68,14 +69,18 @@ def main():
             page["caption"] = caption
         if json.dumps(translation, ensure_ascii=False, sort_keys=True) != original:
             changed_books += 1
-            if options.apply:
-                temp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
-                with temp.open("w", encoding="utf-8") as file:
-                    json.dump(stage, file, ensure_ascii=False, separators=(",", ":"))
-                os.chmod(temp, 0o600)
-                temp.replace(path)
+            pending.append((path, stage))
     print(json.dumps({"changedBooks": changed_books, "changedCaptions": changed_captions,
-                      "missingExpectedPhrases": missing, "applied": options.apply}, ensure_ascii=False))
+                      "missingExpectedPhrases": missing, "applied": options.apply and not missing}, ensure_ascii=False))
+    if missing:
+        raise SystemExit("校审词组未全部找到，未写入任何文件")
+    if options.apply:
+        for path, stage in pending:
+            temp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+            with temp.open("w", encoding="utf-8") as file:
+                json.dump(stage, file, ensure_ascii=False, separators=(",", ":"))
+            os.chmod(temp, 0o600)
+            temp.replace(path)
 
 
 if __name__ == "__main__":

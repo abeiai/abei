@@ -132,7 +132,7 @@ async function translateChunk(config, book, chunk, previous, note = '', compact 
       const parsed = JSON.parse(content);
       if (!parsed.title?.trim() || !Array.isArray(parsed.pages) || parsed.pages.length !== chunk.length) throw Error('JSON 页数或译名错误');
       for (const [index, page] of chunk.entries()) if (parsed.pages[index]?.position !== page.position || typeof parsed.pages[index]?.caption !== 'string') throw Error('JSON 页码错误');
-      return {translation: parsed, usage: result.usage ?? {}};
+      return {translation: parsed, usage: result.usage ?? {}, compactUsed: compact};
     } catch (error) {
       lastError = error;
       if (/data_inspection_failed/.test(error.message)) break;
@@ -144,7 +144,7 @@ async function translateChunk(config, book, chunk, previous, note = '', compact 
     const middle = Math.ceil(chunk.length / 2);
     const left = await translateChunk(config, book, chunk.slice(0, middle), previous, note, compact);
     const right = await translateChunk(config, book, chunk.slice(middle), [...previous, ...left.translation.pages], note, compact);
-    return {translation: {title: left.translation.title, pages: [...left.translation.pages, ...right.translation.pages]}, usage: {
+    return {translation: {title: left.translation.title, pages: [...left.translation.pages, ...right.translation.pages]}, compactUsed: left.compactUsed || right.compactUsed, usage: {
       prompt_tokens: (left.usage.prompt_tokens ?? 0) + (right.usage.prompt_tokens ?? 0),
       completion_tokens: (left.usage.completion_tokens ?? 0) + (right.usage.completion_tokens ?? 0),
     }};
@@ -178,6 +178,7 @@ async function prepareOne(book, config) {
   catch (error) { if (error.code !== 'ENOENT') throw error; }
   if (draft && (draft.id !== book.id || draft.sourceDigest !== sourceDigest(book) || !Array.isArray(draft.pages) || typeof draft.title !== 'string')) throw Error(`${book.id}: 未完成翻译断点不匹配`);
   let title = draft?.title ?? '', translatedPages = draft?.pages ?? [], usage = draft?.usage ?? {prompt_tokens: 0, completion_tokens: 0};
+  let compactUsed = draft?.compactUsed ?? false;
   if (title && !/[\u3400-\u9fff]/u.test(title)) title = '';
   const donePositions = new Set(translatedPages.map(page => page.position));
   const chunks = chunksForPages(pages.filter(page => String(page.caption ?? '').trim() && !donePositions.has(page.position)));
@@ -187,7 +188,8 @@ async function prepareOne(book, config) {
     title = result.translation.title;
     usage.prompt_tokens += result.usage.prompt_tokens ?? 0;
     usage.completion_tokens += result.usage.completion_tokens ?? 0;
-    await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translatedPages, usage});
+    compactUsed ||= result.compactUsed;
+    await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translatedPages, usage, compactUsed});
   }
   for (const chunk of chunks) {
     const result = await translateChunk(config, book, chunk, translatedPages);
@@ -199,7 +201,8 @@ async function prepareOne(book, config) {
     translatedPages.push(...result.translation.pages);
     usage.prompt_tokens += result.usage.prompt_tokens ?? 0;
     usage.completion_tokens += result.usage.completion_tokens ?? 0;
-    await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translatedPages, usage});
+    compactUsed ||= result.compactUsed;
+    await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translatedPages, usage, compactUsed});
   }
   const byPosition = new Map(translatedPages.map(page => [page.position, page]));
   const completePages = pages.map(page => byPosition.get(page.position) ?? {position: page.position, caption: ''});
@@ -213,11 +216,12 @@ async function prepareOne(book, config) {
       translation.pages[index] = fixed.translation.pages[0];
       usage.prompt_tokens += fixed.usage.prompt_tokens ?? 0;
       usage.completion_tokens += fixed.usage.completion_tokens ?? 0;
-      await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translation.pages.filter(page => String(pages[page.position]?.caption ?? '').trim()), usage});
+      compactUsed ||= fixed.compactUsed;
+      await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translation.pages.filter(page => String(pages[page.position]?.caption ?? '').trim()), usage, compactUsed});
       if (repair === 5) validateTranslation(book, translation);
     }
   }
-  await writePrivate(join(workDir, `${book.id}.json`), {id: book.id, sourceDigest: sourceDigest(book), translation, model: config.name, usage, createdAt: new Date().toISOString()});
+  await writePrivate(join(workDir, `${book.id}.json`), {id: book.id, sourceDigest: sourceDigest(book), translation, model: config.name, usage, compactUsed, createdAt: new Date().toISOString()});
   await fs.rm(draftPath, {force: true});
   return 'translated';
 }

@@ -39,7 +39,7 @@ export function chunksForPages(pages, maxCharacters = 4800, maxPages = 15) {
 }
 
 function chineseInteger(value) {
-  if (!Number.isSafeInteger(value) || value < 0 || value > 99999999) return [];
+  if (!Number.isSafeInteger(value) || value < 0 || value > 999999999999) return [];
   const digits = '零一二三四五六七八九';
   const small = number => {
     if (number === 0) return '零';
@@ -54,26 +54,34 @@ function chineseInteger(value) {
     }
     return text;
   };
+  if (value >= 100000000) {
+    const high = Math.floor(value / 100000000), low = value % 100000000;
+    const prefix = chineseInteger(high);
+    const suffix = low ? chineseInteger(low) : [''];
+    return [...new Set(prefix.flatMap(a => suffix.map(b => `${a}亿${low && low < 10000000 ? '零' : ''}${b}`)))];
+  }
   const high = Math.floor(value / 10000), low = value % 10000;
   const text = high ? `${small(high)}万${low ? `${low < 1000 ? '零' : ''}${small(low)}` : ''}` : small(low);
   return [...new Set([text, text.replace(/二(?=[百千万])/g, '两'), ...(value === 2 ? ['两'] : [])])];
 }
 
-function validateIndianMagnitude(original, caption, index) {
+function validateMagnitude(original, caption, index) {
   const words = {one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
     twenty: 20, thirty: 30, forty: 40, fifty: 50, hundred: 100};
-  const pattern = /\b(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|twenty|thirty|forty|fifty|hundred|three and a half)\s+(lakh|crore)s?\b/gi;
+  const pattern = /\b(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|twenty|thirty|forty|fifty|hundred|three and a half)\s+(lakh|crore|million|billion|trillion)s?\b/gi;
   for (const match of original.matchAll(pattern)) {
     const amount = match[1].toLowerCase() === 'three and a half' ? 3.5 : (words[match[1].toLowerCase()] ?? Number(match[1]));
-    const expected = amount * (match[2].toLowerCase() === 'lakh' ? 100000 : 10000000);
+    const factor = {lakh: 100000, crore: 10000000, million: 1000000, billion: 1000000000, trillion: 1000000000000}[match[2].toLowerCase()];
+    if (/^\s+(?:million|billion|trillion)\b/i.test(original.slice(match.index + match[0].length))) continue;
+    const expected = amount * factor;
     if (!Number.isSafeInteger(expected)) continue;
     const candidates = [String(expected), expected.toLocaleString('en-US'),
       ...chineseInteger(expected),
       ...(expected % 10000 === 0 ? [`${expected / 10000}万`] : []),
-      ...(expected % 100000000 === 0 ? [`${expected / 100000000}亿`, ...chineseInteger(expected / 100000000).map(number => `${number}亿`)] : [])];
-    if (!candidates.some(candidate => /\d/.test(candidate)
-      ? new RegExp(`(?<!\\d)${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!\\d)`).test(caption)
-      : caption.includes(candidate))) throw Error(`第 ${index} 页 ${match[0]} 的数量级不正确`);
+      ...(expected >= 100000000 ? [`${expected / 100000000}亿`,
+        ...(expected % 100000000 === 0 ? chineseInteger(expected / 100000000).map(number => `${number}亿`) : [])] : [])];
+    if (!candidates.some(candidate => new RegExp(`(?<![\\d零一二三四五六七八九十百千万亿两])${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\d零一二三四五六七八九十百千万亿两])`).test(caption)))
+      throw Error(`第 ${index} 页 ${match[0]} 的数量级不正确`);
   }
 }
 
@@ -88,13 +96,14 @@ export function validateTranslation(book, translation) {
     if (!original && caption) throw Error(`第 ${index} 页原文空白却新增译文`);
     if (original && (!caption || (/[A-Za-z]/.test(original) && !/[\u3400-\u9fff]/u.test(caption)))) throw Error(`第 ${index} 页译文缺失或不是中文`);
     if (original.startsWith('@page {')) continue;
-    validateIndianMagnitude(original, caption, index);
+    validateMagnitude(original, caption, index);
     const sourceNumbers = new Map();
     const numberPattern = /(?<!\d)(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?(?!\d)/g;
     const normalNumber = number => String(Number(number.replace(/,/g, '')));
-    for (const match of original.matchAll(numberPattern)) {
+    const numericSource = original.replace(/(\d{1,3}),\s+(?=\d{3}(?:\.\d+)?)/g, '$1,');
+    for (const match of numericSource.matchAll(numberPattern)) {
       const number = match[0];
-      if (/^\s+(?:lakh|crore)s?\b/i.test(original.slice(match.index + number.length))) continue;
+      if (/^\s+(?:lakh|crore|million|billion|trillion)s?\b/i.test(numericSource.slice(match.index + number.length))) continue;
       sourceNumbers.set(number, (sourceNumbers.get(number) ?? 0) + 1);
     }
     const targetNumbers = (caption.match(numberPattern) ?? []).map(normalNumber);
@@ -105,14 +114,24 @@ export function validateTranslation(book, translation) {
       const clock = /^([01]?\d|2[0-3])\.([0-5]\d)$/.exec(number);
       const naturalTime = clock ? caption.split(`${Number(clock[1])}点${clock[2]}分`).length - 1 : 0;
       const covid = number === '19' && /COVID-19/i.test(original) ? (caption.match(/新冠(?:肺炎|病毒|疫情)/g) ?? []).length : 0;
+      const decadeYear = /^19\d0$/.test(number) && numericSource.includes(`${number}s`) ? Number(number) : null;
+      const decade = decadeYear ? [`20世纪${decadeYear % 100}年代`, `上世纪${decadeYear % 100}年代`]
+        .concat([`二十世纪${chineseInteger(decadeYear % 100)[0]}年代`])
+        .reduce((total, form) => total + caption.split(form).length - 1, 0) : 0;
+      const nineteenth = /^18\d0$/.test(number) && numericSource.includes(`${number}s`) && /(?:19|十九)世纪/.test(caption) ? 1 : 0;
       const exponent = /(?:Powers of 10|superscript of 10)/i.test(original) ? /^10([1-9]\d?)$/.exec(number)?.[1] : null;
       const superscript = exponent?.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)]);
       const scientific = exponent ? [`10${superscript}`, `10^${exponent}`, `10的${exponent}次方`].reduce((total, form) => total + caption.split(form).length - 1, 0) : 0;
-      const squareBase = /Squared or/i.test(original) ? /^(\d+)2$/.exec(number)?.[1] : null;
+      const squareBase = /\b(?:squared|squares?|square)\b/i.test(original) ? /^(\d+)2$/.exec(number)?.[1] : null;
       const squared = squareBase ? caption.split(`${squareBase}²`).length - 1 : 0;
       const footnoteMark = original.includes(`)${number}`) ? number.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)]) : null;
-      const footnote = footnoteMark ? caption.split(footnoteMark).length - 1 : 0;
-      if (arabic + chinese + naturalTime + covid + scientific + squared + footnote < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
+      const footnote = footnoteMark ? caption.split(footnoteMark).length - 1 :
+        (/^\d$/.test(number) && (original.includes(`.${number}`) || new RegExp(`\\b${number}[A-Z]`).test(original))
+          ? caption.split(number.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)])).length - 1 : 0);
+      const algebraic = /^\d$/.test(number) && new RegExp(`[A-Za-z]${number}\\b`).test(original)
+        ? caption.split('⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(number)]).length - 1 : 0;
+      const cubicUnit = number === '3' && /\bcm3\b/i.test(original) ? caption.split('立方厘米').length - 1 : 0;
+      if (arabic + chinese + naturalTime + covid + decade + nineteenth + scientific + squared + footnote + algebraic + cubicUnit < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
     }
   }
   return translation;
