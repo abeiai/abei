@@ -34,6 +34,12 @@ test('translation keeps exact page mapping, Arabic numerals, and blank pages', (
   assert.doesNotThrow(() => validateTranslation(list, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '2、4、6只猫。'} : p)}));
   const time = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'At 10.45 am.'} : p)};
   assert.doesNotThrow(() => validateTranslation(time, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '上午10点45分。'} : p)}));
+  const distance = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '22,000km and 2,00,000 years.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(distance, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '22,000公里与二十万年。'} : p)}));
+  const date = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: 'On 1/09/1983.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(date, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '1983年9月1日。'} : p)}));
+  const css = {...original, pages: original.pages.map(p => p.position === 1 ? {...p, caption: '@page { margin: 0.79in } The pond is here.'} : p)};
+  assert.doesNotThrow(() => validateTranslation(css, {...translated, pages: translated.pages.map(p => p.position === 1 ? {...p, caption: '池塘就在这里。'} : p)}));
   assert.throws(() => validateTranslation(original, {...translated, pages: translated.pages.map(p => p.position === 2 ? {...p, caption: '再见'} : p)}), /空白/);
 });
 

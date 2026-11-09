@@ -69,17 +69,20 @@ export function validateTranslation(book, translation) {
     const original = String(source.caption ?? '').trim(), caption = target.caption.trim();
     if (!original && caption) throw Error(`第 ${index} 页原文空白却新增译文`);
     if (original && (!caption || (/[A-Za-z]/.test(original) && !/[\u3400-\u9fff]/u.test(caption)))) throw Error(`第 ${index} 页译文缺失或不是中文`);
+    if (original.startsWith('@page {')) continue;
     const sourceNumbers = new Map();
-    const numberPattern = /\b\d+(?:,\d{3})*(?:\.\d+)?\b/g;
+    const numberPattern = /(?<!\d)(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?(?!\d)/g;
+    const normalNumber = number => String(Number(number.replace(/,/g, '')));
     for (const number of original.match(numberPattern) ?? []) sourceNumbers.set(number, (sourceNumbers.get(number) ?? 0) + 1);
-    const targetNumbers = caption.match(numberPattern) ?? [];
+    const targetNumbers = (caption.match(numberPattern) ?? []).map(normalNumber);
     for (const [number, count] of sourceNumbers) {
-      const arabic = targetNumbers.filter(item => item === number).length;
-      const value = /^\d{1,3}(?:,\d{3})*$|^\d+$/.test(number) ? Number(number.replace(/,/g, '')) : NaN;
+      const arabic = targetNumbers.filter(item => item === normalNumber(number)).length;
+      const value = Number(number.replace(/,/g, ''));
       const chinese = chineseInteger(value).reduce((max, variant) => Math.max(max, caption.split(variant).length - 1), 0);
       const clock = /^([01]?\d|2[0-3])\.([0-5]\d)$/.exec(number);
       const naturalTime = clock ? caption.split(`${Number(clock[1])}点${clock[2]}分`).length - 1 : 0;
-      if (arabic + chinese + naturalTime < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
+      const covid = number === '19' && /COVID-19/i.test(original) ? (caption.match(/新冠(?:肺炎|病毒|疫情)/g) ?? []).length : 0;
+      if (arabic + chinese + naturalTime + covid < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
     }
   }
   return translation;
