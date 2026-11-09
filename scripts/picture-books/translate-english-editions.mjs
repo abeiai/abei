@@ -77,7 +77,9 @@ export function validateTranslation(book, translation) {
       const arabic = targetNumbers.filter(item => item === number).length;
       const value = /^\d{1,3}(?:,\d{3})*$|^\d+$/.test(number) ? Number(number.replace(/,/g, '')) : NaN;
       const chinese = chineseInteger(value).reduce((max, variant) => Math.max(max, caption.split(variant).length - 1), 0);
-      if (arabic + chinese < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
+      const clock = /^([01]?\d|2[0-3])\.([0-5]\d)$/.exec(number);
+      const naturalTime = clock ? caption.split(`${Number(clock[1])}点${clock[2]}分`).length - 1 : 0;
+      if (arabic + chinese + naturalTime < count) throw Error(`第 ${index} 页数字 ${number} 未保留`);
     }
   }
   return translation;
