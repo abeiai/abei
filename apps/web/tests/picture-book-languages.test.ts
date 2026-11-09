@@ -17,6 +17,8 @@ test("未翻译的页面回退原文，不将原语种语音误标为译文", ()
   assert.deepEqual(pictureBookPageContent(pages[2]!, "en"), { caption: "再见", originalCaption: "再见", audioUrl: "original-2.mp3", language: undefined });
 });
 
-test("尚未合成语音的译文不出现在语音语种选择中", () => {
-  assert.deepEqual(pictureBookAvailableLanguages([{ caption: "你好", audioUrl: "original.mp3", translations: [{ language: "fr", caption: "Bonjour", audioUrl: null }] }]), []);
+test("尚未合成语音的译文仍可作为阅读语言选择，且不会播放原文语音", () => {
+  const page = { caption: "Hello", audioUrl: "original.mp3", translations: [{ language: "zh-CN", caption: "你好", audioUrl: null }] };
+  assert.deepEqual(pictureBookAvailableLanguages([page]), ["zh-CN"]);
+  assert.deepEqual(pictureBookPageContent(page, "zh-CN"), { caption: "你好", originalCaption: "Hello", audioUrl: null, language: "zh-CN" });
 });

@@ -31,6 +31,17 @@ test("审核快照和播放器保留图文编排，且不公开额外字段", ()
   assert.equal(JSON.stringify(snapshot).includes("private"), false);
 });
 
+test("英文原书的图文编排允许同图中文文字层，不需要语音", () => {
+  const bilingual = { enabled: true, versions: [
+    { language: "original", boxes: [box("cover", "Shongololo's Shoes")], audioUrl: null },
+    { language: "zh-CN", boxes: [box("cover", "松果洛洛的鞋子")], audioUrl: null }
+  ] };
+  const snapshot = snapshotCourseMaterial("PICTURE_BOOK", { title: "Shongololo's Shoes", pages: [{ ...page, textLayout: bilingual }] });
+  const versions = playbackFromSnapshot("book", snapshot).pages[0]?.textLayout?.versions;
+  assert.equal(versions?.find(version => version.language === "zh-CN")?.boxes[0]?.text, "松果洛洛的鞋子");
+  assert.equal(versions?.find(version => version.language === "original")?.boxes[0]?.text, "Shongololo's Shoes");
+});
+
 test("快照只公开当前生效的文字，关闭编排不暴露未审核的图层草稿", () => {
   const active = snapshotCourseMaterial("PICTURE_BOOK", { pages: [{ ...page, caption: "不展示的旧内容", narration: "旧文稿", translations: [{ language: "fr", caption: "未展示的旧译文", audioUrl: null }] }] });
   assert.doesNotMatch(JSON.stringify(active), /不展示的旧内容|旧文稿|未展示的旧译文/);

@@ -37,6 +37,21 @@ test("绘本发布快照保存译文和语音，但不包含生成任务信息",
   assert.equal(JSON.stringify(snapshot).includes("private"), false);
 });
 
+test("同一本英文绘本保存无语音的中文标题和逐页译文", () => {
+  const snapshot = snapshotCourseMaterial("PICTURE_BOOK", { title: "It Is Raining", titleTranslations: [{ language: "zh-CN", title: "要下雨啦！" }], pages: [
+    { position: 0, caption: "It Is Raining", imageUrl: "https://r.example/cover.png", audioUrl: null, translations: [{ language: "zh-CN", caption: "要下雨啦！", audioUrl: null }] },
+    { position: 1, caption: "Rain falls", imageUrl: "https://r.example/page.png", audioUrl: null, translations: [{ language: "zh-CN", caption: "雨落下来", audioUrl: null }] }
+  ] });
+  const book = playbackFromSnapshot("english-book", snapshot);
+  assert.equal(book.id, "english-book");
+  assert.deepEqual(book.titleTranslations, [{ language: "zh-CN", title: "要下雨啦！" }]);
+  assert.deepEqual(book.pages.map(page => page.translations), [
+    [{ language: "zh-CN", caption: "要下雨啦！", audioUrl: null }],
+    [{ language: "zh-CN", caption: "雨落下来", audioUrl: null }]
+  ]);
+  assert.deepEqual(book.pages.map(page => page.imageUrl), ["https://r.example/cover.png", "https://r.example/page.png"]);
+});
+
 test("私有播放按译文语种读取对应音频，缺失时不回退原文音频", async () => {
   const service = Object.create(PictureBookService.prototype) as PictureBookService;
   Object.assign(service, {

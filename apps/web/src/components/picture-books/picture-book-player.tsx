@@ -21,7 +21,7 @@ import type { CoursePageResult } from "@/lib/course-types";
 import styles from "./picture-book-player.module.css";
 
 type Page = { position: number; caption: string; narration: string; imageUrl: string | null; audioUrl: string | null; publicImageUrl?: string; publicAudioUrl?: string; translations?: PictureBookTranslation[]; textInImage?: boolean; playbackLayout?: "hidden"; textLayout?: PictureBookTextLayout };
-type Book = { id: string; title: string; style: string; aspectRatio: string; englishLevel?: number | null; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; editions?: PictureBookEdition[]; pages: Page[] };
+type Book = { id: string; title: string; titleTranslations?: Array<{ language: string; title: string }>; style: string; aspectRatio: string; englishLevel?: number | null; isSpread?: boolean; publicMediaBaseUrl?: string; source?: { name?: string; iconUrl?: string; url?: string; statement?: string }; editions?: PictureBookEdition[]; pages: Page[] };
 type PageTurn = { from: number; to: number; direction: "forward" | "backward" };
 const layouts = [
   { value: "subtitle", label: "底部字幕", icon: Captions },
@@ -116,6 +116,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         const defaultAutoTurn = pictureBookDefaultAutoTurn(result.data.pages);
         setAutoTurn(defaultAutoTurn);
         setRunning(defaultAutoTurn);
+        if (result.data.id !== activeBookId && /^(storyweaver|bookdash)-cn-/.test(activeBookId) && result.data.titleTranslations?.some(item => item.language === "zh-CN")) setLanguage("zh-CN");
         setBook(result.data);
       })
       .catch((reason: unknown) => {
@@ -128,6 +129,8 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const page = pages[index];
   const strictLanguages = pages.some(item => item.textLayout?.enabled);
   const availableLanguages = [...new Set([...pictureBookAvailableLanguages(pages), ...pages.flatMap(item => item.textLayout?.enabled ? item.textLayout.versions.filter(version => version.language !== "original").map(version => version.language) : [])])];
+  const originalLanguage = book?.editions?.find(item => item.current)?.language;
+  const activeTitle = language === "original" ? book?.title : book?.titleTranslations?.find(item => item.language === language)?.title ?? book?.title;
   const editionOptions = pictureBookEditionOptions(book?.editions ?? []);
   const activeContent = page ? readerPageContent(page, language, strictLanguages) : null;
   const activeAudioUrl = activeContent?.audioUrl;
@@ -284,10 +287,11 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
     <main ref={playerRef} className={`${styles.player} text-foreground`} data-public-theme="default" data-controls={zones.controls || volumeOpen || Boolean(audioError || viewError)} data-close={zones.close} data-previous={zones.previous} data-next={zones.next} onPointerMove={event => { if (fullscreen) { const rect = event.currentTarget.getBoundingClientRect(); const nextZones = pictureBookFullscreenZones(event.clientX - rect.left, event.clientY - rect.top, rect.width, rect.height); setZones(nextZones); if (!nextZones.controls && !volumeRef.current?.contains(event.target as Node)) setVolumeOpen(false); } }} onPointerLeave={() => { setZones({ controls: false, close: false, previous: false, next: false }); setVolumeOpen(false); }} style={{ "--image-ratio": imageRatio } as CSSProperties}>
       <header className={styles.header}>
         <Link className={styles.back} href={returnHref}><ArrowLeft className="size-5" /><span>{courseId ? "返回资源" : "返回绘本"}</span></Link>
-        <h1 className="truncate text-base font-semibold sm:text-xl">{book?.title || "绘本播放"}</h1>
+        <h1 className="truncate text-base font-semibold sm:text-xl">{activeTitle || "绘本播放"}</h1>
         <div className={styles.headerTools}>
         {pictureBookEnglishLevelLabel(book?.englishLevel) ? <span className="text-sm">{pictureBookEnglishLevelLabel(book?.englishLevel)}</span> : null}
         {editionOptions.length ? <select aria-label="绘本语种" className={styles.editionSelect} value={editionOptions.find(item => item.current)?.id} onChange={event => { const target = editionOptions.find(item => item.id === event.target.value); if (target && !target.current) window.location.assign(target.href); }}>{editionOptions.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select> : null}
+        {availableLanguages.length ? <select aria-label="阅读语言" className={styles.editionSelect} value={language} onChange={event => { audioRef.current?.pause(); setPlaying(false); setCoverNarrationEnded(false); setLanguage(event.target.value); }}><option value="original">{originalLanguage ? `${pictureBookLanguageName(originalLanguage)}（原文）` : "原文"}</option>{availableLanguages.map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}</select> : null}
         {book?.source?.name ? <div className={styles.source}>
           {book.source.url ? <a className={styles.sourceLink} href={book.source.url} target="_blank" rel="noopener noreferrer" aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</a> : <span className={styles.sourceLink} tabIndex={0} aria-describedby={book.source.statement ? sourceId : undefined}>{book.source.iconUrl ? <img src={book.source.iconUrl} alt={book.source.name} /> : book.source.name}</span>}
           {book.source.statement ? <><button type="button" className={styles.sourceInfo} aria-label="查看来源声明" aria-expanded={sourceOpen} aria-controls={sourceId} onClick={() => setSourceOpen(!sourceOpen)}><Info size={18} /></button><div id={sourceId} role="region" aria-label="来源声明" className={styles.sourceTooltip} data-open={sourceOpen}><PictureBookSourceStatement text={book.source.statement} /></div></> : null}
@@ -305,7 +309,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
           <div className={styles.stage}>
             <article className={styles.sheet} data-layout={activeCaption || cover ? activeLayout : "hidden"} data-cover={cover} aria-label={pageLabel(index)}>
               <div className={styles.artwork}>
-                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${book?.title}${pageLabel(pages.indexOf(item))}`} className={styles.image} onLoad={event => { const img = event.currentTarget; if (img.naturalWidth && img.naturalHeight) setImageRatios(current => ({ ...current, [imageRatioKey(item)]: img.naturalWidth / img.naturalHeight })); }} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
+                {imagePages.map(item => item.imageUrl ? <PictureBookImage key={`${activeBookId}-${item.position}`} hidden={item.position !== page.position} alt={`${activeTitle}${pageLabel(pages.indexOf(item))}`} className={styles.image} onLoad={event => { const img = event.currentTarget; if (img.naturalWidth && img.naturalHeight) setImageRatios(current => ({ ...current, [imageRatioKey(item)]: img.naturalWidth / img.naturalHeight })); }} src={imageSource(item)} fallbackSrc={imageFallbackSource(item)} /> : null)}
                 {layoutEnabled && page.imageUrl ? <div className={styles.textCanvas} style={{ width: `min(100%, calc(100cqh * ${imageRatio}))`, aspectRatio: imageRatio }}><PictureBookTextOverlay boxes={page.textLayout?.versions.find(item => item.language === language)?.boxes ?? []} /></div> : null}
                 {!page.imageUrl ? <div className="flex h-full items-center justify-center text-sm text-muted-foreground">这一页还没有图片</div> : null}
                 {pageTurn && turningPage && page.imageUrl && turningPage.imageUrl ? (

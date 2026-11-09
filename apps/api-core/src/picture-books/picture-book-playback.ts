@@ -41,12 +41,15 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
       ...(page.textLayout ? { textLayout: parseTextLayout(page.textLayout) } : {}),
       imageUrl: url(page.imageUrl),
       audioUrl: url(page.audioUrl),
-      ...(Array.isArray(page.translations) ? { translations: page.translations.map(object).filter(item => /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(string(item.language)) && string(item.language) !== "zh" && string(item.language) !== "zh-CN" && string(item.caption).trim()).slice(0, 20).map(item => ({ language: string(item.language), caption: string(item.caption), audioUrl: url(item.audioUrl) })) } : {})
+      ...(Array.isArray(page.translations) ? { translations: page.translations.map(object).filter(item => /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(string(item.language)) && string(item.language) !== "zh" && string(item.caption).trim()).slice(0, 20).map(item => ({ language: string(item.language), caption: string(item.caption), audioUrl: url(item.audioUrl) })) } : {})
     }))
     .sort((a, b) => a.position - b.position);
   return {
     id,
     title: string(source.title),
+    ...(Array.isArray(source.titleTranslations) && source.titleTranslations.length ? { titleTranslations: source.titleTranslations
+      .map(object).filter(item => /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(string(item.language)) && string(item.title).trim())
+      .slice(0, 20).map(item => ({ language: string(item.language), title: string(item.title) })) } : {}),
     ...(Number.isInteger(source.englishLevel) && Number(source.englishLevel) >= 1 && Number(source.englishLevel) <= 5 ? { englishLevel: Number(source.englishLevel) } : {}),
     style: string(source.style),
     aspectRatio: string(source.aspectRatio) || "1:1",

@@ -826,6 +826,7 @@ model PictureBook {
   id           String   @id @default(cuid())
   userId       String
   title        String
+  titleTranslations Json @default("[]")
   brief        String   @db.Text
   theme        String   @default("")
   audience     String   @default("")

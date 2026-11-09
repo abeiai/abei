@@ -174,11 +174,11 @@ ${JSON.stringify(titleData)}`,
     const search = q.trim();
     const publicMediaBaseUrl = this.publicMediaBaseUrl();
     const [rows, totals] = await Promise.all([
-      this.prisma.$queryRaw<Array<{ pictureBookId: string; publishedSnapshot: Prisma.JsonValue; publishedCoverUrl: string }>>`SELECT "pictureBookId", "publishedSnapshot", "publishedCoverUrl" FROM "picture_book_submissions" WHERE "publishedAt" IS NOT NULL AND "publishedCoverUrl" IS NOT NULL AND (${search} = '' OR strpos(lower(COALESCE("publishedSnapshot"->>'title', '')), lower(${search})) > 0) ORDER BY COALESCE("catalogSortAt", "publishedAt") DESC, "id" DESC OFFSET ${(page - 1) * pageSize} LIMIT ${pageSize}`,
-      this.prisma.$queryRaw<Array<{ total: number }>>`SELECT count(*)::int AS total FROM "picture_book_submissions" WHERE "publishedAt" IS NOT NULL AND "publishedCoverUrl" IS NOT NULL AND (${search} = '' OR strpos(lower(COALESCE("publishedSnapshot"->>'title', '')), lower(${search})) > 0)`
+      this.prisma.$queryRaw<Array<{ pictureBookId: string; publishedSnapshot: Prisma.JsonValue; publishedCoverUrl: string }>>`SELECT "pictureBookId", "publishedSnapshot", "publishedCoverUrl" FROM "picture_book_submissions" WHERE "publishedAt" IS NOT NULL AND "publishedCoverUrl" IS NOT NULL AND (${search} = '' OR strpos(lower(COALESCE("publishedSnapshot"->>'title', '')), lower(${search})) > 0 OR EXISTS (SELECT 1 FROM jsonb_array_elements(CASE WHEN jsonb_typeof("publishedSnapshot"->'titleTranslations') = 'array' THEN "publishedSnapshot"->'titleTranslations' ELSE '[]'::jsonb END) AS translated WHERE strpos(lower(COALESCE(translated->>'title', '')), lower(${search})) > 0)) ORDER BY COALESCE("catalogSortAt", "publishedAt") DESC, "id" DESC OFFSET ${(page - 1) * pageSize} LIMIT ${pageSize}`,
+      this.prisma.$queryRaw<Array<{ total: number }>>`SELECT count(*)::int AS total FROM "picture_book_submissions" WHERE "publishedAt" IS NOT NULL AND "publishedCoverUrl" IS NOT NULL AND (${search} = '' OR strpos(lower(COALESCE("publishedSnapshot"->>'title', '')), lower(${search})) > 0 OR EXISTS (SELECT 1 FROM jsonb_array_elements(CASE WHEN jsonb_typeof("publishedSnapshot"->'titleTranslations') = 'array' THEN "publishedSnapshot"->'titleTranslations' ELSE '[]'::jsonb END) AS translated WHERE strpos(lower(COALESCE(translated->>'title', '')), lower(${search})) > 0))`
     ]);
     const total = totals[0]?.total ?? 0;
-    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.title, englishLevel: book.englishLevel, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl) || page.textLayout?.versions.some(item => item.audioUrl)), href: publicPictureBookHref(book.id) }; }), total, page, pageSize };
+    return { items: rows.map(row => { const book = playbackFromSnapshot(row.pictureBookId, row.publishedSnapshot); return { id: book.id, title: book.titleTranslations?.find(item => item.language === "zh-CN")?.title ?? book.title, englishLevel: book.englishLevel, coverUrl: this.publicMediaUrl(row.publishedCoverUrl, publicMediaBaseUrl) ?? `/api/public/picture-books/${encodeURIComponent(book.id)}/cover`, pageCount: book.pages.filter(page => page.position > 0).length, hasAudio: book.pages.some(page => page.audioUrl || page.translations?.some(item => item.audioUrl) || page.textLayout?.versions.some(item => item.audioUrl)), href: publicPictureBookHref(book.id) }; }), total, page, pageSize };
   }
 
   async albums() {
@@ -227,7 +227,12 @@ ${JSON.stringify(titleData)}`,
   }
 
   private async published(pictureBookId: string) {
-    const row = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId: resolvePublicPictureBookId(pictureBookId), publishedAt: { not: null }, publishedCoverUrl: { not: null } } });
+    let row = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId: resolvePublicPictureBookId(pictureBookId), publishedAt: { not: null }, publishedCoverUrl: { not: null } } });
+    if (!row && /^(storyweaver|bookdash)-cn-/.test(pictureBookId)) {
+      const originalId = pictureBookId.replace(/^(storyweaver|bookdash)-cn-/, "$1-");
+      const original = await this.prisma.pictureBookSubmission.findFirst({ where: { pictureBookId: originalId, publishedAt: { not: null }, publishedCoverUrl: { not: null } } });
+      if (original && playbackFromSnapshot(original.pictureBookId, original.publishedSnapshot).titleTranslations?.some(item => item.language === "zh-CN")) row = original;
+    }
     if (!row) throw new AppException(40401, "绘本不存在或尚未审核发布", 404);
     return row;
   }

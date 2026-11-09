@@ -19,7 +19,7 @@ export function parseTextLayout(input: unknown): PictureBookTextLayout {
   const versions: PictureBookTextVersion[] = value.versions.map((item: unknown) => {
     if (!item || typeof item !== "object" || Array.isArray(item)) return fail();
     const version = item as Record<string, unknown>;
-    if (typeof version.language !== "string" || !/^(original|[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?)$/.test(version.language) || version.language === "zh" || version.language === "zh-CN" || !Array.isArray(version.boxes) || version.boxes.length > 50) return fail();
+    if (typeof version.language !== "string" || !/^(original|[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?)$/.test(version.language) || version.language === "zh" || !Array.isArray(version.boxes) || version.boxes.length > 50) return fail();
     const boxes: PictureBookTextBox[] = version.boxes.map((item: unknown) => {
       if (!item || typeof item !== "object" || Array.isArray(item)) return fail();
       const box = item as Record<string, unknown>;

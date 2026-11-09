@@ -25,7 +25,7 @@ export interface PictureBookTranslation {
 export class PictureBookTranslationConflictError extends Error {}
 
 export function validPictureBookLanguage(language: string): boolean {
-  return /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(language) && language !== "zh" && language !== "zh-CN";
+  return /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(language) && language !== "zh";
 }
 
 export function pictureBookTranslation(page: PictureBookPage, language?: string): PictureBookTranslation | undefined {

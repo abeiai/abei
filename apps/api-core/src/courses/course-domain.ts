@@ -306,6 +306,7 @@ export function snapshotCourseMaterial(
   } else if (type === "PICTURE_BOOK") {
     projected = {
       title: source.title,
+      ...(Array.isArray(source.titleTranslations) && source.titleTranslations.length ? { titleTranslations: source.titleTranslations } : {}),
       style: source.style,
       aspectRatio: source.aspectRatio,
       ...(Number.isInteger(source.englishLevel) && Number(source.englishLevel) >= 1 && Number(source.englishLevel) <= 5 ? { englishLevel: source.englishLevel } : {}),

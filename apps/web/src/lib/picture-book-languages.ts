@@ -2,6 +2,7 @@ export type PictureBookTranslation = { language: string; caption: string; audioU
 export type PictureBookTranslatedPage = { caption: string; audioUrl: string | null; publicAudioUrl?: string; translations?: PictureBookTranslation[] };
 
 export const pictureBookLanguageChoices = [
+  { code: "zh-CN", name: "简体中文" },
   { code: "en", name: "英语" }, { code: "ja", name: "日语" }, { code: "ko", name: "韩语" },
   { code: "fr", name: "法语" }, { code: "de", name: "德语" }, { code: "es", name: "西班牙语" },
   { code: "pt", name: "葡萄牙语" }, { code: "ru", name: "俄语" }, { code: "ar", name: "阿拉伯语" },
@@ -13,7 +14,7 @@ export function pictureBookLanguageName(code: string) {
 }
 
 export function pictureBookAvailableLanguages(pages: PictureBookTranslatedPage[]) {
-  return [...new Set(pages.flatMap(page => page.translations?.filter(item => item.caption.trim() && item.audioUrl).map(item => item.language) ?? []))];
+  return [...new Set(pages.flatMap(page => page.translations?.filter(item => item.caption.trim()).map(item => item.language) ?? []))];
 }
 
 export function pictureBookPageContent(page: PictureBookTranslatedPage, selectedLanguage: string) {
