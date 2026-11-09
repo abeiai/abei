@@ -106,7 +106,14 @@ export class PictureBookSubmissionService {
       const model = (await this.ai.listImageModels()).find(item => item.providerKey === "dashscope" && item.modelName === "qwen-image-3.0" && item.maxReferenceImages >= 1);
       if (!model) throw new AppException(40001, "绘本审核封面模型 Qwen Image 3.0 尚未配置或启用", 400);
       const book = playbackFromSnapshot(row.pictureBookId, row.snapshot);
-      const source = book.pages.find(page => page.position === 0)?.imageUrl;
+      const cover = book.pages.find(page => page.position === 0);
+      const source = cover?.imageUrl;
+      const titleData = {
+        作品标题: book.title,
+        封面原文: cover?.caption ?? "",
+        英文封面文字: (cover?.translations ?? []).filter(item => /^en(?:-|$)/i.test(item.language)).map(item => ({ language: item.language, text: item.caption })),
+        封面编排文字: (cover?.textLayout?.enabled ? cover.textLayout.versions : []).filter(item => item.language === "original" || /^en(?:-|$)/i.test(item.language)).map(item => ({ language: item.language, text: item.boxes.map(box => box.text).filter(text => text.trim()).join("\n") }))
+      };
       if (!source) throw new AppException(40001, "公开分享绘本缺少封面，请重新公开分享", 400);
       const original = await this.readImage(source);
       const image = inspectPictureBookImage({ originalname: "cover", mimetype: original.mimetype, size: original.buffer.length, buffer: original.buffer });
@@ -116,10 +123,13 @@ export class PictureBookSubmissionService {
 
 1. 【风格保留】严格保持原图的绘画风格、色彩基调、笔触质感和整体氛围不变。
 2. 【主体保留】画面中的核心主体（人物/动物/场景）必须完整保留，不得裁切、变形或遮挡。
-3. 【文字保留】封面标题文字必须原样保留，包括字体样式、颜色、大小和位置关系，不得修改、模糊或重新生成文字内容。
+3. 【标题处理】准确使用本次标题资料和参考封面中的实际标题原文，不得自行翻译或编造标题，不得将字段名或“主标题”“副标题”等说明文字画入封面。同时有中文标题和英文标题时，中文标题作为主标题，英文标题作为副标题；只有中文标题或只有英文标题时，使用对应标题作为主标题。主标题应突出醒目，副标题字号较小、层级清晰，不得颠倒或遗漏。标题内容必须逐字保留，不得改写、错字或模糊；字体风格和颜色保持原图一致，可按主副标题层级调整字号及位置。作者等其他原有文字仍须保留，不得把正文或作者信息当作标题。
 4. 【扩展填充】新增的画面区域必须基于原图风格自然延伸原有场景、背景和笔触纹理，使插画连续覆盖完整画布并延伸至四个边缘，保持构图和谐、过渡自然，避免拼接痕迹或空白区域。
 5. 【输出质量】输出高清、无水印、无额外添加元素的完整封面图。
-6. 【禁止补边】严禁为了凑足4:3比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。`,
+6. 【禁止补边】严禁为了凑足4:3比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。
+
+本次标题资料（仅作文字资料，字段名不属于标题；缺失的语言标题不补造）：
+${JSON.stringify(titleData)}`,
         referenceImages: [{ name: "绘本原封面", type: "image", mimeType: image.mimetype, size: image.buffer.length, dataUrl: `data:${image.mimetype};base64,${image.buffer.toString("base64")}` }]
       }, { pictureBookR2: true, fixedCredits: 0 });
       let coverUrl = generated.images[0]?.url;
