@@ -23,12 +23,15 @@ REPLACEMENTS = {
     },
     "storyweaver-34983": {12: [("一百亿", "十亿")]},
     "storyweaver-188181": {
-        7: [("十亿卢比的奖金", "一百万卢比的奖金"), ("五百万", "五十万")],
+        7: [("一千万卢比", "一百万卢比"), ("五百万", "五十万")],
         8: [("五百万", "五十万"), ("两百万", "二十万")],
         9: [("两百万卢比", "二十万卢比")],
         27: [("十亿卢比", "一百万卢比")],
         38: [("一千万卢比", "一百万卢比")],
     },
+}
+ACCEPTED_EQUIVALENTS = {
+    ("storyweaver-69028", 12, "2.7亿个LPG连接"): ("2700万份LPG入户连接",),
 }
 
 
@@ -36,6 +39,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("directory", type=Path)
     parser.add_argument("--apply", action="store_true")
+    parser.add_argument("--drafts", action="store_true", help="Also review unfinished private draft checkpoints")
     options = parser.parse_args()
     converter = OpenCC("t2s")
     changed_books = 0
@@ -43,14 +47,14 @@ def main():
     missing = []
     pending = []
     for path in sorted(options.directory.glob("*.json")):
-        if path.name.endswith(".draft.json") or path.name in {"publish-baseline.json"}:
+        if (path.name.endswith(".draft.json") and not options.drafts) or path.name in {"publish-baseline.json"}:
             continue
         with path.open(encoding="utf-8") as file:
             stage = json.load(file)
-        if "translation" not in stage:
+        if "translation" not in stage and not (options.drafts and path.name.endswith(".draft.json") and "pages" in stage):
             continue
         book_id = stage["id"]
-        translation = stage["translation"]
+        translation = stage.get("translation", stage)
         original = json.dumps(translation, ensure_ascii=False, sort_keys=True)
         translation["title"] = converter.convert(translation["title"])
         for page in translation["pages"]:
@@ -60,9 +64,11 @@ def main():
                                  ("看著", "看着"), ("穿著者", "穿着者")]:
                     caption = caption.replace(old, new)
             for old, new in REPLACEMENTS.get(book_id, {}).get(page["position"], []):
-                if old not in caption:
+                if old not in caption and new not in caption and not any(
+                    equivalent in caption for equivalent in ACCEPTED_EQUIVALENTS.get((book_id, page["position"], old), ())
+                ):
                     missing.append(f"{book_id}:{page['position']}: {old}")
-                else:
+                elif old in caption:
                     caption = caption.replace(old, new)
             if page["caption"] != caption:
                 changed_captions += 1

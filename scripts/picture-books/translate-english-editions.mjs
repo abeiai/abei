@@ -80,6 +80,7 @@ function validateMagnitude(original, caption, index) {
       ...(expected % 10000 === 0 ? [`${expected / 10000}万`] : []),
       ...(expected >= 100000000 ? [`${expected / 100000000}亿`,
         ...(expected % 100000000 === 0 ? chineseInteger(expected / 100000000).map(number => `${number}亿`) : [])] : [])];
+    if (expected >= 1000000000000) candidates.push(`${expected / 1000000000000}万亿`);
     if (!candidates.some(candidate => new RegExp(`(?<![\\d零一二三四五六七八九十百千万亿两])${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\d零一二三四五六七八九十百千万亿两])`).test(caption)))
       throw Error(`第 ${index} 页 ${match[0]} 的数量级不正确`);
   }
@@ -122,7 +123,8 @@ export function validateTranslation(book, translation) {
       const exponent = /(?:Powers of 10|superscript of 10)/i.test(original) ? /^10([1-9]\d?)$/.exec(number)?.[1] : null;
       const superscript = exponent?.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)]);
       const scientific = exponent ? [`10${superscript}`, `10^${exponent}`, `10的${exponent}次方`].reduce((total, form) => total + caption.split(form).length - 1, 0) : 0;
-      const squareBase = /\b(?:squared|squares?|square)\b/i.test(original) ? /^(\d+)2$/.exec(number)?.[1] : null;
+      const squareBase = /\b(?:squared|squares?|square)\b/i.test(original) ||
+        (/Fibonacci/i.test(book.title) && /grid|spiral/i.test(original)) ? /^(\d+)2$/.exec(number)?.[1] : null;
       const squared = squareBase ? caption.split(`${squareBase}²`).length - 1 : 0;
       const footnoteMark = original.includes(`)${number}`) ? number.replace(/\d/g, digit => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(digit)]) : null;
       const footnote = footnoteMark ? caption.split(footnoteMark).length - 1 :

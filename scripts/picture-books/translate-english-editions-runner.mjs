@@ -3,6 +3,7 @@ import {createReadStream} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
 import {buildChineseEdition, chunksForPages, eligibleEnglishBooks, legacySourceDigest, sourceDigest, sourcePages, validateTranslation} from './translate-english-editions.mjs';
+import {manualPageTranslations} from './manual-english-page-translations.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).map(arg => {
   const index = arg.indexOf('='); return [arg.slice(0, index), index < 0 ? true : arg.slice(index + 1)];
@@ -56,6 +57,8 @@ async function loadStage(book) {
     }
     if (stage.sourceDigest !== sourceDigest(book)) throw Error(`${book.id}: 来源在准备后发生变化`);
     validateTranslation(book, stage.translation);
+    for (const [position, caption] of Object.entries(manualPageTranslations[book.id] ?? {}))
+      if (stage.translation.pages.find(page => page.position === Number(position))?.caption !== caption) throw Error(`第 ${position} 页手工校订译文不匹配`);
     return stage;
   } catch (error) {
     if (error.code === 'ENOENT') return null;
@@ -180,6 +183,14 @@ async function prepareOne(book, config) {
   let title = draft?.title ?? '', translatedPages = draft?.pages ?? [], usage = draft?.usage ?? {prompt_tokens: 0, completion_tokens: 0};
   let compactUsed = draft?.compactUsed ?? false;
   if (title && !/[\u3400-\u9fff]/u.test(title)) title = '';
+  const manualPages = Object.entries(manualPageTranslations[book.id] ?? {}).map(([position, caption]) => ({position: Number(position), caption}));
+  for (const page of manualPages) if (!pages.some(source => source.position === page.position && String(source.caption ?? '').trim()))
+    throw Error(`${book.id}: 手工翻译页码与原书不符`);
+  if (manualPages.length) {
+    const positions = new Set(manualPages.map(page => page.position));
+    translatedPages = [...translatedPages.filter(page => !positions.has(page.position)), ...manualPages];
+    await writePrivate(draftPath, {id: book.id, sourceDigest: sourceDigest(book), title, pages: translatedPages, usage, compactUsed});
+  }
   const donePositions = new Set(translatedPages.map(page => page.position));
   const chunks = chunksForPages(pages.filter(page => String(page.caption ?? '').trim() && !donePositions.has(page.position)));
   if (!chunks.length && !title) {
@@ -221,7 +232,8 @@ async function prepareOne(book, config) {
       if (repair === 5) validateTranslation(book, translation);
     }
   }
-  await writePrivate(join(workDir, `${book.id}.json`), {id: book.id, sourceDigest: sourceDigest(book), translation, model: config.name, usage, compactUsed, createdAt: new Date().toISOString()});
+  await writePrivate(join(workDir, `${book.id}.json`), {id: book.id, sourceDigest: sourceDigest(book), translation, model: config.name, usage, compactUsed,
+    humanPages: manualPages.map(page => page.position), createdAt: new Date().toISOString()});
   await fs.rm(draftPath, {force: true});
   return 'translated';
 }
