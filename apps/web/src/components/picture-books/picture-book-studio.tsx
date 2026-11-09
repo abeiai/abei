@@ -19,6 +19,7 @@ import { loadPictureBookStyles, selectedPictureBookStyle, type PictureBookStyle 
 import { PictureBookStylePicker } from "./picture-book-style-picker";
 import { PictureBookRatioPicker, type PictureBookAspectRatio } from "./picture-book-ratio-picker";
 import { PictureBookCharacterPicker, type StoryCharacter } from "./picture-book-character-picker";
+import { HistorySearchDialog, type HistoryListing } from "./history-search-dialog";
 import { VoicePicker } from "@/components/audio/voice-picker";
 import { usePictureBookGenerationConfirmation } from "./picture-book-generation-confirmation";
 import type { VoiceAsset } from "@/lib/audio-api";
@@ -52,6 +53,8 @@ async function api<T>(path: string, method = "GET", body?: unknown): Promise<T> 
   if (!response.ok || payload?.code !== 0 || payload.data === undefined) throw new Error(payload?.message || "请求失败，请稍后重试");
   return payload.data;
 }
+
+const loadBookHistory = (query: string, page: number) => api<HistoryListing<BookSummary>>(`/history?${new URLSearchParams({ q: query, page: String(page), pageSize: "20" })}`);
 
 async function upload<T>(path: string, file: File): Promise<T> {
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 10 * 1024 * 1024) {
@@ -89,6 +92,8 @@ function Field({ label, value, onChange, rows = 3, placeholder, maxLength, readO
 export function PictureBookStudio({ signedIn, initialBookId, initialPosition = null, initialPrompt = "", returnPath = "/storybook" }: { signedIn: boolean; initialBookId: string; initialPosition?: number | null; initialPrompt?: string; returnPath?: string }) {
   const generationConfirmation = usePictureBookGenerationConfirmation();
   const [books, setBooks] = useState<BookSummary[]>([]);
+  const [historyTotal, setHistoryTotal] = useState<number | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [book, setBook] = useState<Book | null>(null);
   const [draftCharacters, setDraftCharacters] = useState<Character[]>([]);
   const [voices, setVoices] = useState<VoiceList>({ systemVoices: [], platformVoices: [], customVoices: [] });
@@ -147,9 +152,9 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
   useEffect(() => {
     if (!signedIn) return;
     let active = true;
-    Promise.allSettled([api<BookSummary[]>(""), Promise.resolve(null), getVoices(), hasStoryModel(), loadPictureBookStyles()]).then(async (results) => {
+    Promise.allSettled([api<HistoryListing<BookSummary>>("/history?pageSize=50"), Promise.resolve(null), getVoices(), hasStoryModel(), loadPictureBookStyles()]).then(async (results) => {
       if (!active) return;
-      if (results[0].status === "fulfilled") setBooks(results[0].value);
+      if (results[0].status === "fulfilled") { setBooks(results[0].value.items); setHistoryTotal(results[0].value.total); }
       else setError(results[0].reason instanceof Error ? results[0].reason.message : "无法读取绘本作品");
       if (results[2].status === "fulfilled") {
         const list = results[2].value;
@@ -218,7 +223,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
     finally { setBusy(""); }
   }
 
-  async function refreshList() { setBooks(await api<BookSummary[]>("")); }
+  async function refreshList() { const result = await api<HistoryListing<BookSummary>>("/history?pageSize=50"); setBooks(result.items); setHistoryTotal(result.total); }
   function startNewBook() {
     setBook(null); setDraftCharacters([]); setChatInput(""); setError(""); setNotice("");
     setAudience("幼儿园"); setStyle(styleChoices.find(item => item.enabled && item.id === "watercolor")?.id ?? styleChoices.find(item => item.enabled)?.id ?? "watercolor"); setCount(8); setRatio("1:1"); setIsSpread(false);
@@ -431,6 +436,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] text-foreground">
     {generationConfirmation.dialog}
+    {historyOpen ? <HistorySearchDialog title="绘本创作历史" load={loadBookHistory} renderItem={item => <><span className="block truncate text-sm font-medium">{item.title}</span><CreatorWorkMetadata sync={item.creatorSync} /><span className="mt-1 block text-xs text-muted-foreground">{item.pageCount} 页 · {submissionLabel(item.submission, item.sharedViaAlbum) || (item.status === "COMPLETED" ? "已保存" : "制作中")}</span></>} onSelect={item => void run("open", () => openBook(item.id))} onClose={() => setHistoryOpen(false)} /> : null}
     {book?.pages.length ? <header className="sticky top-[4.5rem] z-20 flex flex-wrap items-center gap-3 border-b border-[#e9e7e4] bg-white px-4 py-3 shadow-sm md:px-6">
       {book ? <button onClick={() => void leaveBook("tools")} className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</button> : <Link href="/tools" className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm text-gray-500 hover:bg-gray-50"><ArrowLeft className="size-4" />返回应用</Link>}
       <span className="flex size-9 items-center justify-center rounded-xl bg-[#ff7b3b] text-white"><BookOpen className="size-5" /></span>
@@ -448,7 +454,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
         <div className="flex h-16 shrink-0 items-center gap-2 px-5"><BookOpen className="size-7" /><h1 className="text-2xl font-semibold tracking-normal">绘本创作</h1></div>
         <div className="px-4 pb-5"><Button className="h-11 w-full border-border shadow-sm" disabled={Boolean(busy)} onClick={startNewBook}><Sparkles className="size-4" />新建绘本</Button></div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-          <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" /><span>绘本创作历史</span><span className="ml-auto">{books.length} 本</span></div>
+          <button type="button" disabled={Boolean(busy)} onClick={() => setHistoryOpen(true)} className="mb-3 flex w-full items-center gap-2 rounded-md text-left text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50"><History className="size-4" /><span>绘本创作历史</span><span className="ml-auto">{historyTotal ?? "…"} 本</span></button>
           {books.length ? <div className="space-y-2">{books.map(item => <button key={item.id} disabled={Boolean(busy)} onClick={() => void run("open", () => openBook(item.id))} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition hover:bg-secondary disabled:opacity-50 ${book?.id === item.id ? "border-foreground/20 bg-secondary" : "border-transparent"}`}>
             <span className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary">{item.coverUrl ? <PictureBookImage src={pictureBookPageImageSource(item.id, 0, item.coverUrl)} alt="" compact usage="thumbnail" className="size-full object-cover" /> : <BookOpen className="size-6 text-muted-foreground" />}</span>
             <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{item.title}</span><CreatorWorkMetadata sync={item.creatorSync} /><span className="mt-1 block text-xs text-muted-foreground">{item.pageCount} 页 · {submissionLabel(item.submission, item.sharedViaAlbum) || (item.status === "COMPLETED" ? "已保存" : item.status === "EDITING" ? "制作中" : "构思中")}</span></span>

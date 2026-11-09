@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, BookOpenText, Check, ChevronLeft, ChevronRight, Download, Eraser, FileText, Film, History, ImagePlus, Info, LoaderCircle, Plus, Upload, Video, Volume2, X } from "lucide-react";
 import { GuideBookPicker } from "@/components/picture-books/guide-book-picker";
+import { HistorySearchDialog, type HistoryListing } from "@/components/picture-books/history-search-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -29,6 +30,8 @@ function Help({ label, children }: { label: string; children: string }) {
 
 export function VideoBooksConsole({ userId, initialBookId, models, imageModels }: Props) {
   const [projects, setProjects] = useState<VideoBookProject[]>([]);
+  const [historyLoaded, setHistoryLoaded] = useState(!userId);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [project, setProject] = useState<VideoBookProject | null>(null);
   const projectRef = useRef<VideoBookProject | null>(null);
   const [ready, setReady] = useState(!userId);
@@ -61,6 +64,11 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
   const hasRunning = Boolean(project?.pages.some(item => item.clip?.status === "RUNNING"));
   const disabled = Boolean(busy) || !ready;
   const loginHref = `/login?next=${encodeURIComponent(initialBookId ? `/video-books?book=${initialBookId}` : "/video-books")}`;
+  const loadHistory = useCallback(async (query: string, page: number): Promise<HistoryListing<VideoBookProject>> => {
+    const filtered = projects.filter(item => `${item.title} ${item.sourceName}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
+    const pageSize = 20;
+    return { items: filtered.slice((page - 1) * pageSize, page * pageSize), total: filtered.length, page, pageSize };
+  }, [projects]);
 
   useEffect(() => {
     activeRef.current = true;
@@ -69,6 +77,7 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
         if (!activeRef.current) return;
         const items = saved.map(item => normalizeVideoBookModel(item, models));
         setProjects(items);
+        setHistoryLoaded(true);
         if (initialBookId) {
           const initial = items.find(item => item.id === initialBookId);
           if (initial) { projectRef.current = initial; setProject(initial); setPageNumber(initial.pages[0]?.pageNumber ?? 1); }
@@ -321,13 +330,15 @@ export function VideoBooksConsole({ userId, initialBookId, models, imageModels }
   }
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] p-5">
+    {historyOpen ? <HistorySearchDialog title="绘本视频历史" load={loadHistory} renderItem={item => <><span className="block truncate text-sm font-medium">{item.title}</span><span className="mt-1 block text-xs text-muted-foreground">{item.pages.length} 页 · 视频 {item.pages.filter(value => value.clip?.status === "SUCCEEDED").length}/{item.pages.length}</span></>} onSelect={item => activate(item)} onClose={() => setHistoryOpen(false)} /> : null}
     <input ref={pdfInput} type="file" accept="application/pdf,.pdf" className="hidden" aria-label="上传绘本文档" onChange={event => { void uploadPdf(event.target.files?.[0]); event.target.value = ""; }} />
     <input ref={referenceInput} type="file" multiple accept={model?.acceptedReferenceTypes.join(",") || "image/*,audio/*,video/*"} className="hidden" aria-label="上传参考素材" onChange={event => { void addReference(event.target.files); event.target.value = ""; }} />
     <div className="grid items-start gap-5 lg:grid-cols-[292px_minmax(0,1fr)_360px]">
       <aside aria-label="视频作品和绘本页面" className="flex max-h-[50vh] min-w-0 flex-col lg:sticky lg:top-[92px] lg:max-h-[calc(100vh-112px)]">
         <div className="mb-5 flex items-center gap-3"><Film className="size-7 text-primary" /><h1 className="text-2xl font-semibold tracking-normal">绘本转视频</h1></div>
         <Button variant="outline" className="mb-5 w-full" disabled={disabled} onClick={() => activate(null)}><Plus className="size-4" />新建视频</Button>
-        {project?.editing ? <div className="mb-3 flex gap-2"><Button size="sm" variant={leftTab === "pages" ? "default" : "ghost"} aria-pressed={leftTab === "pages"} onClick={() => setLeftTab("pages")}><BookOpenText className="size-4" />分镜页面</Button><Button size="sm" variant={leftTab === "history" ? "default" : "ghost"} aria-pressed={leftTab === "history"} onClick={() => setLeftTab("history")}><History className="size-4" />历史</Button></div> : <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" />视频作品历史<span className="ml-auto">{projects.length} 本</span></div>}
+        <button type="button" disabled={disabled || !historyLoaded} onClick={() => setHistoryOpen(true)} className="mb-3 flex w-full items-center gap-2 rounded-md text-left text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50"><History className="size-4" />绘本视频历史<span className="ml-auto">{historyLoaded ? `${projects.length} 本` : "—"}</span></button>
+        {project?.editing ? <div className="mb-3 flex gap-2"><Button size="sm" variant={leftTab === "pages" ? "default" : "ghost"} aria-pressed={leftTab === "pages"} onClick={() => setLeftTab("pages")}><BookOpenText className="size-4" />分镜页面</Button><Button size="sm" variant={leftTab === "history" ? "default" : "ghost"} aria-pressed={leftTab === "history"} onClick={() => setLeftTab("history")}><History className="size-4" />最近作品</Button></div> : null}
         <div className="min-h-0 space-y-2 overflow-y-auto">
           {project?.editing && leftTab === "pages" ? project.pages.map(item => <button key={item.pageNumber} type="button" disabled={disabled} onClick={() => { setPageNumber(item.pageNumber); setPreviewTab("frame"); }} className={cn("flex w-full items-center gap-3 rounded-xl border p-3 text-left disabled:opacity-50", item.pageNumber === pageNumber ? "border-primary/30 bg-background shadow-sm" : "border-transparent hover:bg-background/70")}>
             <img src={project.removeText && item.cleanImageUrl ? item.cleanImageUrl : item.imageUrl} alt="" loading="lazy" className="h-16 w-20 shrink-0 rounded-lg bg-secondary object-contain" /><span className="min-w-0"><span className="block text-sm font-medium">第 {item.pageNumber} 页</span><span className="mt-1 block truncate text-xs text-muted-foreground">{item.description || "待编辑描述"}</span><span className={cn("mt-1 block text-xs", item.clip?.status === "FAILED" ? "text-destructive" : "text-muted-foreground")}>{item.clip?.status === "SUCCEEDED" ? "视频已生成" : item.clip?.status === "RUNNING" ? project.pollingPaused ? "等待已停止" : "视频生成中" : item.clip?.status === "FAILED" ? "生成失败" : "待生成"}</span></span>

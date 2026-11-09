@@ -6,6 +6,7 @@ import { basename, join, resolve } from "node:path";
 import { AiService } from "../ai/ai.service.js";
 import { AudioService } from "../audio/audio.service.js";
 import { AppException } from "../common/app-exception.js";
+import { parseHistoryQuery, type HistoryQuery } from "../common/history-query.js";
 import type { UploadedFileLike } from "../media/media.service.js";
 import { pictureBookAudiences } from "../picture-books/picture-book-audience.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
@@ -77,6 +78,16 @@ export class PictureBookGuideService {
   async list(userId: string) {
     const records = await this.prisma.pictureBookGuide.findMany({ where: { userId }, orderBy: { updatedAt: "desc" }, take: 50 });
     return records.map(record => this.summary(record));
+  }
+
+  async history(userId: string, query: HistoryQuery) {
+    const { q, page, pageSize, skip } = parseHistoryQuery(query);
+    const where: Prisma.PictureBookGuideWhereInput = { userId, ...(q ? { OR: [{ title: { contains: q, mode: "insensitive" } }, { pdfName: { contains: q, mode: "insensitive" } }] } : {}) };
+    const [total, records] = await Promise.all([
+      this.prisma.pictureBookGuide.count({ where }),
+      this.prisma.pictureBookGuide.findMany({ where, orderBy: [{ updatedAt: "desc" }, { id: "desc" }], skip, take: pageSize })
+    ]);
+    return { items: records.map(record => this.summary(record)), total, page, pageSize };
   }
 
   async get(userId: string, id: string) { return this.view(await this.record(userId, id)); }

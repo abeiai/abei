@@ -3,6 +3,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { AuthService } from "../auth/auth.service.js";
 import { AppException } from "../common/app-exception.js";
 import { successResponse } from "../common/api-response.js";
+import type { HistoryQuery } from "../common/history-query.js";
 import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
 import type { ProfileSubject } from "../profiles/profile-context.types.js";
@@ -42,6 +43,9 @@ export class PictureBookGuideController {
 
   @Get()
   async list(@Req() request: GuideRequest) { return successResponse(await this.guides.list(request.guideSubject.userId)); }
+
+  @Get("history")
+  async history(@Req() request: GuideRequest, @Query() query: HistoryQuery) { return successResponse(await this.guides.history(request.guideSubject.userId, query)); }
 
   @Post()
   @UseInterceptors(FileInterceptor("file", { limits: { fileSize: guidePdfMaxBytes, files: 1 } }))

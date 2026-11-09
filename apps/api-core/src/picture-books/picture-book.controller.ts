@@ -2,6 +2,7 @@ import { Body, Controller, Get, Headers, Inject, Param, Patch, Post, Query, Req,
 import { FileInterceptor } from "@nestjs/platform-express";
 import { AuthService } from "../auth/auth.service.js";
 import { successResponse } from "../common/api-response.js";
+import type { HistoryQuery } from "../common/history-query.js";
 import type { UploadedFileLike } from "../media/media.service.js";
 import { ProfileContextService } from "../profiles/profile-context.service.js";
 import { parseImageWidth } from "../media/image-variants.js";
@@ -20,6 +21,12 @@ export class PictureBookController {
   async list(@Req() request: unknown) {
     const subject = await this.account(request);
     return successResponse(await this.books.list(subject.userId));
+  }
+
+  @Get("history")
+  async history(@Req() request: unknown, @Query() query: HistoryQuery) {
+    const subject = await this.account(request);
+    return successResponse(await this.books.history(subject.userId, query));
   }
 
   @Post()

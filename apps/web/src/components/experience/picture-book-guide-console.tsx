@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BookOpenText, Check, ChevronLeft, ChevronRight, FileText, History, Info, LoaderCircle, Play, Plus, Save, Sparkles, Trash2, Upload, Volume2 } from "lucide-react";
 import { VoicePicker } from "@/components/audio/voice-picker";
 import { GuideBookPicker } from "@/components/picture-books/guide-book-picker";
+import { HistorySearchDialog, type HistoryListing } from "@/components/picture-books/history-search-dialog";
 import { PictureBookGuidePlayer } from "@/components/picture-books/picture-book-guide-player";
 import { GuidePdfPageSelection } from "@/components/picture-books/guide-pdf-page-selection";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,12 @@ function Help({ text }: { text: string }) {
   </span>;
 }
 
+const loadGuideHistory = (query: string, page: number) => guideRequest<HistoryListing<GuideSummary>>(`/history?${new URLSearchParams({ q: query, page: String(page), pageSize: "20" })}`);
+
 export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn: boolean; initialGuideId: string }) {
   const [history, setHistory] = useState<GuideSummary[]>([]);
+  const [historyTotal, setHistoryTotal] = useState<number | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [guide, setGuide] = useState<PictureBookGuide | null>(null);
   const guideRef = useRef<PictureBookGuide | null>(null);
   const [options, setOptions] = useState<GuideOptions>({ audiences: [], styles: [] });
@@ -62,7 +67,7 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   ], [voices]);
 
   const accept = useCallback((next: PictureBookGuide) => { guideRef.current = next; setGuide(next); }, []);
-  const refreshHistory = useCallback(async () => setHistory(await guideRequest<GuideSummary[]>()), []);
+  const refreshHistory = useCallback(async () => { const result = await guideRequest<HistoryListing<GuideSummary>>("/history?pageSize=50"); setHistory(result.items); setHistoryTotal(result.total); }, []);
   const openGuide = useCallback(async (id: string) => {
     const next = await guideRequest<PictureBookGuide>(`/${encodeURIComponent(id)}`);
     preserveDraft.current = false;
@@ -211,11 +216,12 @@ export function PictureBookGuideConsole({ signedIn, initialGuideId }: { signedIn
   const loginHref = `/login?next=${encodeURIComponent(initialGuideId ? `/magic-reader?guide=${initialGuideId}` : "/magic-reader")}`;
 
   return <div className="min-h-[calc(100vh-72px)] bg-[#f6f6f5] p-5">
+    {historyOpen ? <HistorySearchDialog title="绘本导读历史" load={loadGuideHistory} renderItem={item => <><span className="block truncate text-sm font-medium">{item.title}</span><span className="mt-1 block text-xs text-muted-foreground">{item.pageCount} 页 · 文稿 {item.scriptCount}/{item.pageCount} · 语音 {item.audioCount}/{item.pageCount}</span></>} onSelect={item => { if (!disabled && !dirty && !settingsDirty) void run("正在打开绘本…", () => openGuide(item.id)); }} onClose={() => setHistoryOpen(false)} /> : null}
     <div className="grid items-start gap-5 lg:grid-cols-[292px_minmax(0,1fr)_360px]">
       <aside aria-label="绘本导读历史" className="flex max-h-[50vh] flex-col lg:sticky lg:top-5 lg:max-h-[calc(100vh-112px)]">
         <div className="mb-5 flex items-center gap-3"><BookOpenText className="size-7 text-primary" /><h1 className="text-2xl font-semibold tracking-normal">绘本导读</h1></div>
         <Button className="mb-5 w-full" variant="outline" disabled={disabled || dirty} onClick={newGuide}><Plus className="size-4" />新建导读</Button>
-        <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground"><History className="size-4" />导读历史<span className="ml-auto">{history.length} 本</span></div>
+        <button type="button" disabled={disabled || dirty || settingsDirty} onClick={() => setHistoryOpen(true)} className="mb-3 flex w-full items-center gap-2 rounded-md text-left text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50"><History className="size-4" />绘本导读历史<span className="ml-auto">{historyTotal ?? "…"} 本</span></button>
         <div className="min-h-0 space-y-2 overflow-y-auto">
           {history.map(item => <button key={item.id} type="button" disabled={disabled || dirty} onClick={() => void run("正在打开绘本…", () => openGuide(item.id))} className={`w-full rounded-xl border p-3 text-left disabled:opacity-50 ${guide?.id === item.id ? "border-primary/25 bg-background shadow-sm" : "border-transparent hover:bg-background/70"}`}>
             <span className="block truncate text-sm font-medium">{item.title}</span>
