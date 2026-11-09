@@ -14,12 +14,15 @@ const expectedPrompt = `请将这张绘本封面图调整为4:3的横版比例�
 
 1. 【风格保留】严格保持原图的绘画风格、色彩基调、笔触质感和整体氛围不变。
 2. 【主体保留】画面中的核心主体（人物/动物/场景）必须完整保留，不得裁切、变形或遮挡。
-3. 【文字保留】封面标题文字必须原样保留，包括字体样式、颜色、大小和位置关系，不得修改、模糊或重新生成文字内容。
+3. 【标题处理】准确使用本次标题资料和参考封面中的实际标题原文，不得自行翻译或编造标题，不得将字段名或“主标题”“副标题”等说明文字画入封面。同时有中文标题和英文标题时，中文标题作为主标题，英文标题作为副标题；只有中文标题或只有英文标题时，使用对应标题作为主标题。主标题应突出醒目，副标题字号较小、层级清晰，不得颠倒或遗漏。标题内容必须逐字保留，不得改写、错字或模糊；字体风格和颜色保持原图一致，可按主副标题层级调整字号及位置。作者等其他原有文字仍须保留，不得把正文或作者信息当作标题。
 4. 【扩展填充】新增的画面区域必须基于原图风格自然延伸原有场景、背景和笔触纹理，使插画连续覆盖完整画布并延伸至四个边缘，保持构图和谐、过渡自然，避免拼接痕迹或空白区域。
 5. 【输出质量】输出高清、无水印、无额外添加元素的完整封面图。
-6. 【禁止补边】严禁为了凑足4:3比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。`;
+6. 【禁止补边】严禁为了凑足4:3比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。
 
-function fixture(available = models, failure?: Error, coverUrl: string | null = null, claimAllowed = true) {
+本次标题资料（仅作文字资料，字段名不属于标题；缺失的语言标题不补造）：
+{"作品标题":"云朵工厂","封面原文":"","英文封面文字":[],"封面编排文字":[]}`;
+
+function fixture(available = models, failure?: Error, coverUrl: string | null = null, claimAllowed = true, snapshot: Record<string, unknown> = { title: "云朵工厂", pages: [{ position: 0, imageUrl: "https://r.example/cover.png" }] }) {
   const calls: Array<{ modelInstanceId: string; prompt: string; width: number; height: number; referenceImages: unknown[] }> = [];
   const updates: Array<{ where: Record<string, unknown>; data: Record<string, unknown> }> = [];
   let legacyCalls = 0;
@@ -27,7 +30,7 @@ function fixture(available = models, failure?: Error, coverUrl: string | null = 
   Object.assign(service, {
     prisma: { pictureBookSubmission: {
       findUnique: async () => ({ id: "submission", pictureBookId: "book", status: "PENDING", snapshotHash: "hash", coverUrl,
-        pictureBook: { userId: "owner" }, snapshot: { title: "云朵工厂", pages: [{ position: 0, imageUrl: "https://r.example/cover.png" }] } }),
+        pictureBook: { userId: "owner" }, snapshot }),
       updateMany: async (input: typeof updates[number]) => { updates.push(input); return { count: input.data.coverToken && !claimAllowed ? 0 : 1 }; }
     } },
     media: { readPictureBookStoredImage: async () => ({ buffer: image, mimetype: "image/png" }) },
@@ -118,4 +121,47 @@ test("模型返回非4:3图片时保留旧封面，拒绝通过补边保存", as
   assert.equal(calls.length, 1);
   assert.ok(updates.every(update => !Object.hasOwn(update.data, "coverUrl")));
   assert.equal(updates.at(-1)!.data.coverToken, null);
+});
+
+
+test("审核封面提示词传入对应标题原文，双语中文为主、单语使用对应主标题", async () => {
+  for (const [title, caption, translations] of [
+    ["云朵工厂", "云朵工厂", [{ language: "en", caption: "The Cloud Factory" }]],
+    ["云朵工厂", "云朵工厂", []],
+    ["The Cloud Factory", "The Cloud Factory", []]
+  ] as const) {
+    const { service, calls } = fixture(models, undefined, null, true, { title, pages: [
+      { position: 0, imageUrl: "https://r.example/cover.png", caption, translations },
+      { position: 1, imageUrl: "https://r.example/page.png", caption: "不能当作标题的正文", translations: [{ language: "en", caption: "Body text, not a title" }] }
+    ] });
+    await service.generateCover("submission");
+    const prompt = calls[0]!.prompt;
+    assert.match(prompt, /中文标题作为主标题，英文标题作为副标题/);
+    assert.match(prompt, /只有中文标题或只有英文标题.*对应标题作为主标题/);
+    assert.match(prompt, /不得自行翻译或编造/);
+    assert.ok(prompt.includes(JSON.stringify({ 作品标题: title, 封面原文: caption, 英文封面文字: translations.map(t => ({ language: t.language, text: t.caption })), 封面编排文字: [] })));
+    assert.ok(!prompt.includes("Body text, not a title"));
+    assert.ok(!prompt.includes("不能当作标题的正文"));
+    assert.ok(!prompt.includes("包括字体样式、颜色、大小和位置关系"));
+  }
+});
+
+test("封面启用图文编排时传入对应英文标题，关闭的编排及其他语言不混入标题资料", async () => {
+  const box = (text: string) => ({ id: "title", text, x: 0.1, y: 0.1, width: 0.8, height: 0.2, fontSize: 40, fontFamily: "serif", color: "#123456", bold: true, align: "center", lineHeight: 1.2, speak: true });
+  for (const enabled of [false, true]) {
+    const { service, calls } = fixture(models, undefined, null, true, { title: "云朵工厂", pages: [{
+      position: 0, imageUrl: "https://r.example/cover.png", caption: "云朵工厂",
+      translations: [{ language: "fr", caption: "Un titre français" }],
+      textLayout: { enabled, versions: [
+        { language: "original", boxes: [box("云朵工厂")] },
+        { language: "en-US", boxes: [box("The Cloud Factory")] },
+        { language: "fr", boxes: [box("Un titre français")] }
+      ] }
+    }] });
+    await service.generateCover("submission", true);
+    const data = JSON.parse(calls[0]!.prompt.split("\n").at(-1)!);
+    assert.deepEqual(data.英文封面文字, []);
+    assert.deepEqual(data.封面编排文字, enabled ? [{ language: "original", text: "云朵工厂" }, { language: "en-US", text: "The Cloud Factory" }] : []);
+    assert.ok(!calls[0]!.prompt.includes("Un titre français"));
+  }
 });
