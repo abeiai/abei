@@ -22,3 +22,11 @@ test("尚未合成语音的译文仍可作为阅读语言选择，且不会播�
   assert.deepEqual(pictureBookAvailableLanguages([page]), ["zh-CN"]);
   assert.deepEqual(pictureBookPageContent(page, "zh-CN"), { caption: "你好", originalCaption: "Hello", audioUrl: null, language: "zh-CN" });
 });
+
+test("开放圣经故事的原文选项显示中文，其他绘本保留原有标签", async () => {
+  const { pictureBookOriginalLabel } = await import("../src/lib/picture-book-languages.js");
+  assert.equal(pictureBookOriginalLabel("abei-open-bible-stories-01"), "中文");
+  assert.equal(pictureBookOriginalLabel("abei-open-bible-stories-50", "zh-CN"), "中文");
+  assert.equal(pictureBookOriginalLabel("another-book"), "原文");
+  assert.equal(pictureBookOriginalLabel("another-book", "en"), "英语（原文）");
+});

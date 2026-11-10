@@ -13,6 +13,11 @@ export function pictureBookLanguageName(code: string) {
   return pictureBookLanguageChoices.find(item => item.code === code)?.name ?? code;
 }
 
+export function pictureBookOriginalLabel(bookId: string, originalLanguage?: string) {
+  if (/^abei-open-bible-stories-(?:0[1-9]|[1-4][0-9]|50)$/.test(bookId)) return "中文";
+  return originalLanguage ? `${pictureBookLanguageName(originalLanguage)}（原文）` : "原文";
+}
+
 export function pictureBookAvailableLanguages(pages: PictureBookTranslatedPage[]) {
   return [...new Set(pages.flatMap(page => page.translations?.filter(item => item.caption.trim()).map(item => item.language) ?? []))];
 }
