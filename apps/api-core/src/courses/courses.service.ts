@@ -1,4 +1,5 @@
 import { creatorAssetId } from "../creator/creator-assets.service.js";
+import { pictureBookSnapshotLanguages, pictureBookSnapshotTitleTranslations } from "../picture-books/picture-book-playback.js";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { getPrismaClient, type Prisma } from "@xueleai/database";
 import { AppException } from "../common/app-exception.js";
@@ -61,6 +62,8 @@ export type PublicCourse = {
     id: string;
     materialType: CourseMaterialType;
     displayName: string;
+    languages?: string[];
+    titleTranslations?: Array<{ language: string; title: string }>;
     sortOrder: number;
     reviewState: "READY" | "PENDING" | "REJECTED";
     launchHref: string | null;
@@ -1085,6 +1088,7 @@ export class CoursesService {
           id: item.id,
           materialType: item.materialType,
           displayName: item.displayName,
+          ...(item.materialType === "PICTURE_BOOK" && ready && record ? { languages: pictureBookSnapshotLanguages(frozen ? item.pinnedSnapshot : item.publication.approvedSnapshot), titleTranslations: pictureBookSnapshotTitleTranslations(frozen ? item.pinnedSnapshot : item.publication.approvedSnapshot) } : {}),
           sortOrder: item.sortOrder,
           reviewState,
           launchHref: ready && record

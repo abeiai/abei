@@ -191,6 +191,8 @@ export interface CourseMaterialOption {
 }
 
 export interface PublicCourseItem {
+  languages?: string[];
+  titleTranslations?: Array<{ language: string; title: string }>;
   id: string;
   materialType: CourseMaterialType;
   displayName: string;

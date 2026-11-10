@@ -27,3 +27,11 @@ export function pictureBookPageContent(page: PictureBookTranslatedPage, selected
   const publicAudioUrl = translation ? translation.publicAudioUrl : page.publicAudioUrl;
   return { caption: translation?.caption ?? page.caption, originalCaption: page.caption, audioUrl: translation?.audioUrl ?? (translation ? null : page.audioUrl), language: translation?.language, ...(publicAudioUrl ? { publicAudioUrl } : {}) };
 }
+
+export function pictureBookTitleForLanguage(book: { title: string; titleTranslations?: Array<{ language: string; title: string }>; pages: Array<{ position: number; caption: string; translations?: PictureBookTranslation[] }> }, language: string) {
+  if (language === "original") return book.title;
+  const explicit = book.titleTranslations?.find(item => item.language === language && item.title.trim());
+  if (explicit) return explicit.title;
+  const cover = book.pages.find(page => page.position === 0);
+  return (book.title.trim() && cover?.caption.trim() === book.title.trim() ? cover.translations?.find(item => item.language === language && item.caption.trim())?.caption : undefined) ?? book.title;
+}

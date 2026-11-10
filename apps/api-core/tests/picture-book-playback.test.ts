@@ -211,3 +211,14 @@ test("公开绘本排序使用来源顺序并回退真实发布时间", async ()
   await service.publicList(1, 20);
   assert.ok(queries.some(sql => /COALESCE\([^)]*"catalogSortAt"[^)]*"publishedAt"\) DESC/.test(sql)));
 });
+
+test("专辑语言从快照提取，只有标题式封面能补充标题译文", async () => {
+  const { pictureBookSnapshotLanguages, pictureBookSnapshotTitleTranslations } = await import("../src/picture-books/picture-book-playback.js");
+  const snapshot = { title: "创造", titleTranslations: [{ language: "en", title: "Creation" }], pages: [
+    { position: 0, caption: "创造", translations: [{ language: "en", caption: "The Creation" }, { language: "fr", caption: "La Création" }] },
+    { position: 1, caption: "你好", translations: [{ language: "ja", caption: "こんにちは" }] }
+  ] };
+  assert.deepEqual(pictureBookSnapshotLanguages(snapshot), ["en", "fr", "ja"]);
+  assert.deepEqual(pictureBookSnapshotTitleTranslations(snapshot), [{ language: "en", title: "Creation" }, { language: "fr", title: "La Création" }]);
+  assert.deepEqual(pictureBookSnapshotTitleTranslations({ title: "创造", pages: [{ position: 0, caption: "封面标语", translations: [{ language: "en", caption: "Not a title" }] }] }), []);
+});

@@ -30,3 +30,12 @@ test("开放圣经故事的原文选项显示中文，其他绘本保留原有�
   assert.equal(pictureBookOriginalLabel("another-book"), "原文");
   assert.equal(pictureBookOriginalLabel("another-book", "en"), "英语（原文）");
 });
+
+test("标题随选择语言切换，缺少独立标题译文时读取与书名一致的封面译文", async () => {
+  const { pictureBookTitleForLanguage } = await import("../src/lib/picture-book-languages.js");
+  const book = { title: "创造", pages: [{ position: 0, caption: "创造", translations: [{ language: "en", caption: "The Creation", audioUrl: null }] }] };
+  assert.equal(pictureBookTitleForLanguage(book, "original"), "创造");
+  assert.equal(pictureBookTitleForLanguage(book, "en"), "The Creation");
+  assert.equal(pictureBookTitleForLanguage({ ...book, titleTranslations: [{ language: "en", title: "Creation" }] }, "en"), "Creation");
+  assert.equal(pictureBookTitleForLanguage({ ...book, pages: [{ ...book.pages[0]!, caption: "封面标语" }] }, "en"), "创造");
+});

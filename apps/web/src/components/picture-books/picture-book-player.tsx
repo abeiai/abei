@@ -13,7 +13,7 @@ import { PictureBookTextOverlay } from "./picture-book-text-overlay";
 import { readerPageContent, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
-import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookOriginalLabel, type PictureBookTranslation } from "@/lib/picture-book-languages";
+import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookOriginalLabel, pictureBookTitleForLanguage, type PictureBookTranslation } from "@/lib/picture-book-languages";
 import { pictureBookEnglishLevelLabel } from "@/lib/picture-book-english-level";
 import { pictureBookEditionOptions, type PictureBookEdition } from "@/lib/picture-book-editions";
 import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookDefaultAutoTurn, pictureBookSilentPlayToggle, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
@@ -130,7 +130,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const strictLanguages = pages.some(item => item.textLayout?.enabled);
   const availableLanguages = [...new Set([...pictureBookAvailableLanguages(pages), ...pages.flatMap(item => item.textLayout?.enabled ? item.textLayout.versions.filter(version => version.language !== "original").map(version => version.language) : [])])];
   const originalLanguage = book?.editions?.find(item => item.current)?.language;
-  const activeTitle = language === "original" ? book?.title : book?.titleTranslations?.find(item => item.language === language)?.title ?? book?.title;
+  const activeTitle = book ? pictureBookTitleForLanguage(book, language) : "";
   const editionOptions = pictureBookEditionOptions(book?.editions ?? []);
   const activeContent = page ? readerPageContent(page, language, strictLanguages) : null;
   const activeAudioUrl = activeContent?.audioUrl;

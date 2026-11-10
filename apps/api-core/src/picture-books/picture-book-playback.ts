@@ -58,6 +58,32 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
   };
 }
 
+export function pictureBookSnapshotLanguages(snapshot: unknown) {
+  const book = playbackFromSnapshot("", snapshot);
+  const languages = new Set<string>();
+  for (const page of book.pages) {
+    for (const item of page.translations ?? []) languages.add(item.language);
+    if (page.textLayout?.enabled) for (const version of page.textLayout.versions) {
+      if (version.boxes.some(box => box.text.trim()) && /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(version.language)) languages.add(version.language);
+    }
+  }
+  return [...languages].slice(0, 20);
+}
+
+export function pictureBookSnapshotTitleTranslations(snapshot: unknown) {
+  const book = playbackFromSnapshot("", snapshot);
+  const titles = new Map<string, string>();
+  for (const item of book.titleTranslations ?? []) if (item.title.trim().length <= 120) titles.set(item.language, item.title.trim());
+  const cover = book.pages.find(page => page.position === 0);
+  if (book.title.trim() && cover?.caption.trim() === book.title.trim()) {
+    for (const item of cover.translations ?? []) {
+      const title = item.caption.trim();
+      if (title && title.length <= 120 && !titles.has(item.language)) titles.set(item.language, title);
+    }
+  }
+  return [...titles].slice(0, 20).map(([language, title]) => ({ language, title }));
+}
+
 /** Publication requires a complete reader, independently of the studio's save status. */
 export function hasCompletePictureBookPlayback(value: unknown, options: { requireDirectoryCover?: boolean; directoryCoverUrl?: string | null } = {}) {
   const source = object(value);

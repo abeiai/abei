@@ -1737,3 +1737,19 @@ test("公开课程详情不会把非认证异常降级为游客", async () => {
   await assert.rejects(() => controller.get({}, "course-1"), /身份服务异常/u);
   assert.equal(courseCalls, 0);
 });
+
+test("公开专辑译名只来自冻结快照，并支持封面标题译文", async () => {
+  const now = new Date("2026-08-18T10:00:00Z");
+  const frozen = { title: "创造", pages: [{ position: 0, caption: "创造", translations: [{ language: "en", caption: "The Creation", audioUrl: null }] }] };
+  const service = serviceWithPrisma({ course: { findFirst: async () => ({
+    id: "0123456789abcdef01234567", reviewState: "PUBLISHED", publishedAt: now, _count: { enrollments: 0 }, user: { nickname: "作者" },
+    approvedRevision: { id: "revision", name: "专辑", summary: "简介", tags: [], coverMedia: { url: "/uploads/cover.png" }, items: [{
+      id: "item", materialType: "PICTURE_BOOK", displayName: "创造", sortOrder: 0, pinnedSnapshot: frozen, pinnedHash: "frozen-hash",
+      publication: { approvedHash: "old", status: "APPROVED" }, pictureBook: { id: "book", title: "私有草稿", userId: "user", status: "COMPLETED", pages: [{ position: 0, caption: "私有草稿", translations: [{ language: "en", caption: "Private draft", audioUrl: null }] }] },
+      videoGuideLesson: null, englishGuidedStudyMaterial: null, learningFlashcardDeck: null
+    }] }
+  }) } });
+  const course = await service.getPublicCourse("0123456789abcdef01234567");
+  assert.deepEqual(course.items[0]?.titleTranslations, [{ language: "en", title: "The Creation" }]);
+  assert.doesNotMatch(JSON.stringify(course), /Private draft|私有草稿/u);
+});

@@ -669,3 +669,18 @@ test("专辑闪卡使用提交链内置的匿名学习页面", () => {
   assert.match(readFileSync(routePath, "utf8"), /PublicFlashcardPlayer/u);
   assert.match(readFileSync(playerPath, "utf8"), /getPublicLearningFlashcardDeck/u);
 });
+
+test("仅多语言专辑在目录标题旁显示语言选择", async () => {
+  const { CourseCatalog } = await import("../src/components/courses/course-catalog.js");
+  const runtime = globalThis as typeof globalThis & { React?: typeof React };
+  const previousReact = runtime.React;
+  runtime.React = React;
+  const course = publicCourseFixture({ reviewing: false });
+  const single = renderToStaticMarkup(React.createElement(CourseCatalog, { course, canOpenMaterials: true }));
+  assert.doesNotMatch(single, /目录语言/u);
+  course.items[0]!.titleTranslations = [{ language: "en", title: "The Creation" }];
+  const bilingual = renderToStaticMarkup(React.createElement(CourseCatalog, { course, canOpenMaterials: true }));
+  assert.match(bilingual, /专辑目录<\/h2><select[^>]*aria-label="目录语言"/u);
+  assert.match(bilingual, /<option value="en">英语<\/option>/u);
+  runtime.React = previousReact;
+});
