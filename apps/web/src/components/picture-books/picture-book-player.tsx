@@ -13,7 +13,7 @@ import { PictureBookTextOverlay } from "./picture-book-text-overlay";
 import { readerPageContent, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { addPictureBookAudioFallback, pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { creatorPictureBookImageSources, creatorPictureBookMediaSources } from "@/lib/picture-book-public-media";
-import { pictureBookAvailableLanguages, pictureBookLanguageName, pictureBookOriginalLabel, pictureBookTitleForLanguage, type PictureBookTranslation } from "@/lib/picture-book-languages";
+import { pictureBookAvailableLanguages, pictureBookInitialLanguage, pictureBookLanguageName, pictureBookOriginalLabel, pictureBookTitleForLanguage, type PictureBookTranslation } from "@/lib/picture-book-languages";
 import { pictureBookEnglishLevelLabel } from "@/lib/picture-book-english-level";
 import { pictureBookEditionOptions, type PictureBookEdition } from "@/lib/picture-book-editions";
 import { PICTURE_BOOK_COVER_PAUSE_MS, pictureBookDefaultAutoTurn, pictureBookSilentPlayToggle, pictureBookAfterPage, pictureBookAlbumEntries, pictureBookFullscreenZones, pictureBookSilentPageDuration, pictureBookSpreadTurn, type PictureBookAlbumEntry, type PictureBookLoopMode } from "@/lib/picture-book-player-controls";
@@ -33,7 +33,8 @@ const playbackRates = [0.6, 0.8, 0.9, 1, 1.2, 1.5, 2] as const;
 
 export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, learnerMode, publicMode = false }: { bookId: string; courseId?: string; courseRevisionItemId?: string; learnerMode: boolean; publicMode?: boolean }) {
   const router = useRouter();
-  const albumId = useSearchParams().get("album");
+  const searchParams = useSearchParams();
+  const albumId = searchParams.get("album");
   const [entry, setEntry] = useState({ bookId, revisionItemId: courseRevisionItemId });
   const [album, setAlbum] = useState<PictureBookAlbumEntry[]>([]);
   const [loopMode, setLoopMode] = useState<PictureBookLoopMode>("none");
@@ -55,7 +56,7 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
   const [audioRetry, setAudioRetry] = useState(0);
   const [audioFallbackKeys, setAudioFallbackKeys] = useState<Set<string>>(() => new Set());
   const [layout, setLayout] = useState<typeof layouts[number]["value"] | null>(null);
-  const [language, setLanguage] = useState("original");
+  const [language, setLanguage] = useState(() => searchParams.get("language") || "original");
   const [imageRatios, setImageRatios] = useState<Record<string, number>>({});
   const [bilingualSubtitles, setBilingualSubtitles] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -116,7 +117,9 @@ export function PictureBookPlayer({ bookId, courseId, courseRevisionItemId, lear
         const defaultAutoTurn = pictureBookDefaultAutoTurn(result.data.pages);
         setAutoTurn(defaultAutoTurn);
         setRunning(defaultAutoTurn);
-        if (result.data.id !== activeBookId && /^(storyweaver|bookdash)-cn-/.test(activeBookId) && result.data.titleTranslations?.some(item => item.language === "zh-CN")) setLanguage("zh-CN");
+        const languages = [...pictureBookAvailableLanguages(result.data.pages), ...result.data.pages.flatMap(item => item.textLayout?.enabled ? item.textLayout.versions.filter(version => version.language !== "original").map(version => version.language) : [])];
+        const chineseEdition = result.data.id !== activeBookId && /^(storyweaver|bookdash)-cn-/.test(activeBookId) && result.data.titleTranslations?.some(item => item.language === "zh-CN");
+        setLanguage(current => current === "original" && chineseEdition ? "zh-CN" : pictureBookInitialLanguage(current, languages));
         setBook(result.data);
       })
       .catch((reason: unknown) => {

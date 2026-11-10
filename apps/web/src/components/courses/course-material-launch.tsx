@@ -12,13 +12,15 @@ type CourseMaterialLaunchProps = {
   courseId: string;
   href: string;
   itemName: string;
+  language?: string;
 };
 
 export function CourseMaterialLaunch({
   canOpenDirectly,
   courseId,
   href,
-  itemName
+  itemName,
+  language
 }: CourseMaterialLaunchProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -33,7 +35,7 @@ export function CourseMaterialLaunch({
         size="sm"
         title={`播放${itemName}`}
       >
-        <Link href={pictureBookAlbumLaunchHref(href, courseId)}>
+        <Link href={pictureBookAlbumLaunchHref(href, courseId, language)}>
           <Play className="ml-0.5 size-4 fill-current" />
         </Link>
       </Button>

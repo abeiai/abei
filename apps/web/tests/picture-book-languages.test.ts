@@ -1,12 +1,18 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { pictureBookAvailableLanguages, pictureBookPageContent } from "../src/lib/picture-book-languages.js";
+import { pictureBookAvailableLanguages, pictureBookInitialLanguage, pictureBookPageContent } from "../src/lib/picture-book-languages.js";
 
 const pages = [
   { position: 0, caption: "封面", audioUrl: null, translations: [] },
   { position: 1, caption: "你好", audioUrl: "original.mp3", translations: [{ language: "en", caption: "Hello", audioUrl: "english.mp3" }] },
   { position: 2, caption: "再见", audioUrl: "original-2.mp3", translations: [] }
 ];
+
+test("从专辑进入时采用可用的所选语言，缺少或不支持时使用原文", () => {
+  assert.equal(pictureBookInitialLanguage("en", pictureBookAvailableLanguages(pages)), "en");
+  assert.equal(pictureBookInitialLanguage("fr", pictureBookAvailableLanguages(pages)), "original");
+  assert.equal(pictureBookInitialLanguage(null, pictureBookAvailableLanguages(pages)), "original");
+});
 
 test("播放器列出书中译文语种，选中语种时使用对应字幕与语音", () => {
   assert.deepEqual(pictureBookAvailableLanguages(pages), ["en"]);

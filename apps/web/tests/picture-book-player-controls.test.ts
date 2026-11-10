@@ -5,6 +5,8 @@ import type { PublicCourseItem } from "../src/lib/course-types";
 
 test("只有专辑中的绘本播放链接带专辑标记，保留学习上下文", () => {
   assert.equal(pictureBookAlbumLaunchHref("/picture-books/a/play?courseId=c&courseRevisionItemId=i", "c"), "/picture-books/a/play?courseId=c&courseRevisionItemId=i&album=c");
+  assert.equal(pictureBookAlbumLaunchHref("/picture-books/a/play?courseId=c&courseRevisionItemId=i", "c", "en"), "/picture-books/a/play?courseId=c&courseRevisionItemId=i&album=c&language=en");
+  assert.equal(pictureBookAlbumLaunchHref("/picture-books/a/play?language=en", "c", "original"), "/picture-books/a/play?album=c");
   assert.equal(pictureBookAlbumLaunchHref("/video-guide/a", "c"), "/video-guide/a");
   assert.equal(pictureBookAlbumLaunchHref("https://example.com/picture-books/a/play", "c"), "https://example.com/picture-books/a/play");
 });

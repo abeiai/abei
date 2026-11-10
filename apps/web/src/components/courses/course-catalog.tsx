@@ -28,7 +28,7 @@ export function CourseCatalog({ course, canOpenMaterials }: { course: PublicCour
       return <li className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-start gap-3 border-b border-border px-5 py-4 transition-colors last:border-b-0 hover:bg-secondary/45 sm:px-6" key={item.id}>
         <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-sm font-semibold">{index + 1}</span>
         <div className="min-w-0 flex-1"><p className="break-words text-sm font-medium leading-8">{title}</p></div>
-        {presentation.href ? <CourseMaterialLaunch canOpenDirectly={canOpenMaterials} courseId={course.id} href={presentation.href} itemName={title} /> : <Button aria-label={`${title}：${presentation.statusLabel}`} className="size-8 px-0" disabled size="sm" title={presentation.statusLabel} variant="outline"><LockKeyhole className="size-4" /></Button>}
+        {presentation.href ? <CourseMaterialLaunch canOpenDirectly={canOpenMaterials} courseId={course.id} href={presentation.href} itemName={title} language={language} /> : <Button aria-label={`${title}：${presentation.statusLabel}`} className="size-8 px-0" disabled size="sm" title={presentation.statusLabel} variant="outline"><LockKeyhole className="size-4" /></Button>}
       </li>;
     })}</ol>
   </section>;

@@ -22,6 +22,10 @@ export function pictureBookAvailableLanguages(pages: PictureBookTranslatedPage[]
   return [...new Set(pages.flatMap(page => page.translations?.filter(item => item.caption.trim()).map(item => item.language) ?? []))];
 }
 
+export function pictureBookInitialLanguage(language: string | null, availableLanguages: string[]) {
+  return language && availableLanguages.includes(language) ? language : "original";
+}
+
 export function pictureBookPageContent(page: PictureBookTranslatedPage, selectedLanguage: string) {
   const translation = page.translations?.find(item => item.language === selectedLanguage && item.caption.trim());
   const publicAudioUrl = translation ? translation.publicAudioUrl : page.publicAudioUrl;

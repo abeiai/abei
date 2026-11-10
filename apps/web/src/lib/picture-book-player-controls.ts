@@ -11,10 +11,12 @@ export function pictureBookSilentPlayToggle(running: boolean, autoTurn: boolean)
   return { running: !running, autoTurn: running ? autoTurn : true };
 }
 
-export function pictureBookAlbumLaunchHref(href: string, courseId: string) {
+export function pictureBookAlbumLaunchHref(href: string, courseId: string, language = "original") {
   if (!/^\/picture-books\/[^/?#]+\/play(?:[?#]|$)/.test(href)) return href;
   const url = new URL(href, "https://reader.invalid");
   url.searchParams.set("album", courseId);
+  if (language !== "original") url.searchParams.set("language", language);
+  else url.searchParams.delete("language");
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
