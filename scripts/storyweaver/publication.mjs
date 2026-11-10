@@ -1,5 +1,7 @@
 import {createHash} from 'node:crypto';
 const digest=/^[a-f0-9]{64}$/;
+export function displayStoryText(text){return text.split(/\r\n|\r|\n/).filter(line=>line.replace(/[\u200b\u200c\u200d\u2060]/g,'').trim()).join('\n')}
+
 function htmlText(value,parseFragment){
  const chunks=[];
  function walk(node){if(node.nodeName==='#text')chunks.push(node.value);else{if(node.tagName==='br')chunks.push('\n');for(const child of node.childNodes??[])walk(child);if(['p','div','li'].includes(node.tagName))chunks.push('\n')}}

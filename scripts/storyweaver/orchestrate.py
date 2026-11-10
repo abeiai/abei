@@ -77,7 +77,7 @@ def publish(book,catalog_sha,mode):
   verify="""import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 const [id,path,runner]=process.argv.slice(1);
-const {attribution}=await import(runner+'/publication.mjs');
+const {attribution,displayStoryText}=await import(runner+'/publication.mjs');
 const m=JSON.parse(await readFile(path+'/harvest.json'));
 const d=JSON.parse(await readFile(path+'/details.raw.json'));
 const source=attribution(m,d);
@@ -85,7 +85,7 @@ const r=await fetch('https://abeiai.com/api/public/picture-books/'+id+'/play',{s
 const j=await r.json(),b=j.data;
 const first=m.source_id===698069;
 const cp=first?JSON.parse(await readFile('/app/private-creator-assets/storyweaver-import/698069-backfill.json')):null;
-if(!r.ok||j.code!==0||b?.englishLevel!==m.english_level_code||b?.title!==d.name||b?.pages?.length!==m.pages.length||b.pages.some((p,i)=>p.position!==i||p.caption!==(i===0?(first?'':m.pages[i].text||d.name):m.pages[i].text)||!p.imageUrl||p.audioUrl)||Object.keys(source).some(k=>b.source?.[k]!==source[k]))throw Error('公开阅读 API 的文字、图片、等级或来源不一致');
+if(!r.ok||j.code!==0||b?.englishLevel!==m.english_level_code||b?.title!==displayStoryText(d.name)||b?.pages?.length!==m.pages.length||b.pages.some((p,i)=>p.position!==i||p.caption!==displayStoryText(i===0?(first?'':m.pages[i].text||d.name):m.pages[i].text)||!p.imageUrl||p.audioUrl)||Object.keys(source).some(k=>b.source?.[k]!==source[k]))throw Error('公开阅读 API 的文字、图片、等级或来源不一致');
 for(const [i,p] of b.pages.entries()){const img=await fetch(new URL(p.imageUrl,'https://abeiai.com'),{signal:AbortSignal.timeout(30000)});
 if(!img.ok||createHash('sha256').update(Buffer.from(await img.arrayBuffer())).digest('hex')!==(first&&i===0?cp.storyCoverSha:m.pages[i].image.sha256))throw Error('公网页面图片哈希不一致 '+i)}console.log('public API verified '+id);
 """

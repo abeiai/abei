@@ -2,7 +2,7 @@ import {readFile,writeFile,rename,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {resolve} from 'node:path';
-import {buildBookRecord,attribution,validateManifest,verifySourcePages,bookId} from './publication.mjs';
+import {buildBookRecord,attribution,validateManifest,verifySourcePages,bookId,displayStoryText} from './publication.mjs';
 import {persistDeterministicAsset} from './storage.mjs';
 import {verifyLiveSources} from './source-verify.mjs';
 const args=Object.fromEntries(process.argv.slice(2).map(a=>{let i=a.indexOf('=');return [a.slice(0,i),a.slice(i+1)]}));
@@ -98,7 +98,7 @@ try{
   await writeAdminOperationLog({adminUserId:adminId,action:'APPROVE_PICTURE_BOOK_SUBMISSION',resourceType:'PICTURE_BOOK_SUBMISSION',resourceId:sub.id,description:`审核发布 StoryWeaver 英语绘本 ${manifest.source_id}，保留来源和许可署名`});
  }
  const publicBook=await service.publicBook(record.id);
- if(publicBook.englishLevel!==record.englishLevel||publicBook.pages.length!==record.pages.length||publicBook.pages.some((p,i)=>p.position!==i||p.imageUrl!==urls[i]||p.caption!==record.pages[i].caption||p.audioUrl))throw Error('公开阅读数据与来源不一致');
+ if(publicBook.englishLevel!==record.englishLevel||publicBook.pages.length!==record.pages.length||publicBook.pages.some((p,i)=>p.position!==i||p.imageUrl!==urls[i]||p.caption!==displayStoryText(record.pages[i].caption)||p.audioUrl))throw Error('公开阅读数据与来源不一致');
  if(args['--mode']!=='verify'){checkpoint.publishedAt=new Date().toISOString();checkpoint.snapshotHash=hash;checkpoint.afterCounts=await counts();await save()};console.log(JSON.stringify({status:'published',id:manifest.source_id,index:manifest.catalog_index,bookId:record.id,submissionId:sub.id,pages:record.pages.length,englishLevel:record.englishLevel,before:checkpoint.beforeCounts,after:checkpoint.afterCounts}));
  }
 }finally{await prisma.$disconnect();await lock.end()}

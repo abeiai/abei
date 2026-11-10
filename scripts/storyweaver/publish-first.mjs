@@ -1,5 +1,5 @@
 import {readFile,writeFile,rename,mkdir} from 'node:fs/promises';import {createHash} from 'node:crypto';import {createRequire} from 'node:module';import {resolve} from 'node:path';
-import {verifySourcePages,validateManifest,attribution} from './publication.mjs';
+import {verifySourcePages,validateManifest,attribution,displayStoryText} from './publication.mjs';
 import {verifyLiveSources} from './source-verify.mjs';
 const args=Object.fromEntries(process.argv.slice(2).map(a=>{let i=a.indexOf('=');return [a.slice(0,i),a.slice(i+1)]}));
 if(!['inspect','publish','verify'].includes(args['--mode'])||!args['--input']||!/^[a-f0-9]{64}$/.test(args['--catalog-sha']||''))throw Error('需要 --mode、--input、--catalog-sha');
@@ -61,7 +61,7 @@ try{
   }
   sub=await prisma.pictureBookSubmission.findUnique({where:{pictureBookId:id}});
   if(sub.status!=='APPROVED'||sub.publishedHash!==newHash||sub.publishedCoverUrl!==cp.originalPublishedCover||sub.catalogSortAt?.getTime()!==sortAt.getTime()||!sameSource(sub.publishedSourceInfo))throw Error('首本发布结果不符');
-  const playback=await service.publicBook(id);if(playback.englishLevel!==2||playback.pages.length!==15||playback.pages.some((p,i)=>i>0&&p.caption!==manifest.pages[i].text||p.audioUrl))throw Error('公开播放校验失败');
+  const playback=await service.publicBook(id);if(playback.englishLevel!==2||playback.pages.length!==15||playback.pages.some((p,i)=>i>0&&p.caption!==displayStoryText(manifest.pages[i].text)||p.audioUrl))throw Error('公开播放校验失败');
   if(args['--mode']==='publish'){
    if(!await prisma.adminOperationLog.findFirst({where:{action:'STORYWEAVER_ENGLISH_LEVEL_BACKFILL',resourceType:'PICTURE_BOOK_SUBMISSION',resourceId:sub.id}}))await writeAdminOperationLog({adminUserId:adminId,action:'STORYWEAVER_ENGLISH_LEVEL_BACKFILL',resourceType:'PICTURE_BOOK_SUBMISSION',resourceId:sub.id,description:'按 StoryWeaver 来源更新已发布绘本 I Love to Read 的英语分级和来源署名'});
    cp.afterCounts={books:await prisma.pictureBook.count(),submissions:await prisma.pictureBookSubmission.count(),media:await prisma.mediaAsset.count()};cp.verifiedAt=new Date().toISOString();await save();
