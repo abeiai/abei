@@ -41,29 +41,28 @@
 @keyframes turnSpreadBackward { to { transform: rotateY(180deg); } }
 .caption { overflow-y: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: clamp(16px, 1.5vw, 24px); line-height: 1.9; }
 .sheet[data-layout="subtitle"] .caption {
-  position: absolute; bottom: 8%; left: 50%; width: max-content; max-width: calc(100% - 40px); max-height: 40%;
-  transform: translateX(-50%); border-radius: 12px; padding: 10px 20px;
-  color: #fff; font-size: clamp(1rem, 2.5vw, 3.25rem); font-size: clamp(1rem, 5cqh, 3.25rem);
-  font-weight: 600; line-height: 1.35; text-align: center;
-  -webkit-text-stroke: clamp(1px, 0.18vw, 4px) #000; -webkit-text-stroke: clamp(1px, 0.36cqh, 4px) #000;
+  position: absolute; bottom: 8px; left: 50%; width: calc(100% - 40px); max-width: 960px; max-height: 40%;
+  transform: translateX(-50%); padding: 10px 20px;
+  color: #fff; font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 600; line-height: 1.55; text-align: justify;
+  -webkit-text-stroke: 1px #000;
   paint-order: stroke fill;
-  text-shadow: 1px 2px 4px rgb(0 0 0 / 60%);
-  text-shadow: clamp(1px, 0.1cqh, 2px) clamp(1px, 0.24cqh, 3px) clamp(2px, 0.38cqh, 5px) rgb(0 0 0 / 60%);
+  text-shadow: 0 1px 3px #000a;
 }
 .sheet[data-layout="subtitle"] .caption:focus-visible { outline: 2px solid white; outline-offset: -2px; }
 .sheet[data-layout="side"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * var(--image-ratio) * 2)); height: min(var(--reader-height), calc((100vw - 128px) / (var(--image-ratio) * 2))); flex-direction: row-reverse; }
 .sheet[data-layout="side"] .artwork { flex: 1 1 50%; }
 .sheet[data-layout="side"] .caption { display: flex; flex: 1 1 50%; align-items: center; border-right: 1px solid #eee; padding: clamp(20px, 3vw, 56px); }
 .sheet[data-layout="side"] .caption p { margin: auto 0; }
-.sheet[data-layout="below"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * .74 * var(--image-ratio))); height: auto; max-height: var(--reader-height); }
+.sheet[data-layout="below"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * .74 * var(--image-ratio))); height: auto; gap: 20px; border-radius: 14px; padding: 24px; }
 .sheet[data-layout="below"][data-cover="false"] .artwork { flex: none; width: 100%; aspect-ratio: var(--image-ratio); }
-.sheet[data-layout="below"] .caption { flex-shrink: 0; max-height: calc(var(--reader-height) * .26); padding: 22px 32px; }
+.sheet[data-layout="below"] .caption { flex-shrink: 0; max-height: none; min-height: 0; padding: 0; }
 .pageArrow { position: absolute; top: 50%; display: flex; width: 44px; height: 44px; transform: translateY(-50%); align-items: center; justify-content: center; border-radius: 50%; background: #72758030; color: white; }
 .pageArrow:hover:not(:disabled) { background: #72758060; }
 .pageArrow:disabled { opacity: .3; }
 .previous { left: 12px; }
 .next { right: 12px; }
-.footer { position: relative; display: flex; min-height: 100px; align-items: center; justify-content: center; padding: 14px 16px 24px; }
+.footer { position: sticky; bottom: 0; z-index: 20; display: flex; min-height: 100px; align-items: center; justify-content: center; background: #f0f1f6; padding: 14px 16px 24px; }
 .toolbar { display: flex; max-width: 100%; align-items: center; gap: 12px; border-radius: 999px; background: white; padding: 10px 26px; box-shadow: 0 3px 18px #25273714; }
 .toolbar > button, .volume > button { display: flex; width: 40px; height: 40px; flex-shrink: 0; align-items: center; justify-content: center; border-radius: 50%; color: #93959c; }
 .toolbar > button:hover:not(:disabled), .volume > button:hover { background: #fff1e7; color: var(--primary); }
@@ -92,7 +91,9 @@
   .sheet[data-layout="side"][data-cover="false"], .sheet[data-layout="below"][data-cover="false"] { width: min(100%, calc(var(--reader-height) * .74 * var(--image-ratio))); height: auto; max-height: var(--reader-height); flex-direction: column; }
   .sheet[data-layout="side"][data-cover="false"] .artwork, .sheet[data-layout="below"][data-cover="false"] .artwork { flex: none; width: 100%; height: auto; aspect-ratio: var(--image-ratio); }
   .sheet[data-layout="side"] .caption, .sheet[data-layout="below"] .caption { display: block; flex: 0 1 auto; min-height: min(104px, calc(var(--reader-height) * .26)); max-height: calc(var(--reader-height) * .26); border: 0; padding: 16px 20px; }
-  .sheet[data-layout="subtitle"] .caption { max-width: calc(100% - 24px); max-height: 70%; padding: 8px 12px; }
+  .sheet[data-layout="below"][data-cover="false"] { max-height: none; gap: 12px; padding: 12px; }
+  .sheet[data-layout="below"] .caption { min-height: 0; max-height: none; padding: 0; }
+  .sheet[data-layout="subtitle"] .caption { bottom: 6px; width: calc(100% - 24px); max-height: 70%; padding: 8px 12px; }
   .pageArrow { top: auto; bottom: 12px; width: 32px; height: 32px; transform: none; background: #45485488; }
   .pageArrow svg { width: 20px; height: 20px; }
   .previous { left: 18px; }
@@ -108,7 +109,7 @@
 .player:fullscreen .header { display: none; }
 .player:fullscreen .stage { position: absolute; inset: 0; min-height: 0; padding: 0; }
 .player:fullscreen .sheet { width: min(100vw, calc(100dvh * var(--image-ratio))); height: min(100dvh, calc(100vw / var(--image-ratio))); max-height: 100dvh; border-radius: 0; }
-.player:fullscreen .sheet[data-layout="below"][data-cover="false"] { width: min(100vw, calc(100dvh * .74 * var(--image-ratio))); height: auto; }
+.player:fullscreen .sheet[data-layout="below"][data-cover="false"] { width: min(100vw, calc(100dvh * .74 * var(--image-ratio))); height: auto; max-height: 100dvh; overflow-y: auto; }
 .player:fullscreen .footer { position: absolute; right: 0; bottom: 0; left: 0; z-index: 20; min-height: 0; padding: 16px 12px 24px; background: linear-gradient(transparent, #0008); }
 .player:fullscreen .footer, .player:fullscreen .closePlayer, .player:fullscreen .pageArrow { opacity: 0; pointer-events: none; transition: opacity .18s; }
 .player:fullscreen[data-controls="true"] .footer, .player:fullscreen .footer:has(:focus-visible), .player:fullscreen[data-close="true"] .closePlayer, .player:fullscreen .closePlayer:focus-visible { opacity: 1; pointer-events: auto; }
