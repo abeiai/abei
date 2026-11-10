@@ -70,13 +70,13 @@ test("单本绘本公开分享要求本人账号和完成的图文，重复提�
     const sharp=createRequire(new URL("../../web/package.json",import.meta.url))("sharp");
     const coverImage=await sharp({create:{width:1200,height:900,channels:3,background:"#f6f0e5"}}).png().toBuffer();
     Object.assign(app.get(MediaService),{readPictureBookStoredImage:async()=>({buffer:coverImage,mimetype:"image/png"}), storePictureBookGeneratedImage:async (_userId:string,file:{buffer:Buffer})=>{
-      const metadata=await sharp(file.buffer).metadata(); assert.equal(metadata.width,1536); assert.equal(metadata.height,1152);
+      const metadata=await sharp(file.buffer).metadata(); assert.equal(metadata.width,1536); assert.equal(metadata.height,1536);
       return {url:"https://r.abeiai.com/picture-books/library-cover.png"};
     }});
     let generations=0, failCover=true;
     Object.assign(app.get(AiService),{listImageModels:async()=>[{id:"review-qwen3",providerKey:"dashscope",modelName:"qwen-image-3.0",maxReferenceImages:3}],generateImage:async (_subject:unknown,input:{modelInstanceId:string;width:number;height:number;prompt:string;referenceImages:unknown[]},options:{fixedCredits:number;pictureBookR2:boolean})=>{
       assert.equal(input.modelInstanceId,"review-qwen3"); assert.equal(options.pictureBookR2,true);
-      generations++; assert.equal(input.width,1536); assert.equal(input.height,1152); assert.match(input.prompt,/【文字保留】/); assert.match(input.prompt,/4:3/); assert.equal(input.referenceImages.length,1); assert.equal(options.fixedCredits,0);
+      generations++; assert.equal(input.width,1536); assert.equal(input.height,1536); assert.match(input.prompt,/【标题处理】/); assert.match(input.prompt,/1:1/); assert.equal(input.referenceImages.length,1); assert.equal(options.fixedCredits,0);
       if(failCover) throw new Error("provider secret must not reach user");
       await new Promise(resolve=>setTimeout(resolve,30));
       return {id:"cover-task",images:[{url:"https://r.abeiai.com/picture-books/library-cover.png"}]};

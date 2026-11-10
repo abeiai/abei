@@ -11,7 +11,7 @@ async function fixture(run: (fixture: { service: PictureBookSubmissionService; i
   const previousCache = process.env.IMAGE_VARIANT_CACHE_DIR;
   process.env.IMAGE_VARIANT_CACHE_DIR = join(directory, "cache");
   try {
-    const image = await sharp({ create: { width: 1536, height: 1152, channels: 3, background: "#eee" } }).png().toBuffer();
+    const image = await sharp({ create: { width: 1536, height: 1536, channels: 3, background: "#eee" } }).png().toBuffer();
     const filepath = join(directory, "cover.png");
     await writeFile(filepath, image);
     const localReads: string[] = [];

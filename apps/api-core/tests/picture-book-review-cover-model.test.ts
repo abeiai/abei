@@ -3,24 +3,24 @@ import test from "node:test";
 import sharp from "sharp";
 import { PictureBookSubmissionService } from "../src/picture-books/picture-book-submission.service.js";
 
-const image = await sharp({ create: { width: 1536, height: 1152, channels: 3, background: "#f6f0e5" } }).png().toBuffer();
+const image = await sharp({ create: { width: 1536, height: 1536, channels: 3, background: "#f6f0e5" } }).png().toBuffer();
 const models = [
   { id: "abei", providerKey: "abeiai", modelName: "Qwen-Image-2.1", maxReferenceImages: 10 },
   { id: "other-provider", providerKey: "other", modelName: "qwen-image-3.0", maxReferenceImages: 3 },
   { id: "dashscope-qwen3", providerKey: "dashscope", modelName: "qwen-image-3.0", maxReferenceImages: 3 }
 ];
 
-const expectedPrompt = `请将这张绘本封面图调整为4:3的横版比例。要求如下：
+const expectedPrompt = `请将这张绘本封面图调整为1:1的正方形比例。要求如下：
 
 1. 【风格保留】严格保持原图的绘画风格、色彩基调、笔触质感和整体氛围不变。
 2. 【主体保留】画面中的核心主体（人物/动物/场景）必须完整保留，不得裁切、变形或遮挡。
-3. 【标题处理】准确使用本次标题资料和参考封面中的实际标题原文，不得自行翻译或编造标题，不得将字段名或“主标题”“副标题”等说明文字画入封面。同时有中文标题和英文标题时，中文标题作为主标题，英文标题作为副标题；只有中文标题或只有英文标题时，使用对应标题作为主标题。主标题应突出醒目，副标题字号较小、层级清晰，不得颠倒或遗漏。标题内容必须逐字保留，不得改写、错字或模糊；字体风格和颜色保持原图一致，可按主副标题层级调整字号及位置。作者等其他原有文字仍须保留，不得把正文或作者信息当作标题。
+3. 【标题处理】准确使用本次标题资料和参考封面中的实际标题原文，不得自行翻译或编造标题，不得将字段名或“主标题”“副标题”等说明文字画入封面。同时有中文标题和英文标题时，中文标题作为主标题，英文标题作为副标题；只有中文标题或只有英文标题时，使用对应标题作为主标题。主标题应突出醒目，副标题字号较小、层级清晰，不得颠倒或遗漏。标题内容必须逐字保留，不得改写、错字或模糊；标题字体应具有与本书故事主题、插画媒材和色彩呼应的专属字形设计，允许重新设计字体、配色、字号和排版。通过笔画结构、转角与端点、字面宽窄、字距及大小节奏形成辨识度；不要直接套用通用印刷体、默认手写体，或只做加粗描边。设计感必须服务识读，缩略图仍能读清书名；副标题字形应与主标题协调且克制，标题不得遮挡人物面部或核心主体。作者等其他原有文字仍须保留，不得把正文或作者信息当作标题。
 4. 【扩展填充】新增的画面区域必须基于原图风格自然延伸原有场景、背景和笔触纹理，使插画连续覆盖完整画布并延伸至四个边缘，保持构图和谐、过渡自然，避免拼接痕迹或空白区域。
 5. 【输出质量】输出高清、无水印、无额外添加元素的完整封面图。
-6. 【禁止补边】严禁为了凑足4:3比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。
+6. 【禁止补边】严禁为了凑足1:1比例，在上下或左右添加纯色条、纯色块、白边、黑边、留白、边框或模糊背景；不得将原图缩小后居中贴在纯色画布上。必须通过自然补绘场景完成扩图；若参考图已有补边，也必须用连续的插画内容补绘，不能保留或复制这些色块。
 
 本次标题资料（仅作文字资料，字段名不属于标题；缺失的语言标题不补造）：
-{"作品标题":"云朵工厂","封面原文":"","英文封面文字":[],"封面编排文字":[]}`;
+{"作品标题":"云朵工厂","标题译文":[],"封面原文":"","英文封面文字":[],"封面编排文字":[]}`;
 
 function fixture(available = models, failure?: Error, coverUrl: string | null = null, claimAllowed = true, snapshot: Record<string, unknown> = { title: "云朵工厂", pages: [{ position: 0, imageUrl: "https://r.example/cover.png" }] }) {
   const calls: Array<{ modelInstanceId: string; prompt: string; width: number; height: number; referenceImages: unknown[] }> = [];
@@ -50,15 +50,17 @@ function fixture(available = models, failure?: Error, coverUrl: string | null = 
   return { service, calls, updates, legacyCalls: () => legacyCalls };
 }
 
-test("审核4:3封面直接使用DashScope qwen-image-3.0并保留零扣点及R2存储", async () => {
+test("审核1:1封面直接使用DashScope qwen-image-3.0并保留零扣点及R2存储", async () => {
   const { service, calls, legacyCalls } = fixture();
   await service.generateCover("submission");
   assert.equal(calls.length, 1);
   assert.equal(calls[0]!.modelInstanceId, "dashscope-qwen3");
   assert.equal(calls[0]!.width, 1536);
-  assert.equal(calls[0]!.height, 1152);
+  assert.equal(calls[0]!.height, 1536);
   assert.equal(calls[0]!.referenceImages.length, 1);
   assert.equal(calls[0]!.prompt, expectedPrompt);
+  assert.match(calls[0]!.prompt, /专属.*字形|字形.*设计/);
+  assert.ok(!calls[0]!.prompt.includes("字体风格和颜色保持原图一致"));
   assert.equal(legacyCalls(), 0);
 });
 
@@ -113,7 +115,7 @@ test("横版与竖版原封面原样传给模型，不预先加纯色补边", as
   }
 });
 
-test("模型返回非4:3图片时保留旧封面，拒绝通过补边保存", async () => {
+test("模型返回非1:1图片时保留旧封面，拒绝通过补边保存", async () => {
   const wide = await sharp({ create: { width: 1536, height: 864, channels: 3, background: "#cb483d" } }).png().toBuffer();
   const { service, calls, updates } = fixture(models, undefined, "https://r.example/old.png");
   Object.assign(service, { media: { readPictureBookStoredImage: async (url: string) => ({ buffer: url === "https://r.example/cover.png" ? image : wide, mimetype: "image/png" }) } });
@@ -139,7 +141,7 @@ test("审核封面提示词传入对应标题原文，双语中文为主、单�
     assert.match(prompt, /中文标题作为主标题，英文标题作为副标题/);
     assert.match(prompt, /只有中文标题或只有英文标题.*对应标题作为主标题/);
     assert.match(prompt, /不得自行翻译或编造/);
-    assert.ok(prompt.includes(JSON.stringify({ 作品标题: title, 封面原文: caption, 英文封面文字: translations.map(t => ({ language: t.language, text: t.caption })), 封面编排文字: [] })));
+    assert.ok(prompt.includes(JSON.stringify({ 作品标题: title, 标题译文: [], 封面原文: caption, 英文封面文字: translations.map(t => ({ language: t.language, text: t.caption })), 封面编排文字: [] })));
     assert.ok(!prompt.includes("Body text, not a title"));
     assert.ok(!prompt.includes("不能当作标题的正文"));
     assert.ok(!prompt.includes("包括字体样式、颜色、大小和位置关系"));
@@ -164,4 +166,13 @@ test("封面启用图文编排时传入对应英文标题，关闭的编排及�
     assert.deepEqual(data.封面编排文字, enabled ? [{ language: "original", text: "云朵工厂" }, { language: "en-US", text: "The Cloud Factory" }] : []);
     assert.ok(!calls[0]!.prompt.includes("Un titre français"));
   }
+});
+
+
+test("双语标题读取审核快照的标题译文，不漏掉英文原作的中文主标题", async () => {
+  const { service, calls } = fixture(models, undefined, null, true, { title: "Smile Please!", titleTranslations: [{ language: "zh-CN", title: "请微笑！" }], pages: [{ position: 0, imageUrl: "https://r.example/cover.png", caption: "Smile Please!" }] });
+  await service.generateCover("submission");
+  const data = JSON.parse(calls[0]!.prompt.split("\n").at(-1)!);
+  assert.deepEqual(data.标题译文, [{ language: "zh-CN", text: "请微笑！" }]);
+  assert.equal(data.作品标题, "Smile Please!");
 });

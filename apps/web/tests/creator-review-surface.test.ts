@@ -53,3 +53,12 @@ test('active album preview retains frozen book inspection and exposes every mixe
   assert.match(html, /\/api\/creator-media\/items\/frozen-member\/pages\/1\/image/);
   assert.match(html, /\/api\/creator-media\/items\/frozen-member\/pages\/1\/audio/);
 });
+
+
+test('单本绘本审核的生成封面使用1:1正方形预览',async()=>{
+  const {readFileSync}=await import('node:fs');
+  const source=readFileSync(new URL('../src/components/admin/picture-book-review-manager.tsx',import.meta.url),'utf8');
+  assert.match(source,/绘本馆封面 · 1:1/);
+  assert.ok(!source.includes('aspect-[4/3]'));
+  assert.equal((source.match(/aspect-square/g)||[]).length,2);
+});
