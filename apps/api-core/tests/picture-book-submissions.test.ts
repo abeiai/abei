@@ -68,7 +68,7 @@ test("单本绘本公开分享要求本人账号和完成的图文，重复提�
     const review=(await reviewResponse.json()).data; assert.equal(review.book.title,"小熊的雨天");
     assert.doesNotMatch(JSON.stringify(review),/私密创作对话|私密对话/);
     const sharp=createRequire(new URL("../../web/package.json",import.meta.url))("sharp");
-    const coverImage=await sharp({create:{width:1200,height:900,channels:3,background:"#f6f0e5"}}).png().toBuffer();
+    const coverImage=await sharp({create:{width:1024,height:1024,channels:3,background:"#f6f0e5"}}).png().toBuffer();
     Object.assign(app.get(MediaService),{readPictureBookStoredImage:async()=>({buffer:coverImage,mimetype:"image/png"}), storePictureBookGeneratedImage:async (_userId:string,file:{buffer:Buffer})=>{
       const metadata=await sharp(file.buffer).metadata(); assert.equal(metadata.width,1536); assert.equal(metadata.height,1536);
       return {url:"https://r.abeiai.com/picture-books/library-cover.png"};
