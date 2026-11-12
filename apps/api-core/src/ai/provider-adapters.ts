@@ -212,9 +212,10 @@ class OpenAiCompatibleProviderAdapter implements ProviderAdapter {
       );
 
       if (!response.ok) {
+        const payload: unknown = await response.json().catch(() => null);
         return {
           success: false,
-          message: providerTestMessage(response.status)
+          message: providerTestMessage(response.status, payload)
         };
       }
 
@@ -830,9 +831,24 @@ function adapterName(type: ProviderAdapterType) {
   return names[type];
 }
 
-function providerTestMessage(status: number) {
-  if (status === 401 || status === 403) {
+function providerTestMessage(status: number, payload?: unknown) {
+  const body = payload && typeof payload === "object" ? payload as Record<string, unknown> : null;
+  const error = body?.error && typeof body.error === "object" ? body.error as Record<string, unknown> : body;
+  const code = typeof error?.code === "string" ? error.code : "";
+  if (status === 401 || /^(invalidapikey|invalid_api_key)$/i.test(code)) {
     return "API Key 无效";
+  }
+
+  if (code === "AllocationQuota.FreeTierOnly") {
+    return "测试模型免费额度已用尽，请检查供应商的免费额度限制，或改用有可用额度的模型。";
+  }
+
+  if (code === "Arrearage" || code === "AccountOverdue") {
+    return "供应商账户欠费或余额不足，请检查账户状态。";
+  }
+
+  if (status === 403) {
+    return "当前 API Key 没有测试模型的调用权限，请检查模型授权、服务开通及额度。";
   }
 
   if (status === 404) {

@@ -4237,6 +4237,9 @@ export class AiService {
             modelInstances: {
               where: {
                 isEnabled: true
+              },
+              include: {
+                aliases: { select: { aliasKey: true } }
               }
             }
           },
@@ -9250,10 +9253,13 @@ function selectProviderTestModel(
     webSocketUrl?: string | null;
     region?: string | null;
     apiKeyEncrypted?: string | null;
+    aliases?: Array<{ aliasKey: string }>;
   }>
 ) {
   if (!isAudioProviderAdapterType(adapterType)) {
     return (
+      modelInstances.find((model) => jsonStringArray(model.capabilityTags).includes("TEXT") &&
+        model.aliases?.some((alias) => alias.aliasKey === "default-chat")) ??
       modelInstances.find((model) => jsonStringArray(model.capabilityTags).includes("TEXT")) ??
       modelInstances[0] ??
       null
