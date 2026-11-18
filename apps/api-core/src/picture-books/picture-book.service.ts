@@ -85,7 +85,7 @@ export class PictureBookService {
   }
 
   async get(userId: string, id: string) {
-    const row = await this.prisma.pictureBook.findFirst({ where: { id, userId }, include: { submission: { select: { status: true, reviewNote: true, publishedAt: true } }, revisionItems: { where: { revision: publishedAlbumRevisionWhere }, select: { id: true }, take: 1 } } });
+    const row = await this.prisma.pictureBook.findFirst({ where: { id, userId }, include: { edition: { select: { language: true } }, submission: { select: { status: true, reviewNote: true, publishedAt: true } }, revisionItems: { where: { revision: publishedAlbumRevisionWhere }, select: { id: true }, take: 1 } } });
     if (!row) throw new AppException(40401, "绘本作品不存在", HttpStatus.NOT_FOUND);
     const characters = await this.resolveCharacters(userId, charactersOf(row.characters), row.style);
     const synced = await this.prisma.creatorWork.findFirst({ where: { userId, kind: "BOOK", resourceId: id }, select: { id: true } });

@@ -1,7 +1,7 @@
 export type PictureBookTextBox = {
   id: string; text: string; x: number; y: number; width: number; height: number;
   fontSize: number; fontFamily: "sans" | "serif"; color: string; bold: boolean;
-  align: "left" | "center" | "right"; lineHeight: number; speak: boolean; zIndex?: number;
+  align: "left" | "center" | "right" | "justify"; lineHeight: number; speak: boolean; zIndex?: number;
 };
 export type PictureBookTextVersion = { language: string; boxes: PictureBookTextBox[]; audioUrl: string | null; voiceKey?: string };
 export type PictureBookTextLayout = { enabled: boolean; versions: PictureBookTextVersion[] };
@@ -24,10 +24,10 @@ export function parseTextLayout(input: unknown): PictureBookTextLayout {
       if (!item || typeof item !== "object" || Array.isArray(item)) return fail();
       const box = item as Record<string, unknown>;
       const n = (key: string, min: number, max: number): number => typeof box[key] === "number" && Number.isFinite(box[key]) && (box[key] as number) >= min && (box[key] as number) <= max ? box[key] as number : fail();
-      if (typeof box.id !== "string" || !/^[\w-]{1,80}$/.test(box.id) || typeof box.text !== "string" || box.text.length > 1000 || !["sans", "serif"].includes(String(box.fontFamily)) || typeof box.color !== "string" || !/^#[0-9a-fA-F]{6}$/.test(box.color) || typeof box.bold !== "boolean" || !["left", "center", "right"].includes(String(box.align)) || typeof box.speak !== "boolean") return fail();
+      if (typeof box.id !== "string" || !/^[\w-]{1,80}$/.test(box.id) || typeof box.text !== "string" || box.text.length > 1000 || !["sans", "serif"].includes(String(box.fontFamily)) || typeof box.color !== "string" || !/^#[0-9a-fA-F]{6}$/.test(box.color) || typeof box.bold !== "boolean" || !(typeof box.align === "string" && ["left", "center", "right", "justify"].includes(box.align)) || typeof box.speak !== "boolean") return fail();
       const x = n("x", 0, 1), y = n("y", 0, 1), width = n("width", 0.01, 1), height = n("height", 0.01, 1);
       if (x + width > 1.00001 || y + height > 1.00001) return fail();
-      return { id: box.id, text: box.text, x, y, width, height, fontSize: n("fontSize", 8, 160), fontFamily: box.fontFamily as "sans" | "serif", color: box.color, bold: box.bold, align: box.align as "left" | "center" | "right", lineHeight: n("lineHeight", 0.8, 3), speak: box.speak, zIndex: box.zIndex === undefined ? 0 : n("zIndex", 0, 100) };
+      return { id: box.id, text: box.text, x, y, width, height, fontSize: n("fontSize", 8, 160), fontFamily: box.fontFamily as "sans" | "serif", color: box.color, bold: box.bold, align: box.align as PictureBookTextBox["align"], lineHeight: n("lineHeight", 0.8, 3), speak: box.speak, zIndex: box.zIndex === undefined ? 0 : n("zIndex", 0, 100) };
     });
     if (new Set(boxes.map(box => box.id)).size !== boxes.length) return fail();
     if (version.voiceKey !== undefined && (typeof version.voiceKey !== "string" || version.voiceKey.length > 166 || !/^(voice|system):.+/.test(version.voiceKey))) return fail();

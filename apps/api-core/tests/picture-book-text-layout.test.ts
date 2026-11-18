@@ -31,6 +31,14 @@ test("审核快照和播放器保留图文编排，且不公开额外字段", ()
   assert.equal(JSON.stringify(snapshot).includes("private"), false);
 });
 
+test("两端对齐和 24 号字号可保存并显示在播放页，其他文本框样式保持原值", () => {
+  const formatted = { ...layout, versions: [{ ...layout.versions[0]!, boxes: [box("a", "标题", false), { ...box("b", "第一句"), fontSize: 24, align: "justify" }] }] };
+  const updated = updatePictureBookPage(page, { textLayout: formatted });
+  const playback = playbackFromSnapshot("book", snapshotCourseMaterial("PICTURE_BOOK", { pages: [updated] }));
+  const boxes = playback.pages[0]?.textLayout?.versions[0]?.boxes;
+  assert.deepEqual(boxes?.map(item => [item.fontSize, item.align]), [[32, "left"], [24, "justify"]]);
+});
+
 test("英文原书的图文编排允许同图中文文字层，不需要语音", () => {
   const bilingual = { enabled: true, versions: [
     { language: "original", boxes: [box("cover", "Shongololo's Shoes")], audioUrl: null },

@@ -5,6 +5,8 @@ import { pictureBookLayoutHref, pictureBookPageNeighbors, pictureBookStudioHref 
 test("图文编排和返回地址保留绘本与页码并安全编码", () => {
   assert.equal(pictureBookLayoutHref("book & 1", 0), "/storybook/layout?book=book+%26+1&page=0");
   assert.equal(pictureBookStudioHref("book & 1", 2), "/storybook?book=book+%26+1&page=2");
+  assert.equal(pictureBookLayoutHref("book", 2, "zh-CN"), "/storybook/layout?book=book&page=2&language=zh-CN");
+  assert.equal(pictureBookStudioHref("book", 2, "en"), "/storybook?book=book&page=2&language=en");
 });
 
 test("按实际页序切换，封面和缺少图片的页面均保留", () => {

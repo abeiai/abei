@@ -1,9 +1,13 @@
-export function pictureBookLayoutHref(bookId: string, position: number) {
-  return `/storybook/layout?${new URLSearchParams({ book: bookId, page: String(position) })}`;
+export function pictureBookLayoutHref(bookId: string, position: number, language?: string) {
+  return `/storybook/layout?${pictureBookEditorQuery(bookId, position, language)}`;
 }
 
-export function pictureBookStudioHref(bookId: string, position: number) {
-  return `/storybook?${new URLSearchParams({ book: bookId, page: String(position) })}`;
+export function pictureBookStudioHref(bookId: string, position: number, language?: string) {
+  return `/storybook?${pictureBookEditorQuery(bookId, position, language)}`;
+}
+
+function pictureBookEditorQuery(bookId: string, position: number, language?: string) {
+  return new URLSearchParams({ book: bookId, page: String(position), ...(language ? { language } : {}) });
 }
 
 export function pictureBookPageNeighbors(pages: Array<{ position: number }>, position: number) {

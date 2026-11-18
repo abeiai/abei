@@ -10,10 +10,10 @@ import { publicPictureBookHref } from "@/lib/picture-book-public-slug";
 import { PictureBookImage } from "./picture-book-image";
 import { PictureBookTextOverlay } from "./picture-book-text-overlay";
 import { pictureBookLayoutHref, pictureBookStudioHref } from "@/lib/picture-book-layout-navigation";
-import type { PictureBookTextLayout } from "@/lib/picture-book-text-layout";
+import { pictureBookLayoutLanguages, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { pictureBookPageAudioSource, waitForPictureBookAudio } from "@/lib/picture-book-audio";
 import { PictureBookAudio } from "./picture-book-audio";
-import { pictureBookLanguageChoices, pictureBookLanguageName } from "@/lib/picture-book-languages";
+import { pictureBookLanguageChoices, pictureBookLanguageName, pictureBookOriginalLabel } from "@/lib/picture-book-languages";
 import { acknowledgePictureBookDraft, patchPictureBookPage, pictureBookGenerationKey, pictureBookPageSavePlan, pictureBookTranslationBaseline, type PictureBookPageDraft } from "@/lib/picture-book-background";
 import { loadPictureBookStyles, selectedPictureBookStyle, type PictureBookStyle } from "@/lib/picture-book-styles";
 import { PictureBookStylePicker } from "./picture-book-style-picker";
@@ -34,7 +34,7 @@ function SpreadSelect({ value, disabled, onChange }: { value: boolean; disabled:
 }
 type Submission = { status: "PENDING" | "APPROVED" | "REJECTED"; reviewNote: string | null };
 function submissionLabel(submission?: Submission | null, sharedViaAlbum = false) { return sharedViaAlbum ? "已通过专辑分享" : submission?.status === "PENDING" ? "公开分享审核中" : submission?.status === "APPROVED" ? "公开分享已通过" : submission?.status === "REJECTED" ? "公开分享未通过" : ""; }
-type Book = { englishLevel?: number | null; creatorSync?: CreatorSync; submission?: Submission | null; sharedViaAlbum?: boolean; id: string; title: string; brief: string; theme: string; audience: string; plot: string; style: string; aspectRatio: AspectRatio; isSpread: boolean; pageCount: number; status: string; messages: Array<{ role: "user" | "assistant"; content: string }>; characters: Character[]; pages: Page[]; updatedAt: string };
+type Book = { edition?: { language: string } | null; englishLevel?: number | null; creatorSync?: CreatorSync; submission?: Submission | null; sharedViaAlbum?: boolean; id: string; title: string; brief: string; theme: string; audience: string; plot: string; style: string; aspectRatio: AspectRatio; isSpread: boolean; pageCount: number; status: string; messages: Array<{ role: "user" | "assistant"; content: string }>; characters: Character[]; pages: Page[]; updatedAt: string };
 type BookSummary = Pick<Book, "id" | "title" | "theme" | "pageCount" | "status" | "updatedAt" | "submission" | "creatorSync" | "sharedViaAlbum"> & { coverUrl: string | null };
 type ChatModel = { isMock: boolean; aliases: Array<{ aliasKey: string }> };
 type Voice = VoiceAsset;
@@ -89,7 +89,7 @@ function Field({ label, value, onChange, rows = 3, placeholder, maxLength, readO
   return <label className="block space-y-2"><span className="text-sm font-semibold text-[#272a30]">{label}</span><textarea value={value} onChange={(event) => onChange(event.target.value)} readOnly={readOnly} rows={rows} maxLength={maxLength} placeholder={placeholder} className="w-full resize-y rounded-xl border border-[#e8e6e3] bg-white px-3 py-3 text-sm leading-6 outline-none transition focus:border-[#ff8c55] focus:ring-2 focus:ring-[#ff8c55]/15 read-only:bg-[#f8f7f5]" /></label>;
 }
 
-export function PictureBookStudio({ signedIn, initialBookId, initialPosition = null, initialPrompt = "", returnPath = "/storybook" }: { signedIn: boolean; initialBookId: string; initialPosition?: number | null; initialPrompt?: string; returnPath?: string }) {
+export function PictureBookStudio({ signedIn, initialBookId, initialPosition = null, initialLanguage, initialPrompt = "", returnPath = "/storybook" }: { signedIn: boolean; initialBookId: string; initialPosition?: number | null; initialLanguage?: string; initialPrompt?: string; returnPath?: string }) {
   const generationConfirmation = usePictureBookGenerationConfirmation();
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [historyTotal, setHistoryTotal] = useState<number | null>(null);
@@ -133,20 +133,21 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
   const [notice, setNotice] = useState("");
   const [preview, setPreview] = useState(false);
   const [previewPosition, setPreviewPosition] = useState(1);
-  const [previewLanguage, setPreviewLanguage] = useState("original");
+  const [requestedLanguage, setPreviewLanguage] = useState<string>();
   const [previewRatio, setPreviewRatio] = useState(1);
   const [mainRatio, setMainRatio] = useState(1);
   const [loading, setLoading] = useState(signedIn);
   const leavingRef = useRef(false);
 
-  const openBook = useCallback(async (id: string, requestedPosition: number | null = null) => {
+  const openBook = useCallback(async (id: string, requestedPosition: number | null = null, language?: string) => {
     const loaded = await api<Book>(`/${id}`);
     setBook(loaded);
     setChatInput("");
     const position = requestedPosition !== null && loaded.pages.some(page => page.position === requestedPosition) ? requestedPosition : loaded.pages[0]?.position ?? 1;
     setPosition(position);
+    setPreviewLanguage(language);
     setPreview(false);
-    window.history.replaceState(null, "", pictureBookStudioHref(loaded.id, position));
+    window.history.replaceState(null, "", pictureBookStudioHref(loaded.id, position, language));
   }, []);
 
   useEffect(() => {
@@ -167,12 +168,12 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
         setStyle(list.find(item => item.enabled && item.id === "watercolor")?.id ?? list.find(item => item.enabled)!.id);
       } else setError(results[4].reason instanceof Error ? results[4].reason.message : "绘画风格加载失败");
       if (initialBookId) {
-        try { await openBook(initialBookId, initialPosition); } catch (cause) { if (active) setError(cause instanceof Error ? cause.message : "作品加载失败"); }
+        try { await openBook(initialBookId, initialPosition, initialLanguage); } catch (cause) { if (active) setError(cause instanceof Error ? cause.message : "作品加载失败"); }
       }
       if (active) setLoading(false);
     });
     return () => { active = false; };
-  }, [signedIn, initialBookId, initialPosition, openBook]);
+  }, [signedIn, initialBookId, initialPosition, initialLanguage, openBook]);
 
   useEffect(() => {
     const conversation = conversationRef.current;
@@ -181,6 +182,8 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
 
   const page = book?.pages.find((item) => item.position === position);
   const studioAudioUrl = page?.textLayout?.enabled ? page.textLayout.versions.find(item => item.language === "original")?.audioUrl : page?.audioUrl;
+  const layoutLanguages = book ? pictureBookLayoutLanguages(book) : null;
+  const previewLanguage = requestedLanguage && layoutLanguages?.languages.includes(requestedLanguage) ? requestedLanguage : "original";
   const previewIndex = book?.pages.findIndex(item => item.position === previewPosition) ?? -1;
   const previewPages = previewIndex < 0 ? [] : book!.pages.slice(previewIndex, previewIndex + 2);
   const caption = page?.caption ?? "", imagePrompt = page?.imagePrompt ?? "", narration = page?.narration ?? "";
@@ -324,7 +327,7 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
       const latestPlan = latestDraft ? pictureBookPageSavePlan(savedPage, latestDraft) : null;
       if (otherDrafts() || (latestPlan && (Object.keys(latestPlan.pageChanges).length > 0 || latestPlan.translationsDirty))) throw new Error("还有未保存的修改，请保存后再打开图文编排");
       leavingRef.current = true;
-      window.location.assign(pictureBookLayoutHref(book.id, position));
+      window.location.assign(pictureBookLayoutHref(book.id, position, requestedLanguage));
     });
   }
 
@@ -521,6 +524,6 @@ export function PictureBookStudio({ signedIn, initialBookId, initialPosition = n
       </div><div className="border-t pt-5"><PictureBookCharacterPicker value={book.characters} style={book.style} styleName={selectedPictureBookStyle(book.style, styleChoices)?.name ?? "当前风格"} disabled={Boolean(busy)} onChange={changeCharacters} /></div></aside>
     </main>}
 
-    {preview && book ? <div className="fixed inset-0 z-40 flex flex-col bg-[#1e2024] text-white"><div className="flex items-center justify-between border-b border-white/10 px-5 py-3"><span className="font-semibold">{book.title} <span className="ml-2 text-sm font-normal text-gray-400">{previewPosition === 0 ? "封面" : `第 ${previewPosition} 页`} / {book.pageCount} 页</span></span><button onClick={() => setPreview(false)} aria-label="关闭预览"><X className="size-5" /></button></div>{(() => { const current = book.pages.find((item) => item.position === previewPosition); return <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-5 p-5"><div className="flex min-h-0 flex-1 items-center justify-center">{current?.imageUrl && current.textLayout?.enabled ? <div className="relative" style={{ aspectRatio: previewRatio, width: `min(85vw, ${Math.max(30, Math.min(140, 65 * previewRatio))}vh)` }}><PictureBookImage src={pictureBookPageImageSource(book.id, current.position, current.imageUrl)} alt={`第 ${current.position} 页`} className="absolute inset-0 h-full w-full object-contain" onLoad={event => { const img = event.currentTarget; if (img.naturalHeight) setPreviewRatio(img.naturalWidth / img.naturalHeight); }} /><PictureBookTextOverlay boxes={current.textLayout.versions.find(item => item.language === previewLanguage)?.boxes ?? []} /></div> : previewPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== previewPosition} src={pictureBookPageImageSource(book.id, item.position, item.imageUrl)} alt={`第 ${item.position} 页`} className="max-h-full max-w-full object-contain" /> : null)}{!current?.imageUrl ? <div className="flex aspect-square w-72 items-center justify-center rounded-xl bg-white/10 text-sm text-gray-400">暂无插画</div> : null}</div>{current?.textLayout?.enabled ? <><select aria-label="预览语言" value={previewLanguage} onChange={event => setPreviewLanguage(event.target.value)} className="rounded-lg bg-white px-3 py-2 text-sm text-black"><option value="original">中文</option>{[...new Set(book.pages.flatMap(item => item.textLayout?.versions.filter(version => version.language !== "original").map(version => version.language) ?? []))].map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}</select>{!current.textLayout.versions.find(item => item.language === previewLanguage)?.boxes.length ? <p className="text-sm">本页暂无该语言文字</p> : null}{current.textLayout.versions.find(item => item.language === previewLanguage)?.audioUrl ? <PictureBookAudio key={`${current.position}-${previewLanguage}`} src={pictureBookPageAudioSource(book.id, current.position, current.textLayout.versions.find(item => item.language === previewLanguage)!.audioUrl!, "private", previewLanguage === "original" ? undefined : previewLanguage)} className="h-9" /> : null}</> : <><p className="max-w-3xl text-center text-lg leading-8">{current?.caption}</p>{previewPages.map(item => item.audioUrl ? <PictureBookAudio key={item.position} hidden={item.position !== previewPosition} preload="auto" src={pictureBookPageAudioSource(book.id, item.position, item.audioUrl)} className="h-9" /> : null)}</>}</div>; })()}<div className="flex items-center justify-center gap-4 border-t border-white/10 p-3"><Button disabled={previewPosition === book.pages[0]?.position} onClick={() => setPreviewPosition(previewPosition - 1)}><ChevronLeft className="size-4" />上一页</Button><Button disabled={previewPosition === book.pages.at(-1)?.position} onClick={() => setPreviewPosition(previewPosition + 1)}>下一页<ArrowRight className="size-4" /></Button></div></div> : null}
+    {preview && book ? <div className="fixed inset-0 z-40 flex flex-col bg-[#1e2024] text-white"><div className="flex items-center justify-between border-b border-white/10 px-5 py-3"><span className="font-semibold">{book.title} <span className="ml-2 text-sm font-normal text-gray-400">{previewPosition === 0 ? "封面" : `第 ${previewPosition} 页`} / {book.pageCount} 页</span></span><button onClick={() => setPreview(false)} aria-label="关闭预览"><X className="size-5" /></button></div>{(() => { const current = book.pages.find((item) => item.position === previewPosition); return <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-5 p-5"><div className="flex min-h-0 flex-1 items-center justify-center">{current?.imageUrl && current.textLayout?.enabled ? <div className="relative" style={{ aspectRatio: previewRatio, width: `min(85vw, ${Math.max(30, Math.min(140, 65 * previewRatio))}vh)` }}><PictureBookImage src={pictureBookPageImageSource(book.id, current.position, current.imageUrl)} alt={`第 ${current.position} 页`} className="absolute inset-0 h-full w-full object-contain" onLoad={event => { const img = event.currentTarget; if (img.naturalHeight) setPreviewRatio(img.naturalWidth / img.naturalHeight); }} /><PictureBookTextOverlay boxes={current.textLayout.versions.find(item => item.language === previewLanguage)?.boxes ?? []} /></div> : previewPages.map(item => item.imageUrl ? <PictureBookImage key={item.position} hidden={item.position !== previewPosition} src={pictureBookPageImageSource(book.id, item.position, item.imageUrl)} alt={`第 ${item.position} 页`} className="max-h-full max-w-full object-contain" /> : null)}{!current?.imageUrl ? <div className="flex aspect-square w-72 items-center justify-center rounded-xl bg-white/10 text-sm text-gray-400">暂无插画</div> : null}</div>{current?.textLayout?.enabled ? <><select aria-label="预览语言" value={previewLanguage} onChange={event => setPreviewLanguage(event.target.value)} className="rounded-lg bg-white px-3 py-2 text-sm text-black"><option value="original">{pictureBookOriginalLabel(book.id, layoutLanguages?.originalLanguage)}</option>{layoutLanguages?.languages.filter(code => code !== "original").map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}</select>{!current.textLayout.versions.find(item => item.language === previewLanguage)?.boxes.length ? <p className="text-sm">本页暂无该语言文字</p> : null}{current.textLayout.versions.find(item => item.language === previewLanguage)?.audioUrl ? <PictureBookAudio key={`${current.position}-${previewLanguage}`} src={pictureBookPageAudioSource(book.id, current.position, current.textLayout.versions.find(item => item.language === previewLanguage)!.audioUrl!, "private", previewLanguage === "original" ? undefined : previewLanguage)} className="h-9" /> : null}</> : <><p className="max-w-3xl text-center text-lg leading-8">{current?.caption}</p>{previewPages.map(item => item.audioUrl ? <PictureBookAudio key={item.position} hidden={item.position !== previewPosition} preload="auto" src={pictureBookPageAudioSource(book.id, item.position, item.audioUrl)} className="h-9" /> : null)}</>}</div>; })()}<div className="flex items-center justify-center gap-4 border-t border-white/10 p-3"><Button disabled={previewPosition === book.pages[0]?.position} onClick={() => setPreviewPosition(previewPosition - 1)}><ChevronLeft className="size-4" />上一页</Button><Button disabled={previewPosition === book.pages.at(-1)?.position} onClick={() => setPreviewPosition(previewPosition + 1)}>下一页<ArrowRight className="size-4" /></Button></div></div> : null}
   </div>;
 }

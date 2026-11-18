@@ -1,9 +1,23 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { layoutPageContent } from "../src/lib/picture-book-text-layout.js";
+import { layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutLanguages } from "../src/lib/picture-book-text-layout.js";
 
 const box = { id: "a", text: "你好", x: 0, y: 0, width: 0.5, height: 0.2, fontSize: 32, fontFamily: "sans" as const, color: "#111111", bold: false, align: "left" as const, lineHeight: 1.5, speak: true };
 const page = { caption: "旧文字", audioUrl: "old.mp3", textLayout: { enabled: true, versions: [{ language: "original", boxes: [box], audioUrl: "new.mp3" }, { language: "en", boxes: [{ ...box, text: "Hello" }], audioUrl: null }] } };
+
+test("编排只使用绘本已有语种，翻页时保留所选语言", () => {
+  const translatedLayout = { ...page.textLayout, versions: [{ language: "ja", boxes: [box], audioUrl: null }] };
+  const { originalLanguage, languages } = pictureBookLayoutLanguages({
+    id: "book", edition: { language: "en" }, titleTranslations: [{ language: "fr" }],
+    pages: [{ translations: [{ language: "en" }, { language: "zh-CN" }] }, { textLayout: translatedLayout }]
+  });
+  assert.deepEqual(languages, ["original", "ja", "fr", "zh-CN"]);
+  assert.equal(pictureBookInitialLayoutLanguage("zh-CN", languages), "zh-CN");
+  assert.equal(pictureBookInitialLayoutLanguage("en", languages, translatedLayout, originalLanguage), "original");
+  assert.equal(pictureBookInitialLayoutLanguage("de", languages, translatedLayout, originalLanguage), "ja");
+  assert.equal(pictureBookInitialLayoutLanguage(undefined, languages, page.textLayout), "original");
+  assert.equal(pictureBookLayoutLanguages({ id: "storyweaver-24768", pages: [] }).originalLanguage, "en");
+});
 test("图文编排按所选语言返回文字和音频，缺失语种不回退", () => {
   assert.deepEqual(layoutPageContent(page, "en"), { caption: "Hello", audioUrl: null, language: "en" });
   assert.deepEqual(layoutPageContent(page, "ja"), { caption: "", audioUrl: null, language: "ja" });
