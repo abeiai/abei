@@ -19,6 +19,17 @@ export function pictureBookInitialLayoutLanguage(requested: string | undefined, 
   const populated = layout?.versions.filter(version => version.boxes.length > 0) ?? [];
   return populated.find(version => version.language === "original")?.language ?? populated[0]?.language ?? "original";
 }
+
+export function placePictureBookCaption(boxes: PictureBookTextBox[], caption: string) {
+  const populated = boxes.filter(box => box.text.trim());
+  const targets = populated.length ? populated : boxes;
+  const lines = caption.trim().split(/\r\n?|\n/);
+  const textByBox = new Map(targets.map((box, index) => [box.id,
+    index === targets.length - 1 ? lines.slice(index).join("\n") : lines[index] ?? ""
+  ]));
+  return boxes.map(box => ({ ...box, text: textByBox.get(box.id) ?? "" }));
+}
+
 export function layoutPageContent(page: { textLayout?: PictureBookTextLayout }, language: string) {
   const version = page.textLayout?.versions.find(item => item.language === language);
   return { caption: version?.boxes.map(box => box.text).filter(Boolean).join("\n") ?? "", audioUrl: version?.audioUrl ?? null, language: language === "original" ? undefined : language };
