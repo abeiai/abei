@@ -1,9 +1,19 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutLanguages, placePictureBookCaption } from "../src/lib/picture-book-text-layout.js";
+import { layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, placePictureBookCaption } from "../src/lib/picture-book-text-layout.js";
 
 const box = { id: "a", text: "你好", x: 0, y: 0, width: 0.5, height: 0.2, fontSize: 32, fontFamily: "sans" as const, color: "#111111", bold: false, align: "left" as const, lineHeight: 1.5, speak: true };
 const page = { caption: "旧文字", audioUrl: "old.mp3", textLayout: { enabled: true, versions: [{ language: "original", boxes: [box], audioUrl: "new.mp3" }, { language: "en", boxes: [{ ...box, text: "Hello" }], audioUrl: null }] } };
+
+test("书名译文只用于编排封面标题，内页导入必须有对应语种的展示文字", () => {
+  const book = { title: "A Story", titleTranslations: [{ language: "zh-CN", title: "一个故事" }] };
+  assert.equal(pictureBookLayoutCaption(book, { position: 0, caption: "A Story" }, "zh-CN"), "一个故事");
+  assert.equal(pictureBookLayoutCaption(book, { position: 0, caption: "A dedication" }, "zh-CN"), "");
+  const interior = { position: 1, caption: "Chapter one" };
+  assert.equal(pictureBookLayoutCaption(book, interior, "zh-CN"), "");
+  assert.equal(pictureBookLayoutCaption(book, { ...interior, translations: [{ language: "zh-CN", caption: "第一章" }] }, "zh-CN"), "第一章");
+  assert.equal(pictureBookLayoutCaption(book, interior, "original"), "Chapter one");
+});
 
 test("复用文本布局时按顺序导入译文并保留各框样式，剩余文字留在最后一框", () => {
   const placeholder = { ...box, id: "placeholder", text: "" };

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { pictureBookLanguageName, type PictureBookTranslation } from "@/lib/picture-book-languages";
+import { pictureBookLanguageName } from "@/lib/picture-book-languages";
 import { layoutNarration, placePictureBookCaption, withLayoutVoice, type PictureBookTextBox, type PictureBookTextLayout, type PictureBookTextVersion } from "@/lib/picture-book-text-layout";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { VoicePicker } from "@/components/audio/voice-picker";
@@ -10,8 +10,8 @@ import { PictureBookTextOverlay } from "./picture-book-text-overlay";
 type Props = {
   bookId: string; position: number; imageUrl: string; initial?: PictureBookTextLayout;
   bookLayoutEnabled: boolean; needsBookLayoutSync: boolean;
-  initialLanguage: string; languages: string[]; originalLabel: string; translations?: PictureBookTranslation[]; onLanguageChange: (language: string) => void;
-  legacyCaption: string; voiceKey: string; voiceOptions: VoicePickerOption[]; onVoiceChange: (value: string) => void; onClose: (language: string) => void; onSaved: (layout: PictureBookTextLayout) => void;
+  initialLanguage: string; languages: string[]; originalLabel: string; getCaption: (language: string) => string; onLanguageChange: (language: string) => void;
+  voiceKey: string; voiceOptions: VoicePickerOption[]; onVoiceChange: (value: string) => void; onClose: (language: string) => void; onSaved: (layout: PictureBookTextLayout) => void;
   previous: number | null; next: number | null; onNavigate: (position: number, language: string) => void;
   save: (layout: PictureBookTextLayout, baseline: string) => Promise<PictureBookTextLayout>;
   generate: (language: string, selectedVoice: string, narration: string) => Promise<PictureBookTextLayout | null>;
@@ -23,7 +23,7 @@ function newTextBox(text: string, index = 0): PictureBookTextBox {
   return { id: crypto.randomUUID(), text, x: .1, y: .1 + (index % 6) * .1, width: .5, height: .2, fontSize: 24, fontFamily: "sans", color: "#222222", bold: false, align: "justify", lineHeight: 1.5, speak: true, zIndex: 0 };
 }
 
-export function PictureBookTextEditor({ bookId, position, imageUrl, initial, initialLanguage, languages, originalLabel, translations, onLanguageChange, bookLayoutEnabled, needsBookLayoutSync, legacyCaption, voiceKey, voiceOptions, onVoiceChange, onClose, onSaved, previous, next, onNavigate, save, generate }: Props) {
+export function PictureBookTextEditor({ bookId, position, imageUrl, initial, initialLanguage, languages, originalLabel, getCaption, onLanguageChange, bookLayoutEnabled, needsBookLayoutSync, voiceKey, voiceOptions, onVoiceChange, onClose, onSaved, previous, next, onNavigate, save, generate }: Props) {
   const [layout, setLayout] = useState<PictureBookTextLayout>(() => ({ ...(initial ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: bookLayoutEnabled }));
   const [baseline, setBaseline] = useState(JSON.stringify(initial ?? null));
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify({ ...(initial ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: bookLayoutEnabled }));
@@ -45,7 +45,8 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, ini
   const editableLanguages = [...new Set(["original", ...layout.versions.map(item => item.language), language])];
   const remainingLanguages = languages.filter(code => code !== "original" && !layout.versions.some(item => item.language === code));
   const languageToAdd = remainingLanguages.includes(newLanguage) ? newLanguage : remainingLanguages[0];
-  const existingCaption = (language === "original" ? legacyCaption : translations?.find(item => item.language === language)?.caption ?? "").trim();
+  const existingCaption = getCaption(language);
+  const captionToImport = languageToAdd ? getCaption(languageToAdd) : "";
   const boxes = version?.boxes ?? [];
   const boxText = boxes.map(item => item.text).filter(text => text.trim()).join("\n");
   const captionImported = Boolean(existingCaption && (boxText.replace(/\s+/g, " ").trim() === existingCaption.replace(/\s+/g, " ") || boxes.some(item => item.text.trim() === existingCaption)));
@@ -105,16 +106,15 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, ini
     catch (cause) { setError(cause instanceof Error ? cause.message : "保存失败，请重试"); setPending(false); }
   }
   function addLanguage() {
-    if (!languageToAdd) return;
-    const caption = translations?.find(item => item.language === languageToAdd)?.caption.trim() ?? "";
+    if (!languageToAdd || (copyLayout && !captionToImport)) return;
     let nextBoxes: PictureBookTextBox[] = [];
     if (copyLayout) {
       const originalBoxes = layout.versions.find(item => item.language === "original" && item.boxes.length)?.boxes;
       const sourceBoxes = boxes.length ? boxes : originalBoxes ?? layout.versions.find(item => item.boxes.length)?.boxes ?? [];
       if (sourceBoxes.length) {
-        nextBoxes = placePictureBookCaption(sourceBoxes, caption).map(item => ({ ...item, id: crypto.randomUUID() }));
-      } else if (caption) {
-        nextBoxes = [newTextBox(caption)];
+        nextBoxes = placePictureBookCaption(sourceBoxes, captionToImport).map(item => ({ ...item, id: crypto.randomUUID() }));
+      } else {
+        nextBoxes = [newTextBox(captionToImport)];
       }
     }
     setLayout(current => ({ ...current, versions: [...current.versions, { language: languageToAdd, boxes: nextBoxes, audioUrl: null }] }));
@@ -124,7 +124,7 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, ini
     <header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><button type="button" className={button} disabled={pending} onClick={close}>返回绘本</button><h1 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h1><button type="button" className={button} disabled={pending || previous === null} onClick={() => previous !== null && void navigate(previous)}>上一页</button><button type="button" className={button} disabled={pending || next === null} onClick={() => next !== null && void navigate(next)}>下一页</button><label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={pending} checked={layout.enabled} onChange={event => setLayout({ ...layout, enabled: event.target.checked })} />全书开启图文编排</label><span className="ml-auto text-sm text-muted-foreground">{dirty ? "未保存" : "已保存"}</span><button type="button" className={button} disabled={pending || !dirty} onClick={() => void doSave()}>保存</button></header>
     {(error || (!dirty && notice)) && <div role={error ? "alert" : "status"} className={`px-5 py-2 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>{error || notice}</div>}
     <fieldset disabled={pending} className="grid min-h-0 min-w-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-[minmax(0,1fr)_360px] lg:overflow-hidden">
-      <section className="flex min-h-[55vh] flex-col overflow-auto p-4 lg:min-h-0 lg:p-6"><div className="mb-3 flex flex-wrap items-center gap-3"><button type="button" className={button} onClick={() => addBox()}>添加文本框</button>{existingCaption ? <button type="button" className={button} disabled={captionImported} onClick={importCaption}>导入原有展示文字</button> : null}<span className="text-sm text-muted-foreground">拖动文本框顶部移动位置</span></div>
+      <section className="flex min-h-[55vh] flex-col overflow-auto p-4 lg:min-h-0 lg:p-6"><div className="mb-3 flex flex-wrap items-center gap-3"><button type="button" className={button} onClick={() => addBox()}>添加文本框</button><button type="button" className={button} disabled={!existingCaption || captionImported} onClick={importCaption}>导入原有展示文字</button><span className="text-sm text-muted-foreground">拖动文本框顶部移动位置</span></div>
         <div className="flex min-h-0 flex-1 items-center justify-center rounded-2xl bg-[#e8e8e6] p-4">
           <div ref={canvas} className="relative max-w-full overflow-visible bg-white shadow-lg" style={{ width: `min(100%, ${Math.max(35, Math.min(160, 68 * ratio))}vh)`, aspectRatio: String(ratio), containerType: "inline-size" }}>
             <img src={imageUrl} alt="绘本页面" className="absolute inset-0 h-full w-full object-contain" onLoad={event => { const image = event.currentTarget; if (image.naturalWidth && image.naturalHeight) setRatio(image.naturalWidth / image.naturalHeight); }} />
@@ -146,8 +146,9 @@ export function PictureBookTextEditor({ bookId, position, imageUrl, initial, ini
             <select aria-label="新增语言" className={`${input} min-w-0 flex-1`} value={languageToAdd} onChange={event => setNewLanguage(event.target.value)}>
               {remainingLanguages.map(code => <option key={code} value={code}>{pictureBookLanguageName(code)}</option>)}
             </select>
-            <button type="button" className={`${button} shrink-0 whitespace-nowrap`} onClick={addLanguage}>添加语言</button>
+            <button type="button" className={`${button} shrink-0 whitespace-nowrap`} disabled={copyLayout && !captionToImport} onClick={addLanguage}>添加语言</button>
           </div><label className="mt-2 flex gap-2 text-sm"><input type="checkbox" checked={copyLayout} onChange={event => setCopyLayout(event.target.checked)} />复用文本布局</label></> : null}
+          {languageToAdd && copyLayout && !captionToImport ? <p role="status" className="mt-2 text-sm text-muted-foreground">本页暂无{pictureBookLanguageName(languageToAdd)}展示文字，请先返回绘本填写，或取消复用后手动添加。</p> : null}
         </div>
         <div><div className="mb-2 flex items-center justify-between"><h3 className="font-semibold">文本框顺序</h3><button type="button" className={button} onClick={() => addBox()}>添加</button></div><div className="space-y-2">{boxes.map((item, index) => <div key={item.id} className={`flex items-center gap-1 rounded-lg border p-2 ${item.id === selected ? "border-primary" : "border-border"}`}><button type="button" className="min-w-0 flex-1 truncate text-left text-sm" onClick={() => setSelected(item.id)}>{index + 1}. {item.text || "空文本框"}</button><button type="button" aria-label="上移" className={button} disabled={index === 0} onClick={() => reorder(index, -1)}>↑</button><button type="button" aria-label="下移" className={button} disabled={index === boxes.length - 1} onClick={() => reorder(index, 1)}>↓</button></div>)}</div></div>
         {box && <div className="space-y-3 border-t pt-4"><h3 className="font-semibold">文本框设置</h3>{overflow ? <p role="status" className="text-sm text-amber-700">文字超出文本框，请调整大小或字号。</p> : null}<label className="block text-sm">内容<textarea maxLength={1000} className={`${input} mt-1`} rows={3} value={box.text} onChange={event => updateBox(box.id, { text: event.target.value })} /></label><div className="grid grid-cols-2 gap-3"><label className="text-sm">字体<select className={`${input} mt-1`} value={box.fontFamily} onChange={event => updateBox(box.id, { fontFamily: event.target.value as "sans" | "serif" })}><option value="sans">黑体</option><option value="serif">宋体</option></select></label><label className="text-sm">字号<input className={`${input} mt-1`} type="number" min="8" max="160" value={box.fontSize} onChange={event => updateBox(box.id, { fontSize: Math.max(8, Math.min(160, Number(event.target.value))) })} /></label><label className="text-sm">颜色<input className={`${input} mt-1 h-10`} type="color" value={box.color} onChange={event => updateBox(box.id, { color: event.target.value })} /></label><label className="text-sm">对齐<select className={`${input} mt-1`} value={box.align} onChange={event => updateBox(box.id, { align: event.target.value as PictureBookTextBox["align"] })}><option value="left">左对齐</option><option value="center">居中</option><option value="right">右对齐</option><option value="justify">两端对齐</option></select></label>{(["x", "y", "width", "height"] as const).map(key => <label key={key} className="text-sm">{{ x: "横向位置", y: "纵向位置", width: "宽度", height: "高度" }[key]} %<input className={`${input} mt-1`} type="number" min={key === "width" || key === "height" ? 1 : 0} max="100" value={Math.round(box[key] * 100)} onChange={event => { const value = Number(event.target.value) / 100; const limit = key === "x" ? 1 - box.width : key === "y" ? 1 - box.height : key === "width" ? 1 - box.x : 1 - box.y; updateBox(box.id, { [key]: Math.max(key === "width" || key === "height" ? .01 : 0, Math.min(limit, value)) }); }} /></label>)}</div><label className="block text-sm">行高<input className={`${input} mt-1`} type="number" min="0.8" max="3" step="0.1" value={box.lineHeight} onChange={event => updateBox(box.id, { lineHeight: Math.max(.8, Math.min(3, Number(event.target.value))) })} /></label><label className="block text-sm">显示层级<input className={`${input} mt-1`} type="number" min="0" max="100" value={box.zIndex ?? 0} onChange={event => updateBox(box.id, { zIndex: Math.max(0, Math.min(100, Number(event.target.value))) })} /></label><label className="flex gap-2 text-sm"><input type="checkbox" checked={box.bold} onChange={event => updateBox(box.id, { bold: event.target.checked })} />加粗</label><label className="flex gap-2 text-sm"><input type="checkbox" checked={box.speak} onChange={event => updateBox(box.id, { speak: event.target.checked })} />参与配音</label><div className="flex gap-2"><button type="button" className={button} onClick={() => { const id = crypto.randomUUID(); updateBoxes([...boxes, { ...box, id, x: Math.min(box.x + .03, 1 - box.width), y: Math.min(box.y + .03, 1 - box.height) }]); setSelected(id); }}>复制</button><button type="button" className={button} onClick={() => { updateBoxes(boxes.filter(item => item.id !== box.id)); setSelected(""); }}>删除</button></div></div>}

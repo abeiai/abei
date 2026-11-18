@@ -4,6 +4,18 @@ export type PictureBookTextVersion = { language: string; boxes: PictureBookTextB
 export type PictureBookTextLayout = { enabled: boolean; versions: PictureBookTextVersion[] };
 
 type LayoutLanguagePage = { translations?: Array<{ language: string }>; textLayout?: PictureBookTextLayout };
+type LayoutCaptionPage = { position: number; caption?: string | null; translations?: Array<{ language: string; caption: string }> };
+
+export function pictureBookLayoutCaption(book: { title: string; titleTranslations?: Array<{ language: string; title: string }> }, page: LayoutCaptionPage, language: string) {
+  const original = page.caption?.trim() ?? "";
+  if (language === "original") return original;
+  const translated = page.translations?.find(item => item.language === language)?.caption.trim();
+  if (translated) return translated;
+  if (page.position === 0 && (!original || original === book.title.trim())) {
+    return book.titleTranslations?.find(item => item.language === language)?.title.trim() ?? "";
+  }
+  return "";
+}
 
 export function pictureBookLayoutLanguages(book: { id: string; edition?: { language: string } | null; titleTranslations?: Array<{ language: string }>; pages: LayoutLanguagePage[] }) {
   const originalLanguage = book.edition?.language ?? (/^storyweaver-\d+(?:-i-love-to-read)?$/.test(book.id) ? "en" : undefined);

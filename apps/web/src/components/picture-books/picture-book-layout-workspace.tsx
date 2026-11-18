@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
 import { pictureBookLayoutHref, pictureBookPageNeighbors, pictureBookStudioHref } from "@/lib/picture-book-layout-navigation";
-import { pictureBookInitialLayoutLanguage, pictureBookLayoutLanguages, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
+import { pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { pictureBookOriginalLabel, type PictureBookTranslation } from "@/lib/picture-book-languages";
 import type { VoiceAsset } from "@/lib/audio-api";
 import type { VoicePickerOption } from "@/lib/voice-picker";
@@ -11,7 +11,7 @@ import { PictureBookTextEditor } from "./picture-book-text-editor";
 import { usePictureBookGenerationConfirmation } from "./picture-book-generation-confirmation";
 
 type Page = { position: number; caption?: string | null; imageUrl: string | null; translations?: PictureBookTranslation[]; textLayout?: PictureBookTextLayout };
-type Book = { id: string; edition?: { language: string } | null; titleTranslations?: Array<{ language: string }>; pages: Page[] };
+type Book = { id: string; title: string; edition?: { language: string } | null; titleTranslations?: Array<{ language: string; title: string }>; pages: Page[] };
 type VoiceList = { systemVoices: VoiceAsset[]; platformVoices: VoiceAsset[]; customVoices: VoiceAsset[]; defaultVoice?: { voiceAssetId: string | null; systemVoiceId: string | null } };
 const emptyVoices: VoiceList = { systemVoices: [], platformVoices: [], customVoices: [] };
 const button = "rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium hover:bg-secondary disabled:opacity-50";
@@ -63,9 +63,9 @@ export function PictureBookLayoutWorkspace({ bookId, initialPosition, requestedL
   const back = (language = initialLanguage) => window.location.assign(pictureBookStudioHref(bookId, position, language));
 
   if (loading) return <main className="flex min-h-dvh items-center justify-center text-sm text-muted-foreground" role="status">正在加载绘本…</main>;
-  if (error || !page) return <main className="p-6"><p role="alert" className="text-sm text-destructive">{error || "未找到该绘本页面"}</p><button type="button" className={`${button} mt-4`} onClick={() => back()}>返回绘本</button></main>;
+  if (error || !book || !page) return <main className="p-6"><p role="alert" className="text-sm text-destructive">{error || "未找到该绘本页面"}</p><button type="button" className={`${button} mt-4`} onClick={() => back()}>返回绘本</button></main>;
   if (!page.imageUrl) return <main className="min-h-dvh bg-[#f6f6f5]"><header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><button type="button" className={button} onClick={() => back()}>返回绘本</button><h1 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h1><button type="button" className={button} disabled={neighbors.previous === null} onClick={() => neighbors.previous !== null && navigate(neighbors.previous)}>上一页</button><button type="button" className={button} disabled={neighbors.next === null} onClick={() => neighbors.next !== null && navigate(neighbors.next)}>下一页</button></header><p className="p-6 text-sm text-muted-foreground">本页还没有图片，请先返回绘本生成或上传图片。</p></main>;
-  return <>{generationConfirmation.dialog}<PictureBookTextEditor key={`${bookId}-${position}`} bookId={bookId} position={position} imageUrl={pictureBookPageImageSource(bookId, position, page.imageUrl)} initial={page.textLayout} initialLanguage={initialLanguage} languages={languages} originalLabel={pictureBookOriginalLabel(bookId, originalLanguage)} translations={page.translations} onLanguageChange={language => window.history.replaceState(null, "", pictureBookLayoutHref(bookId, position, language))} bookLayoutEnabled={bookLayoutEnabled} needsBookLayoutSync={needsBookLayoutSync} legacyCaption={page.caption ?? ""} voiceKey={voiceKey} voiceOptions={voiceOptions} onVoiceChange={setVoiceKey} onClose={back} previous={neighbors.previous} next={neighbors.next} onNavigate={navigate} onSaved={textLayout => setBook(current => current ? { ...current, pages: current.pages.map(item => ({ ...item, textLayout: item.position === position ? textLayout : { ...(item.textLayout ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: textLayout.enabled } })) } : current)} save={async (textLayout, baseline) => {
+  return <>{generationConfirmation.dialog}<PictureBookTextEditor key={`${bookId}-${position}`} bookId={bookId} position={position} imageUrl={pictureBookPageImageSource(bookId, position, page.imageUrl)} initial={page.textLayout} initialLanguage={initialLanguage} languages={languages} originalLabel={pictureBookOriginalLabel(bookId, originalLanguage)} getCaption={language => pictureBookLayoutCaption(book, page, language)} onLanguageChange={language => window.history.replaceState(null, "", pictureBookLayoutHref(bookId, position, language))} bookLayoutEnabled={bookLayoutEnabled} needsBookLayoutSync={needsBookLayoutSync} voiceKey={voiceKey} voiceOptions={voiceOptions} onVoiceChange={setVoiceKey} onClose={back} previous={neighbors.previous} next={neighbors.next} onNavigate={navigate} onSaved={textLayout => setBook(current => current ? { ...current, pages: current.pages.map(item => ({ ...item, textLayout: item.position === position ? textLayout : { ...(item.textLayout ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: textLayout.enabled } })) } : current)} save={async (textLayout, baseline) => {
     const updated = await api<Book>(`/${encodeURIComponent(bookId)}/pages/${position}`, "PATCH", { textLayout, expectedTextLayout: baseline });
     const result = updated.pages.find(item => item.position === position)?.textLayout;
     if (!result) throw new Error("图文编排保存失败");
