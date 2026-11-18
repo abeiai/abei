@@ -1,9 +1,31 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { fitPictureBookTextBox, layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, placePictureBookCaption, snapPictureBookTextBox } from "../src/lib/picture-book-text-layout.js";
+import { pictureBookAnnotationPath, regionPosition } from "../src/lib/picture-book-text-region.js";
 
 const box = { id: "a", text: "你好", x: 0, y: 0, width: 0.5, height: 0.2, fontSize: 32, fontFamily: "sans" as const, color: "#111111", bold: false, align: "left" as const, lineHeight: 1.5, speak: true };
 const page = { caption: "旧文字", audioUrl: "old.mp3", textLayout: { enabled: true, versions: [{ language: "original", boxes: [box], audioUrl: "new.mp3" }, { language: "en", boxes: [{ ...box, text: "Hello" }], audioUrl: null }] } };
+
+test("标注的三种形状有各自的闭合轮廓，外部箭头与轮廓连续", () => {
+  const shapes = ["rounded", "ellipse", "cloud"] as const;
+  const bodies = shapes.map(shape => pictureBookAnnotationPath(250, 84, shape, 12));
+  assert.equal(new Set(bodies).size, shapes.length);
+  for (const [index, shape] of shapes.entries()) {
+    assert.equal(pictureBookAnnotationPath(250, 84, shape, 12, { x: 120, y: 42 }), bodies[index]);
+    for (const tip of [{ x: 160, y: 182 }, { x: -45, y: 42 }, { x: 290, y: -21 }]) {
+      const path = pictureBookAnnotationPath(250, 84, shape, 12, tip);
+      assert.equal(path.split("M ").length, 2);
+      assert.ok(path.endsWith(` L ${tip.x.toFixed(2)} ${tip.y.toFixed(2)} Z`));
+      assert.doesNotMatch(path, /NaN|Infinity/);
+    }
+  }
+});
+
+test("移动标注主体会平移箭头并将其尖端限定在画面内", () => {
+  const annotation = { ...box, x: .25, y: .25, tail: { x: .875, y: .75 } };
+  assert.deepEqual(regionPosition(annotation, { x: .5, y: .125 }), { x: .5, y: .125, tail: { x: 1, y: .625 } });
+  assert.deepEqual(regionPosition(box, { x: .25, y: .25 }), { x: .25, y: .25 });
+});
 
 test("文本框按内容高度收缩或扩展，靠近底部时向上移动以保留全部文字", () => {
   assert.equal(fitPictureBookTextBox(box, 20, 400).height, .05);

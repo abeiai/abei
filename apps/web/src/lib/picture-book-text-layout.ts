@@ -1,5 +1,15 @@
 import { pictureBookPageContent, type PictureBookTranslatedPage } from "./picture-book-languages";
-export type PictureBookTextBox = { id: string; text: string; x: number; y: number; width: number; height: number; fontSize: number; fontFamily: "sans" | "serif"; color: string; bold: boolean; align: "left" | "center" | "right" | "justify"; lineHeight: number; speak: boolean; zIndex?: number };
+export type PictureBookAnnotationShape = "rounded" | "ellipse" | "cloud";
+export type PictureBookRegionAppearance = {
+  shape?: PictureBookAnnotationShape;
+  tail?: { x: number; y: number };
+  backgroundColor?: string;
+  backgroundOpacity?: number;
+  cornerRadius?: number;
+  borderColor?: string;
+  borderWidth?: number;
+};
+export type PictureBookTextBox = PictureBookRegionAppearance & { id: string; text: string; x: number; y: number; width: number; height: number; fontSize: number; fontFamily: "sans" | "serif"; color: string; bold: boolean; align: "left" | "center" | "right" | "justify"; lineHeight: number; speak: boolean; zIndex?: number };
 export type PictureBookTextVersion = { language: string; boxes: PictureBookTextBox[]; audioUrl: string | null; voiceKey?: string };
 export type PictureBookTextLayout = { enabled: boolean; versions: PictureBookTextVersion[] };
 

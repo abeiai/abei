@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { pictureBookPageImageSource } from "@/lib/picture-book-images";
-import { pictureBookLayoutHref, pictureBookPageNeighbors, pictureBookStudioHref } from "@/lib/picture-book-layout-navigation";
+import { pictureBookLayoutHref, pictureBookStudioHref } from "@/lib/picture-book-layout-navigation";
 import { pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, type PictureBookTextLayout } from "@/lib/picture-book-text-layout";
 import { pictureBookOriginalLabel, type PictureBookTranslation } from "@/lib/picture-book-languages";
 import type { VoiceAsset } from "@/lib/audio-api";
@@ -56,7 +56,6 @@ export function PictureBookLayoutWorkspace({ bookId, initialPosition, requestedL
   const page = book?.pages.find(item => item.position === position);
   const bookLayoutEnabled = Boolean(book?.pages.some(item => item.textLayout?.enabled));
   const needsBookLayoutSync = Boolean(book?.pages.some(item => Boolean(item.textLayout?.enabled) !== bookLayoutEnabled));
-  const neighbors = pictureBookPageNeighbors(book?.pages ?? [], position);
   const { originalLanguage, languages } = pictureBookLayoutLanguages(book ?? { id: bookId, pages: [] });
   const initialLanguage = pictureBookInitialLayoutLanguage(requestedLanguage, languages, page?.textLayout, originalLanguage);
   const navigate = (target: number, language = initialLanguage) => window.location.assign(pictureBookLayoutHref(bookId, target, language));
@@ -64,8 +63,7 @@ export function PictureBookLayoutWorkspace({ bookId, initialPosition, requestedL
 
   if (loading) return <main className="flex min-h-dvh items-center justify-center text-sm text-muted-foreground" role="status">正在加载绘本…</main>;
   if (error || !book || !page) return <main className="p-6"><p role="alert" className="text-sm text-destructive">{error || "未找到该绘本页面"}</p><button type="button" className={`${button} mt-4`} onClick={() => back()}>返回绘本</button></main>;
-  if (!page.imageUrl) return <main className="min-h-dvh bg-[#f6f6f5]"><header className="flex flex-wrap items-center gap-3 border-b bg-background px-5 py-3"><button type="button" className={button} onClick={() => back()}>返回绘本</button><h1 className="text-lg font-semibold">图文编排 · {position === 0 ? "封面" : `第 ${position} 页`}</h1><button type="button" className={button} disabled={neighbors.previous === null} onClick={() => neighbors.previous !== null && navigate(neighbors.previous)}>上一页</button><button type="button" className={button} disabled={neighbors.next === null} onClick={() => neighbors.next !== null && navigate(neighbors.next)}>下一页</button></header><p className="p-6 text-sm text-muted-foreground">本页还没有图片，请先返回绘本生成或上传图片。</p></main>;
-  return <>{generationConfirmation.dialog}<PictureBookTextEditor key={`${bookId}-${position}`} bookId={bookId} position={position} imageUrl={pictureBookPageImageSource(bookId, position, page.imageUrl)} initial={page.textLayout} initialLanguage={initialLanguage} languages={languages} originalLabel={pictureBookOriginalLabel(bookId, originalLanguage)} getCaption={language => pictureBookLayoutCaption(book, page, language)} onLanguageChange={language => window.history.replaceState(null, "", pictureBookLayoutHref(bookId, position, language))} bookLayoutEnabled={bookLayoutEnabled} needsBookLayoutSync={needsBookLayoutSync} voiceKey={voiceKey} voiceOptions={voiceOptions} onVoiceChange={setVoiceKey} onClose={back} previous={neighbors.previous} next={neighbors.next} onNavigate={navigate} onSaved={textLayout => setBook(current => current ? { ...current, pages: current.pages.map(item => ({ ...item, textLayout: item.position === position ? textLayout : { ...(item.textLayout ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: textLayout.enabled } })) } : current)} save={async (textLayout, baseline) => {
+  return <>{generationConfirmation.dialog}<PictureBookTextEditor key={`${bookId}-${position}`} bookId={bookId} title={book.title} pages={book.pages.map(item => item.position).sort((a, b) => a - b)} position={position} imageUrl={page.imageUrl ? pictureBookPageImageSource(bookId, position, page.imageUrl) : undefined} initial={page.textLayout} initialLanguage={initialLanguage} languages={languages} originalLabel={pictureBookOriginalLabel(bookId, originalLanguage)} getCaption={language => pictureBookLayoutCaption(book, page, language)} onLanguageChange={language => window.history.replaceState(null, "", pictureBookLayoutHref(bookId, position, language))} bookLayoutEnabled={bookLayoutEnabled} needsBookLayoutSync={needsBookLayoutSync} voiceKey={voiceKey} voiceOptions={voiceOptions} onVoiceChange={setVoiceKey} onClose={back} onNavigate={navigate} onSaved={textLayout => setBook(current => current ? { ...current, pages: current.pages.map(item => ({ ...item, textLayout: item.position === position ? textLayout : { ...(item.textLayout ?? { versions: [{ language: "original", boxes: [], audioUrl: null }] }), enabled: textLayout.enabled } })) } : current)} save={async (textLayout, baseline) => {
     const updated = await api<Book>(`/${encodeURIComponent(bookId)}/pages/${position}`, "PATCH", { textLayout, expectedTextLayout: baseline });
     const result = updated.pages.find(item => item.position === position)?.textLayout;
     if (!result) throw new Error("图文编排保存失败");
