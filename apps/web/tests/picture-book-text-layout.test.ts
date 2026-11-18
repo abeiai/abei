@@ -1,9 +1,25 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, placePictureBookCaption } from "../src/lib/picture-book-text-layout.js";
+import { fitPictureBookTextBox, layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, placePictureBookCaption, snapPictureBookTextBox } from "../src/lib/picture-book-text-layout.js";
 
 const box = { id: "a", text: "你好", x: 0, y: 0, width: 0.5, height: 0.2, fontSize: 32, fontFamily: "sans" as const, color: "#111111", bold: false, align: "left" as const, lineHeight: 1.5, speak: true };
 const page = { caption: "旧文字", audioUrl: "old.mp3", textLayout: { enabled: true, versions: [{ language: "original", boxes: [box], audioUrl: "new.mp3" }, { language: "en", boxes: [{ ...box, text: "Hello" }], audioUrl: null }] } };
+
+test("文本框按内容高度收缩或扩展，靠近底部时向上移动以保留全部文字", () => {
+  assert.equal(fitPictureBookTextBox(box, 20, 400).height, .05);
+  const fitted = fitPictureBookTextBox({ ...box, y: .9 }, 100, 400);
+  assert.equal(fitted.height, .25);
+  assert.equal(fitted.y, .75);
+  assert.equal(fitted.width, box.width);
+});
+
+test("文本框以像素距离独立吸附两条中线，拖出阈值后解除吸附", () => {
+  const bounds = { width: .25, height: .25 };
+  assert.deepEqual(snapPictureBookTextBox(.38, .39, bounds, 1000, 400), { x: .375, y: .375, vertical: true, horizontal: true });
+  assert.deepEqual(snapPictureBookTextBox(.385, .39, bounds, 1000, 400), { x: .385, y: .375, vertical: false, horizontal: true });
+  assert.deepEqual(snapPictureBookTextBox(.38, .4, bounds, 1000, 400), { x: .375, y: .4, vertical: true, horizontal: false });
+  assert.deepEqual(snapPictureBookTextBox(-.1, .95, bounds, 1000, 400), { x: 0, y: .75, vertical: false, horizontal: false });
+});
 
 test("书名译文只用于编排封面标题，内页导入必须有对应语种的展示文字", () => {
   const book = { title: "A Story", titleTranslations: [{ language: "zh-CN", title: "一个故事" }] };

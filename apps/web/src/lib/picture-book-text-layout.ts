@@ -3,6 +3,23 @@ export type PictureBookTextBox = { id: string; text: string; x: number; y: numbe
 export type PictureBookTextVersion = { language: string; boxes: PictureBookTextBox[]; audioUrl: string | null; voiceKey?: string };
 export type PictureBookTextLayout = { enabled: boolean; versions: PictureBookTextVersion[] };
 
+export function fitPictureBookTextBox(box: PictureBookTextBox, textHeight: number, canvasHeight: number): PictureBookTextBox {
+  const height = Math.max(.01, Math.min(1, textHeight / canvasHeight));
+  return { ...box, y: Math.min(box.y, 1 - height), height };
+}
+
+export function snapPictureBookTextBox(x: number, y: number, box: Pick<PictureBookTextBox, "width" | "height">, canvasWidth: number, canvasHeight: number) {
+  const centerX = (1 - box.width) / 2;
+  const centerY = (1 - box.height) / 2;
+  const vertical = centerX === 0 || Math.abs(x - centerX) * canvasWidth <= 8;
+  const horizontal = centerY === 0 || Math.abs(y - centerY) * canvasHeight <= 8;
+  return {
+    x: vertical ? centerX : Math.max(0, Math.min(1 - box.width, x)),
+    y: horizontal ? centerY : Math.max(0, Math.min(1 - box.height, y)),
+    vertical, horizontal
+  };
+}
+
 type LayoutLanguagePage = { translations?: Array<{ language: string }>; textLayout?: PictureBookTextLayout };
 type LayoutCaptionPage = { position: number; caption?: string | null; translations?: Array<{ language: string; caption: string }> };
 
