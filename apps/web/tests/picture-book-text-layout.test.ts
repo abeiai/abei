@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, placePictureBookCaption } from "../src/lib/picture-book-text-layout.js";
+import { layoutPageContent, pictureBookInitialLayoutLanguage, pictureBookLayoutCaption, pictureBookLayoutLanguages, placePictureBookCaption, removePictureBookBlankLines } from "../src/lib/picture-book-text-layout.js";
 
 const box = { id: "a", text: "你好", x: 0, y: 0, width: 0.5, height: 0.2, fontSize: 32, fontFamily: "sans" as const, color: "#111111", bold: false, align: "left" as const, lineHeight: 1.5, speak: true };
 const page = { caption: "旧文字", audioUrl: "old.mp3", textLayout: { enabled: true, versions: [{ language: "original", boxes: [box], audioUrl: "new.mp3" }, { language: "en", boxes: [{ ...box, text: "Hello" }], audioUrl: null }] } };
@@ -19,9 +19,17 @@ test("复用文本布局时按顺序导入译文并保留各框样式，剩余�
   const placeholder = { ...box, id: "placeholder", text: "" };
   const body = { ...box, id: "body", text: "原文正文", x: .25, fontSize: 24, align: "justify" as const };
   const boxes = [placeholder, box, body];
-  assert.deepEqual(placePictureBookCaption(boxes, "Title\r\nBody\r\nMore"), [placeholder, { ...box, text: "Title" }, { ...body, text: "Body\nMore" }]);
+  const caption = pictureBookLayoutCaption({ title: "书" }, { position: 1, translations: [{ language: "en", caption: "\nTitle\r\n \t\r\nBody\r\n\r\nMore\n" }] }, "en");
+  assert.deepEqual(placePictureBookCaption(boxes, caption), [placeholder, { ...box, text: "Title" }, { ...body, text: "Body\nMore" }]);
   assert.deepEqual(placePictureBookCaption(boxes, "").map(item => item.text), ["", "", ""]);
   assert.deepEqual(placePictureBookCaption([placeholder], "整段\n文字"), [{ ...placeholder, text: "整段\n文字" }]);
+});
+
+test("导入和粘贴清理空白行，保留有效文字之间的换行和行内空格", () => {
+  const text = "\r\n  第一句\r\u00a0\r\n\u200b\u2060\n 第二句  结尾\n\u2029";
+  assert.equal(removePictureBookBlankLines(text), "  第一句\n 第二句  结尾");
+  assert.equal(pictureBookLayoutCaption({ title: "书" }, { position: 1, caption: text }, "original"), "第一句\n 第二句  结尾");
+  assert.equal(removePictureBookBlankLines("\t\n\u200b\n  "), "");
 });
 
 test("编排只使用绘本已有语种，翻页时保留所选语言", () => {
