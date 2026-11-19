@@ -32,13 +32,7 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
   const storyweaver = /^storyweaver-\d+(?:-i-love-to-read)?$/.test(id);
   const displayText = (value: unknown) => {
     const text = string(value);
-    return storyweaver ? text.split(/\r\n|\r|\n/).filter(line => line.replace(/[\u200b\u200c\u200d\u2060]/g, "").trim()).join("\n") : text;
-  };
-  const displayLayout = (value: unknown) => {
-    const layout = parseTextLayout(value);
-    return storyweaver ? { ...layout, versions: layout.versions.map(version => ({
-      ...version, boxes: version.boxes.map(box => ({ ...box, text: displayText(box.text) }))
-    })) } : layout;
+    return storyweaver ? text.split(/\r\n|\r|\n/).filter(line => line.replace(/\u200b|\u200c|\u200d|\u2060/g, "").trim()).join("\n") : text;
   };
   const pages: PlaybackPage[] = (Array.isArray(source.pages) ? source.pages : [])
     .map((value) => object(value))
@@ -49,7 +43,8 @@ export function playbackFromSnapshot(id: string, snapshot: unknown) {
       narration: displayText(string(page.narration) || string(page.caption)),
       ...(page.textInImage === true ? { textInImage: true as const } : {}),
       ...(page.playbackLayout === "hidden" ? { playbackLayout: "hidden" as const } : {}),
-      ...(page.textLayout ? { textLayout: displayLayout(page.textLayout) } : {}),
+      // Blank lines in a positioned text box are part of its authored layout.
+      ...(page.textLayout ? { textLayout: parseTextLayout(page.textLayout) } : {}),
       imageUrl: url(page.imageUrl),
       audioUrl: url(page.audioUrl),
       ...(Array.isArray(page.translations) ? { translations: page.translations.map(object).filter(item => /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?$/.test(string(item.language)) && string(item.language) !== "zh" && string(item.caption).trim()).slice(0, 20).map(item => ({ language: string(item.language), caption: displayText(item.caption), audioUrl: url(item.audioUrl) })) } : {})
