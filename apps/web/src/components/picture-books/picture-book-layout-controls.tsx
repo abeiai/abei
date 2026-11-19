@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, ArrowLeft, Bold, Check, ChevronDown, Cloud, Ellipsis, Eye, EyeOff, Globe, MessageCircle, MessageSquare, Plus, Settings2, X } from "lucide-react";
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, ArrowLeft, Bold, Check, ChevronDown, Cloud, Ellipsis, Eye, EyeOff, Globe, MessageCircle, MessageSquare, Plus, Settings2, Square, X } from "lucide-react";
 import { pictureBookLanguageName } from "@/lib/picture-book-languages";
 import type { PictureBookTextBox } from "@/lib/picture-book-text-layout";
 
@@ -125,14 +125,14 @@ export function PictureBookLayoutTypography({ box, onChange, disabled }: { box?:
   </fieldset>;
 }
 
-const shapes = [["rounded", "圆角矩形", MessageSquare], ["ellipse", "椭圆", MessageCircle], ["cloud", "云朵", Cloud]] as const;
+const shapes = [[undefined, "方框", Square], ["rounded", "圆角矩形", MessageSquare], ["ellipse", "椭圆", MessageCircle], ["cloud", "云朵", Cloud]] as const;
 
 export function PictureBookRegionSettings({ box, onChange, onClose }: { box: PictureBookTextBox; onChange: (patch: Partial<PictureBookTextBox>) => void; onClose: () => void }) {
   const percent = (value: number) => Math.round(value * 1000) / 10;
   const transparency = Math.round((1 - (box.backgroundOpacity ?? (box.backgroundColor ? 1 : 0))) * 100);
   return <div aria-label="规格设置">
     <div className="mb-2 flex items-center justify-between border-b border-border pb-1"><h2 className="flex items-center gap-2 font-semibold"><Settings2 size={17} />规格设置</h2><LayoutIconButton label="关闭规格设置" onClick={onClose}><X size={16} /></LayoutIconButton></div>
-    {box.shape && <fieldset className="mb-3"><legend className="mb-1.5 text-sm">形状</legend><div className="grid grid-cols-3 gap-1.5">{shapes.map(([shape, name, Icon]) => <button key={shape} type="button" aria-pressed={box.shape === shape} onClick={() => onChange({ shape })} className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-md border border-border px-1 text-sm hover:bg-muted ${box.shape === shape ? active : ""}`}><Icon size={19} />{name}</button>)}</div></fieldset>}
+    <fieldset className="mb-3"><legend className="mb-1.5 text-sm">形状</legend><div className="grid grid-cols-4 gap-1.5">{shapes.map(([shape, name, Icon]) => <button key={name} type="button" aria-pressed={box.shape === shape} onClick={() => onChange({ shape })} className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-md border border-border px-1 text-sm hover:bg-muted ${box.shape === shape ? active : ""}`}><Icon size={19} />{name}</button>)}</div></fieldset>
     <div className="grid grid-cols-2 gap-2">
       <LayoutNumber label="X" value={percent(box.x)} min={0} max={100} step={.1} unit="%" onChange={x => onChange({ x: Math.min(1 - box.width, x / 100) })} />
       <LayoutNumber label="Y" value={percent(box.y)} min={0} max={100} step={.1} unit="%" onChange={y => onChange({ y: Math.min(1 - box.height, y / 100) })} />

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type ClipboardEvent, type PointerEvent as ReactPointerEvent, type MouseEvent as ReactMouseEvent } from "react";
 import { createPortal } from "react-dom";
-import { AlignHorizontalJustifyCenter, AlignVerticalJustifyCenter, ArrowDown, ArrowUp, Copy, Ellipsis, GripVertical, Hand, Image as ImageIcon, Import, Lock, MessageSquare, Mic, MicOff, Minus, MousePointer2, Move, Plus, Settings, Trash2, Type, ZoomIn } from "lucide-react";
+import { AlignHorizontalJustifyCenter, AlignVerticalJustifyCenter, ArrowDown, ArrowUp, Copy, Ellipsis, GripVertical, Hand, Image as ImageIcon, Import, Lock, MessageSquare, Mic, MicOff, Minus, Move, Plus, Settings, Trash2, Type, ZoomIn } from "lucide-react";
 import { fitPictureBookTextBox, layoutNarration, placePictureBookCaption, removePictureBookBlankLines, snapPictureBookTextBox, withLayoutVoice, type PictureBookTextBox, type PictureBookTextLayout, type PictureBookTextVersion } from "@/lib/picture-book-text-layout";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { VoicePicker } from "@/components/audio/voice-picker";
@@ -19,7 +19,7 @@ type Props = {
   save: (layout: PictureBookTextLayout, baseline: string) => Promise<PictureBookTextLayout>;
   generate: (language: string, selectedVoice: string, narration: string) => Promise<PictureBookTextLayout | null>;
 };
-type Tool = "select" | "text" | "annotation" | "pan";
+type Tool = "select" | "text" | "pan";
 type Panel = { kind: "menu" | "settings"; regionId: string; x: number; y: number };
 const selectedStyle = "bg-[#ffe8e0] text-[#9d341e]";
 const menuItem = "flex min-h-9 w-full items-center gap-2 rounded-md px-2 text-left text-sm hover:bg-muted disabled:opacity-40";
@@ -185,14 +185,12 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
   function stopResize(event: ReactPointerEvent<HTMLButtonElement>) {
     if (resize.current?.pointerId === event.pointerId) resize.current = null;
   }
-  function addBox(text = "", point?: Point, annotation = false) {
+  function addBox(text = "", point?: Point) {
     if (editingDisabled) return;
     if (boxes.length >= 50) { setError("本页该语言最多可添加 50 个文本区域"); return; }
     const draft = newTextBox(text, boxes.length);
-    if (annotation) Object.assign(draft, { width: .28, shape: "rounded", backgroundColor: "#f0f5ff", backgroundOpacity: .7, cornerRadius: 8, borderColor: "#8fa4be", borderWidth: 1 });
     if (point) { draft.x = Math.min(1 - draft.width, point.x); draft.y = Math.min(1 - draft.height, point.y); }
     const next = fitText(draft);
-    if (annotation) next.tail = { x: next.x + next.width / 2, y: clampUnit(next.y + next.height + .13) };
     updateBoxes([...boxes, next]);
     setTool("select");
     setSelected(next.id);
@@ -275,7 +273,29 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
   function applySettings(item: PictureBookTextBox, patch: Partial<PictureBookTextBox>) {
     if (patch.x !== undefined || patch.y !== undefined) {
       updateBox(item.id, regionPosition(item, { x: patch.x ?? item.x, y: patch.y ?? item.y }));
-    } else if (patch.shape !== undefined || patch.width !== undefined) updateBoxText(item, patch);
+    } else if ("shape" in patch) {
+      const { shape } = patch;
+      if (shape === item.shape) return;
+      if (!shape) {
+        updateBoxText(item, { shape, tail: undefined, cornerRadius: 0 });
+        return;
+      }
+      if (item.shape) {
+        updateBoxText(item, { shape });
+        return;
+      }
+      const next = fitText({
+        ...item, shape,
+        backgroundColor: item.backgroundColor ?? "#f0f5ff",
+        backgroundOpacity: item.backgroundOpacity ?? (item.backgroundColor ? 1 : .7),
+        cornerRadius: item.cornerRadius || 8,
+        borderColor: item.borderColor ?? "#8fa4be",
+        borderWidth: item.borderWidth ?? 1
+      });
+      const bottom = next.y + next.height;
+      const tailY = bottom > .92 && next.y > .13 ? next.y - .13 : clampUnit(bottom + .13);
+      updateBox(item.id, { ...next, tail: { x: next.x + next.width / 2, y: tailY } });
+    } else if (patch.width !== undefined) updateBoxText(item, patch);
     else updateBox(item.id, patch);
   }
   function alignToCanvas(item: PictureBookTextBox, axis: "x" | "y") {
@@ -333,8 +353,7 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
     {(error || (!dirty && notice)) && <div role={error ? "alert" : "status"} className={`shrink-0 px-5 py-2 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>{error || notice}</div>}
     <div className="grid min-h-0 min-w-0 flex-1 grid-cols-1 overflow-auto lg:grid-cols-[64px_minmax(0,1fr)_300px] lg:overflow-hidden xl:grid-cols-[72px_minmax(0,1fr)_320px]">
       <nav aria-label="画布工具" className="flex shrink-0 items-center gap-1 border-b border-border bg-background p-2 lg:flex-col lg:border-r lg:border-b-0">
-        {([["select", "选择", MousePointer2], ["text", "文本", Type], ["annotation", "标注", MessageSquare]] as const).map(([mode, name, Icon]) =>
-          <button key={mode} type="button" title={mode === "select" ? "选择文本区域" : `在画布上添加${name}`} aria-pressed={tool === mode} disabled={editingDisabled} onClick={() => { setPanel(null); setTool(mode); }} className={`flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 rounded-lg px-1 text-xs hover:bg-muted disabled:opacity-40 lg:min-h-14 ${tool === mode ? selectedStyle : ""}`}><Icon size={20} />{name}</button>)}
+        <button type="button" title="在画布上添加文本区域" aria-pressed={tool === "text"} disabled={editingDisabled} onClick={() => { setPanel(null); setTool(tool === "text" ? "select" : "text"); }} className={`flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 rounded-lg px-1 text-xs hover:bg-muted disabled:opacity-40 lg:min-h-14 ${tool === "text" ? selectedStyle : ""}`}><MessageSquare size={20} />文本</button>
         <button type="button" aria-label="导入原有展示文字" title={existingCaption ? "导入原有展示文字" : "本页暂无该语种展示文字"} disabled={editingDisabled || !existingCaption || captionImported} onClick={importCaption} className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 rounded-lg px-1 text-xs hover:bg-muted disabled:opacity-40 lg:min-h-14"><Import size={20} />导入</button>
         <div className="flex gap-1 lg:mt-auto lg:flex-col">
           <button type="button" title="平移画布" aria-pressed={tool === "pan"} disabled={editingDisabled} onClick={() => { setPanel(null); setTool(tool === "pan" ? "select" : "pan"); }} className={`flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 rounded-lg px-1 text-xs hover:bg-muted disabled:opacity-40 lg:min-h-14 ${tool === "pan" ? selectedStyle : ""}`}><Hand size={20} />抓手</button>
@@ -344,13 +363,13 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
       <div ref={stage} className={`relative min-h-[50dvh] min-w-0 overflow-auto lg:min-h-0 ${tool === "pan" && !preview ? "touch-none cursor-grab active:cursor-grabbing" : ""}`}
         onPointerDown={startPan} onPointerMove={movePan} onPointerUp={stopPan} onPointerCancel={stopPan} onLostPointerCapture={stopPan}>
         <div className="flex min-h-full min-w-full w-max items-center justify-center p-6">
-          <div ref={canvas} className={`relative shrink-0 ${imageUrl ? "bg-white shadow-md" : ""} ${!editingDisabled && (tool === "text" || tool === "annotation") ? "cursor-crosshair" : ""}`}
+          <div ref={canvas} className={`relative shrink-0 ${imageUrl ? "bg-white shadow-md" : ""} ${!editingDisabled && tool === "text" ? "cursor-crosshair" : ""}`}
             style={{ width: Math.max(1, fittedWidth * zoom), aspectRatio: ratio, containerType: "inline-size" }}
             onClick={event => {
               if (editingDisabled || tool === "pan") return;
               if (tool === "select") { setSelected(""); setPanel(null); return; }
               const point = getCanvasPoint(event.clientX, event.clientY);
-              if (point) addBox("", point, tool === "annotation");
+              if (point) addBox("", point);
             }}>
             {imageUrl ? <img src={imageUrl} alt="绘本页面" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-contain" onLoad={event => {
               const image = event.currentTarget;
@@ -362,7 +381,7 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
             {guides?.horizontal && <span data-guide="canvas-horizontal" aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-1/2 z-30 border-t-2 border-amber-400" />}
             {!editingDisabled && tool !== "pan" && boxes.map((item, index) => <div key={item.id} style={pictureBookBoxPosition(item)}
               className={`group/region absolute ${item.id === selected ? "z-20 ring-1 ring-[#ff5530]" : "z-10 hover:ring-1 hover:ring-[#ff5530]"}`}
-              onContextMenu={event => openPanel(event, item.id, "menu")} onClick={event => { event.stopPropagation(); setSelected(item.id); }}>
+              onContextMenu={event => openPanel(event, item.id, "menu")} onClick={event => { event.stopPropagation(); setTool("select"); setSelected(item.id); }}>
               {item.id === selected ? <>
                 <PictureBookRegionDecoration box={item} canvas={canvasSize} />
                 <textarea ref={editorText} value={item.text} maxLength={1000} aria-label={`文本区域 ${index + 1} 内容`} onChange={event => updateBoxText(item, { text: event.target.value })} onPaste={event => pasteText(event, item)}
@@ -393,11 +412,11 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
         </div>
       </div>
       <aside aria-label="文本区域与配音" className="min-w-0 space-y-4 border-t border-border bg-background p-4 lg:overflow-y-auto lg:border-t-0 lg:border-l">
-        <div className="flex items-center justify-between"><h2 className="text-base font-semibold">文本区域</h2><LayoutIconButton label={tool === "annotation" ? "添加标注" : "添加文本区域"} disabled={editingDisabled} onClick={() => addBox("", undefined, tool === "annotation")}><Plus size={19} /></LayoutIconButton></div>
+        <div className="flex items-center justify-between"><h2 className="text-base font-semibold">文本区域</h2><LayoutIconButton label="添加文本区域" disabled={editingDisabled} onClick={() => addBox()}><Plus size={19} /></LayoutIconButton></div>
         <div className="space-y-1.5">
           {boxes.map((item, index) => <div key={item.id} onDragOver={event => { if (layerDrag.current) event.preventDefault(); }} onDrop={event => { event.preventDefault(); dropLayer(item.id); }} className={`flex min-w-0 items-center gap-0.5 rounded-md px-1 ${selected === item.id ? selectedStyle : "hover:bg-muted"}`}>
             <span tabIndex={-1} aria-hidden="true" draggable={!editingDisabled} title="拖动调整顺序" onDragStart={event => { layerDrag.current = item.id; event.dataTransfer.effectAllowed = "move"; event.dataTransfer.setData("text/plain", item.id); }} onDragEnd={() => { layerDrag.current = null; }} className="grid size-6 shrink-0 cursor-grab place-items-center text-muted-foreground"><GripVertical size={15} /></span>
-            <button type="button" disabled={editingDisabled} onClick={() => { setPanel(null); setSelected(item.id); }} className="flex min-h-9 min-w-0 flex-1 items-center gap-2 text-left text-sm" title={item.text || `文本区域 ${index + 1}`}>
+            <button type="button" disabled={editingDisabled} onClick={() => { setPanel(null); setTool("select"); setSelected(item.id); }} className="flex min-h-9 min-w-0 flex-1 items-center gap-2 text-left text-sm" title={item.text || `文本区域 ${index + 1}`}>
               {item.shape ? <MessageSquare className="shrink-0" size={16} /> : <Type className="shrink-0" size={16} />}<span className="truncate">{item.text || `空文本区域 ${index + 1}`}</span>
             </button>
             <LayoutIconButton label={`文本区域 ${index + 1} 参与配音`} pressed={item.speak} disabled={editingDisabled} onClick={() => updateBox(item.id, { speak: !item.speak })}>{item.speak ? <Mic size={16} /> : <MicOff size={16} />}</LayoutIconButton>
