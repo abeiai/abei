@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useRef, useState, type ClipboardEvent, type PointerEvent as ReactPointerEvent, type MouseEvent as ReactMouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { AlignHorizontalJustifyCenter, AlignVerticalJustifyCenter, ArrowDown, ArrowUp, Copy, Ellipsis, GripVertical, Hand, Image as ImageIcon, Import, Lock, MessageSquare, Mic, MicOff, Minus, MousePointer2, Move, Plus, Settings, Trash2, Type, ZoomIn } from "lucide-react";
-import { fitPictureBookTextBox, layoutNarration, placePictureBookCaption, snapPictureBookTextBox, withLayoutVoice, type PictureBookTextBox, type PictureBookTextLayout, type PictureBookTextVersion } from "@/lib/picture-book-text-layout";
+import { fitPictureBookTextBox, layoutNarration, placePictureBookCaption, removePictureBookBlankLines, snapPictureBookTextBox, withLayoutVoice, type PictureBookTextBox, type PictureBookTextLayout, type PictureBookTextVersion } from "@/lib/picture-book-text-layout";
 import { pictureBookPageAudioSource } from "@/lib/picture-book-audio";
 import { VoicePicker } from "@/components/audio/voice-picker";
 import type { VoicePickerOption } from "@/lib/voice-picker";
@@ -133,6 +133,22 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
     const fitted = fitText({ ...box, ...patch });
     if (patch.width !== undefined && patch.width < box.width && fitted.height === 1) return;
     updateBox(box.id, fitted);
+  }
+  function pasteText(event: ClipboardEvent<HTMLTextAreaElement>, box: PictureBookTextBox) {
+    const pasted = event.clipboardData.getData("text/plain");
+    const cleaned = removePictureBookBlankLines(pasted);
+    if (cleaned === pasted) return;
+    event.preventDefault();
+    const input = event.currentTarget;
+    const { selectionStart, selectionEnd, value, maxLength } = input;
+    const available = Math.max(0, maxLength - value.length + selectionEnd - selectionStart);
+    const inserted = cleaned.slice(0, available).replace(/[\uD800-\uDBFF]$/, "");
+    if (!inserted) return;
+    // The browser's insertion command keeps cleaned pastes in the textarea's undo history.
+    if (!input.ownerDocument.execCommand("insertText", false, inserted)) {
+      input.setRangeText(inserted, selectionStart, selectionEnd, "end");
+    }
+    updateBoxText(box, { text: input.value });
   }
   function startDrag(event: ReactPointerEvent<HTMLButtonElement>, box: PictureBookTextBox) {
     if (event.button !== 0) return;
@@ -349,7 +365,7 @@ export function PictureBookTextEditor({ bookId, title, position, pages, imageUrl
               onContextMenu={event => openPanel(event, item.id, "menu")} onClick={event => { event.stopPropagation(); setSelected(item.id); }}>
               {item.id === selected ? <>
                 <PictureBookRegionDecoration box={item} canvas={canvasSize} />
-                <textarea ref={editorText} value={item.text} maxLength={1000} aria-label={`文本区域 ${index + 1} 内容`} onChange={event => updateBoxText(item, { text: event.target.value })}
+                <textarea ref={editorText} value={item.text} maxLength={1000} aria-label={`文本区域 ${index + 1} 内容`} onChange={event => updateBoxText(item, { text: event.target.value })} onPaste={event => pasteText(event, item)}
                   style={{ ...pictureBookBoxTypography(item), top: `${pictureBookRegionVerticalInset(item.shape) * 100}%`, height: `${(1 - 2 * pictureBookRegionVerticalInset(item.shape)) * 100}%` }} className="absolute inset-x-0 w-full resize-none border-0 bg-transparent outline-none" />
                 {guides && <>
                   <span data-guide="box-vertical" aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-1/2 border-l border-dashed border-amber-600" />

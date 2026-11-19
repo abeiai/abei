@@ -33,13 +33,19 @@ export function snapPictureBookTextBox(x: number, y: number, box: Pick<PictureBo
 type LayoutLanguagePage = { translations?: Array<{ language: string }>; textLayout?: PictureBookTextLayout };
 type LayoutCaptionPage = { position: number; caption?: string | null; translations?: Array<{ language: string; caption: string }> };
 
+export function removePictureBookBlankLines(text: string) {
+  return text.split(/\r\n?|\n|\u2028|\u2029/)
+    .filter(line => line.replace(/\u200b|\u200c|\u200d|\u2060/g, "").trim())
+    .join("\n");
+}
+
 export function pictureBookLayoutCaption(book: { title: string; titleTranslations?: Array<{ language: string; title: string }> }, page: LayoutCaptionPage, language: string) {
-  const original = page.caption?.trim() ?? "";
+  const original = removePictureBookBlankLines(page.caption ?? "").trim();
   if (language === "original") return original;
-  const translated = page.translations?.find(item => item.language === language)?.caption.trim();
+  const translated = removePictureBookBlankLines(page.translations?.find(item => item.language === language)?.caption ?? "").trim();
   if (translated) return translated;
-  if (page.position === 0 && (!original || original === book.title.trim())) {
-    return book.titleTranslations?.find(item => item.language === language)?.title.trim() ?? "";
+  if (page.position === 0 && (!original || original === removePictureBookBlankLines(book.title).trim())) {
+    return removePictureBookBlankLines(book.titleTranslations?.find(item => item.language === language)?.title ?? "").trim();
   }
   return "";
 }
